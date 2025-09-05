@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Attach Debugger",
+            "type": "cppvsdbg",
+            "request": "attach",
+            "program": "D:/GW2/Gw2-64.exe",
+            "processId": "${command:pickProcess}",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": []
+        }
+    ]
+}
