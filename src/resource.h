@@ -2,8 +2,8 @@
 // Microsoft Visual C++ generated include file.
 // Used by resource.rc
 //
-#define IDB_GW2TP_HOVER 114
-#define IDB_GW2TP_NORMAL 115
+#define IDB_GW2RotaHelper_HOVER 114
+#define IDB_GW2RotaHelper_NORMAL 115
 
 // Next default values for new objects
 //

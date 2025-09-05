@@ -40,13 +40,13 @@ void ToggleShowWindowLogProofs(const char *keybindIdentifier)
 
 void RegisterQuickAccessShortcut()
 {
-    APIDefs->Log(ELogLevel_DEBUG, ADDON_NAME, "Registering GW2TP quick access shortcut");
-    APIDefs->AddShortcut("SHORTCUT_LOG_PROOFS", "TEX_GW2TP_NORMAL", "TEX_LOG_HOVER", KB_TOGGLE_GW2TP, "Toggle GW2TP Window");
+    APIDefs->Log(ELogLevel_DEBUG, ADDON_NAME, "Registering GW2RotaHelper quick access shortcut");
+    APIDefs->AddShortcut("SHORTCUT_LOG_PROOFS", "TEX_GW2RotaHelper_NORMAL", "TEX_LOG_HOVER", KB_TOGGLE_GW2RotaHelper, "Toggle GW2RotaHelper Window");
 }
 
 void DeregisterQuickAccessShortcut()
 {
-    APIDefs->Log(ELogLevel_DEBUG, ADDON_NAME, "Deregistering GW2TP quick access shortcut");
+    APIDefs->Log(ELogLevel_DEBUG, ADDON_NAME, "Deregistering GW2RotaHelper quick access shortcut");
     APIDefs->RemoveShortcut("SHORTCUT_LOG_PROOFS");
 }
 
@@ -71,18 +71,18 @@ extern "C" __declspec(dllexport) AddonDefinition *GetAddonDef()
 {
     AddonDef.Signature = -1245535;
     AddonDef.APIVersion = NEXUS_API_VERSION;
-    AddonDef.Name = "GW2TP";
+    AddonDef.Name = "GW2RotaHelper";
     AddonDef.Version.Major = MAJOR;
     AddonDef.Version.Minor = MINOR;
     AddonDef.Version.Build = BUILD;
     AddonDef.Version.Revision = REVISION;
     AddonDef.Author = "Franneck.1274";
-    AddonDef.Description = "API Fetch from https://gw2tp-production.up.railway.app/";
+    AddonDef.Description = "API Fetch from https://GW2RotaHelper-production.up.railway.app/";
     AddonDef.Load = AddonLoad;
     AddonDef.Unload = AddonUnload;
     AddonDef.Flags = EAddonFlags_None;
     AddonDef.Provider = EUpdateProvider_GitHub;
-    AddonDef.UpdateLink = "https://github.com/franneck94/Gw2TP";
+    AddonDef.UpdateLink = "https://github.com/franneck94/GW2RotaHelper";
 
     return &AddonDef;
 }
@@ -112,14 +112,14 @@ void AddonLoad(AddonAPI *aApi)
     RTAPIData = (RTAPI::RealTimeData *)APIDefs->GetResource(DL_RTAPI);
     APIDefs->RegisterRender(ERenderType_Render, AddonRender);
     APIDefs->RegisterRender(ERenderType_OptionsRender, AddonOptions);
-    AddonPath = APIDefs->GetAddonDirectory("GW2TP");
-    SettingsPath = APIDefs->GetAddonDirectory("GW2TP/settings.json");
+    AddonPath = APIDefs->GetAddonDirectory("GW2RotaHelper");
+    SettingsPath = APIDefs->GetAddonDirectory("GW2RotaHelper/settings.json");
     std::filesystem::create_directory(AddonPath);
     Settings::Load(SettingsPath);
 
-    APIDefs->GetTextureOrCreateFromResource("TEX_GW2TP_NORMAL", IDB_GW2TP_NORMAL, hSelf);
-    APIDefs->GetTextureOrCreateFromResource("TEX_GW2TP_HOVER", IDB_GW2TP_HOVER, hSelf);
-    APIDefs->RegisterKeybindWithString(KB_TOGGLE_GW2TP, ToggleShowWindowLogProofs, "(null)");
+    APIDefs->GetTextureOrCreateFromResource("TEX_GW2RotaHelper_NORMAL", IDB_GW2RotaHelper_NORMAL, hSelf);
+    APIDefs->GetTextureOrCreateFromResource("TEX_GW2RotaHelper_HOVER", IDB_GW2RotaHelper_HOVER, hSelf);
+    APIDefs->RegisterKeybindWithString(KB_TOGGLE_GW2RotaHelper, ToggleShowWindowLogProofs, "(null)");
     RegisterQuickAccessShortcut();
 }
 void AddonUnload()
@@ -133,7 +133,7 @@ void AddonUnload()
     Settings::Save(SettingsPath);
 
     DeregisterQuickAccessShortcut();
-    APIDefs->DeregisterKeybind(KB_TOGGLE_GW2TP);
+    APIDefs->DeregisterKeybind(KB_TOGGLE_GW2RotaHelper);
 }
 
 void AddonRender()

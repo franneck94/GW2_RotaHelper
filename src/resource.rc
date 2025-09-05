@@ -49,9 +49,9 @@ END
 // PNG
 //
 
-IDB_GW2TP_HOVER           PNG                     "resources\\GW2TP_Hover.png"
+IDB_GW2RotaHelper_HOVER           PNG                     "resources\\GW2RotaHelper_Hover.png"
 
-IDB_GW2TP_NORMAL         PNG                     "resources\\GW2TP_Normal.png"
+IDB_GW2RotaHelper_NORMAL         PNG                     "resources\\GW2RotaHelper_Normal.png"
 
 #endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////

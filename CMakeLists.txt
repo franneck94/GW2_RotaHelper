@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(GW2TP_Addon)
+project(GW2RotaHelper_Addon)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -76,26 +76,26 @@ target_link_libraries(first_party_libs PRIVATE
     third_party_libs
 )
 
-add_executable(GW2TP_App
+add_executable(GW2RotaHelper_App
     "src/main.cpp"
 )
-target_link_libraries(GW2TP_App PRIVATE
+target_link_libraries(GW2RotaHelper_App PRIVATE
     third_party_libs
     first_party_libs
 )
 
-add_library(GW2TP SHARED
+add_library(GW2RotaHelper SHARED
     "src/entry.cpp"
 )
-target_link_libraries(GW2TP PRIVATE
+target_link_libraries(GW2RotaHelper PRIVATE
     third_party_libs
     first_party_libs
 )
-set_target_properties(GW2TP PROPERTIES
+set_target_properties(GW2RotaHelper PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/bin/debug"
     RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/bin/release"
 )
-add_custom_command(TARGET GW2TP POST_BUILD
+add_custom_command(TARGET GW2RotaHelper POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>"
         "D:/GW2/addons"

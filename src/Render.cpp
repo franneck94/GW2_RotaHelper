@@ -19,7 +19,7 @@ void Render::render()
     if (!show_window)
         return;
 
-    if (ImGui::Begin("GW2TP", &show_window))
+    if (ImGui::Begin("GW2RotaHelper", &show_window))
     {
 
     }

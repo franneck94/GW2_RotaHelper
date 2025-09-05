@@ -8,7 +8,7 @@
 extern AddonAPI *APIDefs;
 extern NexusLinkData *NexusLink;
 extern RTAPI::RealTimeData *RTAPIData;
-extern const char* KB_TOGGLE_GW2TP;
+extern const char* KB_TOGGLE_GW2RotaHelper;
 extern const char* ADDON_NAME;
 
 #endif
