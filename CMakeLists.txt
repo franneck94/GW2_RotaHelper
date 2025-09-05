@@ -44,6 +44,9 @@ add_library(mumble INTERFACE
 add_library(rtapi INTERFACE
     "rtapi/RTAPI.hpp"
 )
+add_library(arcdps INTERFACE
+    "arcdps/ArcDPS.hpp"
+)
 
 target_link_libraries(third_party_libs PRIVATE
     d3d11
@@ -52,6 +55,7 @@ target_link_libraries(third_party_libs PRIVATE
     mumble
     rtapi
     httpclient
+    arcdps
     nlohmann_json::nlohmann_json
 )
 target_include_directories(third_party_libs PUBLIC

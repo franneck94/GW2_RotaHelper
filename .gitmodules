@@ -10,3 +10,6 @@
 	path = nexus
 	url = https://github.com/RaidcoreGG/RCGG-lib-nexus-api
 	branch = 5f03511b523d046125c80f4cd1b89e597b515e46
+[submodule "arcdps"]
+	path = arcdps
+	url = https://github.com/RaidcoreGG/RCGG-lib-arcdps-api
