@@ -45,7 +45,7 @@ add_library(rtapi INTERFACE
     "rtapi/RTAPI.hpp"
 )
 add_library(arcdps INTERFACE
-    "arcdps/ArcDPS.hpp"
+    "arcdps/ArcDPS.h"
 )
 
 target_link_libraries(third_party_libs PRIVATE
@@ -67,6 +67,9 @@ add_library(first_party_libs STATIC
     "src/Settings.cpp"
     "src/Render.cpp"
     "src/resource.rc"
+    "src/ArcEvents.cpp"
+    "src/ExtEvents.cpp"
+    "src/UeEvents.cpp"
 )
 set_source_files_properties("src/resource.rc" PROPERTIES LANGUAGE RC)
 target_include_directories(first_party_libs PUBLIC
@@ -99,5 +102,8 @@ add_custom_command(TARGET GW2RotaHelper POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>"
         "D:/GW2/addons"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>"
+        "D:/GW2_2/addons"
     COMMENT "Copying $<CONFIG> files to GW2 addons directory"
 )

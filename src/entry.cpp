@@ -12,12 +12,15 @@
 #include "mumble/Mumble.h"
 #include "nexus/Nexus.h"
 #include "rtapi/RTAPI.hpp"
+#include "arcdps/ArcDPS.h"
 
 #include "Render.h"
 #include "Settings.h"
 #include "Shared.h"
 #include "Version.h"
 #include "resource.h"
+#include "ArcEvents.h"
+#include "UeEvents.h"
 
 namespace dx = DirectX;
 
@@ -25,13 +28,20 @@ void AddonLoad(AddonAPI *aApi);
 void AddonUnload();
 void AddonRender();
 void AddonOptions();
+ArcDPS::Exports *ArcdpsInit();
+uintptr_t ArcdpsRelease();
 
 HMODULE hSelf;
 AddonDefinition AddonDef{};
 std::filesystem::path AddonPath;
 std::filesystem::path SettingsPath;
 
-void ToggleShowWindowLogProofs(const char *keybindIdentifier)
+constexpr const char *KB_ARCDPS_OPTIONS = "KB_ARCDPS_OPTIONS";
+constexpr const char *ICON_ARCDPS = "ICON_ARCDPS";
+constexpr const char *ICON_ARCDPS_HOVER = "ICON_ARCDPS_HOVER";
+constexpr const char *QA_ARCDPS = "QA_ARCDPS";
+
+void ToggleShowWindowLogProofs(const char* aIdentifier, KEYBINDS_PROCESS aKeybindHandler, const char* aKeybind)
 {
     Settings::ShowWindow = !Settings::ShowWindow;
     Settings::Settings[SHOW_WINDOW] = Settings::ShowWindow;
@@ -41,13 +51,13 @@ void ToggleShowWindowLogProofs(const char *keybindIdentifier)
 void RegisterQuickAccessShortcut()
 {
     APIDefs->Log(ELogLevel_DEBUG, ADDON_NAME, "Registering GW2RotaHelper quick access shortcut");
-    APIDefs->AddShortcut("SHORTCUT_LOG_PROOFS", "TEX_GW2RotaHelper_NORMAL", "TEX_LOG_HOVER", KB_TOGGLE_GW2RotaHelper, "Toggle GW2RotaHelper Window");
+    APIDefs->QuickAccess.Add("SHORTCUT_LOG_PROOFS", "TEX_GW2RotaHelper_NORMAL", "TEX_LOG_HOVER", KB_TOGGLE_GW2RotaHelper, "Toggle GW2RotaHelper Window");
 }
 
 void DeregisterQuickAccessShortcut()
 {
     APIDefs->Log(ELogLevel_DEBUG, ADDON_NAME, "Deregistering GW2RotaHelper quick access shortcut");
-    APIDefs->RemoveShortcut("SHORTCUT_LOG_PROOFS");
+    APIDefs->QuickAccess.Remove("SHORTCUT_LOG_PROOFS");
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
@@ -69,7 +79,7 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
 
 extern "C" __declspec(dllexport) AddonDefinition *GetAddonDef()
 {
-    AddonDef.Signature = -1245535;
+    AddonDef.Signature = -244213566;
     AddonDef.APIVersion = NEXUS_API_VERSION;
     AddonDef.Name = "GW2RotaHelper";
     AddonDef.Version.Major = MAJOR;
@@ -108,24 +118,20 @@ void AddonLoad(AddonAPI *aApi)
     ImGui::SetCurrentContext((ImGuiContext *)APIDefs->ImguiContext);
     ImGui::SetAllocatorFunctions((void *(*)(size_t, void *))APIDefs->ImguiMalloc, (void (*)(void *, void *))APIDefs->ImguiFree); // on imgui 1.80+
 
-    NexusLink = (NexusLinkData *)APIDefs->GetResource("DL_NEXUS_LINK");
-    RTAPIData = (RTAPI::RealTimeData *)APIDefs->GetResource(DL_RTAPI);
-    APIDefs->RegisterRender(ERenderType_Render, AddonRender);
-    APIDefs->RegisterRender(ERenderType_OptionsRender, AddonOptions);
-    AddonPath = APIDefs->GetAddonDirectory("GW2RotaHelper");
-    SettingsPath = APIDefs->GetAddonDirectory("GW2RotaHelper/settings.json");
+    APIDefs->Renderer.Register(ERenderType_Render, AddonRender);
+    APIDefs->Renderer.Register(ERenderType_OptionsRender, AddonOptions);
+    AddonPath = APIDefs->Paths.GetAddonDirectory("GW2RotaHelper");
+    SettingsPath = APIDefs->Paths.GetAddonDirectory("GW2RotaHelper/settings.json");
     std::filesystem::create_directory(AddonPath);
     Settings::Load(SettingsPath);
 
-    APIDefs->GetTextureOrCreateFromResource("TEX_GW2RotaHelper_NORMAL", IDB_GW2RotaHelper_NORMAL, hSelf);
-    APIDefs->GetTextureOrCreateFromResource("TEX_GW2RotaHelper_HOVER", IDB_GW2RotaHelper_HOVER, hSelf);
-    APIDefs->RegisterKeybindWithString(KB_TOGGLE_GW2RotaHelper, ToggleShowWindowLogProofs, "(null)");
     RegisterQuickAccessShortcut();
 }
+
 void AddonUnload()
 {
-    APIDefs->DeregisterRender(AddonOptions);
-    APIDefs->DeregisterRender(AddonRender);
+    APIDefs->Renderer.Deregister(AddonOptions);
+    APIDefs->Renderer.Deregister(AddonRender);
 
     NexusLink = nullptr;
     RTAPIData = nullptr;
@@ -133,7 +139,7 @@ void AddonUnload()
     Settings::Save(SettingsPath);
 
     DeregisterQuickAccessShortcut();
-    APIDefs->DeregisterKeybind(KB_TOGGLE_GW2RotaHelper);
+    APIDefs->InputBinds.Deregister(KB_TOGGLE_GW2RotaHelper);
 }
 
 void AddonRender()
@@ -149,4 +155,32 @@ void AddonRender()
 
 void AddonOptions()
 {
+}
+
+extern "C" __declspec(dllexport) void *get_init_addr(char *arcversion, void *imguictx, void *id3dptr, HANDLE arcdll, void *mallocfn, void *freefn, uint32_t d3dversion)
+{
+    return ArcdpsInit;
+}
+
+extern "C" __declspec(dllexport) void *get_release_addr()
+{
+    return ArcdpsRelease;
+}
+
+ArcDPS::Exports *ArcdpsInit()
+{
+    ArcExports.Signature = -24255225;
+    ArcExports.ImGuiVersion = 18000;
+    ArcExports.Size = sizeof(ArcDPS::Exports);
+    ArcExports.Name = ADDON_NAME;
+    ArcExports.Build = "0.1.0.0";
+    ArcExports.CombatSquadCallback = ArcEv::OnCombatSquad;
+    ArcExports.CombatLocalCallback = ArcEv::OnCombatLocal;
+
+    return &ArcExports;
+}
+
+uintptr_t ArcdpsRelease()
+{
+    return 0;
 }
