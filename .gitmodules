@@ -13,3 +13,6 @@
 [submodule "arcdps"]
 	path = arcdps
 	url = https://github.com/RaidcoreGG/RCGG-lib-arcdps-api
+[submodule "arcdps_unofficial_extras_releases"]
+	path = arcdps_unofficial_extras_releases
+	url = https://github.com/Krappa322/arcdps_unofficial_extras_releases
