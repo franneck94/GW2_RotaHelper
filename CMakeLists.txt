@@ -30,10 +30,6 @@ file(GLOB IMGUI_SOURCES
 )
 target_sources(third_party_libs PRIVATE ${IMGUI_SOURCES})
 
-add_library(httpclient STATIC
-    "httpclient/httpclient.h"
-    "httpclient/httpclient.cpp"
-)
 
 add_library(nexus INTERFACE
     "nexus/Nexus.h"
@@ -54,7 +50,6 @@ target_link_libraries(third_party_libs PRIVATE
     nexus
     mumble
     rtapi
-    httpclient
     arcdps
     nlohmann_json::nlohmann_json
 )
