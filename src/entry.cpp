@@ -147,7 +147,6 @@ ArcDPS::Exports *ArcdpsInit()
     ArcExports.Size = sizeof(ArcDPS::Exports);
     ArcExports.Name = ADDON_NAME;
     ArcExports.Build = "0.1.1.0";
-    ArcExports.CombatSquadCallback = ArcEv::OnCombatSquad;
     ArcExports.CombatLocalCallback = ArcEv::OnCombatLocal;
 
     return &ArcExports;

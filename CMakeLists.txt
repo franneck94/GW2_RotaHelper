@@ -47,6 +47,7 @@ add_library(arcdps INTERFACE
 target_link_libraries(third_party_libs PRIVATE
     d3d11
     d3dcompiler
+    comdlg32
     nexus
     mumble
     rtapi
@@ -63,7 +64,6 @@ add_library(first_party_libs STATIC
     "src/Render.cpp"
     "src/resource.rc"
     "src/ArcEvents.cpp"
-    "src/ExtEvents.cpp"
     "src/UeEvents.cpp"
 )
 set_source_files_properties("src/resource.rc" PROPERTIES LANGUAGE RC)

@@ -1,4 +1,5 @@
 #include <string>
+#include <filesystem>
 
 #include "arcdps/ArcDPS.h"
 
@@ -13,3 +14,5 @@ const char *ADDON_NAME = "GW2RotaHelper";
 
 std::array<EvCombatDataPersistent, 100> combat_buffer = {};
 size_t combat_buffer_index = 0;
+
+std::filesystem::path logpath;
