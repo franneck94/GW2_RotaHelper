@@ -3,7 +3,9 @@
 #include <commdlg.h>
 #endif
 
+#include <chrono>
 #include <fstream>
+#include <future>
 #include <iostream>
 #include <list>
 #include <map>
@@ -51,7 +53,7 @@ bool Render::ParseEvtcFile(const std::string &filePath)
 {
     std::string cliPath = "GuildWars2EliteInsights-CLI.exe";
     std::string configPath = "ei_config.conf";
-    std::string command = "\"" + cliPath + "\" -c \"" + configPath + "\" \"" + filePath + "\"";
+    std::string command = cliPath + " -c  " + configPath + " " + filePath;
 
     int result = system(command.c_str());
 
@@ -117,15 +119,42 @@ void Render::render()
             ImGui::SameLine();
             ImGui::Text("Selected: %s", selected_file_path.c_str());
 
-            if (ImGui::Button("Parse Log"))
+            // Add parse button
+            if (!parsing_in_progress)
             {
-                if (ParseEvtcFile(selected_file_path))
+                if (ImGui::Button("Parse Log"))
                 {
-                    ImGui::OpenPopup("Parse Success");
+                    // Start parsing in a separate thread
+                    parsing_in_progress = true;
+                    parsing_future = std::async(std::launch::async, &Render::ParseEvtcFile, this, selected_file_path);
                 }
-                else
+            }
+            else
+            {
+                // Show parsing progress
+                ImGui::Button("Parsing...");
+                ImGui::SameLine();
+
+                // Simple spinning indicator
+                static float spinner_time = 0.0f;
+                spinner_time += ImGui::GetIO().DeltaTime;
+                const char *spinner_chars = "|/-\\";
+                ImGui::Text("%c", spinner_chars[(int)(spinner_time / 0.1f) % 4]);
+
+                // Check if parsing is complete
+                if (parsing_future.valid() && parsing_future.wait_for(std::chrono::seconds(0)) == std::future_status::ready)
                 {
-                    ImGui::OpenPopup("Parse Error");
+                    bool success = parsing_future.get();
+                    parsing_in_progress = false;
+
+                    if (success)
+                    {
+                        ImGui::OpenPopup("Parse Success");
+                    }
+                    else
+                    {
+                        ImGui::OpenPopup("Parse Error");
+                    }
                 }
             }
         }

@@ -1,0 +1,5 @@
+Elapsed 4 ms
+Program: GW2EIEvtcParser
+Program:    at GW2EIEvtcParser.EvtcParser.ParseLog(ParserController operation, FileInfo evtc, ParsingFailureReason& parsingFailureReason, Boolean multiThreadAccelerationForBuffs) in G:\Projects\GW2-Elite-Insights-Parser\GW2EIEvtcParser\EvtcParser.cs:line 72
+Program: GW2EIEvtcParser.ParsedEvtcLog ParseLog(GW2EIEvtcParser.ParserController, System.IO.FileInfo, GW2EIEvtcParser.ParserHelpers.ParsingFailureReason ByRef, Boolean)
+Program: File C:\Users\schaf.JANPC\Documents\Guild does not exist

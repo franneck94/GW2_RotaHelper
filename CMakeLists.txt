@@ -96,9 +96,9 @@ set_target_properties(GW2RotaHelper PROPERTIES
 add_custom_command(TARGET GW2RotaHelper POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>"
-        "D:/GW2/addons"
+        "D:/GW2/addons" || (exit 0)
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>"
-        "D:/GW2_2/addons"
+        "D:/GW2_2/addons" || (exit 0)
     COMMENT "Copying $<CONFIG> files to GW2 addons directory"
 )
