@@ -12,7 +12,7 @@ from bench_list import BENCHES
 
 class HTMLDownloader:
     """Simple HTML downloader with JSON extraction"""
-    
+
     def __init__(self, output_dir: Path):
         self.output_dir = output_dir
         self.session = requests.Session()
@@ -33,17 +33,17 @@ class HTMLDownloader:
         """Convert URL to safe filename"""
         parsed = urlparse(url)
         path = parsed.path.strip('/') or 'index'
-        
+
         # Get the last part of the path (filename)
         filename = path.split('/')[-1]
-        
+
         # Replace problematic characters
         filename = ''.join(c if c.isalnum() or c in '-_.' else '_' for c in filename)
-        
+
         # Ensure it has .html extension
         if not filename.endswith('.html'):
             filename += '.html'
-            
+
         return filename
 
     def _extract_log_data(self, html_content: str) -> dict | None:
@@ -52,14 +52,14 @@ class HTMLDownloader:
             # Find the line that starts with "const _logData ="
             pattern = r'const\s+_logData\s*=\s*({.*?});?\s*$'
             match = re.search(pattern, html_content, re.MULTILINE | re.DOTALL)
-            
+
             if match:
                 json_str = match.group(1)
                 return json.loads(json_str)
             else:
                 self.logger.warning("Could not find 'const _logData =' in HTML content")
                 return None
-                
+
         except json.JSONDecodeError as e:
             self.logger.error(f"Error parsing JSON from _logData: {e}")
             return None
@@ -67,11 +67,11 @@ class HTMLDownloader:
             self.logger.error(f"Error extracting _logData: {e}")
             return None
 
-    def _fetch_and_save(self, url: str, name: str = None) -> bool:
+    def _fetch_and_save(self, url: str, name: str | None = None) -> bool:
         """Fetch HTML and save both HTML and extracted JSON"""
         try:
             self.logger.info(f"Fetching: {url}")
-            
+
             response = self.session.get(url, timeout=30)
             response.raise_for_status()
 
@@ -81,7 +81,7 @@ class HTMLDownloader:
                 return False
 
             html_content = response.text
-            
+
             # Generate filename
             if name:
                 html_filename = f"{name}.html"
@@ -117,20 +117,20 @@ class HTMLDownloader:
         """Download multiple URLs"""
         success_count = 0
         total_count = len(urls)
-        
+
         for name, url in urls.items():
             self.logger.info(f"Processing: {name}")
             if self._fetch_and_save(url, name):
                 success_count += 1
-            
+
         self.logger.info(f"Download complete: {success_count}/{total_count} successful")
 
 
 def main():
     """Main function with CLI arguments"""
     parser = argparse.ArgumentParser(description='Download HTML files and extract JSON data')
-    parser.add_argument('--output', '-o', default='data/benches',
-                       help='Output directory (default: data/benches)')
+    parser.add_argument('--output', '-o', default='data/bench',
+                       help='Output directory (default: data/bench)')
     parser.add_argument('--url', help='Single URL to download (optional)')
 
     args = parser.parse_args()

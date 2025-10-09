@@ -1,0 +1,16 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Fetch Benches",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "scripts/get_benches.py",
+                "--output",
+                "data/benches"
+            ],
+            "problemMatcher": []
+        }
+    ]
+}
