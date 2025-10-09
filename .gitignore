@@ -1,2 +1,6 @@
 /bin
 /build
+__pycache__
+.mypy_cache
+*.html
+*.txt

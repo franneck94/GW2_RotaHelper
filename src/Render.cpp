@@ -142,54 +142,81 @@ namespace
 
     void get_rotation_info(const IntNode &node, const SkillInfoMap &skill_info_map, RotationInfoVec &rotation_vector)
     {
-        for (const auto &player_pair : node.children)
+        // The rotation data is structured as an array of arrays
+        // Each inner array contains: [cast_time, skill_id, duration, ?, ?]
+        for (const auto &rotation_entry : node.children)
         {
-            const auto &player = player_pair.second;
-            int skill_id = 0;
-            auto id_it = player.children.find("id");
-            if (id_it != player.children.end() && id_it->second.value.has_value())
-            {
-                if (auto pval = std::get_if<int>(&id_it->second.value.value()))
-                {
-                    skill_id = *pval;
-                }
-            }
-            if (skill_id == 0)
-                continue;
-            const auto skill_name = skill_info_map.at(std::to_string(skill_id)).name;
-            auto skills_it = player.children.find("skills");
-            if (skills_it != player.children.end())
-            {
-                const auto &skills_node = skills_it->second;
-                for (const auto &skill_pair : skills_node.children)
-                {
-                    const auto &skill = skill_pair.second;
-                    int cast_time = 0, duration = 0;
-                    auto cast_time_it = skill.children.find("castTime");
-                    if (cast_time_it != skill.children.end() && cast_time_it->second.value.has_value())
-                    {
-                        if (auto pval = std::get_if<int>(&cast_time_it->second.value.value()))
-                        {
-                            cast_time = *pval;
-                        }
-                    }
-                    auto duration_it = skill.children.find("duration");
-                    if (duration_it != skill.children.end() && duration_it->second.value.has_value())
-                    {
-                        if (auto pval = std::get_if<int>(&duration_it->second.value.value()))
-                        {
-                            duration = *pval;
-                        }
-                    }
+            const auto &rotation_array = rotation_entry.second;
 
-                    rotation_vector.push_back(RotationInfo{.skill_id = skill_id, .cast_time = cast_time, .duration = duration, .idle_time = 0, .skill_name = skill_name});
+            for (const auto &skill_entry : rotation_array.children)
+            {
+                const auto &skill_array = skill_entry.second;
+
+                // Extract values from the array: [cast_time, skill_id, duration, ?, ?]
+                float cast_time = 0.0f;
+                int skill_id = 0;
+                int duration = 0;
+
+                // Get cast_time (index 0)
+                auto cast_time_it = skill_array.children.find("0");
+                if (cast_time_it != skill_array.children.end() && cast_time_it->second.value.has_value())
+                {
+                    if (auto pval = std::get_if<float>(&cast_time_it->second.value.value()))
+                    {
+                        cast_time = *pval;
+                    }
                 }
+
+                // Get skill_id (index 1)
+                auto skill_id_it = skill_array.children.find("1");
+                if (skill_id_it != skill_array.children.end() && skill_id_it->second.value.has_value())
+                {
+                    if (auto pval = std::get_if<int>(&skill_id_it->second.value.value()))
+                    {
+                        skill_id = *pval;
+                    }
+                }
+
+                // Get duration (index 2)
+                auto duration_it = skill_array.children.find("2");
+                if (duration_it != skill_array.children.end() && duration_it->second.value.has_value())
+                {
+                    if (auto pval = std::get_if<int>(&duration_it->second.value.value()))
+                    {
+                        duration = *pval;
+                    }
+                }
+
+                // Skip invalid entries
+                if (skill_id <= 0)
+                    continue;
+
+                // Get skill name from skill map
+                std::string skill_name = "Unknown Skill";
+                auto skill_info_it = skill_info_map.find(std::to_string(skill_id));
+                if (skill_info_it != skill_info_map.end())
+                {
+                    skill_name = skill_info_it->second.name;
+                }
+
+                // Convert cast_time from seconds to milliseconds
+                int cast_time_ms = static_cast<int>(cast_time * 1000);
+
+                rotation_vector.push_back(RotationInfo{
+                    .skill_id = skill_id,
+                    .cast_time = cast_time_ms,
+                    .duration = duration,
+                    .idle_time = 0,
+                    .skill_name = skill_name
+                });
             }
         }
 
+        // Sort by cast time
         std::sort(rotation_vector.begin(), rotation_vector.end(), [](const RotationInfo &a, const RotationInfo &b)
                   { return a.cast_time < b.cast_time; });
 
+        // Calculate idle times
         for (size_t i = 1; i < rotation_vector.size(); ++i)
         {
             rotation_vector[i].idle_time = rotation_vector[i].cast_time - (rotation_vector[i - 1].cast_time + rotation_vector[i - 1].duration);

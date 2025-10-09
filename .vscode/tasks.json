@@ -8,9 +8,9 @@
             "args": [
                 "scripts/get_benches.py",
                 "--output",
-                "data/benches"
+                "data/bench"
             ],
-            "problemMatcher": []
+            "problemMatcher": ["gcc"]
         }
     ]
 }
