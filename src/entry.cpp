@@ -123,7 +123,26 @@ void AddonRender()
     }
 
     static Render render{Settings::ShowWindow};
-    render.render();
+
+    ImGuiIO &io = ImGui::GetIO();
+    ID3D11Device *pd3dDevice = nullptr;
+
+    if (io.BackendRendererUserData)
+    {
+        struct ImGui_ImplDX11_Data
+        {
+            ID3D11Device *pd3dDevice;
+            ID3D11DeviceContext *pd3dDeviceContext;
+        };
+
+        ImGui_ImplDX11_Data *bd = (ImGui_ImplDX11_Data *)io.BackendRendererUserData;
+        pd3dDevice = bd->pd3dDevice;
+    }
+
+    if (pd3dDevice)
+    {
+        render.render(pd3dDevice);
+    }
 }
 
 void AddonOptions()

@@ -38,7 +38,7 @@ struct SkillInfo
     std::string icon_url;
 };
 
-using SkillInfoMap = std::map<std::string, SkillInfo>;
+using SkillInfoMap = std::map<int, SkillInfo>;
 using LogDataTypes = std::variant<int, float, bool, std::string>;
 
 struct IntNode
@@ -58,6 +58,7 @@ struct RotationInfo
 
 using RotationInfoVec = std::vector<RotationInfo>;
 using RotationInfoQueue = std::queue<RotationInfo>;
+using TextureMap = std::unordered_map<int, ID3D11ShaderResourceView *>;
 
 namespace
 {
@@ -115,6 +116,28 @@ namespace
         }
     }
 
+    std::string ConvertCacheUrlToRenderUrl(const std::string &cache_url)
+    {
+        if (cache_url.find("/cache/https_render.guildwars2.com_file_") != 0)
+            return cache_url;
+
+        std::string remainder = cache_url.substr(std::string("/cache/https_render.guildwars2.com_file_").length());
+
+        size_t last_underscore = remainder.find_last_of('_');
+        if (last_underscore == std::string::npos)
+        {
+            return cache_url;
+        }
+
+        std::string hash = remainder.substr(0, last_underscore);
+        std::string skill_id_with_ext = remainder.substr(last_underscore + 1);
+
+        size_t dot_pos = skill_id_with_ext.find_last_of('.');
+        std::string skill_id = (dot_pos != std::string::npos) ? skill_id_with_ext.substr(0, dot_pos) : skill_id_with_ext;
+
+        return "https://render.guildwars2.com/file/" + hash + "/" + skill_id + ".png";
+    }
+
     void get_skill_info(const IntNode &node, SkillInfoMap &skill_info_map)
     {
         for (const auto &[skill_id, skill_node] : node.children)
@@ -133,10 +156,10 @@ namespace
             {
                 if (auto pval = std::get_if<std::string>(&icon_it->second.value.value()))
                 {
-                    icon = *pval;
+                    icon = ConvertCacheUrlToRenderUrl(*pval);
                 }
             }
-            skill_info_map[skill_id] = {name, icon};
+            skill_info_map[std::stoi(skill_id)] = {name, icon};
         }
     }
 
@@ -193,7 +216,7 @@ namespace
 
                 // Get skill name from skill map
                 std::string skill_name = "Unknown Skill";
-                auto skill_info_it = skill_info_map.find(std::to_string(skill_id));
+                auto skill_info_it = skill_info_map.find(skill_id);
                 if (skill_info_it != skill_info_map.end())
                 {
                     skill_name = skill_info_it->second.name;
@@ -207,8 +230,7 @@ namespace
                     .cast_time = cast_time_ms,
                     .duration = duration,
                     .idle_time = 0,
-                    .skill_name = skill_name
-                });
+                    .skill_name = skill_name});
             }
         }
 
@@ -241,104 +263,74 @@ namespace
         return std::make_tuple(skill_info_map, rotation_info_vec);
     }
 
-    std::string DownloadHTML(const std::string &url)
+    bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &out_path)
     {
-        auto hInternet = InternetOpenA("SkillIconDownloader", INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
+        HINTERNET hInternet = InternetOpenA("GW2RotaHelper", INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
         if (!hInternet)
-            return "";
-
-        auto hFile = InternetOpenUrlA(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
-        if (!hFile)
         {
-            InternetCloseHandle(hInternet);
-            return "";
+            std::cerr << "Failed to open internet connection" << std::endl;
+            return false;
         }
 
-        std::string html;
+        HINTERNET hFile = InternetOpenUrlA(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
+        if (!hFile)
+        {
+            std::cerr << "Failed to open URL: " << url << std::endl;
+            InternetCloseHandle(hInternet);
+            return false;
+        }
+
+        std::ofstream outFile(out_path, std::ios::binary);
+        if (!outFile.is_open())
+        {
+            std::cerr << "Failed to create output file: " << out_path << std::endl;
+            InternetCloseHandle(hFile);
+            InternetCloseHandle(hInternet);
+            return false;
+        }
+
         char buffer[4096];
         DWORD bytesRead = 0;
+        bool success = true;
+
         do
         {
-            if (InternetReadFile(hFile, buffer, sizeof(buffer), &bytesRead) && bytesRead > 0)
+            if (InternetReadFile(hFile, buffer, sizeof(buffer), &bytesRead))
             {
-                html.append(buffer, bytesRead);
+                if (bytesRead > 0)
+                {
+                    outFile.write(buffer, bytesRead);
+                    if (outFile.fail())
+                    {
+                        std::cerr << "Failed to write to file: " << out_path << std::endl;
+                        success = false;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                std::cerr << "Failed to read from URL: " << url << std::endl;
+                success = false;
+                break;
             }
         } while (bytesRead > 0);
 
+        // Cleanup
+        outFile.close();
         InternetCloseHandle(hFile);
         InternetCloseHandle(hInternet);
 
-        return html;
-    }
-
-    std::string ExtractBase64PNG(const std::string &html)
-    {
-        std::regex re("<img[^>]*src=['\"]data:image/png;base64,([^'\"]+)");
-        std::smatch match;
-
-        if (std::regex_search(html, match, re) && match.size() > 1)
-            return match[1].str();
-
-        return "";
-    }
-
-    std::vector<unsigned char> Base64Decode(const std::string &encoded_string)
-    {
-        static const std::string base64_chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-
-        auto in_len = encoded_string.size();
-        int i = 0, j = 0, in_ = 0;
-        unsigned char char_array_4[4], char_array_3[3];
-        std::vector<unsigned char> ret;
-        while (in_len-- && (encoded_string[in_] != '=') && isalnum(encoded_string[in_]) || encoded_string[in_] == '+' || encoded_string[in_] == '/')
+        if (success)
         {
-            char_array_4[i++] = encoded_string[in_];
-            in_++;
-            if (i == 4)
-            {
-                for (i = 0; i < 4; i++)
-                    char_array_4[i] = static_cast<unsigned char>(base64_chars.find(char_array_4[i]));
-                char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-                char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
-                char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
-                for (i = 0; i < 3; i++)
-                    ret.push_back(char_array_3[i]);
-                i = 0;
-            }
+            std::cout << "Successfully downloaded: " << url << " -> " << out_path << std::endl;
         }
-        if (i)
+        else
         {
-            for (j = i; j < 4; j++)
-                char_array_4[j] = 0;
-            for (j = 0; j < 4; j++)
-                char_array_4[j] = static_cast<unsigned char>(base64_chars.find(char_array_4[j]));
-            char_array_3[0] = (char_array_4[0] << 2) + ((char_array_4[1] & 0x30) >> 4);
-            char_array_3[1] = ((char_array_4[1] & 0xf) << 4) + ((char_array_4[2] & 0x3c) >> 2);
-            char_array_3[2] = ((char_array_4[2] & 0x3) << 6) + char_array_4[3];
-            for (j = 0; j < i - 1; j++)
-                ret.push_back(char_array_3[j]);
+            std::filesystem::remove(out_path);
         }
-        return ret;
-    }
 
-    void SaveBinaryToFile(const std::filesystem::path &path, const std::vector<unsigned char> &data)
-    {
-        std::ofstream ofs(path, std::ios::binary);
-        ofs.write(reinterpret_cast<const char *>(data.data()), data.size());
-        ofs.close();
-    }
-
-    bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &out_path)
-    {
-        const auto html = DownloadHTML(url);
-        const auto base64 = ExtractBase64PNG(html);
-        if (base64.empty())
-            return false;
-
-        const auto png_data = Base64Decode(base64);
-        SaveBinaryToFile(out_path, png_data);
-
-        return true;
+        return success;
     }
 
     std::queue<std::future<void>> StartDownloadAllSkillIcons(
@@ -359,13 +351,13 @@ namespace
             {
                 ext = info.icon_url.substr(dot_pos);
             }
-            std::filesystem::path out_path = img_folder / (skill_id + ext);
+            std::filesystem::path out_path = img_folder / (std::to_string(skill_id) + ext);
             if (std::filesystem::exists(out_path))
                 continue;
 
             std::cout << "Downloading " << info.icon_url << " to " << out_path << std::endl;
             futures.push(std::async(std::launch::async, [url = info.icon_url, out_path]()
-                                         { DownloadFileFromURL(url, out_path); }));
+                                    { DownloadFileFromURL(url, out_path); }));
         }
 
         return futures;
@@ -446,7 +438,9 @@ namespace
         ID3D11ShaderResourceView *srv = nullptr;
         hr = device->CreateTexture2D(&desc, &subResource, &texture);
         if (SUCCEEDED(hr))
-            device->CreateShaderResourceView(texture, nullptr, &srv);
+        {
+            hr = device->CreateShaderResourceView(texture, nullptr, &srv);
+        }
 
         if (texture)
             texture->Release();
@@ -459,12 +453,12 @@ namespace
         return srv;
     }
 
-    std::unordered_map<std::string, ID3D11ShaderResourceView *> LoadAllSkillTextures(
+    TextureMap LoadAllSkillTextures(
         ID3D11Device *device,
         const SkillInfoMap &skill_info_map,
         const std::filesystem::path &img_folder)
     {
-        std::unordered_map<std::string, ID3D11ShaderResourceView *> texture_map;
+        TextureMap texture_map;
 
         for (const auto &[skill_id, info] : skill_info_map)
         {
@@ -476,12 +470,12 @@ namespace
             {
                 ext = info.icon_url.substr(dot);
             }
-            std::filesystem::path img_path = img_folder / (skill_id + ext);
+            std::filesystem::path img_path = img_folder / (std::to_string(skill_id) + ext);
             if (!std::filesystem::exists(img_path))
                 continue;
             auto *tex = LoadTextureFromPNG_WIC(device, img_path.wstring());
             if (tex)
-                texture_map[info.name] = tex;
+                texture_map[skill_id] = tex;
         }
         return texture_map;
     }
@@ -490,7 +484,7 @@ namespace
 class RotationRun
 {
 public:
-    void load_data(const std::filesystem::path &json_path, const std::filesystem::path &img_path)
+    void load_data(const std::filesystem::path &json_path, const std::filesystem::path &img_path, ID3D11Device *pd3dDevice)
     {
         std::ifstream file(json_path);
         nlohmann::json j;
@@ -549,27 +543,6 @@ public:
         return {start, end, current_idx};
     }
 
-    void print_current_rotation_slice() const
-    {
-        if (bench_rotation_queue.empty())
-            return;
-
-        const auto [start, end, current_idx] = get_current_rotation_indices();
-        std::cout << "----------------------" << current_idx << "----------------------\n";
-        for (int32_t i = start; i <= end; ++i)
-        {
-            if (i < 0 || static_cast<size_t>(i) >= rotation_vector.size())
-            {
-                std::cout << "   [none]" << std::endl;
-                continue;
-            }
-
-            const auto &skill_info = get_rotation_skill(static_cast<size_t>(i));
-            std::cout << (i == (int)current_idx ? "-> " : "   ");
-            std::cout << " - " << skill_info.skill_name << std::endl;
-        }
-    }
-
     RotationInfo get_rotation_skill(const size_t idx) const
     {
         if (idx < rotation_vector.size())
@@ -589,93 +562,12 @@ public:
     }
 
     std::queue<std::future<void>> futures;
-
-private:
     SkillInfoMap skill_info_map;
     RotationInfoVec rotation_vector;
     RotationInfoQueue bench_rotation_queue;
 };
 
-bool Render::OpenFileDialog()
-{
-#ifdef _WIN32
-    OPENFILENAMEA ofn;
-    char szFile[260] = {0};
-
-    ZeroMemory(&ofn, sizeof(ofn));
-    ofn.lStructSize = sizeof(ofn);
-    ofn.lpstrFile = szFile;
-    ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "All Files\0*.*\0ARCDPS Logs\0*.evtc\0Compressed Logs\0*.zevtc\0\0";
-    ofn.nFilterIndex = 1;
-    ofn.lpstrFileTitle = NULL;
-    ofn.nMaxFileTitle = 0;
-    ofn.lpstrInitialDir = NULL;
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR;
-
-    if (GetOpenFileNameA(&ofn) == TRUE)
-    {
-        selected_file_path = std::string(szFile);
-        return true;
-    }
-#endif
-    return false;
-}
-
-bool Render::ParseEvtcFile(const std::string &filePath)
-{
-    std::string cliPath = "GuildWars2EliteInsights-CLI.exe";
-    std::string configPath = "ei_config.conf";
-    std::string command = cliPath + " -c  " + configPath + " " + filePath;
-
-    int result = system(command.c_str());
-
-    if (result == 0)
-    {
-        std::string jsonPath = filePath;
-        size_t lastDot = jsonPath.find_last_of('.');
-        if (lastDot != std::string::npos)
-        {
-            jsonPath = jsonPath.substr(0, lastDot) + ".json";
-        }
-        else
-        {
-            jsonPath += ".json";
-        }
-
-        try
-        {
-            std::ifstream jsonFile(jsonPath);
-            if (jsonFile.is_open())
-            {
-                nlohmann::json logData;
-                jsonFile >> logData;
-
-                if (logData.contains("fightName"))
-                {
-                    std::string fightName = logData["fightName"];
-                }
-
-                if (logData.contains("players"))
-                {
-                    auto players = logData["players"];
-                }
-
-                jsonFile.close();
-            }
-        }
-        catch (const std::exception &e)
-        {
-            return false;
-        }
-
-        return true;
-    }
-
-    return false;
-}
-
-void Render::render()
+void Render::render(ID3D11Device *pd3dDevice)
 {
     if (!show_window)
         return;
@@ -687,6 +579,7 @@ void Render::render()
     static auto benches_files = get_bench_files(bench_path);
     static std::filesystem::path selected_file_path;
     static RotationRun rotation_run;
+    static TextureMap texture_map{};
 
     if (ImGui::Begin("GW2RotaHelper", &show_window))
     {
@@ -703,7 +596,8 @@ void Render::render()
                         selected_bench_index = n;
                         selected_file_path = bench_path / std::filesystem::path(benches_files[n]);
 
-                        rotation_run.load_data(selected_file_path, img_path);
+                        rotation_run.load_data(selected_file_path, img_path, pd3dDevice);
+                        texture_map.clear();
                     }
                     if (is_selected)
                         ImGui::SetItemDefaultFocus();
@@ -723,22 +617,28 @@ void Render::render()
             if (rotation_run.futures.front().valid())
             {
                 rotation_run.futures.front().get();
+                rotation_run.futures.pop();
             }
-            rotation_run.futures.pop();
 
             ImGui::End();
 
             return;
+        }
+        else if (texture_map.size() == 0)
+        {
+            texture_map = LoadAllSkillTextures(pd3dDevice, rotation_run.skill_info_map, img_path);
         }
 
         ImGui::Separator();
 
         ImGui::Text("Combat Events Buffer (last 10):");
         ImGui::BeginChild("CombatBufferChild", ImVec2(0, 200), true, ImGuiWindowFlags_HorizontalScrollbar);
-        ImGui::Columns(2, "cb_columns", true);
-        ImGui::Text("Log Skill");
+        ImGui::Columns(3, "cb_columns", true);
+        ImGui::Text("");
         ImGui::NextColumn();
-        ImGui::Text("User Skill");
+        ImGui::Text("Bench");
+        ImGui::NextColumn();
+        ImGui::Text("User");
         ImGui::NextColumn();
         ImGui::Separator();
 
@@ -749,6 +649,16 @@ void Render::render()
         for (int i = 0; i < 10; ++i)
         {
             const auto &skill_info = rotation_run.get_rotation_skill(static_cast<size_t>(i));
+            auto texture = texture_map[skill_info.skill_id];
+            if (texture)
+            {
+                ImGui::Image((ImTextureID)texture, ImVec2(32, 32)); // 32x32 pixel icon size
+            }
+            else
+            {
+                ImGui::Dummy(ImVec2(32, 32)); // Placeholder if no texture
+            }
+            ImGui::NextColumn();
             ImGui::Text("%s", skill_info.skill_name.empty() ? "N/A" : skill_info.skill_name.c_str());
             ImGui::NextColumn();
 
