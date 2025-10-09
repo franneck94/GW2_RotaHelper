@@ -631,7 +631,7 @@ void Render::render(ID3D11Device *pd3dDevice)
 
         ImGui::Separator();
 
-        ImGui::Text("Combat Events Buffer (last 10):");
+        ImGui::Text("Combat Events Buffer (last 2, current, next 3):");
         ImGui::BeginChild("CombatBufferChild", ImVec2(0, 200), true, ImGuiWindowFlags_HorizontalScrollbar);
         ImGui::Columns(3, "cb_columns", true);
         ImGui::Text("");
@@ -642,30 +642,54 @@ void Render::render(ID3D11Device *pd3dDevice)
         ImGui::NextColumn();
         ImGui::Separator();
 
-        const auto start_index = (combat_buffer_index >= 10) ? (combat_buffer_index - 10) : (combat_buffer.size() + combat_buffer_index - 10);
-        if (start_index == 0)
-            return;
+        const auto [start, end, current_idx] = rotation_run.get_current_rotation_indices();
 
-        for (int i = 0; i < 10; ++i)
+        for (int32_t i = start; i <= end; ++i)
         {
+            if (i < 0 || static_cast<size_t>(i) >= rotation_run.rotation_vector.size())
+                continue;
+
             const auto &skill_info = rotation_run.get_rotation_skill(static_cast<size_t>(i));
             auto texture = texture_map[skill_info.skill_id];
+
+            bool is_current = (i == static_cast<int32_t>(current_idx));
+            if (is_current)
+            {
+                ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.3f, 0.7f, 0.3f, 0.3f));
+            }
+
             if (texture)
             {
-                ImGui::Image((ImTextureID)texture, ImVec2(32, 32)); // 32x32 pixel icon size
+                ImGui::Image((ImTextureID)texture, ImVec2(28, 28));
             }
             else
             {
-                ImGui::Dummy(ImVec2(32, 32)); // Placeholder if no texture
+                ImGui::Dummy(ImVec2(28, 28));
             }
             ImGui::NextColumn();
-            ImGui::Text("%s", skill_info.skill_name.empty() ? "N/A" : skill_info.skill_name.c_str());
+
+            if (is_current)
+            {
+                ImGui::Text("-> %s", skill_info.skill_name.empty() ? "N/A" : skill_info.skill_name.c_str());
+            }
+            else
+            {
+                ImGui::Text("   %s", skill_info.skill_name.empty() ? "N/A" : skill_info.skill_name.c_str());
+            }
             ImGui::NextColumn();
 
+            const auto start_index = (combat_buffer_index >= 10) ? (combat_buffer_index - 10) : (combat_buffer.size() + combat_buffer_index - 10);
             const auto index = (start_index + i) % combat_buffer.size();
             const auto &entry = combat_buffer[index];
+
             ImGui::Text("%s", entry.SkillName.empty() ? "N/A" : entry.SkillName.c_str());
+
             ImGui::NextColumn();
+
+            if (is_current)
+            {
+                ImGui::PopStyleColor();
+            }
         }
 
         ImGui::EndChild();

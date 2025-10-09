@@ -7,6 +7,8 @@
 #include <tchar.h>
 
 #include "Render.h"
+#include "Shared.h"
+#include "Types.h"
 
 // Data
 static ID3D11Device *g_pd3dDevice = NULL;
@@ -80,6 +82,33 @@ int main(int, char **)
         ImGui::NewFrame();
 
         render.render(g_pd3dDevice);
+
+        ImGuiIO &io = ImGui::GetIO();
+
+        bool any_key_pressed = false;
+        static bool previous_key_state = false;
+
+        for (int vk = 0x08; vk <= 0xFE; vk++) // VK_BACK to 0xFE (most virtual keys)
+        {
+            if (GetAsyncKeyState(vk) & 0x8000)
+            {
+                any_key_pressed = true;
+                break;
+            }
+        }
+
+        if (any_key_pressed && !previous_key_state)
+        {
+            EvCombatDataPersistent zero_combat_data = {};
+            zero_combat_data.SkillName = "Key Press Event";
+
+            combat_buffer[combat_buffer_index] = zero_combat_data;
+            combat_buffer_index = (combat_buffer_index + 1) % combat_buffer.size();
+
+            printf("Key pressed - added to combat buffer at index %zu\n", combat_buffer_index);
+        }
+
+        previous_key_state = any_key_pressed;
 
         ImGui::Render();
         g_pd3dDeviceContext->OMSetRenderTargets(1, &g_mainRenderTargetView, NULL);
