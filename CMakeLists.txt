@@ -62,6 +62,7 @@ add_library(first_party_libs STATIC
     "src/Shared.cpp"
     "src/Settings.cpp"
     "src/Render.cpp"
+    "src/LogData.cpp"
     "src/resource.rc"
     "src/ArcEvents.cpp"
     "src/UeEvents.cpp"
