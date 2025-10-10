@@ -5,8 +5,16 @@
             "label": "Fetch Benches",
             "type": "shell",
             "command": "python",
+            "args": ["scripts/get_benches.py", "--output", "data/bench"],
+            "problemMatcher": ["gcc"]
+        },
+        {
+            "label": "Extract Local Benches",
+            "type": "shell",
+            "command": "python",
             "args": [
-                "scripts/get_benches.py",
+                "scripts/extract_local_rotation.py",
+                "C:\\Users\\schaf.JANPC\\Documents\\_LocalCoding\\GW2_RotaHelper\\data\\bench\\pscrapper_42138_StdGolem_kill.json",
                 "--output",
                 "data/bench"
             ],
