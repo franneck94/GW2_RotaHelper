@@ -9,6 +9,7 @@
 #include <conio.h>
 #include <d3d11.h>
 
+#include <algorithm>
 #include <d3d11.h>
 #include <filesystem>
 #include <fstream>
@@ -107,7 +108,7 @@ namespace
         for (const auto &[skill_id, skill_node] : node.children)
         {
             std::string name, icon;
-            bool trait_proc, gear_proc;
+            bool trait_proc = false, gear_proc = false;
 
             auto name_it = skill_node.children.find("name");
             if (name_it != skill_node.children.end() && name_it->second.value.has_value())
@@ -141,6 +142,12 @@ namespace
         }
     }
 
+    bool remove_skill_if(const RotationInfo &current, const RotationInfo &previous)
+    {
+        return (current.skill_id == previous.skill_id &&
+                (current.cast_time - previous.cast_time) < 250);
+    }
+
     void get_rotation_info(const IntNode &node, const SkillInfoMap &skill_info_map, RotationInfoVec &rotation_vector)
     {
         for (const auto &rotation_entry : node.children)
@@ -151,9 +158,11 @@ namespace
             {
                 const auto &skill_array = skill_entry.second;
 
-                float cast_time = 0.0f;
-                int skill_id = 0;
-                int duration = 0;
+                auto skill_id = 0;
+                auto duration_ms = 0.0f;
+                auto cast_time = 0.0f;
+                auto unk = 0.0f;
+                auto status = RotationStatus::UNKNOWN;
 
                 // Get cast_time (index 0)
                 auto cast_time_it = skill_array.children.find("0");
@@ -175,13 +184,33 @@ namespace
                     }
                 }
 
-                // Get duration (index 2)
+                // Get duration_ms (index 2)
                 auto duration_it = skill_array.children.find("2");
                 if (duration_it != skill_array.children.end() && duration_it->second.value.has_value())
                 {
                     if (auto pval = std::get_if<int>(&duration_it->second.value.value()))
                     {
-                        duration = *pval;
+                        duration_ms = static_cast<float>(*pval);
+                    }
+                }
+
+                // Get RotationStatus (index 3)
+                auto status_it = skill_array.children.find("3");
+                if (status_it != skill_array.children.end() && status_it->second.value.has_value())
+                {
+                    if (auto pval = std::get_if<int>(&status_it->second.value.value()))
+                    {
+                        status = static_cast<RotationStatus>(*pval);
+                    }
+                }
+
+                // Get unk (index 4)
+                auto unk_it = skill_array.children.find("4");
+                if (unk_it != skill_array.children.end() && unk_it->second.value.has_value())
+                {
+                    if (auto pval = std::get_if<float>(&unk_it->second.value.value()))
+                    {
+                        unk = static_cast<float>(*pval);
                     }
                 }
 
@@ -195,16 +224,16 @@ namespace
                     skill_name = skill_info_it->second.name;
                 }
 
-                int cast_time_ms = static_cast<int>(cast_time * 1000);
-
                 if (!skill_info_it->second.gear_proc && !skill_info_it->second.trait_proc)
                 {
                     rotation_vector.push_back(RotationInfo{
                         .skill_id = skill_id,
-                        .cast_time = cast_time_ms,
-                        .duration = duration,
-                        .idle_time = 0,
-                        .skill_name = skill_name});
+                        .cast_time = cast_time,
+                        .duration_ms = duration_ms,
+                        .unk = unk,
+                        .skill_name = skill_name,
+                        .status = status,
+                    });
                 }
             }
         }
@@ -212,15 +241,30 @@ namespace
         std::sort(rotation_vector.begin(), rotation_vector.end(), [](const RotationInfo &a, const RotationInfo &b)
                   { return a.cast_time < b.cast_time; });
 
-        for (size_t i = 1; i < rotation_vector.size(); ++i)
+        if (rotation_vector.size() > 1)
         {
-            rotation_vector[i].idle_time = rotation_vector[i].cast_time - (rotation_vector[i - 1].cast_time + rotation_vector[i - 1].duration);
+            auto new_end = std::remove_if(rotation_vector.begin() + 1, rotation_vector.end(),
+                                          [&rotation_vector](const RotationInfo &current)
+                                          {
+                                              auto idx = &current - &rotation_vector[0];
+                                              if (idx <= 0)
+                                                  return false;
+
+                                              const auto &previous = rotation_vector[idx - 1];
+
+                                              return remove_skill_if(current, previous);
+                                          });
+
+            rotation_vector.erase(new_end, rotation_vector.end());
         }
+
+        int i = 2;
     }
 
     std::tuple<SkillInfoMap, RotationInfoVec> get_dpsreport_data(const nlohmann::json &j)
     {
-        const auto rotation_data = j["players"][0]["details"]["rotation"]; // TODO: player index
+        const auto rotation_data = j["players"][0]["rotation"];
+        // const auto rotation_data = j["players"][0]["details"]["rotation"]; // TODO: player index
         const auto skill_data = j["skillMap"];
 
         auto kv_rotation = IntNode{};
@@ -359,8 +403,7 @@ void RotationRun::print_rotation_info() const
         std::cout << "Skill ID: " << info.skill_id
                   << ", Name: " << info.skill_name
                   << ", CastTime: " << info.cast_time
-                  << ", Duration: " << info.duration
-                  << ", IdleTime: " << info.idle_time << std::endl;
+                  << ", Duration: " << info.duration_ms << std::endl;
     }
 }
 

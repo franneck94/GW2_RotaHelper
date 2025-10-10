@@ -2,15 +2,15 @@
 
 #include <d3d11.h>
 
-#include <vector>
-#include <iostream>
-#include <string>
 #include <filesystem>
-#include <map>
-#include <queue>
 #include <future>
+#include <iostream>
+#include <map>
 #include <optional>
+#include <queue>
+#include <string>
 #include <variant>
+#include <vector>
 
 #include "nlohmann/json.hpp"
 
@@ -33,13 +33,23 @@ struct IntNode
     std::optional<LogDataTypes> value;
 };
 
+enum class RotationStatus
+{
+    UNKNOWN,
+    REDUCED,
+    CANCEL,
+    FULL,
+    INSTANT
+};
+
 struct RotationInfo
 {
     int skill_id;
-    int cast_time;
-    int duration;
-    int idle_time;
+    float cast_time;
+    float duration_ms;
+    float unk;
     std::string skill_name;
+    RotationStatus status;
 };
 
 using RotationInfoVec = std::vector<RotationInfo>;
