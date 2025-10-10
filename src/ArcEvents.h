@@ -15,7 +15,7 @@
 ///----------------------------------------------------------------------------------------------------
 namespace ArcEv
 {
-	void OnCombatLocal(
+	bool OnCombatLocal(
 		ArcDPS::CombatEvent* ev,
 		ArcDPS::AgentShort* src,
 		ArcDPS::AgentShort* dst,
@@ -24,7 +24,7 @@ namespace ArcEv
 		uint64_t revision
 	);
 
-	void OnCombat(
+	bool OnCombat(
 		const char* channel,
 		ArcDPS::CombatEvent* ev,
 		ArcDPS::AgentShort* src,

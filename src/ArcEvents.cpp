@@ -11,7 +11,7 @@
 
 namespace ArcEv
 {
-	void OnCombatLocal(
+	bool OnCombatLocal(
 		ArcDPS::CombatEvent *ev,
 		ArcDPS::AgentShort *src,
 		ArcDPS::AgentShort *dst,
@@ -19,10 +19,10 @@ namespace ArcEv
 		uint64_t id,
 		uint64_t revision)
 	{
-		OnCombat("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ev, src, dst, skillname, id, revision);
+		return OnCombat("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ev, src, dst, skillname, id, revision);
 	}
 
-	void OnCombat(
+	bool OnCombat(
 		const char *channel,
 		ArcDPS::CombatEvent *ev,
 		ArcDPS::AgentShort *src,
@@ -32,7 +32,7 @@ namespace ArcEv
 	{
 		if (APIDefs == nullptr)
 		{
-			return;
+			return false;
 		}
 
 		EvCombatData evCbtData{
@@ -59,9 +59,14 @@ namespace ArcEv
 					.SkillName = std::string(evCbtData.skillname),
 					.SkillID = evCbtData.id};
 
+				prev_combat_buffer_index = combat_buffer_index;
 				combat_buffer[combat_buffer_index] = data;
 				combat_buffer_index = (combat_buffer_index + 1) % combat_buffer.size();
+
+				return true;
 			}
 		}
+
+		return false;
 	}
 }
