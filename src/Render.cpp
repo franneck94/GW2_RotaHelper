@@ -165,10 +165,31 @@ Render::Render()
     benches_files = get_bench_files(bench_path);
 }
 
+void Render::key_press_cb(const bool pressed)
+{
+    key_press_event_in_this_frame = pressed;
+}
+
+EvCombatDataPersistent Render::get_current_skill()
+{
+    if (!key_press_event_in_this_frame)
+        return EvCombatDataPersistent{};
+
+    return combat_buffer[prev_combat_buffer_index];
+}
+
+void Render::toggle_vis(const bool flag)
+{
+    show_window = flag;
+}
+
 void Render::render(ID3D11Device *pd3dDevice)
 {
     if (!show_window)
         return;
+
+    if (benches_files.size() == 0)
+        benches_files = get_bench_files(bench_path);
 
     if (ImGui::Begin("GW2RotaHelper", &show_window))
     {
@@ -198,7 +219,7 @@ void Render::render(ID3D11Device *pd3dDevice)
         if (!selected_file_path.empty())
         {
             ImGui::SameLine();
-            ImGui::Text("Selected: %s", selected_file_path.c_str());
+            ImGui::Text("Selected: %s", selected_file_path.stem().string().c_str());
         }
 
         if (rotation_run.futures.size() != 0)
@@ -220,16 +241,7 @@ void Render::render(ID3D11Device *pd3dDevice)
 
         ImGui::Separator();
 
-        ImGui::Text("Combat Events Buffer (last 2, current, next 3):");
         ImGui::BeginChild("CombatBufferChild", ImVec2(0, 200), true, ImGuiWindowFlags_HorizontalScrollbar);
-        ImGui::Columns(3, "cb_columns", true);
-        ImGui::Text("");
-        ImGui::NextColumn();
-        ImGui::Text("Bench");
-        ImGui::NextColumn();
-        ImGui::Text("User");
-        ImGui::NextColumn();
-        ImGui::Separator();
 
         const auto [start, end, current_idx] = rotation_run.get_current_rotation_indices();
 
@@ -243,43 +255,27 @@ void Render::render(ID3D11Device *pd3dDevice)
 
             bool is_current = (i == static_cast<int32_t>(current_idx));
             if (is_current)
-            {
-                ImGui::PushStyleColor(ImGuiCol_ChildBg, ImVec4(0.3f, 0.7f, 0.3f, 0.3f));
-            }
+                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.3f, 0.7f, 0.3f, 0.3f));
 
             if (texture)
-            {
                 ImGui::Image((ImTextureID)texture, ImVec2(28, 28));
-            }
             else
-            {
                 ImGui::Dummy(ImVec2(28, 28));
-            }
-            ImGui::NextColumn();
+
+            ImGui::SameLine();
 
             if (is_current)
-            {
                 ImGui::Text("-> %s", skill_info.skill_name.empty() ? "N/A" : skill_info.skill_name.c_str());
-            }
             else
-            {
                 ImGui::Text("   %s", skill_info.skill_name.empty() ? "N/A" : skill_info.skill_name.c_str());
-            }
-            ImGui::NextColumn();
-
-            const auto start_index = (combat_buffer_index >= 10) ? (combat_buffer_index - 10) : (combat_buffer.size() + combat_buffer_index - 10);
-            const auto index = (start_index + i) % combat_buffer.size();
-            const auto &entry = combat_buffer[index];
-
-            ImGui::Text("%s", entry.SkillName.empty() ? "N/A" : entry.SkillName.c_str());
-
-            ImGui::NextColumn();
 
             if (is_current)
-            {
                 ImGui::PopStyleColor();
-            }
         }
+
+        const auto skill_ev = get_current_skill();
+        if (skill_ev.SkillID != 0)
+            rotation_run.pop_bench_rotation_queue();
 
         ImGui::EndChild();
     }

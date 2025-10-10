@@ -20,6 +20,8 @@ struct SkillInfo
 {
     std::string name;
     std::string icon_url;
+    bool trait_proc;
+    bool gear_proc;
 };
 
 using SkillInfoMap = std::map<int, SkillInfo>;

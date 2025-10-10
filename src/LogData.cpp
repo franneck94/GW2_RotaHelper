@@ -11,13 +11,13 @@
 
 #include <d3d11.h>
 #include <filesystem>
+#include <fstream>
 #include <future>
 #include <iostream>
 #include <map>
 #include <queue>
 #include <string>
 #include <vector>
-#include <fstream>
 
 #include "nlohmann/json.hpp"
 
@@ -66,24 +66,38 @@ namespace
         }
     }
 
-    std::string ConvertCacheUrlToRenderUrl(const std::string &cache_url)
+    std::string get_cache_remainder(const std::string &cache_url, const std::string &cache)
     {
-        if (cache_url.find("/cache/https_render.guildwars2.com_file_") != 0)
+        auto remainder = cache_url.substr(cache.length());
+
+        return remainder;
+    }
+
+    std::string convert_cache_url(const std::string &cache_url)
+    {
+        static auto cache1 = std::string("/cache/https_render.guildwars2.com_file_");
+        static auto cache2 = std::string("/cache/https_wiki.guildwars2.com_images_");
+
+        if (cache_url.find(cache1) != 0 && cache_url.find(cache2))
             return cache_url;
 
-        std::string remainder = cache_url.substr(std::string("/cache/https_render.guildwars2.com_file_").length());
+        auto remainder = std::string{};
+        if (cache_url.find(cache1))
+            remainder = get_cache_remainder(cache_url, cache1);
+        else if (cache_url.find(cache2))
+            remainder = get_cache_remainder(cache_url, cache2);
+        else
+            return cache_url;
 
-        size_t last_underscore = remainder.find_last_of('_');
+        auto last_underscore = remainder.find_last_of('_');
         if (last_underscore == std::string::npos)
-        {
             return cache_url;
-        }
 
-        std::string hash = remainder.substr(0, last_underscore);
-        std::string skill_id_with_ext = remainder.substr(last_underscore + 1);
+        auto hash = remainder.substr(0, last_underscore);
+        auto skill_id_with_ext = remainder.substr(last_underscore + 1);
 
-        size_t dot_pos = skill_id_with_ext.find_last_of('.');
-        std::string skill_id = (dot_pos != std::string::npos) ? skill_id_with_ext.substr(0, dot_pos) : skill_id_with_ext;
+        auto dot_pos = skill_id_with_ext.find_last_of('.');
+        auto skill_id = (dot_pos != std::string::npos) ? skill_id_with_ext.substr(0, dot_pos) : skill_id_with_ext;
 
         return "https://render.guildwars2.com/file/" + hash + "/" + skill_id + ".png";
     }
@@ -93,30 +107,42 @@ namespace
         for (const auto &[skill_id, skill_node] : node.children)
         {
             std::string name, icon;
+            bool trait_proc, gear_proc;
+
             auto name_it = skill_node.children.find("name");
             if (name_it != skill_node.children.end() && name_it->second.value.has_value())
             {
                 if (auto pval = std::get_if<std::string>(&name_it->second.value.value()))
-                {
                     name = *pval;
-                }
             }
+
             auto icon_it = skill_node.children.find("icon");
             if (icon_it != skill_node.children.end() && icon_it->second.value.has_value())
             {
                 if (auto pval = std::get_if<std::string>(&icon_it->second.value.value()))
-                {
-                    icon = ConvertCacheUrlToRenderUrl(*pval);
-                }
+                    icon = convert_cache_url(*pval);
             }
-            skill_info_map[std::stoi(skill_id)] = {name, icon};
+
+            auto trait_it = skill_node.children.find("traitProc");
+            if (trait_it != skill_node.children.end() && trait_it->second.value.has_value())
+            {
+                if (auto pval = std::get_if<bool>(&trait_it->second.value.value()))
+                    trait_proc = *pval;
+            }
+
+            auto gear_it = skill_node.children.find("gearProc");
+            if (gear_it != skill_node.children.end() && gear_it->second.value.has_value())
+            {
+                if (auto pval = std::get_if<bool>(&gear_it->second.value.value()))
+                    gear_proc = *pval;
+            }
+
+            skill_info_map[std::stoi(skill_id)] = {name, icon, trait_proc, gear_proc};
         }
     }
 
     void get_rotation_info(const IntNode &node, const SkillInfoMap &skill_info_map, RotationInfoVec &rotation_vector)
     {
-        // The rotation data is structured as an array of arrays
-        // Each inner array contains: [cast_time, skill_id, duration, ?, ?]
         for (const auto &rotation_entry : node.children)
         {
             const auto &rotation_array = rotation_entry.second;
@@ -125,7 +151,6 @@ namespace
             {
                 const auto &skill_array = skill_entry.second;
 
-                // Extract values from the array: [cast_time, skill_id, duration, ?, ?]
                 float cast_time = 0.0f;
                 int skill_id = 0;
                 int duration = 0;
@@ -160,11 +185,9 @@ namespace
                     }
                 }
 
-                // Skip invalid entries
                 if (skill_id <= 0)
                     continue;
 
-                // Get skill name from skill map
                 std::string skill_name = "Unknown Skill";
                 auto skill_info_it = skill_info_map.find(skill_id);
                 if (skill_info_it != skill_info_map.end())
@@ -172,23 +195,23 @@ namespace
                     skill_name = skill_info_it->second.name;
                 }
 
-                // Convert cast_time from seconds to milliseconds
                 int cast_time_ms = static_cast<int>(cast_time * 1000);
 
-                rotation_vector.push_back(RotationInfo{
-                    .skill_id = skill_id,
-                    .cast_time = cast_time_ms,
-                    .duration = duration,
-                    .idle_time = 0,
-                    .skill_name = skill_name});
+                if (!skill_info_it->second.gear_proc && !skill_info_it->second.trait_proc)
+                {
+                    rotation_vector.push_back(RotationInfo{
+                        .skill_id = skill_id,
+                        .cast_time = cast_time_ms,
+                        .duration = duration,
+                        .idle_time = 0,
+                        .skill_name = skill_name});
+                }
             }
         }
 
-        // Sort by cast time
         std::sort(rotation_vector.begin(), rotation_vector.end(), [](const RotationInfo &a, const RotationInfo &b)
                   { return a.cast_time < b.cast_time; });
 
-        // Calculate idle times
         for (size_t i = 1; i < rotation_vector.size(); ++i)
         {
             rotation_vector[i].idle_time = rotation_vector[i].cast_time - (rotation_vector[i - 1].cast_time + rotation_vector[i - 1].duration);

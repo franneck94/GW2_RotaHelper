@@ -8,6 +8,7 @@
 #include <thread>
 
 #include "LogData.h"
+#include "Types.h"
 
 class Render
 {
@@ -18,7 +19,13 @@ public:
 
     Render(bool &show_window) : show_window(show_window) {}
 
+    void key_press_cb(const bool pressed);
+    void toggle_vis(const bool flag);
+    EvCombatDataPersistent get_current_skill();
+
     bool show_window;
+
+    bool key_press_event_in_this_frame;
 
     std::filesystem::path data_path = std::filesystem::absolute(std::filesystem::path(__FILE__).parent_path().parent_path() / "data");
     std::filesystem::path img_path = data_path / "img";
