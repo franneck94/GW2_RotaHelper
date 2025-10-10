@@ -261,10 +261,24 @@ namespace
         int i = 2;
     }
 
-    std::tuple<SkillInfoMap, RotationInfoVec> get_dpsreport_data(const nlohmann::json &j)
+    std::tuple<SkillInfoMap, RotationInfoVec> get_dpsreport_data(const nlohmann::json &j, const std::filesystem::path &json_path)
     {
-        const auto rotation_data = j["players"][0]["rotation"];
-        // const auto rotation_data = j["players"][0]["details"]["rotation"]; // TODO: player index
+        auto filename = json_path.filename().string();
+        nlohmann::json rotation_data;
+
+        if (filename.find("_v1") != std::string::npos)
+        {
+            rotation_data = j["players"][0]["details"]["rotation"];
+        }
+        else if (filename.find("_v2") != std::string::npos || filename.find("_v3") != std::string::npos)
+        {
+            rotation_data = j["rotation"];
+        }
+        else
+        {
+            rotation_data = j["players"][0]["details"]["rotation"];
+        }
+
         const auto skill_data = j["skillMap"];
 
         auto kv_rotation = IntNode{};
@@ -387,7 +401,7 @@ void RotationRun::load_data(const std::filesystem::path &json_path, const std::f
     nlohmann::json j;
     file >> j;
 
-    auto [_skill_info_map, _bench_rotation_vector] = get_dpsreport_data(j);
+    auto [_skill_info_map, _bench_rotation_vector] = get_dpsreport_data(j, json_path);
     skill_info_map = std::move(_skill_info_map);
     rotation_vector = std::move(_bench_rotation_vector);
 

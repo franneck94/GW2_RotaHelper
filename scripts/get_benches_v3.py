@@ -48,14 +48,20 @@ def extract_rotation_data(arcdps_data: Dict[str, Any]) -> Dict[str, Any]:
 
                 skills = skill_entry.get("skills", [])
 
-                # Flatten each skill cast
                 for skill_cast in skills:
-                    # Create new entry with skill_id and all skill cast data
-                    flattened_entry = {
-                        "skill_id": skill_id,
-                        **skill_cast,  # Unpack all fields from the skill cast
-                    }
-                    extracted_data["rotation"].append(flattened_entry)
+                    cast_time = skill_cast.get("castTime", 0)
+                    duration = skill_cast.get("duration", 0)
+                    quickness = skill_cast.get("quickness", 0)
+                    status = 0  # Default status value as requested
+
+                    array_entry = [
+                        cast_time / 1000,
+                        skill_id,
+                        duration,
+                        status,
+                        quickness
+                    ]
+                    extracted_data["rotation"].append(array_entry)
 
             logging.info(f"Extracted {len(extracted_data['rotation'])} rotation entries")
 
@@ -141,10 +147,10 @@ def main():
             logging.warning("No rotation data extracted")
             return 1
 
-        # Sort rotation data by castTime
+        # Sort rotation data by castTime (first element in array)
         extracted_data["rotation"] = sorted(
             extracted_data["rotation"],
-            key=lambda x: x.get("castTime", 0)
+            key=lambda x: x[0]  # Sort by castTime (first element)
         )
 
         # Save extracted data
