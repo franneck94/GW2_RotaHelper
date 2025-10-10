@@ -59,13 +59,11 @@ int main(int, char **)
     ImGui_ImplDX11_Init(g_pd3dDevice, g_pd3dDeviceContext);
 
     // Our state
-    bool show_demo_window = true;
-    bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    render.toggle_vis(true);
 
     // Main loop
     MSG msg;
-    Render render(show_demo_window);
     ZeroMemory(&msg, sizeof(msg));
     while (msg.message != WM_QUIT)
     {
@@ -81,8 +79,6 @@ int main(int, char **)
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
-        render.render(g_pd3dDevice);
-
         ImGuiIO &io = ImGui::GetIO();
 
         bool any_key_pressed = false;
@@ -97,18 +93,33 @@ int main(int, char **)
             }
         }
 
+        render.key_press_cb(false);
+
         if (any_key_pressed && !previous_key_state)
         {
-            EvCombatDataPersistent zero_combat_data = {};
-            zero_combat_data.SkillName = "Key Press Event";
+            auto zero_combat_data = EvCombatDataPersistent{
+                .SrcName = "Console",
+                .SrcID = 0,
+                .SrcProfession = 0,
+                .SrcSpecialization = 0,
+                .DstID = 1,
+                .DstProfession = 1,
+                .DstSpecialization = 1,
+                .SkillName = std::string("KeyPressEvent"),
+                .SkillID = 1};
 
+            prev_combat_buffer_index = combat_buffer_index;
             combat_buffer[combat_buffer_index] = zero_combat_data;
             combat_buffer_index = (combat_buffer_index + 1) % combat_buffer.size();
 
-            printf("Key pressed - added to combat buffer at index %zu\n", combat_buffer_index);
+            render.key_press_cb(true);
+
+            std::cout << "Key pressed\n";
         }
 
         previous_key_state = any_key_pressed;
+
+        render.render(g_pd3dDevice);
 
         ImGui::Render();
         g_pd3dDeviceContext->OMSetRenderTargets(1, &g_mainRenderTargetView, NULL);

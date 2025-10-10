@@ -122,7 +122,7 @@ void AddonRender()
         return;
     }
 
-    static Render render{Settings::ShowWindow};
+    render.toggle_vis(Settings::ShowWindow);
 
     ImGuiIO &io = ImGui::GetIO();
     ID3D11Device *pd3dDevice = nullptr;
