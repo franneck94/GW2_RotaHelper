@@ -2,19 +2,26 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Fetch Benches",
+            "label": "Get Benches V1",
             "type": "shell",
             "command": "python",
-            "args": ["scripts/get_benches.py", "--output", "data/bench"],
+            "args": ["scripts/get_benches_v1.py", "--output", "data/bench"],
             "problemMatcher": ["gcc"]
         },
         {
-            "label": "Extract Local Benches",
+            "label": "Get Benches V2",
+            "type": "shell",
+            "command": "python",
+            "args": ["scripts/get_benches_v2.py", "--output", "data/bench"],
+            "problemMatcher": ["gcc"]
+        },
+        {
+            "label": "Get Benches V3",
             "type": "shell",
             "command": "python",
             "args": [
-                "scripts/extract_local_rotation.py",
-                "C:\\Users\\schaf.JANPC\\Documents\\_LocalCoding\\GW2_RotaHelper\\data\\bench\\pscrapper_42138_StdGolem_kill.json",
+                "scripts/get_benches_v3.py",
+                "C:/Users/schaf.JANPC/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/_engi/pscrapper_42138_StdGolem_kill.json/pscrapper_42138_StdGolem_kill.json",
                 "--output",
                 "data/bench"
             ],

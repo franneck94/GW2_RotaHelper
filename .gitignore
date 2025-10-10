@@ -5,3 +5,4 @@ __pycache__
 *.html
 *.txt
 *.png
+data/bench/*.json
