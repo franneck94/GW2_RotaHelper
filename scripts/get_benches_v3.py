@@ -1,9 +1,5 @@
-#!/usr/bin/env python3
 """
-Extract rotation data from GW2 ArcDPS report JSON files.
-
-This script reads a GW2 ArcDPS report JSON file and extracts rotation data,
-converting it to a flattened format with skill_id included in each skill entry.
+V3 is for locally converted arcdps -> GWEI JSON files
 """
 
 import argparse
@@ -152,6 +148,9 @@ def main():
             extracted_data["rotation"],
             key=lambda x: x[0]  # Sort by castTime (first element)
         )
+
+        # Wrap rotation in an additional array level for v3 format
+        extracted_data["rotation"] = [extracted_data["rotation"]]
 
         # Save extracted data
         save_rotation_data(extracted_data, output_path)

@@ -1,3 +1,7 @@
+"""
+V2 is for downloaded jso nblobs from dps.reports coming from v1 script
+"""
+
 import argparse
 import json
 import logging

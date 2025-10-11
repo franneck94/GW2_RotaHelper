@@ -26,6 +26,28 @@
                 "data/bench"
             ],
             "problemMatcher": ["gcc"]
+        },
+        {
+            "label": "Get Benches V4",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "scripts/get_benches_v4.py",
+                "--output",
+                "data/bench"
+            ],
+            "problemMatcher": ["gcc"]
+        },
+        {
+            "label": "Visit Benches",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "scripts/visit_all_beches.py",
+                "--output",
+                "data/html",
+            ],
+            "problemMatcher": ["gcc"]
         }
     ]
 }
