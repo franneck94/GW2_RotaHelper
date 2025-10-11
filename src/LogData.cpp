@@ -252,41 +252,12 @@ namespace
 
         std::sort(rotation_vector.begin(), rotation_vector.end(), [](const RotationInfo &a, const RotationInfo &b)
                   { return a.cast_time < b.cast_time; });
-
-        if (rotation_vector.size() > 1)
-        {
-            auto new_end = std::remove_if(rotation_vector.begin() + 1, rotation_vector.end(),
-                                          [&rotation_vector](const RotationInfo &current)
-                                          {
-                                              auto idx = &current - &rotation_vector[0];
-                                              if (idx <= 0)
-                                                  return false;
-
-                                              const auto &previous = rotation_vector[idx - 1];
-
-                                              return remove_skill_if(current, previous);
-                                          });
-
-            rotation_vector.erase(new_end, rotation_vector.end());
-        }
-
-        int i = 2;
     }
 
     std::tuple<SkillInfoMap, RotationInfoVec> get_dpsreport_data(const nlohmann::json &j, const std::filesystem::path &json_path)
     {
         auto filename = json_path.filename().string();
-        nlohmann::json rotation_data;
-
-        if (filename.find("_v1") != std::string::npos)
-        {
-            rotation_data = j["players"][0]["details"]["rotation"];
-        }
-        else
-        {
-            rotation_data = j["rotation"];
-        }
-
+        const auto rotation_data = j["rotation"];
         const auto skill_data = j["skillMap"];
 
         auto kv_rotation = IntNode{};

@@ -23,22 +23,16 @@ struct BenchFileInfo
         if (is_header)
         {
             // Use folder icon for directory headers
-            display_name = "📁 " + relative.string();
+            display_name = "[+] " + relative.string();
         }
         else
         {
-            // Indent files and add file icon
             auto filename = relative.filename().string();
-            // Remove _v4.json suffix for cleaner display
             if (filename.ends_with("_v4.json"))
             {
                 filename = filename.substr(0, filename.length() - 8);
             }
-            else if (filename.ends_with(".json"))
-            {
-                filename = filename.substr(0, filename.length() - 5);
-            }
-            display_name = "  📄 " + filename;
+            display_name = "    " + filename;
         }
     }
 };

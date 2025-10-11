@@ -2,32 +2,6 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Get Benches V1",
-            "type": "shell",
-            "command": "python",
-            "args": ["scripts/get_benches_v1.py", "--output", "data/bench"],
-            "problemMatcher": ["gcc"]
-        },
-        {
-            "label": "Get Benches V2",
-            "type": "shell",
-            "command": "python",
-            "args": ["scripts/get_benches_v2.py", "--output", "data/bench"],
-            "problemMatcher": ["gcc"]
-        },
-        {
-            "label": "Get Benches V3",
-            "type": "shell",
-            "command": "python",
-            "args": [
-                "scripts/get_benches_v3.py",
-                "C:/Users/schaf.JANPC/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/_engi/pscrapper_42138_StdGolem_kill.json/pscrapper_42138_StdGolem_kill.json",
-                "--output",
-                "data/bench"
-            ],
-            "problemMatcher": ["gcc"]
-        },
-        {
             "label": "Get Benches V4",
             "type": "shell",
             "command": "python",

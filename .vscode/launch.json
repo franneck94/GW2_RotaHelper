@@ -8,40 +8,6 @@
             "processId": "${command:pickProcess}"
         },
         {
-            "name": "Debug: Get Benches V1",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/scripts/get_benches_v1.py",
-            "args": ["--output", "data/bench"],
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "justMyCode": false
-        },
-        {
-            "name": "Debug: Get Benches V2",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/scripts/get_benches_v2.py",
-            "args": ["--output", "data/bench"],
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "justMyCode": false
-        },
-        {
-            "name": "Debug: Get Benches V3",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/scripts/get_benches_v3.py",
-            "args": [
-                "C:/Users/schaf.JANPC/Documents/Guild Wars 2/addons/arcdps/arcdps.cbtlogs/_engi/pscrapper_42138_StdGolem_kill.json/pscrapper_42138_StdGolem_kill.json",
-                "--output",
-                "data/bench"
-            ],
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "justMyCode": false
-        },
-        {
             "name": "Debug: Get Benches V4",
             "type": "debugpy",
             "request": "launch",

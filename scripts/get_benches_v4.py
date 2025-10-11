@@ -35,7 +35,11 @@ class HTMLRotationExtractor:
     def _parse_skill_tooltip(self, tooltip: str) -> Tuple[str, float, float]:
         """Parse skill information from tooltip text"""
         try:
-            # Example: "Overload Air at -3.083s for 3204ms<br>Overload Air cast 1 of 4<br>Skill cast 1 of 158"
+            # Decode HTML entities first
+            import html
+            tooltip = html.unescape(tooltip)
+
+            # Example: "Weapon Swap at 0.725s<br>Weapon Swap cast 1 of 50<br>Skill cast 5 of 274"
             lines = tooltip.split('<br>')
             if not lines:
                 return "Unknown", 0.0, 0.0
@@ -48,7 +52,7 @@ class HTMLRotationExtractor:
             else:
                 skill_name = "Unknown"
 
-            # Extract cast time (e.g., "-3.083s")
+            # Extract cast time (e.g., "0.725s")
             cast_time = 0.0
             time_match = re.search(r'at\s+([-+]?\d+\.?\d*)s', first_line)
             if time_match:
@@ -69,8 +73,35 @@ class HTMLRotationExtractor:
     def _extract_skill_id_from_url(self, img_src: str) -> int:
         """Extract skill ID from image URL"""
         try:
-            # Example: "/cache/https_render.guildwars2.com_file_592CC2A120322000BC7234B8522BBE7BAF2F4A57_1029987.png"
-            # The skill ID is typically the number at the end
+            # New format: "https://render.guildwars2.com/file/hash/skill_id.png"
+            # Example: "https://render.guildwars2.com/file/c_ce_Weapon_Swap/Button.png"
+
+            # For weapon swap and utility skills, try to extract from the path
+            if "render.guildwars2.com/file/" in img_src:
+                # Split by '/' and get the last part (filename)
+                parts = img_src.split('/')
+                if len(parts) >= 2:
+                    filename = parts[-1]  # e.g., "Button.png" or "12345.png"
+                    hash_part = parts[-2]  # e.g., "c_ce_Weapon_Swap" or "hash"
+
+                    # Try to extract number from filename first
+                    filename_match = re.search(r'(\d+)\.png$', filename)
+                    if filename_match:
+                        return int(filename_match.group(1))
+
+                    # For special cases like weapon swap, extract from hash part
+                    hash_match = re.search(r'(\d+)', hash_part)
+                    if hash_match:
+                        return int(hash_match.group(1))
+
+                    # For weapon swap specifically, use a known ID
+                    if "weapon_swap" in hash_part.lower() or "weaponswap" in hash_part.lower():
+                        return 9999  # Use a special ID for weapon swap
+
+                    # Generate a hash-based ID for other special skills
+                    return abs(hash(hash_part + filename)) % 1000000
+
+            # Old format fallback: "/cache/https_render.guildwars2.com_file_hash_skill_id.png"
             match = re.search(r'_(\d+)\.png$', img_src)
             if match:
                 return int(match.group(1))
@@ -94,15 +125,20 @@ class HTMLRotationExtractor:
             with open(html_file, 'r', encoding='utf-8') as f:
                 html_content = f.read()
 
-            # Use regex to find all rotation skill spans
-            # Pattern: <span class="rot-skill"><img src="..." data-original-title="..." class="rot-icon"></span>
-            pattern = r'<span[^>]*class="rot-skill"[^>]*>.*?<img[^>]*src="([^"]*)"[^>]*data-original-title="([^"]*)"[^>]*class="rot-icon"[^>]*>.*?</span>'
+            # Use regex to find all rotation skill images
+            # Pattern: <img src="https://render.guildwars2.com/..." data-original-title="..." class="rot-icon...">
+            pattern = r'<img[^>]*src="(https://render\.guildwars2\.com/[^"]*)"[^>]*data-original-title="([^"]*)"[^>]*class="rot-icon[^"]*"[^>]*>'
             matches = re.findall(pattern, html_content, re.DOTALL | re.IGNORECASE)
 
             if not matches:
-                # Try alternative pattern in case the order is different
-                pattern2 = r'<span[^>]*class="rot-skill"[^>]*>.*?<img[^>]*class="rot-icon"[^>]*src="([^"]*)"[^>]*data-original-title="([^"]*)"[^>]*>.*?</span>'
-                matches = re.findall(pattern2, html_content, re.DOTALL | re.IGNORECASE)
+                # Try alternative pattern with different attribute order
+                pattern2 = r'<img[^>]*data-original-title="([^"]*)"[^>]*src="(https://render\.guildwars2\.com/[^"]*)"[^>]*class="rot-icon[^"]*"[^>]*>'
+                matches = [(src, title) for title, src in re.findall(pattern2, html_content, re.DOTALL | re.IGNORECASE)]
+
+            if not matches:
+                # Fallback pattern - any img with rot-icon class and gw2 render URL
+                pattern3 = r'<img[^>]*class="[^"]*rot-icon[^"]*"[^>]*src="(https://render\.guildwars2\.com/[^"]*)"[^>]*data-original-title="([^"]*)"[^>]*>'
+                matches = re.findall(pattern3, html_content, re.DOTALL | re.IGNORECASE)
 
             if not matches:
                 self.logger.warning(f"No rotation skills found in {html_file.name}")
