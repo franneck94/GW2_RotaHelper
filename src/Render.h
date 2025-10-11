@@ -71,7 +71,10 @@ public:
     int selected_bench_index = -1;
     std::filesystem::path selected_file_path;
 
-    // Filter functionality
+#ifdef _DEBUG
+    char filter_buffer[256] = "Scrapper";
+#else
     char filter_buffer[256] = "";
+#endif
     std::string filter_string;
 };

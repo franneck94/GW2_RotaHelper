@@ -304,7 +304,6 @@ void Render::render(ID3D11Device *pd3dDevice)
                 }
             }
 
-            // Display combo with filtered results
             std::string combo_preview;
             if (selected_bench_index >= 0 && selected_bench_index < benches_files.size())
             {
@@ -321,7 +320,6 @@ void Render::render(ID3D11Device *pd3dDevice)
                 {
                     if (file_info->is_directory_header)
                     {
-                        // Directory header - not selectable, just for display
                         ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.9f, 1.0f));
                         ImGui::Selectable(file_info->display_name.c_str(), false, ImGuiSelectableFlags_Disabled);
                         ImGui::PopStyleColor();
@@ -383,8 +381,6 @@ void Render::render(ID3D11Device *pd3dDevice)
             auto texture = texture_map[skill_info.skill_id];
 
             bool is_current = (i == static_cast<int32_t>(current_idx));
-            if (is_current)
-                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.3f, 0.7f, 0.3f, 0.3f));
 
             if (texture)
                 ImGui::Image((ImTextureID)texture, ImVec2(28, 28));
@@ -394,12 +390,9 @@ void Render::render(ID3D11Device *pd3dDevice)
             ImGui::SameLine();
 
             if (is_current)
-                ImGui::Text("-> %s", skill_info.skill_name.empty() ? "N/A" : skill_info.skill_name.c_str());
+                ImGui::Text("-> %s (%.2f) <-", skill_info.skill_name.empty() ? "N/A" : skill_info.skill_name.c_str(), skill_info.cast_time);
             else
-                ImGui::Text("   %s", skill_info.skill_name.empty() ? "N/A" : skill_info.skill_name.c_str());
-
-            if (is_current)
-                ImGui::PopStyleColor();
+                ImGui::Text("   %s (%.2f)", skill_info.skill_name.empty() ? "N/A" : skill_info.skill_name.c_str(), skill_info.cast_time);
         }
 
         const auto skill_ev = get_current_skill();
