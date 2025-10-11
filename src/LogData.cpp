@@ -124,17 +124,29 @@ namespace
                     icon = convert_cache_url(*pval);
             }
 
-            auto trait_it = skill_node.children.find("traitProc");
-            if (trait_it != skill_node.children.end() && trait_it->second.value.has_value())
+            auto trait_v12_it = skill_node.children.find("traitProc");
+            if (trait_v12_it != skill_node.children.end() && trait_v12_it->second.value.has_value())
             {
-                if (auto pval = std::get_if<bool>(&trait_it->second.value.value()))
+                if (auto pval = std::get_if<bool>(&trait_v12_it->second.value.value()))
+                    trait_proc = *pval;
+            }
+            auto trait_v3_it = skill_node.children.find("isTraitProc");
+            if (trait_v3_it != skill_node.children.end() && trait_v3_it->second.value.has_value())
+            {
+                if (auto pval = std::get_if<bool>(&trait_v3_it->second.value.value()))
                     trait_proc = *pval;
             }
 
-            auto gear_it = skill_node.children.find("gearProc");
-            if (gear_it != skill_node.children.end() && gear_it->second.value.has_value())
+            auto gear_v12_it = skill_node.children.find("gearProc");
+            if (gear_v12_it != skill_node.children.end() && gear_v12_it->second.value.has_value())
             {
-                if (auto pval = std::get_if<bool>(&gear_it->second.value.value()))
+                if (auto pval = std::get_if<bool>(&gear_v12_it->second.value.value()))
+                    gear_proc = *pval;
+            }
+            auto gear_v3_it = skill_node.children.find("isGearProc");
+            if (gear_v3_it != skill_node.children.end() && gear_v3_it->second.value.has_value())
+            {
+                if (auto pval = std::get_if<bool>(&gear_v3_it->second.value.value()))
                     gear_proc = *pval;
             }
 
@@ -270,13 +282,9 @@ namespace
         {
             rotation_data = j["players"][0]["details"]["rotation"];
         }
-        else if (filename.find("_v2") != std::string::npos || filename.find("_v3") != std::string::npos)
-        {
-            rotation_data = j["rotation"];
-        }
         else
         {
-            rotation_data = j["players"][0]["details"]["rotation"];
+            rotation_data = j["rotation"];
         }
 
         const auto skill_data = j["skillMap"];
