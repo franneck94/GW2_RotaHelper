@@ -9,11 +9,13 @@
 #include <conio.h>
 #include <d3d11.h>
 
+#include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <future>
 #include <iostream>
 #include <map>
+#include <set>
 #include <string>
 #include <thread>
 #include <utility>
@@ -27,16 +29,50 @@
 
 namespace
 {
-    std::vector<std::filesystem::path> get_bench_files(const std::filesystem::path &bench_path)
+    std::vector<BenchFileInfo> get_bench_files(const std::filesystem::path &bench_path)
     {
-        std::vector<std::filesystem::path> files;
+        std::vector<BenchFileInfo> files;
+        std::map<std::string, std::vector<std::filesystem::path>> directory_files;
 
-        for (const auto &entry : std::filesystem::directory_iterator(bench_path))
+        try
         {
-            if (entry.is_regular_file() && entry.path().extension() == ".json")
+            // First, collect all JSON files and organize by directory
+            for (const auto &entry : std::filesystem::recursive_directory_iterator(bench_path))
             {
-                files.push_back(entry.path());
+                if (entry.is_regular_file() && entry.path().extension() == ".json")
+                {
+                    auto relative_path = std::filesystem::relative(entry.path(), bench_path);
+                    auto parent_dir = relative_path.parent_path().string();
+
+                    if (parent_dir.empty())
+                        parent_dir = "."; // Root directory
+
+                    directory_files[parent_dir].push_back(entry.path());
+                }
             }
+
+            // Now organize the files with directory headers
+            for (const auto &[dir_name, dir_files] : directory_files)
+            {
+                if (dir_name != ".")
+                {
+                    // Add directory header
+                    auto header_path = bench_path / dir_name;
+                    files.emplace_back(header_path, std::filesystem::path(dir_name), true);
+                }
+
+                // Add files in this directory
+                for (const auto &file_path : dir_files)
+                {
+                    auto relative_path = std::filesystem::relative(file_path, bench_path);
+                    files.emplace_back(file_path, relative_path, false);
+                }
+            }
+        }
+        catch (const std::filesystem::filesystem_error& ex)
+        {
+            // Handle filesystem errors gracefully
+            std::cerr << "Error scanning bench files: " << ex.what() << std::endl;
         }
 
         return files;
@@ -196,21 +232,114 @@ void Render::render(ID3D11Device *pd3dDevice)
         if (!benches_files.empty())
         {
             ImGui::Text("Select Bench File:");
-            if (ImGui::BeginCombo("##benches_combo", selected_bench_index >= 0 ? benches_files[selected_bench_index].filename().string().c_str() : "Select..."))
+
+            // Add filter input
+            ImGui::Text("Filter:");
+            ImGui::SameLine();
+            if (ImGui::InputText("##filter", filter_buffer, sizeof(filter_buffer)))
             {
+                filter_string = std::string(filter_buffer);
+                std::transform(filter_string.begin(), filter_string.end(), filter_string.begin(), ::tolower);
+            }
+
+            // Create filtered list
+            std::vector<std::pair<int, const BenchFileInfo*>> filtered_files;
+            std::set<std::string> directories_with_matches;
+
+            if (filter_string.empty())
+            {
+                // No filter, show all
                 for (int n = 0; n < benches_files.size(); n++)
                 {
-                    bool is_selected = (selected_bench_index == n);
-                    if (ImGui::Selectable(benches_files[n].filename().string().c_str(), is_selected))
-                    {
-                        selected_bench_index = n;
-                        selected_file_path = bench_path / std::filesystem::path(benches_files[n]);
+                    filtered_files.emplace_back(n, &benches_files[n]);
+                }
+            }
+            else
+            {
+                // First pass: find all matching files and their directories
+                for (int n = 0; n < benches_files.size(); n++)
+                {
+                    const auto& file_info = benches_files[n];
 
-                        rotation_run.load_data(selected_file_path, img_path, pd3dDevice);
-                        texture_map.clear();
+                    if (!file_info.is_directory_header)
+                    {
+                        std::string display_lower = file_info.display_name;
+                        std::transform(display_lower.begin(), display_lower.end(), display_lower.begin(), ::tolower);
+
+                        if (display_lower.find(filter_string) != std::string::npos)
+                        {
+                            // File matches filter
+                            auto parent_dir = file_info.relative_path.parent_path().string();
+                            if (!parent_dir.empty() && parent_dir != ".")
+                            {
+                                directories_with_matches.insert(parent_dir);
+                            }
+                        }
                     }
-                    if (is_selected)
-                        ImGui::SetItemDefaultFocus();
+                }
+
+                // Second pass: add matching files and their directory headers
+                for (int n = 0; n < benches_files.size(); n++)
+                {
+                    const auto& file_info = benches_files[n];
+
+                    if (file_info.is_directory_header)
+                    {
+                        // Only show directory header if it contains matching files
+                        if (directories_with_matches.count(file_info.relative_path.string()) > 0)
+                        {
+                            filtered_files.emplace_back(n, &file_info);
+                        }
+                    }
+                    else
+                    {
+                        std::string display_lower = file_info.display_name;
+                        std::transform(display_lower.begin(), display_lower.end(), display_lower.begin(), ::tolower);
+
+                        if (display_lower.find(filter_string) != std::string::npos)
+                        {
+                            filtered_files.emplace_back(n, &file_info);
+                        }
+                    }
+                }
+            }
+
+            // Display combo with filtered results
+            std::string combo_preview;
+            if (selected_bench_index >= 0 && selected_bench_index < benches_files.size())
+            {
+                combo_preview = benches_files[selected_bench_index].relative_path.filename().string();
+            }
+            else
+            {
+                combo_preview = "Select...";
+            }
+
+            if (ImGui::BeginCombo("##benches_combo", combo_preview.c_str()))
+            {
+                for (const auto& [original_index, file_info] : filtered_files)
+                {
+                    if (file_info->is_directory_header)
+                    {
+                        // Directory header - not selectable, just for display
+                        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.9f, 1.0f));
+                        ImGui::Selectable(file_info->display_name.c_str(), false, ImGuiSelectableFlags_Disabled);
+                        ImGui::PopStyleColor();
+                    }
+                    else
+                    {
+                        bool is_selected = (selected_bench_index == original_index);
+                        if (ImGui::Selectable(file_info->display_name.c_str(), is_selected))
+                        {
+                            selected_bench_index = original_index;
+                            selected_file_path = file_info->full_path;
+
+                            rotation_run.load_data(selected_file_path, img_path, pd3dDevice);
+                            texture_map.clear();
+                        }
+                        if (is_selected)
+                            ImGui::SetItemDefaultFocus();
+                    }
                 }
                 ImGui::EndCombo();
             }

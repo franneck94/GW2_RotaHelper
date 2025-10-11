@@ -109,7 +109,7 @@ class SnowCrowsScraper:
             response.raise_for_status()
 
             # Find build blocks - each contains build info and dps.report link
-            # Looking for the pattern that contains both build name and dps.report link
+            # Updated pattern to match the actual HTML structure
             build_pattern = re.compile(
                 r'<div[^>]*class="[^"]*transition-all[^"]*"[^>]*>.*?'
                 r'<a[^>]*href="([^"]*dps\.report[^"]*)"[^>]*>.*?'
@@ -118,7 +118,59 @@ class SnowCrowsScraper:
                 re.DOTALL | re.IGNORECASE
             )
 
+            # Alternative pattern that matches the structure you provided
+            alternative_pattern = re.compile(
+                r'<a[^>]*href="([^"]*dps\.report[^"]*)"[^>]*>.*?'
+                r'<a[^>]*href="[^"]*"[^>]*class="[^"]*line-clamp-1[^"]*"[^>]*>'
+                r'([^<]+)',
+                re.DOTALL | re.IGNORECASE
+            )
+
+            # Try the first pattern
             matches = build_pattern.findall(response.text)
+            
+            if not matches:
+                # Try the alternative pattern
+                matches = alternative_pattern.findall(response.text)
+            
+            if not matches:
+                # Try a more flexible pattern based on your HTML structure
+                flexible_pattern = re.compile(
+                    r'<a[^>]*target="_blank"[^>]*href="([^"]*dps\.report[^"]*)"[^>]*>.*?'
+                    r'<a[^>]*href="[^"]*"[^>]*class="[^"]*line-clamp-1[^"]*"[^>]*>'
+                    r'([^<\n]+)',
+                    re.DOTALL | re.IGNORECASE
+                )
+                matches = flexible_pattern.findall(response.text)
+            
+            self.logger.info(f"Found {len(matches)} potential matches with regex patterns")
+            
+            # If regex patterns fail, try a different approach: extract all DPS report links and build names separately
+            if not matches:
+                self.logger.info("Regex patterns failed, trying separate extraction approach")
+                
+                # Extract all DPS report links
+                dps_links_pattern = re.compile(r'href="([^"]*dps\.report[^"]*)"', re.IGNORECASE)
+                dps_links = dps_links_pattern.findall(response.text)
+                
+                # Extract all build names from line-clamp-1 elements
+                build_names_pattern = re.compile(
+                    r'<a[^>]*class="[^"]*line-clamp-1[^"]*"[^>]*>([^<]+)</a>',
+                    re.IGNORECASE
+                )
+                build_names = build_names_pattern.findall(response.text)
+                
+                self.logger.info(f"Found {len(dps_links)} DPS report links and {len(build_names)} build names")
+                
+                # Try to pair them up (assuming they appear in the same order)
+                min_count = min(len(dps_links), len(build_names))
+                for i in range(min_count):
+                    matches.append((dps_links[i], build_names[i].strip()))
+                    
+                # If we still don't have matches, create dummy entries for the DPS links
+                if not matches and dps_links:
+                    for i, link in enumerate(dps_links):
+                        matches.append((link, f"Build_{i+1}"))
 
             for dps_url, build_name in matches:
                 # Clean up the build name
@@ -153,40 +205,65 @@ class SnowCrowsScraper:
             # Try to extract profession from the JSON data
             profession_match = re.search(r'"profession":"([^"]+)"', html_content)
             profession = profession_match.group(1) if profession_match else "Unknown"
-
+            
             # Try to extract elite specialization or build info from the page
             # Look for elite spec in the JSON data
             elite_spec_patterns = [
                 r'"eliteSpec":"([^"]+)"',
                 r'"name":"([^"]+)","eliteSpec":true',
             ]
-
+            
             elite_spec = None
             for pattern in elite_spec_patterns:
                 match = re.search(pattern, html_content)
                 if match:
                     elite_spec = match.group(1)
                     break
-
+            
             # Try to determine if it's power or condition based on stats
             is_condition = False
+            
+            # First check: look at power vs condition damage stats
             power_match = re.search(r'"power":(\d+)', html_content)
             condi_match = re.search(r'"condi":(\d+)', html_content)
-
+            
             if power_match and condi_match:
                 power_val = int(power_match.group(1))
                 condi_val = int(condi_match.group(1))
                 is_condition = condi_val > power_val
-
+                self.logger.info(f"Stats comparison: Power={power_val}, Condition={condi_val}, IsCondition={is_condition}")
+            
+            # Second check: look for condition-specific skills or traits
+            condition_indicators = [
+                r'"name":"[^"]*(?:Burning|Bleeding|Poison|Torment|Confusion|Condi)',
+                r'"name":"[^"]*(?:Viper|Sinister|Rabid)',
+                r'condition.*damage',
+                r'burning.*damage',
+                r'bleeding.*damage'
+            ]
+            
+            for indicator in condition_indicators:
+                if re.search(indicator, html_content, re.IGNORECASE):
+                    is_condition = True
+                    self.logger.info(f"Found condition indicator: {indicator}")
+                    break
+            
+            # Third check: look in the build title or page content for "condition"
+            if re.search(r'\bcondition\b', html_content, re.IGNORECASE):
+                is_condition = True
+                self.logger.info("Found 'condition' keyword in HTML content")
+            
             # Build the name
             prefix = "condition" if is_condition else "power"
             build_name = elite_spec if elite_spec else profession
-
+            
             # Convert to lowercase and sanitize
             full_name = f"{prefix}_{build_name.lower()}"
-
+            
+            self.logger.info(f"Extracted build name: {full_name} (profession: {profession}, elite_spec: {elite_spec})")
+            
             return full_name
-
+            
         except Exception as e:
             self.logger.warning(f"Could not extract build name from DPS report: {e}")
             return "unknown_build"

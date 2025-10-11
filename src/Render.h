@@ -10,6 +10,39 @@
 #include "LogData.h"
 #include "Types.h"
 
+struct BenchFileInfo
+{
+    std::filesystem::path full_path;
+    std::filesystem::path relative_path;
+    std::string display_name;
+    bool is_directory_header;
+
+    BenchFileInfo(const std::filesystem::path& full, const std::filesystem::path& relative, bool is_header = false)
+        : full_path(full), relative_path(relative), is_directory_header(is_header)
+    {
+        if (is_header)
+        {
+            // Use folder icon for directory headers
+            display_name = "📁 " + relative.string();
+        }
+        else
+        {
+            // Indent files and add file icon
+            auto filename = relative.filename().string();
+            // Remove _v4.json suffix for cleaner display
+            if (filename.ends_with("_v4.json"))
+            {
+                filename = filename.substr(0, filename.length() - 8);
+            }
+            else if (filename.ends_with(".json"))
+            {
+                filename = filename.substr(0, filename.length() - 5);
+            }
+            display_name = "  📄 " + filename;
+        }
+    }
+};
+
 class Render
 {
 public:
@@ -30,11 +63,15 @@ public:
     std::filesystem::path data_path = std::filesystem::absolute(std::filesystem::path(__FILE__).parent_path().parent_path() / "data");
     std::filesystem::path img_path = data_path / "img";
     std::filesystem::path bench_path = data_path / "bench";
-    std::vector<std::filesystem::path> benches_files;
+    std::vector<BenchFileInfo> benches_files;
 
     RotationRun rotation_run{};
     TextureMap texture_map{};
 
     int selected_bench_index = -1;
     std::filesystem::path selected_file_path;
+
+    // Filter functionality
+    char filter_buffer[256] = "";
+    std::string filter_string;
 };
