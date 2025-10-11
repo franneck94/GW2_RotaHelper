@@ -20,6 +20,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException
 
+SLEEP_DELAY = 1.5
+
 
 class SnowCrowsScraper:
     """Scraper for SnowCrows benchmark DPS report links"""
@@ -100,7 +102,7 @@ class SnowCrowsScraper:
             # Pattern to match: <a href="/builds/raids/[profession]/[build-name]"
             build_url_pattern = re.compile(
                 r'<a\s+href="(/builds/raids/[^"]+)"[^>]*class="[^"]*flex\s+items-center[^"]*"',
-                re.IGNORECASE
+                re.IGNORECASE,
             )
 
             build_urls = build_url_pattern.findall(response.text)
@@ -110,7 +112,7 @@ class SnowCrowsScraper:
             for build_url in build_urls:
                 # Extract build name from URL path
                 # Example: /builds/raids/mesmer/condition-mirage-ih-oasis
-                url_parts = build_url.strip('/').split('/')
+                url_parts = build_url.strip("/").split("/")
                 if len(url_parts) >= 4:
                     build_name = url_parts[-1]  # Last part is the build name
 
@@ -141,13 +143,13 @@ class SnowCrowsScraper:
     def _url_to_readable_name(self, url_name: str) -> str:
         """Convert URL format build name to readable format"""
         # Replace hyphens with spaces and capitalize
-        readable = url_name.replace('-', ' ').title()
+        readable = url_name.replace("-", " ").title()
 
         # Handle special cases
-        readable = readable.replace('Ih', 'IH')  # Infinite Horizon
-        readable = readable.replace('Gs', 'GS')  # Greatsword
-        readable = readable.replace('Lb', 'LB')  # Longbow
-        readable = readable.replace('Sb', 'SB')  # Shortbow
+        readable = readable.replace("Ih", "IH")  # Infinite Horizon
+        readable = readable.replace("Gs", "GS")  # Greatsword
+        readable = readable.replace("Lb", "LB")  # Longbow
+        readable = readable.replace("Sb", "SB")  # Shortbow
 
         return readable
 
@@ -161,7 +163,7 @@ class SnowCrowsScraper:
 
             # Convert URL format to filename format
             # Replace hyphens with underscores and keep lowercase
-            build_name = url_name.replace('-', '_')
+            build_name = url_name.replace("-", "_")
 
             self.logger.info(
                 f"Extracted build name from URL: {build_name} (type: {'condition' if is_condition else 'power'})"
@@ -173,6 +175,65 @@ class SnowCrowsScraper:
                 f"Could not extract build name from SnowCrows URL '{url_name}': {e}"
             )
             return "unknown_build", False
+
+    def _get_cache_remainder(self, cache_url: str, cache_prefix: str) -> str:
+        """Helper method to get remainder after cache prefix"""
+        return cache_url[len(cache_prefix) :]
+
+    def convert_cache_url(self, cache_url: str) -> str:
+        """Convert cache URLs to proper Guild Wars 2 render URLs"""
+        cache1 = "/cache/https_render.guildwars2.com_file_"
+        cache2 = "/cache/https_wiki.guildwars2.com_images_"
+
+        # Check if the URL starts with either cache prefix
+        if not cache_url.startswith(cache1) and not cache_url.startswith(cache2):
+            return cache_url
+
+        # Get the remainder after the cache prefix
+        remainder = ""
+        if cache_url.startswith(cache1):
+            remainder = self._get_cache_remainder(cache_url, cache1)
+        elif cache_url.startswith(cache2):
+            remainder = self._get_cache_remainder(cache_url, cache2)
+        else:
+            return cache_url
+
+        # Find the last underscore to separate hash from skill_id
+        last_underscore = remainder.rfind("_")
+        if last_underscore == -1:
+            return cache_url
+
+        # Extract hash and skill_id with extension
+        hash_part = remainder[:last_underscore]
+        skill_id_with_ext = remainder[last_underscore + 1 :]
+
+        # Remove extension to get skill_id
+        dot_pos = skill_id_with_ext.rfind(".")
+        skill_id = skill_id_with_ext[:dot_pos] if dot_pos != -1 else skill_id_with_ext
+
+        # Construct the proper render URL
+        return f"https://render.guildwars2.com/file/{hash_part}/{skill_id}.png"
+
+    def _process_html_content(self, html_content: str) -> str:
+        """Process HTML content to replace cache URLs with proper image URLs"""
+        # Pattern to find cache URLs in src attributes
+        cache_url_pattern = re.compile(
+            r'src="([^"]*(?:/cache/https_render\.guildwars2\.com_file_|/cache/https_wiki\.guildwars2\.com_images_)[^"]*)"',
+            re.IGNORECASE,
+        )
+
+        def replace_cache_url(match):
+            cache_url = match.group(1)
+            converted_url = self.convert_cache_url(cache_url)
+            return f'src="{converted_url}"'
+
+        # Replace all cache URLs in the HTML content
+        processed_content = cache_url_pattern.sub(replace_cache_url, html_content)
+
+        self.logger.info(
+            "Processed HTML content: replaced cache URLs with proper image URLs"
+        )
+        return processed_content
 
     def download_snowcrows_build(self, build_name: str, url: str) -> bool:
         """Download HTML content from DPS report found on SnowCrows build page"""
@@ -191,7 +252,7 @@ class SnowCrowsScraper:
             )
 
             # Give it a moment to fully load
-            time.sleep(2)
+            time.sleep(SLEEP_DELAY)
 
             # Step 2: Find the DPS report link on the SnowCrows page
             try:
@@ -220,27 +281,33 @@ class SnowCrowsScraper:
                     self.logger.info("Looking for Player Summary tab...")
                     player_summary_link = WebDriverWait(self.driver, 10).until(  # type: ignore
                         EC.element_to_be_clickable(
-                            (By.XPATH, "//a[@class='nav-link' and contains(text(), 'Player Summary')]")
+                            (
+                                By.XPATH,
+                                "//a[@class='nav-link' and contains(text(), 'Player Summary')]",
+                            )
                         )
                     )
                     player_summary_link.click()
                     self.logger.info("Clicked Player Summary tab")
 
                     # Wait a moment for the content to load
-                    time.sleep(2)
+                    time.sleep(SLEEP_DELAY)
 
                     # Click on "Simple Rotation" tab
                     self.logger.info("Looking for Simple Rotation tab...")
                     rotation_link = WebDriverWait(self.driver, 10).until(  # type: ignore
                         EC.element_to_be_clickable(
-                            (By.XPATH, "//a[@class='nav-link' and contains(., 'Simple') and contains(., 'Rotation')]")
+                            (
+                                By.XPATH,
+                                "//a[@class='nav-link' and contains(., 'Simple') and contains(., 'Rotation')]",
+                            )
                         )
                     )
                     rotation_link.click()
                     self.logger.info("Clicked Simple Rotation tab")
 
                     # Wait for the rotation content to load
-                    time.sleep(3)
+                    time.sleep(SLEEP_DELAY)
 
                 except TimeoutException:
                     self.logger.warning(
@@ -250,15 +317,22 @@ class SnowCrowsScraper:
                 # Step 5: Get the final HTML content
                 html_content = self.driver.page_source  # type: ignore
 
+                # Process HTML content to replace cache URLs with proper image URLs
+                html_content = self._process_html_content(html_content)
+
             except TimeoutException:
-                self.logger.warning(f"Could not find DPS report link on {url}, skipping...")
+                self.logger.warning(
+                    f"Could not find DPS report link on {url}, skipping..."
+                )
                 return False
 
             # Extract the actual build name from the URL path
-            url_parts = url.split('/')
+            url_parts = url.split("/")
             if len(url_parts) >= 1:
                 url_build_name = url_parts[-1]  # Last part of URL
-                actual_build_name, is_condition = self._extract_build_name_from_url(url_build_name)
+                actual_build_name, is_condition = self._extract_build_name_from_url(
+                    url_build_name
+                )
             else:
                 actual_build_name, is_condition = "unknown_build", False
 
