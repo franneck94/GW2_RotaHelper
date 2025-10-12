@@ -12,6 +12,8 @@
 #include <fstream>
 #include <string>
 
+#include "nexus/Nexus.h"
+
 #include "Textures.h"
 #include "Types.h"
 
@@ -132,6 +134,9 @@ TextureMap LoadAllSkillTextures(
     const SkillInfoMap &skill_info_map,
     const std::filesystem::path &img_folder)
 {
+    if (!device)
+        return {};
+
     TextureMap texture_map;
 
     for (const auto &[skill_id, info] : skill_info_map)
@@ -150,6 +155,39 @@ TextureMap LoadAllSkillTextures(
         auto *tex = LoadTextureFromPNG_WIC(device, img_path.wstring());
         if (tex)
             texture_map[skill_id] = tex;
+    }
+    return texture_map;
+}
+
+TextureMap LoadAllSkillTexturesWithAPI(
+    AddonAPI *APIDefs,
+    const SkillInfoMap &skill_info_map,
+    const std::filesystem::path &img_folder)
+{
+    if (!APIDefs)
+        return {};
+
+    TextureMap texture_map;
+
+    for (const auto &[skill_id, info] : skill_info_map)
+    {
+        if (info.name.empty())
+            continue;
+        std::string ext = ".png";
+        size_t dot = info.icon_url.find_last_of('.');
+        if (dot != std::string::npos && dot + 1 < info.icon_url.size())
+        {
+            ext = info.icon_url.substr(dot);
+        }
+        std::filesystem::path img_path = img_folder / (std::to_string(skill_id) + ext);
+        if (!std::filesystem::exists(img_path))
+            continue;
+
+        auto *nexus_texture = APIDefs->Textures.GetOrCreateFromFile(img_path.string().c_str(), img_path.string().c_str());
+        if (nexus_texture && nexus_texture->Resource)
+        {
+            texture_map[skill_id] = (ID3D11ShaderResourceView*)nexus_texture->Resource;
+        }
     }
     return texture_map;
 }

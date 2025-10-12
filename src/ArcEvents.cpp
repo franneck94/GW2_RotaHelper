@@ -11,7 +11,7 @@
 
 namespace ArcEv
 {
-	bool OnCombatLocal(
+	void OnCombatLocal(
 		ArcDPS::CombatEvent *ev,
 		ArcDPS::AgentShort *src,
 		ArcDPS::AgentShort *dst,
@@ -19,7 +19,8 @@ namespace ArcEv
 		uint64_t id,
 		uint64_t revision)
 	{
-		return OnCombat("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ev, src, dst, skillname, id, revision);
+		if (OnCombat("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ev, src, dst, skillname, id, revision))
+			render.key_press_cb(true);
 	}
 
 	bool OnCombat(

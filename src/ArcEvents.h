@@ -15,7 +15,7 @@
 ///----------------------------------------------------------------------------------------------------
 namespace ArcEv
 {
-	bool OnCombatLocal(
+	void OnCombatLocal(
 		ArcDPS::CombatEvent* ev,
 		ArcDPS::AgentShort* src,
 		ArcDPS::AgentShort* dst,

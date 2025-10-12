@@ -27,6 +27,7 @@
 #include "Render.h"
 #include "Shared.h"
 #include "Types.h"
+#include "Settings.h"
 
 namespace
 {
@@ -144,13 +145,9 @@ void Render::toggle_vis(const bool flag)
     show_window = flag;
 }
 
-void Render::select_bench(ID3D11Device *pd3dDevice)
+void Render::select_bench()
 {
-#ifdef _DEBUG
-    static char filter_buffer[256] = "Scrapper";
-#else
     static char filter_buffer[256] = "";
-#endif
     static std::string filter_string;
 
     if (!benches_files.empty())
@@ -251,7 +248,7 @@ void Render::select_bench(ID3D11Device *pd3dDevice)
                         selected_bench_index = original_index;
                         selected_file_path = file_info->full_path;
 
-                        rotation_run.load_data(selected_file_path, img_path, pd3dDevice);
+                        rotation_run.load_data(selected_file_path, img_path);
                         ReleaseTextureMap(texture_map);
                     }
 
@@ -280,7 +277,7 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
 
         const auto is_current = (i == static_cast<int32_t>(current_idx));
 
-        if (texture)
+        if (texture && pd3dDevice)
             ImGui::Image((ImTextureID)texture, ImVec2(28, 28));
         else
             ImGui::Dummy(ImVec2(28, 28));
@@ -300,17 +297,17 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
     ImGui::EndChild();
 }
 
-void Render::render(ID3D11Device *pd3dDevice)
+void Render::render(ID3D11Device *pd3dDevice, AddonAPI *APIDefs)
 {
-    if (!show_window)
+    if (!Settings::ShowWindow)
         return;
 
     if (benches_files.size() == 0)
         benches_files = get_bench_files(bench_path);
 
-    if (ImGui::Begin("GW2RotaHelper", &show_window))
+    if (ImGui::Begin("GW2RotaHelper", &Settings::ShowWindow))
     {
-        select_bench(pd3dDevice);
+        select_bench();
 
         if (rotation_run.futures.size() != 0)
         {
@@ -325,9 +322,17 @@ void Render::render(ID3D11Device *pd3dDevice)
             return;
         }
 
+        // Prefer Nexus API for texture loading when available, fallback to direct D3D
         if (texture_map.size() == 0)
         {
-            texture_map = LoadAllSkillTextures(pd3dDevice, rotation_run.skill_info_map, img_path);
+            if (APIDefs && !pd3dDevice)
+            {
+                texture_map = LoadAllSkillTexturesWithAPI(APIDefs, rotation_run.skill_info_map, img_path);
+            }
+            else if (pd3dDevice)
+            {
+                texture_map = LoadAllSkillTextures(pd3dDevice, rotation_run.skill_info_map, img_path);
+            }
         }
 
         ImGui::Separator();

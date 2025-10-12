@@ -52,5 +52,12 @@ namespace Settings
         Settings::Mutex.unlock();
     }
 
+    void ToggleShowWindow(std::filesystem::path SettingsPath)
+    {
+        ShowWindow = !ShowWindow;
+        Settings[SHOW_WINDOW] = ShowWindow;
+        Save(SettingsPath);
+    }
+
     bool ShowWindow = true;
 }

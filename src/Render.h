@@ -46,8 +46,8 @@ public:
 
     void set_data_path(const std::filesystem::path &path);
 
-    void render(ID3D11Device *pd3dDevice);
-    void select_bench(ID3D11Device *pd3dDevice);
+    void render(ID3D11Device *pd3dDevice, AddonAPI *APIDefs = nullptr);
+    void select_bench();
     void rotation_render(ID3D11Device *pd3dDevice);
 
     Render(bool &show_window) : show_window(show_window) {}

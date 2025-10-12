@@ -6,6 +6,8 @@
 #include <string>
 #include <filesystem>
 
+#include "nexus/Nexus.h"
+
 #include "Types.h"
 
 using TextureMap = std::unordered_map<int, ID3D11ShaderResourceView *>;
@@ -14,6 +16,11 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std
 
 TextureMap LoadAllSkillTextures(
     ID3D11Device *device,
+    const SkillInfoMap &skill_info_map,
+    const std::filesystem::path &img_folder);
+
+TextureMap LoadAllSkillTexturesWithAPI(
+    AddonAPI *APIDefs,
     const SkillInfoMap &skill_info_map,
     const std::filesystem::path &img_folder);
 

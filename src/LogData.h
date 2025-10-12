@@ -21,7 +21,7 @@ using json = nlohmann::json;
 class RotationRun
 {
 public:
-    void load_data(const std::filesystem::path &json_path, const std::filesystem::path &img_path, ID3D11Device *pd3dDevice);
+    void load_data(const std::filesystem::path &json_path, const std::filesystem::path &img_path);
 
     void print_rotation_info() const;
 

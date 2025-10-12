@@ -22,6 +22,8 @@ namespace Settings
     /* Saves the settings. */
     void Save(std::filesystem::path aPath);
 
+    void ToggleShowWindow(std::filesystem::path SettingsPath);
+
     extern bool ShowWindow;
 }
 

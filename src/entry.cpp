@@ -7,6 +7,8 @@
 
 #include <DirectXMath.h>
 #include <Windows.h>
+#include <d3d11.h>
+#include <dxgi.h>
 
 #include "arcdps/ArcDPS.h"
 #include "imgui.h"
@@ -35,6 +37,22 @@ HMODULE hSelf;
 AddonDefinition AddonDef{};
 std::filesystem::path AddonPath;
 std::filesystem::path SettingsPath;
+
+void ToggleShowWindowGW2_RotaHelper(const char *keybindIdentifier, bool)
+{
+    Settings::ToggleShowWindow(SettingsPath);
+}
+
+void RegisterQuickAccessShortcut()
+{
+    APIDefs->QuickAccess.Add("SHORTCUT_GW2_RotaHelper", "TEX_GW2_RotaHelper_NORMAL", "TEX_GW2_RotaHelper_HOVER", KB_TOGGLE_GW2_RotaHelper, "Toggle GW2_RotaHelper Window");
+    APIDefs->InputBinds.RegisterWithString(KB_TOGGLE_GW2_RotaHelper, ToggleShowWindowGW2_RotaHelper, "CTRL+Q");
+}
+
+void DeregisterQuickAccessShortcut()
+{
+    APIDefs->QuickAccess.Remove("SHORTCUT_GW2_RotaHelper");
+}
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
@@ -124,6 +142,10 @@ void AddonLoad(AddonAPI *aApi)
     render.set_data_path(data_path);
 
     Settings::Load(SettingsPath);
+
+    APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_NORMAL", IDB_GW2_RotaHelper_NORMAL, hSelf, nullptr);
+    APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_HOVER", IDB_GW2_RotaHelper_HOVER, hSelf, nullptr);
+    RegisterQuickAccessShortcut();
 }
 
 void AddonUnload()
@@ -136,8 +158,7 @@ void AddonUnload()
 
     Settings::Save(SettingsPath);
 
-    // Important: Ensure the global render object is properly destroyed
-    // The destructor will handle texture cleanup automatically
+    DeregisterQuickAccessShortcut();
 }
 
 void AddonRender()
@@ -149,24 +170,25 @@ void AddonRender()
 
     render.toggle_vis(Settings::ShowWindow);
 
-    ImGuiIO &io = ImGui::GetIO();
     ID3D11Device *pd3dDevice = nullptr;
-
-    if (io.BackendRendererUserData)
+    if (APIDefs && APIDefs->DataLink.Get)
     {
-        struct ImGui_ImplDX11_Data
+        IDXGISwapChain *pSwapChain = (IDXGISwapChain *)APIDefs->SwapChain;
+        if (pSwapChain)
         {
-            ID3D11Device *pd3dDevice;
-            ID3D11DeviceContext *pd3dDeviceContext;
-        };
-
-        ImGui_ImplDX11_Data *bd = (ImGui_ImplDX11_Data *)io.BackendRendererUserData;
-        pd3dDevice = bd->pd3dDevice;
+            HRESULT hr = pSwapChain->GetDevice(__uuidof(ID3D11Device), (void **)&pd3dDevice);
+            if (FAILED(hr))
+            {
+                pd3dDevice = nullptr;
+            }
+        }
     }
+
+    render.render(pd3dDevice, APIDefs);
 
     if (pd3dDevice)
     {
-        render.render(pd3dDevice);
+        pd3dDevice->Release();
     }
 }
 

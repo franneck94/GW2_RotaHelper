@@ -375,7 +375,7 @@ namespace
     }
 } // namespace
 
-void RotationRun::load_data(const std::filesystem::path &json_path, const std::filesystem::path &img_path, ID3D11Device *pd3dDevice)
+void RotationRun::load_data(const std::filesystem::path &json_path, const std::filesystem::path &img_path)
 {
     std::ifstream file(json_path);
     nlohmann::json j;

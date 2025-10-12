@@ -13,6 +13,7 @@ RTAPI::RealTimeData *RTAPIData = nullptr;
 std::string AccountName;
 ArcDPS::Exports ArcExports = {};
 const char *ADDON_NAME = "GW2RotaHelper";
+const char *KB_TOGGLE_GW2_RotaHelper = "KB_TOGGLE_GW2_RotaHelper";
 
 std::array<EvCombatDataPersistent, 10> combat_buffer = {};
 size_t combat_buffer_index = 0;

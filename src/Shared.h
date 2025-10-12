@@ -17,6 +17,7 @@ extern AddonAPI *APIDefs;
 extern NexusLinkData *NexusLink;
 extern RTAPI::RealTimeData *RTAPIData;
 extern const char *ADDON_NAME;
+extern const char* KB_TOGGLE_GW2_RotaHelper;
 extern std::string AccountName;
 extern ArcDPS::Exports ArcExports;
 extern std::array<EvCombatDataPersistent, 10> combat_buffer;
