@@ -62,6 +62,9 @@ int main(int, char **)
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     render.toggle_vis(true);
 
+    auto data_path = std::filesystem::absolute(std::filesystem::path(__FILE__).parent_path().parent_path() / "data");
+    render.set_data_path(data_path);
+
     // Main loop
     MSG msg;
     ZeroMemory(&msg, sizeof(msg));

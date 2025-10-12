@@ -98,7 +98,8 @@ void OnAddonUnloaded(int *aSignature)
 
 void AddonLoad(AddonAPI *aApi)
 {
-    if (!aApi) return;
+    if (!aApi)
+        return;
 
     APIDefs = aApi;
     ImGui::SetCurrentContext((ImGuiContext *)APIDefs->ImguiContext);
@@ -114,6 +115,13 @@ void AddonLoad(AddonAPI *aApi)
     SettingsPath = APIDefs->Paths.GetAddonDirectory("GW2RotaHelper/settings.json");
 
     std::filesystem::create_directories(AddonPath);
+
+    auto data_path = AddonPath;
+    std::filesystem::create_directories(data_path / "img");
+    std::filesystem::create_directories(data_path / "bench");
+    std::filesystem::create_directories(data_path / "bench/power");
+    std::filesystem::create_directories(data_path / "bench/condition");
+    render.set_data_path(data_path);
 
     Settings::Load(SettingsPath);
 }

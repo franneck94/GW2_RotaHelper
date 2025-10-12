@@ -110,12 +110,20 @@ namespace
 
 Render::Render()
 {
-    benches_files = get_bench_files(bench_path);
 }
 
 Render::~Render()
 {
     ReleaseTextureMap(texture_map);
+}
+
+void Render::set_data_path(const std::filesystem::path &path)
+{
+    data_path = path;
+    img_path = data_path / "img";
+    bench_path = data_path / "bench";
+
+    benches_files = get_bench_files(bench_path);
 }
 
 void Render::key_press_cb(const bool pressed)

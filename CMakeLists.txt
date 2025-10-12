@@ -79,6 +79,7 @@ target_link_libraries(first_party_libs PRIVATE
 add_executable(GW2RotaHelper_App
     "src/main.cpp"
 )
+target_compile_definitions(GW2RotaHelper_App PRIVATE GW2_STANDALONE_APP)
 target_link_libraries(GW2RotaHelper_App PRIVATE
     third_party_libs
     first_party_libs
@@ -87,6 +88,7 @@ target_link_libraries(GW2RotaHelper_App PRIVATE
 add_library(GW2RotaHelper SHARED
     "src/entry.cpp"
 )
+target_compile_definitions(GW2RotaHelper PRIVATE GW2_NEXUS_ADDON)
 target_link_libraries(GW2RotaHelper PRIVATE
     third_party_libs
     first_party_libs

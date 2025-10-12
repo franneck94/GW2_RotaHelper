@@ -8,8 +8,8 @@
 #include <thread>
 
 #include "LogData.h"
-#include "Types.h"
 #include "Textures.h"
+#include "Types.h"
 
 struct BenchFileInfo
 {
@@ -18,7 +18,7 @@ struct BenchFileInfo
     std::string display_name;
     bool is_directory_header;
 
-    BenchFileInfo(const std::filesystem::path& full, const std::filesystem::path& relative, bool is_header = false)
+    BenchFileInfo(const std::filesystem::path &full, const std::filesystem::path &relative, bool is_header = false)
         : full_path(full), relative_path(relative), is_directory_header(is_header)
     {
         if (is_header)
@@ -44,6 +44,8 @@ public:
     Render();
     ~Render();
 
+    void set_data_path(const std::filesystem::path &path);
+
     void render(ID3D11Device *pd3dDevice);
     void select_bench(ID3D11Device *pd3dDevice);
     void rotation_render(ID3D11Device *pd3dDevice);
@@ -58,9 +60,9 @@ public:
 
     bool key_press_event_in_this_frame;
 
-    std::filesystem::path data_path = std::filesystem::absolute(std::filesystem::path(__FILE__).parent_path().parent_path() / "data");
-    std::filesystem::path img_path = data_path / "img";
-    std::filesystem::path bench_path = data_path / "bench";
+    std::filesystem::path data_path;
+    std::filesystem::path img_path;
+    std::filesystem::path bench_path;
     std::vector<BenchFileInfo> benches_files;
 
     RotationRun rotation_run{};
