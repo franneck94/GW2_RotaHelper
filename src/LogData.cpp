@@ -35,7 +35,7 @@ namespace
         {
             for (auto it = jval.begin(); it != jval.end(); ++it)
             {
-                std::string key = it.key();
+                auto key = std::string{it.key()};
                 if (drop_first_char && !key.empty())
                 {
                     key = key.substr(1);
@@ -70,15 +70,15 @@ namespace
 
     std::string get_cache_remainder(const std::string &cache_url, const std::string &cache)
     {
-        auto remainder = cache_url.substr(cache.length());
+        const auto remainder = cache_url.substr(cache.length());
 
         return remainder;
     }
 
     std::string convert_cache_url(const std::string &cache_url)
     {
-        static auto cache1 = std::string("/cache/https_render.guildwars2.com_file_");
-        static auto cache2 = std::string("/cache/https_wiki.guildwars2.com_images_");
+        static const auto cache1 = std::string{"/cache/https_render.guildwars2.com_file_"};
+        static const auto cache2 = std::string{"/cache/https_wiki.guildwars2.com_images_"};
 
         if (cache_url.find(cache1) != 0 && cache_url.find(cache2))
             return cache_url;
@@ -91,15 +91,15 @@ namespace
         else
             return cache_url;
 
-        auto last_underscore = remainder.find_last_of('_');
+        const auto last_underscore = remainder.find_last_of('_');
         if (last_underscore == std::string::npos)
             return cache_url;
 
-        auto hash = remainder.substr(0, last_underscore);
-        auto skill_id_with_ext = remainder.substr(last_underscore + 1);
+        const auto hash = remainder.substr(0, last_underscore);
+        const auto skill_id_with_ext = remainder.substr(last_underscore + 1);
 
-        auto dot_pos = skill_id_with_ext.find_last_of('.');
-        auto skill_id = (dot_pos != std::string::npos) ? skill_id_with_ext.substr(0, dot_pos) : skill_id_with_ext;
+        const auto dot_pos = skill_id_with_ext.find_last_of('.');
+        const auto skill_id = (dot_pos != std::string::npos) ? skill_id_with_ext.substr(0, dot_pos) : skill_id_with_ext;
 
         return "https://render.guildwars2.com/file/" + hash + "/" + skill_id + ".png";
     }
@@ -108,46 +108,48 @@ namespace
     {
         for (const auto &[skill_id, skill_node] : node.children)
         {
-            std::string name, icon;
-            bool trait_proc = false, gear_proc = false;
+            auto name = std::string{};
+            auto icon = std::string{};
+            auto trait_proc = false;
+            auto gear_proc = false;
 
-            auto name_it = skill_node.children.find("name");
+            const auto name_it = skill_node.children.find("name");
             if (name_it != skill_node.children.end() && name_it->second.value.has_value())
             {
-                if (auto pval = std::get_if<std::string>(&name_it->second.value.value()))
+                if (const auto pval = std::get_if<std::string>(&name_it->second.value.value()))
                     name = *pval;
             }
 
-            auto icon_it = skill_node.children.find("icon");
+            const auto icon_it = skill_node.children.find("icon");
             if (icon_it != skill_node.children.end() && icon_it->second.value.has_value())
             {
-                if (auto pval = std::get_if<std::string>(&icon_it->second.value.value()))
+                if (const auto pval = std::get_if<std::string>(&icon_it->second.value.value()))
                     icon = convert_cache_url(*pval);
             }
 
-            auto trait_v12_it = skill_node.children.find("traitProc");
+            const auto trait_v12_it = skill_node.children.find("traitProc");
             if (trait_v12_it != skill_node.children.end() && trait_v12_it->second.value.has_value())
             {
-                if (auto pval = std::get_if<bool>(&trait_v12_it->second.value.value()))
+                if (const auto pval = std::get_if<bool>(&trait_v12_it->second.value.value()))
                     trait_proc = *pval;
             }
-            auto trait_v3_it = skill_node.children.find("isTraitProc");
+            const auto trait_v3_it = skill_node.children.find("isTraitProc");
             if (trait_v3_it != skill_node.children.end() && trait_v3_it->second.value.has_value())
             {
-                if (auto pval = std::get_if<bool>(&trait_v3_it->second.value.value()))
+                if (const auto pval = std::get_if<bool>(&trait_v3_it->second.value.value()))
                     trait_proc = *pval;
             }
 
-            auto gear_v12_it = skill_node.children.find("gearProc");
+            const auto gear_v12_it = skill_node.children.find("gearProc");
             if (gear_v12_it != skill_node.children.end() && gear_v12_it->second.value.has_value())
             {
-                if (auto pval = std::get_if<bool>(&gear_v12_it->second.value.value()))
+                if (const auto pval = std::get_if<bool>(&gear_v12_it->second.value.value()))
                     gear_proc = *pval;
             }
-            auto gear_v3_it = skill_node.children.find("isGearProc");
+            const auto gear_v3_it = skill_node.children.find("isGearProc");
             if (gear_v3_it != skill_node.children.end() && gear_v3_it->second.value.has_value())
             {
-                if (auto pval = std::get_if<bool>(&gear_v3_it->second.value.value()))
+                if (const auto pval = std::get_if<bool>(&gear_v3_it->second.value.value()))
                     gear_proc = *pval;
             }
 
@@ -178,50 +180,50 @@ namespace
                 auto status = RotationStatus::UNKNOWN;
 
                 // Get cast_time (index 0)
-                auto cast_time_it = skill_array.children.find("0");
+                const auto cast_time_it = skill_array.children.find("0");
                 if (cast_time_it != skill_array.children.end() && cast_time_it->second.value.has_value())
                 {
-                    if (auto pval = std::get_if<float>(&cast_time_it->second.value.value()))
+                    if (const auto pval = std::get_if<float>(&cast_time_it->second.value.value()))
                     {
                         cast_time = *pval;
                     }
                 }
 
                 // Get skill_id (index 1)
-                auto skill_id_it = skill_array.children.find("1");
+                const auto skill_id_it = skill_array.children.find("1");
                 if (skill_id_it != skill_array.children.end() && skill_id_it->second.value.has_value())
                 {
-                    if (auto pval = std::get_if<int>(&skill_id_it->second.value.value()))
+                    if (const auto pval = std::get_if<int>(&skill_id_it->second.value.value()))
                     {
                         skill_id = *pval;
                     }
                 }
 
                 // Get duration_ms (index 2)
-                auto duration_it = skill_array.children.find("2");
+                const auto duration_it = skill_array.children.find("2");
                 if (duration_it != skill_array.children.end() && duration_it->second.value.has_value())
                 {
-                    if (auto pval = std::get_if<int>(&duration_it->second.value.value()))
+                    if (const auto pval = std::get_if<int>(&duration_it->second.value.value()))
                     {
                         duration_ms = static_cast<float>(*pval);
                     }
                 }
 
                 // Get RotationStatus (index 3)
-                auto status_it = skill_array.children.find("3");
+                const auto status_it = skill_array.children.find("3");
                 if (status_it != skill_array.children.end() && status_it->second.value.has_value())
                 {
-                    if (auto pval = std::get_if<int>(&status_it->second.value.value()))
+                    if (const auto pval = std::get_if<int>(&status_it->second.value.value()))
                     {
                         status = static_cast<RotationStatus>(*pval);
                     }
                 }
 
                 // Get unk (index 4)
-                auto unk_it = skill_array.children.find("4");
+                const auto unk_it = skill_array.children.find("4");
                 if (unk_it != skill_array.children.end() && unk_it->second.value.has_value())
                 {
-                    if (auto pval = std::get_if<float>(&unk_it->second.value.value()))
+                    if (const auto pval = std::get_if<float>(&unk_it->second.value.value()))
                     {
                         unk = static_cast<float>(*pval);
                     }
@@ -230,8 +232,8 @@ namespace
                 if (skill_id <= 0)
                     continue;
 
-                std::string skill_name = "Unknown Skill";
-                auto skill_info_it = skill_info_map.find(skill_id);
+                auto skill_name = std::string{"Unknown Skill"};
+                const auto skill_info_it = skill_info_map.find(skill_id);
                 if (skill_info_it != skill_info_map.end())
                 {
                     skill_name = skill_info_it->second.name;
@@ -257,7 +259,7 @@ namespace
 
     std::tuple<SkillInfoMap, RotationInfoVec> get_dpsreport_data(const nlohmann::json &j, const std::filesystem::path &json_path)
     {
-        auto filename = json_path.filename().string();
+        const auto filename = json_path.filename().string();
         const auto rotation_data = j["rotation"];
         const auto skill_data = j["skillMap"];
 
@@ -266,9 +268,9 @@ namespace
         auto kv_skill = IntNode{};
         collect_json(skill_data, kv_skill, true);
 
-        SkillInfoMap skill_info_map;
+        auto skill_info_map = SkillInfoMap{};
         get_skill_info(kv_skill, skill_info_map);
-        RotationInfoVec rotation_info_vec;
+        auto rotation_info_vec = RotationInfoVec{};
         get_rotation_info(kv_rotation, skill_info_map, rotation_info_vec);
 
         return std::make_tuple(skill_info_map, rotation_info_vec);
@@ -276,14 +278,14 @@ namespace
 
     bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &out_path)
     {
-        HINTERNET hInternet = InternetOpenA("GW2RotaHelper", INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
+        const auto hInternet = InternetOpenA("GW2RotaHelper", INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
         if (!hInternet)
         {
             std::cerr << "Failed to open internet connection" << std::endl;
             return false;
         }
 
-        HINTERNET hFile = InternetOpenUrlA(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
+        const auto hFile = InternetOpenUrlA(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
         if (!hFile)
         {
             std::cerr << "Failed to open URL: " << url << std::endl;
@@ -291,7 +293,7 @@ namespace
             return false;
         }
 
-        std::ofstream outFile(out_path, std::ios::binary);
+        auto outFile = std::ofstream{out_path, std::ios::binary};
         if (!outFile.is_open())
         {
             std::cerr << "Failed to create output file: " << out_path << std::endl;
@@ -300,17 +302,17 @@ namespace
             return false;
         }
 
-        char buffer[4096];
-        DWORD bytesRead = 0;
-        bool success = true;
+        auto buffer = std::array<char, 4096>{};
+        auto bytesRead = DWORD{0};
+        auto success = true;
 
         do
         {
-            if (InternetReadFile(hFile, buffer, sizeof(buffer), &bytesRead))
+            if (InternetReadFile(hFile, buffer.data(), buffer.size(), &bytesRead))
             {
                 if (bytesRead > 0)
                 {
-                    outFile.write(buffer, bytesRead);
+                    outFile.write(buffer.data(), bytesRead);
                     if (outFile.fail())
                     {
                         std::cerr << "Failed to write to file: " << out_path << std::endl;
@@ -349,20 +351,20 @@ namespace
         const std::filesystem::path &img_folder)
     {
         std::filesystem::create_directories(img_folder);
-        std::queue<std::future<void>> futures;
+        auto futures = std::queue<std::future<void>>{};
 
         for (const auto &[skill_id, info] : skill_info_map)
         {
             if (info.icon_url.empty())
                 continue;
 
-            std::string ext = ".png";
-            const auto dot_pos = info.icon_url.find_last_of('.');
+            auto ext{std::string{".png"}};
+            const auto dot_pos{info.icon_url.find_last_of('.')};
             if (dot_pos != std::string::npos && dot_pos + 1 < info.icon_url.size())
             {
                 ext = info.icon_url.substr(dot_pos);
             }
-            std::filesystem::path out_path = img_folder / (std::to_string(skill_id) + ext);
+            const auto out_path{img_folder / (std::to_string(skill_id) + ext)};
             if (std::filesystem::exists(out_path))
                 continue;
 
@@ -377,11 +379,11 @@ namespace
 
 void RotationRun::load_data(const std::filesystem::path &json_path, const std::filesystem::path &img_path)
 {
-    std::ifstream file(json_path);
-    nlohmann::json j;
+    auto file{std::ifstream{json_path}};
+    auto j{nlohmann::json{}};
     file >> j;
 
-    auto [_skill_info_map, _bench_rotation_vector] = get_dpsreport_data(j, json_path);
+    auto [_skill_info_map, _bench_rotation_vector]{get_dpsreport_data(j, json_path)};
     skill_info_map = std::move(_skill_info_map);
     rotation_vector = std::move(_bench_rotation_vector);
 
