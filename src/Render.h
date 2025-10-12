@@ -1,11 +1,14 @@
 #pragma once
 
-#include <atomic>
 #include <d3d11.h>
+
+#include <atomic>
 #include <filesystem>
 #include <future>
 #include <string>
 #include <thread>
+#include <set>
+#include <utility>
 
 #include "LogData.h"
 #include "Textures.h"
@@ -42,6 +45,7 @@ class Render
 {
 public:
     Render();
+    Render(bool &show_window) : show_window(show_window) {}
     ~Render();
 
     void set_data_path(const std::filesystem::path &path);
@@ -49,9 +53,7 @@ public:
     void render(ID3D11Device *pd3dDevice, AddonAPI *APIDefs = nullptr);
     void select_bench();
     void rotation_render(ID3D11Device *pd3dDevice);
-
-    Render(bool &show_window) : show_window(show_window) {}
-
+    std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::string>> get_file_data_pairs(std::string &filter_string);
     void key_press_cb(const bool pressed);
     void toggle_vis(const bool flag);
     EvCombatDataPersistent get_current_skill();

@@ -23,18 +23,10 @@ class RotationRun
 public:
     void load_data(const std::filesystem::path &json_path, const std::filesystem::path &img_path);
 
-    void print_rotation_info() const;
-
-    void print_skill_info() const;
-
     void pop_bench_rotation_queue();
-
     std::tuple<int, int, size_t> get_current_rotation_indices() const;
-
     RotationInfo get_rotation_skill(const size_t idx) const;
-
     void restart_rotation();
-
     bool is_current_run_done() const;
 
     std::queue<std::future<void>> futures;

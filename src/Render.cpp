@@ -25,9 +25,9 @@
 #include "Constants.h"
 #include "LogData.h"
 #include "Render.h"
+#include "Settings.h"
 #include "Shared.h"
 #include "Types.h"
-#include "Settings.h"
 
 namespace
 {
@@ -145,6 +145,67 @@ void Render::toggle_vis(const bool flag)
     show_window = flag;
 }
 
+std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::string>> Render::get_file_data_pairs(std::string &filter_string)
+{
+    std::vector<std::pair<int, const BenchFileInfo *>> filtered_files;
+    std::set<std::string> directories_with_matches;
+
+    if (filter_string.empty())
+    {
+        for (int n = 0; n < benches_files.size(); n++)
+        {
+            filtered_files.emplace_back(n, &benches_files[n]);
+        }
+    }
+    else
+    {
+        for (int n = 0; n < benches_files.size(); n++)
+        {
+            const auto &file_info = benches_files[n];
+
+            if (!file_info.is_directory_header)
+            {
+                auto display_lower = file_info.display_name;
+                std::transform(display_lower.begin(), display_lower.end(), display_lower.begin(), ::tolower);
+
+                if (display_lower.find(filter_string) != std::string::npos)
+                {
+                    const auto parent_dir = file_info.relative_path.parent_path().string();
+                    if (!parent_dir.empty() && parent_dir != ".")
+                    {
+                        directories_with_matches.insert(parent_dir);
+                    }
+                }
+            }
+        }
+
+        for (int n = 0; n < benches_files.size(); n++)
+        {
+            const auto &file_info = benches_files[n];
+
+            if (file_info.is_directory_header)
+            {
+                if (directories_with_matches.count(file_info.relative_path.string()) > 0)
+                {
+                    filtered_files.emplace_back(n, &file_info);
+                }
+            }
+            else
+            {
+                auto display_lower = file_info.display_name;
+                std::transform(display_lower.begin(), display_lower.end(), display_lower.begin(), ::tolower);
+
+                if (display_lower.find(filter_string) != std::string::npos)
+                {
+                    filtered_files.emplace_back(n, &file_info);
+                }
+            }
+        }
+    }
+
+    return std::make_pair(std::move(filtered_files), std::move(directories_with_matches));
+}
+
 void Render::select_bench()
 {
     static char filter_buffer[256] = "";
@@ -162,72 +223,16 @@ void Render::select_bench()
             std::transform(filter_string.begin(), filter_string.end(), filter_string.begin(), ::tolower);
         }
 
-        std::vector<std::pair<int, const BenchFileInfo *>> filtered_files;
-        std::set<std::string> directories_with_matches;
+        const auto &[filtered_files, directories_with_matches] = get_file_data_pairs(filter_string);
 
-        if (filter_string.empty())
-        {
-            for (int n = 0; n < benches_files.size(); n++)
-            {
-                filtered_files.emplace_back(n, &benches_files[n]);
-            }
-        }
-        else
-        {
-            for (int n = 0; n < benches_files.size(); n++)
-            {
-                const auto &file_info = benches_files[n];
-
-                if (!file_info.is_directory_header)
-                {
-                    auto display_lower = file_info.display_name;
-                    std::transform(display_lower.begin(), display_lower.end(), display_lower.begin(), ::tolower);
-
-                    if (display_lower.find(filter_string) != std::string::npos)
-                    {
-                        const auto parent_dir = file_info.relative_path.parent_path().string();
-                        if (!parent_dir.empty() && parent_dir != ".")
-                        {
-                            directories_with_matches.insert(parent_dir);
-                        }
-                    }
-                }
-            }
-
-            for (int n = 0; n < benches_files.size(); n++)
-            {
-                const auto &file_info = benches_files[n];
-
-                if (file_info.is_directory_header)
-                {
-                    if (directories_with_matches.count(file_info.relative_path.string()) > 0)
-                    {
-                        filtered_files.emplace_back(n, &file_info);
-                    }
-                }
-                else
-                {
-                    auto display_lower = file_info.display_name;
-                    std::transform(display_lower.begin(), display_lower.end(), display_lower.begin(), ::tolower);
-
-                    if (display_lower.find(filter_string) != std::string::npos)
-                    {
-                        filtered_files.emplace_back(n, &file_info);
-                    }
-                }
-            }
-        }
-
-        std::string combo_preview;
+        auto combo_preview = std::string{};
         if (selected_bench_index >= 0 && selected_bench_index < benches_files.size())
-        {
             combo_preview = benches_files[selected_bench_index].relative_path.filename().string();
-        }
         else
-        {
             combo_preview = "Select...";
-        }
 
+        const auto combo_preview_slice = combo_preview != "Select..." ? combo_preview.substr(0, combo_preview.size() - 8) : "Select...";
+        const auto formatted_name = combo_preview != "Select..." ? format_build_name(combo_preview) : "Select...";
         if (ImGui::BeginCombo("##benches_combo", combo_preview.c_str()))
         {
             for (const auto &[original_index, file_info] : filtered_files)
@@ -335,7 +340,6 @@ void Render::render(ID3D11Device *pd3dDevice, AddonAPI *APIDefs)
             return;
         }
 
-        // Prefer Nexus API for texture loading when available, fallback to direct D3D
         if (texture_map.size() == 0)
         {
             if (APIDefs && !pd3dDevice)

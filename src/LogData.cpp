@@ -390,27 +390,6 @@ void RotationRun::load_data(const std::filesystem::path &json_path, const std::f
     futures = StartDownloadAllSkillIcons(skill_info_map, img_path);
 }
 
-void RotationRun::print_rotation_info() const
-{
-    for (const auto &info : rotation_vector)
-    {
-        std::cout << "Skill ID: " << info.skill_id
-                  << ", Name: " << info.skill_name
-                  << ", CastTime: " << info.cast_time
-                  << ", Duration: " << info.duration_ms << std::endl;
-    }
-}
-
-void RotationRun::print_skill_info() const
-{
-    for (const auto &[skill_id, info] : skill_info_map)
-    {
-        std::cout << "Skill ID: " << skill_id
-                  << ", Name: " << info.name
-                  << ", Icon: " << info.icon_url << std::endl;
-    }
-}
-
 void RotationRun::pop_bench_rotation_queue()
 {
     if (!bench_rotation_queue.empty())
