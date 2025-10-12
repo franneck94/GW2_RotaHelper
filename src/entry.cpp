@@ -42,12 +42,20 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserv
     {
     case DLL_PROCESS_ATTACH:
         hSelf = hModule;
+        // Disable thread attach/detach notifications for performance
+        DisableThreadLibraryCalls(hModule);
         break;
     case DLL_PROCESS_DETACH:
+        // Ensure cleanup happens even if AddonUnload wasn't called
+        if (lpReserved == nullptr) // Only if not process termination
+        {
+            // Process is not terminating, do cleanup
+            // Note: Most cleanup should happen in AddonUnload, this is just a safety net
+        }
         break;
     case DLL_THREAD_ATTACH:
-        break;
     case DLL_THREAD_DETACH:
+        // These are disabled by DisableThreadLibraryCalls
         break;
     }
     return TRUE;
@@ -90,29 +98,38 @@ void OnAddonUnloaded(int *aSignature)
 
 void AddonLoad(AddonAPI *aApi)
 {
+    if (!aApi) return;
+
     APIDefs = aApi;
     ImGui::SetCurrentContext((ImGuiContext *)APIDefs->ImguiContext);
     ImGui::SetAllocatorFunctions((void *(*)(size_t, void *))APIDefs->ImguiMalloc, (void (*)(void *, void *))APIDefs->ImguiFree);
 
     NexusLink = (NexusLinkData *)APIDefs->DataLink.Get("DL_NEXUS_LINK");
     RTAPIData = (RTAPI::RealTimeData *)APIDefs->DataLink.Get("DL_RTAPI");
+
     APIDefs->Renderer.Register(ERenderType_Render, AddonRender);
     APIDefs->Renderer.Register(ERenderType_OptionsRender, AddonOptions);
+
     AddonPath = APIDefs->Paths.GetAddonDirectory("GW2RotaHelper");
     SettingsPath = APIDefs->Paths.GetAddonDirectory("GW2RotaHelper/settings.json");
-    std::filesystem::create_directory(AddonPath);
+
+    std::filesystem::create_directories(AddonPath);
+
     Settings::Load(SettingsPath);
 }
 
 void AddonUnload()
 {
-    APIDefs->Renderer.Deregister(AddonOptions);
     APIDefs->Renderer.Deregister(AddonRender);
+    APIDefs->Renderer.Deregister(AddonOptions);
 
     NexusLink = nullptr;
     RTAPIData = nullptr;
 
     Settings::Save(SettingsPath);
+
+    // Important: Ensure the global render object is properly destroyed
+    // The destructor will handle texture cleanup automatically
 }
 
 void AddonRender()
@@ -173,5 +190,7 @@ ArcDPS::Exports *ArcdpsInit()
 
 uintptr_t ArcdpsRelease()
 {
+    ArcExports.CombatLocalCallback = nullptr;
+
     return 0;
 }

@@ -30,6 +30,39 @@
 
 namespace
 {
+    std::string format_build_name(const std::string &raw_name)
+    {
+        auto result = raw_name;
+
+        const auto start = result.find_first_not_of(" \t");
+        if (start != std::string::npos)
+            result = result.substr(start);
+
+        if (result.starts_with("condition_"))
+            result = result.substr(10); // Remove "condition_"
+        else if (result.starts_with("power_"))
+            result = result.substr(6); // Remove "power_"
+
+        std::replace(result.begin(), result.end(), '_', ' ');
+
+        bool capitalize_next = true;
+        std::ranges::transform(result, result.begin(), [&capitalize_next](char c)
+                               {
+            if (c == ' ') {
+                capitalize_next = true;
+                return c;
+            }
+
+            if (capitalize_next) {
+                capitalize_next = false;
+                return static_cast<char>(std::toupper(c));
+            }
+
+            return static_cast<char>(std::tolower(c)); });
+
+        return "    " + result;
+    }
+
     std::vector<BenchFileInfo> get_bench_files(const std::filesystem::path &bench_path)
     {
         std::vector<BenchFileInfo> files;
@@ -203,9 +236,9 @@ void Render::select_bench(ID3D11Device *pd3dDevice)
                 else
                 {
                     const auto is_selected = (selected_bench_index == original_index);
+                    auto formatted_name = file_info->is_directory_header ? file_info->display_name : format_build_name(file_info->display_name);
 
-                    auto name = file_info->display_name.c_str();
-                    if (ImGui::Selectable(name, is_selected))
+                    if (ImGui::Selectable(formatted_name.c_str(), is_selected))
                     {
                         selected_bench_index = original_index;
                         selected_file_path = file_info->full_path;
@@ -270,12 +303,6 @@ void Render::render(ID3D11Device *pd3dDevice)
     if (ImGui::Begin("GW2RotaHelper", &show_window))
     {
         select_bench(pd3dDevice);
-
-        if (!selected_file_path.empty())
-        {
-            ImGui::SameLine();
-            ImGui::Text("Selected: %s", selected_file_path.stem().string().c_str());
-        }
 
         if (rotation_run.futures.size() != 0)
         {
