@@ -14,47 +14,9 @@
 
 #include "nlohmann/json.hpp"
 
+#include "Types.h"
+
 using json = nlohmann::json;
-
-struct SkillInfo
-{
-    std::string name;
-    std::string icon_url;
-    bool trait_proc;
-    bool gear_proc;
-};
-
-using SkillInfoMap = std::map<int, SkillInfo>;
-using LogDataTypes = std::variant<int, float, bool, std::string>;
-
-struct IntNode
-{
-    std::map<std::string, IntNode> children;
-    std::optional<LogDataTypes> value;
-};
-
-enum class RotationStatus
-{
-    UNKNOWN,
-    REDUCED,
-    CANCEL,
-    FULL,
-    INSTANT
-};
-
-struct RotationInfo
-{
-    int skill_id;
-    float cast_time;
-    float duration_ms;
-    float unk;
-    std::string skill_name;
-    RotationStatus status;
-};
-
-using RotationInfoVec = std::vector<RotationInfo>;
-using RotationInfoQueue = std::queue<RotationInfo>;
-using TextureMap = std::unordered_map<int, ID3D11ShaderResourceView *>;
 
 class RotationRun
 {

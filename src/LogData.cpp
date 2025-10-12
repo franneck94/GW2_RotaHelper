@@ -23,6 +23,7 @@
 #include "nlohmann/json.hpp"
 
 #include "LogData.h"
+#include "Types.h"
 
 using json = nlohmann::json;
 

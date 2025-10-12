@@ -9,6 +9,7 @@
 
 #include "LogData.h"
 #include "Types.h"
+#include "Textures.h"
 
 struct BenchFileInfo
 {
@@ -41,8 +42,11 @@ class Render
 {
 public:
     Render();
+    ~Render();
 
     void render(ID3D11Device *pd3dDevice);
+    void select_bench(ID3D11Device *pd3dDevice);
+    void rotation_render(ID3D11Device *pd3dDevice);
 
     Render(bool &show_window) : show_window(show_window) {}
 
@@ -64,11 +68,4 @@ public:
 
     int selected_bench_index = -1;
     std::filesystem::path selected_file_path;
-
-#ifdef _DEBUG
-    char filter_buffer[256] = "Scrapper";
-#else
-    char filter_buffer[256] = "";
-#endif
-    std::string filter_string;
 };
