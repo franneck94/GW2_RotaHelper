@@ -258,6 +258,19 @@ void Render::select_bench()
             }
             ImGui::EndCombo();
         }
+
+        if (selected_bench_index >= 0 && selected_bench_index < benches_files.size())
+        {
+            ImGui::SameLine();
+            if (ImGui::Button("Reload Rotation"))
+            {
+                if (!selected_file_path.empty())
+                {
+                    rotation_run.load_data(selected_file_path, img_path);
+                    ReleaseTextureMap(texture_map);
+                }
+            }
+        }
     }
 }
 
