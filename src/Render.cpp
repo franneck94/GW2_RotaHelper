@@ -160,52 +160,50 @@ std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::stri
     if (filter_string.empty())
     {
         for (int n = 0; n < benches_files.size(); n++)
-        {
             filtered_files.emplace_back(n, &benches_files[n]);
+
+        return std::make_pair(std::move(filtered_files), std::move(directories_with_matches));
+    }
+
+    for (int n = 0; n < benches_files.size(); n++)
+    {
+        const auto &file_info = benches_files[n];
+
+        if (!file_info.is_directory_header)
+        {
+            auto display_lower = file_info.display_name;
+            std::transform(display_lower.begin(), display_lower.end(), display_lower.begin(), ::tolower);
+
+            if (display_lower.starts_with(filter_string))
+            {
+                const auto parent_dir = file_info.relative_path.parent_path().string();
+                if (!parent_dir.empty() && parent_dir != ".")
+                {
+                    directories_with_matches.insert(parent_dir);
+                }
+            }
         }
     }
-    else
+
+    for (int n = 0; n < benches_files.size(); n++)
     {
-        for (int n = 0; n < benches_files.size(); n++)
+        const auto &file_info = benches_files[n];
+
+        if (file_info.is_directory_header)
         {
-            const auto &file_info = benches_files[n];
-
-            if (!file_info.is_directory_header)
+            if (directories_with_matches.count(file_info.relative_path.string()) > 0)
             {
-                auto display_lower = file_info.display_name;
-                std::transform(display_lower.begin(), display_lower.end(), display_lower.begin(), ::tolower);
-
-                if (display_lower.find(filter_string) != std::string::npos)
-                {
-                    const auto parent_dir = file_info.relative_path.parent_path().string();
-                    if (!parent_dir.empty() && parent_dir != ".")
-                    {
-                        directories_with_matches.insert(parent_dir);
-                    }
-                }
+                filtered_files.emplace_back(n, &file_info);
             }
         }
-
-        for (int n = 0; n < benches_files.size(); n++)
+        else
         {
-            const auto &file_info = benches_files[n];
+            auto display_lower = file_info.display_name;
+            std::transform(display_lower.begin(), display_lower.end(), display_lower.begin(), ::tolower);
 
-            if (file_info.is_directory_header)
+            if (display_lower.find(filter_string) != std::string::npos)
             {
-                if (directories_with_matches.count(file_info.relative_path.string()) > 0)
-                {
-                    filtered_files.emplace_back(n, &file_info);
-                }
-            }
-            else
-            {
-                auto display_lower = file_info.display_name;
-                std::transform(display_lower.begin(), display_lower.end(), display_lower.begin(), ::tolower);
-
-                if (display_lower.find(filter_string) != std::string::npos)
-                {
-                    filtered_files.emplace_back(n, &file_info);
-                }
+                filtered_files.emplace_back(n, &file_info);
             }
         }
     }
@@ -241,7 +239,7 @@ void Render::select_bench()
         if (combo_preview != "Select...")
         {
             combo_preview_slice = combo_preview.substr(0, combo_preview.size() - 8);
-            formatted_name  = format_build_name(combo_preview_slice);
+            formatted_name = format_build_name(combo_preview_slice);
             formatted_name = formatted_name.substr(4);
         }
 
