@@ -320,12 +320,28 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
     const auto skill_ev = get_current_skill();
     if (skill_ev.SkillID != 0 && last_skill.SkillID != skill_ev.SkillID)
     {
-        if (rotation_run.bench_rotation_queue.size() > 3)
+        if (rotation_run.bench_rotation_queue.size() > 2)
         {
-            const auto curr_queue = std::queue();
-            const auto curr_rota_skill = rotation_run.bench_rotation_queue.front();
+            auto local_queue = std::queue<RotationInfo>{};
+            auto temp_queue = rotation_run.bench_rotation_queue;
 
-            if (curr_rota_skill.skill_id == skill_ev.SkillID)
+            for (int i = 0; i < 3 && !temp_queue.empty(); ++i)
+            {
+                local_queue.push(temp_queue.front());
+                temp_queue.pop();
+            }
+
+            const auto curr_rota_skill = local_queue.front();
+            local_queue.pop();
+            const auto next_rota_skill = local_queue.front();
+            local_queue.pop();
+            const auto next_next_rota_skill = local_queue.front();
+
+            const auto match_current = (curr_rota_skill.skill_id == skill_ev.SkillID);
+            const auto match_next = (next_rota_skill.skill_id == skill_ev.SkillID);
+            const auto match_next_next = (next_next_rota_skill.skill_id == skill_ev.SkillID);
+
+            if (match_current || match_next || match_next_next)
             {
                 rotation_run.pop_bench_rotation_queue();
                 last_skill = skill_ev;

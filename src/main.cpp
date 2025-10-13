@@ -136,8 +136,8 @@ int main(int, char **)
             switch (key_pressed)
             {
             case Keys::W:
-                combat_data.SkillID = 5822;
-                combat_data.SkillName = "Galvanic Bomb";
+                combat_data.SkillID = 1058593;
+                combat_data.SkillName = "Thunderclap";
                 break;
             case Keys::A:
                 combat_data.SkillID = 5813;
