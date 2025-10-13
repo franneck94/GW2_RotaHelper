@@ -2,6 +2,7 @@
 #define SETTINGS_H
 
 #include <mutex>
+#include <string>
 
 #include "nlohmann/json.hpp"
 using json = nlohmann::json;
@@ -11,6 +12,7 @@ using json = nlohmann::json;
 #include "rtapi/RTAPI.hpp"
 
 extern const char *SHOW_WINDOW;
+extern const char *FILTER_BUFFER;
 
 namespace Settings
 {
@@ -25,6 +27,7 @@ namespace Settings
     void ToggleShowWindow(std::filesystem::path SettingsPath);
 
     extern bool ShowWindow;
+    extern std::string FilterBuffer;
 }
 
 #endif

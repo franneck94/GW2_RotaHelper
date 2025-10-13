@@ -215,22 +215,20 @@ std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::stri
 
 void Render::select_bench()
 {
-    static char filter_buffer[256] = "";
-    static std::string filter_string;
-
     if (!benches_files.empty())
     {
         ImGui::Text("Select Bench File:");
 
         ImGui::Text("Filter:");
         ImGui::SameLine();
+        char *filter_buffer = (char *)Settings::FilterBuffer.c_str();
         if (ImGui::InputText("##filter", filter_buffer, sizeof(filter_buffer)))
         {
-            filter_string = std::string(filter_buffer);
-            std::transform(filter_string.begin(), filter_string.end(), filter_string.begin(), ::tolower);
+            Settings::FilterBuffer = std::string(filter_buffer);
+            std::transform(Settings::FilterBuffer.begin(), Settings::FilterBuffer.end(), Settings::FilterBuffer.begin(), ::tolower);
         }
 
-        const auto &[filtered_files, directories_with_matches] = get_file_data_pairs(filter_string);
+        const auto &[filtered_files, directories_with_matches] = get_file_data_pairs(Settings::FilterBuffer);
 
         auto combo_preview = std::string{};
         if (selected_bench_index >= 0 && selected_bench_index < benches_files.size())

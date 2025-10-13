@@ -7,6 +7,7 @@
 #include <tchar.h>
 
 #include "Render.h"
+#include "Settings.h"
 #include "Shared.h"
 #include "Types.h"
 
@@ -15,6 +16,8 @@ static ID3D11Device *g_pd3dDevice = NULL;
 static ID3D11DeviceContext *g_pd3dDeviceContext = NULL;
 static IDXGISwapChain *g_pSwapChain = NULL;
 static ID3D11RenderTargetView *g_mainRenderTargetView = NULL;
+
+std::filesystem::path SettingsPath = std::filesystem::absolute(std::filesystem::path(__FILE__).parent_path() / "addon_settings.json");
 
 // Forward declarations of helper functions
 bool CreateDeviceD3D(HWND hWnd);
@@ -64,6 +67,8 @@ int main(int, char **)
 
     auto data_path = std::filesystem::absolute(std::filesystem::path(__FILE__).parent_path().parent_path() / "data");
     render.set_data_path(data_path);
+
+    Settings::Load(SettingsPath);
 
     // Main loop
     MSG msg;
@@ -184,6 +189,8 @@ int main(int, char **)
 
         g_pSwapChain->Present(1, 0); // Present with vsync
     }
+
+    Settings::Save(SettingsPath);
 
     // Cleanup
     ImGui_ImplDX11_Shutdown();

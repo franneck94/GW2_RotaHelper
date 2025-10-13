@@ -1,10 +1,12 @@
 #include <filesystem>
 #include <fstream>
+#include <string>
 
 #include "Settings.h"
 #include "Shared.h"
 
 const char *SHOW_WINDOW = "ShowWindow";
+const char *FILTER_BUFFER = "FilterBuffer";
 
 namespace Settings
 {
@@ -39,12 +41,19 @@ namespace Settings
         {
             Settings[SHOW_WINDOW].get_to<bool>(ShowWindow);
         }
+        if (!Settings[FILTER_BUFFER].is_null())
+        {
+            Settings[FILTER_BUFFER].get_to<std::string>(FilterBuffer);
+        }
     }
 
     void Save(std::filesystem::path aPath)
     {
         Settings::Mutex.lock();
         {
+            Settings[SHOW_WINDOW] = ShowWindow;
+            Settings[FILTER_BUFFER] = FilterBuffer;
+
             std::ofstream file(aPath);
             file << Settings.dump(1, '\t') << std::endl;
             file.close();
@@ -60,4 +69,5 @@ namespace Settings
     }
 
     bool ShowWindow = true;
+    std::string FilterBuffer;
 }
