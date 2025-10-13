@@ -236,9 +236,16 @@ void Render::select_bench()
         else
             combo_preview = "Select...";
 
-        const auto combo_preview_slice = combo_preview != "Select..." ? combo_preview.substr(0, combo_preview.size() - 8) : "Select...";
-        const auto formatted_name = combo_preview != "Select..." ? format_build_name(combo_preview) : "Select...";
-        if (ImGui::BeginCombo("##benches_combo", combo_preview.c_str()))
+        auto combo_preview_slice = std::string{"Select..."};
+        auto formatted_name = std::string{"Select..."};
+        if (combo_preview != "Select...")
+        {
+            combo_preview_slice = combo_preview.substr(0, combo_preview.size() - 8);
+            formatted_name  = format_build_name(combo_preview_slice);
+            formatted_name = formatted_name.substr(4);
+        }
+
+        if (ImGui::BeginCombo("##benches_combo", formatted_name.c_str()))
         {
             for (const auto &[original_index, file_info] : filtered_files)
             {
