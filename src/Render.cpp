@@ -127,17 +127,24 @@ void Render::set_data_path(const std::filesystem::path &path)
     benches_files = get_bench_files(bench_path);
 }
 
-void Render::key_press_cb(const bool pressed)
+void Render::key_press_cb(const bool pressed, const EvCombatDataPersistent &combat_data)
 {
+    // NOTE: maybe add timer here if arc sends event over multiple frames
     key_press_event_in_this_frame = pressed;
+    if (pressed)
+        curr_combat_data = combat_data;
 }
 
 EvCombatDataPersistent Render::get_current_skill()
 {
-    if (!key_press_event_in_this_frame)
-        return EvCombatDataPersistent{};
+    if (!key_press_event_in_this_frame || curr_combat_data.SkillID == 0)
+    {
+        auto skill_ev = EvCombatDataPersistent{};
+        skill_ev.SkillID = -10000;
+        return skill_ev;
+    }
 
-    return combat_buffer[prev_combat_buffer_index];
+    return curr_combat_data;
 }
 
 void Render::toggle_vis(const bool flag)
@@ -281,6 +288,8 @@ void Render::select_bench()
 
 void Render::rotation_render(ID3D11Device *pd3dDevice)
 {
+    static auto last_skill = EvCombatDataPersistent{};
+
     ImGui::BeginChild("CombatBufferChild", ImVec2(0, 200), true, ImGuiWindowFlags_HorizontalScrollbar);
 
     const auto [start, end, current_idx] = rotation_run.get_current_rotation_indices();
@@ -309,8 +318,18 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
     }
 
     const auto skill_ev = get_current_skill();
-    if (skill_ev.SkillID != 0)
-        rotation_run.pop_bench_rotation_queue();
+    if (skill_ev.SkillID != 0 && last_skill.SkillID != skill_ev.SkillID)
+    {
+        const auto curr_rota_skill = rotation_run.bench_rotation_queue.front();
+
+        // TODO: logic here, what happens if user clicks the next skill?
+        // TODO: Skip to next-next skill?
+        if (curr_rota_skill.skill_id == skill_ev.SkillID)
+        {
+            rotation_run.pop_bench_rotation_queue();
+            last_skill = skill_ev;
+        }
+    }
 
     ImGui::EndChild();
 }
