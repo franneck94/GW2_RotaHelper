@@ -26,7 +26,6 @@ struct BenchFileInfo
     {
         if (is_header)
         {
-            // Use folder icon for directory headers
             display_name = "[+] " + relative.string();
         }
         else
@@ -54,13 +53,14 @@ public:
     void select_bench();
     void rotation_render(ID3D11Device *pd3dDevice);
     std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::string>> get_file_data_pairs(std::string &filter_string);
-    void key_press_cb(const bool pressed);
+    void key_press_cb(const bool pressed, const EvCombatDataPersistent &combat_data);
     void toggle_vis(const bool flag);
     EvCombatDataPersistent get_current_skill();
 
     bool show_window;
 
     bool key_press_event_in_this_frame;
+    EvCombatDataPersistent curr_combat_data;
 
     std::filesystem::path data_path;
     std::filesystem::path img_path;
