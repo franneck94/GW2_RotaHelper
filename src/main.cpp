@@ -85,22 +85,43 @@ int main(int, char **)
         ImGuiIO &io = ImGui::GetIO();
 
         bool any_key_pressed = false;
-        static bool previous_key_state = false;
+        enum class Keys
+        {
+            W,
+            A,
+            S,
+            D,
+            NONE,
+        };
+        Keys key_pressed = Keys::NONE;
+        std::map<int, Keys> key_map = {
+            {0x57, Keys::W}, // VK_W
+            {0x41, Keys::A}, // VK_A
+            {0x53, Keys::S}, // VK_S
+            {0x44, Keys::D}  // VK_D
+        };
 
         for (int vk = 0x08; vk <= 0xFE; vk++) // VK_BACK to 0xFE (most virtual keys)
         {
             if (GetAsyncKeyState(vk) & 0x8000)
             {
                 any_key_pressed = true;
+                auto it = key_map.find(vk);
+                if (it != key_map.end())
+                {
+                    key_pressed = it->second;
+                }
+                else
+                {
+                    key_pressed = Keys::NONE;
+                }
                 break;
             }
         }
 
-        render.key_press_cb(false);
-
-        if (any_key_pressed && !previous_key_state)
+        if (any_key_pressed)
         {
-            auto zero_combat_data = EvCombatDataPersistent{
+            auto combat_data = EvCombatDataPersistent{
                 .SrcName = "Console",
                 .SrcID = 0,
                 .SrcProfession = 0,
@@ -110,17 +131,49 @@ int main(int, char **)
                 .DstSpecialization = 1,
                 .SkillName = std::string("KeyPressEvent"),
                 .SkillID = 1};
+            auto valid_key = false;
 
-            prev_combat_buffer_index = combat_buffer_index;
-            combat_buffer[combat_buffer_index] = zero_combat_data;
-            combat_buffer_index = (combat_buffer_index + 1) % combat_buffer.size();
+            switch (key_pressed)
+            {
+            case Keys::W:
+                combat_data.SkillID = 5822;
+                combat_data.SkillName = "Galvanic Bomb";
+                break;
+            case Keys::A:
+                combat_data.SkillID = 5813;
+                combat_data.SkillName = "Big Ol\u0027 Bomb";
+                break;
+            case Keys::S:
+                combat_data.SkillID = 76530;
+                combat_data.SkillName = "Magnetic Bomb";
+                break;
+            case Keys::D:
+                combat_data.SkillID = 5823;
+                combat_data.SkillName = "Fire Bomb";
+                break;
+            default:
+                // Handle default case
+                break;
+            }
 
-            render.key_press_cb(true);
+            valid_key = (combat_data.SkillID != 0);
 
-            std::cout << "Key pressed\n";
+            if (valid_key)
+            {
+                prev_combat_buffer_index = combat_buffer_index;
+                combat_buffer[combat_buffer_index] = combat_data;
+                combat_buffer_index = (combat_buffer_index + 1) % combat_buffer.size();
+                render.key_press_cb(valid_key, combat_data);
+            }
+            else
+            {
+                render.key_press_cb(false, EvCombatDataPersistent{});
+            }
         }
-
-        previous_key_state = any_key_pressed;
+        else
+        {
+            render.key_press_cb(false, EvCombatDataPersistent{});
+        }
 
         render.render(g_pd3dDevice);
 
