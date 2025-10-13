@@ -341,8 +341,21 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
             const auto match_next = (next_rota_skill.skill_id == skill_ev.SkillID);
             const auto match_next_next = (next_next_rota_skill.skill_id == skill_ev.SkillID);
 
-            if (match_current || match_next || match_next_next)
+            if (match_current)
             {
+                rotation_run.pop_bench_rotation_queue();
+                last_skill = skill_ev;
+            }
+            else if (match_next)
+            {
+                rotation_run.pop_bench_rotation_queue();
+                rotation_run.pop_bench_rotation_queue();
+                last_skill = skill_ev;
+            }
+            else if (match_next_next)
+            {
+                rotation_run.pop_bench_rotation_queue();
+                rotation_run.pop_bench_rotation_queue();
                 rotation_run.pop_bench_rotation_queue();
                 last_skill = skill_ev;
             }
