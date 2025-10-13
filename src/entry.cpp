@@ -37,6 +37,7 @@ HMODULE hSelf;
 AddonDefinition AddonDef{};
 std::filesystem::path AddonPath;
 std::filesystem::path SettingsPath;
+ID3D11Device *pd3dDevice = nullptr;
 
 void ToggleShowWindowGW2_RotaHelper(const char *keybindIdentifier, bool)
 {
@@ -146,6 +147,17 @@ void AddonLoad(AddonAPI *aApi)
     APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_NORMAL", IDB_GW2_RotaHelper_NORMAL, hSelf, nullptr);
     APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_HOVER", IDB_GW2_RotaHelper_HOVER, hSelf, nullptr);
     RegisterQuickAccessShortcut();
+
+    if (APIDefs && APIDefs->DataLink.Get)
+    {
+        IDXGISwapChain *pSwapChain = (IDXGISwapChain *)APIDefs->SwapChain;
+        if (pSwapChain)
+        {
+            HRESULT hr = pSwapChain->GetDevice(__uuidof(ID3D11Device), (void **)&pd3dDevice);
+            if (FAILED(hr))
+                pd3dDevice = nullptr;
+        }
+    }
 }
 
 void AddonUnload()
@@ -164,32 +176,14 @@ void AddonUnload()
 void AddonRender()
 {
     if ((!NexusLink) || (!NexusLink->IsGameplay) || (!Settings::ShowWindow))
-    {
         return;
-    }
 
     render.toggle_vis(Settings::ShowWindow);
-
-    ID3D11Device *pd3dDevice = nullptr;
-    if (APIDefs && APIDefs->DataLink.Get)
-    {
-        IDXGISwapChain *pSwapChain = (IDXGISwapChain *)APIDefs->SwapChain;
-        if (pSwapChain)
-        {
-            HRESULT hr = pSwapChain->GetDevice(__uuidof(ID3D11Device), (void **)&pd3dDevice);
-            if (FAILED(hr))
-            {
-                pd3dDevice = nullptr;
-            }
-        }
-    }
-
+    render.key_press_cb(true, {});
     render.render(pd3dDevice, APIDefs);
 
     if (pd3dDevice)
-    {
         pd3dDevice->Release();
-    }
 }
 
 void AddonOptions()
