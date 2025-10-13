@@ -320,14 +320,16 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
     const auto skill_ev = get_current_skill();
     if (skill_ev.SkillID != 0 && last_skill.SkillID != skill_ev.SkillID)
     {
-        const auto curr_rota_skill = rotation_run.bench_rotation_queue.front();
-
-        // TODO: logic here, what happens if user clicks the next skill?
-        // TODO: Skip to next-next skill?
-        if (curr_rota_skill.skill_id == skill_ev.SkillID)
+        if (rotation_run.bench_rotation_queue.size() > 3)
         {
-            rotation_run.pop_bench_rotation_queue();
-            last_skill = skill_ev;
+            const auto curr_queue = std::queue();
+            const auto curr_rota_skill = rotation_run.bench_rotation_queue.front();
+
+            if (curr_rota_skill.skill_id == skill_ev.SkillID)
+            {
+                rotation_run.pop_bench_rotation_queue();
+                last_skill = skill_ev;
+            }
         }
     }
 
