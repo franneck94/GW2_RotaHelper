@@ -19,8 +19,7 @@ namespace ArcEv
 		uint64_t id,
 		uint64_t revision)
 	{
-		if (OnCombat("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ev, src, dst, skillname, id, revision))
-			render.key_press_cb(true);
+		OnCombat("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ev, src, dst, skillname, id, revision);
 	}
 
 	bool OnCombat(
@@ -63,6 +62,8 @@ namespace ArcEv
 				prev_combat_buffer_index = combat_buffer_index;
 				combat_buffer[combat_buffer_index] = data;
 				combat_buffer_index = (combat_buffer_index + 1) % combat_buffer.size();
+
+				render.key_press_cb(true, data);
 
 				return true;
 			}
