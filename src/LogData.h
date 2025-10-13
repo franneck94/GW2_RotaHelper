@@ -7,7 +7,7 @@
 #include <iostream>
 #include <map>
 #include <optional>
-#include <queue>
+#include <list>
 #include <string>
 #include <variant>
 #include <vector>
@@ -29,8 +29,8 @@ public:
     void restart_rotation();
     bool is_current_run_done() const;
 
-    std::queue<std::future<void>> futures;
+    std::list<std::future<void>> futures;
     SkillInfoMap skill_info_map;
     RotationInfoVec rotation_vector;
-    RotationInfoQueue bench_rotation_queue;
+    RotationInfoList bench_rotation_list;
 };

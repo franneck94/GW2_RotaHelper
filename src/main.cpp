@@ -140,8 +140,8 @@ int main(int, char **)
                 combat_data.SkillName = "Thunderclap";
                 break;
             case Keys::A:
-                combat_data.SkillID = 5813;
-                combat_data.SkillName = "Big Ol\u0027 Bomb";
+                combat_data.SkillID = 1058590;
+                combat_data.SkillName = "Electro-whirl";
                 break;
             case Keys::S:
                 combat_data.SkillID = 76530;

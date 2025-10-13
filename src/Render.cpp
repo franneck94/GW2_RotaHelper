@@ -320,22 +320,15 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
     const auto skill_ev = get_current_skill();
     if (skill_ev.SkillID != 0 && last_skill.SkillID != skill_ev.SkillID)
     {
-        if (rotation_run.bench_rotation_queue.size() > 2)
+        if (rotation_run.bench_rotation_list.size() > 2)
         {
-            auto local_queue = std::queue<RotationInfo>{};
-            auto temp_queue = rotation_run.bench_rotation_queue;
-
-            for (int i = 0; i < 3 && !temp_queue.empty(); ++i)
-            {
-                local_queue.push(temp_queue.front());
-                temp_queue.pop();
-            }
-
-            const auto curr_rota_skill = local_queue.front();
-            local_queue.pop();
-            const auto next_rota_skill = local_queue.front();
-            local_queue.pop();
-            const auto next_next_rota_skill = local_queue.front();
+            // With a list, we can directly access elements by iterator
+            auto it = rotation_run.bench_rotation_list.begin();
+            const auto curr_rota_skill = *it;
+            ++it;
+            const auto next_rota_skill = *it;
+            ++it;
+            const auto next_next_rota_skill = *it;
 
             const auto match_current = (curr_rota_skill.skill_id == skill_ev.SkillID);
             const auto match_next = (next_rota_skill.skill_id == skill_ev.SkillID);
@@ -343,20 +336,20 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
 
             if (match_current)
             {
-                rotation_run.pop_bench_rotation_queue();
+                rotation_run.bench_rotation_list.pop_front();
                 last_skill = skill_ev;
             }
             else if (match_next)
             {
-                rotation_run.pop_bench_rotation_queue();
-                rotation_run.pop_bench_rotation_queue();
+                rotation_run.bench_rotation_list.pop_front();
+                rotation_run.bench_rotation_list.pop_front();
                 last_skill = skill_ev;
             }
             else if (match_next_next)
             {
-                rotation_run.pop_bench_rotation_queue();
-                rotation_run.pop_bench_rotation_queue();
-                rotation_run.pop_bench_rotation_queue();
+                rotation_run.bench_rotation_list.pop_front();
+                rotation_run.bench_rotation_list.pop_front();
+                rotation_run.bench_rotation_list.pop_front();
                 last_skill = skill_ev;
             }
         }
@@ -382,7 +375,7 @@ void Render::render(ID3D11Device *pd3dDevice, AddonAPI *APIDefs)
             if (rotation_run.futures.front().valid())
             {
                 rotation_run.futures.front().get();
-                rotation_run.futures.pop();
+                rotation_run.futures.pop_front();
             }
 
             ImGui::End();

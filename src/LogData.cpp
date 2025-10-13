@@ -16,7 +16,7 @@
 #include <future>
 #include <iostream>
 #include <map>
-#include <queue>
+#include <list>
 #include <string>
 #include <vector>
 
@@ -346,12 +346,12 @@ namespace
         return success;
     }
 
-    std::queue<std::future<void>> StartDownloadAllSkillIcons(
+    std::list<std::future<void>> StartDownloadAllSkillIcons(
         const SkillInfoMap &skill_info_map,
         const std::filesystem::path &img_folder)
     {
         std::filesystem::create_directories(img_folder);
-        auto futures = std::queue<std::future<void>>{};
+        auto futures = std::list<std::future<void>>{};
 
         for (const auto &[skill_id, info] : skill_info_map)
         {
@@ -369,7 +369,7 @@ namespace
                 continue;
 
             std::cout << "Downloading " << info.icon_url << " to " << out_path << std::endl;
-            futures.push(std::async(std::launch::async, [url = info.icon_url, out_path]()
+            futures.emplace_back(std::async(std::launch::async, [url = info.icon_url, out_path]()
                                     { DownloadFileFromURL(url, out_path); }));
         }
 
@@ -394,18 +394,18 @@ void RotationRun::load_data(const std::filesystem::path &json_path, const std::f
 
 void RotationRun::pop_bench_rotation_queue()
 {
-    if (!bench_rotation_queue.empty())
+    if (!bench_rotation_list.empty())
     {
-        bench_rotation_queue.pop();
+        bench_rotation_list.pop_front();
     }
 }
 
 std::tuple<int, int, size_t> RotationRun::get_current_rotation_indices() const
 {
-    if (bench_rotation_queue.empty())
+    if (bench_rotation_list.empty())
         return {-1, -1, -1};
 
-    const auto queue_size = bench_rotation_queue.size();
+    const auto queue_size = bench_rotation_list.size();
     const auto total_size = rotation_vector.size();
     const auto current_idx = total_size - queue_size;
     const auto start = static_cast<int32_t>(current_idx - 2);
@@ -424,10 +424,10 @@ RotationInfo RotationRun::get_rotation_skill(const size_t idx) const
 
 void RotationRun::restart_rotation()
 {
-    bench_rotation_queue = RotationInfoQueue(std::deque<RotationInfo>(rotation_vector.begin(), rotation_vector.end()));
+    bench_rotation_list = std::list<RotationInfo>(rotation_vector.begin(), rotation_vector.end());
 }
 
 bool RotationRun::is_current_run_done() const
 {
-    return bench_rotation_queue.empty();
+    return bench_rotation_list.empty();
 }

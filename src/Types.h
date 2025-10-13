@@ -5,7 +5,7 @@
 #include <map>
 #include <variant>
 #include <optional>
-#include <queue>
+#include <list>
 #include <vector>
 
 #include "arcdps/ArcDPS.h"
@@ -86,4 +86,4 @@ struct RotationInfo
 };
 
 using RotationInfoVec = std::vector<RotationInfo>;
-using RotationInfoQueue = std::queue<RotationInfo>;
+using RotationInfoList = std::list<RotationInfo>;
