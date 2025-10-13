@@ -26,15 +26,11 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std
     ID3D11Texture2D *texture = nullptr;
     ID3D11ShaderResourceView *srv = nullptr;
 
-    // COM should already be initialized by D3D11, but we'll check anyway
-    HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
-    bool com_initialized = SUCCEEDED(hr);
+    auto hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
+    auto com_initialized = SUCCEEDED(hr);
 
-    // If COM was already initialized, hr will be S_FALSE, which is still success
     if (FAILED(hr) && hr != RPC_E_CHANGED_MODE)
-    {
         return nullptr;
-    }
 
     hr = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER,
                           IID_PPV_ARGS(&factory));
@@ -42,6 +38,7 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std
     {
         if (com_initialized)
             CoUninitialize();
+
         return nullptr;
     }
 
@@ -114,7 +111,6 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std
         hr = device->CreateShaderResourceView(texture, nullptr, &srv);
     }
 
-    // Clean up intermediate resources
     if (texture)
         texture->Release();
     converter->Release();
@@ -122,7 +118,6 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std
     decoder->Release();
     factory->Release();
 
-    // Only uninitialize COM if we initialized it
     if (com_initialized)
         CoUninitialize();
 
@@ -143,15 +138,16 @@ TextureMap LoadAllSkillTextures(
     {
         if (info.name.empty())
             continue;
+
         std::string ext = ".png";
         size_t dot = info.icon_url.find_last_of('.');
         if (dot != std::string::npos && dot + 1 < info.icon_url.size())
-        {
             ext = info.icon_url.substr(dot);
-        }
+
         std::filesystem::path img_path = img_folder / (std::to_string(skill_id) + ext);
         if (!std::filesystem::exists(img_path))
             continue;
+
         auto *tex = LoadTextureFromPNG_WIC(device, img_path.wstring());
         if (tex)
             texture_map[skill_id] = tex;
@@ -173,12 +169,14 @@ TextureMap LoadAllSkillTexturesWithAPI(
     {
         if (info.name.empty())
             continue;
+
         std::string ext = ".png";
         size_t dot = info.icon_url.find_last_of('.');
         if (dot != std::string::npos && dot + 1 < info.icon_url.size())
         {
             ext = info.icon_url.substr(dot);
         }
+
         std::filesystem::path img_path = img_folder / (std::to_string(skill_id) + ext);
         if (!std::filesystem::exists(img_path))
             continue;
@@ -189,6 +187,7 @@ TextureMap LoadAllSkillTexturesWithAPI(
             texture_map[skill_id] = (ID3D11ShaderResourceView*)nexus_texture->Resource;
         }
     }
+
     return texture_map;
 }
 
@@ -202,5 +201,6 @@ void ReleaseTextureMap(TextureMap &texture_map)
             texture = nullptr;
         }
     }
+
     texture_map.clear();
 }
