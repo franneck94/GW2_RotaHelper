@@ -1,5 +1,7 @@
 #include <filesystem>
 #include <string>
+#include <array>
+#include <filesystem>
 
 #include "arcdps/ArcDPS.h"
 
