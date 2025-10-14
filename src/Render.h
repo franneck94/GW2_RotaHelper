@@ -2,13 +2,10 @@
 
 #include <d3d11.h>
 
-#include <atomic>
 #include <filesystem>
-#include <future>
 #include <string>
-#include <thread>
-#include <set>
 #include <utility>
+#include <set>
 
 #include "LogData.h"
 #include "Textures.h"
@@ -53,7 +50,7 @@ public:
     void select_bench();
     void rotation_render(ID3D11Device *pd3dDevice);
     std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::string>> get_file_data_pairs(std::string &filter_string);
-    void key_press_cb(const bool pressed, const EvCombatDataPersistent &combat_data);
+    void skill_activation_callback(const bool pressed, const EvCombatDataPersistent &combat_data);
     void toggle_vis(const bool flag);
     EvCombatDataPersistent get_current_skill();
 
@@ -66,9 +63,6 @@ public:
     std::filesystem::path img_path;
     std::filesystem::path bench_path;
     std::vector<BenchFileInfo> benches_files;
-
-    RotationRun rotation_run{};
-    TextureMap texture_map{};
 
     int selected_bench_index = -1;
     std::filesystem::path selected_file_path;

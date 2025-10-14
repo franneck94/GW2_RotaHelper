@@ -5,9 +5,159 @@
 /// Description  :  Contains the callbacks for ArcDPS.
 ///----------------------------------------------------------------------------------------------------
 
+#include <chrono>
+#include <fstream>
+#include <iomanip>
+#include <map>
+#include <string>
+
 #include "ArcEvents.h"
 
 #include "Shared.h"
+#include "Types.h"
+
+#define USE_ANY_SKILL_LOGIC
+#define USE_SKILL_ID_MATCH_LOGIC
+#define USE_TIME_FILTER_LOGIC
+
+constexpr static auto MIN_TIME_DIFF = 200U;
+
+namespace
+{
+	std::ofstream g_event_log_file;
+	bool g_event_log_initialized = false;
+
+	void InitEventLogFile()
+	{
+		if (!g_event_log_initialized)
+		{
+			auto now = std::chrono::system_clock::now();
+			auto t = std::chrono::system_clock::to_time_t(now);
+			std::tm tm;
+			localtime_s(&tm, &t);
+
+			auto log_dir = std::filesystem::path{"C:/logs"};
+			if (!std::filesystem::exists(log_dir))
+				std::filesystem::create_directories(log_dir);
+
+			char buf[64];
+			std::strftime(buf, sizeof(buf), "eventlog_%Y%m%d_%H%M%S.csv", &tm);
+			const auto log_path = log_dir / buf;
+			g_event_log_file.open(log_path.string(), std::ios::out | std::ios::app);
+			g_event_log_file << "Prefix,Timestamp,SrcName,SrcID,SrcProfession,SrcSpecialization,DstName,DstID,DstProfession,DstSpecialization,SkillName,SkillID\n";
+			g_event_log_initialized = true;
+		}
+	}
+
+	void LogEvCombatDataPersistentCSV(const EvCombatDataPersistent &data, const std::string &log_prefix)
+	{
+		if (!g_event_log_initialized)
+			InitEventLogFile();
+
+		if (g_event_log_file.is_open())
+		{
+			auto now = std::chrono::system_clock::now();
+			auto t = std::chrono::system_clock::to_time_t(now);
+			std::tm tm;
+#ifdef _WIN32
+			localtime_s(&tm, &t);
+#else
+			tm = *std::localtime(&t);
+#endif
+			char timebuf[32];
+			std::strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M:%S", &tm);
+			auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
+
+			g_event_log_file << log_prefix << ','
+							 << '"' << timebuf << '.' << std::setfill('0') << std::setw(3) << ms.count() << '"' << ','
+							 << data.SrcName << ',' << data.SrcID << ',' << data.SrcProfession << ',' << data.SrcSpecialization << ','
+							 << data.DstName << ',' << data.DstID << ',' << data.DstProfession << ',' << data.DstSpecialization << ','
+							 << data.SkillName << ',' << data.SkillID << '\n';
+			g_event_log_file.flush();
+		}
+	}
+
+	bool IsValidCombatEvent(const EvCombatData &evCbtData)
+	{
+		return evCbtData.src != nullptr && evCbtData.dst != nullptr && evCbtData.skillname != nullptr && evCbtData.ev != nullptr;
+	}
+
+	bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
+	{
+		const auto &skill_info_map = rotation_run.skill_info_map;
+		return skill_info_map.find(evCbtData.SkillID) != skill_info_map.end();
+	}
+
+	bool IsSkillFromBuild_NameBased(const EvCombatDataPersistent &evCbtData)
+	{
+		const auto &skill_info_map = rotation_run.skill_info_map;
+		for (const auto &kv : skill_info_map)
+		{
+			if (kv.second.name == evCbtData.SkillName)
+				return true;
+		}
+		return false;
+	}
+
+	bool IsAnySkillFromBuild(const EvCombatDataPersistent &evCbtData)
+	{
+#ifdef USE_SKILL_ID_MATCH_LOGIC
+		return IsSkillFromBuild_IdBased(evCbtData);
+#else
+		return IsSkillFromBuild_NameBased(evCbtData);
+#endif
+	}
+
+#ifdef USE_SKILL_ID_MATCH_LOGIC
+	std::chrono::steady_clock::time_point UpdateCastTime(std::map<int, std::chrono::steady_clock::time_point> &last_cast_map, const EvCombatDataPersistent &evCbtData)
+#else
+	std::chrono::steady_clock::time_point UpdateCastTime(std::map<std::string, std::chrono::steady_clock::time_point> &last_cast_map, const EvCombatDataPersistent &evCbtData)
+#endif
+	{
+		const auto now = std::chrono::steady_clock::now();
+
+#ifdef USE_SKILL_ID_MATCH_LOGIC
+		last_cast_map[evCbtData.SkillID] = now;
+#else
+		last_cast_map[evCbtData.SkillName] = now;
+#endif
+
+		return now;
+	}
+
+	std::chrono::steady_clock::time_point GetLastCastTime(const EvCombatDataPersistent &evCbtData)
+	{
+#ifdef USE_SKILL_ID_MATCH_LOGIC
+		static auto last_cast_map = std::map<int, std::chrono::steady_clock::time_point>{};
+#else
+		static auto last_cast_map = std::map<std::string, std::chrono::steady_clock::time_point>{};
+
+#endif
+
+#ifdef USE_SKILL_ID_MATCH_LOGIC
+		const auto it = last_cast_map.find(evCbtData.SkillID);
+#else
+		const auto it = last_cast_map.find(evCbtData.SkillName);
+#endif
+		if (it != last_cast_map.end())
+		{
+			const auto time = it->second;
+			UpdateCastTime(last_cast_map, evCbtData);
+
+			return time;
+		}
+
+		const auto now = UpdateCastTime(last_cast_map, evCbtData);
+		return now;
+	}
+
+	bool IsNotTheSameCast(const EvCombatDataPersistent &evCbtData)
+	{
+		const auto now = std::chrono::steady_clock::now();
+		const auto last_cast_time = GetLastCastTime(evCbtData);
+		return (now - last_cast_time) > std::chrono::milliseconds(MIN_TIME_DIFF);
+	}
+};
 
 namespace ArcEv
 {
@@ -35,7 +185,7 @@ namespace ArcEv
 		if (APIDefs == nullptr)
 			return false;
 
-		EvCombatData evCbtData{
+		auto evCbtData = EvCombatData{
 			ev,
 			src,
 			dst,
@@ -43,9 +193,11 @@ namespace ArcEv
 			id,
 			revision};
 
+#ifdef GW2_NEXUS_ADDON
 		APIDefs->Events.Raise(channel, &evCbtData);
+#endif
 
-		if (evCbtData.src->Name != nullptr && evCbtData.skillname != nullptr && evCbtData.ev != nullptr)
+		if (IsValidCombatEvent(evCbtData))
 		{
 			if (evCbtData.src && evCbtData.id != 0 && evCbtData.src->IsSelf)
 			{
@@ -75,13 +227,7 @@ namespace ArcEv
 					.SkillName = std::string(evCbtData.skillname),
 					.SkillID = evCbtData.ev->SkillID};
 
-				prev_combat_buffer_index = combat_buffer_index;
-				combat_buffer[combat_buffer_index] = data;
-				combat_buffer_index = (combat_buffer_index + 1) % combat_buffer.size();
-
-				render.key_press_cb(true, data);
-
-				std::cout << evCbtData.skillname << " (FIRST CAST)\n";
+				render.skill_activation_callback(true, data);
 
 				return true;
 			}
