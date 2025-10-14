@@ -180,10 +180,10 @@ namespace ArcEv
 		char *skillname,
 		uint64_t id, uint64_t revision)
 	{
-		static auto last_time_skill_cast = std::map<uint32_t, uint64_t>{};
-
+#ifdef GW2_NEXUS_ADDON
 		if (APIDefs == nullptr)
 			return false;
+#endif
 
 		auto evCbtData = EvCombatData{
 			ev,
@@ -199,37 +199,38 @@ namespace ArcEv
 
 		if (IsValidCombatEvent(evCbtData))
 		{
-			if (evCbtData.src && evCbtData.id != 0 && evCbtData.src->IsSelf)
+			const auto data = EvCombatDataPersistent{
+				.SrcName = std::string(evCbtData.src->Name),
+				.SrcID = evCbtData.src->ID,
+				.SrcProfession = evCbtData.src->Profession,
+				.SrcSpecialization = evCbtData.src->Specialization,
+				.DstName = std::string(evCbtData.dst->Name),
+				.DstID = evCbtData.dst->ID,
+				.DstProfession = evCbtData.dst->Profession,
+				.DstSpecialization = evCbtData.dst->Specialization,
+				.SkillName = std::string(evCbtData.skillname),
+				.SkillID = evCbtData.id};
+
+#ifdef _DEBUG
+			LogEvCombatDataPersistentCSV(data, "General");
+#endif
+
+#ifdef USE_ANY_SKILL_LOGIC
+			if (rotation_run.skill_info_map.empty() || IsAnySkillFromBuild(data))
+#endif
 			{
-				const auto skill_id = static_cast<uint32_t>(evCbtData.ev->SkillID);
-				const auto current_time = evCbtData.ev->Time;
-
-				auto it = last_time_skill_cast.find(skill_id);
-				if (it != last_time_skill_cast.end())
+#ifdef USE_TIME_FILTER_LOGIC
+				if (IsNotTheSameCast(data))
+#endif
 				{
-					const auto time_diff = current_time - it->second;
-					if (time_diff <= 250)
-					{
-						return false;
-					}
+#ifdef _DEBUG
+					LogEvCombatDataPersistentCSV(data, "Sanitized");
+#endif
+
+					render.skill_activation_callback(true, data);
+
+					return true;
 				}
-
-				last_time_skill_cast[skill_id] = current_time;
-
-				auto data = EvCombatDataPersistent{
-					.SrcName = evCbtData.src->Name,
-					.SrcID = evCbtData.src->ID,
-					.SrcProfession = evCbtData.src->Profession,
-					.SrcSpecialization = evCbtData.src->Specialization,
-					.DstID = evCbtData.dst->ID,
-					.DstProfession = evCbtData.dst->Profession,
-					.DstSpecialization = evCbtData.dst->Specialization,
-					.SkillName = std::string(evCbtData.skillname),
-					.SkillID = evCbtData.ev->SkillID};
-
-				render.skill_activation_callback(true, data);
-
-				return true;
 			}
 		}
 
