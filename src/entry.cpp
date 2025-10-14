@@ -175,7 +175,6 @@ void AddonRender()
         return;
 
     render.toggle_vis(Settings::ShowWindow);
-    render.key_press_cb(true, {});
     render.render(pd3dDevice, APIDefs);
 }
 
