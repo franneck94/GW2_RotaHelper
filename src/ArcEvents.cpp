@@ -16,9 +16,7 @@
 #include "Shared.h"
 #include "Types.h"
 
-#ifdef GW2_NEXUS_ADDON
 #define USE_ANY_SKILL_LOGIC
-#endif
 #define USE_SKILL_ID_MATCH_LOGIC
 #define USE_TIME_FILTER_LOGIC
 
@@ -218,7 +216,7 @@ namespace ArcEv
 #endif
 
 #ifdef USE_ANY_SKILL_LOGIC
-			if (IsAnySkillFromBuild(data))
+			if (rotation_run.skill_info_map.empty() || IsAnySkillFromBuild(data))
 #endif
 			{
 #ifdef USE_TIME_FILTER_LOGIC
