@@ -12,6 +12,18 @@
 #include "Shared.h"
 #include "Types.h"
 
+namespace
+{
+    enum class Keys
+    {
+        W,
+        A,
+        S,
+        D,
+        NONE,
+    };
+};
+
 // Data
 static ID3D11Device *g_pd3dDevice = NULL;
 static ID3D11DeviceContext *g_pd3dDeviceContext = NULL;
@@ -90,16 +102,9 @@ int main(int, char **)
 
         ImGuiIO &io = ImGui::GetIO();
 
-        bool any_key_pressed = false;
-        enum class Keys
-        {
-            W,
-            A,
-            S,
-            D,
-            NONE,
-        };
-        Keys key_pressed = Keys::NONE;
+        auto any_key_pressed = false;
+        static auto prev_key = Keys::NONE;
+        auto key_pressed = Keys::NONE;
         std::map<int, Keys> key_map = {
             {0x57, Keys::W}, // VK_W
             {0x41, Keys::A}, // VK_A
@@ -116,6 +121,7 @@ int main(int, char **)
                 if (it != key_map.end())
                 {
                     key_pressed = it->second;
+                    prev_key = key_pressed;
                 }
                 else
                 {
@@ -125,13 +131,11 @@ int main(int, char **)
             }
         }
 
-        if (any_key_pressed)
+        if (!any_key_pressed && prev_key != Keys::NONE)
         {
             auto skill_id = std::int32_t{0};
             auto skill_name = std::string{""};
-            auto valid_key = false;
-
-            switch (key_pressed)
+            switch (prev_key)
             {
             case Keys::W:
                 skill_id = 1058593;
@@ -149,35 +153,29 @@ int main(int, char **)
                 skill_id = 5823;
                 skill_name = "Fire Bomb";
                 break;
-            default:
-                // Handle default case
-                break;
             }
 
-            valid_key = (skill_id != 0);
+            prev_key = Keys::NONE;
 
-            if (valid_key)
-            {
-                auto fake_ev = ArcDPS::CombatEvent{};
-                auto fake_src = ArcDPS::AgentShort{};
-                auto fake_dst = ArcDPS::AgentShort{};
-                char fake_skillname[64] = {};
-                strncpy(fake_skillname, skill_name.c_str(), sizeof(fake_skillname) - 1);
-                auto fake_id = static_cast<uint64_t>(skill_id);
-                auto fake_revision = static_cast<uint64_t>(1);
+            auto fake_ev = ArcDPS::CombatEvent{};
+            auto fake_src = ArcDPS::AgentShort{};
+            auto fake_dst = ArcDPS::AgentShort{};
+            char fake_skillname[64] = {};
+            strncpy(fake_skillname, skill_name.c_str(), sizeof(fake_skillname) - 1);
+            auto fake_id = static_cast<uint64_t>(skill_id);
+            auto fake_revision = static_cast<uint64_t>(1);
 
-                fake_src.ID = 123;
-                fake_src.Profession = 3;
-                fake_src.Specialization = 4;
-                fake_src.Name = (char *)"Source";
+            fake_src.ID = 123;
+            fake_src.Profession = 3;
+            fake_src.Specialization = 4;
+            fake_src.Name = (char *)"Source";
 
-                fake_dst.ID = 456;
-                fake_dst.Profession = 5;
-                fake_dst.Specialization = 6;
-                fake_dst.Name = (char *)"Target";
+            fake_dst.ID = 456;
+            fake_dst.Profession = 5;
+            fake_dst.Specialization = 6;
+            fake_dst.Name = (char *)"Target";
 
-                ArcEv::OnCombatLocal(&fake_ev, &fake_src, &fake_dst, fake_skillname, fake_id, fake_revision);
-            }
+            ArcEv::OnCombatLocal(&fake_ev, &fake_src, &fake_dst, fake_skillname, fake_id, fake_revision);
         }
 
         render.render(g_pd3dDevice);
