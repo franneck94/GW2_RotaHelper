@@ -40,7 +40,7 @@ namespace
 			std::strftime(buf, sizeof(buf), "eventlog_%Y%m%d_%H%M%S.csv", &tm);
 			g_event_log_file.open(buf, std::ios::out | std::ios::app);
 			// Write CSV header
-			g_event_log_file << "SrcName,SrcID,SrcProfession,SrcSpecialization,DstName,DstID,DstProfession,DstSpecialization,SkillName,SkillID\n";
+			g_event_log_file << "Timestamp,SrcName,SrcID,SrcProfession,SrcSpecialization,DstName,DstID,DstProfession,DstSpecialization,SkillName,SkillID\n";
 			g_event_log_initialized = true;
 		}
 	}
@@ -52,9 +52,22 @@ namespace
 
 		if (g_event_log_file.is_open())
 		{
-			g_event_log_file << '"' << data.SrcName << "\"," << data.SrcID << ',' << data.SrcProfession << ',' << data.SrcSpecialization << ','
-							 << ',' << data.DstName << "\"," << data.DstID << ',' << data.DstProfession << ',' << data.DstSpecialization << ','
-							 << ',' << data.SkillName << "\"," << data.SkillID << '\n';
+			auto now = std::chrono::system_clock::now();
+			auto t = std::chrono::system_clock::to_time_t(now);
+			std::tm tm;
+#ifdef _WIN32
+			localtime_s(&tm, &t);
+#else
+			tm = *std::localtime(&t);
+#endif
+			char timebuf[32];
+			std::strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M:%S", &tm);
+			auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
+
+			g_event_log_file << '"' << timebuf << '.' << std::setfill('0') << std::setw(3) << ms.count() << '"' << ','
+							 << data.SrcName << ',' << data.SrcID << ',' << data.SrcProfession << ',' << data.SrcSpecialization << ','
+							 << data.DstName << ',' << data.DstID << ',' << data.DstProfession << ',' << data.DstSpecialization << ','
+							 << data.SkillName << ',' << data.SkillID << '\n';
 			g_event_log_file.flush();
 		}
 	}
@@ -143,7 +156,9 @@ namespace ArcEv
 				.SkillName = std::string(evCbtData.skillname),
 				.SkillID = evCbtData.id};
 
+#ifdef _DEBUG
 			LogEvCombatDataPersistentCSV(data);
+#endif
 
 #ifdef USE_ANY_SKILL_LOGIC
 			if (IsAnySkillFromBuild(data))
