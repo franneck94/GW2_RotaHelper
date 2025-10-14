@@ -165,9 +165,6 @@ int main(int, char **)
 
             if (valid_key)
             {
-                prev_combat_buffer_index = combat_buffer_index;
-                combat_buffer[combat_buffer_index] = combat_data;
-                combat_buffer_index = (combat_buffer_index + 1) % combat_buffer.size();
                 render.key_press_cb(valid_key, combat_data);
             }
             else
