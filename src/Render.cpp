@@ -22,7 +22,6 @@
 
 #include "imgui.h"
 
-#include "Constants.h"
 #include "LogData.h"
 #include "Render.h"
 #include "Settings.h"
