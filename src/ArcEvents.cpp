@@ -26,6 +26,7 @@ namespace
 {
 	std::ofstream g_event_log_file;
 	bool g_event_log_initialized = false;
+	std::chrono::system_clock::time_point g_last_file_rotation_time;
 
 	void InitEventLogFile()
 	{
@@ -46,6 +47,21 @@ namespace
 			g_event_log_file.open(log_path.string(), std::ios::out | std::ios::app);
 			g_event_log_file << "Prefix,Timestamp,SrcName,SrcID,SrcProfession,SrcSpecialization,DstName,DstID,DstProfession,DstSpecialization,SkillName,SkillID\n";
 			g_event_log_initialized = true;
+		}
+	}
+
+	void RotateLogFileIfNeeded(const std::chrono::system_clock::time_point &current_time)
+	{
+		const auto time_diff = std::chrono::duration_cast<std::chrono::seconds>(current_time - g_last_file_rotation_time);
+
+		if (time_diff.count() >= 30)
+		{
+			if (g_event_log_file.is_open())
+				g_event_log_file.close();
+
+			g_event_log_initialized = false;
+			InitEventLogFile();
+			g_last_file_rotation_time = current_time;
 		}
 	}
 
@@ -85,7 +101,8 @@ namespace
 	bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
 	{
 		const auto &skill_info_map = rotation_run.skill_info_map;
-		return skill_info_map.find(evCbtData.SkillID) != skill_info_map.end();
+		const auto found = skill_info_map.find(evCbtData.SkillID) != skill_info_map.end();
+		return found;
 	}
 
 	bool IsSkillFromBuild_NameBased(const EvCombatDataPersistent &evCbtData)
@@ -180,6 +197,9 @@ namespace ArcEv
 		char *skillname,
 		uint64_t id, uint64_t revision)
 	{
+		const auto now = std::chrono::system_clock::now();
+		RotateLogFileIfNeeded(now);
+
 #ifdef GW2_NEXUS_ADDON
 		if (APIDefs == nullptr)
 			return false;
@@ -212,7 +232,7 @@ namespace ArcEv
 				.SkillID = evCbtData.id};
 
 #ifdef _DEBUG
-			LogEvCombatDataPersistentCSV(data, "General");
+			// LogEvCombatDataPersistentCSV(data, "General");
 #endif
 
 #ifdef USE_ANY_SKILL_LOGIC
