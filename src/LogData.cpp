@@ -15,8 +15,8 @@
 #include <fstream>
 #include <future>
 #include <iostream>
-#include <map>
 #include <list>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -110,8 +110,8 @@ namespace
         {
             auto name = std::string{};
             auto icon = std::string{};
-            auto trait_proc = false;
-            auto gear_proc = false;
+            auto trait_proc = true;
+            auto gear_proc = true;
 
             const auto name_it = skill_node.children.find("name");
             if (name_it != skill_node.children.end() && name_it->second.value.has_value())
@@ -119,6 +119,9 @@ namespace
                 if (const auto pval = std::get_if<std::string>(&name_it->second.value.value()))
                     name = *pval;
             }
+
+            if (name.find("Relic of") != std::string::npos || name.find("Sigil of") != std::string::npos)
+                continue;
 
             const auto icon_it = skill_node.children.find("icon");
             if (icon_it != skill_node.children.end() && icon_it->second.value.has_value())
@@ -237,6 +240,10 @@ namespace
                 if (skill_info_it != skill_info_map.end())
                 {
                     skill_name = skill_info_it->second.name;
+                }
+                else
+                {
+                    continue;
                 }
 
                 if (!skill_info_it->second.gear_proc && !skill_info_it->second.trait_proc)
@@ -370,7 +377,7 @@ namespace
 
             std::cout << "Downloading " << info.icon_url << " to " << out_path << std::endl;
             futures.emplace_back(std::async(std::launch::async, [url = info.icon_url, out_path]()
-                                    { DownloadFileFromURL(url, out_path); }));
+                                            { DownloadFileFromURL(url, out_path); }));
         }
 
         return futures;
