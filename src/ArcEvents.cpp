@@ -19,7 +19,7 @@ namespace
 {
 	bool IsValidCombatEvent(const EvCombatData &evCbtData)
 	{
-		return evCbtData.src != nullptr && evCbtData.skillname != nullptr && evCbtData.ev != nullptr;
+		return evCbtData.src != nullptr && evCbtData.dst != nullptr  && evCbtData.skillname != nullptr && evCbtData.ev != nullptr;
 	}
 
 	bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
@@ -99,10 +99,6 @@ namespace ArcEv
 			if (IsAnySkillFromBuild(data))
 #endif
 			{
-				prev_combat_buffer_index = combat_buffer_index;
-				combat_buffer[combat_buffer_index] = data;
-				combat_buffer_index = (combat_buffer_index + 1) % combat_buffer.size();
-
 				render.key_press_cb(true, data);
 
 				return true;
