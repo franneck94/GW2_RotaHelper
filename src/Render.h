@@ -50,7 +50,7 @@ public:
     void select_bench();
     void rotation_render(ID3D11Device *pd3dDevice);
     std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::string>> get_file_data_pairs(std::string &filter_string);
-    void key_press_cb(const bool pressed, const EvCombatDataPersistent &combat_data);
+    void skill_activation_callback(const bool pressed, const EvCombatDataPersistent &combat_data);
     void toggle_vis(const bool flag);
     EvCombatDataPersistent get_current_skill();
 
