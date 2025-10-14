@@ -102,6 +102,35 @@ namespace
 		return IsSkillFromBuild_NameBased(evCbtData);
 #endif
 	}
+
+	std::chrono::steady_clock::time_point GetLastCastTime(const EvCombatDataPersistent &evCbtData)
+	{
+#ifdef USE_SKILL_ID_MATCH_LOGIC
+		static std::map<int, std::chrono::steady_clock::time_point> last_cast_map;
+#else
+		static std::map<std::string, std::chrono::steady_clock::time_point> last_cast_map;
+
+#endif
+
+#ifdef USE_SKILL_ID_MATCH_LOGIC
+		auto it = last_cast_map.find(evCbtData.SkillID);
+#else
+		auto it = last_cast_map.find(evCbtData.SkillName);
+#endif
+		if (it != last_cast_map.end())
+		{
+			return it->second;
+		}
+
+		return std::chrono::steady_clock::now();
+	}
+
+	bool IsNotTheSameCast(const EvCombatDataPersistent &evCbtData)
+	{
+		auto now = std::chrono::steady_clock::now();
+		auto last_cast_time = GetLastCastTime(evCbtData);
+		return (now - last_cast_time) > std::chrono::milliseconds(100);
+	}
 };
 
 namespace ArcEv
@@ -164,9 +193,14 @@ namespace ArcEv
 			if (IsAnySkillFromBuild(data))
 #endif
 			{
-				render.key_press_cb(true, data);
+#ifdef USE_TIME_FILTER_LOGIC
+				if (IsNotTheSameCast(data))
+#endif
+				{
+					render.skill_activation_callback(true, data);
 
-				return true;
+					return true;
+				}
 			}
 		}
 
