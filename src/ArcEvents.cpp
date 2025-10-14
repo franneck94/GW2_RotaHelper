@@ -16,8 +16,13 @@
 #include "Shared.h"
 #include "Types.h"
 
+#ifdef GW2_NEXUS_ADDON
 #define USE_ANY_SKILL_LOGIC
+#endif
 #define USE_SKILL_ID_MATCH_LOGIC
+#define USE_TIME_FILTER_LOGIC
+
+constexpr static auto MIN_TIME_DIFF = 200U;
 
 namespace
 {
@@ -31,21 +36,22 @@ namespace
 			auto now = std::chrono::system_clock::now();
 			auto t = std::chrono::system_clock::to_time_t(now);
 			std::tm tm;
-#ifdef _WIN32
 			localtime_s(&tm, &t);
-#else
-			tm = *std::localtime(&t);
-#endif
+
+			auto log_dir = std::filesystem::path{"C:/logs"};
+			if (!std::filesystem::exists(log_dir))
+				std::filesystem::create_directories(log_dir);
+
 			char buf[64];
 			std::strftime(buf, sizeof(buf), "eventlog_%Y%m%d_%H%M%S.csv", &tm);
-			g_event_log_file.open(buf, std::ios::out | std::ios::app);
-			// Write CSV header
-			g_event_log_file << "Timestamp,SrcName,SrcID,SrcProfession,SrcSpecialization,DstName,DstID,DstProfession,DstSpecialization,SkillName,SkillID\n";
+			const auto log_path = log_dir / buf;
+			g_event_log_file.open(log_path.string(), std::ios::out | std::ios::app);
+			g_event_log_file << "Prefix,Timestamp,SrcName,SrcID,SrcProfession,SrcSpecialization,DstName,DstID,DstProfession,DstSpecialization,SkillName,SkillID\n";
 			g_event_log_initialized = true;
 		}
 	}
 
-	void LogEvCombatDataPersistentCSV(const EvCombatDataPersistent &data)
+	void LogEvCombatDataPersistentCSV(const EvCombatDataPersistent &data, const std::string &log_prefix)
 	{
 		if (!g_event_log_initialized)
 			InitEventLogFile();
@@ -64,7 +70,8 @@ namespace
 			std::strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M:%S", &tm);
 			auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
 
-			g_event_log_file << '"' << timebuf << '.' << std::setfill('0') << std::setw(3) << ms.count() << '"' << ','
+			g_event_log_file << log_prefix << ','
+							 << '"' << timebuf << '.' << std::setfill('0') << std::setw(3) << ms.count() << '"' << ','
 							 << data.SrcName << ',' << data.SrcID << ',' << data.SrcProfession << ',' << data.SrcSpecialization << ','
 							 << data.DstName << ',' << data.DstID << ',' << data.DstProfession << ',' << data.DstSpecialization << ','
 							 << data.SkillName << ',' << data.SkillID << '\n';
@@ -103,33 +110,54 @@ namespace
 #endif
 	}
 
+#ifdef USE_SKILL_ID_MATCH_LOGIC
+	std::chrono::steady_clock::time_point UpdateCastTime(std::map<int, std::chrono::steady_clock::time_point> &last_cast_map, const EvCombatDataPersistent &evCbtData)
+#else
+	std::chrono::steady_clock::time_point UpdateCastTime(std::map<std::string, std::chrono::steady_clock::time_point> &last_cast_map, const EvCombatDataPersistent &evCbtData)
+#endif
+	{
+		const auto now = std::chrono::steady_clock::now();
+
+#ifdef USE_SKILL_ID_MATCH_LOGIC
+		last_cast_map[evCbtData.SkillID] = now;
+#else
+		last_cast_map[evCbtData.SkillName] = now;
+#endif
+
+		return now;
+	}
+
 	std::chrono::steady_clock::time_point GetLastCastTime(const EvCombatDataPersistent &evCbtData)
 	{
 #ifdef USE_SKILL_ID_MATCH_LOGIC
-		static std::map<int, std::chrono::steady_clock::time_point> last_cast_map;
+		static auto last_cast_map = std::map<int, std::chrono::steady_clock::time_point>{};
 #else
-		static std::map<std::string, std::chrono::steady_clock::time_point> last_cast_map;
+		static auto last_cast_map = std::map<std::string, std::chrono::steady_clock::time_point>{};
 
 #endif
 
 #ifdef USE_SKILL_ID_MATCH_LOGIC
-		auto it = last_cast_map.find(evCbtData.SkillID);
+		const auto it = last_cast_map.find(evCbtData.SkillID);
 #else
-		auto it = last_cast_map.find(evCbtData.SkillName);
+		const auto it = last_cast_map.find(evCbtData.SkillName);
 #endif
 		if (it != last_cast_map.end())
 		{
-			return it->second;
+			const auto time = it->second;
+			UpdateCastTime(last_cast_map, evCbtData);
+
+			return time;
 		}
 
-		return std::chrono::steady_clock::now();
+		const auto now = UpdateCastTime(last_cast_map, evCbtData);
+		return now;
 	}
 
 	bool IsNotTheSameCast(const EvCombatDataPersistent &evCbtData)
 	{
-		auto now = std::chrono::steady_clock::now();
-		auto last_cast_time = GetLastCastTime(evCbtData);
-		return (now - last_cast_time) > std::chrono::milliseconds(100);
+		const auto now = std::chrono::steady_clock::now();
+		const auto last_cast_time = GetLastCastTime(evCbtData);
+		return (now - last_cast_time) > std::chrono::milliseconds(MIN_TIME_DIFF);
 	}
 };
 
@@ -186,7 +214,7 @@ namespace ArcEv
 				.SkillID = evCbtData.id};
 
 #ifdef _DEBUG
-			LogEvCombatDataPersistentCSV(data);
+			LogEvCombatDataPersistentCSV(data, "General");
 #endif
 
 #ifdef USE_ANY_SKILL_LOGIC
@@ -197,6 +225,10 @@ namespace ArcEv
 				if (IsNotTheSameCast(data))
 #endif
 				{
+#ifdef _DEBUG
+					LogEvCombatDataPersistentCSV(data, "Sanitized");
+#endif
+
 					render.skill_activation_callback(true, data);
 
 					return true;
