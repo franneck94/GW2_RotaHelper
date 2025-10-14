@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <string>
 #include <utility>
+#include <set>
 
 #include "LogData.h"
 #include "Textures.h"
