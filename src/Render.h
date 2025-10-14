@@ -2,12 +2,8 @@
 
 #include <d3d11.h>
 
-#include <atomic>
 #include <filesystem>
-#include <future>
 #include <string>
-#include <thread>
-#include <set>
 #include <utility>
 
 #include "LogData.h"
@@ -66,9 +62,6 @@ public:
     std::filesystem::path img_path;
     std::filesystem::path bench_path;
     std::vector<BenchFileInfo> benches_files;
-
-    RotationRun rotation_run{};
-    TextureMap texture_map{};
 
     int selected_bench_index = -1;
     std::filesystem::path selected_file_path;
