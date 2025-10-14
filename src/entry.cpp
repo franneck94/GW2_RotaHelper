@@ -55,26 +55,18 @@ void DeregisterQuickAccessShortcut()
     APIDefs->QuickAccess.Remove("SHORTCUT_GW2_RotaHelper");
 }
 
-BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID)
 {
     switch (ul_reason_for_call)
     {
     case DLL_PROCESS_ATTACH:
         hSelf = hModule;
-        // Disable thread attach/detach notifications for performance
         DisableThreadLibraryCalls(hModule);
         break;
     case DLL_PROCESS_DETACH:
-        // Ensure cleanup happens even if AddonUnload wasn't called
-        if (lpReserved == nullptr) // Only if not process termination
-        {
-            // Process is not terminating, do cleanup
-            // Note: Most cleanup should happen in AddonUnload, this is just a safety net
-        }
         break;
     case DLL_THREAD_ATTACH:
     case DLL_THREAD_DETACH:
-        // These are disabled by DisableThreadLibraryCalls
         break;
     }
     return TRUE;
@@ -162,6 +154,9 @@ void AddonLoad(AddonAPI *aApi)
 
 void AddonUnload()
 {
+    if (pd3dDevice)
+        pd3dDevice->Release();
+
     APIDefs->Renderer.Deregister(AddonRender);
     APIDefs->Renderer.Deregister(AddonOptions);
 
@@ -181,9 +176,6 @@ void AddonRender()
     render.toggle_vis(Settings::ShowWindow);
     render.key_press_cb(true, {});
     render.render(pd3dDevice, APIDefs);
-
-    if (pd3dDevice)
-        pd3dDevice->Release();
 }
 
 void AddonOptions()
