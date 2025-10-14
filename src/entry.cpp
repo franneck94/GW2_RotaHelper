@@ -23,6 +23,7 @@
 #include "UeEvents.h"
 #include "Version.h"
 #include "resource.h"
+#include "Constants.h"
 
 namespace dx = DirectX;
 
