@@ -112,8 +112,10 @@ namespace ArcEv
 		char *skillname,
 		uint64_t id, uint64_t revision)
 	{
+#ifdef GW2_NEXUS_ADDON
 		if (APIDefs == nullptr)
 			return false;
+#endif
 
 		auto evCbtData = EvCombatData{
 			ev,
@@ -123,7 +125,9 @@ namespace ArcEv
 			id,
 			revision};
 
+#ifdef GW2_NEXUS_ADDON
 		APIDefs->Events.Raise(channel, &evCbtData);
+#endif
 
 		if (IsValidCombatEvent(evCbtData))
 		{
