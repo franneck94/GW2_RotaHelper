@@ -65,8 +65,8 @@ namespace
 
     std::vector<BenchFileInfo> get_bench_files(const std::filesystem::path &bench_path)
     {
-        std::vector<BenchFileInfo> files;
-        std::map<std::string, std::vector<std::filesystem::path>> directory_files;
+        auto files = std::vector<BenchFileInfo>{};
+        auto directory_files = std::map<std::string, std::vector<std::filesystem::path>>{};
 
         try
         {
@@ -126,9 +126,8 @@ void Render::set_data_path(const std::filesystem::path &path)
     benches_files = get_bench_files(bench_path);
 }
 
-void Render::key_press_cb(const bool pressed, const EvCombatDataPersistent &combat_data)
+void Render::skill_activation_callback(const bool pressed, const EvCombatDataPersistent &combat_data)
 {
-    // NOTE: maybe add timer here if arc sends event over multiple frames
     key_press_event_in_this_frame = pressed;
     if (pressed)
         curr_combat_data = combat_data;
@@ -153,8 +152,8 @@ void Render::toggle_vis(const bool flag)
 
 std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::string>> Render::get_file_data_pairs(std::string &filter_string)
 {
-    std::vector<std::pair<int, const BenchFileInfo *>> filtered_files;
-    std::set<std::string> directories_with_matches;
+    auto filtered_files = std::vector<std::pair<int, const BenchFileInfo *>>{};
+    auto directories_with_matches = std::set<std::string>{};
 
     if (filter_string.empty())
     {
