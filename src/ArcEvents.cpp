@@ -4,6 +4,10 @@
 /// Name         :  ArcEvents.cpp
 /// Description  :  Contains the callbacks for ArcDPS.
 ///----------------------------------------------------------------------------------------------------
+
+#include <chrono>
+#include <fstream>
+#include <iomanip>
 #include <map>
 #include <string>
 
@@ -17,9 +21,47 @@
 
 namespace
 {
+	std::ofstream g_event_log_file;
+	bool g_event_log_initialized = false;
+
+	void InitEventLogFile()
+	{
+		if (!g_event_log_initialized)
+		{
+			auto now = std::chrono::system_clock::now();
+			auto t = std::chrono::system_clock::to_time_t(now);
+			std::tm tm;
+#ifdef _WIN32
+			localtime_s(&tm, &t);
+#else
+			tm = *std::localtime(&t);
+#endif
+			char buf[64];
+			std::strftime(buf, sizeof(buf), "eventlog_%Y%m%d_%H%M%S.csv", &tm);
+			g_event_log_file.open(buf, std::ios::out | std::ios::app);
+			// Write CSV header
+			g_event_log_file << "SrcName,SrcID,SrcProfession,SrcSpecialization,DstName,DstID,DstProfession,DstSpecialization,SkillName,SkillID\n";
+			g_event_log_initialized = true;
+		}
+	}
+
+	void LogEvCombatDataPersistentCSV(const EvCombatDataPersistent &data)
+	{
+		if (!g_event_log_initialized)
+			InitEventLogFile();
+
+		if (g_event_log_file.is_open())
+		{
+			g_event_log_file << '"' << data.SrcName << "\"," << data.SrcID << ',' << data.SrcProfession << ',' << data.SrcSpecialization << ','
+							 << ',' << data.DstName << "\"," << data.DstID << ',' << data.DstProfession << ',' << data.DstSpecialization << ','
+							 << ',' << data.SkillName << "\"," << data.SkillID << '\n';
+			g_event_log_file.flush();
+		}
+	}
+
 	bool IsValidCombatEvent(const EvCombatData &evCbtData)
 	{
-		return evCbtData.src != nullptr && evCbtData.dst != nullptr  && evCbtData.skillname != nullptr && evCbtData.ev != nullptr;
+		return evCbtData.src != nullptr && evCbtData.dst != nullptr && evCbtData.skillname != nullptr && evCbtData.ev != nullptr;
 	}
 
 	bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
@@ -85,15 +127,19 @@ namespace ArcEv
 
 		if (IsValidCombatEvent(evCbtData))
 		{
-			auto data = EvCombatDataPersistent{
+			const auto data = EvCombatDataPersistent{
+				.SrcName = std::string(evCbtData.src->Name),
 				.SrcID = evCbtData.src->ID,
 				.SrcProfession = evCbtData.src->Profession,
 				.SrcSpecialization = evCbtData.src->Specialization,
+				.DstName = std::string(evCbtData.dst->Name),
 				.DstID = evCbtData.dst->ID,
 				.DstProfession = evCbtData.dst->Profession,
 				.DstSpecialization = evCbtData.dst->Specialization,
 				.SkillName = std::string(evCbtData.skillname),
 				.SkillID = evCbtData.id};
+
+			LogEvCombatDataPersistentCSV(data);
 
 #ifdef USE_ANY_SKILL_LOGIC
 			if (IsAnySkillFromBuild(data))
