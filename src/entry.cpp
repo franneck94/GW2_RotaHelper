@@ -17,13 +17,16 @@
 #include "rtapi/RTAPI.hpp"
 
 #include "ArcEvents.h"
+#include "Constants.h"
 #include "Render.h"
 #include "Settings.h"
 #include "Shared.h"
 #include "UeEvents.h"
 #include "Version.h"
 #include "resource.h"
-#include "Constants.h"
+
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
 
 namespace dx = DirectX;
 
@@ -156,8 +159,10 @@ void AddonLoad(AddonAPI *aApi)
 void AddonUnload()
 {
     if (pd3dDevice)
+    {
         pd3dDevice->Release();
-
+        pd3dDevice = nullptr;
+    }
     APIDefs->Renderer.Deregister(AddonRender);
     APIDefs->Renderer.Deregister(AddonOptions);
 
@@ -198,7 +203,7 @@ ArcDPS::Exports *ArcdpsInit()
     ArcExports.ImGuiVersion = 18000;
     ArcExports.Size = sizeof(ArcDPS::Exports);
     ArcExports.Name = ADDON_NAME;
-    ArcExports.Build = "0.1.1.0";
+    ArcExports.Build = TOSTRING(MAJOR) "." TOSTRING(MINOR) "." TOSTRING(BUILD) "." TOSTRING(REVISION);
     ArcExports.CombatLocalCallback = ArcEv::OnCombatLocal;
 
     return &ArcExports;
