@@ -17,16 +17,18 @@
 #include "Types.h"
 
 #define USE_ANY_SKILL_LOGIC
+#define USE_SKILL_ID_AND_NAME_MATCH_LOGIC
+#ifndef USE_SKILL_ID_AND_NAME_MATCH_LOGIC
 #define USE_SKILL_ID_MATCH_LOGIC
+#endif
 #define USE_TIME_FILTER_LOGIC
 
 constexpr static auto MIN_TIME_DIFF = 200U;
 
 namespace
 {
-	std::ofstream g_event_log_file;
-	bool g_event_log_initialized = false;
-	std::chrono::system_clock::time_point g_last_file_rotation_time;
+	static std::string g_event_log_file_path;
+	static bool g_event_log_initialized = false;
 
 	void InitEventLogFile()
 	{
@@ -44,24 +46,17 @@ namespace
 			char buf[64];
 			std::strftime(buf, sizeof(buf), "eventlog_%Y%m%d_%H%M%S.csv", &tm);
 			const auto log_path = log_dir / buf;
-			g_event_log_file.open(log_path.string(), std::ios::out | std::ios::app);
-			g_event_log_file << "Prefix,Timestamp,SrcName,SrcID,SrcProfession,SrcSpecialization,DstName,DstID,DstProfession,DstSpecialization,SkillName,SkillID\n";
+			g_event_log_file_path = log_path.string();
+			std::ifstream test_file(g_event_log_file_path);
+			bool file_exists = test_file.good();
+			test_file.close();
+			if (!file_exists)
+			{
+				std::ofstream header_file(g_event_log_file_path, std::ios::out | std::ios::app);
+				header_file << "Prefix,Timestamp,SrcName,SrcID,SrcProfession,SrcSpecialization,DstName,DstID,DstProfession,DstSpecialization,SkillName,SkillID\n";
+				header_file.close();
+			}
 			g_event_log_initialized = true;
-		}
-	}
-
-	void RotateLogFileIfNeeded(const std::chrono::system_clock::time_point &current_time)
-	{
-		const auto time_diff = std::chrono::duration_cast<std::chrono::seconds>(current_time - g_last_file_rotation_time);
-
-		if (time_diff.count() >= 30)
-		{
-			if (g_event_log_file.is_open())
-				g_event_log_file.close();
-
-			g_event_log_initialized = false;
-			InitEventLogFile();
-			g_last_file_rotation_time = current_time;
 		}
 	}
 
@@ -70,10 +65,11 @@ namespace
 		if (!g_event_log_initialized)
 			InitEventLogFile();
 
-		if (g_event_log_file.is_open())
+		std::ofstream log_file(g_event_log_file_path, std::ios::out | std::ios::app);
+		if (log_file.is_open())
 		{
-			auto now = std::chrono::system_clock::now();
-			auto t = std::chrono::system_clock::to_time_t(now);
+			const auto now = std::chrono::system_clock::now();
+			const auto t = std::chrono::system_clock::to_time_t(now);
 			std::tm tm;
 #ifdef _WIN32
 			localtime_s(&tm, &t);
@@ -84,12 +80,12 @@ namespace
 			std::strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M:%S", &tm);
 			auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
 
-			g_event_log_file << log_prefix << ','
-							 << '"' << timebuf << '.' << std::setfill('0') << std::setw(3) << ms.count() << '"' << ','
-							 << data.SrcName << ',' << data.SrcID << ',' << data.SrcProfession << ',' << data.SrcSpecialization << ','
-							 << data.DstName << ',' << data.DstID << ',' << data.DstProfession << ',' << data.DstSpecialization << ','
-							 << data.SkillName << ',' << data.SkillID << '\n';
-			g_event_log_file.flush();
+			log_file << log_prefix << ','
+					 << '"' << timebuf << '.' << std::setfill('0') << std::setw(3) << ms.count() << '"' << ','
+					 << data.SrcName << ',' << data.SrcID << ',' << data.SrcProfession << ',' << data.SrcSpecialization << ','
+					 << data.DstName << ',' << data.DstID << ',' << data.DstProfession << ',' << data.DstSpecialization << ','
+					 << data.SkillName << ',' << data.SkillID << '\n';
+			log_file.close();
 		}
 	}
 
@@ -120,6 +116,8 @@ namespace
 	{
 #ifdef USE_SKILL_ID_MATCH_LOGIC
 		return IsSkillFromBuild_IdBased(evCbtData);
+#elif defined(USE_SKILL_ID_AND_NAME_MATCH_LOGIC)
+		return IsSkillFromBuild_NameBased(evCbtData) || IsSkillFromBuild_IdBased(evCbtData);
 #else
 		return IsSkillFromBuild_NameBased(evCbtData);
 #endif
@@ -197,9 +195,6 @@ namespace ArcEv
 		char *skillname,
 		uint64_t id, uint64_t revision)
 	{
-		const auto now = std::chrono::system_clock::now();
-		RotateLogFileIfNeeded(now);
-
 #ifdef GW2_NEXUS_ADDON
 		if (APIDefs == nullptr)
 			return false;
@@ -231,20 +226,20 @@ namespace ArcEv
 				.SkillName = std::string(evCbtData.skillname),
 				.SkillID = evCbtData.id};
 
-#ifdef _DEBUG
-			// LogEvCombatDataPersistentCSV(data, "General");
-#endif
-
 #ifdef USE_ANY_SKILL_LOGIC
 			if (rotation_run.skill_info_map.empty() || IsAnySkillFromBuild(data))
 #endif
 			{
+#ifdef _DEBUG
+				LogEvCombatDataPersistentCSV(data, "SkillFromBuild");
+#endif
+
 #ifdef USE_TIME_FILTER_LOGIC
 				if (IsNotTheSameCast(data))
 #endif
 				{
 #ifdef _DEBUG
-					LogEvCombatDataPersistentCSV(data, "Sanitized");
+					LogEvCombatDataPersistentCSV(data, "NotSameCast");
 #endif
 
 					render.skill_activation_callback(true, data);
