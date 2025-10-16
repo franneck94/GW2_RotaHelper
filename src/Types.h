@@ -1,11 +1,11 @@
 #pragma once
 
 #include <cstdint>
-#include <string>
-#include <map>
-#include <variant>
-#include <optional>
 #include <list>
+#include <map>
+#include <optional>
+#include <string>
+#include <variant>
 #include <vector>
 
 #include "arcdps/ArcDPS.h"
@@ -77,6 +77,7 @@ enum class RotationStatus
 
 struct RotationInfo
 {
+    int icon_id;
     int skill_id;
     float cast_time;
     float duration_ms;
@@ -87,3 +88,12 @@ struct RotationInfo
 
 using RotationInfoVec = std::vector<RotationInfo>;
 using RotationInfoList = std::list<RotationInfo>;
+
+struct SkillData
+{
+    int icon_id;
+    std::string name;
+    int recharge;
+};
+
+using SkillDataMap = std::map<int, SkillData>;

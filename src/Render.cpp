@@ -22,6 +22,7 @@
 
 #include "imgui.h"
 
+#include "Defines.h"
 #include "LogData.h"
 #include "Render.h"
 #include "Settings.h"
@@ -301,7 +302,7 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
             continue;
 
         const auto &skill_info = rotation_run.get_rotation_skill(static_cast<size_t>(i));
-        const auto *texture = texture_map[skill_info.skill_id];
+        const auto *texture = texture_map[skill_info.icon_id];
 
         const auto is_current = (i == static_cast<int32_t>(current_idx));
 
@@ -331,9 +332,15 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
             ++it;
             const auto next_next_rota_skill = *it;
 
+#ifdef USE_SKILL_ID_MATCH_LOGIC
             const auto match_current = (curr_rota_skill.skill_id == skill_ev.SkillID);
             const auto match_next = (next_rota_skill.skill_id == skill_ev.SkillID);
             const auto match_next_next = (next_next_rota_skill.skill_id == skill_ev.SkillID);
+#else
+            const auto match_current = (curr_rota_skill.skill_name == skill_ev.SkillName);
+            const auto match_next = (next_rota_skill.skill_name == skill_ev.SkillName);
+            const auto match_next_next = (next_next_rota_skill.skill_name == skill_ev.SkillName);
+#endif
 
             if (match_current)
             {

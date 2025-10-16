@@ -5,9 +5,9 @@
 #include <filesystem>
 #include <future>
 #include <iostream>
+#include <list>
 #include <map>
 #include <optional>
-#include <list>
 #include <string>
 #include <variant>
 #include <vector>
@@ -33,4 +33,5 @@ public:
     SkillInfoMap skill_info_map;
     RotationInfoVec rotation_vector;
     RotationInfoList bench_rotation_list;
+    SkillDataMap skill_data;
 };

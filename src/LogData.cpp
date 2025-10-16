@@ -96,17 +96,17 @@ namespace
             return cache_url;
 
         const auto hash = remainder.substr(0, last_underscore);
-        const auto skill_id_with_ext = remainder.substr(last_underscore + 1);
+        const auto icon_id_with_ext = remainder.substr(last_underscore + 1);
 
-        const auto dot_pos = skill_id_with_ext.find_last_of('.');
-        const auto skill_id = (dot_pos != std::string::npos) ? skill_id_with_ext.substr(0, dot_pos) : skill_id_with_ext;
+        const auto dot_pos = icon_id_with_ext.find_last_of('.');
+        const auto icon_id = (dot_pos != std::string::npos) ? icon_id_with_ext.substr(0, dot_pos) : icon_id_with_ext;
 
-        return "https://render.guildwars2.com/file/" + hash + "/" + skill_id + ".png";
+        return "https://render.guildwars2.com/file/" + hash + "/" + icon_id + ".png";
     }
 
     void get_skill_info(const IntNode &node, SkillInfoMap &skill_info_map)
     {
-        for (const auto &[skill_id, skill_node] : node.children)
+        for (const auto &[icon_id, skill_node] : node.children)
         {
             auto name = std::string{};
             auto icon = std::string{};
@@ -156,7 +156,7 @@ namespace
                     gear_proc = *pval;
             }
 
-            skill_info_map[std::stoi(skill_id)] = {name, icon, trait_proc, gear_proc};
+            skill_info_map[std::stoi(icon_id)] = {name, icon, trait_proc, gear_proc};
         }
     }
 
@@ -166,7 +166,7 @@ namespace
                 (current.cast_time - previous.cast_time) < 250);
     }
 
-    void get_rotation_info(const IntNode &node, const SkillInfoMap &skill_info_map, RotationInfoVec &rotation_vector)
+    void get_rotation_info(const IntNode &node, const SkillInfoMap &skill_info_map, RotationInfoVec &rotation_vector, const SkillDataMap &skill_data_map)
     {
         for (const auto &rotation_entry : node.children)
         {
@@ -176,7 +176,7 @@ namespace
             {
                 const auto &skill_array = skill_entry.second;
 
-                auto skill_id = 0;
+                auto icon_id = 0;
                 auto duration_ms = 0.0f;
                 auto cast_time = 0.0f;
                 auto unk = 0.0f;
@@ -192,13 +192,13 @@ namespace
                     }
                 }
 
-                // Get skill_id (index 1)
-                const auto skill_id_it = skill_array.children.find("1");
-                if (skill_id_it != skill_array.children.end() && skill_id_it->second.value.has_value())
+                // Get icon_id (index 1)
+                const auto icon_id_it = skill_array.children.find("1");
+                if (icon_id_it != skill_array.children.end() && icon_id_it->second.value.has_value())
                 {
-                    if (const auto pval = std::get_if<int>(&skill_id_it->second.value.value()))
+                    if (const auto pval = std::get_if<int>(&icon_id_it->second.value.value()))
                     {
-                        skill_id = *pval;
+                        icon_id = *pval;
                     }
                 }
 
@@ -232,11 +232,8 @@ namespace
                     }
                 }
 
-                if (skill_id <= 0)
-                    continue;
-
                 auto skill_name = std::string{"Unknown Skill"};
-                const auto skill_info_it = skill_info_map.find(skill_id);
+                const auto skill_info_it = skill_info_map.find(icon_id);
                 if (skill_info_it != skill_info_map.end())
                 {
                     skill_name = skill_info_it->second.name;
@@ -246,9 +243,20 @@ namespace
                     continue;
                 }
 
+                auto skill_id = 0;
+                for (const auto &[sid, skill_data] : skill_data_map)
+                {
+                    if (skill_data.icon_id == icon_id)
+                    {
+                        skill_id = sid;
+                        break;
+                    }
+                }
+
                 if (!skill_info_it->second.gear_proc && !skill_info_it->second.trait_proc)
                 {
                     rotation_vector.push_back(RotationInfo{
+                        .icon_id = icon_id,
                         .skill_id = skill_id,
                         .cast_time = cast_time,
                         .duration_ms = duration_ms,
@@ -264,9 +272,53 @@ namespace
                   { return a.cast_time < b.cast_time; });
     }
 
-    std::tuple<SkillInfoMap, RotationInfoVec> get_dpsreport_data(const nlohmann::json &j, const std::filesystem::path &json_path)
+    SkillDataMap get_skill_data(const nlohmann::json &j)
     {
-        const auto filename = json_path.filename().string();
+        auto skill_data_map = SkillDataMap{};
+
+        for (const auto &[skill_id_str, skill_obj] : j.items())
+        {
+            auto skill_id = std::stoi(skill_id_str);
+            auto skill_data = SkillData{};
+
+            if (skill_obj.contains("name") && skill_obj["name"].is_string())
+                skill_data.name = skill_obj["name"].get<std::string>();
+
+            if (skill_obj.contains("recharge") && skill_obj["recharge"].is_number())
+                skill_data.recharge = skill_obj["recharge"].get<int>();
+
+            skill_data.icon_id = 0; // Default value
+            if (skill_obj.contains("icon") && skill_obj["icon"].is_string())
+            {
+                auto icon_url = skill_obj["icon"].get<std::string>();
+                auto last_slash = icon_url.find_last_of('/');
+                if (last_slash != std::string::npos)
+                {
+                    auto filename = icon_url.substr(last_slash + 1);
+                    auto dot_pos = filename.find_last_of('.');
+                    if (dot_pos != std::string::npos)
+                    {
+                        auto icon_id_str = filename.substr(0, dot_pos);
+                        try
+                        {
+                            skill_data.icon_id = std::stoi(icon_id_str);
+                        }
+                        catch (const std::exception &)
+                        {
+                            skill_data.icon_id = 0;
+                        }
+                    }
+                }
+            }
+
+            skill_data_map[skill_id] = skill_data;
+        }
+
+        return skill_data_map;
+    }
+
+    std::tuple<SkillInfoMap, RotationInfoVec> get_dpsreport_data(const nlohmann::json &j, const std::filesystem::path &json_path, const SkillDataMap &skill_data_map)
+    {
         const auto rotation_data = j["rotation"];
         const auto skill_data = j["skillMap"];
 
@@ -278,7 +330,7 @@ namespace
         auto skill_info_map = SkillInfoMap{};
         get_skill_info(kv_skill, skill_info_map);
         auto rotation_info_vec = RotationInfoVec{};
-        get_rotation_info(kv_rotation, skill_info_map, rotation_info_vec);
+        get_rotation_info(kv_rotation, skill_info_map, rotation_info_vec, skill_data_map);
 
         return std::make_tuple(skill_info_map, rotation_info_vec);
     }
@@ -360,7 +412,7 @@ namespace
         std::filesystem::create_directories(img_folder);
         auto futures = std::list<std::future<void>>{};
 
-        for (const auto &[skill_id, info] : skill_info_map)
+        for (const auto &[icon_id, info] : skill_info_map)
         {
             if (info.icon_url.empty())
                 continue;
@@ -371,7 +423,7 @@ namespace
             {
                 ext = info.icon_url.substr(dot_pos);
             }
-            const auto out_path{img_folder / (std::to_string(skill_id) + ext)};
+            const auto out_path{img_folder / (std::to_string(icon_id) + ext)};
             if (std::filesystem::exists(out_path))
                 continue;
 
@@ -390,9 +442,17 @@ void RotationRun::load_data(const std::filesystem::path &json_path, const std::f
     auto j{nlohmann::json{}};
     file >> j;
 
-    auto [_skill_info_map, _bench_rotation_vector]{get_dpsreport_data(j, json_path)};
+    const auto skill_data_json = json_path.parent_path().parent_path().parent_path().parent_path() / "skills" / "gw2_skills_en.json";
+    auto file2{std::ifstream{skill_data_json}};
+    auto j2{nlohmann::json{}};
+    file2 >> j2;
+
+    auto _skill_data = get_skill_data(j2);
+    auto [_skill_info_map, _bench_rotation_vector] = get_dpsreport_data(j, json_path, _skill_data);
+
     skill_info_map = std::move(_skill_info_map);
     rotation_vector = std::move(_bench_rotation_vector);
+    skill_data = std::move(_skill_data);
 
     restart_rotation();
 

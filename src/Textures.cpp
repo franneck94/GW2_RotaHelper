@@ -134,7 +134,7 @@ TextureMap LoadAllSkillTextures(
 
     TextureMap texture_map;
 
-    for (const auto &[skill_id, info] : skill_info_map)
+    for (const auto &[icon_id, info] : skill_info_map)
     {
         if (info.name.empty())
             continue;
@@ -144,13 +144,13 @@ TextureMap LoadAllSkillTextures(
         if (dot != std::string::npos && dot + 1 < info.icon_url.size())
             ext = info.icon_url.substr(dot);
 
-        std::filesystem::path img_path = img_folder / (std::to_string(skill_id) + ext);
+        std::filesystem::path img_path = img_folder / (std::to_string(icon_id) + ext);
         if (!std::filesystem::exists(img_path))
             continue;
 
         auto *tex = LoadTextureFromPNG_WIC(device, img_path.wstring());
         if (tex)
-            texture_map[skill_id] = tex;
+            texture_map[icon_id] = tex;
     }
     return texture_map;
 }
@@ -165,7 +165,7 @@ TextureMap LoadAllSkillTexturesWithAPI(
 
     TextureMap texture_map;
 
-    for (const auto &[skill_id, info] : skill_info_map)
+    for (const auto &[icon_id, info] : skill_info_map)
     {
         if (info.name.empty())
             continue;
@@ -177,14 +177,14 @@ TextureMap LoadAllSkillTexturesWithAPI(
             ext = info.icon_url.substr(dot);
         }
 
-        std::filesystem::path img_path = img_folder / (std::to_string(skill_id) + ext);
+        std::filesystem::path img_path = img_folder / (std::to_string(icon_id) + ext);
         if (!std::filesystem::exists(img_path))
             continue;
 
         auto *nexus_texture = APIDefs->Textures.GetOrCreateFromFile(img_path.string().c_str(), img_path.string().c_str());
         if (nexus_texture && nexus_texture->Resource)
         {
-            texture_map[skill_id] = (ID3D11ShaderResourceView*)nexus_texture->Resource;
+            texture_map[icon_id] = (ID3D11ShaderResourceView*)nexus_texture->Resource;
         }
     }
 
@@ -193,7 +193,7 @@ TextureMap LoadAllSkillTexturesWithAPI(
 
 void ReleaseTextureMap(TextureMap &texture_map)
 {
-    for (auto &[skill_id, texture] : texture_map)
+    for (auto &[icon_id, texture] : texture_map)
     {
         if (texture)
         {

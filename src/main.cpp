@@ -133,23 +133,28 @@ int main(int, char **)
 
         if (!any_key_pressed && prev_key != Keys::NONE)
         {
+            auto icon_id = std::int32_t{0};
             auto skill_id = std::int32_t{0};
             auto skill_name = std::string{""};
             switch (prev_key)
             {
             case Keys::W:
-                skill_id = 1058593;
+                icon_id = 1058593;
+                skill_id = 30713;
                 skill_name = "Thunderclap";
                 break;
             case Keys::A:
-                skill_id = 1058590;
+                icon_id = 1058590;
+                skill_id = 30088;
                 skill_name = "Electro-whirl";
                 break;
             case Keys::S:
+                icon_id = 103176;
                 skill_id = 76530;
                 skill_name = "Magnetic Bomb";
                 break;
             case Keys::D:
+                icon_id = 103404;
                 skill_id = 5823;
                 skill_name = "Fire Bomb";
                 break;
@@ -169,6 +174,7 @@ int main(int, char **)
             fake_src.Profession = 3;
             fake_src.Specialization = 4;
             fake_src.Name = (char *)"Source";
+            fake_src.IsSelf = true;
 
             fake_dst.ID = 456;
             fake_dst.Profession = 5;

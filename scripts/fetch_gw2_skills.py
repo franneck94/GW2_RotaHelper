@@ -71,6 +71,33 @@ class GW2SkillFetcher:
 
         return skills_data
 
+    def filter_skill_data(self, skill: Dict[str, Any]) -> Dict[str, Any]:
+        """Filter skill data to only include required fields."""
+        # Extract recharge value from facts
+        recharge_value = None
+        if "facts" in skill and isinstance(skill["facts"], list):
+            for fact in skill["facts"]:
+                if (
+                    fact.get("type") == "Recharge"
+                    and fact.get("text") == "Recharge"
+                    and "value" in fact
+                ):
+                    recharge_value = fact["value"]
+                    break
+
+        # Build filtered skill data with only the 4 essential fields
+        filtered_skill = {
+            "icon": skill.get("icon"),
+            "id": skill.get("id"),
+            "name": skill.get("name"),
+        }
+
+        # Add recharge only if it exists
+        if recharge_value is not None:
+            filtered_skill["recharge"] = recharge_value
+
+        return filtered_skill
+
     async def fetch_all_skills(self) -> Dict[str, Any]:
         """Fetch all skill information from the GW2 API."""
         all_skills = {}
@@ -114,7 +141,9 @@ class GW2SkillFetcher:
                         for skill in result:
                             skill_id = skill.get("id")
                             if skill_id:
-                                all_skills[str(skill_id)] = skill
+                                # Filter skill data to only include required fields
+                                filtered_skill = self.filter_skill_data(skill)
+                                all_skills[str(skill_id)] = filtered_skill
                     else:
                         self.logger.warning(
                             f"Unexpected result type for chunk {i}: {type(result)}"
@@ -167,9 +196,6 @@ class GW2SkillFetcher:
             "total_skills": len(skills_data),
             "api_version": "v2",
             "language": "en",
-            "skill_types": sorted(list(skill_types)),
-            "professions": sorted(list(professions)),
-            "categories": sorted(list(categories)),
         }
 
         return metadata
@@ -205,10 +231,10 @@ class GW2SkillFetcher:
             self.save_skills_to_file(skills_data)
             self.save_metadata(skills_data)
 
-            self.logger.info("✅ Successfully completed skill data fetch!")
+            self.logger.info("Successfully completed skill data fetch!")
 
         except Exception as e:
-            self.logger.error(f"❌ Failed to fetch skill data: {e}")
+            self.logger.error(f"Failed to fetch skill data: {e}")
             raise
 
         finally:

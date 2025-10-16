@@ -1,0 +1,21 @@
+#pragma once
+
+// #define LOG_SKILL_FROM_BUILD
+#define LOG_SKILL_IN_TIME
+
+#ifndef _DEBUG
+#ifdef LOG_SKILL_FROM_BUILD
+#undef LOG_SKILL_FROM_BUILD
+#endif
+#ifdef LOG_SKILL_IN_TIME
+#undef LOG_SKILL_IN_TIME
+#endif
+#endif
+
+#define USE_ANY_SKILL_FROM_BUILD_LOGIC
+#define USE_SKILL_ID_AND_NAME_MATCH_LOGIC
+#define USE_TIME_FILTER_LOGIC
+
+#ifndef USE_SKILL_ID_AND_NAME_MATCH_LOGIC
+#define USE_SKILL_ID_MATCH_LOGIC
+#endif

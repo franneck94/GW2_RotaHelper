@@ -15,28 +15,9 @@
 
 #include "Shared.h"
 #include "Types.h"
+#include "Defines.h"
 
-// #define LOG_SKILL_FROM_BUILD
-#define LOG_SKILL_IN_TIME
-
-#ifndef _DEBUG
-#ifdef LOG_SKILL_FROM_BUILD
-#undef LOG_SKILL_FROM_BUILD
-#endif
-#ifdef LOG_SKILL_IN_TIME
-#undef LOG_SKILL_IN_TIME
-#endif
-#endif
-
-#define USE_ANY_SKILL_FROM_BUILD_LOGIC
-#define USE_SKILL_ID_AND_NAME_MATCH_LOGIC
-#define USE_TIME_FILTER_LOGIC
-
-#ifndef USE_SKILL_ID_AND_NAME_MATCH_LOGIC
-#define USE_SKILL_ID_MATCH_LOGIC
-#endif
-
-	namespace
+namespace
 {
 	constexpr static auto MIN_TIME_DIFF = 200U;
 
@@ -104,7 +85,7 @@
 
 	bool IsValidCombatEvent(const EvCombatData &evCbtData)
 	{
-		return evCbtData.src != nullptr && evCbtData.dst != nullptr && evCbtData.skillname != nullptr && evCbtData.ev != nullptr;
+		return evCbtData.src != nullptr && evCbtData.dst != nullptr && evCbtData.skillname != nullptr && evCbtData.ev != nullptr && evCbtData.src->IsSelf;
 	}
 
 	bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
