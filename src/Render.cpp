@@ -31,83 +31,92 @@
 
 namespace
 {
-    std::string format_build_name(const std::string &raw_name)
-    {
-        auto result = raw_name;
+std::string format_build_name(const std::string &raw_name)
+{
+    auto result = raw_name;
 
-        const auto start = result.find_first_not_of(" \t");
-        if (start != std::string::npos)
-            result = result.substr(start);
+    const auto start = result.find_first_not_of(" \t");
+    if (start != std::string::npos)
+        result = result.substr(start);
 
-        if (result.starts_with("condition_"))
-            result = result.substr(10); // Remove "condition_"
-        else if (result.starts_with("power_"))
-            result = result.substr(6); // Remove "power_"
+    if (result.starts_with("condition_"))
+        result = result.substr(10); // Remove "condition_"
+    else if (result.starts_with("power_"))
+        result = result.substr(6); // Remove "power_"
 
-        std::replace(result.begin(), result.end(), '_', ' ');
+    std::replace(result.begin(), result.end(), '_', ' ');
 
-        bool capitalize_next = true;
-        std::ranges::transform(result, result.begin(), [&capitalize_next](char c)
-                               {
-            if (c == ' ') {
-                capitalize_next = true;
-                return c;
-            }
-
-            if (capitalize_next) {
-                capitalize_next = false;
-                return static_cast<char>(std::toupper(c));
-            }
-
-            return static_cast<char>(std::tolower(c)); });
-
-        return "    " + result;
-    }
-
-    std::vector<BenchFileInfo> get_bench_files(const std::filesystem::path &bench_path)
-    {
-        auto files = std::vector<BenchFileInfo>{};
-        auto directory_files = std::map<std::string, std::vector<std::filesystem::path>>{};
-
-        try
+    bool capitalize_next = true;
+    std::ranges::transform(result, result.begin(), [&capitalize_next](char c) {
+        if (c == ' ')
         {
-            for (const auto &entry : std::filesystem::recursive_directory_iterator(bench_path))
-            {
-                if (entry.is_regular_file() && entry.path().extension() == ".json")
-                {
-                    auto relative_path = std::filesystem::relative(entry.path(), bench_path);
-                    auto parent_dir = relative_path.parent_path().string();
-
-                    if (parent_dir.empty())
-                        parent_dir = ".";
-
-                    directory_files[parent_dir].push_back(entry.path());
-                }
-            }
-
-            for (const auto &[dir_name, dir_files] : directory_files)
-            {
-                if (dir_name != ".")
-                {
-                    auto header_path = bench_path / dir_name;
-                    files.emplace_back(header_path, std::filesystem::path(dir_name), true);
-                }
-
-                for (const auto &file_path : dir_files)
-                {
-                    auto relative_path = std::filesystem::relative(file_path, bench_path);
-                    files.emplace_back(file_path, relative_path, false);
-                }
-            }
-        }
-        catch (const std::filesystem::filesystem_error &ex)
-        {
-            std::cerr << "Error scanning bench files: " << ex.what() << std::endl;
+            capitalize_next = true;
+            return c;
         }
 
-        return files;
-    }
+        if (capitalize_next)
+        {
+            capitalize_next = false;
+            return static_cast<char>(std::toupper(c));
+        }
+
+        return static_cast<char>(std::tolower(c));
+    });
+
+    return "    " + result;
 }
+
+std::vector<BenchFileInfo> get_bench_files(
+    const std::filesystem::path &bench_path)
+{
+    auto files = std::vector<BenchFileInfo>{};
+    auto directory_files =
+        std::map<std::string, std::vector<std::filesystem::path>>{};
+
+    try
+    {
+        for (const auto &entry :
+             std::filesystem::recursive_directory_iterator(bench_path))
+        {
+            if (entry.is_regular_file() && entry.path().extension() == ".json")
+            {
+                auto relative_path =
+                    std::filesystem::relative(entry.path(), bench_path);
+                auto parent_dir = relative_path.parent_path().string();
+
+                if (parent_dir.empty())
+                    parent_dir = ".";
+
+                directory_files[parent_dir].push_back(entry.path());
+            }
+        }
+
+        for (const auto &[dir_name, dir_files] : directory_files)
+        {
+            if (dir_name != ".")
+            {
+                auto header_path = bench_path / dir_name;
+                files.emplace_back(header_path,
+                                   std::filesystem::path(dir_name),
+                                   true);
+            }
+
+            for (const auto &file_path : dir_files)
+            {
+                auto relative_path =
+                    std::filesystem::relative(file_path, bench_path);
+                files.emplace_back(file_path, relative_path, false);
+            }
+        }
+    }
+    catch (const std::filesystem::filesystem_error &ex)
+    {
+        std::cerr << "Error scanning bench files: " << ex.what() << std::endl;
+    }
+
+    return files;
+}
+} // namespace
 
 Render::Render()
 {
@@ -127,7 +136,9 @@ void Render::set_data_path(const std::filesystem::path &path)
     benches_files = get_bench_files(bench_path);
 }
 
-void Render::skill_activation_callback(const bool pressed, const EvCombatDataPersistent &combat_data)
+void Render::skill_activation_callback(
+    const bool pressed,
+    const EvCombatDataPersistent &combat_data)
 {
     key_press_event_in_this_frame = pressed;
     if (pressed)
@@ -151,7 +162,9 @@ void Render::toggle_vis(const bool flag)
     show_window = flag;
 }
 
-std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::string>> Render::get_file_data_pairs(std::string &filter_string)
+std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
+          std::set<std::string>>
+Render::get_file_data_pairs(std::string &filter_string)
 {
     auto filtered_files = std::vector<std::pair<int, const BenchFileInfo *>>{};
     auto directories_with_matches = std::set<std::string>{};
@@ -161,7 +174,8 @@ std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::stri
         for (int n = 0; n < benches_files.size(); n++)
             filtered_files.emplace_back(n, &benches_files[n]);
 
-        return std::make_pair(std::move(filtered_files), std::move(directories_with_matches));
+        return std::make_pair(std::move(filtered_files),
+                              std::move(directories_with_matches));
     }
 
     for (int n = 0; n < benches_files.size(); n++)
@@ -171,11 +185,15 @@ std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::stri
         if (!file_info.is_directory_header)
         {
             auto display_lower = file_info.display_name;
-            std::transform(display_lower.begin(), display_lower.end(), display_lower.begin(), ::tolower);
+            std::transform(display_lower.begin(),
+                           display_lower.end(),
+                           display_lower.begin(),
+                           ::tolower);
 
             if (display_lower.starts_with(filter_string))
             {
-                const auto parent_dir = file_info.relative_path.parent_path().string();
+                const auto parent_dir =
+                    file_info.relative_path.parent_path().string();
                 if (!parent_dir.empty() && parent_dir != ".")
                 {
                     directories_with_matches.insert(parent_dir);
@@ -190,7 +208,8 @@ std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::stri
 
         if (file_info.is_directory_header)
         {
-            if (directories_with_matches.count(file_info.relative_path.string()) > 0)
+            if (directories_with_matches.count(
+                    file_info.relative_path.string()) > 0)
             {
                 filtered_files.emplace_back(n, &file_info);
             }
@@ -198,7 +217,10 @@ std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::stri
         else
         {
             auto display_lower = file_info.display_name;
-            std::transform(display_lower.begin(), display_lower.end(), display_lower.begin(), ::tolower);
+            std::transform(display_lower.begin(),
+                           display_lower.end(),
+                           display_lower.begin(),
+                           ::tolower);
 
             if (display_lower.find(filter_string) != std::string::npos)
             {
@@ -207,7 +229,8 @@ std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::stri
         }
     }
 
-    return std::make_pair(std::move(filtered_files), std::move(directories_with_matches));
+    return std::make_pair(std::move(filtered_files),
+                          std::move(directories_with_matches));
 }
 
 void Render::select_bench()
@@ -222,14 +245,21 @@ void Render::select_bench()
         if (ImGui::InputText("##filter", filter_buffer, sizeof(filter_buffer)))
         {
             Settings::FilterBuffer = std::string(filter_buffer);
-            std::transform(Settings::FilterBuffer.begin(), Settings::FilterBuffer.end(), Settings::FilterBuffer.begin(), ::tolower);
+            std::transform(Settings::FilterBuffer.begin(),
+                           Settings::FilterBuffer.end(),
+                           Settings::FilterBuffer.begin(),
+                           ::tolower);
         }
 
-        const auto &[filtered_files, directories_with_matches] = get_file_data_pairs(Settings::FilterBuffer);
+        const auto &[filtered_files, directories_with_matches] =
+            get_file_data_pairs(Settings::FilterBuffer);
 
         auto combo_preview = std::string{};
-        if (selected_bench_index >= 0 && selected_bench_index < benches_files.size())
-            combo_preview = benches_files[selected_bench_index].relative_path.filename().string();
+        if (selected_bench_index >= 0 &&
+            selected_bench_index < benches_files.size())
+            combo_preview = benches_files[selected_bench_index]
+                                .relative_path.filename()
+                                .string();
         else
             combo_preview = "Select...";
 
@@ -237,7 +267,8 @@ void Render::select_bench()
         auto formatted_name = std::string{"Select..."};
         if (combo_preview != "Select...")
         {
-            combo_preview_slice = combo_preview.substr(0, combo_preview.size() - 8);
+            combo_preview_slice =
+                combo_preview.substr(0, combo_preview.size() - 8);
             formatted_name = format_build_name(combo_preview_slice);
             formatted_name = formatted_name.substr(4);
         }
@@ -248,14 +279,21 @@ void Render::select_bench()
             {
                 if (file_info->is_directory_header)
                 {
-                    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.7f, 0.7f, 0.9f, 1.0f));
-                    ImGui::Selectable(file_info->display_name.c_str(), false, ImGuiSelectableFlags_Disabled);
+                    ImGui::PushStyleColor(ImGuiCol_Text,
+                                          ImVec4(0.7f, 0.7f, 0.9f, 1.0f));
+                    ImGui::Selectable(file_info->display_name.c_str(),
+                                      false,
+                                      ImGuiSelectableFlags_Disabled);
                     ImGui::PopStyleColor();
                 }
                 else
                 {
-                    const auto is_selected = (selected_bench_index == original_index);
-                    auto formatted_name = file_info->is_directory_header ? file_info->display_name : format_build_name(file_info->display_name);
+                    const auto is_selected =
+                        (selected_bench_index == original_index);
+                    auto formatted_name =
+                        file_info->is_directory_header
+                            ? file_info->display_name
+                            : format_build_name(file_info->display_name);
 
                     if (ImGui::Selectable(formatted_name.c_str(), is_selected))
                     {
@@ -273,10 +311,11 @@ void Render::select_bench()
             ImGui::EndCombo();
         }
 
-        if (selected_bench_index >= 0 && selected_bench_index < benches_files.size())
+        if (selected_bench_index >= 0 &&
+            selected_bench_index < benches_files.size())
         {
             ImGui::SameLine();
-            if (ImGui::Button("Reload Rotation"))
+            if (ImGui::Button("Reload"))
             {
                 if (!selected_file_path.empty())
                 {
@@ -292,19 +331,62 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
 {
     static auto last_skill = EvCombatDataPersistent{};
 
-    ImGui::BeginChild("CombatBufferChild", ImVec2(0, 200), true, ImGuiWindowFlags_HorizontalScrollbar);
+    ImGui::BeginChild("CombatBufferChild",
+                      ImVec2(0, 400),
+                      true,
+                      ImGuiWindowFlags_HorizontalScrollbar);
 
-    const auto [start, end, current_idx] = rotation_run.get_current_rotation_indices();
+    const auto [start, end, current_idx] =
+        rotation_run.get_current_rotation_indices();
 
     for (int32_t i = start; i <= end; ++i)
     {
-        if (i < 0 || static_cast<size_t>(i) >= rotation_run.rotation_vector.size())
+        if (i < 0 ||
+            static_cast<size_t>(i) >= rotation_run.rotation_vector.size())
             continue;
 
-        const auto &skill_info = rotation_run.get_rotation_skill(static_cast<size_t>(i));
+        const auto &skill_info =
+            rotation_run.get_rotation_skill(static_cast<size_t>(i));
         const auto *texture = texture_map[skill_info.icon_id];
 
         const auto is_current = (i == static_cast<int32_t>(current_idx));
+
+        // Draw white border around current skill
+        if (is_current)
+        {
+            auto draw_list = ImGui::GetWindowDrawList();
+            auto cursor_pos = ImGui::GetCursorScreenPos();
+            auto border_color = IM_COL32(255, 255, 255, 255); // White color
+            auto border_thickness = 2.0f;
+
+            // Calculate total width for the border (image + text)
+            auto text = std::string{};
+            if (skill_info.skill_name.empty())
+                text = "N/A (%.2f)";
+            else
+                text = skill_info.skill_name + " (%.2f)";
+
+            char formatted_text[256];
+            snprintf(formatted_text,
+                     sizeof(formatted_text),
+                     text.c_str(),
+                     skill_info.cast_time);
+            auto text_size = ImGui::CalcTextSize(formatted_text);
+            auto total_width =
+                28 + ImGui::GetStyle().ItemSpacing.x + text_size.x;
+            auto total_height = (28.0f > text_size.y) ? 28.0f : text_size.y;
+
+            // Draw border rectangle
+            draw_list->AddRect(
+                ImVec2(cursor_pos.x - border_thickness,
+                       cursor_pos.y - border_thickness),
+                ImVec2(cursor_pos.x + total_width + border_thickness,
+                       cursor_pos.y + total_height + border_thickness),
+                border_color,
+                0.0f,
+                0,
+                border_thickness);
+        }
 
         if (texture && pd3dDevice)
             ImGui::Image((ImTextureID)texture, ImVec2(28, 28));
@@ -313,10 +395,11 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
 
         ImGui::SameLine();
 
-        if (is_current)
-            ImGui::Text("-> %s (%.2f) <-", skill_info.skill_name.empty() ? "N/A" : skill_info.skill_name.c_str(), skill_info.cast_time);
-        else
-            ImGui::Text("   %s (%.2f)", skill_info.skill_name.empty() ? "N/A" : skill_info.skill_name.c_str(), skill_info.cast_time);
+        ImGui::Text("%s (%.2f)",
+                    skill_info.skill_name.empty()
+                        ? "N/A"
+                        : skill_info.skill_name.c_str(),
+                    skill_info.cast_time);
     }
 
     const auto skill_ev = get_current_skill();
@@ -333,13 +416,38 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
             const auto next_next_rota_skill = *it;
 
 #ifdef USE_SKILL_ID_MATCH_LOGIC
-            const auto match_current = (curr_rota_skill.skill_id == skill_ev.SkillID);
-            const auto match_next = (next_rota_skill.skill_id == skill_ev.SkillID);
-            const auto match_next_next = (next_next_rota_skill.skill_id == skill_ev.SkillID);
+            const auto match_current =
+                (curr_rota_skill.skill_id == skill_ev.SkillID);
+            const auto match_next =
+                (next_rota_skill.skill_id == skill_ev.SkillID);
+            const auto match_next_next =
+                (next_next_rota_skill.skill_id == skill_ev.SkillID);
 #else
-            const auto match_current = (curr_rota_skill.skill_name == skill_ev.SkillName);
-            const auto match_next = (next_rota_skill.skill_name == skill_ev.SkillName);
-            const auto match_next_next = (next_next_rota_skill.skill_name == skill_ev.SkillName);
+
+            auto match_current =
+                (curr_rota_skill.skill_name == skill_ev.SkillName);
+            auto match_next =
+                (next_rota_skill.skill_name == skill_ev.SkillName);
+            auto match_next_next =
+                (next_next_rota_skill.skill_name == skill_ev.SkillName);
+
+            if (curr_rota_skill.skill_name.find(" / ") != std::string::npos)
+            {
+                match_current =
+                    (curr_rota_skill.skill_name.find(skill_ev.SkillName)) !=
+                    std::string::npos;
+                match_next =
+                    (next_rota_skill.skill_name.find(skill_ev.SkillName)) !=
+                    std::string::npos;
+                match_next_next = (next_next_rota_skill.skill_name.find(
+                                      skill_ev.SkillName)) != std::string::npos;
+            }
+
+#endif
+
+#ifdef _DEBUG
+            if (skill_ev.SkillID == -1234)
+                match_current = true;
 #endif
 
             if (match_current)
@@ -395,11 +503,16 @@ void Render::render(ID3D11Device *pd3dDevice, AddonAPI *APIDefs)
         {
             if (APIDefs && !pd3dDevice)
             {
-                texture_map = LoadAllSkillTexturesWithAPI(APIDefs, rotation_run.skill_info_map, img_path);
+                texture_map =
+                    LoadAllSkillTexturesWithAPI(APIDefs,
+                                                rotation_run.skill_info_map,
+                                                img_path);
             }
             else if (pd3dDevice)
             {
-                texture_map = LoadAllSkillTextures(pd3dDevice, rotation_run.skill_info_map, img_path);
+                texture_map = LoadAllSkillTextures(pd3dDevice,
+                                                   rotation_run.skill_info_map,
+                                                   img_path);
             }
         }
 

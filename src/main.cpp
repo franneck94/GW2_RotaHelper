@@ -14,14 +14,15 @@
 
 namespace
 {
-    enum class Keys
-    {
-        W,
-        A,
-        S,
-        D,
-        NONE,
-    };
+enum class Keys
+{
+    W,
+    A,
+    S,
+    D,
+    ANY,
+    NONE,
+};
 };
 
 // Data
@@ -30,7 +31,8 @@ static ID3D11DeviceContext *g_pd3dDeviceContext = NULL;
 static IDXGISwapChain *g_pSwapChain = NULL;
 static ID3D11RenderTargetView *g_mainRenderTargetView = NULL;
 
-std::filesystem::path SettingsPath = std::filesystem::absolute(std::filesystem::path(__FILE__).parent_path() / "addon_settings.json");
+std::filesystem::path SettingsPath = std::filesystem::absolute(
+    std::filesystem::path(__FILE__).parent_path() / "addon_settings.json");
 
 // Forward declarations of helper functions
 bool CreateDeviceD3D(HWND hWnd);
@@ -44,9 +46,30 @@ int main(int, char **)
 {
     // Create application window
     // ImGui_ImplWin32_EnableDpiAwareness();
-    WNDCLASSEX wc = {sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, _T("ImGui Example"), NULL};
+    WNDCLASSEX wc = {sizeof(WNDCLASSEX),
+                     CS_CLASSDC,
+                     WndProc,
+                     0L,
+                     0L,
+                     GetModuleHandle(NULL),
+                     NULL,
+                     NULL,
+                     NULL,
+                     NULL,
+                     _T("ImGui Example"),
+                     NULL};
     ::RegisterClassEx(&wc);
-    HWND hwnd = ::CreateWindow(wc.lpszClassName, _T("Dear ImGui DirectX11 Example"), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
+    HWND hwnd = ::CreateWindow(wc.lpszClassName,
+                               _T("Dear ImGui DirectX11 Example"),
+                               WS_OVERLAPPEDWINDOW,
+                               100,
+                               100,
+                               1280,
+                               800,
+                               NULL,
+                               NULL,
+                               wc.hInstance,
+                               NULL);
 
     // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd))
@@ -78,7 +101,8 @@ int main(int, char **)
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     render.toggle_vis(true);
 
-    auto data_path = std::filesystem::absolute(std::filesystem::path(__FILE__).parent_path().parent_path() / "data");
+    auto data_path = std::filesystem::absolute(
+        std::filesystem::path(__FILE__).parent_path().parent_path() / "data");
     render.set_data_path(data_path);
 
     Settings::Load(SettingsPath);
@@ -112,7 +136,8 @@ int main(int, char **)
             {0x44, Keys::D}  // VK_D
         };
 
-        for (int vk = 0x08; vk <= 0xFE; vk++) // VK_BACK to 0xFE (most virtual keys)
+        for (int vk = 0x08; vk <= 0xFE;
+             vk++) // VK_BACK to 0xFE (most virtual keys)
         {
             if (GetAsyncKeyState(vk) & 0x8000)
             {
@@ -125,7 +150,7 @@ int main(int, char **)
                 }
                 else
                 {
-                    key_pressed = Keys::NONE;
+                    key_pressed = Keys::ANY;
                 }
                 break;
             }
@@ -158,6 +183,11 @@ int main(int, char **)
                 skill_id = 5823;
                 skill_name = "Fire Bomb";
                 break;
+            default:
+                icon_id = -1234;
+                skill_id = -1234;
+                skill_name = "Wildcard";
+                break;
             }
 
             prev_key = Keys::NONE;
@@ -166,7 +196,9 @@ int main(int, char **)
             auto fake_src = ArcDPS::AgentShort{};
             auto fake_dst = ArcDPS::AgentShort{};
             char fake_skillname[64] = {};
-            strncpy(fake_skillname, skill_name.c_str(), sizeof(fake_skillname) - 1);
+            strncpy(fake_skillname,
+                    skill_name.c_str(),
+                    sizeof(fake_skillname) - 1);
             auto fake_id = static_cast<uint64_t>(skill_id);
             auto fake_revision = static_cast<uint64_t>(1);
 
@@ -181,14 +213,22 @@ int main(int, char **)
             fake_dst.Specialization = 6;
             fake_dst.Name = (char *)"Target";
 
-            ArcEv::OnCombatLocal(&fake_ev, &fake_src, &fake_dst, fake_skillname, fake_id, fake_revision);
+            ArcEv::OnCombatLocal(&fake_ev,
+                                 &fake_src,
+                                 &fake_dst,
+                                 fake_skillname,
+                                 fake_id,
+                                 fake_revision);
         }
 
         render.render(g_pd3dDevice);
 
         ImGui::Render();
-        g_pd3dDeviceContext->OMSetRenderTargets(1, &g_mainRenderTargetView, NULL);
-        g_pd3dDeviceContext->ClearRenderTargetView(g_mainRenderTargetView, (float *)&clear_color);
+        g_pd3dDeviceContext->OMSetRenderTargets(1,
+                                                &g_mainRenderTargetView,
+                                                NULL);
+        g_pd3dDeviceContext->ClearRenderTargetView(g_mainRenderTargetView,
+                                                   (float *)&clear_color);
         ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
         g_pSwapChain->Present(1, 0); // Present with vsync
@@ -232,7 +272,18 @@ bool CreateDeviceD3D(HWND hWnd)
         D3D_FEATURE_LEVEL_11_0,
         D3D_FEATURE_LEVEL_10_0,
     };
-    if (D3D11CreateDeviceAndSwapChain(NULL, D3D_DRIVER_TYPE_HARDWARE, NULL, createDeviceFlags, featureLevelArray, 2, D3D11_SDK_VERSION, &sd, &g_pSwapChain, &g_pd3dDevice, &featureLevel, &g_pd3dDeviceContext) != S_OK)
+    if (D3D11CreateDeviceAndSwapChain(NULL,
+                                      D3D_DRIVER_TYPE_HARDWARE,
+                                      NULL,
+                                      createDeviceFlags,
+                                      featureLevelArray,
+                                      2,
+                                      D3D11_SDK_VERSION,
+                                      &sd,
+                                      &g_pSwapChain,
+                                      &g_pd3dDevice,
+                                      &featureLevel,
+                                      &g_pd3dDeviceContext) != S_OK)
         return false;
 
     CreateRenderTarget();
@@ -263,7 +314,9 @@ void CreateRenderTarget()
 {
     ID3D11Texture2D *pBackBuffer;
     g_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
-    g_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_mainRenderTargetView);
+    g_pd3dDevice->CreateRenderTargetView(pBackBuffer,
+                                         NULL,
+                                         &g_mainRenderTargetView);
     pBackBuffer->Release();
 }
 
@@ -276,7 +329,10 @@ void CleanupRenderTarget()
     }
 }
 
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
+                                                             UINT msg,
+                                                             WPARAM wParam,
+                                                             LPARAM lParam);
 
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -289,7 +345,11 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         if (g_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
         {
             CleanupRenderTarget();
-            g_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
+            g_pSwapChain->ResizeBuffers(0,
+                                        (UINT)LOWORD(lParam),
+                                        (UINT)HIWORD(lParam),
+                                        DXGI_FORMAT_UNKNOWN,
+                                        0);
             CreateRenderTarget();
         }
         return 0;
