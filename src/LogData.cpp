@@ -496,13 +496,12 @@ void RotationRun::load_data(const std::filesystem::path &json_path,
     auto j2{nlohmann::json{}};
     file2 >> j2;
 
-    auto _skill_data = get_skill_data(j2);
+    skill_data = get_skill_data(j2);
     auto [_skill_info_map, _bench_rotation_vector] =
-        get_dpsreport_data(j, json_path, _skill_data);
+        get_dpsreport_data(j, json_path, skill_data);
 
-    skill_info_map = std::move(_skill_info_map);
-    rotation_vector = std::move(_bench_rotation_vector);
-    skill_data = std::move(_skill_data);
+    skill_info_map = _skill_info_map;
+    rotation_vector = _bench_rotation_vector;
 
     restart_rotation();
 
@@ -519,17 +518,28 @@ void RotationRun::pop_bench_rotation_queue()
 
 std::tuple<int, int, size_t> RotationRun::get_current_rotation_indices() const
 {
+    constexpr static auto window_size = 10;
+    constexpr static auto window_size_left = 2;
+    constexpr static auto window_size_right =
+        window_size - window_size_left - 1;
+
     if (bench_rotation_list.empty())
         return {-1, -1, -1};
 
-    const auto queue_size = bench_rotation_list.size();
-    const auto total_size = rotation_vector.size();
-    const auto current_idx = total_size - queue_size;
+    const auto num_skills_left =
+        static_cast<int64_t>(bench_rotation_list.size());
+    const auto num_total_skills = static_cast<int64_t>(rotation_vector.size());
+    const auto current_idx =
+        static_cast<int64_t>(num_total_skills - num_skills_left);
     const auto start =
-        current_idx - 2 >= 0 ? static_cast<int32_t>(current_idx - 2) : 0;
-    const auto end = current_idx + 6 < total_size
-                         ? static_cast<int32_t>(current_idx + 6)
-                         : total_size - 1;
+        current_idx - 2 >= 0
+            ? static_cast<int32_t>(current_idx - window_size_left)
+            : 0;
+    const auto end =
+        current_idx + window_size < num_total_skills
+            ? start > 0 ? static_cast<int32_t>(current_idx + window_size_right)
+                        : static_cast<int32_t>(window_size - 1)
+            : num_total_skills - 1;
 
     return {start, end, current_idx};
 }
