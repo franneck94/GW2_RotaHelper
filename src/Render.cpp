@@ -200,6 +200,7 @@ Render::get_file_data_pairs(std::string &filter_string)
         return std::make_pair(filtered_files, directories_with_matches);
     }
 
+    // First pass: find all files that match and collect their directories
     for (int n = 0; n < benches_files.size(); n++)
     {
         const auto &file_info = benches_files[n];
@@ -212,7 +213,7 @@ Render::get_file_data_pairs(std::string &filter_string)
                            display_lower.begin(),
                            ::tolower);
 
-            if (display_lower.starts_with(filter_string))
+            if (display_lower.find(filter_string) != std::string::npos)
             {
                 const auto parent_dir =
                     file_info.relative_path.parent_path().string();
@@ -224,6 +225,7 @@ Render::get_file_data_pairs(std::string &filter_string)
         }
     }
 
+    // Second pass: add directory headers and matching files to filtered list
     for (int n = 0; n < benches_files.size(); n++)
     {
         const auto &file_info = benches_files[n];
@@ -391,12 +393,11 @@ void Render::CycleSkillsLogic()
         }
 
 #ifdef USE_SKILL_ID_MATCH_LOGIC
-        const auto match_current =
-            (curr_rota_skill.skill_id == skill_ev.SkillID);
-        const auto match_next = (next_rota_skill.skill_id == skill_ev.SkillID);
-        const auto match_next_next =
+        auto match_current = (curr_rota_skill.skill_id == skill_ev.SkillID);
+        auto match_next = (next_rota_skill.skill_id == skill_ev.SkillID);
+        auto match_next_next =
             (next_next_rota_skill.skill_id == skill_ev.SkillID);
-        const auto match_next_next_next =
+        auto match_next_next_next =
             (next_next_rota_skill.skill_id == skill_ev.SkillID);
 #else
 

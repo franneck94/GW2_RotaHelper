@@ -193,8 +193,13 @@ bool remove_skill_if(const RotationInfo &current, const RotationInfo &previous)
 bool is_special_case(const int skill_id, const std::string &skill_name)
 {
     if (skill_name.find("Bloodstone Fervor") != std::string::npos ||
+        skill_name.find("Blutstein ") != std::string::npos ||
+        skill_name.find("Waffen Wechsel") != std::string::npos ||
         skill_name.find("Weapon Swap") != std::string::npos ||
         skill_name.find("Detonate ") != std::string::npos ||
+        skill_name.find("Approaching Doom") != std::string::npos ||
+        skill_name.find("Relic of") != std::string::npos ||
+        skill_name.find("Relikt des") != std::string::npos ||
         skill_name.find(" Kit") != std::string::npos)
         return true;
 
@@ -254,29 +259,45 @@ void get_rotation_info(const IntNode &node,
                 }
             }
 
-            auto skill_name = std::string{"Unknown Skill"};
-            const auto skill_info_it = skill_info_map.find(icon_id);
-            if (skill_info_it != skill_info_map.end())
-            {
-                skill_name = skill_info_it->second.name;
-            }
-            else
-            {
-                continue;
-            }
-
             auto skill_id = 0;
+            auto skill_name = std::string{"Unknown Skill"};
+
+            // Search for skill name in skill_data_map using icon_id
             for (const auto &[sid, skill_data] : skill_data_map)
             {
                 if (skill_data.icon_id == icon_id)
                 {
+                    skill_name = skill_data.name;
                     skill_id = sid;
                     break;
                 }
             }
 
-            if (!skill_info_it->second.gear_proc &&
-                !skill_info_it->second.trait_proc &&
+            // If not found in skill_data_map, fallback to skill_info_map
+            if (skill_name == "Unknown Skill")
+            {
+                const auto skill_info_it = skill_info_map.find(icon_id);
+                if (skill_info_it != skill_info_map.end())
+                {
+                    skill_name = skill_info_it->second.name;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
+            // Check gear_proc and trait_proc from skill_info_map
+            auto gear_proc = false;
+            auto trait_proc = false;
+            const auto skill_info_it = skill_info_map.find(icon_id);
+            if (skill_info_it != skill_info_map.end())
+            {
+                gear_proc = skill_info_it->second.gear_proc;
+                trait_proc = skill_info_it->second.trait_proc;
+            }
+
+            if (!gear_proc && !trait_proc &&
                 !is_special_case(skill_id, skill_name))
             {
                 rotation_vector.push_back(RotationInfo{
