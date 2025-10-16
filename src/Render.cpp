@@ -327,80 +327,9 @@ void Render::select_bench()
     }
 }
 
-void Render::rotation_render(ID3D11Device *pd3dDevice)
+void Render::CycleSkillsLogic()
 {
     static auto last_skill = EvCombatDataPersistent{};
-
-    ImGui::BeginChild("CombatBufferChild",
-                      ImVec2(0, 400),
-                      true,
-                      ImGuiWindowFlags_HorizontalScrollbar);
-
-    const auto [start, end, current_idx] =
-        rotation_run.get_current_rotation_indices();
-
-    for (int32_t i = start; i <= end; ++i)
-    {
-        if (i < 0 ||
-            static_cast<size_t>(i) >= rotation_run.rotation_vector.size())
-            continue;
-
-        const auto &skill_info =
-            rotation_run.get_rotation_skill(static_cast<size_t>(i));
-        const auto *texture = texture_map[skill_info.icon_id];
-
-        const auto is_current = (i == static_cast<int32_t>(current_idx));
-
-        // Draw white border around current skill
-        if (is_current)
-        {
-            auto draw_list = ImGui::GetWindowDrawList();
-            auto cursor_pos = ImGui::GetCursorScreenPos();
-            auto border_color = IM_COL32(255, 255, 255, 255); // White color
-            auto border_thickness = 2.0f;
-
-            // Calculate total width for the border (image + text)
-            auto text = std::string{};
-            if (skill_info.skill_name.empty())
-                text = "N/A (%.2f)";
-            else
-                text = skill_info.skill_name + " (%.2f)";
-
-            char formatted_text[256];
-            snprintf(formatted_text,
-                     sizeof(formatted_text),
-                     text.c_str(),
-                     skill_info.cast_time);
-            auto text_size = ImGui::CalcTextSize(formatted_text);
-            auto total_width =
-                28 + ImGui::GetStyle().ItemSpacing.x + text_size.x;
-            auto total_height = (28.0f > text_size.y) ? 28.0f : text_size.y;
-
-            // Draw border rectangle
-            draw_list->AddRect(
-                ImVec2(cursor_pos.x - border_thickness,
-                       cursor_pos.y - border_thickness),
-                ImVec2(cursor_pos.x + total_width + border_thickness,
-                       cursor_pos.y + total_height + border_thickness),
-                border_color,
-                0.0f,
-                0,
-                border_thickness);
-        }
-
-        if (texture && pd3dDevice)
-            ImGui::Image((ImTextureID)texture, ImVec2(28, 28));
-        else
-            ImGui::Dummy(ImVec2(28, 28));
-
-        ImGui::SameLine();
-
-        ImGui::Text("%s (%.2f)",
-                    skill_info.skill_name.empty()
-                        ? "N/A"
-                        : skill_info.skill_name.c_str(),
-                    skill_info.cast_time);
-    }
 
     const auto skill_ev = get_current_skill();
     if (skill_ev.SkillID != 0 && last_skill.SkillID != skill_ev.SkillID)
@@ -446,7 +375,7 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
 #endif
 
 #ifdef _DEBUG
-            if (skill_ev.SkillID == -1234)
+            if (skill_ev.SkillID == static_cast<uint64_t>(-1))
                 match_current = true;
 #endif
 
@@ -470,6 +399,83 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
             }
         }
     }
+}
+
+void Render::DrawRect(const RotationInfo &skill_info, ImU32 color)
+{
+    auto draw_list = ImGui::GetWindowDrawList();
+    auto cursor_pos = ImGui::GetCursorScreenPos();
+    auto border_color = color;
+    auto border_thickness = 2.0f;
+
+    auto text = std::string{};
+    if (skill_info.skill_name.empty())
+        text = "N/A (%.2f)";
+    else
+        text = skill_info.skill_name + " (%.2f)";
+
+    char formatted_text[256];
+    snprintf(formatted_text,
+             sizeof(formatted_text),
+             text.c_str(),
+             skill_info.cast_time);
+    auto text_size = ImGui::CalcTextSize(formatted_text);
+    auto total_width = 28 + ImGui::GetStyle().ItemSpacing.x + text_size.x;
+    auto total_height = (28.0f > text_size.y) ? 28.0f : text_size.y;
+
+    draw_list->AddRect(ImVec2(cursor_pos.x - border_thickness,
+                              cursor_pos.y - border_thickness),
+                       ImVec2(cursor_pos.x + total_width + border_thickness,
+                              cursor_pos.y + total_height + border_thickness),
+                       border_color,
+                       0.0f,
+                       0,
+                       border_thickness);
+}
+
+void Render::rotation_render(ID3D11Device *pd3dDevice)
+{
+    ImGui::BeginChild("CombatBufferChild",
+                      ImVec2(0, 400),
+                      true,
+                      ImGuiWindowFlags_HorizontalScrollbar);
+
+    const auto [start, end, current_idx] =
+        rotation_run.get_current_rotation_indices();
+
+    for (int32_t i = start; i <= end; ++i)
+    {
+        if (i < 0 ||
+            static_cast<size_t>(i) >= rotation_run.rotation_vector.size())
+            continue;
+
+        const auto &skill_info =
+            rotation_run.get_rotation_skill(static_cast<size_t>(i));
+        const auto *texture = texture_map[skill_info.icon_id];
+
+        const auto is_current = (i == static_cast<int32_t>(current_idx));
+        const auto is_last = (i == rotation_run.rotation_vector.size() - 1);
+
+        if (is_current && !is_last)
+            DrawRect(skill_info);
+        if (!is_current && is_last)
+            DrawRect(skill_info, IM_COL32(255, 0, 0, 255));
+
+        if (texture && pd3dDevice)
+            ImGui::Image((ImTextureID)texture, ImVec2(28, 28));
+        else
+            ImGui::Dummy(ImVec2(28, 28));
+
+        ImGui::SameLine();
+
+        ImGui::Text("%s (%.2f)",
+                    skill_info.skill_name.empty()
+                        ? "N/A"
+                        : skill_info.skill_name.c_str(),
+                    skill_info.cast_time);
+    }
+
+    CycleSkillsLogic();
 
     ImGui::EndChild();
 }
