@@ -21,7 +21,8 @@ using json = nlohmann::json;
 class RotationRun
 {
 public:
-    void load_data(const std::filesystem::path &json_path, const std::filesystem::path &img_path);
+    void load_data(const std::filesystem::path &json_path,
+                   const std::filesystem::path &img_path);
 
     void pop_bench_rotation_queue();
     std::tuple<int, int, size_t> get_current_rotation_indices() const;

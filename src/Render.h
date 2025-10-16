@@ -3,9 +3,9 @@
 #include <d3d11.h>
 
 #include <filesystem>
+#include <set>
 #include <string>
 #include <utility>
-#include <set>
 
 #include "LogData.h"
 #include "Textures.h"
@@ -18,8 +18,11 @@ struct BenchFileInfo
     std::string display_name;
     bool is_directory_header;
 
-    BenchFileInfo(const std::filesystem::path &full, const std::filesystem::path &relative, bool is_header = false)
-        : full_path(full), relative_path(relative), is_directory_header(is_header)
+    BenchFileInfo(const std::filesystem::path &full,
+                  const std::filesystem::path &relative,
+                  bool is_header = false)
+        : full_path(full), relative_path(relative),
+          is_directory_header(is_header)
     {
         if (is_header)
         {
@@ -41,7 +44,9 @@ class Render
 {
 public:
     Render();
-    Render(bool &show_window) : show_window(show_window) {}
+    Render(bool &show_window) : show_window(show_window)
+    {
+    }
     ~Render();
 
     void set_data_path(const std::filesystem::path &path);
@@ -49,8 +54,11 @@ public:
     void render(ID3D11Device *pd3dDevice, AddonAPI *APIDefs = nullptr);
     void select_bench();
     void rotation_render(ID3D11Device *pd3dDevice);
-    std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::string>> get_file_data_pairs(std::string &filter_string);
-    void skill_activation_callback(const bool pressed, const EvCombatDataPersistent &combat_data);
+    std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
+              std::set<std::string>>
+    get_file_data_pairs(std::string &filter_string);
+    void skill_activation_callback(const bool pressed,
+                                   const EvCombatDataPersistent &combat_data);
     void toggle_vis(const bool flag);
     EvCombatDataPersistent get_current_skill();
 
