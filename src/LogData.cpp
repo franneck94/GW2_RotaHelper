@@ -195,6 +195,7 @@ bool is_special_case(const int skill_id, const std::string &skill_name)
     if (skill_name.find("Bloodstone Fervor") != std::string::npos ||
         skill_name.find("Blutstein ") != std::string::npos ||
         skill_name.find("Waffen Wechsel") != std::string::npos ||
+        skill_name.find(" Attunement") != std::string::npos ||
         skill_name.find("Weapon Swap") != std::string::npos ||
         skill_name.find("Detonate ") != std::string::npos ||
         skill_name.find("Approaching Doom") != std::string::npos ||
