@@ -7,6 +7,8 @@
 #include <string>
 #include <utility>
 
+#include "imgui.h"
+
 #include "LogData.h"
 #include "Textures.h"
 #include "Types.h"
@@ -61,6 +63,9 @@ public:
                                    const EvCombatDataPersistent &combat_data);
     void toggle_vis(const bool flag);
     EvCombatDataPersistent get_current_skill();
+    void CycleSkillsLogic();
+    void DrawRect(const RotationInfo &skill_info,
+                  ImU32 color = IM_COL32(255, 255, 255, 255));
 
     bool show_window;
 
