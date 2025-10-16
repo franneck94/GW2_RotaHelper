@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-Extract rotation data from downloaded HTML files containing DPS report data.
+Extract rotation data from downloaded HTML files containing benchmark report data.
 
 This script reads HTML files from data/html directory and extracts rotation data
-from the Player Summary -> Simple Rotation sections, outputting in v3 format.
+from the Player Summary -> Simple Rotation sections for DPS, Quick, and Alac benchmarks,
+outputting in v4 format.
 """
 
 import argparse
@@ -197,6 +198,21 @@ class HTMLRotationExtractor:
             self.logger.error(f"Error processing {html_file.name}: {e}")
             return {"rotation": [[]], "skillMap": {}}
 
+    def _determine_benchmark_type(self, html_file: Path) -> str:
+        """Determine benchmark type (dps/quick/alac) from file path"""
+        path_parts = html_file.parts
+
+        # Check if file is in a subdirectory that indicates benchmark type
+        if "dps" in path_parts:
+            return "dps"
+        elif "quick" in path_parts:
+            return "quick"
+        elif "alac" in path_parts:
+            return "alac"
+
+        # Default to dps if cannot determine
+        return "dps"
+
     def _determine_build_type(self, html_file: Path) -> str:
         """Determine build type (power/condition) from file path or filename"""
         # Check if file is in a subdirectory that indicates build type
@@ -217,24 +233,24 @@ class HTMLRotationExtractor:
 
     def process_all_html_files(self, pattern: str = "*.html") -> None:
         """Process all HTML files in the input directory and subdirectories"""
-        # Look for HTML files in the main directory and subdirectories
+        # Look for HTML files in benchmark type directories (dps, quick, alac)
         html_files = []
 
-        # Check main directory
+        benchmark_types = ["dps", "quick", "alac"]
+        build_types = ["power", "condition"]
+
+        # Check each benchmark type directory
+        for benchmark_type in benchmark_types:
+            benchmark_dir = self.input_dir / benchmark_type
+            if benchmark_dir.exists():
+                # Check each build type subdirectory
+                for build_type in build_types:
+                    build_dir = benchmark_dir / build_type
+                    if build_dir.exists():
+                        html_files.extend(list(build_dir.glob(pattern)))
+
+        # Also check main directory for any standalone files
         html_files.extend(list(self.input_dir.glob(pattern)))
-
-        # Check dps subdirectories
-        dps_dir = self.input_dir / "dps"
-        if dps_dir.exists():
-            # Check power subdirectory
-            power_dir = dps_dir / "power"
-            if power_dir.exists():
-                html_files.extend(list(power_dir.glob(pattern)))
-
-            # Check condition subdirectory
-            condition_dir = dps_dir / "condition"
-            if condition_dir.exists():
-                html_files.extend(list(condition_dir.glob(pattern)))
 
         if not html_files:
             self.logger.warning(f"No HTML files found matching pattern '{pattern}' in {self.input_dir} or subdirectories")
@@ -254,11 +270,12 @@ class HTMLRotationExtractor:
                     self.logger.warning(f"No rotation data extracted from {html_file.name}")
                     continue
 
-                # Determine build type from filename or parent directory
+                # Determine benchmark and build types from filename or parent directory
+                benchmark_type = self._determine_benchmark_type(html_file)
                 build_type = self._determine_build_type(html_file)
 
                 # Create appropriate output subdirectory
-                output_subdir = self.output_dir / "dps" / build_type
+                output_subdir = self.output_dir / benchmark_type / build_type
                 output_subdir.mkdir(parents=True, exist_ok=True)
 
                 # Generate output filename (replace .html with _v4.json)
@@ -269,7 +286,7 @@ class HTMLRotationExtractor:
                 with open(output_path, 'w', encoding='utf-8') as f:
                     json.dump(extracted_data, f, indent=2, ensure_ascii=False)
 
-                self.logger.info(f"Saved: dps/{build_type}/{output_filename}")
+                self.logger.info(f"Saved: {benchmark_type}/{build_type}/{output_filename}")
                 success_count += 1
 
             except Exception as e:
@@ -283,11 +300,15 @@ class HTMLRotationExtractor:
         html_file = None
 
         # Try to find the file in various locations
-        possible_paths = [
-            self.input_dir / filename,
-            self.input_dir / "dps" / "power" / filename,
-            self.input_dir / "dps" / "condition" / filename,
-        ]
+        benchmark_types = ["dps", "quick", "alac"]
+        build_types = ["power", "condition"]
+
+        possible_paths = [self.input_dir / filename]
+
+        # Add all possible benchmark/build type combinations
+        for benchmark_type in benchmark_types:
+            for build_type in build_types:
+                possible_paths.append(self.input_dir / benchmark_type / build_type / filename)
 
         for path in possible_paths:
             if path.exists():
@@ -310,11 +331,12 @@ class HTMLRotationExtractor:
                 self.logger.warning(f"No rotation data extracted from {html_file.name}")
                 return False
 
-            # Determine build type from filename or parent directory
+            # Determine benchmark and build types from filename or parent directory
+            benchmark_type = self._determine_benchmark_type(html_file)
             build_type = self._determine_build_type(html_file)
 
             # Create appropriate output subdirectory
-            output_subdir = self.output_dir / "dps" / build_type
+            output_subdir = self.output_dir / benchmark_type / build_type
             output_subdir.mkdir(parents=True, exist_ok=True)
 
             # Generate output filename
@@ -325,7 +347,7 @@ class HTMLRotationExtractor:
             with open(output_path, 'w', encoding='utf-8') as f:
                 json.dump(extracted_data, f, indent=2, ensure_ascii=False)
 
-            self.logger.info(f"Saved: dps/{build_type}/{output_filename}")
+            self.logger.info(f"Saved: {benchmark_type}/{build_type}/{output_filename}")
             return True
 
         except Exception as e:
@@ -336,7 +358,7 @@ class HTMLRotationExtractor:
 def main():
     """Main function with CLI interface"""
     parser = argparse.ArgumentParser(
-        description="Extract rotation data from DPS report HTML files"
+        description="Extract rotation data from benchmark report HTML files (DPS, Quick, Alac)"
     )
     parser.add_argument(
         "--input", "-i",

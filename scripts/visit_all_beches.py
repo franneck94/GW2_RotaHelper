@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-Web scraper to visit all DPS report sites listed on SnowCrows benchmarks page.
+Web scraper to visit all benchmark report sites listed on SnowCrows pages.
 
-This script scrapes https://snowcrows.com/benchmarks?filter=dps to find all
+This script scrapes SnowCrows benchmarks (DPS, Quick, Alac) to find all
 dps.report links, then visits each one and downloads the HTML content.
 """
 
@@ -88,57 +88,62 @@ class SnowCrowsScraper:
 
         return filename
 
-    def get_snowcrows_builds_and_links(self) -> list[tuple[str, str]]:
-        """Extract build names and their corresponding SnowCrows build page links"""
-        url = "https://snowcrows.com/benchmarks?filter=dps"
+    def get_snowcrows_builds_and_links(self) -> list[tuple[str, str, str]]:
+        """Extract build names, their corresponding SnowCrows build page links, and benchmark types"""
+        benchmark_urls = [
+            ("https://snowcrows.com/benchmarks/?filter=dps", "dps"),
+            ("https://snowcrows.com/benchmarks/?filter=quickness", "quick"),
+            ("https://snowcrows.com/benchmarks/?filter=alacrity", "alac"),
+        ]
         builds_and_links = []
 
-        try:
-            self.logger.info(f"Fetching SnowCrows benchmarks page: {url}")
-            response = self.session.get(url, timeout=30)
-            response.raise_for_status()
+        for url, benchmark_type in benchmark_urls:
+            try:
+                self.logger.info(f"Fetching SnowCrows {benchmark_type.upper()} benchmarks page: {url}")
+                response = self.session.get(url, timeout=30)
+                response.raise_for_status()
 
-            # Extract build URLs from SnowCrows build links
-            # Pattern to match: <a href="/builds/raids/[profession]/[build-name]"
-            build_url_pattern = re.compile(
-                r'<a\s+href="(/builds/raids/[^"]+)"[^>]*class="[^"]*flex\s+items-center[^"]*"',
-                re.IGNORECASE,
-            )
+                # Extract build URLs from SnowCrows build links
+                # Pattern to match: <a href="/builds/raids/[profession]/[build-name]"
+                build_url_pattern = re.compile(
+                    r'<a\s+href="(/builds/raids/[^"]+)"[^>]*class="[^"]*flex\s+items-center[^"]*"',
+                    re.IGNORECASE,
+                )
 
-            build_urls = build_url_pattern.findall(response.text)
+                build_urls = build_url_pattern.findall(response.text)
 
-            self.logger.info(f"Found {len(build_urls)} SnowCrows build URLs")
+                self.logger.info(f"Found {len(build_urls)} {benchmark_type.upper()} build URLs")
 
-            for build_url in build_urls:
-                # Extract build name from URL path
-                # Example: /builds/raids/mesmer/condition-mirage-ih-oasis
-                url_parts = build_url.strip("/").split("/")
-                if len(url_parts) >= 4:
-                    build_name = url_parts[-1]  # Last part is the build name
+                for build_url in build_urls:
+                    # Extract build name from URL path
+                    # Example: /builds/raids/mesmer/condition-mirage-ih-oasis
+                    url_parts = build_url.strip("/").split("/")
+                    if len(url_parts) >= 4:
+                        build_name = url_parts[-1]  # Last part is the build name
 
-                    # Convert URL format to readable format
-                    # Example: condition-mirage-ih-oasis -> Condition Mirage IH Oasis
-                    readable_name = self._url_to_readable_name(build_name)
+                        # Convert URL format to readable format
+                        # Example: condition-mirage-ih-oasis -> Condition Mirage IH Oasis
+                        readable_name = self._url_to_readable_name(build_name)
 
-                    # Create full SnowCrows URL
-                    full_url = f"https://snowcrows.com{build_url}"
+                        # Create full SnowCrows URL
+                        full_url = f"https://snowcrows.com{build_url}"
 
-                    builds_and_links.append((readable_name, full_url))
+                        builds_and_links.append((readable_name, full_url, benchmark_type))
 
-            # Remove duplicates while preserving order
-            seen = set()
-            unique_builds = []
-            for build_name, link in builds_and_links:
-                if link not in seen:
-                    seen.add(link)
-                    unique_builds.append((build_name, link))
+            except Exception as e:
+                self.logger.error(f"Error fetching SnowCrows {benchmark_type} page: {e}")
 
-            self.logger.info(f"Found {len(unique_builds)} unique SnowCrows builds")
-            return unique_builds
+        # Remove duplicates while preserving order (same build might appear in multiple categories)
+        seen = set()
+        unique_builds = []
+        for build_name, link, benchmark_type in builds_and_links:
+            key = (link, benchmark_type)  # Allow same build in different benchmark types
+            if key not in seen:
+                seen.add(key)
+                unique_builds.append((build_name, link, benchmark_type))
 
-        except Exception as e:
-            self.logger.error(f"Error fetching SnowCrows page: {e}")
-            return []
+        self.logger.info(f"Found {len(unique_builds)} total unique builds across all benchmark types")
+        return unique_builds
 
     def _url_to_readable_name(self, url_name: str) -> str:
         """Convert URL format build name to readable format"""
@@ -235,7 +240,7 @@ class SnowCrowsScraper:
         )
         return processed_content
 
-    def download_snowcrows_build(self, build_name: str, url: str) -> bool:
+    def download_snowcrows_build(self, build_name: str, url: str, benchmark_type: str = "dps") -> bool:
         """Download HTML content from DPS report found on SnowCrows build page"""
         try:
             self.logger.info(f"Processing {build_name}: {url}")
@@ -338,7 +343,7 @@ class SnowCrowsScraper:
 
             # Determine build type and create appropriate subdirectory
             build_type = "condition" if is_condition else "power"
-            build_subdir = self.output_dir / "dps" / build_type
+            build_subdir = self.output_dir / benchmark_type / build_type
             build_subdir.mkdir(parents=True, exist_ok=True)
 
             # Generate filename from the extracted build name
@@ -350,7 +355,7 @@ class SnowCrowsScraper:
                 f.write(html_content)
 
             self.logger.info(
-                f"Saved: dps/{build_type}/{filename} (extracted from SnowCrows URL)"
+                f"Saved: {benchmark_type}/{build_type}/{filename} (extracted from SnowCrows URL)"
             )
             return True
 
@@ -358,15 +363,15 @@ class SnowCrowsScraper:
             self.logger.error(f"Error downloading {build_name} from {url}: {e}")
             return False
 
-    def download_all_reports(self, builds_and_links: list[tuple[str, str]]) -> None:
-        """Download all DPS reports with rate limiting"""
+    def download_all_reports(self, builds_and_links: list[tuple[str, str, str]]) -> None:
+        """Download all benchmark reports (DPS, Quick, Alac) with rate limiting"""
         success_count = 0
         total_count = len(builds_and_links)
 
-        for i, (build_name, url) in enumerate(builds_and_links, 1):
-            self.logger.info(f"Processing {i}/{total_count}: {build_name}")
+        for i, (build_name, url, benchmark_type) in enumerate(builds_and_links, 1):
+            self.logger.info(f"Processing {i}/{total_count}: {build_name} ({benchmark_type.upper()})")
 
-            if self.download_snowcrows_build(build_name, url):
+            if self.download_snowcrows_build(build_name, url, benchmark_type):
                 success_count += 1
 
             if i < total_count:  # Don't delay after the last request
@@ -392,7 +397,7 @@ class SnowCrowsScraper:
 def main():
     """Main function with CLI interface"""
     parser = argparse.ArgumentParser(
-        description="Download DPS report HTML files from SnowCrows benchmarks"
+        description="Download benchmark report HTML files from SnowCrows (DPS, Quick, Alac)"
     )
     parser.add_argument(
         "--output",
@@ -412,7 +417,7 @@ def main():
         "--list-only",
         "-l",
         action="store_true",
-        help="Only list the DPS report URLs without downloading",
+        help="Only list the benchmark report URLs without downloading",
     )
     parser.add_argument(
         "--visible",
@@ -432,24 +437,24 @@ def main():
 
     if args.list_only:
         # Just list the builds and URLs
-        print("🔍 Finding builds with DPS report links...")
+        print("🔍 Finding builds with benchmark report links (DPS, Quick, Alac)...")
         builds_and_links = scraper.get_snowcrows_builds_and_links()
 
         if builds_and_links:
-            print(f"\n📋 Found {len(builds_and_links)} builds with DPS report links:")
-            for i, (build_name, url) in enumerate(builds_and_links, 1):
+            print(f"\n📋 Found {len(builds_and_links)} builds with benchmark report links:")
+            for i, (build_name, url, benchmark_type) in enumerate(builds_and_links, 1):
                 # For display purposes, still show the original SnowCrows build name
                 filename = scraper._sanitize_build_name(build_name)
-                print(f"{i:2d}. {build_name} -> {filename}")
+                print(f"{i:2d}. {build_name} ({benchmark_type.upper()}) -> {filename}")
                 print(f"     URL: {url}")
                 print(
                     "     Note: Actual filename will be determined from SnowCrows title"
                 )
         else:
-            print("❌ No builds with DPS report links found")
+            print("❌ No builds with benchmark report links found")
     else:
         # Run the full scraper
-        print("🌐 Starting SnowCrows DPS report scraper...")
+        print("🌐 Starting SnowCrows benchmark scraper (DPS, Quick, Alac)...")
         scraper.run()
         print("✅ Scraping completed!")
 
