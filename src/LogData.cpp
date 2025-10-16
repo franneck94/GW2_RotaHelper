@@ -553,8 +553,11 @@ std::tuple<int, int, size_t> RotationRun::get_current_rotation_indices() const
     const auto queue_size = bench_rotation_list.size();
     const auto total_size = rotation_vector.size();
     const auto current_idx = total_size - queue_size;
-    const auto start = static_cast<int32_t>(current_idx - 2);
-    const auto end = static_cast<int32_t>(current_idx + 6);
+    const auto start =
+        current_idx - 2 >= 0 ? static_cast<int32_t>(current_idx - 2) : 0;
+    const auto end = current_idx + 6 < total_size
+                         ? static_cast<int32_t>(current_idx + 6)
+                         : total_size - 1;
 
     return {start, end, current_idx};
 }
