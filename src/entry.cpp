@@ -17,13 +17,13 @@
 #include "rtapi/RTAPI.hpp"
 
 #include "ArcEvents.h"
+#include "Constants.h"
 #include "Render.h"
 #include "Settings.h"
 #include "Shared.h"
 #include "UeEvents.h"
 #include "Version.h"
 #include "resource.h"
-#include "Constants.h"
 
 namespace dx = DirectX;
 
@@ -47,8 +47,14 @@ void ToggleShowWindowGW2_RotaHelper(const char *keybindIdentifier, bool)
 
 void RegisterQuickAccessShortcut()
 {
-    APIDefs->QuickAccess.Add("SHORTCUT_GW2_RotaHelper", "TEX_GW2_RotaHelper_NORMAL", "TEX_GW2_RotaHelper_HOVER", KB_TOGGLE_GW2_RotaHelper, "Toggle GW2_RotaHelper Window");
-    APIDefs->InputBinds.RegisterWithString(KB_TOGGLE_GW2_RotaHelper, ToggleShowWindowGW2_RotaHelper, "CTRL+Q");
+    APIDefs->QuickAccess.Add("SHORTCUT_GW2_RotaHelper",
+                             "TEX_GW2_RotaHelper_NORMAL",
+                             "TEX_GW2_RotaHelper_HOVER",
+                             KB_TOGGLE_GW2_RotaHelper,
+                             "Toggle GW2_RotaHelper Window");
+    APIDefs->InputBinds.RegisterWithString(KB_TOGGLE_GW2_RotaHelper,
+                                           ToggleShowWindowGW2_RotaHelper,
+                                           "CTRL+Q");
 }
 
 void DeregisterQuickAccessShortcut()
@@ -115,7 +121,9 @@ void AddonLoad(AddonAPI *aApi)
 
     APIDefs = aApi;
     ImGui::SetCurrentContext((ImGuiContext *)APIDefs->ImguiContext);
-    ImGui::SetAllocatorFunctions((void *(*)(size_t, void *))APIDefs->ImguiMalloc, (void (*)(void *, void *))APIDefs->ImguiFree);
+    ImGui::SetAllocatorFunctions(
+        (void *(*)(size_t, void *))APIDefs->ImguiMalloc,
+        (void (*)(void *, void *))APIDefs->ImguiFree);
 
     NexusLink = (NexusLinkData *)APIDefs->DataLink.Get("DL_NEXUS_LINK");
     RTAPIData = (RTAPI::RealTimeData *)APIDefs->DataLink.Get("DL_RTAPI");
@@ -124,7 +132,8 @@ void AddonLoad(AddonAPI *aApi)
     APIDefs->Renderer.Register(ERenderType_OptionsRender, AddonOptions);
 
     AddonPath = APIDefs->Paths.GetAddonDirectory("GW2RotaHelper");
-    SettingsPath = APIDefs->Paths.GetAddonDirectory("GW2RotaHelper/settings.json");
+    SettingsPath =
+        APIDefs->Paths.GetAddonDirectory("GW2RotaHelper/settings.json");
 
     std::filesystem::create_directories(AddonPath);
 
@@ -137,8 +146,14 @@ void AddonLoad(AddonAPI *aApi)
 
     Settings::Load(SettingsPath);
 
-    APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_NORMAL", IDB_GW2_RotaHelper_NORMAL, hSelf, nullptr);
-    APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_HOVER", IDB_GW2_RotaHelper_HOVER, hSelf, nullptr);
+    APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_NORMAL",
+                                       IDB_GW2_RotaHelper_NORMAL,
+                                       hSelf,
+                                       nullptr);
+    APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_HOVER",
+                                       IDB_GW2_RotaHelper_HOVER,
+                                       hSelf,
+                                       nullptr);
     RegisterQuickAccessShortcut();
 
     if (APIDefs && APIDefs->DataLink.Get)
@@ -146,7 +161,8 @@ void AddonLoad(AddonAPI *aApi)
         IDXGISwapChain *pSwapChain = (IDXGISwapChain *)APIDefs->SwapChain;
         if (pSwapChain)
         {
-            HRESULT hr = pSwapChain->GetDevice(__uuidof(ID3D11Device), (void **)&pd3dDevice);
+            HRESULT hr = pSwapChain->GetDevice(__uuidof(ID3D11Device),
+                                               (void **)&pd3dDevice);
             if (FAILED(hr))
                 pd3dDevice = nullptr;
         }
@@ -182,7 +198,13 @@ void AddonOptions()
 {
 }
 
-extern "C" __declspec(dllexport) void *get_init_addr(char *arcversion, void *imguictx, void *id3dptr, HANDLE arcdll, void *mallocfn, void *freefn, uint32_t d3dversion)
+extern "C" __declspec(dllexport) void *get_init_addr(char *arcversion,
+                                                     void *imguictx,
+                                                     void *id3dptr,
+                                                     HANDLE arcdll,
+                                                     void *mallocfn,
+                                                     void *freefn,
+                                                     uint32_t d3dversion)
 {
     return ArcdpsInit;
 }
