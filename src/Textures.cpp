@@ -17,7 +17,8 @@
 #include "Textures.h"
 #include "Types.h"
 
-ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std::wstring &filename)
+ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device,
+                                                 const std::wstring &filename)
 {
     IWICImagingFactory *factory = nullptr;
     IWICBitmapDecoder *decoder = nullptr;
@@ -32,7 +33,9 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std
     if (FAILED(hr) && hr != RPC_E_CHANGED_MODE)
         return nullptr;
 
-    hr = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER,
+    hr = CoCreateInstance(CLSID_WICImagingFactory,
+                          nullptr,
+                          CLSCTX_INPROC_SERVER,
                           IID_PPV_ARGS(&factory));
     if (FAILED(hr))
     {
@@ -42,8 +45,11 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std
         return nullptr;
     }
 
-    hr = factory->CreateDecoderFromFilename(filename.c_str(), nullptr, GENERIC_READ,
-                                            WICDecodeMetadataCacheOnLoad, &decoder);
+    hr = factory->CreateDecoderFromFilename(filename.c_str(),
+                                            nullptr,
+                                            GENERIC_READ,
+                                            WICDecodeMetadataCacheOnLoad,
+                                            &decoder);
     if (FAILED(hr))
     {
         factory->Release();
@@ -73,8 +79,12 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std
         return nullptr;
     }
 
-    hr = converter->Initialize(frame, GUID_WICPixelFormat32bppRGBA,
-                               WICBitmapDitherTypeNone, nullptr, 0.f, WICBitmapPaletteTypeCustom);
+    hr = converter->Initialize(frame,
+                               GUID_WICPixelFormat32bppRGBA,
+                               WICBitmapDitherTypeNone,
+                               nullptr,
+                               0.f,
+                               WICBitmapPaletteTypeCustom);
     if (FAILED(hr))
     {
         converter->Release();
@@ -89,7 +99,10 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std
     UINT width, height;
     converter->GetSize(&width, &height);
     std::vector<BYTE> buffer(width * height * 4);
-    converter->CopyPixels(nullptr, width * 4, static_cast<uint32_t>(buffer.size()), buffer.data());
+    converter->CopyPixels(nullptr,
+                          width * 4,
+                          static_cast<uint32_t>(buffer.size()),
+                          buffer.data());
 
     D3D11_TEXTURE2D_DESC desc = {};
     desc.Width = width;
@@ -124,10 +137,9 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std
     return srv;
 }
 
-TextureMap LoadAllSkillTextures(
-    ID3D11Device *device,
-    const SkillInfoMap &skill_info_map,
-    const std::filesystem::path &img_folder)
+TextureMap LoadAllSkillTextures(ID3D11Device *device,
+                                const SkillInfoMap &skill_info_map,
+                                const std::filesystem::path &img_folder)
 {
     if (!device)
         return {};
@@ -144,7 +156,8 @@ TextureMap LoadAllSkillTextures(
         if (dot != std::string::npos && dot + 1 < info.icon_url.size())
             ext = info.icon_url.substr(dot);
 
-        std::filesystem::path img_path = img_folder / (std::to_string(icon_id) + ext);
+        std::filesystem::path img_path =
+            img_folder / (std::to_string(icon_id) + ext);
         if (!std::filesystem::exists(img_path))
             continue;
 
@@ -155,10 +168,9 @@ TextureMap LoadAllSkillTextures(
     return texture_map;
 }
 
-TextureMap LoadAllSkillTexturesWithAPI(
-    AddonAPI *APIDefs,
-    const SkillInfoMap &skill_info_map,
-    const std::filesystem::path &img_folder)
+TextureMap LoadAllSkillTexturesWithAPI(AddonAPI *APIDefs,
+                                       const SkillInfoMap &skill_info_map,
+                                       const std::filesystem::path &img_folder)
 {
     if (!APIDefs)
         return {};
@@ -177,14 +189,18 @@ TextureMap LoadAllSkillTexturesWithAPI(
             ext = info.icon_url.substr(dot);
         }
 
-        std::filesystem::path img_path = img_folder / (std::to_string(icon_id) + ext);
+        std::filesystem::path img_path =
+            img_folder / (std::to_string(icon_id) + ext);
         if (!std::filesystem::exists(img_path))
             continue;
 
-        auto *nexus_texture = APIDefs->Textures.GetOrCreateFromFile(img_path.string().c_str(), img_path.string().c_str());
+        auto *nexus_texture =
+            APIDefs->Textures.GetOrCreateFromFile(img_path.string().c_str(),
+                                                  img_path.string().c_str());
         if (nexus_texture && nexus_texture->Resource)
         {
-            texture_map[icon_id] = (ID3D11ShaderResourceView*)nexus_texture->Resource;
+            texture_map[icon_id] =
+                (ID3D11ShaderResourceView *)nexus_texture->Resource;
         }
     }
 

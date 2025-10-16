@@ -10,64 +10,66 @@ const char *FILTER_BUFFER = "FilterBuffer";
 
 namespace Settings
 {
-    std::mutex Mutex;
-    json Settings = json::object();
+std::mutex Mutex;
+json Settings = json::object();
 
-    void Load(std::filesystem::path aPath)
+void Load(std::filesystem::path aPath)
+{
+    if (!std::filesystem::exists(aPath))
     {
-        if (!std::filesystem::exists(aPath))
-        {
-            return;
-        }
-
-        Settings::Mutex.lock();
-        {
-            try
-            {
-                std::ifstream file(aPath);
-                Settings = json::parse(file);
-                file.close();
-            }
-            catch (json::parse_error &ex)
-            {
-                APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", "Settings.json could not be parsed.");
-                APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", ex.what());
-            }
-        }
-        Settings::Mutex.unlock();
-
-        /* Widget */
-        if (!Settings[SHOW_WINDOW].is_null())
-        {
-            Settings[SHOW_WINDOW].get_to<bool>(ShowWindow);
-        }
-        if (!Settings[FILTER_BUFFER].is_null())
-        {
-            Settings[FILTER_BUFFER].get_to<std::string>(FilterBuffer);
-        }
+        return;
     }
 
-    void Save(std::filesystem::path aPath)
+    Settings::Mutex.lock();
     {
-        Settings::Mutex.lock();
+        try
         {
-            Settings[SHOW_WINDOW] = ShowWindow;
-            Settings[FILTER_BUFFER] = FilterBuffer;
-
-            std::ofstream file(aPath);
-            file << Settings.dump(1, '\t') << std::endl;
+            std::ifstream file(aPath);
+            Settings = json::parse(file);
             file.close();
         }
-        Settings::Mutex.unlock();
+        catch (json::parse_error &ex)
+        {
+            APIDefs->Log(ELogLevel_WARNING,
+                         "GW2RotaHelper",
+                         "Settings.json could not be parsed.");
+            APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", ex.what());
+        }
     }
+    Settings::Mutex.unlock();
 
-    void ToggleShowWindow(std::filesystem::path SettingsPath)
+    /* Widget */
+    if (!Settings[SHOW_WINDOW].is_null())
     {
-        ShowWindow = !ShowWindow;
-        Settings[SHOW_WINDOW] = ShowWindow;
-        Save(SettingsPath);
+        Settings[SHOW_WINDOW].get_to<bool>(ShowWindow);
     }
-
-    bool ShowWindow = true;
-    std::string FilterBuffer;
+    if (!Settings[FILTER_BUFFER].is_null())
+    {
+        Settings[FILTER_BUFFER].get_to<std::string>(FilterBuffer);
+    }
 }
+
+void Save(std::filesystem::path aPath)
+{
+    Settings::Mutex.lock();
+    {
+        Settings[SHOW_WINDOW] = ShowWindow;
+        Settings[FILTER_BUFFER] = FilterBuffer;
+
+        std::ofstream file(aPath);
+        file << Settings.dump(1, '\t') << std::endl;
+        file.close();
+    }
+    Settings::Mutex.unlock();
+}
+
+void ToggleShowWindow(std::filesystem::path SettingsPath)
+{
+    ShowWindow = !ShowWindow;
+    Settings[SHOW_WINDOW] = ShowWindow;
+    Save(SettingsPath);
+}
+
+bool ShowWindow = true;
+std::string FilterBuffer;
+} // namespace Settings
