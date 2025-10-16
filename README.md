@@ -19,7 +19,7 @@ Navigate through our intuitive filtering system to discover the perfect rotation
 
 ## ⚠️ Known Limitations
 
-- **Mesmer Greatsword**: Auto-attack detection requires refinement for optimal accuracy
+Full list of Issues: [here](ISSUES.md)
 
 ## 💬 Support & Feedback
 
