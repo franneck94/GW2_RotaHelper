@@ -16,17 +16,30 @@
 #include "Shared.h"
 #include "Types.h"
 
-#define USE_ANY_SKILL_LOGIC
+// #define LOG_SKILL_FROM_BUILD
+#define LOG_SKILL_IN_TIME
+
+#ifndef _DEBUG
+#ifdef LOG_SKILL_FROM_BUILD
+#undef LOG_SKILL_FROM_BUILD
+#endif
+#ifdef LOG_SKILL_IN_TIME
+#undef LOG_SKILL_IN_TIME
+#endif
+#endif
+
+#define USE_ANY_SKILL_FROM_BUILD_LOGIC
 #define USE_SKILL_ID_AND_NAME_MATCH_LOGIC
+#define USE_TIME_FILTER_LOGIC
+
 #ifndef USE_SKILL_ID_AND_NAME_MATCH_LOGIC
 #define USE_SKILL_ID_MATCH_LOGIC
 #endif
-#define USE_TIME_FILTER_LOGIC
 
-constexpr static auto MIN_TIME_DIFF = 200U;
-
-namespace
+	namespace
 {
+	constexpr static auto MIN_TIME_DIFF = 200U;
+
 	static std::string g_event_log_file_path;
 	static bool g_event_log_initialized = false;
 
@@ -48,13 +61,13 @@ namespace
 			const auto log_path = log_dir / buf;
 			g_event_log_file_path = log_path.string();
 			std::ifstream test_file(g_event_log_file_path);
-			bool file_exists = test_file.good();
+			const auto file_exists = test_file.good();
 			test_file.close();
 			if (!file_exists)
 			{
-				std::ofstream header_file(g_event_log_file_path, std::ios::out | std::ios::app);
-				header_file << "Prefix,Timestamp,SrcName,SrcID,SrcProfession,SrcSpecialization,DstName,DstID,DstProfession,DstSpecialization,SkillName,SkillID\n";
-				header_file.close();
+				auto log_file = std::ofstream(g_event_log_file_path, std::ios::out);
+				log_file << "Prefix,Timestamp,SrcName,SrcID,SrcProfession,SrcSpecialization,DstName,DstID,DstProfession,DstSpecialization,SkillName,SkillID\n";
+				log_file.close();
 			}
 			g_event_log_initialized = true;
 		}
@@ -65,7 +78,7 @@ namespace
 		if (!g_event_log_initialized)
 			InitEventLogFile();
 
-		std::ofstream log_file(g_event_log_file_path, std::ios::out | std::ios::app);
+		auto log_file = std::ofstream(g_event_log_file_path, std::ios::out | std::ios::app);
 		if (log_file.is_open())
 		{
 			const auto now = std::chrono::system_clock::now();
@@ -124,9 +137,9 @@ namespace
 	}
 
 #ifdef USE_SKILL_ID_MATCH_LOGIC
-	std::chrono::steady_clock::time_point UpdateCastTime(std::map<int, std::chrono::steady_clock::time_point> &last_cast_map, const EvCombatDataPersistent &evCbtData)
+	std::chrono::steady_clock::time_point UpdateCastTime(std::map<int, std::chrono::steady_clock::time_point> & last_cast_map, const EvCombatDataPersistent &evCbtData)
 #else
-	std::chrono::steady_clock::time_point UpdateCastTime(std::map<std::string, std::chrono::steady_clock::time_point> &last_cast_map, const EvCombatDataPersistent &evCbtData)
+	std::chrono::steady_clock::time_point UpdateCastTime(std::map<std::string, std::chrono::steady_clock::time_point> & last_cast_map, const EvCombatDataPersistent &evCbtData)
 #endif
 	{
 		const auto now = std::chrono::steady_clock::now();
@@ -226,11 +239,11 @@ namespace ArcEv
 				.SkillName = std::string(evCbtData.skillname),
 				.SkillID = evCbtData.id};
 
-#ifdef USE_ANY_SKILL_LOGIC
+#ifdef USE_ANY_SKILL_FROM_BUILD_LOGIC
 			if (rotation_run.skill_info_map.empty() || IsAnySkillFromBuild(data))
 #endif
 			{
-#ifdef _DEBUG
+#ifdef LOG_SKILL_FROM_BUILD
 				LogEvCombatDataPersistentCSV(data, "SkillFromBuild");
 #endif
 
@@ -238,7 +251,7 @@ namespace ArcEv
 				if (IsNotTheSameCast(data))
 #endif
 				{
-#ifdef _DEBUG
+#ifdef LOG_SKILL_IN_TIME
 					LogEvCombatDataPersistentCSV(data, "NotSameCast");
 #endif
 

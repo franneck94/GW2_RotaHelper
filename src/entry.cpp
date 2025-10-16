@@ -1,267 +1,212 @@
-///----------------------------------------------------------------------------------------------------
-/// Copyright (c) Raidcore.GG - Licensed under the MIT License.
-///
-/// Name         :  ArcEvents.cpp
-/// Description  :  Contains the callbacks for ArcDPS.
-///----------------------------------------------------------------------------------------------------
-
-#include <chrono>
+#include <cmath>
+#include <filesystem>
 #include <fstream>
-#include <iomanip>
-#include <map>
+#include <mutex>
 #include <string>
+#include <vector>
+
+#include <DirectXMath.h>
+#include <Windows.h>
+#include <d3d11.h>
+#include <dxgi.h>
+
+#include "arcdps/ArcDPS.h"
+#include "imgui.h"
+#include "mumble/Mumble.h"
+#include "nexus/Nexus.h"
+#include "rtapi/RTAPI.hpp"
 
 #include "ArcEvents.h"
-
+#include "Render.h"
+#include "Settings.h"
 #include "Shared.h"
-#include "Types.h"
+#include "UeEvents.h"
+#include "Version.h"
+#include "resource.h"
+#include "Constants.h"
 
-// #define LOG_SKILL_FROM_BUILD
-#define LOG_SKILL_IN_TIME
+namespace dx = DirectX;
 
-#ifndef _DEBUG
-#ifdef LOG_SKILL_FROM_BUILD
-#undef LOG_SKILL_FROM_BUILD
-#endif
-#ifdef LOG_SKILL_IN_TIME
-#undef LOG_SKILL_IN_TIME
-#endif
-#endif
+void AddonLoad(AddonAPI *aApi);
+void AddonUnload();
+void AddonRender();
+void AddonOptions();
+ArcDPS::Exports *ArcdpsInit();
+uintptr_t ArcdpsRelease();
 
-#define USE_ANY_SKILL_FROM_BUILD_LOGIC
-#define USE_SKILL_ID_AND_NAME_MATCH_LOGIC
-#define USE_TIME_FILTER_LOGIC
+HMODULE hSelf;
+AddonDefinition AddonDef{};
+std::filesystem::path AddonPath;
+std::filesystem::path SettingsPath;
+ID3D11Device *pd3dDevice = nullptr;
 
-#ifndef USE_SKILL_ID_AND_NAME_MATCH_LOGIC
-#define USE_SKILL_ID_MATCH_LOGIC
-#endif
-
-	namespace
+void ToggleShowWindowGW2_RotaHelper(const char *keybindIdentifier, bool)
 {
-	constexpr static auto MIN_TIME_DIFF = 200U;
+    Settings::ToggleShowWindow(SettingsPath);
+}
 
-	static std::string g_event_log_file_path;
-	static bool g_event_log_initialized = false;
-
-	void InitEventLogFile()
-	{
-		if (!g_event_log_initialized)
-		{
-			auto now = std::chrono::system_clock::now();
-			auto t = std::chrono::system_clock::to_time_t(now);
-			std::tm tm;
-			localtime_s(&tm, &t);
-
-			auto log_dir = std::filesystem::path{"C:/logs"};
-			if (!std::filesystem::exists(log_dir))
-				std::filesystem::create_directories(log_dir);
-
-			char buf[64];
-			std::strftime(buf, sizeof(buf), "eventlog_%Y%m%d_%H%M%S.csv", &tm);
-			const auto log_path = log_dir / buf;
-			g_event_log_file_path = log_path.string();
-			std::ifstream test_file(g_event_log_file_path);
-			const auto file_exists = test_file.good();
-			test_file.close();
-			if (!file_exists)
-			{
-				auto log_file = std::ofstream(g_event_log_file_path, std::ios::out);
-				log_file << "Prefix,Timestamp,SrcName,SrcID,SrcProfession,SrcSpecialization,DstName,DstID,DstProfession,DstSpecialization,SkillName,SkillID\n";
-				log_file.close();
-			}
-			g_event_log_initialized = true;
-		}
-	}
-
-	void LogEvCombatDataPersistentCSV(const EvCombatDataPersistent &data, const std::string &log_prefix)
-	{
-		if (!g_event_log_initialized)
-			InitEventLogFile();
-
-		auto log_file = std::ofstream(g_event_log_file_path, std::ios::out | std::ios::app);
-		if (log_file.is_open())
-		{
-			const auto now = std::chrono::system_clock::now();
-			const auto t = std::chrono::system_clock::to_time_t(now);
-			std::tm tm;
-#ifdef _WIN32
-			localtime_s(&tm, &t);
-#else
-			tm = *std::localtime(&t);
-#endif
-			char timebuf[32];
-			std::strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M:%S", &tm);
-			auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()) % 1000;
-
-			log_file << log_prefix << ','
-					 << '"' << timebuf << '.' << std::setfill('0') << std::setw(3) << ms.count() << '"' << ','
-					 << data.SrcName << ',' << data.SrcID << ',' << data.SrcProfession << ',' << data.SrcSpecialization << ','
-					 << data.DstName << ',' << data.DstID << ',' << data.DstProfession << ',' << data.DstSpecialization << ','
-					 << data.SkillName << ',' << data.SkillID << '\n';
-			log_file.close();
-		}
-	}
-
-	bool IsValidCombatEvent(const EvCombatData &evCbtData)
-	{
-		return evCbtData.src != nullptr && evCbtData.dst != nullptr && evCbtData.skillname != nullptr && evCbtData.ev != nullptr;
-	}
-
-	bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
-	{
-		const auto &skill_info_map = rotation_run.skill_info_map;
-		const auto found = skill_info_map.find(evCbtData.SkillID) != skill_info_map.end();
-		return found;
-	}
-
-	bool IsSkillFromBuild_NameBased(const EvCombatDataPersistent &evCbtData)
-	{
-		const auto &skill_info_map = rotation_run.skill_info_map;
-		for (const auto &kv : skill_info_map)
-		{
-			if (kv.second.name == evCbtData.SkillName)
-				return true;
-		}
-		return false;
-	}
-
-	bool IsAnySkillFromBuild(const EvCombatDataPersistent &evCbtData)
-	{
-#ifdef USE_SKILL_ID_MATCH_LOGIC
-		return IsSkillFromBuild_IdBased(evCbtData);
-#elif defined(USE_SKILL_ID_AND_NAME_MATCH_LOGIC)
-		return IsSkillFromBuild_NameBased(evCbtData) || IsSkillFromBuild_IdBased(evCbtData);
-#else
-		return IsSkillFromBuild_NameBased(evCbtData);
-#endif
-	}
-
-#ifdef USE_SKILL_ID_MATCH_LOGIC
-	std::chrono::steady_clock::time_point UpdateCastTime(std::map<int, std::chrono::steady_clock::time_point> & last_cast_map, const EvCombatDataPersistent &evCbtData)
-#else
-	std::chrono::steady_clock::time_point UpdateCastTime(std::map<std::string, std::chrono::steady_clock::time_point> & last_cast_map, const EvCombatDataPersistent &evCbtData)
-#endif
-	{
-		const auto now = std::chrono::steady_clock::now();
-
-#ifdef USE_SKILL_ID_MATCH_LOGIC
-		last_cast_map[evCbtData.SkillID] = now;
-#else
-		last_cast_map[evCbtData.SkillName] = now;
-#endif
-
-		return now;
-	}
-
-	std::chrono::steady_clock::time_point GetLastCastTime(const EvCombatDataPersistent &evCbtData)
-	{
-#ifdef USE_SKILL_ID_MATCH_LOGIC
-		static auto last_cast_map = std::map<int, std::chrono::steady_clock::time_point>{};
-#else
-		static auto last_cast_map = std::map<std::string, std::chrono::steady_clock::time_point>{};
-
-#endif
-
-#ifdef USE_SKILL_ID_MATCH_LOGIC
-		const auto it = last_cast_map.find(evCbtData.SkillID);
-#else
-		const auto it = last_cast_map.find(evCbtData.SkillName);
-#endif
-		if (it != last_cast_map.end())
-		{
-			const auto time = it->second;
-			UpdateCastTime(last_cast_map, evCbtData);
-
-			return time;
-		}
-
-		const auto now = UpdateCastTime(last_cast_map, evCbtData);
-		return now;
-	}
-
-	bool IsNotTheSameCast(const EvCombatDataPersistent &evCbtData)
-	{
-		const auto now = std::chrono::steady_clock::now();
-		const auto last_cast_time = GetLastCastTime(evCbtData);
-		return (now - last_cast_time) > std::chrono::milliseconds(MIN_TIME_DIFF);
-	}
-};
-
-namespace ArcEv
+void RegisterQuickAccessShortcut()
 {
-	void OnCombatLocal(
-		ArcDPS::CombatEvent *ev,
-		ArcDPS::AgentShort *src,
-		ArcDPS::AgentShort *dst,
-		char *skillname,
-		uint64_t id,
-		uint64_t revision)
-	{
-		OnCombat("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ev, src, dst, skillname, id, revision);
-	}
+    APIDefs->QuickAccess.Add("SHORTCUT_GW2_RotaHelper", "TEX_GW2_RotaHelper_NORMAL", "TEX_GW2_RotaHelper_HOVER", KB_TOGGLE_GW2_RotaHelper, "Toggle GW2_RotaHelper Window");
+    APIDefs->InputBinds.RegisterWithString(KB_TOGGLE_GW2_RotaHelper, ToggleShowWindowGW2_RotaHelper, "CTRL+Q");
+}
 
-	bool OnCombat(
-		const char *channel,
-		ArcDPS::CombatEvent *ev,
-		ArcDPS::AgentShort *src,
-		ArcDPS::AgentShort *dst,
-		char *skillname,
-		uint64_t id, uint64_t revision)
-	{
-#ifdef GW2_NEXUS_ADDON
-		if (APIDefs == nullptr)
-			return false;
-#endif
+void DeregisterQuickAccessShortcut()
+{
+    APIDefs->QuickAccess.Remove("SHORTCUT_GW2_RotaHelper");
+}
 
-		auto evCbtData = EvCombatData{
-			ev,
-			src,
-			dst,
-			skillname,
-			id,
-			revision};
+BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID)
+{
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+        hSelf = hModule;
+        DisableThreadLibraryCalls(hModule);
+        break;
+    case DLL_PROCESS_DETACH:
+        break;
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+        break;
+    }
+    return TRUE;
+}
 
-#ifdef GW2_NEXUS_ADDON
-		APIDefs->Events.Raise(channel, &evCbtData);
-#endif
+extern "C" __declspec(dllexport) AddonDefinition *GetAddonDef()
+{
+    AddonDef.Signature = -2443566;
+    AddonDef.APIVersion = NEXUS_API_VERSION;
+    AddonDef.Name = "GW2RotaHelper";
+    AddonDef.Version.Major = MAJOR;
+    AddonDef.Version.Minor = MINOR;
+    AddonDef.Version.Build = BUILD;
+    AddonDef.Version.Revision = REVISION;
+    AddonDef.Author = "Franneck.1274";
+    AddonDef.Description = "GW2 Rota Helper";
+    AddonDef.Load = AddonLoad;
+    AddonDef.Unload = AddonUnload;
+    AddonDef.Flags = EAddonFlags_None;
+    AddonDef.Provider = EUpdateProvider_GitHub;
+    AddonDef.UpdateLink = "https://github.com/franneck94/GW2RotaHelper";
 
-		if (IsValidCombatEvent(evCbtData))
-		{
-			const auto data = EvCombatDataPersistent{
-				.SrcName = std::string(evCbtData.src->Name),
-				.SrcID = evCbtData.src->ID,
-				.SrcProfession = evCbtData.src->Profession,
-				.SrcSpecialization = evCbtData.src->Specialization,
-				.DstName = std::string(evCbtData.dst->Name),
-				.DstID = evCbtData.dst->ID,
-				.DstProfession = evCbtData.dst->Profession,
-				.DstSpecialization = evCbtData.dst->Specialization,
-				.SkillName = std::string(evCbtData.skillname),
-				.SkillID = evCbtData.id};
+    return &AddonDef;
+}
 
-#ifdef USE_ANY_SKILL_FROM_BUILD_LOGIC
-			if (rotation_run.skill_info_map.empty() || IsAnySkillFromBuild(data))
-#endif
-			{
-#ifdef LOG_SKILL_FROM_BUILD
-				LogEvCombatDataPersistentCSV(data, "SkillFromBuild");
-#endif
+void OnAddonLoaded(int *aSignature)
+{
+    if (!aSignature)
+    {
+        return;
+    }
+}
+void OnAddonUnloaded(int *aSignature)
+{
+    if (!aSignature)
+    {
+        return;
+    }
+}
 
-#ifdef USE_TIME_FILTER_LOGIC
-				if (IsNotTheSameCast(data))
-#endif
-				{
-#ifdef LOG_SKILL_IN_TIME
-					LogEvCombatDataPersistentCSV(data, "NotSameCast");
-#endif
+void AddonLoad(AddonAPI *aApi)
+{
+    if (!aApi)
+        return;
 
-					render.skill_activation_callback(true, data);
+    APIDefs = aApi;
+    ImGui::SetCurrentContext((ImGuiContext *)APIDefs->ImguiContext);
+    ImGui::SetAllocatorFunctions((void *(*)(size_t, void *))APIDefs->ImguiMalloc, (void (*)(void *, void *))APIDefs->ImguiFree);
 
-					return true;
-				}
-			}
-		}
+    NexusLink = (NexusLinkData *)APIDefs->DataLink.Get("DL_NEXUS_LINK");
+    RTAPIData = (RTAPI::RealTimeData *)APIDefs->DataLink.Get("DL_RTAPI");
 
-		return false;
-	}
+    APIDefs->Renderer.Register(ERenderType_Render, AddonRender);
+    APIDefs->Renderer.Register(ERenderType_OptionsRender, AddonOptions);
+
+    AddonPath = APIDefs->Paths.GetAddonDirectory("GW2RotaHelper");
+    SettingsPath = APIDefs->Paths.GetAddonDirectory("GW2RotaHelper/settings.json");
+
+    std::filesystem::create_directories(AddonPath);
+
+    auto data_path = AddonPath;
+    std::filesystem::create_directories(data_path / "img");
+    std::filesystem::create_directories(data_path / "bench");
+    std::filesystem::create_directories(data_path / "bench/power");
+    std::filesystem::create_directories(data_path / "bench/condition");
+    render.set_data_path(data_path);
+
+    Settings::Load(SettingsPath);
+
+    APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_NORMAL", IDB_GW2_RotaHelper_NORMAL, hSelf, nullptr);
+    APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_HOVER", IDB_GW2_RotaHelper_HOVER, hSelf, nullptr);
+    RegisterQuickAccessShortcut();
+
+    if (APIDefs && APIDefs->DataLink.Get)
+    {
+        IDXGISwapChain *pSwapChain = (IDXGISwapChain *)APIDefs->SwapChain;
+        if (pSwapChain)
+        {
+            HRESULT hr = pSwapChain->GetDevice(__uuidof(ID3D11Device), (void **)&pd3dDevice);
+            if (FAILED(hr))
+                pd3dDevice = nullptr;
+        }
+    }
+}
+
+void AddonUnload()
+{
+    if (pd3dDevice)
+        pd3dDevice->Release();
+
+    APIDefs->Renderer.Deregister(AddonRender);
+    APIDefs->Renderer.Deregister(AddonOptions);
+
+    NexusLink = nullptr;
+    RTAPIData = nullptr;
+
+    Settings::Save(SettingsPath);
+
+    DeregisterQuickAccessShortcut();
+}
+
+void AddonRender()
+{
+    if ((!NexusLink) || (!NexusLink->IsGameplay) || (!Settings::ShowWindow))
+        return;
+
+    render.toggle_vis(Settings::ShowWindow);
+    render.render(pd3dDevice, APIDefs);
+}
+
+void AddonOptions()
+{
+}
+
+extern "C" __declspec(dllexport) void *get_init_addr(char *arcversion, void *imguictx, void *id3dptr, HANDLE arcdll, void *mallocfn, void *freefn, uint32_t d3dversion)
+{
+    return ArcdpsInit;
+}
+
+extern "C" __declspec(dllexport) void *get_release_addr()
+{
+    return ArcdpsRelease;
+}
+
+ArcDPS::Exports *ArcdpsInit()
+{
+    ArcExports.Signature = -24255;
+    ArcExports.ImGuiVersion = 18000;
+    ArcExports.Size = sizeof(ArcDPS::Exports);
+    ArcExports.Name = ADDON_NAME;
+    ArcExports.Build = "0.1.1.0";
+    ArcExports.CombatLocalCallback = ArcEv::OnCombatLocal;
+
+    return &ArcExports;
+}
+
+uintptr_t ArcdpsRelease()
+{
+    ArcExports.CombatLocalCallback = nullptr;
+
+    return 0;
 }
