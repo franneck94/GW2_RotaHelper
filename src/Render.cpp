@@ -143,14 +143,34 @@ void Render::skill_activation_callback(
     key_press_event_in_this_frame = pressed;
     if (pressed)
     {
+        // Use single mutex for both related data members
+        std::lock_guard<std::mutex> lock(played_rotation_mutex);
         curr_combat_data = combat_data;
-        played_rotation.push_back(combat_data);
+
+        try
+        {
+            played_rotation.push_back(combat_data);
+        }
+        catch (const std::exception &e)
+        {
+            std::cerr << "Error adding to played_rotation: " << e.what()
+                      << '\n';
+        }
     }
 }
 
 EvCombatDataPersistent Render::get_current_skill()
 {
-    if (!key_press_event_in_this_frame || curr_combat_data.SkillID == 0)
+    if (!key_press_event_in_this_frame)
+    {
+        auto skill_ev = EvCombatDataPersistent{};
+        skill_ev.SkillID = -10000;
+        return skill_ev;
+    }
+
+    // Thread-safe access to curr_combat_data
+    std::lock_guard<std::mutex> lock(played_rotation_mutex);
+    if (curr_combat_data.SkillID == 0)
     {
         auto skill_ev = EvCombatDataPersistent{};
         skill_ev.SkillID = -10000;
@@ -177,8 +197,7 @@ Render::get_file_data_pairs(std::string &filter_string)
         for (int n = 0; n < benches_files.size(); n++)
             filtered_files.emplace_back(n, &benches_files[n]);
 
-        return std::make_pair(std::move(filtered_files),
-                              std::move(directories_with_matches));
+        return std::make_pair(filtered_files, directories_with_matches);
     }
 
     for (int n = 0; n < benches_files.size(); n++)
@@ -232,8 +251,7 @@ Render::get_file_data_pairs(std::string &filter_string)
         }
     }
 
-    return std::make_pair(std::move(filtered_files),
-                          std::move(directories_with_matches));
+    return std::make_pair(filtered_files, directories_with_matches);
 }
 
 void Render::select_bench()
@@ -322,8 +340,11 @@ void Render::select_bench()
             {
                 if (!selected_file_path.empty())
                 {
-                    rotation_run.load_data(selected_file_path, img_path);
+                    rotation_run.restart_rotation();
                     ReleaseTextureMap(texture_map);
+
+                    // Thread-safe clear of both related data members
+                    std::lock_guard<std::mutex> lock(played_rotation_mutex);
                     played_rotation.clear();
                     curr_combat_data = EvCombatDataPersistent{};
                 }
@@ -339,74 +360,105 @@ void Render::CycleSkillsLogic()
     const auto skill_ev = get_current_skill();
     if (skill_ev.SkillID != 0 && last_skill.SkillID != skill_ev.SkillID)
     {
+        auto curr_rota_skill = RotationInfo{};
+        auto next_rota_skill = RotationInfo{};
+        auto next_next_rota_skill = RotationInfo{};
+        auto next_next_next_rota_skill = RotationInfo{};
+        auto it = rotation_run.bench_rotation_list.begin();
+
+        if (rotation_run.bench_rotation_list.size() > 1)
+        {
+            curr_rota_skill = *it;
+            ++it;
+        }
         if (rotation_run.bench_rotation_list.size() > 2)
         {
-            // With a list, we can directly access elements by iterator
-            auto it = rotation_run.bench_rotation_list.begin();
-            const auto curr_rota_skill = *it;
+            next_rota_skill = *it;
             ++it;
-            const auto next_rota_skill = *it;
+        }
+        if (rotation_run.bench_rotation_list.size() > 3)
+        {
+            next_next_rota_skill = *it;
             ++it;
-            const auto next_next_rota_skill = *it;
+        }
+        if (rotation_run.bench_rotation_list.size() > 4)
+        {
+            next_next_next_rota_skill = *it;
+            ++it;
+        }
 
 #ifdef USE_SKILL_ID_MATCH_LOGIC
-            const auto match_current =
-                (curr_rota_skill.skill_id == skill_ev.SkillID);
-            const auto match_next =
-                (next_rota_skill.skill_id == skill_ev.SkillID);
-            const auto match_next_next =
-                (next_next_rota_skill.skill_id == skill_ev.SkillID);
+        const auto match_current =
+            (curr_rota_skill.skill_id == skill_ev.SkillID);
+        const auto match_next = (next_rota_skill.skill_id == skill_ev.SkillID);
+        const auto match_next_next =
+            (next_next_rota_skill.skill_id == skill_ev.SkillID);
+        const auto match_next_next_next =
+            (next_next_rota_skill.skill_id == skill_ev.SkillID);
 #else
 
-            auto match_current =
-                (curr_rota_skill.skill_name == skill_ev.SkillName);
-            auto match_next =
-                (next_rota_skill.skill_name == skill_ev.SkillName);
-            auto match_next_next =
-                (next_next_rota_skill.skill_name == skill_ev.SkillName);
+        auto match_current = (curr_rota_skill.skill_name == skill_ev.SkillName);
+        auto match_next = (next_rota_skill.skill_name == skill_ev.SkillName);
+        auto match_next_next =
+            (next_next_rota_skill.skill_name == skill_ev.SkillName);
+        auto match_next_next_next =
+            (next_next_rota_skill.skill_name == skill_ev.SkillName);
 
-            if (curr_rota_skill.skill_name.find(" / ") != std::string::npos)
-            {
-                match_current =
-                    (curr_rota_skill.skill_name.find(skill_ev.SkillName)) !=
-                    std::string::npos;
-                match_next =
-                    (next_rota_skill.skill_name.find(skill_ev.SkillName)) !=
-                    std::string::npos;
-                match_next_next = (next_next_rota_skill.skill_name.find(
-                                      skill_ev.SkillName)) != std::string::npos;
-            }
+        if (curr_rota_skill.skill_name.find(" / ") != std::string::npos)
+        {
+            match_current =
+                (curr_rota_skill.skill_name.find(skill_ev.SkillName)) !=
+                std::string::npos;
+            match_next =
+                (next_rota_skill.skill_name.find(skill_ev.SkillName)) !=
+                std::string::npos;
+            match_next_next =
+                (next_next_rota_skill.skill_name.find(skill_ev.SkillName)) !=
+                std::string::npos;
+            match_next_next_next =
+                (next_next_next_rota_skill.skill_name.find(skill_ev.SkillName)) !=
+                std::string::npos;
+        }
 
 #endif
 
 #ifdef _DEBUG
-            if (skill_ev.SkillID == static_cast<uint64_t>(-1))
-                match_current = true;
+        if (skill_ev.SkillID == static_cast<uint64_t>(-1))
+            match_current = true;
 #endif
 
-            if (match_current)
-            {
-                rotation_run.bench_rotation_list.pop_front();
-                last_skill = skill_ev;
-            }
+        if (match_current)
+        {
+            rotation_run.bench_rotation_list.pop_front();
+            last_skill = skill_ev;
+        }
 #ifdef USE_SKIP_NEXT_SKILL
-            else if (match_next)
-            {
-                rotation_run.bench_rotation_list.pop_front();
-                rotation_run.bench_rotation_list.pop_front();
-                last_skill = skill_ev;
-            }
+        else if (match_next)
+        {
+            rotation_run.bench_rotation_list.pop_front();
+            rotation_run.bench_rotation_list.pop_front();
+            last_skill = skill_ev;
+        }
 #endif
 #ifdef USE_SKIP_NEXT_NEXT_SKILL
-            else if (match_next_next)
-            {
-                rotation_run.bench_rotation_list.pop_front();
-                rotation_run.bench_rotation_list.pop_front();
-                rotation_run.bench_rotation_list.pop_front();
-                last_skill = skill_ev;
-            }
-#endif
+        else if (match_next_next)
+        {
+            rotation_run.bench_rotation_list.pop_front();
+            rotation_run.bench_rotation_list.pop_front();
+            rotation_run.bench_rotation_list.pop_front();
+            last_skill = skill_ev;
         }
+#endif
+#ifdef USE_SKIP_NEXT_NEXT_NEXT_SKILL
+        else if (match_next_next_next)
+        {
+            rotation_run.bench_rotation_list.pop_front();
+            rotation_run.bench_rotation_list.pop_front();
+            rotation_run.bench_rotation_list.pop_front();
+            rotation_run.bench_rotation_list.pop_front();
+            last_skill = skill_ev;
+        }
+#endif
     }
 }
 

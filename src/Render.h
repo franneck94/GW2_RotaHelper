@@ -3,6 +3,7 @@
 #include <d3d11.h>
 
 #include <filesystem>
+#include <mutex>
 #include <set>
 #include <string>
 #include <utility>
@@ -71,8 +72,9 @@ public:
     bool show_window;
 
     bool key_press_event_in_this_frame;
-    EvCombatDataPersistent curr_combat_data;
-    std::vector<EvCombatDataPersistent> played_rotation;
+    EvCombatDataPersistent curr_combat_data{};
+    std::vector<EvCombatDataPersistent> played_rotation{};
+    std::mutex played_rotation_mutex; // Protects both curr_combat_data and played_rotation
 
     std::filesystem::path data_path;
     std::filesystem::path img_path;
