@@ -19,7 +19,7 @@
 
 namespace
 {
-constexpr static auto MIN_TIME_DIFF = 200U;
+constexpr static auto MIN_TIME_DIFF = 10U;
 
 static std::string g_event_log_file_path;
 static bool g_event_log_initialized = false;
@@ -101,7 +101,7 @@ bool IsValidCombatEvent(const EvCombatData &evCbtData)
 bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
 {
 #ifdef _DEBUG
-    if (evCbtData.SkillID == -1234)
+    if (evCbtData.SkillID == static_cast<uint64_t>(-1))
         return true;
 #endif
 
