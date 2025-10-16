@@ -1,7 +1,7 @@
 #pragma once
 
 // #define LOG_SKILL_FROM_BUILD
-#define LOG_SKILL_IN_TIME
+// #define LOG_SKILL_IN_TIME
 
 #ifndef _DEBUG
 #ifdef LOG_SKILL_FROM_BUILD
@@ -19,3 +19,6 @@
 #ifndef USE_SKILL_ID_AND_NAME_MATCH_LOGIC
 #define USE_SKILL_ID_MATCH_LOGIC
 #endif
+
+#define USE_SKIP_NEXT_SKILL
+// #define USE_SKIP_NEXT_NEXT_SKILL

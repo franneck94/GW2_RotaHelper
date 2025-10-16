@@ -142,7 +142,10 @@ void Render::skill_activation_callback(
 {
     key_press_event_in_this_frame = pressed;
     if (pressed)
+    {
         curr_combat_data = combat_data;
+        played_rotation.push_back(combat_data);
+    }
 }
 
 EvCombatDataPersistent Render::get_current_skill()
@@ -321,6 +324,8 @@ void Render::select_bench()
                 {
                     rotation_run.load_data(selected_file_path, img_path);
                     ReleaseTextureMap(texture_map);
+                    played_rotation.clear();
+                    curr_combat_data = EvCombatDataPersistent{};
                 }
             }
         }
@@ -384,12 +389,15 @@ void Render::CycleSkillsLogic()
                 rotation_run.bench_rotation_list.pop_front();
                 last_skill = skill_ev;
             }
+#ifdef USE_SKIP_NEXT_SKILL
             else if (match_next)
             {
                 rotation_run.bench_rotation_list.pop_front();
                 rotation_run.bench_rotation_list.pop_front();
                 last_skill = skill_ev;
             }
+#endif
+#ifdef USE_SKIP_NEXT_NEXT_SKILL
             else if (match_next_next)
             {
                 rotation_run.bench_rotation_list.pop_front();
@@ -397,6 +405,7 @@ void Render::CycleSkillsLogic()
                 rotation_run.bench_rotation_list.pop_front();
                 last_skill = skill_ev;
             }
+#endif
         }
     }
 }

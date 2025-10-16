@@ -81,9 +81,7 @@ struct RotationInfo
     int skill_id;
     float cast_time;
     float duration_ms;
-    float unk;
     std::string skill_name;
-    RotationStatus status;
 };
 
 using RotationInfoVec = std::vector<RotationInfo>;

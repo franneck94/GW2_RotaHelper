@@ -35,4 +35,6 @@ public:
     RotationInfoVec rotation_vector;
     RotationInfoList bench_rotation_list;
     SkillDataMap skill_data;
+
+
 };

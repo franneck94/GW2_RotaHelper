@@ -217,8 +217,6 @@ void get_rotation_info(const IntNode &node,
             auto icon_id = 0;
             auto duration_ms = 0.0f;
             auto cast_time = 0.0f;
-            auto unk = 0.0f;
-            auto status = RotationStatus::UNKNOWN;
 
             // Get cast_time (index 0)
             const auto cast_time_it = skill_array.children.find("0");
@@ -256,30 +254,6 @@ void get_rotation_info(const IntNode &node,
                 }
             }
 
-            // Get RotationStatus (index 3)
-            const auto status_it = skill_array.children.find("3");
-            if (status_it != skill_array.children.end() &&
-                status_it->second.value.has_value())
-            {
-                if (const auto pval =
-                        std::get_if<int>(&status_it->second.value.value()))
-                {
-                    status = static_cast<RotationStatus>(*pval);
-                }
-            }
-
-            // Get unk (index 4)
-            const auto unk_it = skill_array.children.find("4");
-            if (unk_it != skill_array.children.end() &&
-                unk_it->second.value.has_value())
-            {
-                if (const auto pval =
-                        std::get_if<float>(&unk_it->second.value.value()))
-                {
-                    unk = static_cast<float>(*pval);
-                }
-            }
-
             auto skill_name = std::string{"Unknown Skill"};
             const auto skill_info_it = skill_info_map.find(icon_id);
             if (skill_info_it != skill_info_map.end())
@@ -310,9 +284,7 @@ void get_rotation_info(const IntNode &node,
                     .skill_id = skill_id,
                     .cast_time = cast_time,
                     .duration_ms = duration_ms,
-                    .unk = unk,
                     .skill_name = skill_name,
-                    .status = status,
                 });
             }
         }

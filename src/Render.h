@@ -6,6 +6,7 @@
 #include <set>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "imgui.h"
 
@@ -71,6 +72,7 @@ public:
 
     bool key_press_event_in_this_frame;
     EvCombatDataPersistent curr_combat_data;
+    std::vector<EvCombatDataPersistent> played_rotation;
 
     std::filesystem::path data_path;
     std::filesystem::path img_path;
