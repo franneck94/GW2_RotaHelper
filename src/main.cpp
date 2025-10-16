@@ -20,6 +20,7 @@ enum class Keys
     A,
     S,
     D,
+    C,
     ANY,
     NONE,
 };
@@ -133,7 +134,8 @@ int main(int, char **)
             {0x57, Keys::W}, // VK_W
             {0x41, Keys::A}, // VK_A
             {0x53, Keys::S}, // VK_S
-            {0x44, Keys::D}  // VK_D
+            {0x44, Keys::D}, // VK_D
+            {0x43, Keys::C}  // VK_C
         };
 
         for (int vk = 0x08; vk <= 0xFE;
@@ -183,9 +185,10 @@ int main(int, char **)
                 skill_id = 5823;
                 skill_name = "Fire Bomb";
                 break;
+            case Keys::ANY:
             default:
-                icon_id = -1234;
-                skill_id = -1234;
+                icon_id = static_cast<uint64_t>(-1);
+                skill_id = static_cast<uint64_t>(-1);
                 skill_name = "Wildcard";
                 break;
             }
