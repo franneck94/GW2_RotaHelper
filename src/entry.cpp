@@ -125,10 +125,6 @@ void AddonLoad(AddonAPI *aApi)
         (void *(*)(size_t, void *))APIDefs->ImguiMalloc,
         (void (*)(void *, void *))APIDefs->ImguiFree);
 
-    ImGuiStyle& style = ImGui::GetStyle();
-    style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.25); // 25% transparent
-
-
     NexusLink = (NexusLinkData *)APIDefs->DataLink.Get("DL_NEXUS_LINK");
     RTAPIData = (RTAPI::RealTimeData *)APIDefs->DataLink.Get("DL_RTAPI");
 
