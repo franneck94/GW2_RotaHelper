@@ -95,7 +95,7 @@ bool IsValidCombatEvent(const EvCombatData &evCbtData)
 {
     return evCbtData.src != nullptr && evCbtData.dst != nullptr &&
            evCbtData.skillname != nullptr && evCbtData.ev != nullptr &&
-           evCbtData.src->IsSelf;
+           evCbtData.src->IsSelf && evCbtData.src->Name != nullptr;
 }
 
 bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
