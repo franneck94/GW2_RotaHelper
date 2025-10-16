@@ -357,6 +357,9 @@ void Render::CycleSkillsLogic()
 {
     static auto last_skill = EvCombatDataPersistent{};
 
+    if (rotation_run.bench_rotation_list.empty())
+        return;
+
     const auto skill_ev = get_current_skill();
     if (skill_ev.SkillID != 0 && last_skill.SkillID != skill_ev.SkillID)
     {
@@ -416,8 +419,8 @@ void Render::CycleSkillsLogic()
                 (next_next_rota_skill.skill_name.find(skill_ev.SkillName)) !=
                 std::string::npos;
             match_next_next_next =
-                (next_next_next_rota_skill.skill_name.find(skill_ev.SkillName)) !=
-                std::string::npos;
+                (next_next_next_rota_skill.skill_name.find(
+                    skill_ev.SkillName)) != std::string::npos;
         }
 
 #endif
