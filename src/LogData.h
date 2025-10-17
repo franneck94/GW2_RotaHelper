@@ -29,6 +29,7 @@ public:
     std::tuple<int, int, size_t> get_current_rotation_indices() const;
     RotationInfo get_rotation_skill(const size_t idx) const;
     void restart_rotation();
+    void reset_rotation();
     bool is_current_run_done() const;
 
     std::list<std::future<void>> futures;

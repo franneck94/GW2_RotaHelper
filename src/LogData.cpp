@@ -510,6 +510,10 @@ void RotationRun::load_data(const std::filesystem::path &json_path,
     auto j{nlohmann::json{}};
     file >> j;
 
+    skill_data.clear();
+    skill_info_map.clear();
+    rotation_vector.clear();
+
     const auto skill_data_json =
         json_path.parent_path().parent_path().parent_path().parent_path() /
         "skills" / "gw2_skills_en.json";
@@ -582,4 +586,12 @@ void RotationRun::restart_rotation()
 bool RotationRun::is_current_run_done() const
 {
     return bench_rotation_list.empty();
+}
+
+void RotationRun::reset_rotation()
+{
+    skill_info_map.clear();
+    rotation_vector.clear();
+    bench_rotation_list.clear();
+    skill_data.clear();
 }
