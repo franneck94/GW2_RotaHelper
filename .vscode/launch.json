@@ -28,24 +28,14 @@
             "justMyCode": false
         },
         {
-            "name": "Debug: Visit Benches (List Only)",
+            "name": "Debug: Get Skills List",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/scripts/visit_all_beches.py",
-            "args": ["--list-only"],
+            "program": "${workspaceFolder}/scripts/fetch_gw2_skills.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "justMyCode": false
         },
-        {
-            "name": "Debug: Visit Benches (Visible)",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/scripts/visit_all_beches.py",
-            "args": ["--output", "data/html", "--visible"],
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "justMyCode": false
-        }
+
     ]
 }

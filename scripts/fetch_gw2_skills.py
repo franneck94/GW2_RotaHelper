@@ -85,11 +85,15 @@ class GW2SkillFetcher:
                     recharge_value = fact["value"]
                     break
 
-        # Build filtered skill data with only the 4 essential fields
+        # Determine if skill is an auto attack
+        is_auto_attack = self._is_auto_attack(skill)
+
+        # Build filtered skill data with only the essential fields
         filtered_skill = {
             "icon": skill.get("icon"),
             "id": skill.get("id"),
             "name": skill.get("name"),
+            "is_auto_attack": is_auto_attack,
         }
 
         # Add recharge only if it exists
@@ -156,6 +160,14 @@ class GW2SkillFetcher:
                 raise
 
         return all_skills
+
+    def _is_auto_attack(self, skill: Dict[str, Any]) -> bool:
+        """Determine if a skill is an auto attack based on various criteria."""
+        slot = skill.get("slot")
+        if slot == "Weapon_1":
+            return True
+
+        return False
 
     def save_skills_to_file(self, skills_data: Dict[str, Any]) -> None:
         """Save skill data to a JSON file."""
