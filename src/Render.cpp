@@ -357,10 +357,35 @@ void Render::selection()
                 {
                     const auto is_selected =
                         (selected_bench_index == original_index);
-                    auto formatted_name_item =
-                        file_info->is_directory_header
-                            ? file_info->display_name
-                            : format_build_name(file_info->display_name);
+
+                    auto formatted_name_item = std::string{};
+                    if (file_info->is_directory_header)
+                    {
+                        formatted_name_item = file_info->display_name;
+                    }
+                    else
+                    {
+                        // Extract build type info from file path
+                        auto path_str = file_info->relative_path.string();
+                        auto build_type_postdic = std::string{};
+
+                        if (path_str.find("dps") != std::string::npos)
+                            build_type_postdic = "[DPS] ";
+                        else if (path_str.find("quick") != std::string::npos)
+                            build_type_postdic = "[Quick] ";
+                        else if (path_str.find("alac") != std::string::npos)
+                            build_type_postdic = "[Alac] ";
+
+                        if (path_str.find("power") != std::string::npos)
+                            build_type_postdic += "[Power] ";
+                        else if (path_str.find("condition") !=
+                                     std::string::npos)
+                            build_type_postdic += "[Condi] ";
+
+                        formatted_name_item =
+                            format_build_name(file_info->display_name) + "###" +
+                            build_type_postdic;
+                    }
 
                     if (ImGui::Selectable(formatted_name_item.c_str(),
                                           is_selected))
