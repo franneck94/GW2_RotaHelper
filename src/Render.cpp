@@ -589,8 +589,11 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
 {
     ImGui::BeginChild("CombatBufferChild",
                       ImVec2(0, 400),
-                      true,
+                      false,
                       ImGuiWindowFlags_HorizontalScrollbar);
+
+    ImGui::Spacing();
+    ImGui::Indent(10.0f); // Shift content 10px to the right
 
     const auto [start, end, current_idx] =
         rotation_run.get_current_rotation_indices();
@@ -629,6 +632,7 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
 
     CycleSkillsLogic();
 
+    ImGui::Unindent(10.0f); // Restore normal indentation
     ImGui::EndChild();
 }
 
@@ -640,9 +644,10 @@ void Render::render(ID3D11Device *pd3dDevice)
     if (benches_files.size() == 0)
         benches_files = get_bench_files(bench_path);
 
+    constexpr auto flags_options = ImGuiWindowFlags_NoCollapse;
     if (ImGui::Begin("###GW2RotaHelper_Options",
                      &Settings::ShowWindow,
-                     ImGuiWindowFlags_NoCollapse))
+                     flags_options))
     {
         select_bench();
     }
@@ -665,7 +670,7 @@ void Render::render(ID3D11Device *pd3dDevice)
     // Position window at bottom center of screen
     ImGuiIO &io = ImGui::GetIO();
     float window_width = 400.0f;
-    float window_height = 150.0f;
+    float window_height = 28.0F * 10.0F; // we draw 10 images
     float pos_x = (io.DisplaySize.x - window_width) * 0.5f;
     float pos_y =
         io.DisplaySize.y - window_height - 50.0f; // 50px margin from bottom
@@ -673,15 +678,12 @@ void Render::render(ID3D11Device *pd3dDevice)
     ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_FirstUseEver);
     ImGui::SetNextWindowSize(ImVec2(window_width, window_height),
                              ImGuiCond_FirstUseEver);
-    if (ImGui::Begin(
-            "###GW2RotaHelper_Rota",
-            &Settings::ShowWindow,
-            ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
-                ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
-                ImGuiWindowFlags_NoFocusOnAppearing))
+    constexpr auto flags_rota =
+        ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
+        ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
+        ImGuiWindowFlags_NoFocusOnAppearing;
+    if (ImGui::Begin("##GW2RotaHelper_Rota", &Settings::ShowWindow, flags_rota))
     {
-
-
         if (texture_map.size() == 0)
         {
             texture_map = LoadAllSkillTextures(pd3dDevice,
