@@ -6,7 +6,7 @@
             "type": "shell",
             "command": "python",
             "args": [
-                "scripts/get_benches_v4.py",
+                "scripts/html_log_to_json.py",
                 "--output",
                 "data/bench"
             ],
@@ -17,7 +17,7 @@
             "type": "shell",
             "command": "python",
             "args": [
-                "scripts/visit_all_beches.py",
+                "scripts/get_html_logs.py",
                 "--output",
                 "data/html",
             ],

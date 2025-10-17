@@ -33,19 +33,55 @@ class SnowCrowsScraper:
         self.session = requests.Session()
         self.driver = None
 
-        # Setup session headers
         self.session.headers.update(
             {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
             }
         )
 
-        # Setup logging
         logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
         self.logger = logging.getLogger(__name__)
 
-        # Create output directory
         self.output_dir.mkdir(parents=True, exist_ok=True)
+
+        self.elite_spec_to_profession = {
+            # Guardian
+            "dragonhunter": "guardian",
+            "firebrand": "guardian",
+            "willbender": "guardian",
+            # Warrior
+            "berserker": "warrior",
+            "spellbreaker": "warrior",
+            "bladesworn": "warrior",
+            # Engineer
+            "scrapper": "engineer",
+            "holosmith": "engineer",
+            "mechanist": "engineer",
+            # Ranger
+            "druid": "ranger",
+            "soulbeast": "ranger",
+            "untamed": "ranger",
+            # Thief
+            "daredevil": "thief",
+            "deadeye": "thief",
+            "specter": "thief",
+            # Elementalist
+            "tempest": "elementalist",
+            "weaver": "elementalist",
+            "catalyst": "elementalist",
+            # Mesmer
+            "chronomancer": "mesmer",
+            "mirage": "mesmer",
+            "virtuoso": "mesmer",
+            # Necromancer
+            "reaper": "necromancer",
+            "scourge": "necromancer",
+            "harbinger": "necromancer",
+            # Revenant
+            "herald": "revenant",
+            "renegade": "revenant",
+            "vindicator": "revenant",
+        }
 
     def _setup_webdriver(self):
         """Setup Chrome WebDriver with appropriate options"""
@@ -88,66 +124,77 @@ class SnowCrowsScraper:
 
         return filename
 
-    def get_snowcrows_builds_and_links(self) -> list[tuple[str, str, str]]:
-        """Extract build names, their corresponding SnowCrows build page links, and benchmark types"""
+    def get_snowcrows_builds_and_links(self) -> list[dict]:
+        """Extract build info including class/profession from SnowCrows build pages"""
+
         benchmark_urls = [
             ("https://snowcrows.com/benchmarks/?filter=dps", "dps"),
             ("https://snowcrows.com/benchmarks/?filter=quickness", "quick"),
             ("https://snowcrows.com/benchmarks/?filter=alacrity", "alac"),
         ]
-        builds_and_links = []
+        builds_info = []
 
         for url, benchmark_type in benchmark_urls:
             try:
-                self.logger.info(f"Fetching SnowCrows {benchmark_type.upper()} benchmarks page: {url}")
+                self.logger.info(
+                    f"Fetching SnowCrows {benchmark_type.upper()} benchmarks page: {url}"
+                )
                 response = self.session.get(url, timeout=30)
                 response.raise_for_status()
 
-                # Extract build URLs from SnowCrows build links
-                # Pattern to match: <a href="/builds/raids/[profession]/[build-name]"
                 build_url_pattern = re.compile(
                     r'<a\s+href="(/builds/raids/[^"]+)"[^>]*class="[^"]*flex\s+items-center[^"]*"',
                     re.IGNORECASE,
                 )
 
                 build_urls = build_url_pattern.findall(response.text)
-
-                self.logger.info(f"Found {len(build_urls)} {benchmark_type.upper()} build URLs")
+                self.logger.info(
+                    f"Found {len(build_urls)} {benchmark_type.upper()} build URLs"
+                )
 
                 for build_url in build_urls:
-                    # Extract build name from URL path
-                    # Example: /builds/raids/mesmer/condition-mirage-ih-oasis
                     url_parts = build_url.strip("/").split("/")
                     if len(url_parts) >= 4:
                         build_name = url_parts[-1]  # Last part is the build name
 
-                        # Convert URL format to readable format
-                        # Example: condition-mirage-ih-oasis -> Condition Mirage IH Oasis
                         readable_name = self._url_to_readable_name(build_name)
-
-                        # Create full SnowCrows URL
                         full_url = f"https://snowcrows.com{build_url}"
 
-                        builds_and_links.append((readable_name, full_url, benchmark_type))
+                        # Extract class/specialization info from build page
+                        class_info = self._extract_class_info(full_url)
+
+                        build_info = {
+                            "name": readable_name,
+                            "url": full_url,
+                            "benchmark_type": benchmark_type,
+                            "profession": class_info.get("profession", "Unknown"),
+                            "elite_spec": class_info.get("elite_spec", ""),
+                            "build_type": class_info.get("build_type", "power"),
+                            "url_name": build_name,
+                        }
+                        builds_info.append(build_info)
 
             except Exception as e:
-                self.logger.error(f"Error fetching SnowCrows {benchmark_type} page: {e}")
+                self.logger.error(
+                    f"Error fetching SnowCrows {benchmark_type} page: {e}"
+                )
 
-        # Remove duplicates while preserving order (same build might appear in multiple categories)
+        # Remove duplicates based on URL and benchmark type
         seen = set()
         unique_builds = []
-        for build_name, link, benchmark_type in builds_and_links:
-            key = (link, benchmark_type)  # Allow same build in different benchmark types
+        for build_info in builds_info:
+            key = (build_info["url"], build_info["benchmark_type"])
             if key not in seen:
                 seen.add(key)
-                unique_builds.append((build_name, link, benchmark_type))
+                unique_builds.append(build_info)
 
-        self.logger.info(f"Found {len(unique_builds)} total unique builds across all benchmark types")
+        self.logger.info(
+            f"Found {len(unique_builds)} total unique builds across all benchmark types"
+        )
         return unique_builds
 
     def _url_to_readable_name(self, url_name: str) -> str:
         """Convert URL format build name to readable format"""
-        # Replace hyphens with spaces and capitalize
         readable = url_name.replace("-", " ").title()
 
         # Handle special cases
@@ -158,18 +205,59 @@ class SnowCrowsScraper:
 
         return readable
 
+    def _deduce_profession_from_build_name(self, build_name: str, url_path: str) -> tuple[str, str]:
+        """Deduce profession and elite spec from build name and URL"""
+        build_name_lower = build_name.lower()
+        url_path_lower = url_path.lower()
+
+        # Check for elite specializations in build name or URL
+        for elite_spec, profession in self.elite_spec_to_profession.items():
+            if elite_spec in build_name_lower or elite_spec in url_path_lower:
+                return profession.title(), elite_spec.title()
+
+        # Check for base profession names
+        base_professions = ["guardian", "warrior", "engineer", "ranger", "thief",
+                           "elementalist", "mesmer", "necromancer", "revenant"]
+
+        for profession in base_professions:
+            if profession in build_name_lower or profession in url_path_lower:
+                return profession.title(), ""  # No elite spec, just base profession
+
+        # Fallback: try to extract from URL structure
+        # SnowCrows URLs often have format: /builds/raids/profession/build-name
+        url_parts = url_path.strip("/").split("/")
+        if len(url_parts) >= 3:
+            potential_profession = url_parts[2].replace("-", "").lower()
+            if potential_profession in base_professions:
+                return potential_profession.title(), ""
+
+        return "Unknown", ""
+
+    def _extract_class_info(self, build_url: str) -> dict:
+        """Extract class/profession information from build name and URL"""
+        # Determine build type from URL
+        build_type = "condition" if "condition" in build_url.lower() else "power"
+
+        # Extract build name from URL for analysis
+        url_parts = build_url.strip("/").split("/")
+        if len(url_parts) >= 1:
+            build_name_from_url = url_parts[-1]  # Last part is the build name
+            profession, elite_spec = self._deduce_profession_from_build_name(build_name_from_url, build_url)
+        else:
+            profession, elite_spec = "Unknown", ""
+
+        return {
+            "profession": profession,
+            "elite_spec": elite_spec,
+            "build_type": build_type
+        }
+
     def _extract_build_name_from_url(self, url_name: str) -> tuple[str, bool]:
         """Extract and format build name from SnowCrows URL path"""
         try:
             self.logger.info(f"Processing SnowCrows URL name: {url_name}")
-
-            # Determine if it's power or condition build
             is_condition = url_name.startswith("condition")
-
-            # Convert URL format to filename format
-            # Replace hyphens with underscores and keep lowercase
             build_name = url_name.replace("-", "_")
-
             self.logger.info(
                 f"Extracted build name from URL: {build_name} (type: {'condition' if is_condition else 'power'})"
             )
@@ -190,11 +278,9 @@ class SnowCrowsScraper:
         cache1 = "/cache/https_render.guildwars2.com_file_"
         cache2 = "/cache/https_wiki.guildwars2.com_images_"
 
-        # Check if the URL starts with either cache prefix
         if not cache_url.startswith(cache1) and not cache_url.startswith(cache2):
             return cache_url
 
-        # Get the remainder after the cache prefix
         remainder = ""
         if cache_url.startswith(cache1):
             remainder = self._get_cache_remainder(cache_url, cache1)
@@ -203,25 +289,20 @@ class SnowCrowsScraper:
         else:
             return cache_url
 
-        # Find the last underscore to separate hash from skill_id
         last_underscore = remainder.rfind("_")
         if last_underscore == -1:
             return cache_url
 
-        # Extract hash and skill_id with extension
         hash_part = remainder[:last_underscore]
         skill_id_with_ext = remainder[last_underscore + 1 :]
 
-        # Remove extension to get skill_id
         dot_pos = skill_id_with_ext.rfind(".")
         skill_id = skill_id_with_ext[:dot_pos] if dot_pos != -1 else skill_id_with_ext
 
-        # Construct the proper render URL
         return f"https://render.guildwars2.com/file/{hash_part}/{skill_id}.png"
 
     def _process_html_content(self, html_content: str) -> str:
         """Process HTML content to replace cache URLs with proper image URLs"""
-        # Pattern to find cache URLs in src attributes
         cache_url_pattern = re.compile(
             r'src="([^"]*(?:/cache/https_render\.guildwars2\.com_file_|/cache/https_wiki\.guildwars2\.com_images_)[^"]*)"',
             re.IGNORECASE,
@@ -232,7 +313,6 @@ class SnowCrowsScraper:
             converted_url = self.convert_cache_url(cache_url)
             return f'src="{converted_url}"'
 
-        # Replace all cache URLs in the HTML content
         processed_content = cache_url_pattern.sub(replace_cache_url, html_content)
 
         self.logger.info(
@@ -240,7 +320,9 @@ class SnowCrowsScraper:
         )
         return processed_content
 
-    def download_snowcrows_build(self, build_name: str, url: str, benchmark_type: str = "dps") -> bool:
+    def download_snowcrows_build(
+        self, build_name: str, url: str, benchmark_type: str = "dps"
+    ) -> bool:
         """Download HTML content from DPS report found on SnowCrows build page"""
         try:
             self.logger.info(f"Processing {build_name}: {url}")
@@ -248,18 +330,12 @@ class SnowCrowsScraper:
             if self.driver is None:
                 self._setup_webdriver()
 
-            # Step 1: Navigate to the SnowCrows build page
             self.driver.get(url)  # type: ignore
-
-            # Wait for the SnowCrows page to load
             WebDriverWait(self.driver, 10).until(  # type: ignore
                 EC.presence_of_element_located((By.TAG_NAME, "body"))
             )
-
-            # Give it a moment to fully load
             time.sleep(SLEEP_DELAY)
 
-            # Step 2: Find the DPS report link on the SnowCrows page
             try:
                 self.logger.info("Looking for DPS report link...")
                 dps_report_link = WebDriverWait(self.driver, 10).until(  # type: ignore
@@ -268,21 +344,13 @@ class SnowCrowsScraper:
                     )
                 )
 
-                # Get the DPS report URL
                 dps_report_url = dps_report_link.get_attribute("href")
                 self.logger.info(f"Found DPS report URL: {dps_report_url}")
-
-                # Step 3: Navigate to the DPS report page
                 self.driver.get(dps_report_url)  # type: ignore
-
-                # Wait for the DPS report page to load
                 WebDriverWait(self.driver, 10).until(  # type: ignore
                     EC.presence_of_element_located((By.TAG_NAME, "body"))
                 )
-
-                # Step 4: Navigate to Player Summary -> Simple Rotation
                 try:
-                    # Click on "Player Summary" tab
                     self.logger.info("Looking for Player Summary tab...")
                     player_summary_link = WebDriverWait(self.driver, 10).until(  # type: ignore
                         EC.element_to_be_clickable(
@@ -295,10 +363,8 @@ class SnowCrowsScraper:
                     player_summary_link.click()
                     self.logger.info("Clicked Player Summary tab")
 
-                    # Wait a moment for the content to load
                     time.sleep(SLEEP_DELAY)
 
-                    # Click on "Simple Rotation" tab
                     self.logger.info("Looking for Simple Rotation tab...")
                     rotation_link = WebDriverWait(self.driver, 10).until(  # type: ignore
                         EC.element_to_be_clickable(
@@ -311,7 +377,6 @@ class SnowCrowsScraper:
                     rotation_link.click()
                     self.logger.info("Clicked Simple Rotation tab")
 
-                    # Wait for the rotation content to load
                     time.sleep(SLEEP_DELAY)
 
                 except TimeoutException:
@@ -319,10 +384,7 @@ class SnowCrowsScraper:
                         f"Could not find navigation elements for {build_name}, saving current page content"
                     )
 
-                # Step 5: Get the final HTML content
                 html_content = self.driver.page_source  # type: ignore
-
-                # Process HTML content to replace cache URLs with proper image URLs
                 html_content = self._process_html_content(html_content)
 
             except TimeoutException:
@@ -363,20 +425,141 @@ class SnowCrowsScraper:
             self.logger.error(f"Error downloading {build_name} from {url}: {e}")
             return False
 
-    def download_all_reports(self, builds_and_links: list[tuple[str, str, str]]) -> None:
-        """Download all benchmark reports (DPS, Quick, Alac) with rate limiting"""
+    def download_snowcrows_build_with_metadata(self, build_info: dict) -> bool:
+        """Download HTML content and store with metadata"""
+        try:
+            build_name = build_info["name"]
+            url = build_info["url"]
+            benchmark_type = build_info["benchmark_type"]
+
+            self.logger.info(f"Processing {build_name}: {url}")
+
+            if self.driver is None:
+                self._setup_webdriver()
+
+            self.driver.get(url)  # type: ignore
+            WebDriverWait(self.driver, 10).until(  # type: ignore
+                EC.presence_of_element_located((By.TAG_NAME, "body"))
+            )
+            time.sleep(SLEEP_DELAY)
+
+            try:
+                self.logger.info("Looking for DPS report link...")
+                dps_report_link = WebDriverWait(self.driver, 10).until(  # type: ignore
+                    EC.element_to_be_clickable(
+                        (By.XPATH, "//a[contains(@href, 'dps.report')]")
+                    )
+                )
+
+                dps_report_url = dps_report_link.get_attribute("href")
+                self.logger.info(f"Found DPS report URL: {dps_report_url}")
+
+                # Add DPS report URL to build info
+                build_info["dps_report_url"] = dps_report_url
+
+                self.driver.get(dps_report_url)  # type: ignore
+                WebDriverWait(self.driver, 10).until(  # type: ignore
+                    EC.presence_of_element_located((By.TAG_NAME, "body"))
+                )
+
+                try:
+                    self.logger.info("Looking for Player Summary tab...")
+                    player_summary_link = WebDriverWait(self.driver, 10).until(  # type: ignore
+                        EC.element_to_be_clickable(
+                            (
+                                By.XPATH,
+                                "//a[@class='nav-link' and contains(text(), 'Player Summary')]",
+                            )
+                        )
+                    )
+                    player_summary_link.click()
+                    self.logger.info("Clicked Player Summary tab")
+
+                    time.sleep(SLEEP_DELAY)
+
+                    self.logger.info("Looking for Simple Rotation tab...")
+                    rotation_link = WebDriverWait(self.driver, 10).until(  # type: ignore
+                        EC.element_to_be_clickable(
+                            (
+                                By.XPATH,
+                                "//a[@class='nav-link' and contains(., 'Simple') and contains(., 'Rotation')]",
+                            )
+                        )
+                    )
+                    rotation_link.click()
+                    self.logger.info("Clicked Simple Rotation tab")
+
+                    time.sleep(SLEEP_DELAY)
+
+                except TimeoutException:
+                    self.logger.warning(
+                        f"Could not find navigation elements for {build_name}, saving current page content"
+                    )
+
+                html_content = self.driver.page_source  # type: ignore
+                html_content = self._process_html_content(html_content)
+
+            except TimeoutException:
+                self.logger.warning(
+                    f"Could not find DPS report link on {url}, skipping..."
+                )
+                return False
+
+            # Create appropriate subdirectory structure
+            build_subdir = self.output_dir / benchmark_type / build_info["build_type"]
+            build_subdir.mkdir(parents=True, exist_ok=True)
+
+            # Generate filename from the build info
+            filename = self._sanitize_build_name(build_info["url_name"])
+            file_path = build_subdir / filename
+
+            # Save HTML content
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(html_content)
+
+            # Add file path to build info
+            build_info["html_file_path"] = str(file_path.relative_to(self.output_dir))
+
+            self.logger.info(
+                f"Saved: {build_info['html_file_path']} ({build_info['profession']} - {build_info['elite_spec']})"
+            )
+            return True
+
+        except Exception as e:
+            self.logger.error(
+                f"Error downloading {build_info['name']} from {build_info['url']}: {e}"
+            )
+            return False
+
+    def download_all_reports(self, builds_info: list[dict]) -> None:
+        """Download all benchmark reports (DPS, Quick, Alac) with rate limiting and save metadata"""
+        import json
+
         success_count = 0
-        total_count = len(builds_and_links)
+        total_count = len(builds_info)
+        successful_builds = []
 
-        for i, (build_name, url, benchmark_type) in enumerate(builds_and_links, 1):
-            self.logger.info(f"Processing {i}/{total_count}: {build_name} ({benchmark_type.upper()})")
+        for i, build_info in enumerate(builds_info, 1):
+            build_name = build_info["name"]
+            benchmark_type = build_info["benchmark_type"]
 
-            if self.download_snowcrows_build(build_name, url, benchmark_type):
+            self.logger.info(
+                f"Processing {i}/{total_count}: {build_name} ({benchmark_type.upper()}) - {build_info['profession']}"
+            )
+
+            if self.download_snowcrows_build_with_metadata(build_info):
                 success_count += 1
+                successful_builds.append(build_info)
 
             if i < total_count:  # Don't delay after the last request
                 time.sleep(self.delay)
 
+        # Save build metadata to JSON file
+        metadata_file = self.output_dir / "build_metadata.json"
+        with open(metadata_file, "w", encoding="utf-8") as f:
+            json.dump(successful_builds, f, indent=2, ensure_ascii=False)
+
+        self.logger.info(f"Saved build metadata to {metadata_file}")
         self.logger.info(f"Download complete: {success_count}/{total_count} successful")
 
     def run(self) -> None:
@@ -441,15 +624,19 @@ def main():
         builds_and_links = scraper.get_snowcrows_builds_and_links()
 
         if builds_and_links:
-            print(f"\n📋 Found {len(builds_and_links)} builds with benchmark report links:")
-            for i, (build_name, url, benchmark_type) in enumerate(builds_and_links, 1):
-                # For display purposes, still show the original SnowCrows build name
-                filename = scraper._sanitize_build_name(build_name)
-                print(f"{i:2d}. {build_name} ({benchmark_type.upper()}) -> {filename}")
-                print(f"     URL: {url}")
+            print(
+                f"\n📋 Found {len(builds_and_links)} builds with benchmark report links:"
+            )
+            for i, build_info in enumerate(builds_and_links, 1):
+                filename = scraper._sanitize_build_name(build_info["url_name"])
                 print(
-                    "     Note: Actual filename will be determined from SnowCrows title"
+                    f"{i:2d}. {build_info['name']} ({build_info['benchmark_type'].upper()}) -> {filename}"
                 )
+                print(
+                    f"     Profession: {build_info['profession']} ({build_info['elite_spec']})"
+                )
+                print(f"     Type: {build_info['build_type']}")
+                print(f"     URL: {build_info['url']}")
         else:
             print("❌ No builds with benchmark report links found")
     else:
@@ -457,6 +644,7 @@ def main():
         print("🌐 Starting SnowCrows benchmark scraper (DPS, Quick, Alac)...")
         scraper.run()
         print("✅ Scraping completed!")
+        print(f"📄 Build metadata saved to: {scraper.output_dir}/build_metadata.json")
 
 
 if __name__ == "__main__":
