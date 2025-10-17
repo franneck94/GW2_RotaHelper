@@ -269,9 +269,18 @@ void Render::select_bench()
         char *filter_buffer = (char *)Settings::FilterBuffer.c_str();
 
         static bool open_combo_next_frame = false;
+        static ImVec2 filter_input_pos;
+        static float filter_input_width;
 
         ImGui::PushAllowKeyboardFocus(false);
-        if (ImGui::InputText("##filter", filter_buffer, sizeof(filter_buffer), ImGuiInputTextFlags_EnterReturnsTrue))
+
+        // Store filter input position and size for popup positioning
+        filter_input_pos = ImGui::GetCursorScreenPos();
+
+        if (ImGui::InputText("##filter",
+                             filter_buffer,
+                             sizeof(filter_buffer),
+                             ImGuiInputTextFlags_EnterReturnsTrue))
         {
             Settings::FilterBuffer = std::string(filter_buffer);
             std::transform(Settings::FilterBuffer.begin(),
@@ -280,6 +289,9 @@ void Render::select_bench()
                            ::tolower);
             open_combo_next_frame = true;
         }
+
+        // Store the actual width of the filter input
+        filter_input_width = ImGui::GetItemRectSize().x;
 
         // Check for Tab key press while filter input is active
         if (ImGui::IsItemActive() && ImGui::IsKeyPressed(ImGuiKey_Tab))
@@ -311,42 +323,76 @@ void Render::select_bench()
             formatted_name = formatted_name.substr(4);
         }
 
-        if (ImGui::BeginCombo("##benches_combo", formatted_name.c_str()))
+        // Auto-open popup if requested
+        if (open_combo_next_frame)
         {
-            for (const auto &[original_index, file_info] : filtered_files)
+            ImGui::OpenPopup("benches_popup");
+            open_combo_next_frame = false;
+        }
+
+        // Show current selection as a button that can also open the popup
+        if (ImGui::Button(formatted_name.c_str(), ImVec2(-1, 0)))
+        {
+            ImGui::OpenPopup("benches_popup");
+        }
+
+        // Position popup to match filter input position and width exactly
+        // Adjust position: move down more and slightly to the right
+        ImVec2 popup_pos = ImVec2(filter_input_pos.x,
+                                  filter_input_pos.y + ImGui::GetTextLineHeightWithSpacing() * 2.5f);
+
+        ImGui::SetNextWindowPos(popup_pos, ImGuiCond_Appearing);
+        ImGui::SetNextWindowSize(ImVec2(filter_input_width, 0), ImGuiCond_Appearing);
+
+        // BeginPopup will be true immediately after OpenPopup() is called
+        if (ImGui::BeginPopup("benches_popup"))
+        {
+            if (filtered_files.empty())
             {
-                if (file_info->is_directory_header)
+                ImGui::TextDisabled("No results");
+            }
+            else
+            {
+                for (const auto &[original_index, file_info] : filtered_files)
                 {
-                    ImGui::PushStyleColor(ImGuiCol_Text,
-                                          ImVec4(0.7f, 0.7f, 0.9f, 1.0f));
-                    ImGui::Selectable(file_info->display_name.c_str(),
-                                      false,
-                                      ImGuiSelectableFlags_Disabled);
-                    ImGui::PopStyleColor();
-                }
-                else
-                {
-                    const auto is_selected =
-                        (selected_bench_index == original_index);
-                    auto formatted_name =
-                        file_info->is_directory_header
-                            ? file_info->display_name
-                            : format_build_name(file_info->display_name);
-
-                    if (ImGui::Selectable(formatted_name.c_str(), is_selected))
+                    if (file_info->is_directory_header)
                     {
-                        selected_bench_index = original_index;
-                        selected_file_path = file_info->full_path;
-
-                        rotation_run.load_data(selected_file_path, img_path);
-                        ReleaseTextureMap(texture_map);
+                        ImGui::PushStyleColor(ImGuiCol_Text,
+                                              ImVec4(0.7f, 0.7f, 0.9f, 1.0f));
+                        ImGui::Selectable(file_info->display_name.c_str(),
+                                          false,
+                                          ImGuiSelectableFlags_Disabled);
+                        ImGui::PopStyleColor();
                     }
+                    else
+                    {
+                        const auto is_selected =
+                            (selected_bench_index == original_index);
+                        auto formatted_name_item =
+                            file_info->is_directory_header
+                                ? file_info->display_name
+                                : format_build_name(file_info->display_name);
 
-                    if (is_selected)
-                        ImGui::SetItemDefaultFocus();
+                        if (ImGui::Selectable(formatted_name_item.c_str(),
+                                              is_selected))
+                        {
+                            selected_bench_index = original_index;
+                            selected_file_path = file_info->full_path;
+
+                            rotation_run.load_data(selected_file_path,
+                                                   img_path);
+                            ReleaseTextureMap(texture_map);
+
+                            // Close popup after selection
+                            ImGui::CloseCurrentPopup();
+                        }
+
+                        if (is_selected)
+                            ImGui::SetItemDefaultFocus();
+                    }
                 }
             }
-            ImGui::EndCombo();
+            ImGui::EndPopup();
         }
 
         if (selected_bench_index >= 0 &&
