@@ -190,18 +190,11 @@ bool remove_skill_if(const RotationInfo &current, const RotationInfo &previous)
             (current.cast_time - previous.cast_time) < 250);
 }
 
-bool is_special_case(const int skill_id, const std::string &skill_name)
+bool is_special_case(const int skill_id,
+                     const std::string &skill_name,
+                     const std::set<std::string> &skills_to_filter)
 {
-    if (skill_name.find("Bloodstone Fervor") != std::string::npos ||
-        skill_name.find("Blutstein ") != std::string::npos ||
-        skill_name.find("Waffen Wechsel") != std::string::npos ||
-        skill_name.find(" Attunement") != std::string::npos ||
-        skill_name.find("Weapon Swap") != std::string::npos ||
-        skill_name.find("Detonate ") != std::string::npos ||
-        skill_name.find("Approaching Doom") != std::string::npos ||
-        skill_name.find("Relic of") != std::string::npos ||
-        skill_name.find("Relikt des") != std::string::npos ||
-        skill_name.find(" Kit") != std::string::npos)
+    if (skills_to_filter.find(skill_name) != skills_to_filter.end())
         return true;
 
     return false;
@@ -210,7 +203,8 @@ bool is_special_case(const int skill_id, const std::string &skill_name)
 void get_rotation_info(const IntNode &node,
                        const SkillInfoMap &skill_info_map,
                        RotationInfoVec &rotation_vector,
-                       const SkillDataMap &skill_data_map)
+                       const SkillDataMap &skill_data_map,
+                       const std::set<std::string> &skills_to_filter)
 {
     for (const auto &rotation_entry : node.children)
     {
@@ -299,7 +293,7 @@ void get_rotation_info(const IntNode &node,
             }
 
             if (!gear_proc && !trait_proc &&
-                !is_special_case(skill_id, skill_name))
+                !is_special_case(skill_id, skill_name, skills_to_filter))
             {
                 rotation_vector.push_back(RotationInfo{
                     .icon_id = icon_id,
@@ -367,7 +361,8 @@ SkillDataMap get_skill_data(const nlohmann::json &j)
 std::tuple<SkillInfoMap, RotationInfoVec> get_dpsreport_data(
     const nlohmann::json &j,
     const std::filesystem::path &json_path,
-    const SkillDataMap &skill_data_map)
+    const SkillDataMap &skill_data_map,
+    const std::set<std::string> &skills_to_filter)
 {
     const auto rotation_data = j["rotation"];
     const auto skill_data = j["skillMap"];
@@ -383,7 +378,8 @@ std::tuple<SkillInfoMap, RotationInfoVec> get_dpsreport_data(
     get_rotation_info(kv_rotation,
                       skill_info_map,
                       rotation_info_vec,
-                      skill_data_map);
+                      skill_data_map,
+                      skills_to_filter);
 
     return std::make_tuple(skill_info_map, rotation_info_vec);
 }
@@ -520,7 +516,7 @@ void RotationRun::load_data(const std::filesystem::path &json_path,
 
     skill_data = get_skill_data(j2);
     auto [_skill_info_map, _bench_rotation_vector] =
-        get_dpsreport_data(j, json_path, skill_data);
+        get_dpsreport_data(j, json_path, skill_data, skills_to_filter);
 
     skill_info_map = _skill_info_map;
     rotation_vector = _bench_rotation_vector;

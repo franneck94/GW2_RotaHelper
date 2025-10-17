@@ -8,6 +8,7 @@
 #include <list>
 #include <map>
 #include <optional>
+#include <set>
 #include <string>
 #include <variant>
 #include <vector>
@@ -36,5 +37,18 @@ public:
     RotationInfoList bench_rotation_list;
     SkillDataMap skill_data;
 
-
+    std::set<std::string> skills_to_filter = {
+        "Bloodstone Fervor",
+        "Blutstein",
+        "Waffen Wechsel",
+        "Attunement",
+        "Weapon Swap",
+        "Detonate",
+        "Approaching Doom",
+        "Relic of",
+        "Relikt des",
+        " Kit",
+        "Bladesong Distortion",
+        "Distortion",
+    };
 };
