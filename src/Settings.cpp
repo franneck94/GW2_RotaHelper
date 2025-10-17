@@ -7,6 +7,8 @@
 
 const char *SHOW_WINDOW = "ShowWindow";
 const char *FILTER_BUFFER = "FilterBuffer";
+const char *SHOW_SKILL_NAME = "ShowSkillName";
+const char *SHOW_SKILL_TIME = "ShowSkillTime";
 
 namespace Settings
 {
@@ -55,6 +57,8 @@ void Save(std::filesystem::path aPath)
     {
         Settings[SHOW_WINDOW] = ShowWindow;
         Settings[FILTER_BUFFER] = FilterBuffer;
+        Settings[SHOW_SKILL_NAME] = ShowSkillName;
+        Settings[SHOW_SKILL_TIME] = ShowSkillTime;
 
         std::ofstream file(aPath);
         file << Settings.dump(1, '\t') << std::endl;
@@ -72,4 +76,6 @@ void ToggleShowWindow(std::filesystem::path SettingsPath)
 
 bool ShowWindow = true;
 std::string FilterBuffer;
+bool ShowSkillName = true;
+bool ShowSkillTime = true;
 } // namespace Settings

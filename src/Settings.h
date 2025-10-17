@@ -13,6 +13,8 @@ using json = nlohmann::json;
 
 extern const char *SHOW_WINDOW;
 extern const char *FILTER_BUFFER;
+extern const char *SHOW_SKILL_NAME;
+extern const char *SHOW_SKILL_TIME;
 
 namespace Settings
 {
@@ -28,6 +30,8 @@ void ToggleShowWindow(std::filesystem::path SettingsPath);
 
 extern bool ShowWindow;
 extern std::string FilterBuffer;
+extern bool ShowSkillName;
+extern bool ShowSkillTime;
 } // namespace Settings
 
 #endif

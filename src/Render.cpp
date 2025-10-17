@@ -27,6 +27,7 @@
 #include "Render.h"
 #include "Settings.h"
 #include "Shared.h"
+#include "Textures.h"
 #include "Types.h"
 
 namespace
@@ -553,27 +554,32 @@ void Render::CycleSkillsLogic()
     }
 }
 
-void Render::DrawRect(const RotationInfo &skill_info, ImU32 color)
+void Render::DrawRect(const RotationInfo &skill_info,
+                      const std::string &text,
+                      ImU32 color)
 {
     auto draw_list = ImGui::GetWindowDrawList();
     auto cursor_pos = ImGui::GetCursorScreenPos();
     auto border_color = color;
     auto border_thickness = 2.0f;
 
-    auto text = std::string{};
-    if (skill_info.skill_name.empty())
-        text = "N/A (%.2f)";
+    auto text_size = ImVec2{};
+    if (!text.empty())
+    {
+        char formatted_text[256];
+        snprintf(formatted_text, sizeof(formatted_text), text.c_str());
+        text_size = ImGui::CalcTextSize(formatted_text);
+    }
     else
-        text = skill_info.skill_name + " (%.2f)";
+    {
+        text_size = ImVec2(0, 0);
+    }
 
-    char formatted_text[256];
-    snprintf(formatted_text,
-             sizeof(formatted_text),
-             text.c_str(),
-             skill_info.cast_time);
-    auto text_size = ImGui::CalcTextSize(formatted_text);
-    auto total_width = 28 + ImGui::GetStyle().ItemSpacing.x + text_size.x;
-    auto total_height = (28.0f > text_size.y) ? 28.0f : text_size.y;
+    auto total_width = text_size.x > 0
+                           ? 28 + ImGui::GetStyle().ItemSpacing.x + text_size.x
+                           : SKILL_ICON_SIZE;
+    auto total_height =
+        (SKILL_ICON_SIZE > text_size.y) ? SKILL_ICON_SIZE : text_size.y;
 
     draw_list->AddRect(ImVec2(cursor_pos.x - border_thickness,
                               cursor_pos.y - border_thickness),
@@ -611,10 +617,32 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
         const auto is_current = (i == static_cast<int32_t>(current_idx));
         const auto is_last = (i == rotation_run.rotation_vector.size() - 1);
 
+        auto text = std::string{};
+        if (!Settings::ShowSkillName && !Settings::ShowSkillTime)
+            text = "";
+        else
+        {
+            if (Settings::ShowSkillName)
+            {
+                text = skill_info.skill_name;
+            }
+            if (Settings::ShowSkillTime)
+            {
+                text += " (";
+                char time_buffer[32];
+                snprintf(time_buffer,
+                         sizeof(time_buffer),
+                         "%.2f",
+                         skill_info.cast_time);
+                text += time_buffer;
+                text += ")";
+            }
+        }
+
         if (is_current && !is_last)
-            DrawRect(skill_info);
+            DrawRect(skill_info, text);
         if (!is_current && is_last)
-            DrawRect(skill_info, IM_COL32(255, 0, 0, 255));
+            DrawRect(skill_info, text, IM_COL32(255, 0, 0, 255));
 
         if (texture && pd3dDevice)
             ImGui::Image((ImTextureID)texture, ImVec2(28, 28));
@@ -623,11 +651,7 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
 
         ImGui::SameLine();
 
-        ImGui::Text("%s (%.2f)",
-                    skill_info.skill_name.empty()
-                        ? "N/A"
-                        : skill_info.skill_name.c_str(),
-                    skill_info.cast_time);
+        ImGui::Text("%s", text.c_str());
     }
 
     CycleSkillsLogic();
@@ -650,6 +674,10 @@ void Render::render(ID3D11Device *pd3dDevice)
                      flags_options))
     {
         select_bench();
+
+        ImGui::Checkbox("Names", &Settings::ShowSkillName);
+        ImGui::SameLine();
+        ImGui::Checkbox("Times", &Settings::ShowSkillTime);
     }
     ImGui::End();
 
@@ -670,7 +698,7 @@ void Render::render(ID3D11Device *pd3dDevice)
     // Position window at bottom center of screen
     ImGuiIO &io = ImGui::GetIO();
     float window_width = 400.0f;
-    float window_height = 28.0F * 10.0F; // we draw 10 images
+    float window_height = SKILL_ICON_SIZE * 10.0F; // we draw 10 images
     float pos_x = (io.DisplaySize.x - window_width) * 0.5f;
     float pos_y =
         io.DisplaySize.y - window_height - 50.0f; // 50px margin from bottom

@@ -70,6 +70,7 @@ public:
     EvCombatDataPersistent get_current_skill();
     void CycleSkillsLogic();
     void DrawRect(const RotationInfo &skill_info,
+                  const std::string &text,
                   ImU32 color = IM_COL32(255, 255, 255, 255));
 
     bool show_window;
