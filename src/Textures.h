@@ -12,7 +12,7 @@
 
 using TextureMap = std::unordered_map<int, ID3D11ShaderResourceView *>;
 
-constexpr static auto SKILL_ICON_SIZE = 28.0F;
+static auto SKILL_ICON_SIZE = 28.0F;
 
 ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device,
                                                  const std::wstring &filename);
