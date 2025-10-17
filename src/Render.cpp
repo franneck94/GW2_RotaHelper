@@ -593,11 +593,6 @@ void Render::DrawRect(const RotationInfo &skill_info,
 
 void Render::rotation_render(ID3D11Device *pd3dDevice)
 {
-    ImGui::BeginChild("CombatBufferChild",
-                      ImVec2(0, 400),
-                      false,
-                      ImGuiWindowFlags_HorizontalScrollbar);
-
     ImGui::Spacing();
     ImGui::Indent(10.0f); // Shift content 10px to the right
 
@@ -618,7 +613,7 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
         const auto is_last = (i == rotation_run.rotation_vector.size() - 1);
 
         auto text = std::string{};
-        if (!Settings::ShowSkillName && !Settings::ShowSkillTime)
+        if (Settings::HorizontalSkillLayout || (!Settings::ShowSkillName && !Settings::ShowSkillTime))
             text = "";
         else
         {
@@ -649,7 +644,8 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
         else
             ImGui::Dummy(ImVec2(28, 28));
 
-        ImGui::SameLine();
+        if (!text.empty() || Settings::HorizontalSkillLayout)
+            ImGui::SameLine();
 
         if (!text.empty())
         {
@@ -669,7 +665,6 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
     CycleSkillsLogic();
 
     ImGui::Unindent(10.0f);
-    ImGui::EndChild();
 }
 
 void Render::render(ID3D11Device *pd3dDevice)
@@ -690,6 +685,8 @@ void Render::render(ID3D11Device *pd3dDevice)
         ImGui::Checkbox("Names", &Settings::ShowSkillName);
         ImGui::SameLine();
         ImGui::Checkbox("Times", &Settings::ShowSkillTime);
+        ImGui::SameLine();
+        ImGui::Checkbox("Horizontal", &Settings::HorizontalSkillLayout);
     }
     ImGui::End();
 
@@ -721,7 +718,7 @@ void Render::render(ID3D11Device *pd3dDevice)
     constexpr auto flags_rota =
         ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
         ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
-        ImGuiWindowFlags_NoFocusOnAppearing;
+        ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoScrollbar;
     if (ImGui::Begin("##GW2RotaHelper_Rota", &Settings::ShowWindow, flags_rota))
     {
         if (texture_map.size() == 0)
@@ -730,8 +727,6 @@ void Render::render(ID3D11Device *pd3dDevice)
                                                rotation_run.skill_info_map,
                                                img_path);
         }
-
-        ImGui::Separator();
 
         rotation_render(pd3dDevice);
     }

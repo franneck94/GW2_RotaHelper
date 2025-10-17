@@ -9,6 +9,7 @@ const char *SHOW_WINDOW = "ShowWindow";
 const char *FILTER_BUFFER = "FilterBuffer";
 const char *SHOW_SKILL_NAME = "ShowSkillName";
 const char *SHOW_SKILL_TIME = "ShowSkillTime";
+const char *HORIZONTAL_SKILL_LAYOUT = "HorizontalSkillLayout";
 
 namespace Settings
 {
@@ -59,6 +60,7 @@ void Save(std::filesystem::path aPath)
         Settings[FILTER_BUFFER] = FilterBuffer;
         Settings[SHOW_SKILL_NAME] = ShowSkillName;
         Settings[SHOW_SKILL_TIME] = ShowSkillTime;
+        Settings[HORIZONTAL_SKILL_LAYOUT] = HorizontalSkillLayout;
 
         std::ofstream file(aPath);
         file << Settings.dump(1, '\t') << std::endl;
@@ -78,4 +80,5 @@ bool ShowWindow = true;
 std::string FilterBuffer;
 bool ShowSkillName = true;
 bool ShowSkillTime = true;
+bool HorizontalSkillLayout = false;
 } // namespace Settings
