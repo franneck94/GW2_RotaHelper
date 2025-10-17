@@ -91,11 +91,20 @@ void LogEvCombatDataPersistentCSV(const EvCombatDataPersistent &data,
     }
 }
 
+bool IsValidSelfData(const EvCombatData &evCbtData)
+{
+    return evCbtData.src->IsSelf && evCbtData.src != nullptr &&
+           evCbtData.skillname != nullptr && evCbtData.ev != nullptr &&
+           evCbtData.src->Name != nullptr;
+}
+
 bool IsValidCombatEvent(const EvCombatData &evCbtData)
 {
-    return evCbtData.src != nullptr && evCbtData.dst != nullptr &&
-           evCbtData.skillname != nullptr && evCbtData.ev != nullptr &&
-           evCbtData.src->IsSelf && evCbtData.src->Name != nullptr;
+    const auto is_valid_self = IsValidSelfData(evCbtData);
+    const auto is_valid_target = evCbtData.dst != nullptr &&
+                                 evCbtData.dst->Name != nullptr;
+
+    return is_valid_self && is_valid_target;
 }
 
 bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
