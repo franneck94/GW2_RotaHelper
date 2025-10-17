@@ -415,8 +415,7 @@ void Render::reload_btn()
     if (selected_bench_index >= 0 &&
         selected_bench_index < benches_files.size())
     {
-        ImGui::SameLine();
-        if (ImGui::Button("Reload"))
+        if (ImGui::Button("Reload", ImVec2(-1, 0)))
         {
             if (!selected_file_path.empty())
             {
@@ -575,9 +574,10 @@ void Render::DrawRect(const RotationInfo &skill_info,
         text_size = ImVec2(0, 0);
     }
 
-    auto total_width = text_size.x > 0
-                           ? 28 + ImGui::GetStyle().ItemSpacing.x + text_size.x
-                           : SKILL_ICON_SIZE;
+    auto total_width =
+        text_size.x > 0
+            ? SKILL_ICON_SIZE + ImGui::GetStyle().ItemSpacing.x + text_size.x
+            : SKILL_ICON_SIZE;
     auto total_height =
         (SKILL_ICON_SIZE > text_size.y) ? SKILL_ICON_SIZE : text_size.y;
 
@@ -613,7 +613,8 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
         const auto is_last = (i == rotation_run.rotation_vector.size() - 1);
 
         auto text = std::string{};
-        if (Settings::HorizontalSkillLayout || (!Settings::ShowSkillName && !Settings::ShowSkillTime))
+        if (Settings::HorizontalSkillLayout ||
+            (!Settings::ShowSkillName && !Settings::ShowSkillTime))
             text = "";
         else
         {
@@ -640,9 +641,10 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
             DrawRect(skill_info, text, IM_COL32(255, 0, 0, 255));
 
         if (texture && pd3dDevice)
-            ImGui::Image((ImTextureID)texture, ImVec2(28, 28));
+            ImGui::Image((ImTextureID)texture,
+                         ImVec2(SKILL_ICON_SIZE, SKILL_ICON_SIZE));
         else
-            ImGui::Dummy(ImVec2(28, 28));
+            ImGui::Dummy(ImVec2(SKILL_ICON_SIZE, SKILL_ICON_SIZE));
 
         if (!text.empty() || Settings::HorizontalSkillLayout)
             ImGui::SameLine();
@@ -686,7 +688,13 @@ void Render::render(ID3D11Device *pd3dDevice)
         ImGui::SameLine();
         ImGui::Checkbox("Times", &Settings::ShowSkillTime);
         ImGui::SameLine();
-        ImGui::Checkbox("Horizontal", &Settings::HorizontalSkillLayout);
+        if (ImGui::Checkbox("Horizontal", &Settings::HorizontalSkillLayout))
+        {
+            if (Settings::HorizontalSkillLayout)
+                SKILL_ICON_SIZE = 64.0F;
+            else
+                SKILL_ICON_SIZE = 28.0F;
+        }
     }
     ImGui::End();
 
@@ -704,17 +712,25 @@ void Render::render(ID3D11Device *pd3dDevice)
     if (rotation_run.rotation_vector.size() == 0)
         return;
 
-    // Position window at bottom center of screen
+    float window_width = 0.0f;
+    float window_height = SKILL_ICON_SIZE * 0.0F;
     ImGuiIO &io = ImGui::GetIO();
-    float window_width = 400.0f;
-    float window_height = SKILL_ICON_SIZE * 10.0F; // we draw 10 images
-    float pos_x = (io.DisplaySize.x - window_width) * 0.5f;
-    float pos_y =
-        io.DisplaySize.y - window_height - 50.0f; // 50px margin from bottom
-
-    ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_FirstUseEver);
+    if (!Settings::HorizontalSkillLayout)
+    {
+        window_width = 400.0f;
+        window_height = SKILL_ICON_SIZE * 10.0F;
+    }
+    else
+    {
+        window_width = SKILL_ICON_SIZE * 10.0F;
+        window_height = 50.0F;
+    }
     ImGui::SetNextWindowSize(ImVec2(window_width, window_height),
                              ImGuiCond_FirstUseEver);
+    float pos_x = (io.DisplaySize.x - window_width) * 0.5f;
+    float pos_y = io.DisplaySize.y - window_height - 50.0f;
+    ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_FirstUseEver);
+
     constexpr auto flags_rota =
         ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
         ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
