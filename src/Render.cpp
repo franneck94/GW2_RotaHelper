@@ -143,12 +143,14 @@ void Render::skill_activation_callback(
     key_press_event_in_this_frame = pressed;
     if (pressed)
     {
-        // Use single mutex for both related data members
         std::lock_guard<std::mutex> lock(played_rotation_mutex);
         curr_combat_data = combat_data;
 
         try
         {
+            if (played_rotation.size() > 300)
+                played_rotation.clear();
+
             played_rotation.push_back(combat_data);
         }
         catch (const std::exception &e)
@@ -265,14 +267,27 @@ void Render::select_bench()
         ImGui::Text("Filter:");
         ImGui::SameLine();
         char *filter_buffer = (char *)Settings::FilterBuffer.c_str();
-        if (ImGui::InputText("##filter", filter_buffer, sizeof(filter_buffer)))
+
+        static bool open_combo_next_frame = false;
+
+        ImGui::PushAllowKeyboardFocus(false);
+        if (ImGui::InputText("##filter", filter_buffer, sizeof(filter_buffer), ImGuiInputTextFlags_EnterReturnsTrue))
         {
             Settings::FilterBuffer = std::string(filter_buffer);
             std::transform(Settings::FilterBuffer.begin(),
                            Settings::FilterBuffer.end(),
                            Settings::FilterBuffer.begin(),
                            ::tolower);
+            open_combo_next_frame = true;
         }
+
+        // Check for Tab key press while filter input is active
+        if (ImGui::IsItemActive() && ImGui::IsKeyPressed(ImGuiKey_Tab))
+        {
+            open_combo_next_frame = true;
+        }
+
+        ImGui::PopAllowKeyboardFocus();
 
         const auto &[filtered_files, directories_with_matches] =
             get_file_data_pairs(Settings::FilterBuffer);
@@ -345,7 +360,6 @@ void Render::select_bench()
                     rotation_run.restart_rotation();
                     ReleaseTextureMap(texture_map);
 
-                    // Thread-safe clear of both related data members
                     std::lock_guard<std::mutex> lock(played_rotation_mutex);
                     played_rotation.clear();
                     curr_combat_data = EvCombatDataPersistent{};
