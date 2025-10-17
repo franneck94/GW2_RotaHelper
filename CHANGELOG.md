@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Support for Quick and Alacrity benchmark builds
 - Automated dropdown menu activation on Enter key press in filter field
+- Show Skill Name and Cast Time is now an option
 
 ### Improvements
 
