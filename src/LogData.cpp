@@ -194,8 +194,11 @@ bool is_special_case(const int skill_id,
                      const std::string &skill_name,
                      const std::set<std::string> &skills_to_filter)
 {
-    if (skills_to_filter.find(skill_name) != skills_to_filter.end())
-        return true;
+    for (const auto &filter_string : skills_to_filter)
+    {
+        if (skill_name.find(filter_string) != std::string::npos)
+            return true;
+    }
 
     return false;
 }
