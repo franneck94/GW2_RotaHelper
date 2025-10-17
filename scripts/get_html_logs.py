@@ -49,38 +49,48 @@ class SnowCrowsScraper:
             "dragonhunter": "guardian",
             "firebrand": "guardian",
             "willbender": "guardian",
+            "guardian": "guardian",
             # Warrior
             "berserker": "warrior",
             "spellbreaker": "warrior",
             "bladesworn": "warrior",
+            "warrior": "warrior",
             # Engineer
             "scrapper": "engineer",
             "holosmith": "engineer",
             "mechanist": "engineer",
+            "engineer": "engineer",
             # Ranger
             "druid": "ranger",
             "soulbeast": "ranger",
             "untamed": "ranger",
+            "ranger": "ranger",
             # Thief
             "daredevil": "thief",
             "deadeye": "thief",
             "specter": "thief",
+            "spectre": "thief",
+            "thief": "thief",
             # Elementalist
             "tempest": "elementalist",
             "weaver": "elementalist",
             "catalyst": "elementalist",
+            "elementalist": "elementalist",
             # Mesmer
             "chronomancer": "mesmer",
             "mirage": "mesmer",
             "virtuoso": "mesmer",
+            "mesmer": "mesmer",
             # Necromancer
             "reaper": "necromancer",
             "scourge": "necromancer",
             "harbinger": "necromancer",
+            "necromancer": "necromancer",
             # Revenant
             "herald": "revenant",
             "renegade": "revenant",
             "vindicator": "revenant",
+            "revenant": "revenant",
         }
 
     def _setup_webdriver(self):
@@ -210,26 +220,9 @@ class SnowCrowsScraper:
         build_name_lower = build_name.lower()
         url_path_lower = url_path.lower()
 
-        # Check for elite specializations in build name or URL
         for elite_spec, profession in self.elite_spec_to_profession.items():
             if elite_spec in build_name_lower or elite_spec in url_path_lower:
                 return profession.title(), elite_spec.title()
-
-        # Check for base profession names
-        base_professions = ["guardian", "warrior", "engineer", "ranger", "thief",
-                           "elementalist", "mesmer", "necromancer", "revenant"]
-
-        for profession in base_professions:
-            if profession in build_name_lower or profession in url_path_lower:
-                return profession.title(), ""  # No elite spec, just base profession
-
-        # Fallback: try to extract from URL structure
-        # SnowCrows URLs often have format: /builds/raids/profession/build-name
-        url_parts = url_path.strip("/").split("/")
-        if len(url_parts) >= 3:
-            potential_profession = url_parts[2].replace("-", "").lower()
-            if potential_profession in base_professions:
-                return potential_profession.title(), ""
 
         return "Unknown", ""
 

@@ -2,3 +2,4 @@
 
 - Number of Auto Attacks instead of list of auto attacks
 - **Mesmer Greatsword**: Auto-attack detection requires refinement for optimal accuracy
+- After ~2hrs the game feerzes with memory issues
