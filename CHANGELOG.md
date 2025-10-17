@@ -16,12 +16,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for Quick and Alacrity benchmark builds
 - Automated dropdown menu activation on Enter key press in filter field
 - Show Skill Name and Cast Time is now an option
-- Horizonal skill layout (names and cast times are omitted)
+- Horizontal skill layout (names and cast times are omitted)
 
 ### Improvements
 
 - Improved file organization structure for different build types
-- Splitted windows for:
+- Split windows for:
   1. Select bench log
   2. The rotation itself
 
