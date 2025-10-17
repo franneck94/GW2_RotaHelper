@@ -55,7 +55,7 @@ public:
 
     void set_data_path(const std::filesystem::path &path);
 
-    void render(ID3D11Device *pd3dDevice, AddonAPI *APIDefs = nullptr);
+    void render(ID3D11Device *pd3dDevice);
     void text_filter();
     void selection();
     void reload_btn();

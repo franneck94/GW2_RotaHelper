@@ -607,7 +607,7 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
     ImGui::EndChild();
 }
 
-void Render::render(ID3D11Device *pd3dDevice, AddonAPI *APIDefs)
+void Render::render(ID3D11Device *pd3dDevice)
 {
     if (!Settings::ShowWindow)
         return;
@@ -634,19 +634,9 @@ void Render::render(ID3D11Device *pd3dDevice, AddonAPI *APIDefs)
 
         if (texture_map.size() == 0)
         {
-            if (APIDefs && !pd3dDevice)
-            {
-                texture_map =
-                    LoadAllSkillTexturesWithAPI(APIDefs,
-                                                rotation_run.skill_info_map,
-                                                img_path);
-            }
-            else if (pd3dDevice)
-            {
-                texture_map = LoadAllSkillTextures(pd3dDevice,
-                                                   rotation_run.skill_info_map,
-                                                   img_path);
-            }
+            texture_map = LoadAllSkillTextures(pd3dDevice,
+                                               rotation_run.skill_info_map,
+                                               img_path);
         }
 
         ImGui::Separator();

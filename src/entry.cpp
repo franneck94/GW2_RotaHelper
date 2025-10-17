@@ -191,7 +191,7 @@ void AddonRender()
         return;
 
     render.toggle_vis(Settings::ShowWindow);
-    render.render(pd3dDevice, APIDefs);
+    render.render(pd3dDevice);
 }
 
 void AddonOptions()

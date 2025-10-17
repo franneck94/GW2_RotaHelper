@@ -123,14 +123,8 @@ bool IsSkillFromBuild_NameBased(const EvCombatDataPersistent &evCbtData)
 
 bool IsAnySkillFromBuild(const EvCombatDataPersistent &evCbtData)
 {
-#ifdef USE_SKILL_ID_MATCH_LOGIC
-    return IsSkillFromBuild_IdBased(evCbtData);
-#elif defined(USE_SKILL_ID_AND_NAME_MATCH_LOGIC)
     return IsSkillFromBuild_NameBased(evCbtData) ||
            IsSkillFromBuild_IdBased(evCbtData);
-#else
-    return IsSkillFromBuild_NameBased(evCbtData);
-#endif
 }
 
 #ifdef USE_SKILL_ID_MATCH_LOGIC
@@ -242,17 +236,12 @@ bool OnCombat(const char *channel,
             .SkillName = std::string(evCbtData.skillname),
             .SkillID = evCbtData.id};
 
-#ifdef USE_ANY_SKILL_FROM_BUILD_LOGIC
         if (rotation_run.skill_info_map.empty() || IsAnySkillFromBuild(data))
-#endif
         {
 #ifdef LOG_SKILL_FROM_BUILD
             LogEvCombatDataPersistentCSV(data, "SkillFromBuild");
 #endif
-
-#ifdef USE_TIME_FILTER_LOGIC
             if (IsNotTheSameCast(data))
-#endif
             {
 #ifdef LOG_SKILL_IN_TIME
                 LogEvCombatDataPersistentCSV(data, "NotSameCast");
