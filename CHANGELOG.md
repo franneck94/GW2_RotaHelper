@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Improvements
 
 - Improved file organization structure for different build types
+- Splitted windows for:
+  1. Select bench log
+  2. The rotation itself
 
 ### Bug Fixes
 
