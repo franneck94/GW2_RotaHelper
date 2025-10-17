@@ -95,3 +95,16 @@ struct SkillData
 };
 
 using SkillDataMap = std::map<int, SkillData>;
+
+struct MetaData
+{
+    std::string name;
+    std::string url;
+    std::string benchmark_type;
+    std::string profession;
+    std::string elite_spec;
+    std::string build_type;
+    std::string url_name;
+    std::string dps_report_url;
+    std::string html_file_path;
+};

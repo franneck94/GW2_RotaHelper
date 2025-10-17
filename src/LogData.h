@@ -38,6 +38,8 @@ public:
     RotationInfoList bench_rotation_list;
     SkillDataMap skill_data;
 
+    MetaData meta_data;
+
     std::set<std::string> skills_to_filter = {
         "Bloodstone Fervor",
         "Blutstein",
