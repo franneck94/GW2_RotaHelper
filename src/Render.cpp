@@ -379,7 +379,7 @@ void Render::selection()
                         if (path_str.find("power") != std::string::npos)
                             build_type_postdic += "[Power] ";
                         else if (path_str.find("condition") !=
-                                     std::string::npos)
+                                 std::string::npos)
                             build_type_postdic += "[Condi] ";
 
                         formatted_name_item =
@@ -640,22 +640,47 @@ void Render::render(ID3D11Device *pd3dDevice)
     if (benches_files.size() == 0)
         benches_files = get_bench_files(bench_path);
 
-    if (ImGui::Begin("GW2RotaHelper", &Settings::ShowWindow))
+    if (ImGui::Begin("###GW2RotaHelper_Options",
+                     &Settings::ShowWindow,
+                     ImGuiWindowFlags_NoCollapse))
     {
         select_bench();
+    }
+    ImGui::End();
 
-        if (rotation_run.futures.size() != 0)
+    if (rotation_run.futures.size() != 0)
+    {
+        if (rotation_run.futures.front().valid())
         {
-            if (rotation_run.futures.front().valid())
-            {
-                rotation_run.futures.front().get();
-                rotation_run.futures.pop_front();
-            }
-
-            ImGui::End();
-
-            return;
+            rotation_run.futures.front().get();
+            rotation_run.futures.pop_front();
         }
+
+        return;
+    }
+
+    if (rotation_run.rotation_vector.size() == 0)
+        return;
+
+    // Position window at bottom center of screen
+    ImGuiIO &io = ImGui::GetIO();
+    float window_width = 400.0f;
+    float window_height = 150.0f;
+    float pos_x = (io.DisplaySize.x - window_width) * 0.5f;
+    float pos_y =
+        io.DisplaySize.y - window_height - 50.0f; // 50px margin from bottom
+
+    ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_FirstUseEver);
+    ImGui::SetNextWindowSize(ImVec2(window_width, window_height),
+                             ImGuiCond_FirstUseEver);
+    if (ImGui::Begin(
+            "###GW2RotaHelper_Rota",
+            &Settings::ShowWindow,
+            ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
+                ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
+                ImGuiWindowFlags_NoFocusOnAppearing))
+    {
+
 
         if (texture_map.size() == 0)
         {
@@ -668,6 +693,5 @@ void Render::render(ID3D11Device *pd3dDevice)
 
         rotation_render(pd3dDevice);
     }
-
     ImGui::End();
 }
