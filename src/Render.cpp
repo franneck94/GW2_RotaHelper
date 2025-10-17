@@ -383,7 +383,7 @@ void Render::selection()
                             build_type_postdic += "[Condi] ";
 
                         formatted_name_item =
-                            format_build_name(file_info->display_name) + "###" +
+                            format_build_name(file_info->display_name) + "##" +
                             build_type_postdic;
                     }
 
