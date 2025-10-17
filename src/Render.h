@@ -57,6 +57,8 @@ public:
 
     void render(ID3D11Device *pd3dDevice, AddonAPI *APIDefs = nullptr);
     void text_filter();
+    void selection();
+    void reload_btn();
     void select_bench();
     void rotation_render(ID3D11Device *pd3dDevice);
     std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
