@@ -651,12 +651,24 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
 
         ImGui::SameLine();
 
-        ImGui::Text("%s", text.c_str());
+        if (!text.empty())
+        {
+            auto draw_list = ImGui::GetWindowDrawList();
+            auto text_pos = ImGui::GetCursorScreenPos();
+
+            draw_list->AddText(ImVec2(text_pos.x + 1, text_pos.y + 1),
+                               IM_COL32(0, 0, 0, 200),
+                               text.c_str());
+            draw_list->AddText(text_pos,
+                               ImGui::GetColorU32(ImGuiCol_Text),
+                               text.c_str());
+            ImGui::Dummy(ImGui::CalcTextSize(text.c_str()));
+        }
     }
 
     CycleSkillsLogic();
 
-    ImGui::Unindent(10.0f); // Restore normal indentation
+    ImGui::Unindent(10.0f);
     ImGui::EndChild();
 }
 
