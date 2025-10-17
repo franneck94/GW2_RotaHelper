@@ -258,93 +258,86 @@ Render::get_file_data_pairs(std::string &filter_string)
     return std::make_pair(filtered_files, directories_with_matches);
 }
 
+void Render::text_filter()
+{
+    ImGui::Text("Filter:");
+    ImGui::SameLine();
+    char *filter_buffer = (char *)Settings::FilterBuffer.c_str();
+
+    ImGui::PushAllowKeyboardFocus(false);
+
+    filter_input_pos = ImGui::GetCursorScreenPos();
+
+    if (ImGui::InputText("##filter",
+                         filter_buffer,
+                         sizeof(filter_buffer),
+                         ImGuiInputTextFlags_EnterReturnsTrue))
+    {
+        Settings::FilterBuffer = std::string(filter_buffer);
+        std::transform(Settings::FilterBuffer.begin(),
+                       Settings::FilterBuffer.end(),
+                       Settings::FilterBuffer.begin(),
+                       ::tolower);
+        open_combo_next_frame = true;
+    }
+
+    filter_input_width = ImGui::GetItemRectSize().x;
+
+    if (ImGui::IsItemActive() && ImGui::IsKeyPressed(ImGuiKey_Tab))
+        open_combo_next_frame = true;
+
+    ImGui::PopAllowKeyboardFocus();
+
+    const auto &[_filtered_files, directories_with_matches] =
+        get_file_data_pairs(Settings::FilterBuffer);
+    filtered_files = _filtered_files;
+
+    auto combo_preview = std::string{};
+    if (selected_bench_index >= 0 &&
+        selected_bench_index < benches_files.size())
+        combo_preview = benches_files[selected_bench_index]
+                            .relative_path.filename()
+                            .string();
+    else
+        combo_preview = "Select...";
+
+    auto combo_preview_slice = std::string{"Select..."};
+    if (combo_preview != "Select...")
+    {
+        combo_preview_slice = combo_preview.substr(0, combo_preview.size() - 8);
+        formatted_name = format_build_name(combo_preview_slice);
+        formatted_name = formatted_name.substr(4);
+    }
+}
+
 void Render::select_bench()
 {
+    text_filter();
+
     if (!benches_files.empty())
     {
         ImGui::Text("Select Bench File:");
 
-        ImGui::Text("Filter:");
-        ImGui::SameLine();
-        char *filter_buffer = (char *)Settings::FilterBuffer.c_str();
 
-        static bool open_combo_next_frame = false;
-        static ImVec2 filter_input_pos;
-        static float filter_input_width;
-
-        ImGui::PushAllowKeyboardFocus(false);
-
-        // Store filter input position and size for popup positioning
-        filter_input_pos = ImGui::GetCursorScreenPos();
-
-        if (ImGui::InputText("##filter",
-                             filter_buffer,
-                             sizeof(filter_buffer),
-                             ImGuiInputTextFlags_EnterReturnsTrue))
-        {
-            Settings::FilterBuffer = std::string(filter_buffer);
-            std::transform(Settings::FilterBuffer.begin(),
-                           Settings::FilterBuffer.end(),
-                           Settings::FilterBuffer.begin(),
-                           ::tolower);
-            open_combo_next_frame = true;
-        }
-
-        // Store the actual width of the filter input
-        filter_input_width = ImGui::GetItemRectSize().x;
-
-        // Check for Tab key press while filter input is active
-        if (ImGui::IsItemActive() && ImGui::IsKeyPressed(ImGuiKey_Tab))
-        {
-            open_combo_next_frame = true;
-        }
-
-        ImGui::PopAllowKeyboardFocus();
-
-        const auto &[filtered_files, directories_with_matches] =
-            get_file_data_pairs(Settings::FilterBuffer);
-
-        auto combo_preview = std::string{};
-        if (selected_bench_index >= 0 &&
-            selected_bench_index < benches_files.size())
-            combo_preview = benches_files[selected_bench_index]
-                                .relative_path.filename()
-                                .string();
-        else
-            combo_preview = "Select...";
-
-        auto combo_preview_slice = std::string{"Select..."};
-        auto formatted_name = std::string{"Select..."};
-        if (combo_preview != "Select...")
-        {
-            combo_preview_slice =
-                combo_preview.substr(0, combo_preview.size() - 8);
-            formatted_name = format_build_name(combo_preview_slice);
-            formatted_name = formatted_name.substr(4);
-        }
-
-        // Auto-open popup if requested
         if (open_combo_next_frame)
         {
             ImGui::OpenPopup("benches_popup");
             open_combo_next_frame = false;
         }
 
-        // Show current selection as a button that can also open the popup
         if (ImGui::Button(formatted_name.c_str(), ImVec2(-1, 0)))
-        {
             ImGui::OpenPopup("benches_popup");
-        }
 
-        // Position popup to match filter input position and width exactly
-        // Adjust position: move down more and slightly to the right
-        ImVec2 popup_pos = ImVec2(filter_input_pos.x,
-                                  filter_input_pos.y + ImGui::GetTextLineHeightWithSpacing() * 2.5f);
+        const auto window_pos = ImGui::GetWindowPos();
+        const auto popup_pos = ImVec2(
+            window_pos.x,
+            filter_input_pos.y + ImGui::GetTextLineHeightWithSpacing() * 2.5f);
+
 
         ImGui::SetNextWindowPos(popup_pos, ImGuiCond_Appearing);
-        ImGui::SetNextWindowSize(ImVec2(filter_input_width, 0), ImGuiCond_Appearing);
+        ImGui::SetNextWindowSize(ImVec2(filter_input_width, 0),
+                                 ImGuiCond_Appearing);
 
-        // BeginPopup will be true immediately after OpenPopup() is called
         if (ImGui::BeginPopup("benches_popup"))
         {
             if (filtered_files.empty())

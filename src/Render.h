@@ -56,6 +56,7 @@ public:
     void set_data_path(const std::filesystem::path &path);
 
     void render(ID3D11Device *pd3dDevice, AddonAPI *APIDefs = nullptr);
+    void text_filter();
     void select_bench();
     void rotation_render(ID3D11Device *pd3dDevice);
     std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
@@ -74,7 +75,14 @@ public:
     bool key_press_event_in_this_frame;
     EvCombatDataPersistent curr_combat_data{};
     std::vector<EvCombatDataPersistent> played_rotation{};
-    std::mutex played_rotation_mutex; // Protects both curr_combat_data and played_rotation
+    std::mutex
+        played_rotation_mutex; // Protects both curr_combat_data and played_rotation
+
+    bool open_combo_next_frame = false;
+    ImVec2 filter_input_pos = ImVec2(0, 0);
+    float filter_input_width = 0.0F;
+    std::string formatted_name = std::string{"Select..."};
+    std::vector<std::pair<int, const BenchFileInfo *>> filtered_files{};
 
     std::filesystem::path data_path;
     std::filesystem::path img_path;
