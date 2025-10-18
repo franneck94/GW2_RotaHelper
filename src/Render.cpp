@@ -147,18 +147,15 @@ void Render::skill_activation_callback(
         std::lock_guard<std::mutex> lock(played_rotation_mutex);
         curr_combat_data = combat_data;
 
-        try
+        if (played_rotation.size() > 300)
         {
-            if (played_rotation.size() > 300)
-                played_rotation.clear();
+            auto last_100 =
+                std::vector<EvCombatDataPersistent>(played_rotation.end() - 100,
+                                                    played_rotation.end());
+            played_rotation = std::move(last_100);
+        }
 
-            played_rotation.push_back(combat_data);
-        }
-        catch (const std::exception &e)
-        {
-            std::cerr << "Error adding to played_rotation: " << e.what()
-                      << '\n';
-        }
+        played_rotation.push_back(combat_data);
     }
 }
 
