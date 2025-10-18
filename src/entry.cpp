@@ -37,7 +37,6 @@ uintptr_t ArcdpsRelease();
 HMODULE hSelf;
 AddonDefinition AddonDef{};
 std::filesystem::path AddonPath;
-std::filesystem::path SettingsPath;
 ID3D11Device *pd3dDevice = nullptr;
 
 void ToggleShowWindowGW2_RotaHelper(const char *keybindIdentifier, bool)

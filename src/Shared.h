@@ -22,5 +22,6 @@ extern std::filesystem::path logpath;
 extern Render render;
 extern RotationRun rotation_run;
 extern TextureMap texture_map;
+extern std::filesystem::path SettingsPath;
 
 #endif

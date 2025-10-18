@@ -20,3 +20,5 @@ RotationRun rotation_run{};
 TextureMap texture_map{};
 
 Render render{};
+
+std::filesystem::path SettingsPath;

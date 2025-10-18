@@ -32,9 +32,6 @@ static ID3D11DeviceContext *g_pd3dDeviceContext = NULL;
 static IDXGISwapChain *g_pSwapChain = NULL;
 static ID3D11RenderTargetView *g_mainRenderTargetView = NULL;
 
-std::filesystem::path SettingsPath = std::filesystem::absolute(
-    std::filesystem::path(__FILE__).parent_path() / "addon_settings.json");
-
 // Forward declarations of helper functions
 bool CreateDeviceD3D(HWND hWnd);
 void CleanupDeviceD3D();
@@ -45,6 +42,9 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // Main code
 int main(int, char **)
 {
+    SettingsPath = std::filesystem::absolute(
+        std::filesystem::path(__FILE__).parent_path() / "addon_settings.json");
+
     // Create application window
     // ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEX wc = {sizeof(WNDCLASSEX),
