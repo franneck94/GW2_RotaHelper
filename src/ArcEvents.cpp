@@ -101,8 +101,8 @@ bool IsValidSelfData(const EvCombatData &evCbtData)
 bool IsValidCombatEvent(const EvCombatData &evCbtData)
 {
     const auto is_valid_self = IsValidSelfData(evCbtData);
-    const auto is_valid_target = evCbtData.dst != nullptr &&
-                                 evCbtData.dst->Name != nullptr;
+    const auto is_valid_target =
+        evCbtData.dst != nullptr && evCbtData.dst->Name != nullptr;
 
     return is_valid_self && is_valid_target;
 }
@@ -233,6 +233,12 @@ bool OnCombat(const char *channel,
 
     if (IsValidCombatEvent(evCbtData))
     {
+#ifdef _DEBUG
+        if (evCbtData.src->Specialization !=
+            static_cast<uint32_t>(rotation_run.meta_data.elite_spec_id))
+            return false;
+#endif
+
         const auto data = EvCombatDataPersistent{
             .SrcName = std::string(evCbtData.src->Name),
             .SrcID = evCbtData.src->ID,
