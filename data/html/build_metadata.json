@@ -8,7 +8,7 @@
     "build_type": "condition",
     "url_name": "condition-mirage-ih-oasis",
     "dps_report_url": "https://dps.report/5eVE-20250827-031559_golem",
-    "html_file_path": "dps\\condition\\condition-mirage-ih-oasis.html"
+    "html_file_path": "dps\\condition\\condition_mirage_ih_oasis.html"
   },
   {
     "name": "Condition Mirage IH Ether",
@@ -19,7 +19,7 @@
     "build_type": "condition",
     "url_name": "condition-mirage-ih-ether",
     "dps_report_url": "https://dps.report/6iDz-20250825-051630_golem",
-    "html_file_path": "dps\\condition\\condition-mirage-ih-ether.html"
+    "html_file_path": "dps\\condition\\condition_mirage_ih_ether.html"
   },
   {
     "name": "Condition Druid",
@@ -30,7 +30,7 @@
     "build_type": "condition",
     "url_name": "condition-druid",
     "dps_report_url": "https://dps.report/704v-20250625-144721_golem",
-    "html_file_path": "dps\\condition\\condition-druid.html"
+    "html_file_path": "dps\\condition\\condition_druid.html"
   },
   {
     "name": "Power Catalyst Scepter Dagger Inferno",
@@ -41,18 +41,7 @@
     "build_type": "power",
     "url_name": "power-catalyst-scepter-dagger-inferno",
     "dps_report_url": "https://dps.report/NJJV-20250901-203540_golem",
-    "html_file_path": "dps\\power\\power-catalyst-scepter-dagger-inferno.html"
-  },
-  {
-    "name": "Power Tempest Inferno Scepter Dagger",
-    "url": "https://snowcrows.com/builds/raids/elementalist/power-tempest-inferno-scepter-dagger",
-    "benchmark_type": "dps",
-    "profession": "Elementalist",
-    "elite_spec": "Tempest",
-    "build_type": "power",
-    "url_name": "power-tempest-inferno-scepter-dagger",
-    "dps_report_url": "https://dps.report/kVDr-20250728-110433_golem",
-    "html_file_path": "dps\\power\\power-tempest-inferno-scepter-dagger.html"
+    "html_file_path": "dps\\power\\power_catalyst_scepter_dagger_inferno.html"
   },
   {
     "name": "Condition Willbender",
@@ -63,18 +52,7 @@
     "build_type": "condition",
     "url_name": "condition-willbender",
     "dps_report_url": "https://dps.report/5vTW-20250918-002656_golem",
-    "html_file_path": "dps\\condition\\condition-willbender.html"
-  },
-  {
-    "name": "Power Bladesworn",
-    "url": "https://snowcrows.com/builds/raids/warrior/power-bladesworn",
-    "benchmark_type": "dps",
-    "profession": "Warrior",
-    "elite_spec": "Bladesworn",
-    "build_type": "power",
-    "url_name": "power-bladesworn",
-    "dps_report_url": "https://b.dps.report/3QR7-20250821-063721_golem",
-    "html_file_path": "dps\\power\\power-bladesworn.html"
+    "html_file_path": "dps\\condition\\condition_willbender.html"
   },
   {
     "name": "Condition Mirage Dune Cloak",
@@ -85,7 +63,7 @@
     "build_type": "condition",
     "url_name": "condition-mirage-dune-cloak",
     "dps_report_url": "https://dps.report/mndS-20250822-003804_golem",
-    "html_file_path": "dps\\condition\\condition-mirage-dune-cloak.html"
+    "html_file_path": "dps\\condition\\condition_mirage_dune_cloak.html"
   },
   {
     "name": "Power Catalyst Scepter Dagger Pf",
@@ -96,7 +74,7 @@
     "build_type": "power",
     "url_name": "power-catalyst-scepter-dagger-pf",
     "dps_report_url": "https://dps.report/zUuC-20250714-130645_golem",
-    "html_file_path": "dps\\power\\power-catalyst-scepter-dagger-pf.html"
+    "html_file_path": "dps\\power\\power_catalyst_scepter_dagger_pf.html"
   },
   {
     "name": "Condition Willbender Scepter",
@@ -107,7 +85,7 @@
     "build_type": "condition",
     "url_name": "condition-willbender-scepter",
     "dps_report_url": "https://dps.report/RSLy-20250930-003329_golem",
-    "html_file_path": "dps\\condition\\condition-willbender-scepter.html"
+    "html_file_path": "dps\\condition\\condition_willbender_scepter.html"
   },
   {
     "name": "Condition Daredevil Spear",
@@ -118,7 +96,7 @@
     "build_type": "condition",
     "url_name": "condition-daredevil-spear",
     "dps_report_url": "https://dps.report/iZUY-20250724-111709_golem",
-    "html_file_path": "dps\\condition\\condition-daredevil-spear.html"
+    "html_file_path": "dps\\condition\\condition_daredevil_spear.html"
   },
   {
     "name": "Condition Spectre",
@@ -129,7 +107,7 @@
     "build_type": "condition",
     "url_name": "condition-spectre",
     "dps_report_url": "https://dps.report/9dQH-20250924-173326_golem",
-    "html_file_path": "dps\\condition\\condition-spectre.html"
+    "html_file_path": "dps\\condition\\condition_spectre.html"
   },
   {
     "name": "Condition Daredevil",
@@ -140,7 +118,7 @@
     "build_type": "condition",
     "url_name": "condition-daredevil",
     "dps_report_url": "https://dps.report/x9oZ-20250629-021609_golem",
-    "html_file_path": "dps\\condition\\condition-daredevil.html"
+    "html_file_path": "dps\\condition\\condition_daredevil.html"
   },
   {
     "name": "Condition Mechanist Two Kits",
@@ -151,7 +129,7 @@
     "build_type": "condition",
     "url_name": "condition-mechanist-two-kits",
     "dps_report_url": "https://dps.report/NlFH-20250705-173537_golem",
-    "html_file_path": "dps\\condition\\condition-mechanist-two-kits.html"
+    "html_file_path": "dps\\condition\\condition_mechanist_two_kits.html"
   },
   {
     "name": "Condition Weaver Pistol",
@@ -162,7 +140,7 @@
     "build_type": "condition",
     "url_name": "condition-weaver-pistol",
     "dps_report_url": "https://dps.report/EkSh-20250626-121249_golem",
-    "html_file_path": "dps\\condition\\condition-weaver-pistol.html"
+    "html_file_path": "dps\\condition\\condition_weaver_pistol.html"
   },
   {
     "name": "Power Berserker Hammer Axe Mace",
@@ -173,7 +151,7 @@
     "build_type": "power",
     "url_name": "power-berserker-hammer-axe-mace",
     "dps_report_url": "https://dps.report/ezhZ-20250625-221420_golem",
-    "html_file_path": "dps\\power\\power-berserker-hammer-axe-mace.html"
+    "html_file_path": "dps\\power\\power_berserker_hammer_axe_mace.html"
   },
   {
     "name": "Power Dragonhunter Virtues Spear",
@@ -184,7 +162,7 @@
     "build_type": "power",
     "url_name": "power-dragonhunter-virtues-spear",
     "dps_report_url": "https://dps.report/geOw-20250626-225051_golem",
-    "html_file_path": "dps\\power\\power-dragonhunter-virtues-spear.html"
+    "html_file_path": "dps\\power\\power_dragonhunter_virtues_spear.html"
   },
   {
     "name": "Power Untamed Sword Axe",
@@ -195,7 +173,7 @@
     "build_type": "power",
     "url_name": "power-untamed-sword-axe",
     "dps_report_url": "https://dps.report/YH9W-20250508-132956_golem",
-    "html_file_path": "dps\\power\\power-untamed-sword-axe.html"
+    "html_file_path": "dps\\power\\power_untamed_sword_axe.html"
   },
   {
     "name": "Power Tempest Hammer",
@@ -206,7 +184,7 @@
     "build_type": "power",
     "url_name": "power-tempest-hammer",
     "dps_report_url": "https://dps.report/0UFW-20250308-065004_golem",
-    "html_file_path": "dps\\power\\power-tempest-hammer.html"
+    "html_file_path": "dps\\power\\power_tempest_hammer.html"
   },
   {
     "name": "Power Scrapper",
@@ -217,7 +195,7 @@
     "build_type": "power",
     "url_name": "power-scrapper",
     "dps_report_url": "https://dps.report/UHe7-20250702-183202_golem",
-    "html_file_path": "dps\\power\\power-scrapper.html"
+    "html_file_path": "dps\\power\\power_scrapper.html"
   },
   {
     "name": "Condition Holosmith Spear",
@@ -228,7 +206,7 @@
     "build_type": "condition",
     "url_name": "condition-holosmith-spear",
     "dps_report_url": "https://dps.report/FgwI-20250701-134540_golem",
-    "html_file_path": "dps\\condition\\condition-holosmith-spear.html"
+    "html_file_path": "dps\\condition\\condition_holosmith_spear.html"
   },
   {
     "name": "Condition Weaver Scepter",
@@ -239,7 +217,7 @@
     "build_type": "condition",
     "url_name": "condition-weaver-scepter",
     "dps_report_url": "https://dps.report/0ix2-20250630-030645_golem",
-    "html_file_path": "dps\\condition\\condition-weaver-scepter.html"
+    "html_file_path": "dps\\condition\\condition_weaver_scepter.html"
   },
   {
     "name": "Power Willbender",
@@ -250,7 +228,7 @@
     "build_type": "power",
     "url_name": "power-willbender",
     "dps_report_url": "https://dps.report/Z3Rm-20241012-234216_golem",
-    "html_file_path": "dps\\power\\power-willbender.html"
+    "html_file_path": "dps\\power\\power_willbender.html"
   },
   {
     "name": "Power Deadeye",
@@ -261,7 +239,7 @@
     "build_type": "power",
     "url_name": "power-deadeye",
     "dps_report_url": "https://dps.report/FyD0-20240322-133853_golem",
-    "html_file_path": "dps\\power\\power-deadeye.html"
+    "html_file_path": "dps\\power\\power_deadeye.html"
   },
   {
     "name": "Power Weaver",
@@ -272,7 +250,7 @@
     "build_type": "power",
     "url_name": "power-weaver",
     "dps_report_url": "https://dps.report/njox-20250420-101229_golem",
-    "html_file_path": "dps\\power\\power-weaver.html"
+    "html_file_path": "dps\\power\\power_weaver.html"
   },
   {
     "name": "Power Harbinger",
@@ -283,7 +261,7 @@
     "build_type": "power",
     "url_name": "power-harbinger",
     "dps_report_url": "https://dps.report/UlTc-20240821-222344_golem",
-    "html_file_path": "dps\\power\\power-harbinger.html"
+    "html_file_path": "dps\\power\\power_harbinger.html"
   },
   {
     "name": "Power Spellbreaker",
@@ -294,7 +272,7 @@
     "build_type": "power",
     "url_name": "power-spellbreaker",
     "dps_report_url": "https://dps.report/QYqB-20250217-174213_golem",
-    "html_file_path": "dps\\power\\power-spellbreaker.html"
+    "html_file_path": "dps\\power\\power_spellbreaker.html"
   },
   {
     "name": "Condition Deadeye",
@@ -305,7 +283,7 @@
     "build_type": "condition",
     "url_name": "condition-deadeye",
     "dps_report_url": "https://dps.report/4GTi-20240530-005615_golem",
-    "html_file_path": "dps\\condition\\condition-deadeye.html"
+    "html_file_path": "dps\\condition\\condition_deadeye.html"
   },
   {
     "name": "Condition Catalyst",
@@ -316,7 +294,7 @@
     "build_type": "condition",
     "url_name": "condition-catalyst",
     "dps_report_url": "https://dps.report/E2AP-20250814-142102_golem",
-    "html_file_path": "dps\\condition\\condition-catalyst.html"
+    "html_file_path": "dps\\condition\\condition_catalyst.html"
   },
   {
     "name": "Power Berserker Axe Axe Axe Mace",
@@ -327,7 +305,7 @@
     "build_type": "power",
     "url_name": "power-berserker-axe-axe-axe-mace",
     "dps_report_url": "https://dps.report/uFlG-20250429-111410_golem",
-    "html_file_path": "dps\\power\\power-berserker-axe-axe-axe-mace.html"
+    "html_file_path": "dps\\power\\power_berserker_axe_axe_axe_mace.html"
   },
   {
     "name": "Condition Firebrand",
@@ -338,7 +316,7 @@
     "build_type": "condition",
     "url_name": "condition-firebrand",
     "dps_report_url": "https://dps.report/Kcl1-20250507-011207_golem",
-    "html_file_path": "dps\\condition\\condition-firebrand.html"
+    "html_file_path": "dps\\condition\\condition_firebrand.html"
   },
   {
     "name": "Power Catalyst Sword Dagger Pf",
@@ -349,7 +327,7 @@
     "build_type": "power",
     "url_name": "power-catalyst-sword-dagger-pf",
     "dps_report_url": "https://dps.report/VW8L-20250814-083156_golem",
-    "html_file_path": "dps\\power\\power-catalyst-sword-dagger-pf.html"
+    "html_file_path": "dps\\power\\power_catalyst_sword_dagger_pf.html"
   },
   {
     "name": "Power Virtuoso Spear Greatsword",
@@ -360,7 +338,7 @@
     "build_type": "power",
     "url_name": "power-virtuoso-spear-greatsword",
     "dps_report_url": "https://dps.report/EekI-20250429-021335_golem",
-    "html_file_path": "dps\\power\\power-virtuoso-spear-greatsword.html"
+    "html_file_path": "dps\\power\\power_virtuoso_spear_greatsword.html"
   },
   {
     "name": "Power Deadeye Spear",
@@ -371,7 +349,7 @@
     "build_type": "power",
     "url_name": "power-deadeye-spear",
     "dps_report_url": "https://dps.report/Rvja-20250424-130425_golem",
-    "html_file_path": "dps\\power\\power-deadeye-spear.html"
+    "html_file_path": "dps\\power\\power_deadeye_spear.html"
   },
   {
     "name": "Power Spellbreaker Hammer",
@@ -382,7 +360,7 @@
     "build_type": "power",
     "url_name": "power-spellbreaker-hammer",
     "dps_report_url": "https://dps.report/vdip-20250624-231442_golem",
-    "html_file_path": "dps\\power\\power-spellbreaker-hammer.html"
+    "html_file_path": "dps\\power\\power_spellbreaker_hammer.html"
   },
   {
     "name": "Power Dragonhunter Radiance Longbow",
@@ -393,7 +371,7 @@
     "build_type": "power",
     "url_name": "power-dragonhunter-radiance-longbow",
     "dps_report_url": "https://dps.report/ODYQ-20250625-032914_golem",
-    "html_file_path": "dps\\power\\power-dragonhunter-radiance-longbow.html"
+    "html_file_path": "dps\\power\\power_dragonhunter_radiance_longbow.html"
   },
   {
     "name": "Condition Renegade",
@@ -404,7 +382,7 @@
     "build_type": "condition",
     "url_name": "condition-renegade",
     "dps_report_url": "https://dps.report/BOMb-20250427-142254_golem",
-    "html_file_path": "dps\\condition\\condition-renegade.html"
+    "html_file_path": "dps\\condition\\condition_renegade.html"
   },
   {
     "name": "Condition Alacrity Mirage Axe Torch Staff",
@@ -415,7 +393,7 @@
     "build_type": "condition",
     "url_name": "condition-alacrity-mirage-axe-torch-staff",
     "dps_report_url": "https://dps.report/CvZJ-20250902-013807_golem",
-    "html_file_path": "dps\\condition\\condition-alacrity-mirage-axe-torch-staff.html"
+    "html_file_path": "dps\\condition\\condition_alacrity_mirage_axe_torch_staff.html"
   },
   {
     "name": "Power Holosmith",
@@ -426,7 +404,7 @@
     "build_type": "power",
     "url_name": "power-holosmith",
     "dps_report_url": "https://dps.report/DiOV-20250817-093201_golem",
-    "html_file_path": "dps\\power\\power-holosmith.html"
+    "html_file_path": "dps\\power\\power_holosmith.html"
   },
   {
     "name": "Condition Soulbeast Shortbow",
@@ -437,7 +415,7 @@
     "build_type": "condition",
     "url_name": "condition-soulbeast-shortbow",
     "dps_report_url": "https://dps.report/B97C-20250625-230018_golem",
-    "html_file_path": "dps\\condition\\condition-soulbeast-shortbow.html"
+    "html_file_path": "dps\\condition\\condition_soulbeast_shortbow.html"
   },
   {
     "name": "Condition Berserker",
@@ -448,7 +426,7 @@
     "build_type": "condition",
     "url_name": "condition-berserker",
     "dps_report_url": "https://dps.report/xPFw-20250217-171746_golem",
-    "html_file_path": "dps\\condition\\condition-berserker.html"
+    "html_file_path": "dps\\condition\\condition_berserker.html"
   },
   {
     "name": "Power Tempest Sword",
@@ -459,7 +437,7 @@
     "build_type": "power",
     "url_name": "power-tempest-sword",
     "dps_report_url": "https://dps.report/bB8v-20250211-193538_golem",
-    "html_file_path": "dps\\power\\power-tempest-sword.html"
+    "html_file_path": "dps\\power\\power_tempest_sword.html"
   },
   {
     "name": "Power Vindicator",
@@ -470,7 +448,7 @@
     "build_type": "power",
     "url_name": "power-vindicator",
     "dps_report_url": "https://dps.report/V0Qd-20250425-161817_golem",
-    "html_file_path": "dps\\power\\power-vindicator.html"
+    "html_file_path": "dps\\power\\power_vindicator.html"
   },
   {
     "name": "Condition Spectre Scepter",
@@ -481,7 +459,7 @@
     "build_type": "condition",
     "url_name": "condition-spectre-scepter",
     "dps_report_url": "https://dps.report/u8UV-20250302-134132_golem",
-    "html_file_path": "dps\\condition\\condition-spectre-scepter.html"
+    "html_file_path": "dps\\condition\\condition_spectre_scepter.html"
   },
   {
     "name": "Power Chronomancer",
@@ -492,7 +470,7 @@
     "build_type": "power",
     "url_name": "power-chronomancer",
     "dps_report_url": "https://dps.report/oRIi-20250627-124455_golem",
-    "html_file_path": "dps\\power\\power-chronomancer.html"
+    "html_file_path": "dps\\power\\power_chronomancer.html"
   },
   {
     "name": "Condition Tempest",
@@ -503,7 +481,7 @@
     "build_type": "condition",
     "url_name": "condition-tempest",
     "dps_report_url": "https://dps.report/c6Pe-20240320-004729_golem",
-    "html_file_path": "dps\\condition\\condition-tempest.html"
+    "html_file_path": "dps\\condition\\condition_tempest.html"
   },
   {
     "name": "Condition Harbinger",
@@ -514,7 +492,7 @@
     "build_type": "condition",
     "url_name": "condition-harbinger",
     "dps_report_url": "https://dps.report/z87P-20250309-090545_golem",
-    "html_file_path": "dps\\condition\\condition-harbinger.html"
+    "html_file_path": "dps\\condition\\condition_harbinger.html"
   },
   {
     "name": "Condition Reaper",
@@ -525,7 +503,7 @@
     "build_type": "condition",
     "url_name": "condition-reaper",
     "dps_report_url": "https://dps.report/HZw6-20240829-121726_golem",
-    "html_file_path": "dps\\condition\\condition-reaper.html"
+    "html_file_path": "dps\\condition\\condition_reaper.html"
   },
   {
     "name": "Power Harbinger Greatsword Dagger Sword",
@@ -536,7 +514,7 @@
     "build_type": "power",
     "url_name": "power-harbinger-greatsword-dagger-sword",
     "dps_report_url": "https://dps.report/bPSj-20240328-140358_golem",
-    "html_file_path": "dps\\power\\power-harbinger-greatsword-dagger-sword.html"
+    "html_file_path": "dps\\power\\power_harbinger_greatsword_dagger_sword.html"
   },
   {
     "name": "Condition Soulbeast Quickdraw",
@@ -547,7 +525,7 @@
     "build_type": "condition",
     "url_name": "condition-soulbeast-quickdraw",
     "dps_report_url": "https://dps.report/nk06-20250630-172617_golem",
-    "html_file_path": "dps\\condition\\condition-soulbeast-quickdraw.html"
+    "html_file_path": "dps\\condition\\condition_soulbeast_quickdraw.html"
   },
   {
     "name": "Power Dragonhunter",
@@ -558,7 +536,7 @@
     "build_type": "power",
     "url_name": "power-dragonhunter",
     "dps_report_url": "https://dps.report/M9tp-20250627-000730_golem",
-    "html_file_path": "dps\\power\\power-dragonhunter.html"
+    "html_file_path": "dps\\power\\power_dragonhunter.html"
   },
   {
     "name": "Power Berserker",
@@ -569,7 +547,7 @@
     "build_type": "power",
     "url_name": "power-berserker",
     "dps_report_url": "https://dps.report/SlU1-20241011-200304_golem",
-    "html_file_path": "dps\\power\\power-berserker.html"
+    "html_file_path": "dps\\power\\power_berserker.html"
   },
   {
     "name": "Power Soulbeast Hammer",
@@ -580,7 +558,7 @@
     "build_type": "power",
     "url_name": "power-soulbeast-hammer",
     "dps_report_url": "https://dps.report/AQKD-20240813-195034_golem",
-    "html_file_path": "dps\\power\\power-soulbeast-hammer.html"
+    "html_file_path": "dps\\power\\power_soulbeast_hammer.html"
   },
   {
     "name": "Power Virtuoso",
@@ -591,7 +569,7 @@
     "build_type": "power",
     "url_name": "power-virtuoso",
     "dps_report_url": "https://dps.report/AKGH-20250216-220953_golem",
-    "html_file_path": "dps\\power\\power-virtuoso.html"
+    "html_file_path": "dps\\power\\power_virtuoso.html"
   },
   {
     "name": "Power Daredevil Dagger",
@@ -602,7 +580,7 @@
     "build_type": "power",
     "url_name": "power-daredevil-dagger",
     "dps_report_url": "https://dps.report/SGy8-20240729-161641_golem",
-    "html_file_path": "dps\\power\\power-daredevil-dagger.html"
+    "html_file_path": "dps\\power\\power_daredevil_dagger.html"
   },
   {
     "name": "Condition Mechanist",
@@ -613,7 +591,7 @@
     "build_type": "condition",
     "url_name": "condition-mechanist",
     "dps_report_url": "https://dps.report/yKQA-20250423-002229_golem",
-    "html_file_path": "dps\\condition\\condition-mechanist.html"
+    "html_file_path": "dps\\condition\\condition_mechanist.html"
   },
   {
     "name": "Condition Chronomancer",
@@ -624,7 +602,7 @@
     "build_type": "condition",
     "url_name": "condition-chronomancer",
     "dps_report_url": "https://dps.report/sWjp-20250506-041500_golem",
-    "html_file_path": "dps\\condition\\condition-chronomancer.html"
+    "html_file_path": "dps\\condition\\condition_chronomancer.html"
   },
   {
     "name": "Power Berserker Greatsword",
@@ -635,7 +613,7 @@
     "build_type": "power",
     "url_name": "power-berserker-greatsword",
     "dps_report_url": "https://dps.report/aNUg-20250626-205602_golem",
-    "html_file_path": "dps\\power\\power-berserker-greatsword.html"
+    "html_file_path": "dps\\power\\power_berserker_greatsword.html"
   },
   {
     "name": "Power Harbinger Greatsword Sword Sword",
@@ -646,7 +624,7 @@
     "build_type": "power",
     "url_name": "power-harbinger-greatsword-sword-sword",
     "dps_report_url": "https://dps.report/7w2I-20240328-230229_golem",
-    "html_file_path": "dps\\power\\power-harbinger-greatsword-sword-sword.html"
+    "html_file_path": "dps\\power\\power_harbinger_greatsword_sword_sword.html"
   },
   {
     "name": "Power Tempest",
@@ -657,7 +635,7 @@
     "build_type": "power",
     "url_name": "power-tempest",
     "dps_report_url": "https://dps.report/QqEZ-20250212-064300_golem",
-    "html_file_path": "dps\\power\\power-tempest.html"
+    "html_file_path": "dps\\power\\power_tempest.html"
   },
   {
     "name": "Power Reaper Spear",
@@ -668,7 +646,7 @@
     "build_type": "power",
     "url_name": "power-reaper-spear",
     "dps_report_url": "https://dps.report/zu2s-20240827-214523_golem",
-    "html_file_path": "dps\\power\\power-reaper-spear.html"
+    "html_file_path": "dps\\power\\power_reaper_spear.html"
   },
   {
     "name": "Condition Thief",
@@ -679,7 +657,7 @@
     "build_type": "condition",
     "url_name": "condition-thief",
     "dps_report_url": "https://dps.report/xHhO-20250422-062546_golem",
-    "html_file_path": "dps\\condition\\condition-thief.html"
+    "html_file_path": "dps\\condition\\condition_thief.html"
   },
   {
     "name": "Power Daredevil",
@@ -690,7 +668,7 @@
     "build_type": "power",
     "url_name": "power-daredevil",
     "dps_report_url": "https://www.dps.report/7Qij-20250624-165156_golem",
-    "html_file_path": "dps\\power\\power-daredevil.html"
+    "html_file_path": "dps\\power\\power_daredevil.html"
   },
   {
     "name": "Power Mechanist Sword",
@@ -701,7 +679,7 @@
     "build_type": "power",
     "url_name": "power-mechanist-sword",
     "dps_report_url": "https://dps.report/JaPO-20250702-023357_golem",
-    "html_file_path": "dps\\power\\power-mechanist-sword.html"
+    "html_file_path": "dps\\power\\power_mechanist_sword.html"
   },
   {
     "name": "Power Reaper",
@@ -712,7 +690,7 @@
     "build_type": "power",
     "url_name": "power-reaper",
     "dps_report_url": "https://dps.report/oU7B-20240321-155135_golem",
-    "html_file_path": "dps\\power\\power-reaper.html"
+    "html_file_path": "dps\\power\\power_reaper.html"
   },
   {
     "name": "Power Virtuoso Dagger Sword Greatsword",
@@ -723,7 +701,7 @@
     "build_type": "power",
     "url_name": "power-virtuoso-dagger-sword-greatsword",
     "dps_report_url": "https://dps.report/B3J7-20250903-042627_golem",
-    "html_file_path": "dps\\power\\power-virtuoso-dagger-sword-greatsword.html"
+    "html_file_path": "dps\\power\\power_virtuoso_dagger_sword_greatsword.html"
   },
   {
     "name": "Condition Tempest Scepter",
@@ -734,7 +712,7 @@
     "build_type": "condition",
     "url_name": "condition-tempest-scepter",
     "dps_report_url": "https://dps.report/CdTT-20250218-221925_golem",
-    "html_file_path": "dps\\condition\\condition-tempest-scepter.html"
+    "html_file_path": "dps\\condition\\condition_tempest_scepter.html"
   },
   {
     "name": "Condition Soulbeast",
@@ -745,7 +723,7 @@
     "build_type": "condition",
     "url_name": "condition-soulbeast",
     "dps_report_url": "https://dps.report/wiqI-20250625-224908_golem",
-    "html_file_path": "dps\\condition\\condition-soulbeast.html"
+    "html_file_path": "dps\\condition\\condition_soulbeast.html"
   },
   {
     "name": "Power Reaper Greatsword Sword Sword",
@@ -756,7 +734,7 @@
     "build_type": "power",
     "url_name": "power-reaper-greatsword-sword-sword",
     "dps_report_url": "https://dps.report/Wb4b-20250816-083518_golem",
-    "html_file_path": "dps\\power\\power-reaper-greatsword-sword-sword.html"
+    "html_file_path": "dps\\power\\power_reaper_greatsword_sword_sword.html"
   },
   {
     "name": "Power Mechanist",
@@ -767,7 +745,7 @@
     "build_type": "power",
     "url_name": "power-mechanist",
     "dps_report_url": "https://dps.report/rDWx-20250422-165726_golem",
-    "html_file_path": "dps\\power\\power-mechanist.html"
+    "html_file_path": "dps\\power\\power_mechanist.html"
   },
   {
     "name": "Condition Thief Spear",
@@ -778,7 +756,7 @@
     "build_type": "condition",
     "url_name": "condition-thief-spear",
     "dps_report_url": "https://dps.report/utfh-20250421-151309_golem",
-    "html_file_path": "dps\\condition\\condition-thief-spear.html"
+    "html_file_path": "dps\\condition\\condition_thief_spear.html"
   },
   {
     "name": "Condition Virtuoso",
@@ -789,7 +767,7 @@
     "build_type": "condition",
     "url_name": "condition-virtuoso",
     "dps_report_url": "https://dps.report/Jnxp-20250211-205106_golem",
-    "html_file_path": "dps\\condition\\condition-virtuoso.html"
+    "html_file_path": "dps\\condition\\condition_virtuoso.html"
   },
   {
     "name": "Condition Scourge",
@@ -800,7 +778,7 @@
     "build_type": "condition",
     "url_name": "condition-scourge",
     "dps_report_url": "https://dps.report/LzVj-20231003-151324_golem",
-    "html_file_path": "dps\\condition\\condition-scourge.html"
+    "html_file_path": "dps\\condition\\condition_scourge.html"
   },
   {
     "name": "Condition Mechanist Kitless",
@@ -811,7 +789,7 @@
     "build_type": "condition",
     "url_name": "condition-mechanist-kitless",
     "dps_report_url": "https://dps.report/Ceo5-20250423-211218_golem",
-    "html_file_path": "dps\\condition\\condition-mechanist-kitless.html"
+    "html_file_path": "dps\\condition\\condition_mechanist_kitless.html"
   },
   {
     "name": "Power Warrior",
@@ -822,7 +800,7 @@
     "build_type": "power",
     "url_name": "power-warrior",
     "dps_report_url": "https://dps.report/32sv-20250218-155359_golem",
-    "html_file_path": "dps\\power\\power-warrior.html"
+    "html_file_path": "dps\\power\\power_warrior.html"
   },
   {
     "name": "Power Herald",
@@ -833,7 +811,7 @@
     "build_type": "power",
     "url_name": "power-herald",
     "dps_report_url": "https://dps.report/cEAa-20250211-232646_golem",
-    "html_file_path": "dps\\power\\power-herald.html"
+    "html_file_path": "dps\\power\\power_herald.html"
   },
   {
     "name": "Condition Quickness Scrapper",
@@ -844,7 +822,7 @@
     "build_type": "condition",
     "url_name": "condition-quickness-scrapper",
     "dps_report_url": "https://dps.report/sFjF-20251014-124731_golem",
-    "html_file_path": "quick\\condition\\condition-quickness-scrapper.html"
+    "html_file_path": "quick\\condition\\condition_quickness_scrapper.html"
   },
   {
     "name": "Power Quickness Deadeye Axe",
@@ -855,7 +833,7 @@
     "build_type": "power",
     "url_name": "power-quickness-deadeye-axe",
     "dps_report_url": "https://dps.report/fgLo-20240814-230123_golem",
-    "html_file_path": "quick\\power\\power-quickness-deadeye-axe.html"
+    "html_file_path": "quick\\power\\power_quickness_deadeye_axe.html"
   },
   {
     "name": "Power Quickness Catalyst Scepter Dagger Inferno",
@@ -866,7 +844,7 @@
     "build_type": "power",
     "url_name": "power-quickness-catalyst-scepter-dagger-inferno",
     "dps_report_url": "https://dps.report/guFV-20250702-160846_golem",
-    "html_file_path": "quick\\power\\power-quickness-catalyst-scepter-dagger-inferno.html"
+    "html_file_path": "quick\\power\\power_quickness_catalyst_scepter_dagger_inferno.html"
   },
   {
     "name": "Power Quickness Catalyst Scepter Dagger Pf",
@@ -877,7 +855,7 @@
     "build_type": "power",
     "url_name": "power-quickness-catalyst-scepter-dagger-pf",
     "dps_report_url": "https://dps.report/IBBk-20250702-181341_golem",
-    "html_file_path": "quick\\power\\power-quickness-catalyst-scepter-dagger-pf.html"
+    "html_file_path": "quick\\power\\power_quickness_catalyst_scepter_dagger_pf.html"
   },
   {
     "name": "Power Quickness Deadeye",
@@ -888,7 +866,7 @@
     "build_type": "power",
     "url_name": "power-quickness-deadeye",
     "dps_report_url": "https://dps.report/nW89-20250426-162330_golem",
-    "html_file_path": "quick\\power\\power-quickness-deadeye.html"
+    "html_file_path": "quick\\power\\power_quickness_deadeye.html"
   },
   {
     "name": "Condition Quickness Catalyst",
@@ -899,7 +877,7 @@
     "build_type": "condition",
     "url_name": "condition-quickness-catalyst",
     "dps_report_url": "https://dps.report/5hQt-20250717-212648_golem",
-    "html_file_path": "quick\\condition\\condition-quickness-catalyst.html"
+    "html_file_path": "quick\\condition\\condition_quickness_catalyst.html"
   },
   {
     "name": "Condition Quickness Firebrand",
@@ -910,7 +888,7 @@
     "build_type": "condition",
     "url_name": "condition-quickness-firebrand",
     "dps_report_url": "https://dps.report/PZz2-20250513-164740_golem",
-    "html_file_path": "quick\\condition\\condition-quickness-firebrand.html"
+    "html_file_path": "quick\\condition\\condition_quickness_firebrand.html"
   },
   {
     "name": "Power Quickness Catalyst Sword Dagger Pf",
@@ -921,7 +899,7 @@
     "build_type": "power",
     "url_name": "power-quickness-catalyst-sword-dagger-pf",
     "dps_report_url": "https://dps.report/zfva-20250427-211749_golem",
-    "html_file_path": "quick\\power\\power-quickness-catalyst-sword-dagger-pf.html"
+    "html_file_path": "quick\\power\\power_quickness_catalyst_sword_dagger_pf.html"
   },
   {
     "name": "Power Quickness Berserker",
@@ -932,7 +910,7 @@
     "build_type": "power",
     "url_name": "power-quickness-berserker",
     "dps_report_url": "https://dps.report/dc0H-20250629-161758_golem",
-    "html_file_path": "quick\\power\\power-quickness-berserker.html"
+    "html_file_path": "quick\\power\\power_quickness_berserker.html"
   },
   {
     "name": "Power Quickness Berserker Greatsword",
@@ -943,7 +921,7 @@
     "build_type": "power",
     "url_name": "power-quickness-berserker-greatsword",
     "dps_report_url": "https://dps.report/rVU2-20250626-220040_golem",
-    "html_file_path": "quick\\power\\power-quickness-berserker-greatsword.html"
+    "html_file_path": "quick\\power\\power_quickness_berserker_greatsword.html"
   },
   {
     "name": "Power Quickness Deadeye Dagger",
@@ -954,7 +932,7 @@
     "build_type": "power",
     "url_name": "power-quickness-deadeye-dagger",
     "dps_report_url": "https://dps.report/Adnb-20250223-130211_golem",
-    "html_file_path": "quick\\power\\power-quickness-deadeye-dagger.html"
+    "html_file_path": "quick\\power\\power_quickness_deadeye_dagger.html"
   },
   {
     "name": "Condition Quickness Deadeye",
@@ -965,7 +943,7 @@
     "build_type": "condition",
     "url_name": "condition-quickness-deadeye",
     "dps_report_url": "https://dps.report/WwTh-20250712-001920_golem",
-    "html_file_path": "quick\\condition\\condition-quickness-deadeye.html"
+    "html_file_path": "quick\\condition\\condition_quickness_deadeye.html"
   },
   {
     "name": "Power Quickness Deadeye Rifle",
@@ -976,7 +954,7 @@
     "build_type": "power",
     "url_name": "power-quickness-deadeye-rifle",
     "dps_report_url": "https://dps.report/EooP-20250904-002822_golem",
-    "html_file_path": "quick\\power\\power-quickness-deadeye-rifle.html"
+    "html_file_path": "quick\\power\\power_quickness_deadeye_rifle.html"
   },
   {
     "name": "Power Quickness Harbinger",
@@ -987,7 +965,7 @@
     "build_type": "power",
     "url_name": "power-quickness-harbinger",
     "dps_report_url": "https://dps.report/BCeZ-20240822-094804_golem",
-    "html_file_path": "quick\\power\\power-quickness-harbinger.html"
+    "html_file_path": "quick\\power\\power_quickness_harbinger.html"
   },
   {
     "name": "Condition Quickness Untamed",
@@ -998,7 +976,7 @@
     "build_type": "condition",
     "url_name": "condition-quickness-untamed",
     "dps_report_url": "https://dps.report/9Au7-20250425-170634_golem",
-    "html_file_path": "quick\\condition\\condition-quickness-untamed.html"
+    "html_file_path": "quick\\condition\\condition_quickness_untamed.html"
   },
   {
     "name": "Condition Quickness Catalyst Pistol Warhorn",
@@ -1009,7 +987,7 @@
     "build_type": "condition",
     "url_name": "condition-quickness-catalyst-pistol-warhorn",
     "dps_report_url": "https://dps.report/Y4GP-20250811-220229_golem",
-    "html_file_path": "quick\\condition\\condition-quickness-catalyst-pistol-warhorn.html"
+    "html_file_path": "quick\\condition\\condition_quickness_catalyst_pistol_warhorn.html"
   },
   {
     "name": "Power Quickness Untamed Offhand Mace",
@@ -1020,7 +998,7 @@
     "build_type": "power",
     "url_name": "power-quickness-untamed-offhand-mace",
     "dps_report_url": "https://dps.report/RpVr-20250519-121123_golem",
-    "html_file_path": "quick\\power\\power-quickness-untamed-offhand-mace.html"
+    "html_file_path": "quick\\power\\power_quickness_untamed_offhand_mace.html"
   },
   {
     "name": "Power Quickness Untamed",
@@ -1031,7 +1009,7 @@
     "build_type": "power",
     "url_name": "power-quickness-untamed",
     "dps_report_url": "https://dps.report/kIwI-20250519-113617_golem",
-    "html_file_path": "quick\\power\\power-quickness-untamed.html"
+    "html_file_path": "quick\\power\\power_quickness_untamed.html"
   },
   {
     "name": "Condition Quickness Harbinger",
@@ -1042,7 +1020,7 @@
     "build_type": "condition",
     "url_name": "condition-quickness-harbinger",
     "dps_report_url": "https://dps.report/9GSF-20231002-152522_golem",
-    "html_file_path": "quick\\condition\\condition-quickness-harbinger.html"
+    "html_file_path": "quick\\condition\\condition_quickness_harbinger.html"
   },
   {
     "name": "Power Quickness Scrapper",
@@ -1053,7 +1031,7 @@
     "build_type": "power",
     "url_name": "power-quickness-scrapper",
     "dps_report_url": "https://dps.report/gLsC-20250702-211726_golem",
-    "html_file_path": "quick\\power\\power-quickness-scrapper.html"
+    "html_file_path": "quick\\power\\power_quickness_scrapper.html"
   },
   {
     "name": "Condition Quickness Deadeye Scepter",
@@ -1064,7 +1042,7 @@
     "build_type": "condition",
     "url_name": "condition-quickness-deadeye-scepter",
     "dps_report_url": "https://dps.report/nCym-20250711-230722_golem",
-    "html_file_path": "quick\\condition\\condition-quickness-deadeye-scepter.html"
+    "html_file_path": "quick\\condition\\condition_quickness_deadeye_scepter.html"
   },
   {
     "name": "Condition Boon Chronomancer",
@@ -1075,7 +1053,7 @@
     "build_type": "condition",
     "url_name": "condition-boon-chronomancer",
     "dps_report_url": "https://dps.report/Qv1n-20250510-031308_golem",
-    "html_file_path": "quick\\condition\\condition-boon-chronomancer.html"
+    "html_file_path": "quick\\condition\\condition_boon_chronomancer.html"
   },
   {
     "name": "Power Boon Chronomancer",
@@ -1086,7 +1064,7 @@
     "build_type": "power",
     "url_name": "power-boon-chronomancer",
     "dps_report_url": "https://dps.report/6B5I-20250729-231513_golem",
-    "html_file_path": "quick\\power\\power-boon-chronomancer.html"
+    "html_file_path": "quick\\power\\power_boon_chronomancer.html"
   },
   {
     "name": "Power Quickness Untamed Maces",
@@ -1097,7 +1075,7 @@
     "build_type": "power",
     "url_name": "power-quickness-untamed-maces",
     "dps_report_url": "https://dps.report/rCvQ-20250426-155517_golem",
-    "html_file_path": "quick\\power\\power-quickness-untamed-maces.html"
+    "html_file_path": "quick\\power\\power_quickness_untamed_maces.html"
   },
   {
     "name": "Condition Quickness Herald",
@@ -1108,7 +1086,7 @@
     "build_type": "condition",
     "url_name": "condition-quickness-herald",
     "dps_report_url": "https://dps.report/ErCv-20250216-134453_golem",
-    "html_file_path": "quick\\condition\\condition-quickness-herald.html"
+    "html_file_path": "quick\\condition\\condition_quickness_herald.html"
   },
   {
     "name": "Condition Quickness Herald Shortbow",
@@ -1119,7 +1097,7 @@
     "build_type": "condition",
     "url_name": "condition-quickness-herald-shortbow",
     "dps_report_url": "https://dps.report/e0xk-20250216-203504_golem",
-    "html_file_path": "quick\\condition\\condition-quickness-herald-shortbow.html"
+    "html_file_path": "quick\\condition\\condition_quickness_herald_shortbow.html"
   },
   {
     "name": "Condition Quickness Herald Spear",
@@ -1130,7 +1108,7 @@
     "build_type": "condition",
     "url_name": "condition-quickness-herald-spear",
     "dps_report_url": "https://dps.report/DJD7-20250212-150821_golem",
-    "html_file_path": "quick\\condition\\condition-quickness-herald-spear.html"
+    "html_file_path": "quick\\condition\\condition_quickness_herald_spear.html"
   },
   {
     "name": "Power Quickness Herald",
@@ -1141,7 +1119,7 @@
     "build_type": "power",
     "url_name": "power-quickness-herald",
     "dps_report_url": "https://dps.report/b5fG-20250214-121250_golem",
-    "html_file_path": "quick\\power\\power-quickness-herald.html"
+    "html_file_path": "quick\\power\\power_quickness_herald.html"
   },
   {
     "name": "Power Quickness Herald Sword",
@@ -1152,7 +1130,7 @@
     "build_type": "power",
     "url_name": "power-quickness-herald-sword",
     "dps_report_url": "https://dps.report/RBcU-20250211-234906_golem",
-    "html_file_path": "quick\\power\\power-quickness-herald-sword.html"
+    "html_file_path": "quick\\power\\power_quickness_herald_sword.html"
   },
   {
     "name": "Power Alacrity Bladesworn Overcharged",
@@ -1163,7 +1141,7 @@
     "build_type": "power",
     "url_name": "power-alacrity-bladesworn-overcharged",
     "dps_report_url": "https://b.dps.report/JvTL-20250827-204709_golem",
-    "html_file_path": "alac\\power\\power-alacrity-bladesworn-overcharged.html"
+    "html_file_path": "alac\\power\\power_alacrity_bladesworn_overcharged.html"
   },
   {
     "name": "Condition Alacrity Mechanist",
@@ -1174,7 +1152,7 @@
     "build_type": "condition",
     "url_name": "condition-alacrity-mechanist",
     "dps_report_url": "https://dps.report/blVV-20250802-142134_golem",
-    "html_file_path": "alac\\condition\\condition-alacrity-mechanist.html"
+    "html_file_path": "alac\\condition\\condition_alacrity_mechanist.html"
   },
   {
     "name": "Condition Alacrity Spectre Spear",
@@ -1185,7 +1163,7 @@
     "build_type": "condition",
     "url_name": "condition-alacrity-spectre-spear",
     "dps_report_url": "https://dps.report/YTx6-20250925-231711_golem",
-    "html_file_path": "alac\\condition\\condition-alacrity-spectre-spear.html"
+    "html_file_path": "alac\\condition\\condition_alacrity_spectre_spear.html"
   },
   {
     "name": "Condition Alacrity Renegade",
@@ -1196,7 +1174,7 @@
     "build_type": "condition",
     "url_name": "condition-alacrity-renegade",
     "dps_report_url": "https://dps.report/aZsY-20241029-155240_golem",
-    "html_file_path": "alac\\condition\\condition-alacrity-renegade.html"
+    "html_file_path": "alac\\condition\\condition_alacrity_renegade.html"
   },
   {
     "name": "Power Alacrity Tempest Inferno Scepter Focus",
@@ -1207,7 +1185,7 @@
     "build_type": "power",
     "url_name": "power-alacrity-tempest-inferno-scepter-focus",
     "dps_report_url": "https://dps.report/sPgQ-20250701-183253_golem",
-    "html_file_path": "alac\\power\\power-alacrity-tempest-inferno-scepter-focus.html"
+    "html_file_path": "alac\\power\\power_alacrity_tempest_inferno_scepter_focus.html"
   },
   {
     "name": "Condition Alacrity Spectre",
@@ -1218,7 +1196,7 @@
     "build_type": "condition",
     "url_name": "condition-alacrity-spectre",
     "dps_report_url": "https://dps.report/e3gK-20250830-145722_golem",
-    "html_file_path": "alac\\condition\\condition-alacrity-spectre.html"
+    "html_file_path": "alac\\condition\\condition_alacrity_spectre.html"
   },
   {
     "name": "Power Alacrity Bladesworn",
@@ -1229,7 +1207,7 @@
     "build_type": "power",
     "url_name": "power-alacrity-bladesworn",
     "dps_report_url": "https://b.dps.report/Tm53-20250629-002028_golem",
-    "html_file_path": "alac\\power\\power-alacrity-bladesworn.html"
+    "html_file_path": "alac\\power\\power_alacrity_bladesworn.html"
   },
   {
     "name": "Condition Alacrity Spectre Scepter",
@@ -1240,7 +1218,7 @@
     "build_type": "condition",
     "url_name": "condition-alacrity-spectre-scepter",
     "dps_report_url": "https://dps.report/YFvl-20250830-112530_golem",
-    "html_file_path": "alac\\condition\\condition-alacrity-spectre-scepter.html"
+    "html_file_path": "alac\\condition\\condition_alacrity_spectre_scepter.html"
   },
   {
     "name": "Condition Alacrity Mirage Staff",
@@ -1251,7 +1229,7 @@
     "build_type": "condition",
     "url_name": "condition-alacrity-mirage-staff",
     "dps_report_url": "https://dps.report/F2vf-20250422-202359_golem",
-    "html_file_path": "alac\\condition\\condition-alacrity-mirage-staff.html"
+    "html_file_path": "alac\\condition\\condition_alacrity_mirage_staff.html"
   },
   {
     "name": "Condition Boon Chronomancer",
@@ -1262,7 +1240,7 @@
     "build_type": "condition",
     "url_name": "condition-boon-chronomancer",
     "dps_report_url": "https://dps.report/Qv1n-20250510-031308_golem",
-    "html_file_path": "alac\\condition\\condition-boon-chronomancer.html"
+    "html_file_path": "alac\\condition\\condition_boon_chronomancer.html"
   },
   {
     "name": "Condition Alacrity Tempest",
@@ -1273,7 +1251,7 @@
     "build_type": "condition",
     "url_name": "condition-alacrity-tempest",
     "dps_report_url": "https://dps.report/ToYQ-20240320-030855_golem",
-    "html_file_path": "alac\\condition\\condition-alacrity-tempest.html"
+    "html_file_path": "alac\\condition\\condition_alacrity_tempest.html"
   },
   {
     "name": "Power Boon Chronomancer",
@@ -1284,7 +1262,7 @@
     "build_type": "power",
     "url_name": "power-boon-chronomancer",
     "dps_report_url": "https://dps.report/6B5I-20250729-231513_golem",
-    "html_file_path": "alac\\power\\power-boon-chronomancer.html"
+    "html_file_path": "alac\\power\\power_boon_chronomancer.html"
   },
   {
     "name": "Condition Alacrity Tempest Scepter",
@@ -1295,7 +1273,7 @@
     "build_type": "condition",
     "url_name": "condition-alacrity-tempest-scepter",
     "dps_report_url": "https://dps.report/Pl75-20250221-180332_golem",
-    "html_file_path": "alac\\condition\\condition-alacrity-tempest-scepter.html"
+    "html_file_path": "alac\\condition\\condition_alacrity_tempest_scepter.html"
   },
   {
     "name": "Power Alacrity Tempest Hammer",
@@ -1306,7 +1284,7 @@
     "build_type": "power",
     "url_name": "power-alacrity-tempest-hammer",
     "dps_report_url": "https://dps.report/L6zb-20250313-171138_golem",
-    "html_file_path": "alac\\power\\power-alacrity-tempest-hammer.html"
+    "html_file_path": "alac\\power\\power_alacrity_tempest_hammer.html"
   },
   {
     "name": "Power Alacrity Mechanist Sword",
@@ -1317,7 +1295,7 @@
     "build_type": "power",
     "url_name": "power-alacrity-mechanist-sword",
     "dps_report_url": "https://dps.report/LqfX-20250422-192815_golem",
-    "html_file_path": "alac\\power\\power-alacrity-mechanist-sword.html"
+    "html_file_path": "alac\\power\\power_alacrity_mechanist_sword.html"
   },
   {
     "name": "Condition Alacrity Mechanist 1 Kit",
@@ -1328,7 +1306,7 @@
     "build_type": "condition",
     "url_name": "condition-alacrity-mechanist-1-kit",
     "dps_report_url": "https://dps.report/n4qX-20250423-160558_golem",
-    "html_file_path": "alac\\condition\\condition-alacrity-mechanist-1-kit.html"
+    "html_file_path": "alac\\condition\\condition_alacrity_mechanist_1_kit.html"
   },
   {
     "name": "Power Alacrity Mechanist",
@@ -1339,7 +1317,7 @@
     "build_type": "power",
     "url_name": "power-alacrity-mechanist",
     "dps_report_url": "https://dps.report/2wD3-20250422-190557_golem",
-    "html_file_path": "alac\\power\\power-alacrity-mechanist.html"
+    "html_file_path": "alac\\power\\power_alacrity_mechanist.html"
   },
   {
     "name": "Power Alacrity Tempest",
@@ -1350,7 +1328,7 @@
     "build_type": "power",
     "url_name": "power-alacrity-tempest",
     "dps_report_url": "https://dps.report/G5ap-20250211-205455_golem",
-    "html_file_path": "alac\\power\\power-alacrity-tempest.html"
+    "html_file_path": "alac\\power\\power_alacrity_tempest.html"
   },
   {
     "name": "Power Alacrity Renegade",
@@ -1361,7 +1339,7 @@
     "build_type": "power",
     "url_name": "power-alacrity-renegade",
     "dps_report_url": "https://dps.report/3hSA-20250215-132703_golem",
-    "html_file_path": "alac\\power\\power-alacrity-renegade.html"
+    "html_file_path": "alac\\power\\power_alacrity_renegade.html"
   },
   {
     "name": "Condition Alacrity Scourge",
@@ -1372,7 +1350,7 @@
     "build_type": "condition",
     "url_name": "condition-alacrity-scourge",
     "dps_report_url": "https://dps.report/2bvf-20231014-100953_golem",
-    "html_file_path": "alac\\condition\\condition-alacrity-scourge.html"
+    "html_file_path": "alac\\condition\\condition_alacrity_scourge.html"
   },
   {
     "name": "Celestial Alacrity Scourge",
@@ -1383,6 +1361,6 @@
     "build_type": "power",
     "url_name": "celestial-alacrity-scourge",
     "dps_report_url": "https://dps.report/xICN-20250628-071219_golem",
-    "html_file_path": "alac\\power\\celestial-alacrity-scourge.html"
+    "html_file_path": "alac\\power\\celestial_alacrity_scourge.html"
   }
 ]

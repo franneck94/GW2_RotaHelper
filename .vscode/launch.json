@@ -8,7 +8,7 @@
             "processId": "${command:pickProcess}"
         },
         {
-            "name": "Debug: Get Benches V4",
+            "name": "Debug: html_log_to_json",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/scripts/html_log_to_json.py",
@@ -18,7 +18,7 @@
             "justMyCode": false
         },
         {
-            "name": "Debug: Visit Benches",
+            "name": "Debug: get_html_logs",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/scripts/get_html_logs.py",
@@ -28,7 +28,7 @@
             "justMyCode": false
         },
         {
-            "name": "Debug: Get Skills List",
+            "name": "Debug: fetch_gw2_skills",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/scripts/fetch_gw2_skills.py",
@@ -36,6 +36,5 @@
             "cwd": "${workspaceFolder}",
             "justMyCode": false
         },
-
     ]
 }

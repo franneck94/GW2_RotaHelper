@@ -16,7 +16,7 @@ from typing import Dict, Any, Tuple
 
 
 def setup_logging():
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+    logging.basicConfig(level=logging.DEBUG, format="%(levelname)s: %(message)s")
 
 
 class HTMLRotationExtractor:
@@ -74,39 +74,60 @@ class HTMLRotationExtractor:
                     metadata_dict[name_as_filename + '.html'] = build_info
 
             self.logger.info(f"Loaded metadata for {len(metadata_list)} builds with {len(metadata_dict)} lookup keys")
-            
-            return metadata_dict        except Exception as e:
+
+            # Debug: show some sample keys
+            sample_keys = list(metadata_dict.keys())[:10]
+            self.logger.debug(f"Sample metadata keys: {sample_keys}")
+
+            return metadata_dict
+
+        except Exception as e:
             self.logger.error(f"Error loading build metadata: {e}")
             return {}
 
     def _get_build_metadata_for_file(self, html_file: Path) -> Dict[str, Any]:
         """Get build metadata for a specific HTML file"""
+        # Debug logging
+        self.logger.debug(f"Looking for metadata for file: {html_file}")
+
         # Try to find metadata by relative path
         try:
             relative_path = html_file.relative_to(self.input_dir)
             relative_path_str = str(relative_path).replace('\\', '/')
-            
+
+            self.logger.debug(f"Trying relative path: {relative_path_str}")
             if relative_path_str in self.build_metadata:
+                self.logger.debug(f"Found metadata by relative path: {relative_path_str}")
                 return self.build_metadata[relative_path_str]
         except ValueError:
             pass  # File is not relative to input_dir
 
         # Try to find by filename
         filename = html_file.name
+        self.logger.debug(f"Trying filename: {filename}")
         if filename in self.build_metadata:
+            self.logger.debug(f"Found metadata by filename: {filename}")
             return self.build_metadata[filename]
 
         # Try to find by stem (filename without extension)
         stem_html = html_file.stem + '.html'
+        self.logger.debug(f"Trying stem + .html: {stem_html}")
         if stem_html in self.build_metadata:
+            self.logger.debug(f"Found metadata by stem: {stem_html}")
             return self.build_metadata[stem_html]
-        
+
         # Try to find by just the stem (url_name without .html)
         stem = html_file.stem
+        self.logger.debug(f"Trying stem: {stem}")
         if stem in self.build_metadata:
+            self.logger.debug(f"Found metadata by stem: {stem}")
             return self.build_metadata[stem]
-        
+
+        # Show available keys for debugging
+        self.logger.debug(f"Available metadata keys: {list(self.build_metadata.keys())[:5]}...")
+
         # Return empty dict if no metadata found
+        self.logger.debug(f"No metadata found for {html_file.name}")
         return {}
 
     def _parse_skill_tooltip(self, tooltip: str) -> Tuple[str, float, float]:

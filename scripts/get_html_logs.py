@@ -245,23 +245,6 @@ class SnowCrowsScraper:
             "build_type": build_type
         }
 
-    def _extract_build_name_from_url(self, url_name: str) -> tuple[str, bool]:
-        """Extract and format build name from SnowCrows URL path"""
-        try:
-            self.logger.info(f"Processing SnowCrows URL name: {url_name}")
-            is_condition = url_name.startswith("condition")
-            build_name = url_name.replace("-", "_")
-            self.logger.info(
-                f"Extracted build name from URL: {build_name} (type: {'condition' if is_condition else 'power'})"
-            )
-            return build_name, is_condition
-
-        except Exception as e:
-            self.logger.warning(
-                f"Could not extract build name from SnowCrows URL '{url_name}': {e}"
-            )
-            return "unknown_build", False
-
     def _get_cache_remainder(self, cache_url: str, cache_prefix: str) -> str:
         """Helper method to get remainder after cache prefix"""
         return cache_url[len(cache_prefix) :]
@@ -312,111 +295,6 @@ class SnowCrowsScraper:
             "Processed HTML content: replaced cache URLs with proper image URLs"
         )
         return processed_content
-
-    def download_snowcrows_build(
-        self, build_name: str, url: str, benchmark_type: str = "dps"
-    ) -> bool:
-        """Download HTML content from DPS report found on SnowCrows build page"""
-        try:
-            self.logger.info(f"Processing {build_name}: {url}")
-
-            if self.driver is None:
-                self._setup_webdriver()
-
-            self.driver.get(url)  # type: ignore
-            WebDriverWait(self.driver, 10).until(  # type: ignore
-                EC.presence_of_element_located((By.TAG_NAME, "body"))
-            )
-            time.sleep(SLEEP_DELAY)
-
-            try:
-                self.logger.info("Looking for DPS report link...")
-                dps_report_link = WebDriverWait(self.driver, 10).until(  # type: ignore
-                    EC.element_to_be_clickable(
-                        (By.XPATH, "//a[contains(@href, 'dps.report')]")
-                    )
-                )
-
-                dps_report_url = dps_report_link.get_attribute("href")
-                self.logger.info(f"Found DPS report URL: {dps_report_url}")
-                self.driver.get(dps_report_url)  # type: ignore
-                WebDriverWait(self.driver, 10).until(  # type: ignore
-                    EC.presence_of_element_located((By.TAG_NAME, "body"))
-                )
-                try:
-                    self.logger.info("Looking for Player Summary tab...")
-                    player_summary_link = WebDriverWait(self.driver, 10).until(  # type: ignore
-                        EC.element_to_be_clickable(
-                            (
-                                By.XPATH,
-                                "//a[@class='nav-link' and contains(text(), 'Player Summary')]",
-                            )
-                        )
-                    )
-                    player_summary_link.click()
-                    self.logger.info("Clicked Player Summary tab")
-
-                    time.sleep(SLEEP_DELAY)
-
-                    self.logger.info("Looking for Simple Rotation tab...")
-                    rotation_link = WebDriverWait(self.driver, 10).until(  # type: ignore
-                        EC.element_to_be_clickable(
-                            (
-                                By.XPATH,
-                                "//a[@class='nav-link' and contains(., 'Simple') and contains(., 'Rotation')]",
-                            )
-                        )
-                    )
-                    rotation_link.click()
-                    self.logger.info("Clicked Simple Rotation tab")
-
-                    time.sleep(SLEEP_DELAY)
-
-                except TimeoutException:
-                    self.logger.warning(
-                        f"Could not find navigation elements for {build_name}, saving current page content"
-                    )
-
-                html_content = self.driver.page_source  # type: ignore
-                html_content = self._process_html_content(html_content)
-
-            except TimeoutException:
-                self.logger.warning(
-                    f"Could not find DPS report link on {url}, skipping..."
-                )
-                return False
-
-            # Extract the actual build name from the URL path
-            url_parts = url.split("/")
-            if len(url_parts) >= 1:
-                url_build_name = url_parts[-1]  # Last part of URL
-                actual_build_name, is_condition = self._extract_build_name_from_url(
-                    url_build_name
-                )
-            else:
-                actual_build_name, is_condition = "unknown_build", False
-
-            # Determine build type and create appropriate subdirectory
-            build_type = "condition" if is_condition else "power"
-            build_subdir = self.output_dir / benchmark_type / build_type
-            build_subdir.mkdir(parents=True, exist_ok=True)
-
-            # Generate filename from the extracted build name
-            filename = self._sanitize_build_name(actual_build_name)
-            file_path = build_subdir / filename
-
-            # Save HTML content
-            with open(file_path, "w", encoding="utf-8") as f:
-                f.write(html_content)
-
-            self.logger.info(
-                f"Saved: {benchmark_type}/{build_type}/{filename} (extracted from SnowCrows URL)"
-            )
-            return True
-
-        except Exception as e:
-            self.logger.error(f"Error downloading {build_name} from {url}: {e}")
-            return False
 
     def download_snowcrows_build_with_metadata(self, build_info: dict) -> bool:
         """Download HTML content and store with metadata"""
@@ -502,8 +380,9 @@ class SnowCrowsScraper:
             build_subdir = self.output_dir / benchmark_type / build_info["build_type"]
             build_subdir.mkdir(parents=True, exist_ok=True)
 
-            # Generate filename from the build info
-            filename = self._sanitize_build_name(build_info["url_name"])
+            # Generate filename from the build info, converting hyphens to underscores
+            url_name_with_underscores = build_info["url_name"].replace("-", "_")
+            filename = self._sanitize_build_name(url_name_with_underscores)
             file_path = build_subdir / filename
 
             # Save HTML content
