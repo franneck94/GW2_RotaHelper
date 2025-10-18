@@ -361,7 +361,56 @@ SkillDataMap get_skill_data(const nlohmann::json &j)
     return skill_data_map;
 }
 
-std::tuple<SkillInfoMap, RotationInfoVec> get_dpsreport_data(
+MetaData get_metadata(const nlohmann::json &j)
+{
+    auto metadata = MetaData{};
+
+    const auto &build_meta = j["buildMetadata"];
+
+    if (build_meta.contains("name") && build_meta["name"].is_string())
+        metadata.name = build_meta["name"].get<std::string>();
+
+    if (build_meta.contains("url") && build_meta["url"].is_string())
+        metadata.url = build_meta["url"].get<std::string>();
+
+    if (build_meta.contains("benchmark_type") &&
+        build_meta["benchmark_type"].is_string())
+        metadata.benchmark_type =
+            build_meta["benchmark_type"].get<std::string>();
+
+    if (build_meta.contains("profession") &&
+        build_meta["profession"].is_string())
+        metadata.profession = build_meta["profession"].get<std::string>();
+
+    if (build_meta.contains("elite_spec") &&
+        build_meta["elite_spec"].is_string())
+        metadata.elite_spec = build_meta["elite_spec"].get<std::string>();
+
+    if (build_meta.contains("build_type") &&
+        build_meta["build_type"].is_string())
+        metadata.build_type = build_meta["build_type"].get<std::string>();
+
+    if (build_meta.contains("url_name") &&
+        build_meta["url_name"].is_string())
+        metadata.url_name = build_meta["url_name"].get<std::string>();
+
+    if (build_meta.contains("dps_report_url") &&
+        build_meta["dps_report_url"].is_string())
+        metadata.dps_report_url =
+            build_meta["dps_report_url"].get<std::string>();
+
+    if (build_meta.contains("html_file_path") &&
+        build_meta["html_file_path"].is_string())
+        metadata.html_file_path =
+            build_meta["html_file_path"].get<std::string>();
+
+    metadata.elite_spec_id = string_to_elite_spec(metadata.elite_spec);
+    metadata.profession_id = string_to_profession(metadata.profession);
+
+    return metadata;
+}
+
+std::tuple<SkillInfoMap, RotationInfoVec, MetaData> get_dpsreport_data(
     const nlohmann::json &j,
     const std::filesystem::path &json_path,
     const SkillDataMap &skill_data_map,
@@ -384,7 +433,9 @@ std::tuple<SkillInfoMap, RotationInfoVec> get_dpsreport_data(
                       skill_data_map,
                       skills_to_filter);
 
-    return std::make_tuple(skill_info_map, rotation_info_vec);
+    auto metadata = get_metadata(j);
+
+    return std::make_tuple(skill_info_map, rotation_info_vec, metadata);
 }
 
 bool DownloadFileFromURL(const std::string &url,
@@ -522,11 +573,12 @@ void RotationRun::load_data(const std::filesystem::path &json_path,
     file2 >> j2;
 
     skill_data = get_skill_data(j2);
-    auto [_skill_info_map, _bench_rotation_vector] =
+    auto [_skill_info_map, _bench_rotation_vector, _meta_data] =
         get_dpsreport_data(j, json_path, skill_data, skills_to_filter);
 
     skill_info_map = _skill_info_map;
     rotation_vector = _bench_rotation_vector;
+    meta_data = _meta_data;
 
     restart_rotation();
 
@@ -594,4 +646,5 @@ void RotationRun::reset_rotation()
     rotation_vector.clear();
     bench_rotation_list.clear();
     skill_data.clear();
+    meta_data = MetaData{};
 }
