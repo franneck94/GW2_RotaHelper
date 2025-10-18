@@ -41,17 +41,27 @@ public:
     MetaData meta_data;
 
     std::set<std::string> skills_to_filter = {
+        // Always Filter
         "Bloodstone Fervor",
         "Blutstein",
         "Waffen Wechsel",
-        "Attunement",
         "Weapon Swap",
-        "Detonate",
-        "Approaching Doom",
         "Relic of",
         "Relikt des",
+        "Mushroom King",
+        // Maybe add Logic
+        "Attunement",
+        "Detonate",
+        "Approaching Doom",
         " Kit",
         "Bladesong Distortion",
         "Distortion",
+        "Ranger Pet",
+        "Mirage Cloak",
+        "Dodge",
+        "Chapter 1:",
+        "Chapter 2:",
+        "Chapter 3:",
+        "Chapter 4:",
     };
 };
