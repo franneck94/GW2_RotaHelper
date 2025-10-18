@@ -684,16 +684,24 @@ void Render::render(ID3D11Device *pd3dDevice)
     {
         select_bench();
 
-        ImGui::Checkbox("Names", &Settings::ShowSkillName);
+        if (ImGui::Checkbox("Names", &Settings::ShowSkillName))
+            Settings::Save(SettingsPath);
+
         ImGui::SameLine();
-        ImGui::Checkbox("Times", &Settings::ShowSkillTime);
+
+        if (ImGui::Checkbox("Times", &Settings::ShowSkillTime))
+            Settings::Save(SettingsPath);
+
         ImGui::SameLine();
+
         if (ImGui::Checkbox("Horizontal", &Settings::HorizontalSkillLayout))
         {
             if (Settings::HorizontalSkillLayout)
                 SKILL_ICON_SIZE = 64.0F;
             else
                 SKILL_ICON_SIZE = 28.0F;
+
+            Settings::Save(SettingsPath);
         }
     }
     ImGui::End();
