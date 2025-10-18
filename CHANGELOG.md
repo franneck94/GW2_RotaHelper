@@ -5,9 +5,13 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## 0.3.0 - 2025-10-19
 
-- NA
+### Features
+
+### Improvements
+
+- Integrated GW2 API data for profession and elite specialization IDs to prevent unnecessary event logging
 
 ## 0.2.0 - 2025-10-17
 
