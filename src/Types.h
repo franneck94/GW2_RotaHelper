@@ -82,6 +82,7 @@ struct RotationInfo
     float cast_time;
     float duration_ms;
     std::string skill_name;
+    bool is_auto_attack;
 };
 
 using RotationInfoVec = std::vector<RotationInfo>;
