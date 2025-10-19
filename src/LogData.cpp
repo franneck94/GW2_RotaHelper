@@ -108,7 +108,7 @@ std::string convert_cache_url(const std::string &cache_url)
                              ? icon_id_with_ext.substr(0, dot_pos)
                              : icon_id_with_ext;
 
-    return "https://Globals::Render.guildwars2.com/file/" + hash + "/" + icon_id +
+    return "https://render.guildwars2.com/file/" + hash + "/" + icon_id +
            ".png";
 }
 

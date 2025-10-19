@@ -196,7 +196,7 @@ void AddonRender()
         return;
 
     Globals::Render.toggle_vis(Settings::ShowWindow);
-    Globals::Render.Globals::Render(pd3dDevice);
+    Globals::Render.render(pd3dDevice);
 }
 
 void AddonOptions()
