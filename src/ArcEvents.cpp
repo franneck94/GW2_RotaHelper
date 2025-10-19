@@ -262,6 +262,22 @@ bool OnCombat(const char *channel,
                 LogEvCombatDataPersistentCSV(data, "NotSameCast");
 #endif
 
+#ifdef _DEBUG
+                // Check if skill is not an auto attack (for debugging)
+                const auto &skill_data = rotation_run.skill_data;
+                auto is_auto_attack = false;
+                const auto skill_it = skill_data.find(data.SkillID);
+                if (skill_it != skill_data.end())
+                {
+                    is_auto_attack = skill_it->second.is_auto_attack;
+                }
+#endif
+
+                if (!is_auto_attack)
+                {
+                    int i = 0;
+                }
+
                 render.skill_activation_callback(true, data);
 
                 return true;
