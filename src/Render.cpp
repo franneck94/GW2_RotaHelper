@@ -781,7 +781,7 @@ void Render::rotation_render_details(ID3D11Device *pd3dDevice)
         if (is_current && !is_last)
             DrawRect(skill_info, text);
         else if (is_last)
-            DrawRect(skill_info, text, IM_COL32(255, 0, 0, 255));
+            DrawRect(skill_info, text, IM_COL32(128, 0, 128, 255));
         else if (skill_info.is_auto_attack)
             DrawRect(skill_info, text, IM_COL32(255, 165, 0, 255));
 
@@ -846,7 +846,7 @@ void Render::rotation_render_horizontal(ID3D11Device *pd3dDevice)
         if (is_current && !is_last)
             DrawRect(skill_info, "");
         else if (is_last)
-            DrawRect(skill_info, "", IM_COL32(255, 0, 0, 255));
+            DrawRect(skill_info, "", IM_COL32(128, 0, 128, 255)); // Purple for last skill
         else if (skill_info.is_auto_attack)
             DrawRect(skill_info, "", IM_COL32(255, 165, 0, 255));
 
