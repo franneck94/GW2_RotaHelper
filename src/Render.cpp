@@ -159,12 +159,19 @@ void SimpleSkillDetectionLogic(RotationRun &rotation_run,
 
     auto match_current = (curr_rota_skill.skill_name == skill_ev.SkillName);
     auto match_next = (next_rota_skill.skill_name == skill_ev.SkillName);
+
+    const auto next_next_is_okay = (next_next_rota_skill.is_special_skill ||
+                                    !next_next_rota_skill.is_auto_attack);
     auto match_next_next =
-        (next_next_rota_skill.skill_name == skill_ev.SkillName) &&
-        !next_next_rota_skill.is_auto_attack;
+        ((next_next_rota_skill.skill_name == skill_ev.SkillName) &&
+         next_next_is_okay);
+
+    const auto next_next_next_is_okay =
+        (next_next_rota_skill.is_special_skill ||
+         !next_next_next_rota_skill.is_auto_attack);
     auto match_next_next_next =
-        (next_next_next_rota_skill.skill_name == skill_ev.SkillName) &&
-        !next_next_next_rota_skill.is_auto_attack;
+        ((next_next_next_rota_skill.skill_name == skill_ev.SkillName) &&
+         next_next_next_is_okay);
 
     if (curr_rota_skill.skill_name.find(" / ") != std::string::npos)
     {
@@ -773,12 +780,22 @@ void Render::rotation_render_details(ID3D11Device *pd3dDevice)
 
         if (is_current && !is_last)
             DrawRect(skill_info, text);
-        if (is_last)
+        else if (is_last)
             DrawRect(skill_info, text, IM_COL32(255, 0, 0, 255));
+        else if (skill_info.is_auto_attack)
+            DrawRect(skill_info, text, IM_COL32(255, 165, 0, 255));
 
         if (texture && pd3dDevice)
+        {
+            auto tint_color = skill_info.is_special_skill
+                                  ? ImVec4(0.5f, 0.5f, 0.5f, 1.0f)
+                                  : ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
             ImGui::Image((ImTextureID)texture,
-                         ImVec2(SKILL_ICON_SIZE, SKILL_ICON_SIZE));
+                         ImVec2(SKILL_ICON_SIZE, SKILL_ICON_SIZE),
+                         ImVec2(0, 0),
+                         ImVec2(1, 1),
+                         tint_color);
+        }
         else
             ImGui::Dummy(ImVec2(SKILL_ICON_SIZE, SKILL_ICON_SIZE));
 
@@ -828,12 +845,22 @@ void Render::rotation_render_horizontal(ID3D11Device *pd3dDevice)
 
         if (is_current && !is_last)
             DrawRect(skill_info, "");
-        if (is_last)
+        else if (is_last)
             DrawRect(skill_info, "", IM_COL32(255, 0, 0, 255));
+        else if (skill_info.is_auto_attack)
+            DrawRect(skill_info, "", IM_COL32(255, 165, 0, 255));
 
         if (texture && pd3dDevice)
+        {
+            auto tint_color = skill_info.is_special_skill
+                                  ? ImVec4(0.5f, 0.5f, 0.5f, 1.0f)
+                                  : ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
             ImGui::Image((ImTextureID)texture,
-                         ImVec2(SKILL_ICON_SIZE, SKILL_ICON_SIZE));
+                         ImVec2(SKILL_ICON_SIZE, SKILL_ICON_SIZE),
+                         ImVec2(0, 0),
+                         ImVec2(1, 1),
+                         tint_color);
+        }
         else
             ImGui::Dummy(ImVec2(SKILL_ICON_SIZE, SKILL_ICON_SIZE));
 
