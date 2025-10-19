@@ -259,6 +259,7 @@ void get_rotation_info(const IntNode &node,
 
             auto skill_id = 0;
             auto skill_name = std::string{"Unknown Skill"};
+            auto is_auto_attack = false;
 
             // Search for skill name in skill_data_map using icon_id
             for (const auto &[sid, skill_data] : skill_data_map)
@@ -267,6 +268,7 @@ void get_rotation_info(const IntNode &node,
                 {
                     skill_name = skill_data.name;
                     skill_id = sid;
+                    is_auto_attack = skill_data.is_auto_attack;
                     break;
                 }
             }
@@ -304,6 +306,7 @@ void get_rotation_info(const IntNode &node,
                     .cast_time = cast_time,
                     .duration_ms = duration_ms,
                     .skill_name = skill_name,
+                    .is_auto_attack = is_auto_attack,
                 });
             }
         }
@@ -330,6 +333,11 @@ SkillDataMap get_skill_data(const nlohmann::json &j)
 
         if (skill_obj.contains("recharge") && skill_obj["recharge"].is_number())
             skill_data.recharge = skill_obj["recharge"].get<int>();
+
+        if (skill_obj.contains("is_auto_attack") && skill_obj["is_auto_attack"].is_boolean())
+            skill_data.is_auto_attack = skill_obj["is_auto_attack"].get<bool>();
+        else
+            skill_data.is_auto_attack = false; // Default to false
 
         skill_data.icon_id = 0; // Default value
         if (skill_obj.contains("icon") && skill_obj["icon"].is_string())

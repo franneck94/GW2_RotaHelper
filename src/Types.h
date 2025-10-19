@@ -93,6 +93,7 @@ struct SkillData
     int icon_id;
     std::string name;
     int recharge;
+    bool is_auto_attack;
 };
 
 using SkillDataMap = std::map<int, SkillData>;
