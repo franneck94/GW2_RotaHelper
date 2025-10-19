@@ -58,6 +58,16 @@ struct MatchResult
     size_t advance_count;
 };
 
+struct SkillState
+{
+    bool is_history;
+    bool is_current;
+    bool is_last;
+    bool is_auto_attack;
+    bool is_completed_correct;
+    bool is_completed_incorrect;
+};
+
 class Render
 {
 public:
@@ -74,6 +84,11 @@ public:
     void selection();
     void reload_btn();
     void select_bench();
+    void rotation_icons(const SkillState &skill_state,
+                        const RotationInfo &skill_info,
+                        const ID3D11ShaderResourceView *texture,
+                        const std::string &text,
+                        ID3D11Device *pd3dDevice);
     void rotation_render_details(ID3D11Device *pd3dDevice);
     void rotation_render_horizontal(ID3D11Device *pd3dDevice);
     std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,

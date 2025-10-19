@@ -604,7 +604,11 @@ void RotationRun::load_data(const std::filesystem::path &json_path,
 
     skill_data = get_skill_data(j2);
     auto [_skill_info_map, _bench_rotation_vector, _meta_data] =
-        get_dpsreport_data(j, json_path, skill_data, skills_to_filter, special_case_skills);
+        get_dpsreport_data(j,
+                           json_path,
+                           skill_data,
+                           skills_to_filter,
+                           special_case_skills);
 
     skill_info_map = _skill_info_map;
     rotation_vector = _bench_rotation_vector;
@@ -636,8 +640,12 @@ std::tuple<int, int, size_t> RotationRun::get_current_rotation_indices() const
     const auto num_skills_left =
         static_cast<int64_t>(bench_rotation_list.size());
     const auto num_total_skills = static_cast<int64_t>(rotation_vector.size());
-    const auto current_idx =
-        static_cast<int64_t>(num_total_skills - num_skills_left);
+
+    auto current_idx = static_cast<int64_t>(num_total_skills - num_skills_left);
+
+    if (rotation_vector[current_idx].is_special_skill)
+        ++current_idx;
+
     const auto start =
         current_idx - 2 >= 0
             ? static_cast<int32_t>(current_idx - window_size_left)
