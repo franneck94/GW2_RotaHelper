@@ -23,5 +23,6 @@ extern Render render;
 extern RotationRun rotation_run;
 extern TextureMap texture_map;
 extern std::filesystem::path SettingsPath;
+extern float SKILL_ICON_SIZE;
 
 #endif

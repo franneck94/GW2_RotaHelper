@@ -145,6 +145,11 @@ void AddonLoad(AddonAPI *aApi)
 
     Settings::Load(SettingsPath);
 
+    if (Settings::HorizontalSkillLayout)
+        SKILL_ICON_SIZE = 64.0F;
+    else
+        SKILL_ICON_SIZE = 28.0F;
+
     APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_NORMAL",
                                        IDB_GW2_RotaHelper_NORMAL,
                                        hSelf,

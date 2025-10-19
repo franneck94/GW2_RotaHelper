@@ -22,3 +22,5 @@ TextureMap texture_map{};
 Render render{};
 
 std::filesystem::path SettingsPath;
+
+float SKILL_ICON_SIZE = 28.0F;

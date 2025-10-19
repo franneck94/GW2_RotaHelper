@@ -50,6 +50,18 @@ void Load(std::filesystem::path aPath)
     {
         Settings[FILTER_BUFFER].get_to<std::string>(FilterBuffer);
     }
+    if (!Settings[SHOW_SKILL_NAME].is_null())
+    {
+        Settings[SHOW_SKILL_NAME].get_to<bool>(ShowSkillName);
+    }
+    if (!Settings[SHOW_SKILL_TIME].is_null())
+    {
+        Settings[SHOW_SKILL_TIME].get_to<bool>(ShowSkillTime);
+    }
+    if (!Settings[HORIZONTAL_SKILL_LAYOUT].is_null())
+    {
+        Settings[HORIZONTAL_SKILL_LAYOUT].get_to<bool>(HorizontalSkillLayout);
+    }
 }
 
 void Save(std::filesystem::path aPath)
