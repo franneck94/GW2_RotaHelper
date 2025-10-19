@@ -44,6 +44,20 @@ struct BenchFileInfo
     }
 };
 
+struct MatchCandidate
+{
+    size_t rotation_index;
+    float confidence_score;
+    size_t skills_to_advance;
+};
+
+struct MatchResult
+{
+    size_t position;
+    float confidence;
+    size_t advance_count;
+};
+
 class Render
 {
 public:
@@ -78,8 +92,7 @@ public:
     bool key_press_event_in_this_frame;
     EvCombatDataPersistent curr_combat_data{};
     std::vector<EvCombatDataPersistent> played_rotation{};
-    std::mutex
-        played_rotation_mutex; // Protects both curr_combat_data and played_rotation
+    std::mutex played_rotation_mutex;
 
     bool open_combo_next_frame = false;
     ImVec2 filter_input_pos = ImVec2(0, 0);
