@@ -127,9 +127,7 @@ int main(int, char **)
 
         ImGuiIO &io = ImGui::GetIO();
 
-        auto any_key_pressed = false;
-        static auto prev_key = Keys::NONE;
-        auto key_pressed = Keys::NONE;
+        auto key = Keys::NONE;
         std::map<int, Keys> key_map = {
             {0x57, Keys::W}, // VK_W
             {0x41, Keys::A}, // VK_A
@@ -143,27 +141,21 @@ int main(int, char **)
         {
             if (GetAsyncKeyState(vk) & 0x8000)
             {
-                any_key_pressed = true;
                 auto it = key_map.find(vk);
                 if (it != key_map.end())
                 {
-                    key_pressed = it->second;
-                    prev_key = key_pressed;
-                }
-                else
-                {
-                    key_pressed = Keys::ANY;
+                    key = it->second;
                 }
                 break;
             }
         }
 
-        if (!any_key_pressed && prev_key != Keys::NONE)
+        if (key != Keys::NONE)
         {
             auto icon_id = std::int32_t{0};
             auto skill_id = std::int32_t{0};
             auto skill_name = std::string{""};
-            switch (prev_key)
+            switch (key)
             {
             case Keys::W:
                 icon_id = 1058593;
@@ -193,8 +185,6 @@ int main(int, char **)
                 break;
             }
 
-            prev_key = Keys::NONE;
-
             auto fake_ev = ArcDPS::CombatEvent{};
             auto fake_src = ArcDPS::AgentShort{};
             auto fake_dst = ArcDPS::AgentShort{};
@@ -207,7 +197,7 @@ int main(int, char **)
 
             fake_src.ID = 123;
             fake_src.Profession = 3;
-            fake_src.Specialization = 4;
+            fake_src.Specialization = 43;
             fake_src.Name = (char *)"Source";
             fake_src.IsSelf = true;
 
