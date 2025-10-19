@@ -1,3 +1,5 @@
+#include "Shared.h"
+
 unsigned int GetCurrentMapID()
 {
     if (Globals::MumbleData && Globals::MumbleData->Context.MapID != 0)
