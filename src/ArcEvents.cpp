@@ -271,12 +271,12 @@ bool OnCombat(const char *channel,
                 {
                     is_auto_attack = skill_it->second.is_auto_attack;
                 }
-#endif
 
                 if (!is_auto_attack)
                 {
                     int i = 0;
                 }
+#endif
 
                 render.skill_activation_callback(true, data);
 
