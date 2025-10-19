@@ -41,7 +41,6 @@ public:
     MetaData meta_data;
 
     std::set<std::string> skills_to_filter = {
-        // Always Filter
         "Bloodstone Fervor",
         "Blutstein",
         "Waffen Wechsel",
@@ -49,16 +48,18 @@ public:
         "Relic of",
         "Relikt des",
         "Mushroom King",
-        // Maybe add Logic
+        " Kit",
+        "Dodge",
+        "Ranger Pet",
+    };
+
+    std::set<std::string> special_case_skills = {
         "Attunement",
         "Detonate",
         "Approaching Doom",
-        " Kit",
         "Bladesong Distortion",
         "Distortion",
-        "Ranger Pet",
         "Mirage Cloak",
-        "Dodge",
         "Chapter 1:",
         "Chapter 2:",
         "Chapter 3:",

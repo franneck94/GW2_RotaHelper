@@ -190,11 +190,24 @@ bool remove_skill_if(const RotationInfo &current, const RotationInfo &previous)
             (current.cast_time - previous.cast_time) < 250);
 }
 
-bool is_special_case(const int skill_id,
-                     const std::string &skill_name,
-                     const std::set<std::string> &skills_to_filter)
+bool is_skill_to_filter(const int skill_id,
+                        const std::string &skill_name,
+                        const std::set<std::string> &skills_to_filter)
 {
     for (const auto &filter_string : skills_to_filter)
+    {
+        if (skill_name.find(filter_string) != std::string::npos)
+            return true;
+    }
+
+    return false;
+}
+
+bool is_special_case_skill(const int skill_id,
+                           const std::string &skill_name,
+                           const std::set<std::string> &special_case_skills)
+{
+    for (const auto &filter_string : special_case_skills)
     {
         if (skill_name.find(filter_string) != std::string::npos)
             return true;
@@ -207,7 +220,8 @@ void get_rotation_info(const IntNode &node,
                        const SkillInfoMap &skill_info_map,
                        RotationInfoVec &rotation_vector,
                        const SkillDataMap &skill_data_map,
-                       const std::set<std::string> &skills_to_filter)
+                       const std::set<std::string> &skills_to_filter,
+                       const std::set<std::string> &special_case_skills)
 {
     for (const auto &rotation_entry : node.children)
     {
@@ -298,8 +312,13 @@ void get_rotation_info(const IntNode &node,
             }
 
             if (!gear_proc && !trait_proc &&
-                !is_special_case(skill_id, skill_name, skills_to_filter))
+                !is_skill_to_filter(skill_id, skill_name, skills_to_filter))
             {
+                const auto is_special_skill =
+                    is_special_case_skill(skill_id,
+                                          skill_name,
+                                          special_case_skills);
+
                 rotation_vector.push_back(RotationInfo{
                     .icon_id = icon_id,
                     .skill_id = skill_id,
@@ -307,6 +326,7 @@ void get_rotation_info(const IntNode &node,
                     .duration_ms = duration_ms,
                     .skill_name = skill_name,
                     .is_auto_attack = is_auto_attack,
+                    .is_special_skill = is_special_skill,
                 });
             }
         }
@@ -334,7 +354,8 @@ SkillDataMap get_skill_data(const nlohmann::json &j)
         if (skill_obj.contains("recharge") && skill_obj["recharge"].is_number())
             skill_data.recharge = skill_obj["recharge"].get<int>();
 
-        if (skill_obj.contains("is_auto_attack") && skill_obj["is_auto_attack"].is_boolean())
+        if (skill_obj.contains("is_auto_attack") &&
+            skill_obj["is_auto_attack"].is_boolean())
             skill_data.is_auto_attack = skill_obj["is_auto_attack"].get<bool>();
         else
             skill_data.is_auto_attack = false; // Default to false
@@ -398,8 +419,7 @@ MetaData get_metadata(const nlohmann::json &j)
         build_meta["build_type"].is_string())
         metadata.build_type = build_meta["build_type"].get<std::string>();
 
-    if (build_meta.contains("url_name") &&
-        build_meta["url_name"].is_string())
+    if (build_meta.contains("url_name") && build_meta["url_name"].is_string())
         metadata.url_name = build_meta["url_name"].get<std::string>();
 
     if (build_meta.contains("dps_report_url") &&
@@ -422,7 +442,8 @@ std::tuple<SkillInfoMap, RotationInfoVec, MetaData> get_dpsreport_data(
     const nlohmann::json &j,
     const std::filesystem::path &json_path,
     const SkillDataMap &skill_data_map,
-    const std::set<std::string> &skills_to_filter)
+    const std::set<std::string> &skills_to_filter,
+    const std::set<std::string> &special_case_skills)
 {
     const auto rotation_data = j["rotation"];
     const auto skill_data = j["skillMap"];
@@ -439,7 +460,8 @@ std::tuple<SkillInfoMap, RotationInfoVec, MetaData> get_dpsreport_data(
                       skill_info_map,
                       rotation_info_vec,
                       skill_data_map,
-                      skills_to_filter);
+                      skills_to_filter,
+                      special_case_skills);
 
     auto metadata = get_metadata(j);
 
@@ -582,7 +604,7 @@ void RotationRun::load_data(const std::filesystem::path &json_path,
 
     skill_data = get_skill_data(j2);
     auto [_skill_info_map, _bench_rotation_vector, _meta_data] =
-        get_dpsreport_data(j, json_path, skill_data, skills_to_filter);
+        get_dpsreport_data(j, json_path, skill_data, skills_to_filter, special_case_skills);
 
     skill_info_map = _skill_info_map;
     rotation_vector = _bench_rotation_vector;
