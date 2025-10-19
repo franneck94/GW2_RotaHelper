@@ -853,11 +853,15 @@ void Render::render(ID3D11Device *pd3dDevice)
     if (benches_files.size() == 0)
         benches_files = get_bench_files(bench_path);
 
+    static bool options_window_focused = false;
+
     constexpr auto flags_options = ImGuiWindowFlags_NoCollapse;
     if (ImGui::Begin("###GW2RotaHelper_Options",
                      &Settings::ShowWindow,
                      flags_options))
     {
+        options_window_focused = ImGui::IsWindowFocused();
+
         select_bench();
 
         if (ImGui::Checkbox("Names", &Settings::ShowSkillName))
@@ -896,6 +900,14 @@ void Render::render(ID3D11Device *pd3dDevice)
     if (rotation_run.rotation_vector.size() == 0)
         return;
 
+    if (texture_map.size() == 0)
+    {
+        texture_map = LoadAllSkillTextures(pd3dDevice,
+                                           rotation_run.skill_info_map,
+                                           img_path);
+    }
+
+
     float window_width = 0.0f;
     float window_height = SKILL_ICON_SIZE * 0.0F;
     ImGuiIO &io = ImGui::GetIO();
@@ -915,19 +927,28 @@ void Render::render(ID3D11Device *pd3dDevice)
     float pos_y = io.DisplaySize.y - window_height - 50.0f;
     ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_FirstUseEver);
 
-    if (ImGui::Begin("##GW2RotaHelper_Rota", &Settings::ShowWindow, flags_rota))
-    {
-        if (texture_map.size() == 0)
-        {
-            texture_map = LoadAllSkillTextures(pd3dDevice,
-                                               rotation_run.skill_info_map,
-                                               img_path);
-        }
+    auto curr_flags_rota = flags_rota;
+    if (options_window_focused)
+        curr_flags_rota &= ~ImGuiWindowFlags_NoBackground;
 
-        if (!Settings::HorizontalSkillLayout)
+    if (!Settings::HorizontalSkillLayout)
+    {
+        if (ImGui::Begin("##GW2RotaHelper_Rota_Details",
+                         &Settings::ShowWindow,
+                         curr_flags_rota))
+        {
             rotation_render_details(pd3dDevice);
-        else
-            rotation_render_horizontal(pd3dDevice);
+        }
     }
+    else
+    {
+        if (ImGui::Begin("##GW2RotaHelper_Rota_Horizontal",
+                         &Settings::ShowWindow,
+                         curr_flags_rota))
+        {
+            rotation_render_horizontal(pd3dDevice);
+        }
+    }
+
     ImGui::End();
 }

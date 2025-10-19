@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Integrated GW2 API data for profession and elite specialization IDs to prevent unnecessary event logging
 - Better skill detection, auto attack chaisn will not skip skills afterwards
+- When the Options Window is focused (clicked) you can see where the rotation window will be drawn to adjust the position and size
 
 ## 0.2.0 - 2025-10-17
 
