@@ -124,11 +124,8 @@ void SimpleSkillDetectionLogic(RotationRun &rotation_run,
 {
     auto curr_rota_skill = RotationInfo{};
     auto next_rota_skill = RotationInfo{};
-    auto next_is_auto_attack = false;
     auto next_next_rota_skill = RotationInfo{};
-    auto next_next_is_auto_attack = false;
     auto next_next_next_rota_skill = RotationInfo{};
-    auto next_next_next_is_auto_attack = false;
     auto it = rotation_run.bench_rotation_list.begin();
 
     if (rotation_run.bench_rotation_list.size() > 1)
@@ -139,19 +136,16 @@ void SimpleSkillDetectionLogic(RotationRun &rotation_run,
     if (rotation_run.bench_rotation_list.size() > 2)
     {
         next_rota_skill = *it;
-        next_is_auto_attack = it->is_auto_attack;
         ++it;
     }
     if (rotation_run.bench_rotation_list.size() > 3)
     {
         next_next_rota_skill = *it;
-        next_next_is_auto_attack = it->is_auto_attack;
         ++it;
     }
     if (rotation_run.bench_rotation_list.size() > 4)
     {
         next_next_next_rota_skill = *it;
-        next_next_next_is_auto_attack = it->is_auto_attack;
         ++it;
     }
 
@@ -166,17 +160,18 @@ void SimpleSkillDetectionLogic(RotationRun &rotation_run,
     auto match_current = (curr_rota_skill.skill_name == skill_ev.SkillName);
     auto match_next = (next_rota_skill.skill_name == skill_ev.SkillName);
     auto match_next_next =
-        (next_next_rota_skill.skill_name == skill_ev.SkillName);
+        (next_next_rota_skill.skill_name == skill_ev.SkillName) &&
+        !next_next_rota_skill.is_auto_attack;
     auto match_next_next_next =
-        (next_next_rota_skill.skill_name == skill_ev.SkillName);
+        (next_next_next_rota_skill.skill_name == skill_ev.SkillName) &&
+        !next_next_next_rota_skill.is_auto_attack;
 
     if (curr_rota_skill.skill_name.find(" / ") != std::string::npos)
     {
         match_current = (curr_rota_skill.skill_name.find(skill_ev.SkillName)) !=
                         std::string::npos;
         match_next = (next_rota_skill.skill_name.find(skill_ev.SkillName)) !=
-                         std::string::npos &&
-                     !next_rota_skill.is_auto_attack;
+                     std::string::npos;
         match_next_next =
             (next_next_rota_skill.skill_name.find(skill_ev.SkillName)) !=
                 std::string::npos &&
@@ -326,7 +321,9 @@ void AdvancedSkillDetectionLogic(
                 if (rota_skill.skill_name == user_skill.SkillName)
                 {
                     num_matches += 1;
-                    weighted_score += 1.0f - (0.1f * (bench_rot_window_size - bench_rot_window_idx));
+                    weighted_score +=
+                        1.0f -
+                        (0.1f * (bench_rot_window_size - bench_rot_window_idx));
                 }
             }
 
@@ -731,10 +728,10 @@ void Render::DrawRect(const RotationInfo &skill_info,
                        border_thickness);
 }
 
-void Render::rotation_render(ID3D11Device *pd3dDevice)
+void Render::rotation_render_details(ID3D11Device *pd3dDevice)
 {
     ImGui::Spacing();
-    ImGui::Indent(10.0f); // Shift content 10px to the right
+    ImGui::Indent(10.0f);
 
     const auto [start, end, current_idx] =
         rotation_run.get_current_rotation_indices();
@@ -753,8 +750,7 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
         const auto is_last = (i == rotation_run.rotation_vector.size() - 1);
 
         auto text = std::string{};
-        if (Settings::HorizontalSkillLayout ||
-            (!Settings::ShowSkillName && !Settings::ShowSkillTime))
+        if ((!Settings::ShowSkillName && !Settings::ShowSkillTime))
             text = "";
         else
         {
@@ -777,7 +773,7 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
 
         if (is_current && !is_last)
             DrawRect(skill_info, text);
-        if (!is_current && is_last)
+        if (is_last)
             DrawRect(skill_info, text, IM_COL32(255, 0, 0, 255));
 
         if (texture && pd3dDevice)
@@ -786,7 +782,7 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
         else
             ImGui::Dummy(ImVec2(SKILL_ICON_SIZE, SKILL_ICON_SIZE));
 
-        if (!text.empty() || Settings::HorizontalSkillLayout)
+        if (!text.empty())
             ImGui::SameLine();
 
         if (!text.empty())
@@ -802,6 +798,46 @@ void Render::rotation_render(ID3D11Device *pd3dDevice)
                                text.c_str());
             ImGui::Dummy(ImGui::CalcTextSize(text.c_str()));
         }
+    }
+
+    CycleSkillsLogic();
+
+    ImGui::Unindent(10.0f);
+}
+
+void Render::rotation_render_horizontal(ID3D11Device *pd3dDevice)
+{
+    ImGui::Spacing();
+    ImGui::Indent(10.0f);
+
+    const auto [start, end, current_idx] =
+        rotation_run.get_current_rotation_indices();
+
+    for (int32_t i = start; i <= end; ++i)
+    {
+        if (i < 0 ||
+            static_cast<size_t>(i) >= rotation_run.rotation_vector.size())
+            continue;
+
+        const auto &skill_info =
+            rotation_run.get_rotation_skill(static_cast<size_t>(i));
+        const auto *texture = texture_map[skill_info.icon_id];
+
+        const auto is_current = (i == static_cast<int32_t>(current_idx));
+        const auto is_last = (i == rotation_run.rotation_vector.size() - 1);
+
+        if (is_current && !is_last)
+            DrawRect(skill_info, "");
+        if (is_last)
+            DrawRect(skill_info, "", IM_COL32(255, 0, 0, 255));
+
+        if (texture && pd3dDevice)
+            ImGui::Image((ImTextureID)texture,
+                         ImVec2(SKILL_ICON_SIZE, SKILL_ICON_SIZE));
+        else
+            ImGui::Dummy(ImVec2(SKILL_ICON_SIZE, SKILL_ICON_SIZE));
+
+        ImGui::SameLine();
     }
 
     CycleSkillsLogic();
@@ -879,10 +915,6 @@ void Render::render(ID3D11Device *pd3dDevice)
     float pos_y = io.DisplaySize.y - window_height - 50.0f;
     ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_FirstUseEver);
 
-    constexpr auto flags_rota =
-        ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
-        ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
-        ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoScrollbar;
     if (ImGui::Begin("##GW2RotaHelper_Rota", &Settings::ShowWindow, flags_rota))
     {
         if (texture_map.size() == 0)
@@ -892,7 +924,10 @@ void Render::render(ID3D11Device *pd3dDevice)
                                                img_path);
         }
 
-        rotation_render(pd3dDevice);
+        if (!Settings::HorizontalSkillLayout)
+            rotation_render_details(pd3dDevice);
+        else
+            rotation_render_horizontal(pd3dDevice);
     }
     ImGui::End();
 }

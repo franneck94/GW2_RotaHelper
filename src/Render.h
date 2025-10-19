@@ -74,7 +74,8 @@ public:
     void selection();
     void reload_btn();
     void select_bench();
-    void rotation_render(ID3D11Device *pd3dDevice);
+    void rotation_render_details(ID3D11Device *pd3dDevice);
+    void rotation_render_horizontal(ID3D11Device *pd3dDevice);
     std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
               std::set<std::string>>
     get_file_data_pairs(std::string &filter_string);
@@ -107,4 +108,9 @@ public:
 
     int selected_bench_index = -1;
     std::filesystem::path selected_file_path;
+
+    ImGuiWindowFlags flags_rota =
+        ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
+        ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
+        ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoScrollbar;
 };
