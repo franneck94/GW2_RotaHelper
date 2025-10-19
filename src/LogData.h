@@ -19,7 +19,7 @@
 
 using json = nlohmann::json;
 
-class RotationRun
+class RotationRunType
 {
 public:
     void load_data(const std::filesystem::path &json_path,

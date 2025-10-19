@@ -8,19 +8,23 @@
 #include "Shared.h"
 #include "Types.h"
 
+namespace Globals
+{
 AddonAPI *APIDefs = nullptr;
 NexusLinkData *NexusLink = nullptr;
 RTAPI::RealTimeData *RTAPIData = nullptr;
+Mumble::Data *MumbleData = nullptr;
 std::string AccountName;
 ArcDPS::Exports ArcExports = {};
 
-std::filesystem::path logpath;
+std::filesystem::path Logpath;
 
-RotationRun rotation_run{};
-TextureMap texture_map{};
+RotationRunType RotationRun{};
+TextureMapType Globals::TextureMap{};
 
-Render render{};
+RenderType Globals::Render{};
 
-std::filesystem::path SettingsPath;
+std::filesystem::path Globals::SettingsPath;
 
-float SKILL_ICON_SIZE = 28.0F;
+float Globals::SkillIconSize = 28.0F;
+}; // namespace Globals

@@ -41,24 +41,24 @@ ID3D11Device *pd3dDevice = nullptr;
 
 void ToggleShowWindowGW2_RotaHelper(const char *keybindIdentifier, bool)
 {
-    Settings::ToggleShowWindow(SettingsPath);
+    Settings::ToggleShowWindow(Globals::SettingsPath);
 }
 
 void RegisterQuickAccessShortcut()
 {
-    APIDefs->QuickAccess.Add("SHORTCUT_GW2_RotaHelper",
+    Globals::APIDefs->QuickAccess.Add("SHORTCUT_GW2_RotaHelper",
                              "TEX_GW2_RotaHelper_NORMAL",
                              "TEX_GW2_RotaHelper_HOVER",
                              KB_TOGGLE_GW2_RotaHelper,
                              "Toggle GW2_RotaHelper Window");
-    APIDefs->InputBinds.RegisterWithString(KB_TOGGLE_GW2_RotaHelper,
+    Globals::APIDefs->InputBinds.RegisterWithString(KB_TOGGLE_GW2_RotaHelper,
                                            ToggleShowWindowGW2_RotaHelper,
                                            "CTRL+Q");
 }
 
 void DeregisterQuickAccessShortcut()
 {
-    APIDefs->QuickAccess.Remove("SHORTCUT_GW2_RotaHelper");
+    Globals::APIDefs->QuickAccess.Remove("SHORTCUT_GW2_RotaHelper");
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID)
@@ -118,21 +118,22 @@ void AddonLoad(AddonAPI *aApi)
     if (!aApi)
         return;
 
-    APIDefs = aApi;
-    ImGui::SetCurrentContext((ImGuiContext *)APIDefs->ImguiContext);
+    Globals::APIDefs = aApi;
+    ImGui::SetCurrentContext((ImGuiContext *)Globals::APIDefs->ImguiContext);
     ImGui::SetAllocatorFunctions(
-        (void *(*)(size_t, void *))APIDefs->ImguiMalloc,
-        (void (*)(void *, void *))APIDefs->ImguiFree);
+        (void *(*)(size_t, void *))Globals::APIDefs->ImguiMalloc,
+        (void (*)(void *, void *))Globals::APIDefs->ImguiFree);
 
-    NexusLink = (NexusLinkData *)APIDefs->DataLink.Get("DL_NEXUS_LINK");
-    RTAPIData = (RTAPI::RealTimeData *)APIDefs->DataLink.Get("DL_RTAPI");
+    Globals::NexusLink = (NexusLinkData *)Globals::APIDefs->DataLink.Get("DL_NEXUS_LINK");
+    Globals::MumbleData = (Mumble::Data *)Globals::APIDefs->DataLink.Get("DL_MUMBLE_LINK");
+    Globals::RTAPIData = (RTAPI::RealTimeData *)Globals::APIDefs->DataLink.Get("DL_RTAPI");
 
-    APIDefs->Renderer.Register(ERenderType_Render, AddonRender);
-    APIDefs->Renderer.Register(ERenderType_OptionsRender, AddonOptions);
+    Globals::APIDefs->Renderer.Register(ERenderType_Render, AddonRender);
+    Globals::APIDefs->Renderer.Register(ERenderType_OptionsRender, AddonOptions);
 
-    AddonPath = APIDefs->Paths.GetAddonDirectory("GW2RotaHelper");
-    SettingsPath =
-        APIDefs->Paths.GetAddonDirectory("GW2RotaHelper/settings.json");
+    AddonPath = Globals::APIDefs->Paths.GetAddonDirectory("GW2RotaHelper");
+    Globals::SettingsPath =
+        Globals::APIDefs->Paths.GetAddonDirectory("GW2RotaHelper/settings.json");
 
     std::filesystem::create_directories(AddonPath);
 
@@ -141,28 +142,28 @@ void AddonLoad(AddonAPI *aApi)
     std::filesystem::create_directories(data_path / "bench");
     std::filesystem::create_directories(data_path / "bench/power");
     std::filesystem::create_directories(data_path / "bench/condition");
-    render.set_data_path(data_path);
+    Globals::Render.set_data_path(data_path);
 
-    Settings::Load(SettingsPath);
+    Settings::Load(Globals::SettingsPath);
 
     if (Settings::HorizontalSkillLayout)
-        SKILL_ICON_SIZE = 64.0F;
+        Globals::SkillIconSize = 64.0F;
     else
-        SKILL_ICON_SIZE = 28.0F;
+        Globals::SkillIconSize = 28.0F;
 
-    APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_NORMAL",
+    Globals::APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_NORMAL",
                                        IDB_GW2_RotaHelper_NORMAL,
                                        hSelf,
                                        nullptr);
-    APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_HOVER",
+    Globals::APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_HOVER",
                                        IDB_GW2_RotaHelper_HOVER,
                                        hSelf,
                                        nullptr);
     RegisterQuickAccessShortcut();
 
-    if (APIDefs && APIDefs->DataLink.Get)
+    if (Globals::APIDefs && Globals::APIDefs->DataLink.Get)
     {
-        IDXGISwapChain *pSwapChain = (IDXGISwapChain *)APIDefs->SwapChain;
+        IDXGISwapChain *pSwapChain = (IDXGISwapChain *)Globals::APIDefs->SwapChain;
         if (pSwapChain)
         {
             HRESULT hr = pSwapChain->GetDevice(__uuidof(ID3D11Device),
@@ -178,24 +179,24 @@ void AddonUnload()
     if (pd3dDevice)
         pd3dDevice->Release();
 
-    APIDefs->Renderer.Deregister(AddonRender);
-    APIDefs->Renderer.Deregister(AddonOptions);
+    Globals::APIDefs->Renderer.Deregister(AddonRender);
+    Globals::APIDefs->Renderer.Deregister(AddonOptions);
 
-    NexusLink = nullptr;
-    RTAPIData = nullptr;
+    Globals::NexusLink = nullptr;
+    Globals::RTAPIData = nullptr;
 
-    Settings::Save(SettingsPath);
+    Settings::Save(Globals::SettingsPath);
 
     DeregisterQuickAccessShortcut();
 }
 
 void AddonRender()
 {
-    if ((!NexusLink) || (!NexusLink->IsGameplay) || (!Settings::ShowWindow))
+    if ((!Globals::NexusLink) || (!Globals::NexusLink->IsGameplay) || (!Settings::ShowWindow))
         return;
 
-    render.toggle_vis(Settings::ShowWindow);
-    render.render(pd3dDevice);
+    Globals::Render.toggle_vis(Settings::ShowWindow);
+    Globals::Render.Globals::Render(pd3dDevice);
 }
 
 void AddonOptions()
@@ -220,19 +221,19 @@ extern "C" __declspec(dllexport) void *get_release_addr()
 
 ArcDPS::Exports *ArcdpsInit()
 {
-    ArcExports.Signature = -24255;
-    ArcExports.ImGuiVersion = 18000;
-    ArcExports.Size = sizeof(ArcDPS::Exports);
-    ArcExports.Name = ADDON_NAME;
-    ArcExports.Build = "0.1.1.0";
-    ArcExports.CombatLocalCallback = ArcEv::OnCombatLocal;
+    Globals::ArcExports.Signature = -24255;
+    Globals::ArcExports.ImGuiVersion = 18000;
+    Globals::ArcExports.Size = sizeof(ArcDPS::Exports);
+    Globals::ArcExports.Name = ADDON_NAME;
+    Globals::ArcExports.Build = "0.1.1.0";
+    Globals::ArcExports.CombatLocalCallback = ArcEv::OnCombatLocal;
 
-    return &ArcExports;
+    return &Globals::ArcExports;
 }
 
 uintptr_t ArcdpsRelease()
 {
-    ArcExports.CombatLocalCallback = nullptr;
+    Globals::ArcExports.CombatLocalCallback = nullptr;
 
     return 0;
 }

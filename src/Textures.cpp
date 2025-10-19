@@ -137,14 +137,14 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device,
     return srv;
 }
 
-TextureMap LoadAllSkillTextures(ID3D11Device *device,
-                                const SkillInfoMap &skill_info_map,
-                                const std::filesystem::path &img_folder)
+TextureMapType LoadAllSkillTextures(ID3D11Device *device,
+                                    const SkillInfoMap &skill_info_map,
+                                    const std::filesystem::path &img_folder)
 {
     if (!device)
         return {};
 
-    TextureMap texture_map;
+    TextureMapType texture_map;
 
     for (const auto &[icon_id, info] : skill_info_map)
     {
@@ -168,14 +168,15 @@ TextureMap LoadAllSkillTextures(ID3D11Device *device,
     return texture_map;
 }
 
-TextureMap LoadAllSkillTexturesWithAPI(AddonAPI *APIDefs,
-                                       const SkillInfoMap &skill_info_map,
-                                       const std::filesystem::path &img_folder)
+TextureMapType LoadAllSkillTexturesWithAPI(
+    AddonAPI *api_defs,
+    const SkillInfoMap &skill_info_map,
+    const std::filesystem::path &img_folder)
 {
-    if (!APIDefs)
+    if (!api_defs)
         return {};
 
-    TextureMap texture_map;
+    TextureMapType texture_map;
 
     for (const auto &[icon_id, info] : skill_info_map)
     {
@@ -195,8 +196,8 @@ TextureMap LoadAllSkillTexturesWithAPI(AddonAPI *APIDefs,
             continue;
 
         auto *nexus_texture =
-            APIDefs->Textures.GetOrCreateFromFile(img_path.string().c_str(),
-                                                  img_path.string().c_str());
+            api_defs->Textures.GetOrCreateFromFile(img_path.string().c_str(),
+                                                   img_path.string().c_str());
         if (nexus_texture && nexus_texture->Resource)
         {
             texture_map[icon_id] =
@@ -207,7 +208,7 @@ TextureMap LoadAllSkillTexturesWithAPI(AddonAPI *APIDefs,
     return texture_map;
 }
 
-void ReleaseTextureMap(TextureMap &texture_map)
+void ReleaseTextureMap(TextureMapType &texture_map)
 {
     for (auto &[icon_id, texture] : texture_map)
     {

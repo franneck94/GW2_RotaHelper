@@ -68,14 +68,14 @@ struct SkillState
     bool is_completed_incorrect;
 };
 
-class Render
+class RenderType
 {
 public:
-    Render();
-    Render(bool &show_window) : show_window(show_window)
+    RenderType();
+    RenderType(bool &show_window) : show_window(show_window)
     {
     }
-    ~Render();
+    ~RenderType();
 
     void set_data_path(const std::filesystem::path &path);
 

@@ -114,14 +114,14 @@ bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
         return true;
 #endif
 
-    const auto &skill_data = rotation_run.skill_data;
+    const auto &skill_data = Globals::RotationRun.skill_data;
     const auto found = skill_data.find(evCbtData.SkillID) != skill_data.end();
     return found;
 }
 
 bool IsSkillFromBuild_NameBased(const EvCombatDataPersistent &evCbtData)
 {
-    const auto &skill_data = rotation_run.skill_data;
+    const auto &skill_data = Globals::RotationRun.skill_data;
     for (const auto &kv : skill_data)
     {
         if (kv.second.name == evCbtData.SkillName)
@@ -221,21 +221,21 @@ bool OnCombat(const char *channel,
               uint64_t revision)
 {
 #ifdef GW2_NEXUS_ADDON
-    if (APIDefs == nullptr)
+    if (Globals::APIDefs == nullptr)
         return false;
 #endif
 
     auto evCbtData = EvCombatData{ev, src, dst, skillname, id, revision};
 
 #ifdef GW2_NEXUS_ADDON
-    APIDefs->Events.Raise(channel, &evCbtData);
+    Globals::APIDefs->Events.Raise(channel, &evCbtData);
 #endif
 
     if (IsValidCombatEvent(evCbtData))
     {
 #ifdef _DEBUG
         if (evCbtData.src->Specialization !=
-            static_cast<uint32_t>(rotation_run.meta_data.elite_spec_id))
+            static_cast<uint32_t>(Globals::RotationRun.meta_data.elite_spec_id))
             return false;
 #endif
 
@@ -251,7 +251,7 @@ bool OnCombat(const char *channel,
             .SkillName = std::string(evCbtData.skillname),
             .SkillID = evCbtData.id};
 
-        if (rotation_run.skill_info_map.empty() || IsAnySkillFromBuild(data))
+        if (Globals::RotationRun.skill_info_map.empty() || IsAnySkillFromBuild(data))
         {
 #ifdef LOG_SKILL_FROM_BUILD
             LogEvCombatDataPersistentCSV(data, "SkillFromBuild");
@@ -264,7 +264,7 @@ bool OnCombat(const char *channel,
 
 #ifdef _DEBUG
                 // Check if skill is not an auto attack (for debugging)
-                const auto &skill_data = rotation_run.skill_data;
+                const auto &skill_data = Globals::RotationRun.skill_data;
                 auto is_auto_attack = false;
                 const auto skill_it = skill_data.find(data.SkillID);
                 if (skill_it != skill_data.end())
@@ -278,7 +278,7 @@ bool OnCombat(const char *channel,
                 }
 #endif
 
-                render.skill_activation_callback(true, data);
+                Globals::Render.skill_activation_callback(true, data);
 
                 return true;
             }

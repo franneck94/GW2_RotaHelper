@@ -13,16 +13,20 @@
 #include "Render.h"
 #include "Types.h"
 
+namespace Globals
+{
 extern AddonAPI *APIDefs;
 extern NexusLinkData *NexusLink;
 extern RTAPI::RealTimeData *RTAPIData;
 extern std::string AccountName;
+extern Mumble::Data *MumbleData;
 extern ArcDPS::Exports ArcExports;
-extern std::filesystem::path logpath;
-extern Render render;
-extern RotationRun rotation_run;
-extern TextureMap texture_map;
+extern std::filesystem::path Logpath;
+extern RenderType Render;
+extern RotationRunType RotationRun;
+extern TextureMapType TextureMap;
 extern std::filesystem::path SettingsPath;
-extern float SKILL_ICON_SIZE;
+extern float SkillIconSize;
+}; // namespace Globals
 
 #endif

@@ -118,7 +118,7 @@ std::vector<BenchFileInfo> get_bench_files(
     return files;
 }
 
-void SimpleSkillDetectionLogic(RotationRun &rotation_run,
+void SimpleSkillDetectionLogic(RotationRunType &rotation_run,
                                const EvCombatDataPersistent &skill_ev,
                                EvCombatDataPersistent &last_skill)
 {
@@ -260,7 +260,7 @@ std::vector<EvCombatDataPersistent> GetUserSkillsWindow(
 }
 
 std::tuple<size_t, size_t, std::vector<RotationInfo>> GetBenchRotationWindow(
-    const RotationRun &rotation_run,
+    const RotationRunType &rotation_run,
     const RotationInfoVec &remaining_rotation)
 {
     std::vector<RotationInfo> bench_rot_window;
@@ -283,7 +283,7 @@ std::tuple<size_t, size_t, std::vector<RotationInfo>> GetBenchRotationWindow(
 }
 
 void AdvancedSkillDetectionLogic(
-    RotationRun &rotation_run,
+    RotationRunType &rotation_run,
     const EvCombatDataPersistent &skill_ev,
     EvCombatDataPersistent &last_skill,
     const std::vector<EvCombatDataPersistent> &skill_history)
@@ -371,7 +371,7 @@ std::string get_skill_text(const RotationInfo &skill_info)
 }
 
 SkillState get_skill_state(
-    const RotationRun &rotation_run,
+    const RotationRunType &rotation_run,
     const std::vector<EvCombatDataPersistent> &played_rotation,
     const size_t window_idx,
     const size_t current_idx,
@@ -379,7 +379,7 @@ SkillState get_skill_state(
 {
     const auto is_current = (window_idx == static_cast<int32_t>(current_idx));
     const auto is_last =
-        (window_idx == rotation_run.rotation_vector.size() - 1);
+        (window_idx == Globals::RotationRun.rotation_vector.size() - 1);
     const auto is_completed = (window_idx < static_cast<int32_t>(current_idx));
 
     auto is_completed_correct = false;
@@ -387,7 +387,8 @@ SkillState get_skill_state(
     if (played_rotation.size() > window_idx && window_idx < current_idx)
     {
         const auto casted_skill = played_rotation[window_idx];
-        const auto bench_skill = rotation_run.rotation_vector[window_idx];
+        const auto bench_skill =
+            Globals::RotationRun.rotation_vector[window_idx];
 
         is_completed_correct =
             (casted_skill.SkillName == bench_skill.skill_name) ? true : false;
@@ -405,16 +406,16 @@ SkillState get_skill_state(
 }
 } // namespace
 
-Render::Render()
+RenderType::RenderType()
 {
 }
 
-Render::~Render()
+RenderType::~RenderType()
 {
-    ReleaseTextureMap(texture_map);
+    ReleaseTextureMap(Globals::TextureMap);
 }
 
-void Render::set_data_path(const std::filesystem::path &path)
+void RenderType::set_data_path(const std::filesystem::path &path)
 {
     data_path = path;
     img_path = data_path / "img";
@@ -423,7 +424,7 @@ void Render::set_data_path(const std::filesystem::path &path)
     benches_files = get_bench_files(bench_path);
 }
 
-void Render::skill_activation_callback(
+void RenderType::skill_activation_callback(
     const bool pressed,
     const EvCombatDataPersistent &combat_data)
 {
@@ -445,7 +446,7 @@ void Render::skill_activation_callback(
     }
 }
 
-EvCombatDataPersistent Render::get_current_skill()
+EvCombatDataPersistent RenderType::get_current_skill()
 {
     if (!key_press_event_in_this_frame)
     {
@@ -473,14 +474,14 @@ EvCombatDataPersistent Render::get_current_skill()
     return curr_combat_data;
 }
 
-void Render::toggle_vis(const bool flag)
+void RenderType::toggle_vis(const bool flag)
 {
     show_window = flag;
 }
 
 std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
           std::set<std::string>>
-Render::get_file_data_pairs(std::string &filter_string)
+RenderType::get_file_data_pairs(std::string &filter_string)
 {
     auto filtered_files = std::vector<std::pair<int, const BenchFileInfo *>>{};
     auto directories_with_matches = std::set<std::string>{};
@@ -549,7 +550,7 @@ Render::get_file_data_pairs(std::string &filter_string)
     return std::make_pair(filtered_files, directories_with_matches);
 }
 
-void Render::text_filter()
+void RenderType::text_filter()
 {
     ImGui::Text("Filter:");
     ImGui::SameLine();
@@ -602,7 +603,7 @@ void Render::text_filter()
     }
 }
 
-void Render::selection()
+void RenderType::selection()
 {
     ImGui::Text("Select Bench File:");
 
@@ -684,8 +685,9 @@ void Render::selection()
                         selected_bench_index = original_index;
                         selected_file_path = file_info->full_path;
 
-                        rotation_run.load_data(selected_file_path, img_path);
-                        ReleaseTextureMap(texture_map);
+                        Globals::RotationRun.load_data(selected_file_path,
+                                                       img_path);
+                        ReleaseTextureMap(Globals::TextureMap);
 
                         // Close popup after selection
                         ImGui::CloseCurrentPopup();
@@ -700,7 +702,7 @@ void Render::selection()
     }
 }
 
-void Render::reload_btn()
+void RenderType::reload_btn()
 {
     if (selected_bench_index >= 0 &&
         selected_bench_index < benches_files.size())
@@ -709,8 +711,8 @@ void Render::reload_btn()
         {
             if (!selected_file_path.empty())
             {
-                rotation_run.restart_rotation();
-                ReleaseTextureMap(texture_map);
+                Globals::RotationRun.restart_rotation();
+                ReleaseTextureMap(Globals::TextureMap);
 
                 std::lock_guard<std::mutex> lock(played_rotation_mutex);
                 played_rotation.clear();
@@ -720,7 +722,7 @@ void Render::reload_btn()
     }
 }
 
-void Render::select_bench()
+void RenderType::select_bench()
 {
     text_filter();
 
@@ -732,11 +734,11 @@ void Render::select_bench()
     reload_btn();
 }
 
-void Render::CycleSkillsLogic()
+void RenderType::CycleSkillsLogic()
 {
     static auto last_skill = EvCombatDataPersistent{};
 
-    if (rotation_run.bench_rotation_list.empty())
+    if (Globals::RotationRun.bench_rotation_list.empty())
         return;
 
     const auto skill_ev = get_current_skill();
@@ -745,23 +747,23 @@ void Render::CycleSkillsLogic()
         return;
 
 #ifndef USE_ADVANCED_SKILL_DETECTION_LOGIC
-    SimpleSkillDetectionLogic(rotation_run, skill_ev, last_skill);
+    SimpleSkillDetectionLogic(Globals::RotationRun, skill_ev, last_skill);
 #else
     std::vector<EvCombatDataPersistent> history_copy;
     {
         std::lock_guard<std::mutex> lock(played_rotation_mutex);
         history_copy = played_rotation;
     }
-    AdvancedSkillDetectionLogic(rotation_run,
+    AdvancedSkillDetectionLogic(Globals::RotationRun,
                                 skill_ev,
                                 last_skill,
                                 history_copy);
 #endif
 }
 
-void Render::DrawRect(const RotationInfo &skill_info,
-                      const std::string &text,
-                      ImU32 color)
+void RenderType::DrawRect(const RotationInfo &skill_info,
+                          const std::string &text,
+                          ImU32 color)
 {
     auto draw_list = ImGui::GetWindowDrawList();
     auto cursor_pos = ImGui::GetCursorScreenPos();
@@ -780,12 +782,13 @@ void Render::DrawRect(const RotationInfo &skill_info,
         text_size = ImVec2(0, 0);
     }
 
-    auto total_width =
-        text_size.x > 0
-            ? SKILL_ICON_SIZE + ImGui::GetStyle().ItemSpacing.x + text_size.x
-            : SKILL_ICON_SIZE;
-    auto total_height =
-        (SKILL_ICON_SIZE > text_size.y) ? SKILL_ICON_SIZE : text_size.y;
+    auto total_width = text_size.x > 0
+                           ? Globals::SkillIconSize +
+                                 ImGui::GetStyle().ItemSpacing.x + text_size.x
+                           : Globals::SkillIconSize;
+    auto total_height = (Globals::SkillIconSize > text_size.y)
+                            ? Globals::SkillIconSize
+                            : text_size.y;
 
     draw_list->AddRect(ImVec2(cursor_pos.x - border_thickness,
                               cursor_pos.y - border_thickness),
@@ -797,11 +800,11 @@ void Render::DrawRect(const RotationInfo &skill_info,
                        border_thickness);
 }
 
-void Render::rotation_icons(const SkillState &skill_state,
-                            const RotationInfo &skill_info,
-                            const ID3D11ShaderResourceView *texture,
-                            const std::string &text,
-                            ID3D11Device *pd3dDevice)
+void RenderType::rotation_icons(const SkillState &skill_state,
+                                const RotationInfo &skill_info,
+                                const ID3D11ShaderResourceView *texture,
+                                const std::string &text,
+                                ID3D11Device *pd3dDevice)
 {
     const auto is_special_skill = skill_info.is_special_skill;
 
@@ -811,10 +814,6 @@ void Render::rotation_icons(const SkillState &skill_state,
         DrawRect(skill_info, text, IM_COL32(0, 255, 0, 255));
     else if (skill_state.is_last)
         DrawRect(skill_info, text, IM_COL32(128, 0, 128, 255));
-    else if (skill_state.is_completed_correct && !is_special_skill)
-        DrawRect(skill_info, text, IM_COL32(0, 255, 0, 255));
-    else if (skill_state.is_completed_incorrect && !is_special_skill)
-        DrawRect(skill_info, text, IM_COL32(255, 0, 0, 255));
     else if (skill_info.is_auto_attack)
         DrawRect(skill_info, text, IM_COL32(255, 165, 0, 255));
 
@@ -823,7 +822,7 @@ void Render::rotation_icons(const SkillState &skill_state,
         auto tint_color = is_special_skill ? ImVec4(0.5f, 0.5f, 0.5f, 1.0f)
                                            : ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
         ImGui::Image((ImTextureID)texture,
-                     ImVec2(SKILL_ICON_SIZE, SKILL_ICON_SIZE),
+                     ImVec2(Globals::SkillIconSize, Globals::SkillIconSize),
                      ImVec2(0, 0),
                      ImVec2(1, 1),
                      tint_color);
@@ -839,28 +838,28 @@ void Render::rotation_icons(const SkillState &skill_state,
         }
     }
     else
-        ImGui::Dummy(ImVec2(SKILL_ICON_SIZE, SKILL_ICON_SIZE));
+        ImGui::Dummy(ImVec2(Globals::SkillIconSize, Globals::SkillIconSize));
 }
 
-void Render::rotation_render_details(ID3D11Device *pd3dDevice)
+void RenderType::rotation_render_details(ID3D11Device *pd3dDevice)
 {
     ImGui::Spacing();
     ImGui::Indent(10.0f);
 
     const auto [start, end, current_idx] =
-        rotation_run.get_current_rotation_indices();
+        Globals::RotationRun.get_current_rotation_indices();
 
     for (int32_t window_idx = start; window_idx <= end; ++window_idx)
     {
         if (window_idx < 0 || static_cast<size_t>(window_idx) >=
-                                  rotation_run.rotation_vector.size())
+                                  Globals::RotationRun.rotation_vector.size())
             continue;
 
-        const auto &skill_info =
-            rotation_run.get_rotation_skill(static_cast<size_t>(window_idx));
-        const auto *texture = texture_map[skill_info.icon_id];
+        const auto &skill_info = Globals::RotationRun.get_rotation_skill(
+            static_cast<size_t>(window_idx));
+        const auto *texture = Globals::TextureMap[skill_info.icon_id];
 
-        const auto skill_state = get_skill_state(rotation_run,
+        const auto skill_state = get_skill_state(Globals::RotationRun,
                                                  played_rotation,
                                                  window_idx,
                                                  current_idx,
@@ -897,25 +896,25 @@ void Render::rotation_render_details(ID3D11Device *pd3dDevice)
     ImGui::Unindent(10.0f);
 }
 
-void Render::rotation_render_horizontal(ID3D11Device *pd3dDevice)
+void RenderType::rotation_render_horizontal(ID3D11Device *pd3dDevice)
 {
     ImGui::Spacing();
     ImGui::Indent(10.0f);
 
     const auto [start, end, current_idx] =
-        rotation_run.get_current_rotation_indices();
+        Globals::RotationRun.get_current_rotation_indices();
 
     for (int32_t window_idx = start; window_idx <= end; ++window_idx)
     {
         if (window_idx < 0 || static_cast<size_t>(window_idx) >=
-                                  rotation_run.rotation_vector.size())
+                                  Globals::RotationRun.rotation_vector.size())
             continue;
 
-        const auto &skill_info =
-            rotation_run.get_rotation_skill(static_cast<size_t>(window_idx));
-        const auto *texture = texture_map[skill_info.icon_id];
+        const auto &skill_info = Globals::RotationRun.get_rotation_skill(
+            static_cast<size_t>(window_idx));
+        const auto *texture = Globals::TextureMap[skill_info.icon_id];
 
-        const auto skill_state = get_skill_state(rotation_run,
+        const auto skill_state = get_skill_state(Globals::RotationRun,
                                                  played_rotation,
                                                  window_idx,
                                                  current_idx,
@@ -932,7 +931,7 @@ void Render::rotation_render_horizontal(ID3D11Device *pd3dDevice)
     ImGui::Unindent(10.0f);
 }
 
-void Render::render(ID3D11Device *pd3dDevice)
+void RenderType::render(ID3D11Device *pd3dDevice)
 {
     if (!Settings::ShowWindow)
         return;
@@ -952,60 +951,61 @@ void Render::render(ID3D11Device *pd3dDevice)
         select_bench();
 
         if (ImGui::Checkbox("Names", &Settings::ShowSkillName))
-            Settings::Save(SettingsPath);
+            Settings::Save(Globals::SettingsPath);
 
         ImGui::SameLine();
 
         if (ImGui::Checkbox("Times", &Settings::ShowSkillTime))
-            Settings::Save(SettingsPath);
+            Settings::Save(Globals::SettingsPath);
 
         ImGui::SameLine();
 
         if (ImGui::Checkbox("Horizontal", &Settings::HorizontalSkillLayout))
         {
             if (Settings::HorizontalSkillLayout)
-                SKILL_ICON_SIZE = 64.0F;
+                Globals::SkillIconSize = 64.0F;
             else
-                SKILL_ICON_SIZE = 28.0F;
+                Globals::SkillIconSize = 28.0F;
 
-            Settings::Save(SettingsPath);
+            Settings::Save(Globals::SettingsPath);
         }
     }
     ImGui::End();
 
-    if (rotation_run.futures.size() != 0)
+    if (Globals::RotationRun.futures.size() != 0)
     {
-        if (rotation_run.futures.front().valid())
+        if (Globals::RotationRun.futures.front().valid())
         {
-            rotation_run.futures.front().get();
-            rotation_run.futures.pop_front();
+            Globals::RotationRun.futures.front().get();
+            Globals::RotationRun.futures.pop_front();
         }
 
         return;
     }
 
-    if (rotation_run.rotation_vector.size() == 0)
+    if (Globals::RotationRun.rotation_vector.size() == 0)
         return;
 
-    if (texture_map.size() == 0)
+    if (Globals::TextureMap.size() == 0)
     {
-        texture_map = LoadAllSkillTextures(pd3dDevice,
-                                           rotation_run.skill_info_map,
-                                           img_path);
+        Globals::TextureMap =
+            LoadAllSkillTextures(pd3dDevice,
+                                 Globals::RotationRun.skill_info_map,
+                                 img_path);
     }
 
 
     float window_width = 0.0f;
-    float window_height = SKILL_ICON_SIZE * 0.0F;
+    float window_height = Globals::SkillIconSize * 0.0F;
     ImGuiIO &io = ImGui::GetIO();
     if (!Settings::HorizontalSkillLayout)
     {
         window_width = 400.0f;
-        window_height = SKILL_ICON_SIZE * 10.0F;
+        window_height = Globals::SkillIconSize * 10.0F;
     }
     else
     {
-        window_width = SKILL_ICON_SIZE * 10.0F;
+        window_width = Globals::SkillIconSize * 10.0F;
         window_height = 50.0F;
     }
     ImGui::SetNextWindowSize(ImVec2(window_width, window_height),

@@ -108,7 +108,7 @@ std::string convert_cache_url(const std::string &cache_url)
                              ? icon_id_with_ext.substr(0, dot_pos)
                              : icon_id_with_ext;
 
-    return "https://render.guildwars2.com/file/" + hash + "/" + icon_id +
+    return "https://Globals::Render.guildwars2.com/file/" + hash + "/" + icon_id +
            ".png";
 }
 
@@ -584,7 +584,7 @@ std::list<std::future<void>> StartDownloadAllSkillIcons(
 }
 } // namespace
 
-void RotationRun::load_data(const std::filesystem::path &json_path,
+void RotationRunType::load_data(const std::filesystem::path &json_path,
                             const std::filesystem::path &img_path)
 {
     auto file{std::ifstream{json_path}};
@@ -619,7 +619,7 @@ void RotationRun::load_data(const std::filesystem::path &json_path,
     futures = StartDownloadAllSkillIcons(skill_info_map, img_path);
 }
 
-void RotationRun::pop_bench_rotation_queue()
+void RotationRunType::pop_bench_rotation_queue()
 {
     if (!bench_rotation_list.empty())
     {
@@ -627,7 +627,7 @@ void RotationRun::pop_bench_rotation_queue()
     }
 }
 
-std::tuple<int, int, size_t> RotationRun::get_current_rotation_indices() const
+std::tuple<int, int, size_t> RotationRunType::get_current_rotation_indices() const
 {
     constexpr static auto window_size = 10;
     constexpr static auto window_size_left = 2;
@@ -659,7 +659,7 @@ std::tuple<int, int, size_t> RotationRun::get_current_rotation_indices() const
     return {start, end, current_idx};
 }
 
-RotationInfo RotationRun::get_rotation_skill(const size_t idx) const
+RotationInfo RotationRunType::get_rotation_skill(const size_t idx) const
 {
     if (idx < rotation_vector.size())
         return rotation_vector.at(idx);
@@ -667,18 +667,18 @@ RotationInfo RotationRun::get_rotation_skill(const size_t idx) const
     return RotationInfo{};
 }
 
-void RotationRun::restart_rotation()
+void RotationRunType::restart_rotation()
 {
     bench_rotation_list =
         std::list<RotationInfo>(rotation_vector.begin(), rotation_vector.end());
 }
 
-bool RotationRun::is_current_run_done() const
+bool RotationRunType::is_current_run_done() const
 {
     return bench_rotation_list.empty();
 }
 
-void RotationRun::reset_rotation()
+void RotationRunType::reset_rotation()
 {
     skill_info_map.clear();
     rotation_vector.clear();

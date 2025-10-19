@@ -42,7 +42,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // Main code
 int main(int, char **)
 {
-    SettingsPath = std::filesystem::absolute(
+    Globals::SettingsPath = std::filesystem::absolute(
         std::filesystem::path(__FILE__).parent_path() / "addon_settings.json");
 
     // Create application window
@@ -100,13 +100,13 @@ int main(int, char **)
 
     // Our state
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-    render.toggle_vis(true);
+    Globals::Render.toggle_vis(true);
 
     auto data_path = std::filesystem::absolute(
         std::filesystem::path(__FILE__).parent_path().parent_path() / "data");
-    render.set_data_path(data_path);
+    Globals::Render.set_data_path(data_path);
 
-    Settings::Load(SettingsPath);
+    Settings::Load(Globals::SettingsPath);
 
     // Main loop
     MSG msg;
@@ -214,7 +214,7 @@ int main(int, char **)
                                  fake_revision);
         }
 
-        render.render(g_pd3dDevice);
+        Globals::Render.render(g_pd3dDevice);
 
         ImGui::Render();
         g_pd3dDeviceContext->OMSetRenderTargets(1,
@@ -227,7 +227,7 @@ int main(int, char **)
         g_pSwapChain->Present(1, 0); // Present with vsync
     }
 
-    Settings::Save(SettingsPath);
+    Settings::Save(Globals::SettingsPath);
 
     // Cleanup
     ImGui_ImplDX11_Shutdown();
