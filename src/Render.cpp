@@ -1060,10 +1060,8 @@ void RenderType::render(ID3D11Device *pd3dDevice)
 
     static bool options_window_focused = false;
 
-    constexpr auto flags_options = ImGuiWindowFlags_NoCollapse;
-    if (ImGui::Begin("###GW2RotaHelper_Options",
-                     &Settings::ShowWindow,
-                     flags_options))
+    if (ImGui::Begin("Rotation Helper ###GW2RotaHelper_Options",
+                     &Settings::ShowWindow))
     {
         options_window_focused = ImGui::IsWindowFocused();
 
