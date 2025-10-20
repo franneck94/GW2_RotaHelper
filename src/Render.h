@@ -111,7 +111,7 @@ public:
     std::vector<EvCombatDataPersistent> played_rotation{};
     std::mutex played_rotation_mutex;
 
-    uint32_t num_frames_wo_match = 0U;
+    uint32_t num_skills_wo_match = 0U;
     std::chrono::steady_clock::time_point time_since_last_match;
 
     bool open_combo_next_frame = false;

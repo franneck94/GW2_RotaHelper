@@ -321,7 +321,7 @@ bool CheckTheNextNskills(const EvCombatDataPersistent &skill_ev,
 }
 
 void SimpleSkillDetectionLogic(
-    uint32_t &num_frames_wo_match,
+    uint32_t &num_skills_wo_match,
     std::chrono::steady_clock::time_point &time_since_last_match,
     RotationRunType &rotation_run,
     const EvCombatDataPersistent &skill_ev,
@@ -333,7 +333,7 @@ void SimpleSkillDetectionLogic(
     auto next_next_next_rota_skill = RotationInfo{};
     auto it = rotation_run.bench_rotation_list.begin();
 
-    if (num_frames_wo_match == 0)
+    if (num_skills_wo_match == 0)
         time_since_last_match = std::chrono::steady_clock::now();
 
     if (rotation_run.bench_rotation_list.size() > 1)
@@ -365,7 +365,7 @@ void SimpleSkillDetectionLogic(
                             rotation_run,
                             last_skill))
     {
-        num_frames_wo_match = 0U;
+        num_skills_wo_match = 0U;
         return;
     }
 
@@ -378,7 +378,7 @@ void SimpleSkillDetectionLogic(
                             rotation_run,
                             last_skill))
     {
-        num_frames_wo_match = 0U;
+        num_skills_wo_match = 0U;
         return;
     }
 #endif
@@ -395,7 +395,7 @@ void SimpleSkillDetectionLogic(
                             rotation_run,
                             last_skill))
     {
-        num_frames_wo_match = 0U;
+        num_skills_wo_match = 0U;
         return;
     }
 #endif
@@ -413,7 +413,7 @@ void SimpleSkillDetectionLogic(
                             rotation_run,
                             last_skill))
     {
-        num_frames_wo_match = 0U;
+        num_skills_wo_match = 0U;
         return;
     }
 #endif
@@ -424,9 +424,9 @@ void SimpleSkillDetectionLogic(
                           Globals::RotationRun.skill_data);
 
     if (user_did_auto_attack)
-        ++num_frames_wo_match;
+        ++num_skills_wo_match;
 
-    if (num_frames_wo_match > 5)
+    if (num_skills_wo_match > 5)
     {
         if (curr_rota_skill.is_auto_attack || user_did_auto_attack)
             return;
@@ -458,7 +458,7 @@ void SimpleSkillDetectionLogic(
                 rotation_run.bench_rotation_list.pop_front();
 
                 last_skill = skill_ev;
-                num_frames_wo_match = 0U;
+                num_skills_wo_match = 0U;
                 time_since_last_match = now;
                 return;
             }
@@ -597,7 +597,7 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
         skill_ev.SkillID == -10000)
         return;
 
-    SimpleSkillDetectionLogic(num_frames_wo_match,
+    SimpleSkillDetectionLogic(num_skills_wo_match,
                               time_since_last_match,
                               Globals::RotationRun,
                               skill_ev,
@@ -876,7 +876,7 @@ void RenderType::restart_rotation()
     curr_combat_data = EvCombatDataPersistent{};
 
     time_since_last_match = std::chrono::steady_clock::now();
-    num_frames_wo_match = 0U;
+    num_skills_wo_match = 0U;
 }
 
 void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,
