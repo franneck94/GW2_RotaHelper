@@ -58,6 +58,8 @@ public:
 
     std::set<std::string> special_to_gray_out = {
         "Attunement",
+        "Harbinger Shroud",
+        "Reaper Shroud",
         "Detonate",
         "Bladesong Distortion",
         "Distortion",
@@ -65,6 +67,7 @@ public:
         "Chapter 2:",
         "Chapter 3:",
         "Chapter 4:",
+        "Plague Signet",
     };
 
     std::set<std::string> special_to_remove_duplicates = {
