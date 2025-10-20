@@ -8,14 +8,26 @@ Elevate your Guild Wars 2 gameplay with this sophisticated rotation learning too
 2. **Install Addon**: Place the DLL file into your Nexus addons directory
 3. **Deploy Resources**: Extract the GW2_RotaHelper ZIP archive and copy its contents to your Nexus addons folder
 
-Our comprehensive package includes meticulously curated benchmark rotations complete with high-quality skill icons, ensuring an immersive learning experience. Simply activate the Nexus addon in-game to begin your training journey!
+## 🎯 User Guide
 
-Navigate through our intuitive filtering system to discover the perfect rotation for your build and specialization. Transform your golem practice sessions into focused, productive skill-building experiences!
+#### Selecting a Rotation
 
-## 🎯 Essential Requirements
+- The addon ships all benchmark rotations from the snow crows website
+- You can input a filter text, otherwise all are listed
+- Theres a vertical and a horizontal layout depending on your needs
+- Skill names and cast times (from the bench) can be turned on
 
-- **Language Setting**: Your Guild Wars 2 client must be configured for English language support
-- **Rotation Timing**: Practice sequences commence at benchmark initiation points (pre-cast abilities are intentionally excluded for precise timing)
+#### Important Notes
+
+- The addon is only active in aredome and in the training area
+- The rotation starts at the first timepoint where damage is dealt to the enemy, hence pre-cast abilities are excluded
+
+#### Visual Learning System
+
+- White Border: Current skill to cast
+- Purple Border: Final skill in rotation
+- Orange Border: Auto-attack skills
+- Greyed Icons: Special skills (attunements, stances - in general non damaging skills)
 
 ## ⚠️ Known Limitations
 
