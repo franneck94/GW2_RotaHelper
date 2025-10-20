@@ -1085,7 +1085,7 @@ void RenderType::render(ID3D11Device *pd3dDevice)
     if (!curr_is_infight)
         ++num_frames_ooc;
 
-    if (!curr_is_infight && is_infight && num_frames_ooc > 30)
+    if (!curr_is_infight && is_infight && num_frames_ooc > 60)
     {
         restart_rotation();
         num_frames_ooc = 0;
