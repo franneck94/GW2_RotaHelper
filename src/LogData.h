@@ -53,12 +53,12 @@ public:
         "Ranger Pet",
         "Cascading Corruption",
         "Mirage Cloak",
+        "Approaching Doom",
     };
 
     std::set<std::string> special_to_gray_out = {
         "Attunement",
         "Detonate",
-        "Approaching Doom",
         "Bladesong Distortion",
         "Distortion",
         "Chapter 1:",
