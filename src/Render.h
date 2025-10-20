@@ -127,6 +127,7 @@ public:
 
     ImGuiWindowFlags flags_rota =
         ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
-        ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
-        ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoScrollbar;
+        ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavInputs |
+        ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoFocusOnAppearing |
+        ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize;
 };

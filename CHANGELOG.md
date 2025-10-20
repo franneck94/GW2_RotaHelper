@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show Rushing Justice only once per cast
 - Added debug info for the mumble context
 - Options window is now collapsible
+- Added adjust UI option where the skills are movable and resizable, otherwise its fixed
 
 ## 0.3.0 - 2025-10-19
 

@@ -49,9 +49,9 @@ END
 // PNG
 //
 
-IDB_GW2_RotaHelper_HOVER           PNG                     "resources\\TEX_GW2RotaHelperHOVER.png"
+IDB_GW2_RotaHelper_HOVER           PNG                     "src\\resources\\TEX_GW2RotaHelperHOVER.png"
 
-IDB_GW2_RotaHelper_NORMAL         PNG                     "resources\\TEX_GW2RotaHelperNORMAL.png"
+IDB_GW2_RotaHelper_NORMAL         PNG                     "src\\resources\\TEX_GW2RotaHelperNORMAL.png"
 
 #endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////

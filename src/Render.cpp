@@ -1045,8 +1045,9 @@ void RenderType::rotation_render_horizontal(ID3D11Device *pd3dDevice)
 
 void RenderType::render(ID3D11Device *pd3dDevice)
 {
-    static bool is_infight = false;
-    static uint32_t num_frames_ooc = 0U;
+    static auto is_infight = false;
+    static auto is_not_ui_adjust_active = false;
+    static auto num_frames_ooc = 0U;
 
     if (!Settings::ShowWindow)
         return;
@@ -1066,24 +1067,22 @@ void RenderType::render(ID3D11Device *pd3dDevice)
     if (benches_files.size() == 0)
         benches_files = get_bench_files(bench_path);
 
-    static bool options_window_focused = false;
-
     if (ImGui::Begin("Rotation Helper ###GW2RotaHelper_Options",
                      &Settings::ShowWindow))
     {
-        options_window_focused = ImGui::IsWindowFocused();
-
         select_bench();
 
         if (ImGui::Checkbox("Names", &Settings::ShowSkillName))
+        {
             Settings::Save(Globals::SettingsPath);
+        }
 
         ImGui::SameLine();
 
         if (ImGui::Checkbox("Times", &Settings::ShowSkillTime))
+        {
             Settings::Save(Globals::SettingsPath);
-
-        ImGui::SameLine();
+        }
 
         if (ImGui::Checkbox("Horizontal", &Settings::HorizontalSkillLayout))
         {
@@ -1093,6 +1092,12 @@ void RenderType::render(ID3D11Device *pd3dDevice)
                 Globals::SkillIconSize = 28.0F;
 
             Settings::Save(Globals::SettingsPath);
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Checkbox("Adjust UI", &is_not_ui_adjust_active))
+        {
         }
 
 #ifdef _DEBUG
@@ -1161,8 +1166,12 @@ void RenderType::render(ID3D11Device *pd3dDevice)
     ImGui::SetNextWindowPos(ImVec2(pos_x, pos_y), ImGuiCond_FirstUseEver);
 
     auto curr_flags_rota = flags_rota;
-    if (options_window_focused)
+    if (is_not_ui_adjust_active)
+    {
         curr_flags_rota &= ~ImGuiWindowFlags_NoBackground;
+        curr_flags_rota &= ~ImGuiWindowFlags_NoMove;
+        curr_flags_rota &= ~ImGuiWindowFlags_NoResize;
+    }
 
     if (!Settings::HorizontalSkillLayout)
     {
