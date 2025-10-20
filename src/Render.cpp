@@ -922,13 +922,11 @@ void RenderType::rotation_icons(const SkillState &skill_state,
 {
     const auto is_special_skill = skill_info.is_special_skill;
 
-    if (skill_state.is_current && !skill_state.is_last)
+    if (skill_state.is_current && !skill_state.is_last) // white
         DrawRect(skill_info, text);
-    else if (skill_state.is_history && is_special_skill)
-        DrawRect(skill_info, text, IM_COL32(0, 255, 0, 255));
-    else if (skill_state.is_last)
+    else if (skill_state.is_last) // pruple
         DrawRect(skill_info, text, IM_COL32(128, 0, 128, 255));
-    else if (skill_info.is_auto_attack)
+    else if (skill_info.is_auto_attack) // orange
         DrawRect(skill_info, text, IM_COL32(255, 165, 0, 255));
 
     if (texture && pd3dDevice)

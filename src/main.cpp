@@ -108,6 +108,11 @@ int main(int, char **)
 
     Settings::Load(Globals::SettingsPath);
 
+    if (Settings::HorizontalSkillLayout)
+        Globals::SkillIconSize = 64.0F;
+    else
+        Globals::SkillIconSize = 28.0F;
+
     // Main loop
     MSG msg;
     ZeroMemory(&msg, sizeof(msg));
