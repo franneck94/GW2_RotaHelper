@@ -40,7 +40,7 @@ public:
 
     MetaData meta_data;
 
-    std::set<std::string> skills_to_filter = {
+    std::set<std::string> skills_to_drop = {
         "Bloodstone Fervor",
         "Blutstein",
         "Waffen Wechsel",
@@ -51,18 +51,23 @@ public:
         " Kit",
         "Dodge",
         "Ranger Pet",
+        "Cascading Corruption",
+        "Mirage Cloak",
     };
 
-    std::set<std::string> special_case_skills = {
+    std::set<std::string> special_to_gray_out = {
         "Attunement",
         "Detonate",
         "Approaching Doom",
         "Bladesong Distortion",
         "Distortion",
-        "Mirage Cloak",
         "Chapter 1:",
         "Chapter 2:",
         "Chapter 3:",
         "Chapter 4:",
+    };
+
+    std::set<std::string> special_to_remove_duplicates = {
+        "Rushing Justice",
     };
 };

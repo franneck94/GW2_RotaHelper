@@ -190,11 +190,11 @@ bool remove_skill_if(const RotationInfo &current, const RotationInfo &previous)
             (current.cast_time - previous.cast_time) < 250);
 }
 
-bool is_skill_to_filter(const int skill_id,
-                        const std::string &skill_name,
-                        const std::set<std::string> &skills_to_filter)
+bool is_skill_in_set(const int skill_id,
+                     const std::string &skill_name,
+                     const std::set<std::string> &set)
 {
-    for (const auto &filter_string : skills_to_filter)
+    for (const auto &filter_string : set)
     {
         if (skill_name.find(filter_string) != std::string::npos)
             return true;
@@ -203,25 +203,14 @@ bool is_skill_to_filter(const int skill_id,
     return false;
 }
 
-bool is_special_case_skill(const int skill_id,
-                           const std::string &skill_name,
-                           const std::set<std::string> &special_case_skills)
-{
-    for (const auto &filter_string : special_case_skills)
-    {
-        if (skill_name.find(filter_string) != std::string::npos)
-            return true;
-    }
-
-    return false;
-}
-
-void get_rotation_info(const IntNode &node,
-                       const SkillInfoMap &skill_info_map,
-                       RotationInfoVec &rotation_vector,
-                       const SkillDataMap &skill_data_map,
-                       const std::set<std::string> &skills_to_filter,
-                       const std::set<std::string> &special_case_skills)
+void get_rotation_info(
+    const IntNode &node,
+    const SkillInfoMap &skill_info_map,
+    RotationInfoVec &rotation_vector,
+    const SkillDataMap &skill_data_map,
+    const std::set<std::string> &skills_to_drop,
+    const std::set<std::string> &special_to_gray_out,
+    const std::set<std::string> &special_to_remove_duplicates)
 {
     for (const auto &rotation_entry : node.children)
     {
@@ -312,12 +301,15 @@ void get_rotation_info(const IntNode &node,
             }
 
             if (!gear_proc && !trait_proc &&
-                !is_skill_to_filter(skill_id, skill_name, skills_to_filter))
+                !is_skill_in_set(skill_id, skill_name, skills_to_drop))
             {
                 const auto is_special_skill =
-                    is_special_case_skill(skill_id,
-                                          skill_name,
-                                          special_case_skills);
+                    is_skill_in_set(skill_id, skill_name, special_to_gray_out);
+
+                const auto is_duplicate_skill =
+                    is_skill_in_set(skill_id,
+                                    skill_name,
+                                    special_to_remove_duplicates);
 
                 rotation_vector.push_back(RotationInfo{
                     .icon_id = icon_id,
@@ -442,8 +434,9 @@ std::tuple<SkillInfoMap, RotationInfoVec, MetaData> get_dpsreport_data(
     const nlohmann::json &j,
     const std::filesystem::path &json_path,
     const SkillDataMap &skill_data_map,
-    const std::set<std::string> &skills_to_filter,
-    const std::set<std::string> &special_case_skills)
+    const std::set<std::string> &skills_to_drop,
+    const std::set<std::string> &special_to_gray_out,
+    const std::set<std::string> &special_to_remove_duplicates)
 {
     const auto rotation_data = j["rotation"];
     const auto skill_data = j["skillMap"];
@@ -460,8 +453,9 @@ std::tuple<SkillInfoMap, RotationInfoVec, MetaData> get_dpsreport_data(
                       skill_info_map,
                       rotation_info_vec,
                       skill_data_map,
-                      skills_to_filter,
-                      special_case_skills);
+                      skills_to_drop,
+                      special_to_gray_out,
+                      special_to_remove_duplicates);
 
     auto metadata = get_metadata(j);
 
@@ -585,7 +579,7 @@ std::list<std::future<void>> StartDownloadAllSkillIcons(
 } // namespace
 
 void RotationRunType::load_data(const std::filesystem::path &json_path,
-                            const std::filesystem::path &img_path)
+                                const std::filesystem::path &img_path)
 {
     auto file{std::ifstream{json_path}};
     auto j{nlohmann::json{}};
@@ -607,8 +601,9 @@ void RotationRunType::load_data(const std::filesystem::path &json_path,
         get_dpsreport_data(j,
                            json_path,
                            skill_data,
-                           skills_to_filter,
-                           special_case_skills);
+                           skills_to_drop,
+                           special_to_gray_out,
+                           special_to_remove_duplicates);
 
     skill_info_map = _skill_info_map;
     rotation_vector = _bench_rotation_vector;
@@ -627,7 +622,8 @@ void RotationRunType::pop_bench_rotation_queue()
     }
 }
 
-std::tuple<int, int, size_t> RotationRunType::get_current_rotation_indices() const
+std::tuple<int, int, size_t> RotationRunType::get_current_rotation_indices()
+    const
 {
     constexpr static auto window_size = 10;
     constexpr static auto window_size_left = 2;

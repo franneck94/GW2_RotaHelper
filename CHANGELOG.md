@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Improvements
 
 - Added more advanced Skill Icon coloring Logic
+- Don't show Cascading Corruption
+- Show Rusing Justice only once per cast
 
 ## 0.3.0 - 2025-10-19
 
