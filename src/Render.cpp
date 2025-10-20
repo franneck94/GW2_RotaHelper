@@ -1111,7 +1111,6 @@ void RenderType::render(ID3D11Device *pd3dDevice)
                             static_cast<EliteSpecID>(identity.Specialization))
                             .c_str());
             ImGui::Text("Map ID: %u", identity.MapID);
-            ImGui::Text("World ID: %u", identity.WorldID);
             ImGui::Text("Is in Combat: %d",
                         Globals::MumbleData->Context.IsInCombat);
         }
