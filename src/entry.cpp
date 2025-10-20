@@ -154,12 +154,11 @@ void AddonLoad(AddonAPI *aApi)
                                                 nullptr);
     RegisterQuickAccessShortcut();
 
-    // Initialize memory reader for skill casting detection
+#ifdef _DEBUG
     if (!Globals::MemoryReader.Initialize())
     {
-        // Memory reader initialization failed - log error but continue
-        // The addon can still work with ArcDPS events
     }
+#endif
 
     if (Globals::APIDefs && Globals::APIDefs->DataLink.Get)
     {
@@ -177,8 +176,9 @@ void AddonLoad(AddonAPI *aApi)
 
 void AddonUnload()
 {
-    // Cleanup memory reader
+#ifdef _DEBUG
     Globals::MemoryReader.Cleanup();
+#endif
 
     if (pd3dDevice)
         pd3dDevice->Release();

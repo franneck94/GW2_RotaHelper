@@ -38,6 +38,7 @@
 namespace
 {
 // Function to get skill casting information from memory
+#ifdef _DEBUG
 EvCombatDataPersistent GetMemorySkillCast()
 {
     EvCombatDataPersistent skill_data = {};
@@ -62,12 +63,12 @@ bool ShouldUseMemoryReading()
     // You can add logic here to decide when to use memory vs ArcDPS
     return true;
 }
-}
+#endif
 
 std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
-          std::set<std::string>>
-get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
-                    std::string &filter_string)
+          std::set<std::string>> get_file_data_pairs(std::vector<BenchFileInfo>
+                                                         &benches_files,
+                                                     std::string &filter_string)
 {
     auto filtered_files = std::vector<std::pair<int, const BenchFileInfo *>>{};
     auto directories_with_matches = std::set<std::string>{};
@@ -712,16 +713,22 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
             ImGui::Separator();
             ImGui::Text("Memory Reader Status:");
 
-            SkillCastInfo memory_skill = Globals::MemoryReader.GetCurrentSkillCast();
-            ImGui::Text("Is Casting (Memory): %s", memory_skill.is_casting ? "Yes" : "No");
+            SkillCastInfo memory_skill =
+                Globals::MemoryReader.GetCurrentSkillCast();
+            ImGui::Text("Is Casting (Memory): %s",
+                        memory_skill.is_casting ? "Yes" : "No");
 
             if (memory_skill.is_casting)
             {
                 ImGui::Text("Skill ID (Memory): %u", memory_skill.skill_id);
-                ImGui::Text("Skill Name (Memory): %s", memory_skill.skill_name.c_str());
-                ImGui::Text("Cast Time Remaining: %.2f", memory_skill.cast_time_remaining);
-                ImGui::Text("Total Cast Time: %.2f", memory_skill.total_cast_time);
-                ImGui::Text("Is Channeling: %s", memory_skill.is_channeling ? "Yes" : "No");
+                ImGui::Text("Skill Name (Memory): %s",
+                            memory_skill.skill_name.c_str());
+                ImGui::Text("Cast Time Remaining: %.2f",
+                            memory_skill.cast_time_remaining);
+                ImGui::Text("Total Cast Time: %.2f",
+                            memory_skill.total_cast_time);
+                ImGui::Text("Is Channeling: %s",
+                            memory_skill.is_channeling ? "Yes" : "No");
             }
         }
 #endif
