@@ -99,7 +99,7 @@ public:
                                    const EvCombatDataPersistent &combat_data);
     void toggle_vis(const bool flag);
     EvCombatDataPersistent get_current_skill();
-    void CycleSkillsLogic();
+    void CycleSkillsLogic(const EvCombatDataPersistent &skill_ev);
     void DrawRect(const RotationInfo &skill_info,
                   const std::string &text,
                   ImU32 color = IM_COL32(255, 255, 255, 255));
@@ -110,6 +110,9 @@ public:
     EvCombatDataPersistent curr_combat_data{};
     std::vector<EvCombatDataPersistent> played_rotation{};
     std::mutex played_rotation_mutex;
+
+    uint32_t num_frames_wo_match = 0U;
+    std::chrono::steady_clock::time_point time_since_last_match;
 
     bool open_combo_next_frame = false;
     ImVec2 filter_input_pos = ImVec2(0, 0);
