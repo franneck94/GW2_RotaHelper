@@ -204,7 +204,7 @@ void AddonRender()
         return;
 
 #ifndef _DEBUG
-    if (!IsInTrainingArea())
+    if (!IsValidMap())
         return;
 #endif
 
