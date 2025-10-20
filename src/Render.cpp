@@ -6,9 +6,9 @@
 #include <wincodec.h>
 #pragma comment(lib, "windowscodecs.lib")
 #pragma comment(lib, "ole32.lib")
+#include <codecvt>
 #include <conio.h>
 #include <d3d11.h>
-#include <codecvt>
 #include <locale>
 
 #include <algorithm>
@@ -28,7 +28,7 @@
 
 #include "Defines.h"
 #include "LogData.h"
-#include "MapUtils.h"
+#include "MumbleUtils.h"
 #include "Render.h"
 #include "Settings.h"
 #include "Shared.h"
@@ -55,9 +55,9 @@ Mumble::Identity ParseMumbleIdentity(const wchar_t *identityString)
         if (json.contains("name") && json["name"].is_string())
         {
             std::string name = json["name"].get<std::string>();
-            size_t copySize = min(
-                name.length(),
-                static_cast<size_t>(19)); // Leave space for null terminator
+            size_t copySize =
+                min(name.length(),
+                    static_cast<size_t>(19)); // Leave space for null terminator
             std::memcpy(identity.Name, name.c_str(), copySize);
             identity.Name[copySize] = '\0'; // Ensure null termination
         }
@@ -813,6 +813,16 @@ void RenderType::selection()
     }
 }
 
+void RenderType::restart_rotation()
+{
+    Globals::RotationRun.restart_rotation();
+    ReleaseTextureMap(Globals::TextureMap);
+
+    std::lock_guard<std::mutex> lock(played_rotation_mutex);
+    played_rotation.clear();
+    curr_combat_data = EvCombatDataPersistent{};
+}
+
 void RenderType::reload_btn()
 {
     if (selected_bench_index >= 0 &&
@@ -821,14 +831,7 @@ void RenderType::reload_btn()
         if (ImGui::Button("Reload", ImVec2(-1, 0)))
         {
             if (!selected_file_path.empty())
-            {
-                Globals::RotationRun.restart_rotation();
-                ReleaseTextureMap(Globals::TextureMap);
-
-                std::lock_guard<std::mutex> lock(played_rotation_mutex);
-                played_rotation.clear();
-                curr_combat_data = EvCombatDataPersistent{};
-            }
+                restart_rotation();
         }
     }
 }
@@ -1044,8 +1047,15 @@ void RenderType::rotation_render_horizontal(ID3D11Device *pd3dDevice)
 
 void RenderType::render(ID3D11Device *pd3dDevice)
 {
+    static bool is_infight = false;
+
     if (!Settings::ShowWindow)
         return;
+
+    const auto curr_is_infight = IsInfight();
+    if (!curr_is_infight && is_infight)
+        restart_rotation();
+    is_infight = curr_is_infight;
 
     if (benches_files.size() == 0)
         benches_files = get_bench_files(bench_path);
@@ -1092,6 +1102,8 @@ void RenderType::render(ID3D11Device *pd3dDevice)
             ImGui::Text("Specialization: %u", identity.Specialization);
             ImGui::Text("Map ID: %u", identity.MapID);
             ImGui::Text("World ID: %u", identity.WorldID);
+            ImGui::Text("Is in Combat: %d",
+                        Globals::MumbleData->Context.IsInCombat);
         }
 #endif
     }

@@ -82,6 +82,7 @@ public:
     void render(ID3D11Device *pd3dDevice);
     void text_filter();
     void selection();
+    void restart_rotation();
     void reload_btn();
     void select_bench();
     void rotation_icons(const SkillState &skill_state,
