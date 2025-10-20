@@ -319,3 +319,132 @@ inline EliteSpecID string_to_elite_spec(const std::string &spec_name)
 
     return EliteSpecID::Unknown;
 }
+
+inline std::string profession_to_string(ProfessionID profession_id)
+{
+    switch (profession_id)
+    {
+    case ProfessionID::GUARDIAN:
+        return "Guardian";
+    case ProfessionID::WARRIOR:
+        return "Warrior";
+    case ProfessionID::ENGINEER:
+        return "Engineer";
+    case ProfessionID::RANGER:
+        return "Ranger";
+    case ProfessionID::THIEF:
+        return "Thief";
+    case ProfessionID::ELEMENTALIST:
+        return "Elementalist";
+    case ProfessionID::MESMER:
+        return "Mesmer";
+    case ProfessionID::NECROMANCER:
+        return "Necromancer";
+    case ProfessionID::REVENANT:
+        return "Revenant";
+    case ProfessionID::UNKNOWN:
+    default:
+        return "Unknown";
+    }
+}
+
+inline std::string elite_spec_to_string(EliteSpecID elite_spec_id)
+{
+    switch (elite_spec_id)
+    {
+    // Elementalist
+    case EliteSpecID::Catalyst:
+        return "Catalyst";
+    case EliteSpecID::Evoker:
+        return "Evoker";
+    case EliteSpecID::Tempest:
+        return "Tempest";
+    case EliteSpecID::Weaver:
+        return "Weaver";
+
+    // Engineer
+    case EliteSpecID::Amalgam:
+        return "Amalgam";
+    case EliteSpecID::Holosmith:
+        return "Holosmith";
+    case EliteSpecID::Mechanist:
+        return "Mechanist";
+    case EliteSpecID::Scrapper:
+        return "Scrapper";
+
+    // Guardian
+    case EliteSpecID::Dragonhunter:
+        return "Dragonhunter";
+    case EliteSpecID::Firebrand:
+        return "Firebrand";
+    case EliteSpecID::Luminary:
+        return "Luminary";
+    case EliteSpecID::Willbender:
+        return "Willbender";
+
+    // Mesmer
+    case EliteSpecID::Chronomancer:
+        return "Chronomancer";
+    case EliteSpecID::Mirage:
+        return "Mirage";
+    case EliteSpecID::Troubadour:
+        return "Troubadour";
+    case EliteSpecID::Virtuoso:
+        return "Virtuoso";
+
+    // Necromancer
+    case EliteSpecID::Harbinger:
+        return "Harbinger";
+    case EliteSpecID::Reaper:
+        return "Reaper";
+    case EliteSpecID::Ritualist:
+        return "Ritualist";
+    case EliteSpecID::Scourge:
+        return "Scourge";
+
+    // Ranger
+    case EliteSpecID::Druid:
+        return "Druid";
+    case EliteSpecID::Galeshot:
+        return "Galeshot";
+    case EliteSpecID::Soulbeast:
+        return "Soulbeast";
+    case EliteSpecID::Untamed:
+        return "Untamed";
+
+    // Revenant
+    case EliteSpecID::Conduit:
+        return "Conduit";
+    case EliteSpecID::Herald:
+        return "Herald";
+    case EliteSpecID::Renegade:
+        return "Renegade";
+    case EliteSpecID::Vindicator:
+        return "Vindicator";
+
+    // Thief
+    case EliteSpecID::Antiquary:
+        return "Antiquary";
+    case EliteSpecID::Daredevil:
+        return "Daredevil";
+    case EliteSpecID::Deadeye:
+        return "Deadeye";
+    case EliteSpecID::Specter:
+        return "Specter";
+
+    // Warrior
+    case EliteSpecID::Berserker:
+        return "Berserker";
+    case EliteSpecID::Bladesworn:
+        return "Bladesworn";
+    case EliteSpecID::Paragon:
+        return "Paragon";
+    case EliteSpecID::Spellbreaker:
+        return "Spellbreaker";
+
+    // Default/Unknown
+    case EliteSpecID::Unknown:
+    default:
+        return "Unknown";
+    }
+}

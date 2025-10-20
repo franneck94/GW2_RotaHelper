@@ -1100,10 +1100,16 @@ void RenderType::render(ID3D11Device *pd3dDevice)
         {
             auto identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
             ImGui::Separator();
-            ImGui::Text("Name: %s", identity.Name);
-            ImGui::Text("Profession: %d",
-                        static_cast<int>(identity.Profession));
-            ImGui::Text("Specialization: %u", identity.Specialization);
+            ImGui::Text("Profession: %d (%s)",
+                        static_cast<int>(identity.Profession),
+                        profession_to_string(
+                            static_cast<ProfessionID>(identity.Profession))
+                            .c_str());
+            ImGui::Text("Specialization: %u (%s)",
+                        identity.Specialization,
+                        elite_spec_to_string(
+                            static_cast<EliteSpecID>(identity.Specialization))
+                            .c_str());
             ImGui::Text("Map ID: %u", identity.MapID);
             ImGui::Text("World ID: %u", identity.WorldID);
             ImGui::Text("Is in Combat: %d",
