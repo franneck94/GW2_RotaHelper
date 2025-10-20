@@ -35,6 +35,35 @@
 #include "Textures.h"
 #include "Types.h"
 
+namespace
+{
+// Function to get skill casting information from memory
+EvCombatDataPersistent GetMemorySkillCast()
+{
+    EvCombatDataPersistent skill_data = {};
+
+    SkillCastInfo memory_skill = Globals::MemoryReader.GetCurrentSkillCast();
+
+    if (memory_skill.is_casting && memory_skill.skill_id != 0)
+    {
+        skill_data.SkillID = memory_skill.skill_id;
+        skill_data.SkillName = memory_skill.skill_name;
+        // Fill other fields as needed
+        skill_data.SrcName = "Player"; // You might want to get this from Mumble
+    }
+
+    return skill_data;
+}
+
+// Function to check if we should use memory reading vs ArcDPS events
+bool ShouldUseMemoryReading()
+{
+    // Use memory reading as fallback or primary source
+    // You can add logic here to decide when to use memory vs ArcDPS
+    return true;
+}
+}
+
 std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
           std::set<std::string>>
 get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
@@ -678,6 +707,22 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
             ImGui::Text("Last Casted Skill ID: %u", curr_combat_data.SkillID);
             ImGui::Text("Last Casted Skill Name: %s",
                         curr_combat_data.SkillName.c_str());
+
+            // Memory Reader Debug Info
+            ImGui::Separator();
+            ImGui::Text("Memory Reader Status:");
+
+            SkillCastInfo memory_skill = Globals::MemoryReader.GetCurrentSkillCast();
+            ImGui::Text("Is Casting (Memory): %s", memory_skill.is_casting ? "Yes" : "No");
+
+            if (memory_skill.is_casting)
+            {
+                ImGui::Text("Skill ID (Memory): %u", memory_skill.skill_id);
+                ImGui::Text("Skill Name (Memory): %s", memory_skill.skill_name.c_str());
+                ImGui::Text("Cast Time Remaining: %.2f", memory_skill.cast_time_remaining);
+                ImGui::Text("Total Cast Time: %.2f", memory_skill.total_cast_time);
+                ImGui::Text("Is Channeling: %s", memory_skill.is_channeling ? "Yes" : "No");
+            }
         }
 #endif
     }

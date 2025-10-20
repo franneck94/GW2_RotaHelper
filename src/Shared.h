@@ -12,6 +12,7 @@
 
 #include "Render.h"
 #include "Types.h"
+#include "MemoryReader.h"
 
 namespace Globals
 {
@@ -29,6 +30,7 @@ extern TextureMapType TextureMap;
 extern std::filesystem::path SettingsPath;
 extern float SkillIconSize;
 extern std::string VersionString;
+extern GW2MemoryReader MemoryReader;
 }; // namespace Globals
 
 #endif

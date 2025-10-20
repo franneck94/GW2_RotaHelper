@@ -154,6 +154,13 @@ void AddonLoad(AddonAPI *aApi)
                                                 nullptr);
     RegisterQuickAccessShortcut();
 
+    // Initialize memory reader for skill casting detection
+    if (!Globals::MemoryReader.Initialize())
+    {
+        // Memory reader initialization failed - log error but continue
+        // The addon can still work with ArcDPS events
+    }
+
     if (Globals::APIDefs && Globals::APIDefs->DataLink.Get)
     {
         IDXGISwapChain *pSwapChain =
@@ -170,6 +177,9 @@ void AddonLoad(AddonAPI *aApi)
 
 void AddonUnload()
 {
+    // Cleanup memory reader
+    Globals::MemoryReader.Cleanup();
+
     if (pd3dDevice)
         pd3dDevice->Release();
 
