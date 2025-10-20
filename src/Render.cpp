@@ -676,6 +676,15 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
         }
 #endif
     }
+
+#ifndef _DEBUG
+    if (!IsValidMap())
+    {
+        ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f),
+                           "Rotation only shown in Training Area!");
+    }
+#endif
+
     ImGui::End();
 }
 
@@ -1110,6 +1119,11 @@ void RenderType::render(ID3D11Device *pd3dDevice)
                                  Globals::RotationRun.skill_info_map,
                                  img_path);
     }
+
+#ifndef _DEBUG
+    if (!IsValidMap())
+        return;
+#endif
 
     render_rotation_window(is_not_ui_adjust_active, pd3dDevice);
 }

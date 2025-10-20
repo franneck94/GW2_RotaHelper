@@ -202,11 +202,6 @@ void AddonRender()
         (!Settings::ShowWindow))
         return;
 
-#ifndef _DEBUG
-    if (!IsValidMap())
-        return;
-#endif
-
     Globals::Render.toggle_vis(Settings::ShowWindow);
     Globals::Render.render(pd3dDevice);
 }
