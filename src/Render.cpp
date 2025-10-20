@@ -24,6 +24,7 @@
 
 #include "Defines.h"
 #include "LogData.h"
+#include "MapUtils.h"
 #include "Render.h"
 #include "Settings.h"
 #include "Shared.h"
@@ -969,6 +970,12 @@ void RenderType::render(ID3D11Device *pd3dDevice)
 
             Settings::Save(Globals::SettingsPath);
         }
+
+#ifdef _DEBUG && defined(GW2_NEXUS_ADDON)
+        ImGui::Text("Map ID: %llu", GetCurrentMapID());
+        ImGui::Text("Identity %s", Globals::MumbleData->Identity);
+        ImGui::Text("Description %s", Globals::MumbleData->Description);
+#endif
     }
     ImGui::End();
 
