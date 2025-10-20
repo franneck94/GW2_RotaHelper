@@ -2,4 +2,4 @@
 
 unsigned int GetCurrentMapID();
 
-bool IsInTrainingArea();
+bool IsValidMap();

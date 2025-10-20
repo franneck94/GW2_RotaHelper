@@ -10,7 +10,8 @@ unsigned int GetCurrentMapID()
     return 0;
 }
 
-bool IsInTrainingArea()
+bool IsValidMap()
 {
-    return GetCurrentMapID() == 1154;
+    const auto id = GetCurrentMapID();
+    return id == 1154 | id == 1155;
 }
