@@ -437,7 +437,7 @@ void SimpleSkillDetectionLogic(
                 now - time_since_last_match)
                 .count();
 
-        if (duration_since_last_match < 3)
+        if (duration_since_last_match < 10)
             return;
 
         for (auto it = rotation_run.bench_rotation_list.begin();
