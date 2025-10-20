@@ -77,32 +77,32 @@ public:
     }
     ~RenderType();
 
-    void set_data_path(const std::filesystem::path &path);
-
     void render(ID3D11Device *pd3dDevice);
+
+    void render_options_window(bool &is_not_ui_adjust_active);
     void text_filter();
     void selection();
+    void select_bench();
     void restart_rotation();
     void reload_btn();
-    void select_bench();
-    void rotation_icons(const SkillState &skill_state,
-                        const RotationInfo &skill_info,
-                        const ID3D11ShaderResourceView *texture,
-                        const std::string &text,
-                        ID3D11Device *pd3dDevice);
+
+    void render_rotation_window(const bool is_not_ui_adjust_active,
+                                ID3D11Device *pd3dDevice);
     void rotation_render_details(ID3D11Device *pd3dDevice);
     void rotation_render_horizontal(ID3D11Device *pd3dDevice);
-    std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
-              std::set<std::string>>
-    get_file_data_pairs(std::string &filter_string);
+    void render_rotation_icons(const SkillState &skill_state,
+                               const RotationInfo &skill_info,
+                               const ID3D11ShaderResourceView *texture,
+                               const std::string &text,
+
+                               ID3D11Device *pd3dDevice);
+
     void skill_activation_callback(const bool pressed,
                                    const EvCombatDataPersistent &combat_data);
     void toggle_vis(const bool flag);
     EvCombatDataPersistent get_current_skill();
     void CycleSkillsLogic(const EvCombatDataPersistent &skill_ev);
-    void DrawRect(const RotationInfo &skill_info,
-                  const std::string &text,
-                  ImU32 color = IM_COL32(255, 255, 255, 255));
+    void set_data_path(const std::filesystem::path &path);
 
     bool show_window;
 
