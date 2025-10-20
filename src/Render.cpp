@@ -563,6 +563,8 @@ void RenderType::skill_activation_callback(
 
 EvCombatDataPersistent RenderType::get_current_skill()
 {
+    std::lock_guard<std::mutex> lock(played_rotation_mutex);
+
     if (!key_press_event_in_this_frame)
     {
         auto skill_ev = EvCombatDataPersistent{};
@@ -570,7 +572,6 @@ EvCombatDataPersistent RenderType::get_current_skill()
         return skill_ev;
     }
 
-    std::lock_guard<std::mutex> lock(played_rotation_mutex);
     if (curr_combat_data.SkillID == 0)
     {
         auto skill_ev = EvCombatDataPersistent{};
@@ -673,6 +674,10 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
             ImGui::Text("Map ID: %u", identity.MapID);
             ImGui::Text("Is in Combat: %d",
                         Globals::MumbleData->Context.IsInCombat);
+
+            ImGui::Text("Last Casted Skill ID: %u", curr_combat_data.SkillID);
+            ImGui::Text("Last Casted Skill Name: %s",
+                        curr_combat_data.SkillName.c_str());
         }
 #endif
     }
