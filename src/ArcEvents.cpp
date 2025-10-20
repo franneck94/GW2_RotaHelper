@@ -21,76 +21,6 @@ namespace
 {
 constexpr static auto MIN_TIME_DIFF = 10U;
 
-static std::string g_event_log_file_path;
-static bool g_event_log_initialized = false;
-
-void InitEventLogFile()
-{
-    if (!g_event_log_initialized)
-    {
-        auto now = std::chrono::system_clock::now();
-        auto t = std::chrono::system_clock::to_time_t(now);
-        std::tm tm;
-        localtime_s(&tm, &t);
-
-        auto log_dir = std::filesystem::path{"C:/logs"};
-        if (!std::filesystem::exists(log_dir))
-            std::filesystem::create_directories(log_dir);
-
-        char buf[64];
-        std::strftime(buf, sizeof(buf), "eventlog_%Y%m%d_%H%M%S.csv", &tm);
-        const auto log_path = log_dir / buf;
-        g_event_log_file_path = log_path.string();
-        std::ifstream test_file(g_event_log_file_path);
-        const auto file_exists = test_file.good();
-        test_file.close();
-        if (!file_exists)
-        {
-            auto log_file = std::ofstream(g_event_log_file_path, std::ios::out);
-            log_file << "Prefix,Timestamp,SrcName,SrcID,SrcProfession,"
-                        "SrcSpecialization,DstName,DstID,DstProfession,"
-                        "DstSpecialization,SkillName,SkillID\n";
-            log_file.close();
-        }
-        g_event_log_initialized = true;
-    }
-}
-
-void LogEvCombatDataPersistentCSV(const EvCombatDataPersistent &data,
-                                  const std::string &log_prefix)
-{
-    if (!g_event_log_initialized)
-        InitEventLogFile();
-
-    auto log_file =
-        std::ofstream(g_event_log_file_path, std::ios::out | std::ios::app);
-    if (log_file.is_open())
-    {
-        const auto now = std::chrono::system_clock::now();
-        const auto t = std::chrono::system_clock::to_time_t(now);
-        std::tm tm;
-#ifdef _WIN32
-        localtime_s(&tm, &t);
-#else
-        tm = *std::localtime(&t);
-#endif
-        char timebuf[32];
-        std::strftime(timebuf, sizeof(timebuf), "%Y-%m-%d %H:%M:%S", &tm);
-        auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(
-                      now.time_since_epoch()) %
-                  1000;
-
-        log_file << log_prefix << ',' << '"' << timebuf << '.'
-                 << std::setfill('0') << std::setw(3) << ms.count() << '"'
-                 << ',' << data.SrcName << ',' << data.SrcID << ','
-                 << data.SrcProfession << ',' << data.SrcSpecialization << ','
-                 << data.DstName << ',' << data.DstID << ','
-                 << data.DstProfession << ',' << data.DstSpecialization << ','
-                 << data.SkillName << ',' << data.SkillID << '\n';
-        log_file.close();
-    }
-}
-
 bool IsValidSelfData(const EvCombatData &evCbtData)
 {
     return evCbtData.src->IsSelf && evCbtData.src != nullptr &&
@@ -253,31 +183,8 @@ bool OnCombat(const char *channel,
 
         if (Globals::RotationRun.skill_info_map.empty() || IsAnySkillFromBuild(data))
         {
-#ifdef LOG_SKILL_FROM_BUILD
-            LogEvCombatDataPersistentCSV(data, "SkillFromBuild");
-#endif
             if (IsNotTheSameCast(data))
             {
-#ifdef LOG_SKILL_IN_TIME
-                LogEvCombatDataPersistentCSV(data, "NotSameCast");
-#endif
-
-#ifdef _DEBUG
-                // Check if skill is not an auto attack (for debugging)
-                const auto &skill_data = Globals::RotationRun.skill_data;
-                auto is_auto_attack = false;
-                const auto skill_it = skill_data.find(data.SkillID);
-                if (skill_it != skill_data.end())
-                {
-                    is_auto_attack = skill_it->second.is_auto_attack;
-                }
-
-                if (!is_auto_attack)
-                {
-                    int i = 0;
-                }
-#endif
-
                 Globals::Render.skill_activation_callback(true, data);
 
                 return true;

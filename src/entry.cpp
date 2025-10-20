@@ -237,7 +237,7 @@ ArcDPS::Exports *ArcdpsInit()
     Globals::ArcExports.ImGuiVersion = 18000;
     Globals::ArcExports.Size = sizeof(ArcDPS::Exports);
     Globals::ArcExports.Name = ADDON_NAME;
-    Globals::ArcExports.Build = "0.1.1.0";
+    Globals::ArcExports.Build = VERSION_STRING;
     Globals::ArcExports.CombatLocalCallback = ArcEv::OnCombatLocal;
 
     return &Globals::ArcExports;

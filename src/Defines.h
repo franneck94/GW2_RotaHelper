@@ -1,14 +1,10 @@
 #pragma once
 
 // #define LOG_SKILL_FROM_BUILD
-// #define LOG_SKILL_IN_TIME
 
 #ifndef _DEBUG
 #ifdef LOG_SKILL_FROM_BUILD
 #undef LOG_SKILL_FROM_BUILD
-#endif
-#ifdef LOG_SKILL_IN_TIME
-#undef LOG_SKILL_IN_TIME
 #endif
 #endif
 
