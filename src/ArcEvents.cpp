@@ -179,9 +179,11 @@ bool OnCombat(const char *channel,
             .DstProfession = evCbtData.dst->Profession,
             .DstSpecialization = evCbtData.dst->Specialization,
             .SkillName = std::string(evCbtData.skillname),
-            .SkillID = evCbtData.id};
+            .SkillID = evCbtData.ev->SkillID,
+        };
 
-        if (Globals::RotationRun.skill_info_map.empty() || IsAnySkillFromBuild(data))
+        if (Globals::RotationRun.skill_info_map.empty() ||
+            IsAnySkillFromBuild(data))
         {
             if (IsNotTheSameCast(data))
             {
