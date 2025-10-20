@@ -18,6 +18,7 @@
 
 #include "ArcEvents.h"
 #include "Constants.h"
+#include "MapUtils.h"
 #include "Render.h"
 #include "Settings.h"
 #include "Shared.h"
@@ -47,13 +48,14 @@ void ToggleShowWindowGW2_RotaHelper(const char *keybindIdentifier, bool)
 void RegisterQuickAccessShortcut()
 {
     Globals::APIDefs->QuickAccess.Add("SHORTCUT_GW2_RotaHelper",
-                             "TEX_GW2_RotaHelper_NORMAL",
-                             "TEX_GW2_RotaHelper_HOVER",
-                             KB_TOGGLE_GW2_RotaHelper,
-                             "Toggle GW2_RotaHelper Window");
-    Globals::APIDefs->InputBinds.RegisterWithString(KB_TOGGLE_GW2_RotaHelper,
-                                           ToggleShowWindowGW2_RotaHelper,
-                                           "CTRL+Q");
+                                      "TEX_GW2_RotaHelper_NORMAL",
+                                      "TEX_GW2_RotaHelper_HOVER",
+                                      KB_TOGGLE_GW2_RotaHelper,
+                                      "Toggle GW2_RotaHelper Window");
+    Globals::APIDefs->InputBinds.RegisterWithString(
+        KB_TOGGLE_GW2_RotaHelper,
+        ToggleShowWindowGW2_RotaHelper,
+        "CTRL+Q");
 }
 
 void DeregisterQuickAccessShortcut()
@@ -124,16 +126,20 @@ void AddonLoad(AddonAPI *aApi)
         (void *(*)(size_t, void *))Globals::APIDefs->ImguiMalloc,
         (void (*)(void *, void *))Globals::APIDefs->ImguiFree);
 
-    Globals::NexusLink = (NexusLinkData *)Globals::APIDefs->DataLink.Get("DL_NEXUS_LINK");
-    Globals::MumbleData = (Mumble::Data *)Globals::APIDefs->DataLink.Get("DL_MUMBLE_LINK");
-    Globals::RTAPIData = (RTAPI::RealTimeData *)Globals::APIDefs->DataLink.Get("DL_RTAPI");
+    Globals::NexusLink =
+        (NexusLinkData *)Globals::APIDefs->DataLink.Get("DL_NEXUS_LINK");
+    Globals::MumbleData =
+        (Mumble::Data *)Globals::APIDefs->DataLink.Get("DL_MUMBLE_LINK");
+    Globals::RTAPIData =
+        (RTAPI::RealTimeData *)Globals::APIDefs->DataLink.Get("DL_RTAPI");
 
     Globals::APIDefs->Renderer.Register(ERenderType_Render, AddonRender);
-    Globals::APIDefs->Renderer.Register(ERenderType_OptionsRender, AddonOptions);
+    Globals::APIDefs->Renderer.Register(ERenderType_OptionsRender,
+                                        AddonOptions);
 
     AddonPath = Globals::APIDefs->Paths.GetAddonDirectory("GW2RotaHelper");
-    Globals::SettingsPath =
-        Globals::APIDefs->Paths.GetAddonDirectory("GW2RotaHelper/settings.json");
+    Globals::SettingsPath = Globals::APIDefs->Paths.GetAddonDirectory(
+        "GW2RotaHelper/settings.json");
 
     std::filesystem::create_directories(AddonPath);
 
@@ -152,18 +158,19 @@ void AddonLoad(AddonAPI *aApi)
         Globals::SkillIconSize = 28.0F;
 
     Globals::APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_NORMAL",
-                                       IDB_GW2_RotaHelper_NORMAL,
-                                       hSelf,
-                                       nullptr);
+                                                IDB_GW2_RotaHelper_NORMAL,
+                                                hSelf,
+                                                nullptr);
     Globals::APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_HOVER",
-                                       IDB_GW2_RotaHelper_HOVER,
-                                       hSelf,
-                                       nullptr);
+                                                IDB_GW2_RotaHelper_HOVER,
+                                                hSelf,
+                                                nullptr);
     RegisterQuickAccessShortcut();
 
     if (Globals::APIDefs && Globals::APIDefs->DataLink.Get)
     {
-        IDXGISwapChain *pSwapChain = (IDXGISwapChain *)Globals::APIDefs->SwapChain;
+        IDXGISwapChain *pSwapChain =
+            (IDXGISwapChain *)Globals::APIDefs->SwapChain;
         if (pSwapChain)
         {
             HRESULT hr = pSwapChain->GetDevice(__uuidof(ID3D11Device),
@@ -192,8 +199,14 @@ void AddonUnload()
 
 void AddonRender()
 {
-    if ((!Globals::NexusLink) || (!Globals::NexusLink->IsGameplay) || (!Settings::ShowWindow))
+    if ((!Globals::NexusLink) || (!Globals::NexusLink->IsGameplay) ||
+        (!Settings::ShowWindow))
         return;
+
+#ifndef _DEBUG
+    if (!IsInTrainingArea())
+        return;
+#endif
 
     Globals::Render.toggle_vis(Settings::ShowWindow);
     Globals::Render.render(pd3dDevice);

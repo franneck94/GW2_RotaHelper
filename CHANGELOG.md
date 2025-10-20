@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Features
 
 - Skill info on icon hover in horizontal mode
+- Only draw in training area
 
 ### Improvements
 
