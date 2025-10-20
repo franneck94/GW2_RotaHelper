@@ -66,7 +66,7 @@ add_library(first_party_libs STATIC
     "src/resource.rc"
     "src/ArcEvents.cpp"
     "src/Textures.cpp"
-    "src/MapUtils.cpp"
+    "src/MumbleUtils.cpp"
     "src/UeEvents.cpp"
 )
 set_source_files_properties("src/resource.rc" PROPERTIES LANGUAGE RC)
