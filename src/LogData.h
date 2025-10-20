@@ -57,17 +57,23 @@ public:
     };
 
     std::set<std::string> special_to_gray_out = {
+        // Elementalist
         "Attunement",
+        // Necromancer
         "Harbinger Shroud",
         "Reaper Shroud",
+        "Blood Is Power",
+        "Plague Signet",
+        // Engineer
         "Detonate",
+        // Mesmer
         "Bladesong Distortion",
         "Distortion",
+        // Guardian
         "Chapter 1:",
         "Chapter 2:",
         "Chapter 3:",
         "Chapter 4:",
-        "Plague Signet",
     };
 
     std::set<std::string> special_to_remove_duplicates = {
