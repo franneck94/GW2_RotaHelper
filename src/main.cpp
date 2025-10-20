@@ -112,6 +112,7 @@ int main(int, char **)
         Globals::SkillIconSize = 64.0F;
     else
         Globals::SkillIconSize = 28.0F;
+    Settings::ShowWindow = true;
 
     // Main loop
     MSG msg;
