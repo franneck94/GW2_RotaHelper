@@ -1046,13 +1046,21 @@ void RenderType::rotation_render_horizontal(ID3D11Device *pd3dDevice)
 void RenderType::render(ID3D11Device *pd3dDevice)
 {
     static bool is_infight = false;
+    static uint32_t num_frames_ooc = 0U;
 
     if (!Settings::ShowWindow)
         return;
 
     const auto curr_is_infight = IsInfight();
-    if (!curr_is_infight && is_infight)
+    if (!curr_is_infight)
+        ++num_frames_ooc;
+
+    if (!curr_is_infight && is_infight && num_frames_ooc > 30)
+    {
         restart_rotation();
+        num_frames_ooc = 0;
+    }
+
     is_infight = curr_is_infight;
 
     if (benches_files.size() == 0)

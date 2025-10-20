@@ -10,23 +10,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Features
 
 - Skill info on icon hover in horizontal mode
-- Only draw in training area
+- Only draw in training area and aerodome
 - Auto reload if ooc
 
 ### Improvements
 
-- Added more advanced Skill Icon coloring Logic
 - Don't show Cascading Corruption
-- Show Rusing Justice only once per cast
+- Show Rushing Justice only once per cast
 - Added debug info for the mumble context
-- Options window is now collapsable
+- Options window is now collapsible
 
 ## 0.3.0 - 2025-10-19
 
 ### Improvements
 
 - Integrated GW2 API data for profession and elite specialization IDs to prevent unnecessary event logging
-- Better skill detection, auto attack chaisn will not skip skills afterwards
+- Better skill detection, auto attack chains will not skip skills afterwards
 - When the Options Window is focused (clicked) you can see where the rotation window will be drawn to adjust the position and size
 - Skills that do no damage in the rotation are shown with a greyed out tint
 - Skills in the rotation that are auto attacks have an orange border
