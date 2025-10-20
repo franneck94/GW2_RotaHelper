@@ -8,6 +8,8 @@
 #pragma comment(lib, "ole32.lib")
 #include <conio.h>
 #include <d3d11.h>
+#include <codecvt>
+#include <locale>
 
 #include <algorithm>
 #include <filesystem>
@@ -22,6 +24,8 @@
 
 #include "imgui.h"
 
+#include "mumble/Mumble.h"
+
 #include "Defines.h"
 #include "LogData.h"
 #include "MapUtils.h"
@@ -33,6 +37,112 @@
 
 namespace
 {
+
+Mumble::Identity ParseMumbleIdentity(const wchar_t *identityString)
+{
+    Mumble::Identity identity = {};
+
+    try
+    {
+        // Convert wchar_t to string
+        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+        std::string jsonString = converter.to_bytes(identityString);
+
+        // Parse JSON
+        auto json = nlohmann::json::parse(jsonString);
+
+        // Extract and copy name (ensure null termination and size limit)
+        if (json.contains("name") && json["name"].is_string())
+        {
+            std::string name = json["name"].get<std::string>();
+            size_t copySize = min(
+                name.length(),
+                static_cast<size_t>(19)); // Leave space for null terminator
+            std::memcpy(identity.Name, name.c_str(), copySize);
+            identity.Name[copySize] = '\0'; // Ensure null termination
+        }
+
+        // Extract profession
+        if (json.contains("profession") &&
+            json["profession"].is_number_integer())
+        {
+            identity.Profession =
+                static_cast<Mumble::EProfession>(json["profession"].get<int>());
+        }
+
+        // Extract specialization (try "spec" first, fallback to "specialization")
+        if (json.contains("spec") && json["spec"].is_number_unsigned())
+        {
+            identity.Specialization = json["spec"].get<unsigned>();
+        }
+        else if (json.contains("specialization") &&
+                 json["specialization"].is_number_unsigned())
+        {
+            identity.Specialization = json["specialization"].get<unsigned>();
+        }
+
+        // Extract race
+        if (json.contains("race") && json["race"].is_number_integer())
+        {
+            identity.Race = static_cast<Mumble::ERace>(json["race"].get<int>());
+        }
+
+        // Extract map ID
+        if (json.contains("map_id") && json["map_id"].is_number_unsigned())
+        {
+            identity.MapID = json["map_id"].get<unsigned>();
+        }
+        else if (json.contains("map") && json["map"].is_number_unsigned())
+        {
+            identity.MapID = json["map"].get<unsigned>();
+        }
+
+        // Extract world ID
+        if (json.contains("world_id") && json["world_id"].is_number_unsigned())
+        {
+            identity.WorldID = json["world_id"].get<unsigned>();
+        }
+
+        // Extract team color ID
+        if (json.contains("team_color_id") &&
+            json["team_color_id"].is_number_unsigned())
+        {
+            identity.TeamColorID = json["team_color_id"].get<unsigned>();
+        }
+
+        // Extract commander status
+        if (json.contains("commander") && json["commander"].is_boolean())
+        {
+            identity.IsCommander = json["commander"].get<bool>();
+        }
+
+        // Extract FOV
+        if (json.contains("fov") && json["fov"].is_number())
+        {
+            identity.FOV = json["fov"].get<float>();
+        }
+
+        // Extract UI size
+        if (json.contains("uisz") && json["uisz"].is_number_integer())
+        {
+            identity.UISize =
+                static_cast<Mumble::EUIScale>(json["uisz"].get<int>());
+        }
+    }
+    catch (const std::exception &e)
+    {
+        // If parsing fails, return empty/default identity
+        // You might want to log this error in debug builds
+#ifdef _DEBUG
+        OutputDebugStringA(("Failed to parse Mumble Identity JSON: " +
+                            std::string(e.what()) + "\n")
+                               .c_str());
+#endif
+    }
+
+    return identity;
+}
+
 std::string format_build_name(const std::string &raw_name)
 {
     auto result = raw_name;
@@ -971,10 +1081,26 @@ void RenderType::render(ID3D11Device *pd3dDevice)
             Settings::Save(Globals::SettingsPath);
         }
 
-#ifdef _DEBUG && defined(GW2_NEXUS_ADDON)
-        ImGui::Text("Map ID: %llu", GetCurrentMapID());
-        ImGui::Text("Identity %s", Globals::MumbleData->Identity);
-        ImGui::Text("Description %s", Globals::MumbleData->Description);
+#ifdef _DEBUG
+        if (Globals::MumbleData)
+        {
+            ImGui::Text("Map ID: %llu", GetCurrentMapID());
+            auto identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
+            ImGui::Separator();
+            ImGui::Text("Mumble Identity Info:");
+            ImGui::Text("Name: %s", identity.Name);
+            ImGui::Text("Profession: %d",
+                        static_cast<int>(identity.Profession));
+            ImGui::Text("Specialization: %u", identity.Specialization);
+            ImGui::Text("Race: %d", static_cast<int>(identity.Race));
+            ImGui::Text("Map ID: %u", identity.MapID);
+            ImGui::Text("World ID: %u", identity.WorldID);
+            ImGui::Text("Team Color ID: %u", identity.TeamColorID);
+            ImGui::Text("Is Commander: %s",
+                        identity.IsCommander ? "Yes" : "No");
+            ImGui::Text("FOV: %.2f", identity.FOV);
+            ImGui::Text("UI Size: %d", static_cast<int>(identity.UISize));
+        }
 #endif
     }
     ImGui::End();

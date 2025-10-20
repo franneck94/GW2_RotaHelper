@@ -290,7 +290,6 @@ void get_rotation_info(
                 }
             }
 
-            // Check gear_proc and trait_proc from skill_info_map
             auto gear_proc = false;
             auto trait_proc = false;
             const auto skill_info_it = skill_info_map.find(icon_id);
@@ -314,6 +313,9 @@ void get_rotation_info(
                     !rotation_vector.empty()
                         ? rotation_vector.back().skill_name == skill_name
                         : false;
+
+                if (is_duplicate_skill && was_there_previous)
+                    continue;
 
                 rotation_vector.push_back(RotationInfo{
                     .icon_id = icon_id,
