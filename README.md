@@ -14,20 +14,20 @@ Elevate your Guild Wars 2 gameplay with this sophisticated rotation learning too
 
 - The addon ships all benchmark rotations from the snow crows website
 - You can input a filter text, otherwise all are listed
-- Theres a vertical and a horizontal layout depending on your needs
+- There's a vertical and a horizontal layout depending on your needs
 - Skill names and cast times (from the bench) can be turned on
 
 #### Important Notes
 
-- The addon is only active in aredome and in the training area
-- The rotation starts at the first timepoint where damage is dealt to the enemy, hence pre-cast abilities are excluded
+- The addon is only active in aerodrome and in the training area
+- The rotation starts at the first time point where damage is dealt to the enemy, hence pre-cast abilities are excluded
 
 #### Visual Learning System
 
 - White Border: Current skill to cast
 - Purple Border: Final skill in rotation
 - Orange Border: Auto-attack skills
-- Greyed Icons: Special skills (attunements, stances - in general non damaging skills)
+- Greyed Icons: Special skills (attunements, stances - in general non-damaging skills)
 
 ## ⚠️ Known Limitations
 
