@@ -22,7 +22,6 @@
 #include "Render.h"
 #include "Settings.h"
 #include "Shared.h"
-#include "UeEvents.h"
 #include "Version.h"
 #include "resource.h"
 
