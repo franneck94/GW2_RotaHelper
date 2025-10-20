@@ -1084,22 +1084,14 @@ void RenderType::render(ID3D11Device *pd3dDevice)
 #ifdef _DEBUG
         if (Globals::MumbleData)
         {
-            ImGui::Text("Map ID: %llu", GetCurrentMapID());
             auto identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
             ImGui::Separator();
-            ImGui::Text("Mumble Identity Info:");
             ImGui::Text("Name: %s", identity.Name);
             ImGui::Text("Profession: %d",
                         static_cast<int>(identity.Profession));
             ImGui::Text("Specialization: %u", identity.Specialization);
-            ImGui::Text("Race: %d", static_cast<int>(identity.Race));
             ImGui::Text("Map ID: %u", identity.MapID);
             ImGui::Text("World ID: %u", identity.WorldID);
-            ImGui::Text("Team Color ID: %u", identity.TeamColorID);
-            ImGui::Text("Is Commander: %s",
-                        identity.IsCommander ? "Yes" : "No");
-            ImGui::Text("FOV: %.2f", identity.FOV);
-            ImGui::Text("UI Size: %d", static_cast<int>(identity.UISize));
         }
 #endif
     }
