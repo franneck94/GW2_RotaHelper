@@ -21,12 +21,14 @@ extern RTAPI::RealTimeData *RTAPIData;
 extern std::string AccountName;
 extern Mumble::Data *MumbleData;
 extern ArcDPS::Exports ArcExports;
+
 extern std::filesystem::path Logpath;
 extern RenderType Render;
 extern RotationRunType RotationRun;
 extern TextureMapType TextureMap;
 extern std::filesystem::path SettingsPath;
 extern float SkillIconSize;
+extern std::string VersionString;
 }; // namespace Globals
 
 #endif

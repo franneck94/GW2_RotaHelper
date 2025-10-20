@@ -7,6 +7,7 @@
 #include "Render.h"
 #include "Shared.h"
 #include "Types.h"
+#include "Version.h"
 
 namespace Globals
 {
@@ -18,13 +19,10 @@ std::string AccountName;
 ArcDPS::Exports ArcExports = {};
 
 std::filesystem::path Logpath;
-
 RotationRunType RotationRun{};
 TextureMapType Globals::TextureMap{};
-
 RenderType Globals::Render{};
-
 std::filesystem::path Globals::SettingsPath;
-
-float Globals::SkillIconSize = 28.0F;
+float SkillIconSize = 28.0F;
+std::string VersionString = std::string{VERSION_STRING};
 }; // namespace Globals
