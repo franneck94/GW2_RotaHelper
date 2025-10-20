@@ -310,6 +310,10 @@ void get_rotation_info(
                     is_skill_in_set(skill_id,
                                     skill_name,
                                     special_to_remove_duplicates);
+                const auto was_there_previous =
+                    !rotation_vector.empty()
+                        ? rotation_vector.back().skill_name == skill_name
+                        : false;
 
                 rotation_vector.push_back(RotationInfo{
                     .icon_id = icon_id,
