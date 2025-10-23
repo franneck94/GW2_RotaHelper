@@ -319,8 +319,7 @@ void get_rotation_info(
                 if (is_duplicate_skill && was_there_previous)
                     continue;
 
-                // Calculate recharge time with alacrity (25% reduction)
-                const auto recharge_time_with_alacrity = recharge_time * 0.75f;
+                const auto recharge_time_with_alacrity = recharge_time * 0.8f;
 
                 rotation_vector.push_back(RotationInfo{
                     .icon_id = icon_id,
