@@ -631,6 +631,32 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
                               last_skill);
 }
 
+void RenderType::render_debug_data()
+{
+    if (!Globals::MumbleData)
+        return;
+
+    auto identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
+    ImGui::Separator();
+    ImGui::Text(
+        "Profession: %d (%s)",
+        static_cast<int>(identity.Profession),
+        profession_to_string(static_cast<ProfessionID>(identity.Profession))
+            .c_str());
+    ImGui::Text(
+        "Specialization: %u (%s)",
+        identity.Specialization,
+        elite_spec_to_string(static_cast<EliteSpecID>(identity.Specialization))
+            .c_str());
+    ImGui::Text("Map ID: %u", identity.MapID);
+    ImGui::Text("Is in Combat: %d", Globals::MumbleData->Context.IsInCombat);
+
+    ImGui::Text("Last Casted Skill ID: %u", curr_combat_data.SkillID);
+    ImGui::Text("Last Casted Skill Name: %s",
+                curr_combat_data.SkillName.c_str());
+    ImGui::Text("Last Event ID: %u", curr_combat_data.EventID);
+}
+
 void RenderType::render_options_window(bool &is_not_ui_adjust_active)
 {
     if (ImGui::Begin("Rota Helper ###GW2RotaHelper_Options",
@@ -683,50 +709,7 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
         }
 
 #ifdef _DEBUG
-        if (Globals::MumbleData)
-        {
-            auto identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
-            ImGui::Separator();
-            ImGui::Text("Profession: %d (%s)",
-                        static_cast<int>(identity.Profession),
-                        profession_to_string(
-                            static_cast<ProfessionID>(identity.Profession))
-                            .c_str());
-            ImGui::Text("Specialization: %u (%s)",
-                        identity.Specialization,
-                        elite_spec_to_string(
-                            static_cast<EliteSpecID>(identity.Specialization))
-                            .c_str());
-            ImGui::Text("Map ID: %u", identity.MapID);
-            ImGui::Text("Is in Combat: %d",
-                        Globals::MumbleData->Context.IsInCombat);
-
-            ImGui::Text("Last Casted Skill ID: %u", curr_combat_data.SkillID);
-            ImGui::Text("Last Casted Skill Name: %s",
-                        curr_combat_data.SkillName.c_str());
-
-            // Memory Reader Debug Info
-            ImGui::Separator();
-            ImGui::Text("Memory Reader Status:");
-
-            SkillCastInfo memory_skill =
-                Globals::MemoryReader.GetCurrentSkillCast();
-            ImGui::Text("Is Casting (Memory): %s",
-                        memory_skill.is_casting ? "Yes" : "No");
-
-            if (memory_skill.is_casting)
-            {
-                ImGui::Text("Skill ID (Memory): %u", memory_skill.skill_id);
-                ImGui::Text("Skill Name (Memory): %s",
-                            memory_skill.skill_name.c_str());
-                ImGui::Text("Cast Time Remaining: %.2f",
-                            memory_skill.cast_time_remaining);
-                ImGui::Text("Total Cast Time: %.2f",
-                            memory_skill.total_cast_time);
-                ImGui::Text("Is Channeling: %s",
-                            memory_skill.is_channeling ? "Yes" : "No");
-            }
-        }
+        render_debug_data();
 #endif
     }
 

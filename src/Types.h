@@ -22,6 +22,7 @@ struct EvCombatDataPersistent
     uint32_t DstSpecialization;
     std::string SkillName;
     uint64_t SkillID;
+    uint64_t EventID;
 };
 
 struct EvCombatData
