@@ -62,6 +62,13 @@ bool ShouldUseMemoryReading()
 }
 #endif
 
+std::string to_lowercase(const std::string &str)
+{
+    std::string result = str;
+    std::transform(result.begin(), result.end(), result.begin(), ::tolower);
+    return result;
+}
+
 std::string get_current_profession_name()
 {
     if (!Globals::MumbleData)
@@ -130,11 +137,7 @@ get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
     if (filter_string.empty())
     {
         // When filter is empty, filter by current character's profession
-        auto current_profession = get_current_profession_name();
-        std::transform(current_profession.begin(),
-                       current_profession.end(),
-                       current_profession.begin(),
-                       ::tolower);
+        auto current_profession = to_lowercase(get_current_profession_name());
 
         if (current_profession.empty())
         {
@@ -155,25 +158,17 @@ get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
 
                 if (!file_info.is_directory_header)
                 {
-                    auto display_lower = file_info.display_name;
-                    std::transform(display_lower.begin(),
-                                   display_lower.end(),
-                                   display_lower.begin(),
-                                   ::tolower);
-
-                    auto path_lower = file_info.relative_path.string();
-                    std::transform(path_lower.begin(),
-                                   path_lower.end(),
-                                   path_lower.begin(),
-                                   ::tolower);
+                    auto display_lower = to_lowercase(file_info.display_name);
+                    auto path_lower =
+                        to_lowercase(file_info.relative_path.string());
 
                     bool matches = false;
 
                     // Check if file matches current profession
-                    if (display_lower.find(current_profession) !=
-                            std::string::npos ||
-                        path_lower.find(current_profession) !=
-                            std::string::npos)
+                    if ((display_lower.find(current_profession) !=
+                         std::string::npos) ||
+                        (path_lower.find(current_profession) !=
+                         std::string::npos))
                     {
                         matches = true;
                     }
@@ -221,17 +216,9 @@ get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
                 }
                 else
                 {
-                    auto display_lower = file_info.display_name;
-                    std::transform(display_lower.begin(),
-                                   display_lower.end(),
-                                   display_lower.begin(),
-                                   ::tolower);
-
-                    auto path_lower = file_info.relative_path.string();
-                    std::transform(path_lower.begin(),
-                                   path_lower.end(),
-                                   path_lower.begin(),
-                                   ::tolower);
+                    auto display_lower = to_lowercase(file_info.display_name);
+                    auto path_lower =
+                        to_lowercase(file_info.relative_path.string());
 
                     bool matches = false;
 
@@ -278,11 +265,7 @@ get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
 
         if (!file_info.is_directory_header)
         {
-            auto display_lower = file_info.display_name;
-            std::transform(display_lower.begin(),
-                           display_lower.end(),
-                           display_lower.begin(),
-                           ::tolower);
+            auto display_lower = to_lowercase(file_info.display_name);
 
             if (display_lower.find(filter_string) != std::string::npos)
             {
@@ -311,11 +294,7 @@ get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
         }
         else
         {
-            auto display_lower = file_info.display_name;
-            std::transform(display_lower.begin(),
-                           display_lower.end(),
-                           display_lower.begin(),
-                           ::tolower);
+            auto display_lower = to_lowercase(file_info.display_name);
 
             if (display_lower.find(filter_string) != std::string::npos)
             {
@@ -921,11 +900,7 @@ void RenderType::text_filter()
                                          sizeof(filter_buffer),
                                          ImGuiInputTextFlags_EnterReturnsTrue);
 
-    Settings::FilterBuffer = std::string(filter_buffer);
-    std::transform(Settings::FilterBuffer.begin(),
-                   Settings::FilterBuffer.end(),
-                   Settings::FilterBuffer.begin(),
-                   ::tolower);
+    Settings::FilterBuffer = to_lowercase(std::string(filter_buffer));
 
     if (text_changed)
         open_combo_next_frame = true;
