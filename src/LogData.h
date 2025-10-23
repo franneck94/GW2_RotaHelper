@@ -48,12 +48,18 @@ public:
         "Relic of",
         "Relikt des",
         "Mushroom King",
-        " Kit",
         "Dodge",
+        // Engineer
+        " Kit",
+        // Ranger
         "Ranger Pet",
-        "Cascading Corruption",
+        // Mesmer
         "Mirage Cloak",
+        // Necromancer
         "Approaching Doom",
+        "Cascading Corruption",
+        // Revenant
+        "Invoke Torment",
     };
 
     std::set<std::string> special_to_gray_out = {
@@ -74,6 +80,7 @@ public:
         "Chapter 2:",
         "Chapter 3:",
         "Chapter 4:",
+        // Revenant
     };
 
     std::set<std::string> special_to_remove_duplicates = {
