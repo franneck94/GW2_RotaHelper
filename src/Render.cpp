@@ -737,23 +737,24 @@ void RenderType::skill_activation_callback(
                 {
                     // List of Mesmer weapon 4 skill IDs that can be reset by shatters
                     static const std::set<uint64_t> mesmer_weapon_4_skills = {
-                        10175,  // Phantasmal Duelist (Pistol)
-                        10186,  // Temporal Curtain (Focus)
-                        10221,  // Phantasmal Berserker (Greatsword)
-                        10280,  // Illusionary Riposte (Sword)
-                        10285,  // The Prestige (Torch)
-                        10325,  // Slipstream (Spear)
-                        10328,  // Phantasmal Whaler (Trident)
-                        10331,  // Chaos Armor (Staff)
-                        10358,  // Counter Blade (Sword)
-                        10363,  // Into the Void (Focus)
-                        29649,  // Deja Vu (Shield)
-                        30769,  // Echo of Memory (Shield)
-                        72007,  // Phantasmal Sharpshooter (Rifle)
-                        72946   // Phantasmal Lancer (Spear)
+                        10175, // Phantasmal Duelist (Pistol)
+                        10186, // Temporal Curtain (Focus)
+                        10221, // Phantasmal Berserker (Greatsword)
+                        10280, // Illusionary Riposte (Sword)
+                        10285, // The Prestige (Torch)
+                        10325, // Slipstream (Spear)
+                        10328, // Phantasmal Whaler (Trident)
+                        10331, // Chaos Armor (Staff)
+                        10358, // Counter Blade (Sword)
+                        10363, // Into the Void (Focus)
+                        29649, // Deja Vu (Shield)
+                        30769, // Echo of Memory (Shield)
+                        72007, // Phantasmal Sharpshooter (Rifle)
+                        72946  // Phantasmal Lancer (Spear)
                     };
 
-                    is_mesmer_weapon_4 = mesmer_weapon_4_skills.count(combat_data.SkillID) > 0;
+                    is_mesmer_weapon_4 =
+                        mesmer_weapon_4_skills.count(combat_data.SkillID) > 0;
                 }
 
                 // Skip cooldown check for Mesmer weapon 4 skills (they can be reset by shatters)
@@ -766,11 +767,14 @@ void RenderType::skill_activation_callback(
 
                     const auto cast_time_diff = now - last_cast_time;
                     const auto cast_time_diff_s =
-                        std::chrono::duration_cast<std::chrono::seconds>(cast_time_diff).count();
+                        std::chrono::duration_cast<std::chrono::seconds>(
+                            cast_time_diff)
+                            .count();
                     const auto recharge_duration_s =
                         std::chrono::seconds(recharge_time_w_alac_s);
 
-                    if (cast_time_diff_s < recharge_time_w_alac_s * 0.5) // XXX: Hacky
+                    if (cast_time_diff_s <
+                        recharge_time_w_alac_s * 0.5) // XXX: Hacky
                         return;
                 }
             }
@@ -882,9 +886,15 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
     if (ImGui::Begin("Rota Helper ###GW2RotaHelper_Options",
                      &Settings::ShowWindow))
     {
+#ifdef _DEBUG
+        ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.3f, 1.0f),
+                           "RotaHelper BETA v%s",
+                           Globals::VersionString.c_str());
+#else
         ImGui::TextColored(ImVec4(0.2f, 0.8f, 1.0f, 1.0f),
                            "RotaHelper v%s",
                            Globals::VersionString.c_str());
+#endif
 
         select_bench();
 
