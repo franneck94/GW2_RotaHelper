@@ -84,6 +84,8 @@ struct RotationInfo
     std::string skill_name;
     bool is_auto_attack;
     bool is_special_skill;
+    float recharge_time;
+    float recharge_time_with_alacrity;
 };
 
 using RotationInfoVec = std::vector<RotationInfo>;

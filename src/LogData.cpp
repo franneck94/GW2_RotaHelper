@@ -263,6 +263,7 @@ void get_rotation_info(
             auto skill_id = 0;
             auto skill_name = std::string{"Unknown Skill"};
             auto is_auto_attack = false;
+            auto recharge_time = -1.0f;
 
             // Search for skill name in skill_data_map using icon_id
             for (const auto &[sid, skill_data] : skill_data_map)
@@ -272,6 +273,7 @@ void get_rotation_info(
                     skill_name = skill_data.name;
                     skill_id = sid;
                     is_auto_attack = skill_data.is_auto_attack;
+                    recharge_time = static_cast<float>(skill_data.recharge);
                     break;
                 }
             }
@@ -317,6 +319,9 @@ void get_rotation_info(
                 if (is_duplicate_skill && was_there_previous)
                     continue;
 
+                // Calculate recharge time with alacrity (25% reduction)
+                const auto recharge_time_with_alacrity = recharge_time * 0.75f;
+
                 rotation_vector.push_back(RotationInfo{
                     .icon_id = icon_id,
                     .skill_id = skill_id,
@@ -325,6 +330,8 @@ void get_rotation_info(
                     .skill_name = skill_name,
                     .is_auto_attack = is_auto_attack,
                     .is_special_skill = is_special_skill,
+                    .recharge_time = recharge_time,
+                    .recharge_time_with_alacrity = recharge_time_with_alacrity,
                 });
             }
         }
