@@ -66,23 +66,13 @@ bool IsAnySkillFromBuild(const EvCombatDataPersistent &evCbtData)
            IsSkillFromBuild_IdBased(evCbtData);
 }
 
-#ifdef USE_SKILL_ID_MATCH_LOGIC
-std::chrono::steady_clock::time_point UpdateCastTime(
-    std::map<int, std::chrono::steady_clock::time_point> &last_cast_map,
-    const EvCombatDataPersistent &evCbtData)
-#else
 std::chrono::steady_clock::time_point UpdateCastTime(
     std::map<std::string, std::chrono::steady_clock::time_point> &last_cast_map,
     const EvCombatDataPersistent &evCbtData)
-#endif
 {
     const auto now = std::chrono::steady_clock::now();
 
-#ifdef USE_SKILL_ID_MATCH_LOGIC
-    last_cast_map[evCbtData.SkillID] = now;
-#else
     last_cast_map[evCbtData.SkillName] = now;
-#endif
 
     return now;
 }
@@ -90,20 +80,10 @@ std::chrono::steady_clock::time_point UpdateCastTime(
 std::chrono::steady_clock::time_point GetLastCastTime(
     const EvCombatDataPersistent &evCbtData)
 {
-#ifdef USE_SKILL_ID_MATCH_LOGIC
-    static auto last_cast_map =
-        std::map<int, std::chrono::steady_clock::time_point>{};
-#else
     static auto last_cast_map =
         std::map<std::string, std::chrono::steady_clock::time_point>{};
 
-#endif
-
-#ifdef USE_SKILL_ID_MATCH_LOGIC
-    const auto it = last_cast_map.find(evCbtData.SkillID);
-#else
     const auto it = last_cast_map.find(evCbtData.SkillName);
-#endif
     if (it != last_cast_map.end())
     {
         const auto time = it->second;
@@ -180,6 +160,7 @@ bool OnCombat(const char *channel,
             .DstSpecialization = evCbtData.dst->Specialization,
             .SkillName = std::string(evCbtData.skillname),
             .SkillID = evCbtData.ev->SkillID,
+            .EventID = evCbtData.id,
         };
 
         if (Globals::RotationRun.skill_info_map.empty() ||

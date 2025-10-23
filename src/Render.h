@@ -79,6 +79,7 @@ public:
 
     void render(ID3D11Device *pd3dDevice);
 
+    void render_debug_data();
     void render_options_window(bool &is_not_ui_adjust_active);
     void text_filter();
     void selection();
