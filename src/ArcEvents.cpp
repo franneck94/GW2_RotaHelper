@@ -100,6 +100,7 @@ bool IsNotTheSameCast(const EvCombatDataPersistent &evCbtData)
 {
     const auto now = std::chrono::steady_clock::now();
     const auto last_cast_time = GetLastCastTime(evCbtData);
+
     return (now - last_cast_time) > std::chrono::milliseconds(MIN_TIME_DIFF);
 }
 }; // namespace
@@ -143,12 +144,6 @@ bool OnCombat(const char *channel,
 
     if (IsValidCombatEvent(evCbtData))
     {
-#ifdef _DEBUG
-        if (evCbtData.src->Specialization !=
-            static_cast<uint32_t>(Globals::RotationRun.meta_data.elite_spec_id))
-            return false;
-#endif
-
         const auto data = EvCombatDataPersistent{
             .SrcName = std::string(evCbtData.src->Name),
             .SrcID = evCbtData.src->ID,
