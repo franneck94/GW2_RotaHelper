@@ -321,7 +321,8 @@ void get_rotation_info(
                 !is_skill_in_set(skill_id, skill_name, skills_to_drop))
             {
                 const auto is_special_skill =
-                    is_skill_in_set(skill_id, skill_name, special_to_gray_out);
+                    is_skill_in_set(skill_id, skill_name, special_to_gray_out) ||
+                    is_heal_skill;
 
                 const auto is_duplicate_skill =
                     is_skill_in_set(skill_id,
