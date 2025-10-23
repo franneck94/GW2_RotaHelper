@@ -85,8 +85,14 @@ class GW2SkillFetcher:
                     recharge_value = fact["value"]
                     break
 
-        # Determine if skill is an auto attack
+        # Determine skill types based on slot
+        slot = skill.get("slot", "")
         is_auto_attack = self._is_auto_attack(skill)
+        is_weapon_skill = self._is_weapon_skill(slot)
+        is_utility_skill = self._is_utility_skill(slot)
+        is_elite_skill = self._is_elite_skill(slot)
+        is_heal_skill = self._is_heal_skill(slot)
+        is_profession_skill = self._is_profession_skill(slot)
 
         # Build filtered skill data with only the essential fields
         filtered_skill = {
@@ -94,6 +100,11 @@ class GW2SkillFetcher:
             "id": skill.get("id"),
             "name": skill.get("name"),
             "is_auto_attack": is_auto_attack,
+            "is_weapon_skill": is_weapon_skill,
+            "is_utility_skill": is_utility_skill,
+            "is_elite_skill": is_elite_skill,
+            "is_heal_skill": is_heal_skill,
+            "is_profession_skill": is_profession_skill,
         }
 
         # Add recharge only if it exists
@@ -171,6 +182,41 @@ class GW2SkillFetcher:
 
         return False
 
+    def _is_weapon_skill(self, slot: str) -> bool:
+        """Determine if a skill is a weapon skill based on slot."""
+        weapon_slots = {
+            "Weapon_1",
+            "Weapon_2",
+            "Weapon_3",
+            "Weapon_4",
+            "Weapon_5",
+            "Weapon",
+        }
+        return slot in weapon_slots
+
+    def _is_utility_skill(self, slot: str) -> bool:
+        """Determine if a skill is a utility skill based on slot."""
+        return slot == "Utility"
+
+    def _is_elite_skill(self, slot: str) -> bool:
+        """Determine if a skill is an elite skill based on slot."""
+        return slot == "Elite"
+
+    def _is_heal_skill(self, slot: str) -> bool:
+        """Determine if a skill is a heal skill based on slot."""
+        return slot == "Heal"
+
+    def _is_profession_skill(self, slot: str) -> bool:
+        """Determine if a skill is a profession skill based on slot."""
+        profession_slots = {
+            "Profession_1",
+            "Profession_2",
+            "Profession_3",
+            "Profession_4",
+            "Profession_5",
+        }
+        return slot in profession_slots
+
     def save_skills_to_file(self, skills_data: Dict[str, Any]) -> None:
         """Save skill data to a JSON file."""
         output_file = self.output_dir / "gw2_skills_en.json"
@@ -186,6 +232,46 @@ class GW2SkillFetcher:
 
         except Exception as e:
             self.logger.error(f"Error saving skills data: {e}")
+            raise
+
+    def save_uncategorized_skills(self, skills_data: Dict[str, Dict[str, Any]]) -> None:
+        """Save skills that have all boolean flags set to false."""
+        uncategorized_skills = {}
+
+        for skill_id, skill_data in skills_data.items():
+            # Check if all boolean flags are false
+            if (
+                not skill_data.get("is_auto_attack", False)
+                and not skill_data.get("is_elite_skill", False)
+                and not skill_data.get("is_heal_skill", False)
+                and not skill_data.get("is_utility_skill", False)
+                and not skill_data.get("is_weapon_skill", False)
+                and not skill_data.get("is_profession_skill", False)
+            ):
+                uncategorized_skills[skill_id] = skill_data
+
+        output_file = self.output_dir / "gw2_uncategorized_skills.json"
+
+        try:
+            with open(output_file, "w", encoding="utf-8") as f:
+                json.dump(
+                    uncategorized_skills,
+                    f,
+                    indent=2,
+                    ensure_ascii=False,
+                    sort_keys=True,
+                )
+
+            self.logger.info(f"Uncategorized skills data saved to: {output_file}")
+            self.logger.info(
+                f"Found {len(uncategorized_skills)} uncategorized skills out of {len(skills_data)} total skills"
+            )
+            self.logger.info(
+                f"File size: {output_file.stat().st_size / 1024 / 1024:.2f} MB"
+            )
+
+        except Exception as e:
+            self.logger.error(f"Error saving uncategorized skills data: {e}")
             raise
 
     def create_metadata(self, skills_data: Dict[str, Any]) -> Dict[str, Any]:
@@ -243,6 +329,7 @@ class GW2SkillFetcher:
 
             # Save data and metadata
             self.save_skills_to_file(skills_data)
+            self.save_uncategorized_skills(skills_data)
             self.save_metadata(skills_data)
 
             self.logger.info("Successfully completed skill data fetch!")
