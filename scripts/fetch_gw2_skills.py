@@ -99,6 +99,8 @@ class GW2SkillFetcher:
         # Add recharge only if it exists
         if recharge_value is not None:
             filtered_skill["recharge"] = recharge_value
+        else:
+            filtered_skill["recharge"] = 0
 
         return filtered_skill
 
