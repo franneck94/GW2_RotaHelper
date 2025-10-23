@@ -137,10 +137,6 @@ std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
     return std::make_pair(filtered_files, directories_with_matches);
 }
 
-
-namespace
-{
-
 void DrawRect(const RotationInfo &skill_info,
               const std::string &text,
               ImU32 color)

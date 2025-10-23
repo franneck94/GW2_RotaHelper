@@ -155,9 +155,7 @@ void AddonLoad(AddonAPI *aApi)
     RegisterQuickAccessShortcut();
 
 #ifdef _DEBUG
-    if (!Globals::MemoryReader.Initialize())
-    {
-    }
+    Globals::MemoryReader.Initialize();
 #endif
 
     if (Globals::APIDefs && Globals::APIDefs->DataLink.Get)
