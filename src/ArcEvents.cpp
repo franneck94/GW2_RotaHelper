@@ -31,10 +31,8 @@ bool IsValidSelfData(const EvCombatData &evCbtData)
 bool IsValidCombatEvent(const EvCombatData &evCbtData)
 {
     const auto is_valid_self = IsValidSelfData(evCbtData);
-    const auto is_valid_target =
-        evCbtData.dst != nullptr && evCbtData.dst->Name != nullptr;
 
-    return is_valid_self && is_valid_target;
+    return is_valid_self;
 }
 
 bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
@@ -149,10 +147,6 @@ bool OnCombat(const char *channel,
             .SrcID = evCbtData.src->ID,
             .SrcProfession = evCbtData.src->Profession,
             .SrcSpecialization = evCbtData.src->Specialization,
-            .DstName = std::string(evCbtData.dst->Name),
-            .DstID = evCbtData.dst->ID,
-            .DstProfession = evCbtData.dst->Profession,
-            .DstSpecialization = evCbtData.dst->Specialization,
             .SkillName = std::string(evCbtData.skillname),
             .SkillID = evCbtData.ev->SkillID,
             .EventID = evCbtData.id,
