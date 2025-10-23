@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.5.0 - 2025-10-23
 
+### Improvements
+
+- If no filter text is selected, only show builds of the current profession
+- Improved skill activation logic
+
 ### Developement
 
 - Added recharge time to skill struct
