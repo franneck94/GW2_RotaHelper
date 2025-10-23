@@ -309,12 +309,12 @@ get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
 
 void DrawRect(const RotationInfo &skill_info,
               const std::string &text,
-              ImU32 color)
+              const ImU32 color,
+              const float border_thickness = 2.0f)
 {
     auto draw_list = ImGui::GetWindowDrawList();
     auto cursor_pos = ImGui::GetCursorScreenPos();
     auto border_color = color;
-    auto border_thickness = 2.0f;
 
     auto text_size = ImVec2{};
     if (!text.empty())
@@ -735,6 +735,7 @@ void RenderType::skill_activation_callback(
                 auto is_mesmer_weapon_4 = false;
                 if (profession_lower == "mesmer")
                 {
+                    // TODO: For Chrono - CS reset
                     // List of Mesmer weapon 4 skill IDs that can be reset by shatters
                     static const std::set<uint64_t> mesmer_weapon_4_skills = {
                         10175, // Phantasmal Duelist (Pistol)
@@ -773,8 +774,8 @@ void RenderType::skill_activation_callback(
                     const auto recharge_duration_s =
                         std::chrono::seconds(recharge_time_w_alac_s);
 
-                    if (cast_time_diff_s <
-                        recharge_time_w_alac_s * 0.5) // XXX: Hacky
+                    if (cast_time_diff_s < recharge_time_w_alac_s * 0.5 &&
+                        recharge_time_w_alac_s > 0) // XXX: Hacky
                         return;
                 }
             }
@@ -831,8 +832,7 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
     if (Globals::RotationRun.bench_rotation_list.empty())
         return;
 
-    if (skill_ev.SkillID == 0 || last_skill.SkillID == skill_ev.SkillID ||
-        skill_ev.SkillID == -10000)
+    if (skill_ev.SkillID == 0 || skill_ev.SkillID == -10000)
         return;
 
     SimpleSkillDetectionLogic(num_skills_wo_match,
@@ -1297,7 +1297,7 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
     const auto is_special_skill = skill_info.is_special_skill;
 
     if (skill_state.is_current && !skill_state.is_last) // white
-        DrawRect(skill_info, text, IM_COL32(255, 255, 255, 255));
+        DrawRect(skill_info, text, IM_COL32(255, 255, 255, 255), 4.0F);
     else if (skill_state.is_last) // pruple
         DrawRect(skill_info, text, IM_COL32(128, 0, 128, 255));
     else if (skill_info.is_auto_attack) // orange
