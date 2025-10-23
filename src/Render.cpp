@@ -6,10 +6,7 @@
 #include <wincodec.h>
 #pragma comment(lib, "windowscodecs.lib")
 #pragma comment(lib, "ole32.lib")
-#include <codecvt>
-#include <conio.h>
 #include <d3d11.h>
-#include <locale>
 
 #include <algorithm>
 #include <filesystem>
@@ -65,18 +62,211 @@ bool ShouldUseMemoryReading()
 }
 #endif
 
+std::string get_current_profession_name()
+{
+    if (!Globals::MumbleData)
+        return "";
+
+    try
+    {
+        auto identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
+        return profession_to_string(
+            static_cast<ProfessionID>(identity.Profession));
+    }
+    catch (...)
+    {
+        return "";
+    }
+}
+
+std::vector<std::string> get_elite_specs_for_profession(ProfessionID profession)
+{
+    std::vector<std::string> elite_specs;
+
+    switch (profession)
+    {
+    case ProfessionID::GUARDIAN:
+        elite_specs = {"dragonhunter", "firebrand", "willbender", "luminary"};
+        break;
+    case ProfessionID::WARRIOR:
+        elite_specs = {"berserker", "spellbreaker", "bladesworn", "paragon"};
+        break;
+    case ProfessionID::ENGINEER:
+        elite_specs = {"scrapper", "holosmith", "mechanist", "amalgam"};
+        break;
+    case ProfessionID::RANGER:
+        elite_specs = {"druid", "soulbeast", "untamed", "galeshot"};
+        break;
+    case ProfessionID::THIEF:
+        elite_specs = {"daredevil", "deadeye", "specter", "antiquary"};
+        break;
+    case ProfessionID::ELEMENTALIST:
+        elite_specs = {"tempest", "weaver", "catalyst", "evoker"};
+        break;
+    case ProfessionID::MESMER:
+        elite_specs = {"chronomancer", "mirage", "virtuoso", "troubadour"};
+        break;
+    case ProfessionID::NECROMANCER:
+        elite_specs = {"reaper", "scourge", "harbinger", "ritualist"};
+        break;
+    case ProfessionID::REVENANT:
+        elite_specs = {"herald", "renegade", "vindicator", "conduit"};
+        break;
+    default:
+        break;
+    }
+
+    return elite_specs;
+}
+
 std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
-          std::set<std::string>> get_file_data_pairs(std::vector<BenchFileInfo>
-                                                         &benches_files,
-                                                     std::string &filter_string)
+          std::set<std::string>>
+get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
+                    std::string &filter_string)
 {
     auto filtered_files = std::vector<std::pair<int, const BenchFileInfo *>>{};
     auto directories_with_matches = std::set<std::string>{};
 
     if (filter_string.empty())
     {
-        for (int n = 0; n < benches_files.size(); n++)
-            filtered_files.emplace_back(n, &benches_files[n]);
+        // When filter is empty, filter by current character's profession
+        auto current_profession = get_current_profession_name();
+        std::transform(current_profession.begin(),
+                       current_profession.end(),
+                       current_profession.begin(),
+                       ::tolower);
+
+        if (current_profession.empty())
+        {
+            // If no profession available, show all files
+            for (int n = 0; n < benches_files.size(); n++)
+                filtered_files.emplace_back(n, &benches_files[n]);
+        }
+        else
+        {
+            // Get elite specs for this profession
+            auto profession_id = string_to_profession(current_profession);
+            auto elite_specs = get_elite_specs_for_profession(profession_id);
+
+            // First pass: find files that match the profession or elite specs and collect their directories
+            for (int n = 0; n < benches_files.size(); n++)
+            {
+                const auto &file_info = benches_files[n];
+
+                if (!file_info.is_directory_header)
+                {
+                    auto display_lower = file_info.display_name;
+                    std::transform(display_lower.begin(),
+                                   display_lower.end(),
+                                   display_lower.begin(),
+                                   ::tolower);
+
+                    auto path_lower = file_info.relative_path.string();
+                    std::transform(path_lower.begin(),
+                                   path_lower.end(),
+                                   path_lower.begin(),
+                                   ::tolower);
+
+                    bool matches = false;
+
+                    // Check if file matches current profession
+                    if (display_lower.find(current_profession) !=
+                            std::string::npos ||
+                        path_lower.find(current_profession) !=
+                            std::string::npos)
+                    {
+                        matches = true;
+                    }
+
+                    // Check if file matches any elite spec for this profession
+                    if (!matches)
+                    {
+                        for (const auto &elite_spec : elite_specs)
+                        {
+                            if (display_lower.find(elite_spec) !=
+                                    std::string::npos ||
+                                path_lower.find(elite_spec) !=
+                                    std::string::npos)
+                            {
+                                matches = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (matches)
+                    {
+                        const auto parent_dir =
+                            file_info.relative_path.parent_path().string();
+                        if (!parent_dir.empty() && parent_dir != ".")
+                        {
+                            directories_with_matches.insert(parent_dir);
+                        }
+                    }
+                }
+            }
+
+            // Second pass: add directory headers and matching files to filtered list
+            for (int n = 0; n < benches_files.size(); n++)
+            {
+                const auto &file_info = benches_files[n];
+
+                if (file_info.is_directory_header)
+                {
+                    if (directories_with_matches.count(
+                            file_info.relative_path.string()) > 0)
+                    {
+                        filtered_files.emplace_back(n, &file_info);
+                    }
+                }
+                else
+                {
+                    auto display_lower = file_info.display_name;
+                    std::transform(display_lower.begin(),
+                                   display_lower.end(),
+                                   display_lower.begin(),
+                                   ::tolower);
+
+                    auto path_lower = file_info.relative_path.string();
+                    std::transform(path_lower.begin(),
+                                   path_lower.end(),
+                                   path_lower.begin(),
+                                   ::tolower);
+
+                    bool matches = false;
+
+                    // Check if file matches current profession
+                    if (display_lower.find(current_profession) !=
+                            std::string::npos ||
+                        path_lower.find(current_profession) !=
+                            std::string::npos)
+                    {
+                        matches = true;
+                    }
+
+                    // Check if file matches any elite spec for this profession
+                    if (!matches)
+                    {
+                        for (const auto &elite_spec : elite_specs)
+                        {
+                            if (display_lower.find(elite_spec) !=
+                                    std::string::npos ||
+                                path_lower.find(elite_spec) !=
+                                    std::string::npos)
+                            {
+                                matches = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (matches)
+                    {
+                        filtered_files.emplace_back(n, &file_info);
+                    }
+                }
+            }
+        }
 
         return std::make_pair(filtered_files, directories_with_matches);
     }
@@ -195,40 +385,6 @@ bool IsSkillAutoAttack(const uint64_t skill_id,
     }
 
     return false; // Default to false if skill not found
-}
-
-Mumble::Identity ParseMumbleIdentity(const wchar_t *identityString)
-{
-    Mumble::Identity identity = {};
-
-    try
-    {
-        std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-        std::string jsonString = converter.to_bytes(identityString);
-
-        auto json = nlohmann::json::parse(jsonString);
-
-        if (json.contains("profession") &&
-            json["profession"].is_number_integer())
-            identity.Profession =
-                static_cast<Mumble::EProfession>(json["profession"].get<int>());
-
-        if (json.contains("spec") && json["spec"].is_number_unsigned())
-            identity.Specialization = json["spec"].get<unsigned>();
-        else if (json.contains("specialization") &&
-                 json["specialization"].is_number_unsigned())
-            identity.Specialization = json["specialization"].get<unsigned>();
-
-        if (json.contains("map_id") && json["map_id"].is_number_unsigned())
-            identity.MapID = json["map_id"].get<unsigned>();
-        else if (json.contains("map") && json["map"].is_number_unsigned())
-            identity.MapID = json["map"].get<unsigned>();
-    }
-    catch (const std::exception &e)
-    {
-    }
-
-    return identity;
 }
 
 std::string format_build_name(const std::string &raw_name)
@@ -633,10 +789,23 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
 
 void RenderType::render_debug_data()
 {
+    static auto identity = Mumble::Identity{};
+    static auto last_parse_time = std::chrono::steady_clock::now();
+
     if (!Globals::MumbleData)
         return;
 
-    auto identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
+    const auto now = std::chrono::steady_clock::now();
+    const auto time_since_last_parse =
+        std::chrono::duration_cast<std::chrono::seconds>(now - last_parse_time)
+            .count();
+
+    if (time_since_last_parse >= 2)
+    {
+        identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
+        last_parse_time = now;
+    }
+
     ImGui::Separator();
     ImGui::Text(
         "Profession: %d (%s)",
