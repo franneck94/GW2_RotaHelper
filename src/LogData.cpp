@@ -180,7 +180,13 @@ void get_skill_info(const IntNode &node, SkillInfoMap &skill_info_map)
         skill_info_map[std::stoi(icon_id)] = {name,
                                               icon,
                                               trait_proc,
-                                              gear_proc};
+                                              gear_proc,
+                                              false, // is_auto_attack
+                                              false, // is_weapon_skill
+                                              false, // is_utility_skill
+                                              false, // is_elite_skill
+                                              false, // is_heal_skill
+                                              false}; // is_profession_skill
     }
 }
 
@@ -263,6 +269,11 @@ void get_rotation_info(
             auto skill_id = 0;
             auto skill_name = std::string{"Unknown Skill"};
             auto is_auto_attack = false;
+            auto is_weapon_skill = false;
+            auto is_utility_skill = false;
+            auto is_elite_skill = false;
+            auto is_heal_skill = false;
+            auto is_profession_skill = false;
             auto recharge_time = -1.0f;
 
             // Search for skill name in skill_data_map using icon_id
@@ -273,6 +284,11 @@ void get_rotation_info(
                     skill_name = skill_data.name;
                     skill_id = sid;
                     is_auto_attack = skill_data.is_auto_attack;
+                    is_weapon_skill = skill_data.is_weapon_skill;
+                    is_utility_skill = skill_data.is_utility_skill;
+                    is_elite_skill = skill_data.is_elite_skill;
+                    is_heal_skill = skill_data.is_heal_skill;
+                    is_profession_skill = skill_data.is_profession_skill;
                     recharge_time = static_cast<float>(skill_data.recharge);
                     break;
                 }
@@ -329,6 +345,11 @@ void get_rotation_info(
                     .skill_name = skill_name,
                     .is_auto_attack = is_auto_attack,
                     .is_special_skill = is_special_skill,
+                    .is_weapon_skill = is_weapon_skill,
+                    .is_utility_skill = is_utility_skill,
+                    .is_elite_skill = is_elite_skill,
+                    .is_heal_skill = is_heal_skill,
+                    .is_profession_skill = is_profession_skill,
                     .recharge_time = recharge_time,
                     .recharge_time_with_alacrity = recharge_time_with_alacrity,
                 });
@@ -363,6 +384,36 @@ SkillDataMap get_skill_data(const nlohmann::json &j)
             skill_data.is_auto_attack = skill_obj["is_auto_attack"].get<bool>();
         else
             skill_data.is_auto_attack = false; // Default to false
+
+        if (skill_obj.contains("is_weapon_skill") &&
+            skill_obj["is_weapon_skill"].is_boolean())
+            skill_data.is_weapon_skill = skill_obj["is_weapon_skill"].get<bool>();
+        else
+            skill_data.is_weapon_skill = false; // Default to false
+
+        if (skill_obj.contains("is_utility_skill") &&
+            skill_obj["is_utility_skill"].is_boolean())
+            skill_data.is_utility_skill = skill_obj["is_utility_skill"].get<bool>();
+        else
+            skill_data.is_utility_skill = false; // Default to false
+
+        if (skill_obj.contains("is_elite_skill") &&
+            skill_obj["is_elite_skill"].is_boolean())
+            skill_data.is_elite_skill = skill_obj["is_elite_skill"].get<bool>();
+        else
+            skill_data.is_elite_skill = false; // Default to false
+
+        if (skill_obj.contains("is_heal_skill") &&
+            skill_obj["is_heal_skill"].is_boolean())
+            skill_data.is_heal_skill = skill_obj["is_heal_skill"].get<bool>();
+        else
+            skill_data.is_heal_skill = false; // Default to false
+
+        if (skill_obj.contains("is_profession_skill") &&
+            skill_obj["is_profession_skill"].is_boolean())
+            skill_data.is_profession_skill = skill_obj["is_profession_skill"].get<bool>();
+        else
+            skill_data.is_profession_skill = false; // Default to false
 
         skill_data.icon_id = 0; // Default value
         if (skill_obj.contains("icon") && skill_obj["icon"].is_string())

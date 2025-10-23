@@ -56,6 +56,12 @@ struct SkillInfo
     std::string icon_url;
     bool trait_proc;
     bool gear_proc;
+    bool is_auto_attack;
+    bool is_weapon_skill;
+    bool is_utility_skill;
+    bool is_elite_skill;
+    bool is_heal_skill;
+    bool is_profession_skill;
 };
 
 using SkillInfoMap = std::map<int, SkillInfo>;
@@ -85,6 +91,11 @@ struct RotationInfo
     std::string skill_name;
     bool is_auto_attack;
     bool is_special_skill;
+    bool is_weapon_skill;
+    bool is_utility_skill;
+    bool is_elite_skill;
+    bool is_heal_skill;
+    bool is_profession_skill;
     float recharge_time;
     float recharge_time_with_alacrity;
 };
@@ -98,6 +109,11 @@ struct SkillData
     std::string name;
     int recharge;
     bool is_auto_attack;
+    bool is_weapon_skill;
+    bool is_utility_skill;
+    bool is_elite_skill;
+    bool is_heal_skill;
+    bool is_profession_skill;
 };
 
 using SkillDataMap = std::map<int, SkillData>;
