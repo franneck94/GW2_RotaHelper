@@ -217,15 +217,35 @@ class GW2SkillFetcher:
         }
         return slot in profession_slots
 
-    def save_skills_to_file(self, skills_data: Dict[str, Any]) -> None:
-        """Save skill data to a JSON file."""
+    def save_skills_to_file(self, skills_data: Dict[str, Dict[str, Any]]) -> None:
+        """Save skill data to a JSON file, filtering out uncategorized skills."""
+        # Filter out skills that have all boolean flags set to false
+        categorized_skills = {}
+
+        for skill_id, skill_data in skills_data.items():
+            # Keep skills that have at least one boolean flag set to true
+            if (
+                skill_data.get("is_auto_attack", False)
+                or skill_data.get("is_elite_skill", False)
+                or skill_data.get("is_heal_skill", False)
+                or skill_data.get("is_utility_skill", False)
+                or skill_data.get("is_weapon_skill", False)
+                or skill_data.get("is_profession_skill", False)
+            ):
+                categorized_skills[skill_id] = skill_data
+
         output_file = self.output_dir / "gw2_skills_en.json"
 
         try:
             with open(output_file, "w", encoding="utf-8") as f:
-                json.dump(skills_data, f, indent=2, ensure_ascii=False, sort_keys=True)
+                json.dump(
+                    categorized_skills, f, indent=2, ensure_ascii=False, sort_keys=True
+                )
 
             self.logger.info(f"Skills data saved to: {output_file}")
+            self.logger.info(
+                f"Saved {len(categorized_skills)} categorized skills out of {len(skills_data)} total skills"
+            )
             self.logger.info(
                 f"File size: {output_file.stat().st_size / 1024 / 1024:.2f} MB"
             )
@@ -274,7 +294,7 @@ class GW2SkillFetcher:
             self.logger.error(f"Error saving uncategorized skills data: {e}")
             raise
 
-    def create_metadata(self, skills_data: Dict[str, Any]) -> Dict[str, Any]:
+    def create_metadata(self, skills_data: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
         """Create metadata about the fetched skills."""
         from datetime import datetime, timezone
 
@@ -300,7 +320,7 @@ class GW2SkillFetcher:
 
         return metadata
 
-    def save_metadata(self, skills_data: Dict[str, Any]) -> None:
+    def save_metadata(self, skills_data: Dict[str, Dict[str, Any]]) -> None:
         """Save metadata about the fetched skills."""
         metadata = self.create_metadata(skills_data)
         metadata_file = self.output_dir / "gw2_skills_metadata.json"
