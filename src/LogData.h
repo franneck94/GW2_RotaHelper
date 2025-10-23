@@ -49,10 +49,13 @@ public:
         "Relikt des",
         "Mushroom King",
         "Dodge",
+        // Elementalist
+        "Attunement",
         // Engineer
         " Kit",
         // Ranger
         "Ranger Pet",
+        "Unleashed Overbearing Smash (Leap)",
         // Mesmer
         "Mirage Cloak",
         // Necromancer
@@ -60,11 +63,16 @@ public:
         "Cascading Corruption",
         // Revenant
         "Invoke Torment",
+        // Elementalist
+        "Sunspot",
+        "Earthen Blast",
+        // Warrior
+        "Blood Reckoning"
     };
 
     std::set<std::string> special_to_gray_out = {
         // Elementalist
-        "Attunement",
+        "Earthquake",
         // Necromancer
         "Harbinger Shroud",
         "Reaper Shroud",
@@ -75,12 +83,27 @@ public:
         // Mesmer
         "Bladesong Distortion",
         "Distortion",
+        "Phantasmal Warden",
+        "Signet of Domination",
+        "Signet of Midnight",
+        "Signet of Inspiration",
+        "Signet of Illusions",
+        "Jaunt",
+        "Crystal Sands",
         // Guardian
         "Chapter 1:",
         "Chapter 2:",
         "Chapter 3:",
         "Chapter 4:",
         // Revenant
+        // Warrior
+        "Sheathe Gunsaber",
+        "Unsheathe Gunsaber",
+        "Dragon Trigger",
+        "Flow Stabilizer",
+        "Overcharged Cartridges",
+        "Tactical Reload",
+        "Arcing Slice",
     };
 
     std::set<std::string> special_to_remove_duplicates = {
