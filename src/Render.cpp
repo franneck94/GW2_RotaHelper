@@ -137,7 +137,8 @@ get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
     if (filter_string.empty())
     {
         // When filter is empty, filter by current character's profession
-        auto current_profession = to_lowercase(get_current_profession_name());
+        const auto profession = get_current_profession_name();
+        auto current_profession = to_lowercase(profession);
 
         if (current_profession.empty())
         {
@@ -704,10 +705,81 @@ void RenderType::skill_activation_callback(
     const bool pressed,
     const EvCombatDataPersistent &combat_data)
 {
+    static auto skill_last_cast_time =
+        std::map<uint64_t, std::chrono::steady_clock::time_point>{};
+
     key_press_event_in_this_frame = pressed;
+
     if (pressed)
     {
         std::lock_guard<std::mutex> lock(played_rotation_mutex);
+
+        const auto now = std::chrono::steady_clock::now();
+
+        auto last_cast_time = std::chrono::steady_clock::time_point{};
+        if (skill_last_cast_time.find(combat_data.SkillID) !=
+            skill_last_cast_time.end())
+        {
+            last_cast_time = skill_last_cast_time[combat_data.SkillID];
+            skill_last_cast_time[combat_data.SkillID] = now;
+
+            const auto skill_data_it = Globals::RotationRun.skill_data.find(
+                static_cast<int>(combat_data.SkillID));
+
+            if (skill_data_it != Globals::RotationRun.skill_data.end())
+            {
+                // Check if this is a Mesmer weapon 4 skill (these skills can be reset by shatters)
+                auto current_profession = get_current_profession_name();
+                auto profession_lower = to_lowercase(current_profession);
+
+                auto is_mesmer_weapon_4 = false;
+                if (profession_lower == "mesmer")
+                {
+                    // List of Mesmer weapon 4 skill IDs that can be reset by shatters
+                    static const std::set<uint64_t> mesmer_weapon_4_skills = {
+                        10175,  // Phantasmal Duelist (Pistol)
+                        10186,  // Temporal Curtain (Focus)
+                        10221,  // Phantasmal Berserker (Greatsword)
+                        10280,  // Illusionary Riposte (Sword)
+                        10285,  // The Prestige (Torch)
+                        10325,  // Slipstream (Spear)
+                        10328,  // Phantasmal Whaler (Trident)
+                        10331,  // Chaos Armor (Staff)
+                        10358,  // Counter Blade (Sword)
+                        10363,  // Into the Void (Focus)
+                        29649,  // Deja Vu (Shield)
+                        30769,  // Echo of Memory (Shield)
+                        72007,  // Phantasmal Sharpshooter (Rifle)
+                        72946   // Phantasmal Lancer (Spear)
+                    };
+
+                    is_mesmer_weapon_4 = mesmer_weapon_4_skills.count(combat_data.SkillID) > 0;
+                }
+
+                // Skip cooldown check for Mesmer weapon 4 skills (they can be reset by shatters)
+                if (!is_mesmer_weapon_4)
+                {
+                    const auto &skill_data = skill_data_it->second;
+                    const auto recharge_time_s = skill_data.recharge;
+                    const auto recharge_time_w_alac_s =
+                        static_cast<int>(recharge_time_s * 0.8f);
+
+                    const auto cast_time_diff = now - last_cast_time;
+                    const auto cast_time_diff_s =
+                        std::chrono::duration_cast<std::chrono::seconds>(cast_time_diff).count();
+                    const auto recharge_duration_s =
+                        std::chrono::seconds(recharge_time_w_alac_s);
+
+                    if (cast_time_diff_s < recharge_time_w_alac_s * 0.5) // XXX: Hacky
+                        return;
+                }
+            }
+        }
+        else
+        {
+            skill_last_cast_time[combat_data.SkillID] = now;
+        }
+
         curr_combat_data = combat_data;
 
         if (played_rotation.size() > 300)
