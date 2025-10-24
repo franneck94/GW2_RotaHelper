@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - If no filter text is selected, only show builds of the current profession
 - Improved skill activation logic based on recharge time
 - Added more non-damage skills to "gray" out
-- Added some traits to skills to not show
+- Do not show more trait skills
+- Addon unload now works properly
 
 ### Developement
 
