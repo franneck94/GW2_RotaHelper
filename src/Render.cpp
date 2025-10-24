@@ -565,7 +565,6 @@ void SimpleSkillDetectionLogic(
     }
 #endif
 
-    // get info if skill (skill id) from current ev is auto attack
     const auto curr_is_auto_attack =
         IsSkillAutoAttack(skill_ev.SkillID,
                           skill_ev.SkillName,
@@ -747,7 +746,6 @@ void RenderType::skill_activation_callback(
 
             if (skill_data_it != Globals::RotationRun.skill_data.end())
             {
-                // Check if this is a Mesmer weapon 4 skill (these skills can be reset by shatters)
                 auto current_profession = get_current_profession_name();
                 auto profession_lower = to_lowercase(current_profession);
 
@@ -779,7 +777,6 @@ void RenderType::skill_activation_callback(
                 }
                 else if (profession_lower == "warrior")
                 {
-                    // List of Berserker F1 skill IDs (Primal Bursts) that can be reset by entering berserk
                     static const std::set<uint64_t> berserker_f1_skills = {
                         14353, // Eviscerate (Axe)
                         14367, // Flurry (Sword)
@@ -813,7 +810,6 @@ void RenderType::skill_activation_callback(
                         berserker_f1_skills.count(combat_data.SkillID) > 0;
                 }
 
-                // Skip cooldown check for profession-specific skills that can be reset
                 if (!is_mesmer_weapon_4 && !is_berserker_f1)
                 {
                     const auto &skill_data = skill_data_it->second;
@@ -1126,7 +1122,6 @@ void RenderType::selection()
                     }
                     else
                     {
-                        // Extract build type info from file path
                         auto path_str = file_info->relative_path.string();
                         auto build_type_postdic = std::string{};
 
@@ -1158,7 +1153,6 @@ void RenderType::selection()
                                                        img_path);
                         ReleaseTextureMap(Globals::TextureMap);
 
-                        // Close popup after selection
                         ImGui::CloseCurrentPopup();
                     }
 
