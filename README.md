@@ -1,6 +1,6 @@
 # GW2 Rotation Helper - Master Your Combat at the Training Golem
 
-Elevate your Guild Wars 2 gameplay with this sophisticated rotation learning tool, designed to help you perfect your combat skills at the Special Forces Training Area!
+Designed to help you perfect your combat skills at the Special Forces Training Area!
 
 ## ✨ Installation Guide
 
@@ -28,6 +28,21 @@ Elevate your Guild Wars 2 gameplay with this sophisticated rotation learning too
 - Purple Border: Final skill in rotation
 - Orange Border: Auto-attack skills
 - Greyed Icons: Special skills (attunements, stances - in general non-damaging skills)
+
+![Example Screenshot](./media/example.png)
+
+#### Tested Builds
+
+This list shows builds that i tested and approved it to be working properly:
+
+- Power Scrapper
+- Power Soulbeast Hammer
+- Power Spellbreaker Hammer
+- Power Berserker Hammer
+
+This list shows builds that are not working:
+
+- Power Bladesworn
 
 ## ⚠️ Known Limitations
 
