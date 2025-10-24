@@ -15,12 +15,7 @@
 ///----------------------------------------------------------------------------------------------------
 namespace ArcEv
 {
-void OnCombatLocal(ArcDPS::CombatEvent *ev,
-                   ArcDPS::AgentShort *src,
-                   ArcDPS::AgentShort *dst,
-                   char *skillname,
-                   uint64_t id,
-                   uint64_t revision);
+void OnCombatLocal(void *data);
 
 bool OnCombat(const char *channel,
               ArcDPS::CombatEvent *ev,

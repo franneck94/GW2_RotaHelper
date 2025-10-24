@@ -158,6 +158,9 @@ void AddonLoad(AddonAPI *aApi)
     // Globals::MemoryReader.Initialize();
 #endif
 
+    Globals::APIDefs->Events.Subscribe("EV_ARCDPS_COMBATEVENT_LOCAL_RAW",
+                                       ArcEv::OnCombatLocal);
+
     if (Globals::APIDefs && Globals::APIDefs->DataLink.Get)
     {
         IDXGISwapChain *pSwapChain =
@@ -190,6 +193,9 @@ void AddonUnload()
     Settings::Save(Globals::SettingsPath);
 
     DeregisterQuickAccessShortcut();
+
+    Globals::APIDefs->Events.Unsubscribe("EV_ARCDPS_COMBATEVENT_LOCAL_RAW",
+                                         ArcEv::OnCombatLocal);
 }
 
 void AddonRender()
@@ -204,39 +210,4 @@ void AddonRender()
 
 void AddonOptions()
 {
-}
-
-extern "C" __declspec(dllexport) void *get_init_addr(char *arcversion,
-                                                     void *imguictx,
-                                                     void *id3dptr,
-                                                     HANDLE arcdll,
-                                                     void *mallocfn,
-                                                     void *freefn,
-                                                     uint32_t d3dversion)
-{
-    return ArcdpsInit;
-}
-
-extern "C" __declspec(dllexport) void *get_release_addr()
-{
-    return ArcdpsRelease;
-}
-
-ArcDPS::Exports *ArcdpsInit()
-{
-    Globals::ArcExports.Signature = -24255;
-    Globals::ArcExports.ImGuiVersion = 18000;
-    Globals::ArcExports.Size = sizeof(ArcDPS::Exports);
-    Globals::ArcExports.Name = ADDON_NAME;
-    Globals::ArcExports.Build = VERSION_STRING;
-    Globals::ArcExports.CombatLocalCallback = ArcEv::OnCombatLocal;
-
-    return &Globals::ArcExports;
-}
-
-uintptr_t ArcdpsRelease()
-{
-    Globals::ArcExports.CombatLocalCallback = nullptr;
-
-    return 0;
 }

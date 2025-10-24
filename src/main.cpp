@@ -212,12 +212,14 @@ int main(int, char **)
             fake_dst.Specialization = 6;
             fake_dst.Name = (char *)"Target";
 
-            ArcEv::OnCombatLocal(&fake_ev,
-                                 &fake_src,
-                                 &fake_dst,
-                                 fake_skillname,
-                                 fake_id,
-                                 fake_revision);
+            auto ev = EvCombatData{&fake_ev,
+                                   &fake_src,
+                                   &fake_dst,
+                                   fake_skillname,
+                                   fake_id,
+                                   fake_revision};
+
+            ArcEv::OnCombatLocal((void *)&ev);
         }
 
         Globals::Render.render(g_pd3dDevice);

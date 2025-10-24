@@ -105,20 +105,22 @@ bool IsNotTheSameCast(const EvCombatDataPersistent &evCbtData)
 
 namespace ArcEv
 {
-void OnCombatLocal(ArcDPS::CombatEvent *ev,
-                   ArcDPS::AgentShort *src,
-                   ArcDPS::AgentShort *dst,
-                   char *skillname,
-                   uint64_t id,
-                   uint64_t revision)
+void OnCombatLocal(void *data)
 {
+    if (data == nullptr)
+        return;
+
+    auto *combat_data = static_cast<EvCombatData *>(data);
+    if (combat_data == nullptr)
+        return;
+
     OnCombat("EV_ARCDPS_COMBATEVENT_LOCAL_RAW",
-             ev,
-             src,
-             dst,
-             skillname,
-             id,
-             revision);
+             combat_data->ev,
+             combat_data->src,
+             combat_data->dst,
+             combat_data->skillname,
+             combat_data->id,
+             combat_data->revision);
 }
 
 bool OnCombat(const char *channel,
