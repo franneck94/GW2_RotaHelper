@@ -181,11 +181,11 @@ void get_skill_info(const IntNode &node, SkillInfoMap &skill_info_map)
                                               icon,
                                               trait_proc,
                                               gear_proc,
-                                              false, // is_auto_attack
-                                              false, // is_weapon_skill
-                                              false, // is_utility_skill
-                                              false, // is_elite_skill
-                                              false, // is_heal_skill
+                                              false,  // is_auto_attack
+                                              false,  // is_weapon_skill
+                                              false,  // is_utility_skill
+                                              false,  // is_elite_skill
+                                              false,  // is_heal_skill
                                               false}; // is_profession_skill
     }
 }
@@ -321,7 +321,9 @@ void get_rotation_info(
                 !is_skill_in_set(skill_id, skill_name, skills_to_drop))
             {
                 const auto is_special_skill =
-                    is_skill_in_set(skill_id, skill_name, special_to_gray_out) ||
+                    is_skill_in_set(skill_id,
+                                    skill_name,
+                                    special_to_gray_out) ||
                     is_heal_skill;
 
                 const auto is_duplicate_skill =
@@ -388,13 +390,15 @@ SkillDataMap get_skill_data(const nlohmann::json &j)
 
         if (skill_obj.contains("is_weapon_skill") &&
             skill_obj["is_weapon_skill"].is_boolean())
-            skill_data.is_weapon_skill = skill_obj["is_weapon_skill"].get<bool>();
+            skill_data.is_weapon_skill =
+                skill_obj["is_weapon_skill"].get<bool>();
         else
             skill_data.is_weapon_skill = false; // Default to false
 
         if (skill_obj.contains("is_utility_skill") &&
             skill_obj["is_utility_skill"].is_boolean())
-            skill_data.is_utility_skill = skill_obj["is_utility_skill"].get<bool>();
+            skill_data.is_utility_skill =
+                skill_obj["is_utility_skill"].get<bool>();
         else
             skill_data.is_utility_skill = false; // Default to false
 
@@ -412,7 +416,8 @@ SkillDataMap get_skill_data(const nlohmann::json &j)
 
         if (skill_obj.contains("is_profession_skill") &&
             skill_obj["is_profession_skill"].is_boolean())
-            skill_data.is_profession_skill = skill_obj["is_profession_skill"].get<bool>();
+            skill_data.is_profession_skill =
+                skill_obj["is_profession_skill"].get<bool>();
         else
             skill_data.is_profession_skill = false; // Default to false
 
@@ -703,8 +708,13 @@ std::tuple<int, int, size_t> RotationRunType::get_current_rotation_indices()
 
     auto current_idx = static_cast<int64_t>(num_total_skills - num_skills_left);
 
-    if (rotation_vector[current_idx].is_special_skill)
-        ++current_idx;
+    while (current_idx < num_total_skills - 1)
+    {
+        if (rotation_vector[current_idx].is_special_skill)
+            ++current_idx;
+        else
+            break;
+    }
 
     const auto start =
         current_idx - 2 >= 0

@@ -34,6 +34,8 @@
 
 namespace
 {
+static auto last_time_aa_did_skip = std::chrono::steady_clock::time_point{};
+
 // Function to get skill casting information from memory
 #ifdef _DEBUG
 EvCombatDataPersistent GetMemorySkillCast()
@@ -486,8 +488,6 @@ void SimpleSkillDetectionLogic(
     const EvCombatDataPersistent &skill_ev,
     EvCombatDataPersistent &last_skill)
 {
-    static auto last_time_aa_did_skip = std::chrono::steady_clock::time_point{};
-
     auto curr_rota_skill = RotationInfo{};
     auto next_rota_skill = RotationInfo{};
     auto next_next_rota_skill = RotationInfo{};
@@ -500,6 +500,15 @@ void SimpleSkillDetectionLogic(
     if (rotation_run.bench_rotation_list.size() > 1)
     {
         curr_rota_skill = *it;
+
+        while (curr_rota_skill.is_special_skill &&
+               rotation_run.bench_rotation_list.size() > 2)
+        {
+            rotation_run.bench_rotation_list.pop_front();
+            it = rotation_run.bench_rotation_list.begin();
+            curr_rota_skill = *it;
+        }
+
         ++it;
     }
     if (rotation_run.bench_rotation_list.size() > 2)
@@ -536,12 +545,14 @@ void SimpleSkillDetectionLogic(
                                                          last_time_aa_did_skip)
             .count();
 
-    if (time_since_last_aa_skip > 3 && CheckTheNextNskills(skill_ev,
-                                                           next_rota_skill,
-                                                           2,
-                                                           true,
-                                                           rotation_run,
-                                                           last_skill))
+    const auto include_aa_skip =
+        (time_since_last_aa_skip > 3 || !next_rota_skill.is_auto_attack);
+    if (include_aa_skip && CheckTheNextNskills(skill_ev,
+                                               next_rota_skill,
+                                               2,
+                                               true,
+                                               rotation_run,
+                                               last_skill))
     {
         num_skills_wo_match = 0U;
 
@@ -554,16 +565,22 @@ void SimpleSkillDetectionLogic(
     }
 #endif
 
+    // get info if skill (skill id) from current ev is auto attack
+    const auto curr_is_auto_attack =
+        IsSkillAutoAttack(skill_ev.SkillID,
+                          skill_ev.SkillName,
+                          Globals::RotationRun.skill_data);
+
 #ifdef USE_SKIP_NEXT_NEXT_SKILL
     const auto next_next_is_okay = (next_next_rota_skill.is_special_skill ||
                                     !next_next_rota_skill.is_auto_attack);
 
-    if (CheckTheNextNskills(skill_ev,
-                            next_next_rota_skill,
-                            3,
-                            next_next_is_okay,
-                            rotation_run,
-                            last_skill))
+    if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
+                                                    next_next_rota_skill,
+                                                    3,
+                                                    next_next_is_okay,
+                                                    rotation_run,
+                                                    last_skill))
     {
         num_skills_wo_match = 0U;
         return;
@@ -575,29 +592,24 @@ void SimpleSkillDetectionLogic(
         (next_next_rota_skill.is_special_skill ||
          !next_next_next_rota_skill.is_auto_attack);
 
-    if (CheckTheNextNskills(skill_ev,
-                            next_next_next_rota_skill,
-                            4,
-                            next_next_next_is_okay,
-                            rotation_run,
-                            last_skill))
+    if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
+                                                    next_next_next_rota_skill,
+                                                    4,
+                                                    next_next_next_is_okay,
+                                                    rotation_run,
+                                                    last_skill))
     {
         num_skills_wo_match = 0U;
         return;
     }
 #endif
 
-    const auto user_did_auto_attack =
-        IsSkillAutoAttack(skill_ev.SkillID,
-                          skill_ev.SkillName,
-                          Globals::RotationRun.skill_data);
-
-    if (!user_did_auto_attack)
+    if (!curr_is_auto_attack)
         ++num_skills_wo_match;
 
     if (num_skills_wo_match > 5)
     {
-        if (curr_rota_skill.is_auto_attack || user_did_auto_attack)
+        if (curr_rota_skill.is_auto_attack || curr_is_auto_attack)
             return;
 
         const auto now = std::chrono::steady_clock::now();
@@ -1183,6 +1195,8 @@ void RenderType::restart_rotation()
 
     time_since_last_match = std::chrono::steady_clock::now();
     num_skills_wo_match = 0U;
+
+    last_time_aa_did_skip = std::chrono::steady_clock::now();
 }
 
 void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,

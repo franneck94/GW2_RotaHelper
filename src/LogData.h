@@ -54,6 +54,7 @@ public:
         // ENGINEER
         " Kit",
         "Focused Devastation",
+        "Explosive Entrance",
         // RANGER
         "Ranger Pet",
         "Unleashed Overbearing Smash (Leap)",
@@ -88,6 +89,10 @@ public:
         "Blood Reckoning",
         // ENGINEER
         "Detonate",
+        "Devastator", // TODO
+        "Rolling Smash",
+        "Discharge Array",
+        "Sky Circus",
         // RANGER
         // THIEF
         // ELEMENTALIST
@@ -112,6 +117,5 @@ public:
 
     const static inline std::set<std::string> special_to_remove_duplicates = {
         "Rushing Justice",
-        "Devastator",
     };
 };
