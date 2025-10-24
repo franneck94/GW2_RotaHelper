@@ -215,7 +215,9 @@ class SnowCrowsScraper:
 
         return readable
 
-    def _deduce_profession_from_build_name(self, build_name: str, url_path: str) -> tuple[str, str]:
+    def _deduce_profession_from_build_name(
+        self, build_name: str, url_path: str
+    ) -> tuple[str, str]:
         """Deduce profession and elite spec from build name and URL"""
         build_name_lower = build_name.lower()
         url_path_lower = url_path.lower()
@@ -235,14 +237,16 @@ class SnowCrowsScraper:
         url_parts = build_url.strip("/").split("/")
         if len(url_parts) >= 1:
             build_name_from_url = url_parts[-1]  # Last part is the build name
-            profession, elite_spec = self._deduce_profession_from_build_name(build_name_from_url, build_url)
+            profession, elite_spec = self._deduce_profession_from_build_name(
+                build_name_from_url, build_url
+            )
         else:
             profession, elite_spec = "Unknown", ""
 
         return {
             "profession": profession,
             "elite_spec": elite_spec,
-            "build_type": build_type
+            "build_type": build_type,
         }
 
     def _get_cache_remainder(self, cache_url: str, cache_prefix: str) -> str:
@@ -316,14 +320,30 @@ class SnowCrowsScraper:
 
             try:
                 self.logger.info("Looking for DPS report link...")
-                dps_report_link = WebDriverWait(self.driver, 10).until(  # type: ignore
-                    EC.element_to_be_clickable(
-                        (By.XPATH, "//a[contains(@href, 'dps.report')]")
+                try:
+                    # First try to find dps.report link
+                    dps_report_link = WebDriverWait(self.driver, 10).until(  # type: ignore
+                        EC.element_to_be_clickable(
+                            (By.XPATH, "//a[contains(@href, 'dps.report')]")
+                        )
                     )
-                )
-
-                dps_report_url = dps_report_link.get_attribute("href")
-                self.logger.info(f"Found DPS report URL: {dps_report_url}")
+                    dps_report_url = dps_report_link.get_attribute("href")
+                    self.logger.info(f"Found DPS report URL: {dps_report_url}")
+                except TimeoutException:
+                    # If dps.report not found, try wingman proxy as backup
+                    self.logger.info(
+                        "DPS report link not found, trying wingman proxy..."
+                    )
+                    dps_report_link = WebDriverWait(self.driver, 10).until(  # type: ignore
+                        EC.element_to_be_clickable(
+                            (
+                                By.XPATH,
+                                "//a[contains(@href, 'gw2wingman.nevermindcreations.de')]",
+                            )
+                        )
+                    )
+                    dps_report_url = dps_report_link.get_attribute("href")
+                    self.logger.info(f"Found wingman proxy URL: {dps_report_url}")
 
                 # Add DPS report URL to build info
                 build_info["dps_report_url"] = dps_report_url
@@ -335,30 +355,54 @@ class SnowCrowsScraper:
 
                 try:
                     self.logger.info("Looking for Player Summary tab...")
-                    player_summary_link = WebDriverWait(self.driver, 10).until(  # type: ignore
-                        EC.element_to_be_clickable(
-                            (
-                                By.XPATH,
-                                "//a[@class='nav-link' and contains(text(), 'Player Summary')]",
+                    try:
+                        # First try to find and click Player Summary tab (if not active)
+                        player_summary_link = WebDriverWait(self.driver, 5).until(  # type: ignore
+                            EC.element_to_be_clickable(
+                                (
+                                    By.XPATH,
+                                    "//a[@class='nav-link' and contains(text(), 'Player Summary')]",
+                                )
                             )
                         )
-                    )
-                    player_summary_link.click()
-                    self.logger.info("Clicked Player Summary tab")
+                        player_summary_link.click()
+                        self.logger.info("Clicked Player Summary tab")
+                    except TimeoutException:
+                        # Check if Player Summary tab is already active
+                        active_player_summary = self.driver.find_elements(  # type: ignore
+                            By.XPATH,
+                            "//a[@class='nav-link active' and contains(text(), 'Player Summary')]"
+                        )
+                        if active_player_summary:
+                            self.logger.info("Player Summary tab is already active")
+                        else:
+                            self.logger.warning("Could not find Player Summary tab")
 
                     time.sleep(SLEEP_DELAY)
 
                     self.logger.info("Looking for Simple Rotation tab...")
-                    rotation_link = WebDriverWait(self.driver, 10).until(  # type: ignore
-                        EC.element_to_be_clickable(
-                            (
-                                By.XPATH,
-                                "//a[@class='nav-link' and contains(., 'Simple') and contains(., 'Rotation')]",
+                    try:
+                        # First try to find and click Simple Rotation tab (if not active)
+                        rotation_link = WebDriverWait(self.driver, 5).until(  # type: ignore
+                            EC.element_to_be_clickable(
+                                (
+                                    By.XPATH,
+                                    "//a[@class='nav-link' and contains(., 'Simple') and contains(., 'Rotation')]",
+                                )
                             )
                         )
-                    )
-                    rotation_link.click()
-                    self.logger.info("Clicked Simple Rotation tab")
+                        rotation_link.click()
+                        self.logger.info("Clicked Simple Rotation tab")
+                    except TimeoutException:
+                        # Check if Simple Rotation tab is already active
+                        active_rotation = self.driver.find_elements(  # type: ignore
+                            By.XPATH,
+                            "//a[@class='nav-link active' and contains(., 'Simple') and contains(., 'Rotation')]"
+                        )
+                        if active_rotation:
+                            self.logger.info("Simple Rotation tab is already active")
+                        else:
+                            self.logger.warning("Could not find Simple Rotation tab")
 
                     time.sleep(SLEEP_DELAY)
 
