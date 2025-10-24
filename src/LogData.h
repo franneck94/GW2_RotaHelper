@@ -88,6 +88,7 @@ public:
         "Signet of Midnight",
         "Signet of Inspiration",
         "Signet of Illusions",
+        "Signet of Ether",
         "Jaunt",
         "Crystal Sands",
         // Guardian
