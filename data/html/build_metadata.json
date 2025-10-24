@@ -22,6 +22,17 @@
     "html_file_path": "dps\\condition\\condition_mirage_ih_ether.html"
   },
   {
+    "name": "Condition Mirage Dagger",
+    "url": "https://snowcrows.com/builds/raids/mesmer/condition-mirage-dagger",
+    "benchmark_type": "dps",
+    "profession": "Mesmer",
+    "elite_spec": "Mirage",
+    "build_type": "condition",
+    "url_name": "condition-mirage-dagger",
+    "dps_report_url": "https://dps.report/TglW-20251019-044550_golem",
+    "html_file_path": "dps\\condition\\condition_mirage_dagger.html"
+  },
+  {
     "name": "Condition Druid",
     "url": "https://snowcrows.com/builds/raids/ranger/condition-druid",
     "benchmark_type": "dps",
@@ -44,6 +55,17 @@
     "html_file_path": "dps\\power\\power_catalyst_scepter_dagger_inferno.html"
   },
   {
+    "name": "Power Tempest Inferno Scepter Dagger",
+    "url": "https://snowcrows.com/builds/raids/elementalist/power-tempest-inferno-scepter-dagger",
+    "benchmark_type": "dps",
+    "profession": "Elementalist",
+    "elite_spec": "Tempest",
+    "build_type": "power",
+    "url_name": "power-tempest-inferno-scepter-dagger",
+    "dps_report_url": "https://dps.report/kVDr-20250728-110433_golem",
+    "html_file_path": "dps\\power\\power_tempest_inferno_scepter_dagger.html"
+  },
+  {
     "name": "Condition Willbender",
     "url": "https://snowcrows.com/builds/raids/guardian/condition-willbender",
     "benchmark_type": "dps",
@@ -53,6 +75,17 @@
     "url_name": "condition-willbender",
     "dps_report_url": "https://dps.report/5vTW-20250918-002656_golem",
     "html_file_path": "dps\\condition\\condition_willbender.html"
+  },
+  {
+    "name": "Power Bladesworn",
+    "url": "https://snowcrows.com/builds/raids/warrior/power-bladesworn",
+    "benchmark_type": "dps",
+    "profession": "Warrior",
+    "elite_spec": "Bladesworn",
+    "build_type": "power",
+    "url_name": "power-bladesworn",
+    "dps_report_url": "https://b.dps.report/3QR7-20250821-063721_golem",
+    "html_file_path": "dps\\power\\power_bladesworn.html"
   },
   {
     "name": "Condition Mirage Dune Cloak",
@@ -141,6 +174,17 @@
     "url_name": "condition-weaver-pistol",
     "dps_report_url": "https://dps.report/EkSh-20250626-121249_golem",
     "html_file_path": "dps\\condition\\condition_weaver_pistol.html"
+  },
+  {
+    "name": "Power Untamed",
+    "url": "https://snowcrows.com/builds/raids/ranger/power-untamed",
+    "benchmark_type": "dps",
+    "profession": "Ranger",
+    "elite_spec": "Untamed",
+    "build_type": "power",
+    "url_name": "power-untamed",
+    "dps_report_url": "https://gw2wingman.nevermindcreations.de/log/ab717-20250530-152646_StdGolem_kill",
+    "html_file_path": "dps\\power\\power_untamed.html"
   },
   {
     "name": "Power Berserker Hammer Axe Mace",
@@ -636,6 +680,17 @@
     "url_name": "power-tempest",
     "dps_report_url": "https://dps.report/QqEZ-20250212-064300_golem",
     "html_file_path": "dps\\power\\power_tempest.html"
+  },
+  {
+    "name": "Power Deadeye Staff And Dagger",
+    "url": "https://snowcrows.com/builds/raids/thief/power-deadeye-staff-and-dagger",
+    "benchmark_type": "dps",
+    "profession": "Thief",
+    "elite_spec": "Deadeye",
+    "build_type": "power",
+    "url_name": "power-deadeye-staff-and-dagger",
+    "dps_report_url": "https://dps.report/KCY6-20250607-174654_golem",
+    "html_file_path": "dps\\power\\power_deadeye_staff_and_dagger.html"
   },
   {
     "name": "Power Reaper Spear",
