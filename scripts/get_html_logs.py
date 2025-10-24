@@ -356,27 +356,50 @@ class SnowCrowsScraper:
                 try:
                     self.logger.info("Looking for Player Summary tab...")
                     try:
-                        # First try to find and click Player Summary tab (if not active)
+                        # First try to find and click Player Summary tab
                         player_summary_link = WebDriverWait(self.driver, 5).until(  # type: ignore
                             EC.element_to_be_clickable(
                                 (
                                     By.XPATH,
-                                    "//a[@class='nav-link' and contains(text(), 'Player Summary')]",
+                                    "//a[contains(text(), 'Player Summary')]",
                                 )
                             )
                         )
                         player_summary_link.click()
                         self.logger.info("Clicked Player Summary tab")
                     except TimeoutException:
-                        # Check if Player Summary tab is already active
-                        active_player_summary = self.driver.find_elements(  # type: ignore
-                            By.XPATH,
-                            "//a[@class='nav-link active' and contains(text(), 'Player Summary')]"
-                        )
-                        if active_player_summary:
-                            self.logger.info("Player Summary tab is already active")
-                        else:
-                            self.logger.warning("Could not find Player Summary tab")
+                        # If we can't click it, try switching to iframe (wingman proxy case)
+                        try:
+                            self.logger.info("Trying to switch to iframe for embedded dps.report content...")
+                            iframe = self.driver.find_element(By.NAME, "mainContent")
+                            self.driver.switch_to.frame(iframe)
+                            self._in_iframe = True
+
+                            # Now try to find Player Summary tab in the iframe
+                            player_summary_link = WebDriverWait(self.driver, 5).until(  # type: ignore
+                                EC.element_to_be_clickable(
+                                    (
+                                        By.XPATH,
+                                        "//a[contains(text(), 'Player Summary')]",
+                                    )
+                                )
+                            )
+                            player_summary_link.click()
+                            self.logger.info("Clicked Player Summary tab in iframe")
+                        except TimeoutException:
+                            # If still can't find it, just log and continue
+                            player_summary_elements = self.driver.find_elements(  # type: ignore
+                                By.XPATH,
+                                "//a[contains(text(), 'Player Summary')]"
+                            )
+                            if player_summary_elements:
+                                self.logger.info("Found Player Summary tab (may already be active)")
+                            else:
+                                self.logger.warning("Could not find Player Summary tab in iframe either")
+                        except Exception as e:
+                            self.logger.warning(f"Could not switch to iframe: {e}")
+                            # Switch back to default content if iframe switch failed
+                            self.driver.switch_to.default_content()
 
                     time.sleep(SLEEP_DELAY)
 
@@ -394,15 +417,37 @@ class SnowCrowsScraper:
                         rotation_link.click()
                         self.logger.info("Clicked Simple Rotation tab")
                     except TimeoutException:
-                        # Check if Simple Rotation tab is already active
-                        active_rotation = self.driver.find_elements(  # type: ignore
-                            By.XPATH,
-                            "//a[@class='nav-link active' and contains(., 'Simple') and contains(., 'Rotation')]"
-                        )
-                        if active_rotation:
-                            self.logger.info("Simple Rotation tab is already active")
-                        else:
-                            self.logger.warning("Could not find Simple Rotation tab")
+                        # Try to find Simple Rotation tab in iframe if not found in main page
+                        try:
+                            # If we're not already in iframe, switch to it
+                            if not hasattr(self, '_in_iframe') or not self._in_iframe:
+                                self.logger.info("Trying to switch to iframe for Simple Rotation tab...")
+                                iframe = self.driver.find_element(By.NAME, "mainContent")  # type: ignore
+                                self.driver.switch_to.frame(iframe)  # type: ignore
+                                self._in_iframe = True
+
+                            rotation_link = WebDriverWait(self.driver, 5).until(  # type: ignore
+                                EC.element_to_be_clickable(
+                                    (
+                                        By.XPATH,
+                                        "//a[contains(., 'Simple') and contains(., 'Rotation')]",
+                                    )
+                                )
+                            )
+                            rotation_link.click()
+                            self.logger.info("Clicked Simple Rotation tab in iframe")
+                        except TimeoutException:
+                            # Check if Simple Rotation tab is already active in iframe
+                            active_rotation = self.driver.find_elements(  # type: ignore
+                                By.XPATH,
+                                "//a[contains(@class, 'active') and contains(., 'Simple') and contains(., 'Rotation')]"
+                            )
+                            if active_rotation:
+                                self.logger.info("Simple Rotation tab is already active in iframe")
+                            else:
+                                self.logger.warning("Could not find Simple Rotation tab in iframe either")
+                        except Exception as e:
+                            self.logger.warning(f"Could not access Simple Rotation tab in iframe: {e}")
 
                     time.sleep(SLEEP_DELAY)
 
