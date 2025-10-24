@@ -40,7 +40,7 @@ public:
 
     MetaData meta_data;
 
-    std::set<std::string> skills_to_drop = {
+    const static inline std::set<std::string> skills_to_drop = {
         "Bloodstone Fervor",
         "Blutstein",
         "Waffen Wechsel",
@@ -49,55 +49,35 @@ public:
         "Relikt des",
         "Mushroom King",
         "Dodge",
-        // Elementalist
-        "Attunement",
-        // Engineer
+        // GUARDIAN
+        // WARRIOR
+        // ENGINEER
         " Kit",
-        // Ranger
+        "Focused Devastation",
+        // RANGER
         "Ranger Pet",
         "Unleashed Overbearing Smash (Leap)",
-        // Mesmer
-        "Mirage Cloak",
-        // Necromancer
-        "Approaching Doom",
-        "Cascading Corruption",
-        // Revenant
-        "Invoke Torment",
-        // Elementalist
+        // THIEF
+        // ELEMENTALIST
+        "Attunement",
         "Sunspot",
         "Earthen Blast",
-        // Warrior
-        "Blood Reckoning"
+        // MESMER
+        "Mirage Cloak",
+        // NECROMANCER
+        "Approaching Doom",
+        "Cascading Corruption",
+        // REVENANT
+        "Invoke Torment",
     };
 
-    std::set<std::string> special_to_gray_out = {
-        // Elementalist
-        "Earthquake",
-        // Necromancer
-        "Harbinger Shroud",
-        "Reaper Shroud",
-        "Blood Is Power",
-        "Plague Signet",
-        // Engineer
-        "Detonate",
-        // Mesmer
-        "Bladesong Distortion",
-        "Distortion",
-        "Phantasmal Warden",
-        "Signet of Domination",
-        "Signet of Midnight",
-        "Signet of Inspiration",
-        "Signet of Illusions",
-        "Signet of Ether",
-        "Jaunt",
-        "Crystal Sands",
-        // Guardian
+    const static inline std::set<std::string> special_to_gray_out = {
+        // GUARDIAN
         "Chapter 1:",
         "Chapter 2:",
         "Chapter 3:",
         "Chapter 4:",
-        // Revenant
-        // Warrior
+        // WARRIOR
         "Sheathe Gunsaber",
         "Unsheathe Gunsaber",
         "Dragon Trigger",
@@ -105,9 +85,33 @@ public:
         "Overcharged Cartridges",
         "Tactical Reload",
         "Arcing Slice",
+        "Blood Reckoning",
+        // ENGINEER
+        "Detonate",
+        // RANGER
+        // THIEF
+        // ELEMENTALIST
+        "Earthquake",
+        // MESMER
+        "Bladesong Distortion",
+        "Distortion",
+        "Signet of Domination",
+        "Signet of Midnight",
+        "Signet of Inspiration",
+        "Signet of Illusions",
+        "Signet of the Ether",
+        "Jaunt",
+        "Crystal Sands",
+        // NECROMANCER
+        "Harbinger Shroud",
+        "Reaper Shroud",
+        "Blood Is Power",
+        "Plague Signet",
+        // REVENANT
     };
 
-    std::set<std::string> special_to_remove_duplicates = {
+    const static inline std::set<std::string> special_to_remove_duplicates = {
         "Rushing Justice",
+        "Devastator",
     };
 };
