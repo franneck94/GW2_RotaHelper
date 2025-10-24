@@ -337,18 +337,18 @@ void DrawRect(const RotationInfo &skill_info,
                             : text_size.y;
 
     // Draw thick border by drawing outer filled rect and inner transparent rect
-    draw_list->AddRectFilled(ImVec2(cursor_pos.x - border_thickness,
-                                    cursor_pos.y - border_thickness),
-                            ImVec2(cursor_pos.x + total_width + border_thickness,
-                                   cursor_pos.y + total_height + border_thickness),
-                            border_color);
+    draw_list->AddRectFilled(
+        ImVec2(cursor_pos.x - border_thickness,
+               cursor_pos.y - border_thickness),
+        ImVec2(cursor_pos.x + total_width + border_thickness,
+               cursor_pos.y + total_height + border_thickness),
+        border_color);
 
     // Cut out the inner area to create the border effect
-    draw_list->AddRectFilled(ImVec2(cursor_pos.x,
-                                    cursor_pos.y),
-                            ImVec2(cursor_pos.x + total_width,
-                                   cursor_pos.y + total_height),
-                            IM_COL32(0, 0, 0, 0)); // Transparent to cut out inner area
+    draw_list->AddRectFilled(
+        ImVec2(cursor_pos.x, cursor_pos.y),
+        ImVec2(cursor_pos.x + total_width, cursor_pos.y + total_height),
+        IM_COL32(0, 0, 0, 0)); // Transparent to cut out inner area
 }
 
 
@@ -745,7 +745,6 @@ void RenderType::skill_activation_callback(
                 if (profession_lower == "mesmer")
                 {
                     // TODO: For Chrono - CS reset
-                    // List of Mesmer weapon 4 skill IDs that can be reset by shatters
                     static const std::set<uint64_t> mesmer_weapon_4_skills = {
                         10175, // Phantasmal Duelist (Pistol)
                         10186, // Temporal Curtain (Focus)
@@ -770,7 +769,32 @@ void RenderType::skill_activation_callback(
                 {
                     // List of Berserker F1 skill IDs (Primal Bursts) that can be reset by entering berserk
                     static const std::set<uint64_t> berserker_f1_skills = {
-                        30343, // Primal Burst (Torch)
+                        14353, // Eviscerate (Axe)
+                        14367, // Flurry (Sword)
+                        14375, // Arcing Slice (Greatsword)
+                        14387, // Earthshaker (Hammer)
+                        14396, // Kill Shot (Rifle)
+                        14414, // Skull Crack (Mace)
+                        14443, // Whirling Strike (Spear)
+                        14469, // Forceful Shot (Speargun)
+                        14506, // Combustive Shot (Longbow)
+                        29644, // Gun Flame (Rifle)
+                        29679, // Skull Grinder (Mace)
+                        29852, // Arc Divider (Greatsword)
+                        29923, // Scorched Earth (Longbow)
+                        30682, // Flaming Flurry (Sword)
+                        30851, // Decapitate (Axe)
+                        30879, // Rupturing Smash (Hammer)
+                        30989, // Burning Shackles (Speargun)
+                        31048, // Wild Whirl (Spear)
+                        45252, // Breaching Strike (Dagger)
+                        62745, // Unsheathe Gunsaber (None)
+                        62861, // Sheathe Gunsaber (None)
+                        69290, // Slicing Maelstrom (Dagger)
+                        71875, // Rampart Splitter (Staff)
+                        71922, // Path to Victory (Staff)
+                        72911, // Harrier's Toss (Spear)
+                        73103  // Wild Throw (Spear)
                     };
 
                     is_berserker_f1 =

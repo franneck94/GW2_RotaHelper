@@ -45,3 +45,25 @@ print("\n\n")
 print('\nBerserker F1 Skills (Primal Bursts):')
 for skill in berserker_f1_skills:
     print(f"  {skill['name']} (ID: {skill['id']}, Weapon: {skill['weapon_type']})")
+
+print("\n" + "="*60)
+print("C++ CODE GENERATION")
+print("="*60)
+
+# Generate C++ code for Mesmer weapon 4 skills
+print("\n// Mesmer weapon 4 skills")
+print("static const std::set<uint64_t> mesmer_weapon_4_skills = {")
+for i, skill in enumerate(mesmer_weapon4_skills):
+    comma = "," if i < len(mesmer_weapon4_skills) - 1 else ""
+    print(f"    {skill['id']}{comma} // {skill['name']} ({skill['weapon_type']})")
+print("};")
+
+# Generate C++ code for Berserker F1 skills
+print("\n// Berserker F1 skills (Primal Bursts)")
+print("static const std::set<uint64_t> berserker_f1_skills = {")
+for i, skill in enumerate(berserker_f1_skills):
+    comma = "," if i < len(berserker_f1_skills) - 1 else ""
+    print(f"    {skill['id']}{comma} // {skill['name']} ({skill['weapon_type']})")
+print("};")
+
+print("\n" + "="*60)
