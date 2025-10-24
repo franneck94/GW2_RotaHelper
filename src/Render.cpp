@@ -336,14 +336,19 @@ void DrawRect(const RotationInfo &skill_info,
                             ? Globals::SkillIconSize
                             : text_size.y;
 
-    draw_list->AddRect(ImVec2(cursor_pos.x - border_thickness,
-                              cursor_pos.y - border_thickness),
-                       ImVec2(cursor_pos.x + total_width + border_thickness,
-                              cursor_pos.y + total_height + border_thickness),
-                       border_color,
-                       0.0f,
-                       0,
-                       border_thickness);
+    // Draw thick border by drawing outer filled rect and inner transparent rect
+    draw_list->AddRectFilled(ImVec2(cursor_pos.x - border_thickness,
+                                    cursor_pos.y - border_thickness),
+                            ImVec2(cursor_pos.x + total_width + border_thickness,
+                                   cursor_pos.y + total_height + border_thickness),
+                            border_color);
+
+    // Cut out the inner area to create the border effect
+    draw_list->AddRectFilled(ImVec2(cursor_pos.x,
+                                    cursor_pos.y),
+                            ImVec2(cursor_pos.x + total_width,
+                                   cursor_pos.y + total_height),
+                            IM_COL32(0, 0, 0, 0)); // Transparent to cut out inner area
 }
 
 
@@ -454,22 +459,14 @@ std::vector<BenchFileInfo> get_bench_files(
 }
 
 bool CheckTheNextNskills(const EvCombatDataPersistent &skill_ev,
-                         const RotationInfo &curr_rota_skill,
-                         const RotationInfo &oncoming_rota_skill,
+                         const RotationInfo &future_rota_skill,
                          const uint32_t n,
                          const bool is_okay,
                          RotationRunType &rotation_run,
                          EvCombatDataPersistent &last_skill)
 {
     auto is_match =
-        ((oncoming_rota_skill.skill_name == skill_ev.SkillName) && is_okay);
-
-    if (curr_rota_skill.skill_name.find(" / ") != std::string::npos)
-    {
-        is_match = (oncoming_rota_skill.skill_name.find(skill_ev.SkillName)) !=
-                       std::string::npos &&
-                   !oncoming_rota_skill.is_auto_attack;
-    }
+        ((future_rota_skill.skill_name == skill_ev.SkillName) && is_okay);
 
     if (is_match)
     {
@@ -489,6 +486,8 @@ void SimpleSkillDetectionLogic(
     const EvCombatDataPersistent &skill_ev,
     EvCombatDataPersistent &last_skill)
 {
+    static auto last_time_aa_did_skip = std::chrono::steady_clock::time_point{};
+
     auto curr_rota_skill = RotationInfo{};
     auto next_rota_skill = RotationInfo{};
     auto next_next_rota_skill = RotationInfo{};
@@ -521,7 +520,6 @@ void SimpleSkillDetectionLogic(
 
     if (CheckTheNextNskills(skill_ev,
                             curr_rota_skill,
-                            curr_rota_skill,
                             1,
                             true,
                             rotation_run,
@@ -532,15 +530,26 @@ void SimpleSkillDetectionLogic(
     }
 
 #ifdef USE_SKIP_NEXT_SKILL
-    if (CheckTheNextNskills(skill_ev,
-                            curr_rota_skill,
-                            next_rota_skill,
-                            2,
-                            true,
-                            rotation_run,
-                            last_skill))
+    const auto now = std::chrono::steady_clock::now();
+    const auto time_since_last_aa_skip =
+        std::chrono::duration_cast<std::chrono::seconds>(now -
+                                                         last_time_aa_did_skip)
+            .count();
+
+    if (time_since_last_aa_skip > 3 && CheckTheNextNskills(skill_ev,
+                                                           next_rota_skill,
+                                                           2,
+                                                           true,
+                                                           rotation_run,
+                                                           last_skill))
     {
         num_skills_wo_match = 0U;
+
+        if (next_rota_skill.is_auto_attack)
+        {
+            last_time_aa_did_skip = std::chrono::steady_clock::now();
+        }
+
         return;
     }
 #endif
@@ -550,7 +559,6 @@ void SimpleSkillDetectionLogic(
                                     !next_next_rota_skill.is_auto_attack);
 
     if (CheckTheNextNskills(skill_ev,
-                            curr_rota_skill,
                             next_next_rota_skill,
                             3,
                             next_next_is_okay,
@@ -568,7 +576,6 @@ void SimpleSkillDetectionLogic(
          !next_next_next_rota_skill.is_auto_attack);
 
     if (CheckTheNextNskills(skill_ev,
-                            curr_rota_skill,
                             next_next_next_rota_skill,
                             4,
                             next_next_next_is_okay,
@@ -585,7 +592,7 @@ void SimpleSkillDetectionLogic(
                           skill_ev.SkillName,
                           Globals::RotationRun.skill_data);
 
-    if (user_did_auto_attack)
+    if (!user_did_auto_attack)
         ++num_skills_wo_match;
 
     if (num_skills_wo_match > 5)
@@ -733,6 +740,8 @@ void RenderType::skill_activation_callback(
                 auto profession_lower = to_lowercase(current_profession);
 
                 auto is_mesmer_weapon_4 = false;
+                auto is_berserker_f1 = false;
+
                 if (profession_lower == "mesmer")
                 {
                     // TODO: For Chrono - CS reset
@@ -757,9 +766,19 @@ void RenderType::skill_activation_callback(
                     is_mesmer_weapon_4 =
                         mesmer_weapon_4_skills.count(combat_data.SkillID) > 0;
                 }
+                else if (profession_lower == "warrior")
+                {
+                    // List of Berserker F1 skill IDs (Primal Bursts) that can be reset by entering berserk
+                    static const std::set<uint64_t> berserker_f1_skills = {
+                        30343, // Primal Burst (Torch)
+                    };
 
-                // Skip cooldown check for Mesmer weapon 4 skills (they can be reset by shatters)
-                if (!is_mesmer_weapon_4)
+                    is_berserker_f1 =
+                        berserker_f1_skills.count(combat_data.SkillID) > 0;
+                }
+
+                // Skip cooldown check for profession-specific skills that can be reset
+                if (!is_mesmer_weapon_4 && !is_berserker_f1)
                 {
                     const auto &skill_data = skill_data_it->second;
                     const auto recharge_time_s = skill_data.recharge;
@@ -775,7 +794,8 @@ void RenderType::skill_activation_callback(
                         std::chrono::seconds(recharge_time_w_alac_s);
 
                     if (cast_time_diff_s < recharge_time_w_alac_s * 0.5 &&
-                        recharge_time_w_alac_s > 0) // XXX: Hacky
+                        recharge_time_w_alac_s > 0 &&
+                        !skill_data.is_auto_attack) // XXX: Hacky
                         return;
                 }
             }
@@ -1297,7 +1317,7 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
     const auto is_special_skill = skill_info.is_special_skill;
 
     if (skill_state.is_current && !skill_state.is_last) // white
-        DrawRect(skill_info, text, IM_COL32(255, 255, 255, 255), 4.0F);
+        DrawRect(skill_info, text, IM_COL32(255, 255, 255, 255), 7.0F);
     else if (skill_state.is_last) // pruple
         DrawRect(skill_info, text, IM_COL32(128, 0, 128, 255));
     else if (skill_info.is_auto_attack) // orange
