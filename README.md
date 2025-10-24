@@ -12,8 +12,8 @@ Designed to help you perfect your combat skills at the Special Forces Training A
 
 #### Selecting a Rotation
 
-- The addon ships all benchmark rotations from the snow crows website
-- You can input a filter text, otherwise all are listed
+- The addon ships exported benchmark rotations from the snow crows website
+- You can input a filter text, otherwise all are listed for the currently selected profession
 - There's a vertical and a horizontal layout depending on your needs
 - Skill names and cast times (from the bench) can be turned on
 
@@ -39,6 +39,7 @@ This list shows builds that i tested and approved it to be working properly:
 - Power Soulbeast Hammer
 - Power Spellbreaker Hammer
 - Power Berserker Hammer
+- Condition 1kit Mechanist
 
 This list shows builds that are not working:
 
