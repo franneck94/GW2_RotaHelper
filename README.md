@@ -29,7 +29,7 @@ Designed to help you perfect your combat skills at the Special Forces Training A
 - Orange Border: Auto-attack skills
 - Greyed Icons: Special skills (attunements, stances - in general non-damaging skills)
 
-![Example Screenshot](./media/example.png)
+![Example Screenshot](https://raw.githubusercontent.com/franneck94/GW2_RotaHelper/main/media/example.png)
 
 #### Tested Builds
 
