@@ -1151,6 +1151,18 @@
     "name": "Putrid Curse",
     "recharge": 0
   },
+  "10554": {
+    "icon": "https://render.guildwars2.com/file/E163E6D4B3E0DE946C00002526947BA20B542D40/103260.png",
+    "id": 10554,
+    "is_auto_attack": true,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Life Blast",
+    "recharge": 0
+  },
   "10555": {
     "icon": "https://render.guildwars2.com/file/365608D62CC05CD6030EA30FEFD6D7D52EB002E7/103808.png",
     "id": 10555,
@@ -1186,6 +1198,30 @@
     "is_weapon_skill": true,
     "name": "Locust Swarm",
     "recharge": 24
+  },
+  "10559": {
+    "icon": "https://render.guildwars2.com/file/7BB45EE8CE6A5EE36B4B2579D82A22275DF0EBCB/103810.png",
+    "id": 10559,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Fetid Ground",
+    "recharge": 20
+  },
+  "10560": {
+    "icon": "https://render.guildwars2.com/file/E4FC11FDB8E5AE310ED5AEC0A4AD0F3DDC5F0AE4/103763.png",
+    "id": 10560,
+    "is_auto_attack": true,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Life Leech",
+    "recharge": 0
   },
   "10561": {
     "icon": "https://render.guildwars2.com/file/9D1757C3D6ACA4727ECDE0049771C55FC250A81F/103811.png",
@@ -1271,17 +1307,17 @@
     "name": "End Death Shroud",
     "recharge": 0
   },
-  "10586": {
-    "icon": "https://render.guildwars2.com/file/A9050BAB0847390C0112694321B0F6AEDF7AE1FB/102804.png",
-    "id": 10586,
+  "10588": {
+    "icon": "https://render.guildwars2.com/file/6CAB0D17DF604E5C6330523A350EC4430409A309/103818.png",
+    "id": 10588,
     "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": true,
+    "is_profession_skill": false,
     "is_utility_skill": false,
-    "is_weapon_skill": false,
-    "name": "Locked",
-    "recharge": 0
+    "is_weapon_skill": true,
+    "name": "Doom",
+    "recharge": 20
   },
   "10589": {
     "icon": "https://render.guildwars2.com/file/79FD0497A0BD625E0AD19A3A93C60946CB6C46E1/103819.png",
@@ -1305,6 +1341,18 @@
     "is_utility_skill": true,
     "is_weapon_skill": false,
     "name": "Haunt",
+    "recharge": 20
+  },
+  "10594": {
+    "icon": "https://render.guildwars2.com/file/579400360B6E0C9D699B5D6D0AC9F2184CC707F8/103820.png",
+    "id": 10594,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Life Transfer",
     "recharge": 20
   },
   "10596": {
@@ -1342,6 +1390,18 @@
     "is_weapon_skill": false,
     "name": "Corrupt Boon",
     "recharge": 0.5
+  },
+  "10604": {
+    "icon": "https://render.guildwars2.com/file/10773D150F72F5BEF252D06EB7DC2C040A5202A3/2175061.png",
+    "id": 10604,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Dark Path",
+    "recharge": 8
   },
   "10605": {
     "icon": "https://render.guildwars2.com/file/A33F6E0F51AD229AD57ED83D7AC040225DFD0FEA/103138.png",
@@ -1607,6 +1667,78 @@
     "name": "Summon Madness",
     "recharge": 30
   },
+  "10640": {
+    "icon": "https://render.guildwars2.com/file/7BB45EE8CE6A5EE36B4B2579D82A22275DF0EBCB/103810.png",
+    "id": 10640,
+    "is_auto_attack": true,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Life Leech",
+    "recharge": 0
+  },
+  "10641": {
+    "icon": "https://render.guildwars2.com/file/4FD0D431399B72B2505BD7C26C13F8D806F35D25/103837.png",
+    "id": 10641,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Death Curse",
+    "recharge": 20
+  },
+  "10642": {
+    "icon": "https://render.guildwars2.com/file/F274FBC2D9519B22B95278351FE71AD8042CB036/103838.png",
+    "id": 10642,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Feeding Frenzy",
+    "recharge": 5
+  },
+  "10643": {
+    "icon": "https://render.guildwars2.com/file/CF47140992D3C5F44B05190D966653B50CF0FA46/103265.png",
+    "id": 10643,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Gathering Plague",
+    "recharge": 25
+  },
+  "10644": {
+    "icon": "https://render.guildwars2.com/file/F41B9EAE5EB46858242600C450015B290A037141/103591.png",
+    "id": 10644,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Dark Water",
+    "recharge": 8
+  },
+  "10645": {
+    "icon": "https://render.guildwars2.com/file/EA495EB82C3C7E70F6770808B9113B5BF6476E55/103839.png",
+    "id": 10645,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Wave of Fear",
+    "recharge": 20
+  },
   "10646": {
     "icon": "https://render.guildwars2.com/file/0C9376D8AC320CB10F43D6F9D37B5458316AC9DF/103840.png",
     "id": 10646,
@@ -1630,6 +1762,18 @@
     "is_weapon_skill": false,
     "name": "Charge",
     "recharge": 40
+  },
+  "10660": {
+    "icon": "https://render.guildwars2.com/file/484FB273323BC7A2E89597D3BF7A219717540DC4/103842.png",
+    "id": 10660,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Fear",
+    "recharge": 10
   },
   "10661": {
     "icon": "https://render.guildwars2.com/file/089428FF1E1749F0CF95D8D29C59D9EE0CB14ED7/103843.png",
@@ -1762,6 +1906,18 @@
     "is_weapon_skill": false,
     "name": "Corrosive Poison Cloud",
     "recharge": 30
+  },
+  "10690": {
+    "icon": "https://render.guildwars2.com/file/E163E6D4B3E0DE946C00002526947BA20B542D40/103260.png",
+    "id": 10690,
+    "is_auto_attack": true,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Plague Blast",
+    "recharge": 0
   },
   "10692": {
     "icon": "https://render.guildwars2.com/file/CD08CE65F3E2A61C9AF0014E7EF0C4161CEF39AC/103848.png",
@@ -2074,6 +2230,18 @@
     "is_weapon_skill": false,
     "name": "Whirling Strike",
     "recharge": 0
+  },
+  "1175": {
+    "icon": "https://render.guildwars2.com/file/D2D7D11874060D68760BFD519CFC77B6DF14981F/102928.png",
+    "id": 1175,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Bandage",
+    "recharge": 5
   },
   "12318": {
     "icon": "https://render.guildwars2.com/file/BFBD285D7C5E70230EE0AD230BD44D0FC77E5AB4/240693.png",
@@ -6551,6 +6719,18 @@
     "name": "Magnetic Leap",
     "recharge": 0
   },
+  "18504": {
+    "icon": "https://render.guildwars2.com/file/E163E6D4B3E0DE946C00002526947BA20B542D40/103260.png",
+    "id": 18504,
+    "is_auto_attack": true,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Dhuumfire",
+    "recharge": 0
+  },
   "19115": {
     "icon": "https://render.guildwars2.com/file/0D7FDAA90B6C043A31333E630C55C8547CC09EC2/103821.png",
     "id": 19115,
@@ -6766,6 +6946,18 @@
     "is_weapon_skill": false,
     "name": "Rocket Turret",
     "recharge": 50
+  },
+  "24287": {
+    "icon": "https://render.guildwars2.com/file/E163E6D4B3E0DE946C00002526947BA20B542D40/103260.png",
+    "id": 24287,
+    "is_auto_attack": true,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Dhuumfire",
+    "recharge": 0
   },
   "24407": {
     "icon": "https://render.guildwars2.com/file/E32109BA04DE3CE0F2A8E30324D235910B739BFC/103354.png",
@@ -8015,6 +8207,18 @@
     "name": "Overload Water",
     "recharge": 20
   },
+  "29442": {
+    "icon": "https://render.guildwars2.com/file/59F9500BD4CABD990B6C4E68A458805268A1941A/1012933.png",
+    "id": 29442,
+    "is_auto_attack": true,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Life Rend",
+    "recharge": 0
+  },
   "29453": {
     "icon": "https://render.guildwars2.com/file/7B047DE80C026DCF420E43DD16D80409E8C679A4/1029996.png",
     "id": 29453,
@@ -8026,6 +8230,18 @@
     "is_weapon_skill": true,
     "name": "Sand Squall",
     "recharge": 30
+  },
+  "29458": {
+    "icon": "https://render.guildwars2.com/file/37FF121D3DF16CA847D1163CACBC673F575C927E/1012931.png",
+    "id": 29458,
+    "is_auto_attack": true,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Life Slash",
+    "recharge": 0
   },
   "29473": {
     "icon": "https://render.guildwars2.com/file/D97BF56EBB6D074BFEFC11E103D6D1F2360C6A17/102902.png",
@@ -8315,6 +8531,18 @@
     "name": "Overload Fire",
     "recharge": 20
   },
+  "29709": {
+    "icon": "https://render.guildwars2.com/file/780206747069014A400CE6D9922AF5E81EAAA52C/1012936.png",
+    "id": 29709,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Terrify",
+    "recharge": 0
+  },
   "29719": {
     "icon": "https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png",
     "id": 29719,
@@ -8565,6 +8793,18 @@
     "is_utility_skill": true,
     "is_weapon_skill": false,
     "name": "\"Flash-Freeze!\"",
+    "recharge": 25
+  },
+  "29958": {
+    "icon": "https://render.guildwars2.com/file/9D599AB94261527E79969E35AB6519D9C0396102/1012935.png",
+    "id": 29958,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Infusing Terror",
     "recharge": 25
   },
   "29965": {
@@ -8903,6 +9143,18 @@
     "name": "Dragon's Maw",
     "recharge": 40
   },
+  "30278": {
+    "icon": "https://render.guildwars2.com/file/6DD6D4C7E7B62A75629D260279CC570BCD33C6AA/1012932.png",
+    "id": 30278,
+    "is_auto_attack": true,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Life Reap",
+    "recharge": 0
+  },
   "30286": {
     "icon": "https://render.guildwars2.com/file/A054A5300BF26FBAA601611BDA07B6001830FF92/1012864.png",
     "id": 30286,
@@ -9166,6 +9418,18 @@
     "is_weapon_skill": true,
     "name": "Positive Strike",
     "recharge": 0
+  },
+  "30504": {
+    "icon": "https://render.guildwars2.com/file/4BFAEBD27404BDCB3A0255F1441560D3772F0CF5/1012937.png",
+    "id": 30504,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Soul Spiral",
+    "recharge": 30
   },
   "30519": {
     "icon": "https://render.guildwars2.com/file/CB2B0F40CE0A51C2C91A24751FEBF7F26305292C/1058632.png",
@@ -9514,6 +9778,18 @@
     "is_weapon_skill": false,
     "name": "Sneak Gyro",
     "recharge": 45
+  },
+  "30825": {
+    "icon": "https://render.guildwars2.com/file/B83E6592FE92D10FF73CEB6F4FF5A5F0907F7D4F/1012934.png",
+    "id": 30825,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Death's Charge",
+    "recharge": 6
   },
   "30828": {
     "icon": "https://render.guildwars2.com/file/9A37D45CBD05C029915ED90E4F08F6B8D2DFF8AB/102816.png",
@@ -12808,9 +13084,9 @@
     "id": 44677,
     "is_auto_attack": false,
     "is_elite_skill": false,
-    "is_heal_skill": false,
+    "is_heal_skill": true,
     "is_profession_skill": false,
-    "is_utility_skill": true,
+    "is_utility_skill": false,
     "is_weapon_skill": false,
     "name": "Mirage Mirror",
     "recharge": 0
@@ -15815,6 +16091,18 @@
     "name": "Ring of Fire",
     "recharge": 15
   },
+  "56916": {
+    "icon": "https://render.guildwars2.com/file/1063CD31245E30A20662042B5EB7375C9CCAF5A5/2175062.png",
+    "id": 56916,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Dark Pursuit",
+    "recharge": 0
+  },
   "5692": {
     "icon": "https://render.guildwars2.com/file/139899C1026E93EE0EDC44030B11E310E27D9807/103105.png",
     "id": 5692,
@@ -17783,6 +18071,18 @@
     "name": "Crashing Courage",
     "recharge": 30
   },
+  "62539": {
+    "icon": "https://render.guildwars2.com/file/E338A042D7F5EDB705F5A5E033F330D3C25774C5/2479406.png",
+    "id": 62539,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Voracious Arc",
+    "recharge": 10
+  },
   "62540": {
     "icon": "https://render.guildwars2.com/file/99465D6C7322FCB7B06AC7729F2A91BB243A09E4/2479401.png",
     "id": 62540,
@@ -18011,6 +18311,18 @@
     "name": "Flash Combo",
     "recharge": 20
   },
+  "62611": {
+    "icon": "https://render.guildwars2.com/file/03AB6A0BA611767DA8A30A0D0E68CE580760EA34/2479402.png",
+    "id": 62611,
+    "is_auto_attack": true,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Tainted Bolts",
+    "recharge": 0
+  },
   "62616": {
     "icon": "https://render.guildwars2.com/file/EF9223543A66B8B5A8FD1C4BC4E7A218277C15C4/2479383.png",
     "id": 62616,
@@ -18046,6 +18358,18 @@
     "is_weapon_skill": false,
     "name": "Willbender Flames",
     "recharge": 0
+  },
+  "62621": {
+    "icon": "https://render.guildwars2.com/file/3EBE1078EC053BA76F057D2F0758692F0C0D6CD3/2479393.png",
+    "id": 62621,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Dark Barrage",
+    "recharge": 6
   },
   "62622": {
     "icon": "https://render.guildwars2.com/file/769AAD7FC9A2EDDD5658514C7717940BA5DEB5D1/2479366.png",
@@ -18166,6 +18490,18 @@
     "is_weapon_skill": false,
     "name": "Repose",
     "recharge": 0
+  },
+  "62672": {
+    "icon": "https://render.guildwars2.com/file/F4A01998B419F5A3B2EA7010107ED64AAE119369/2479392.png",
+    "id": 62672,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Devouring Cut",
+    "recharge": 8
   },
   "62675": {
     "icon": "https://render.guildwars2.com/file/BEDBA7E72F06AA51D124B9B29EA53D4E3FEAFA48/103728.png",
@@ -19895,6 +20231,18 @@
     "name": "Deploy Jade Sphere",
     "recharge": 15
   },
+  "63448": {
+    "icon": "https://render.guildwars2.com/file/E338A042D7F5EDB705F5A5E033F330D3C25774C5/2479406.png",
+    "id": 63448,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Voracious Dive",
+    "recharge": 10
+  },
   "63454": {
     "icon": "https://render.guildwars2.com/file/97BEF22148DDA3159B4CF6DB18ECFEDE7107710B/2491596.png",
     "id": 63454,
@@ -19990,6 +20338,18 @@
     "is_weapon_skill": false,
     "name": "Undead Plague",
     "recharge": 20
+  },
+  "65179": {
+    "icon": "https://render.guildwars2.com/file/B2010324C8091FC1C3D2956A55BD3263042EDCE5/2604806.png",
+    "id": 65179,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Rescue Protocol",
+    "recharge": 0
   },
   "66258": {
     "icon": "https://render.guildwars2.com/file/7D451452DD3DC3B6D1AF52B397F5AF91B7AEC24B/2565744.png",
@@ -23498,12 +23858,12 @@
   "76582": {
     "icon": "https://render.guildwars2.com/file/02727B1807CF0FEF31037FD9E307BABB2055AE3C/3680214.png",
     "id": 76582,
-    "is_auto_attack": true,
+    "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": false,
+    "is_profession_skill": true,
     "is_utility_skill": false,
-    "is_weapon_skill": true,
+    "is_weapon_skill": false,
     "name": "Metal Legion Guitar",
     "recharge": 0
   },
@@ -23642,12 +24002,12 @@
   "76633": {
     "icon": "https://render.guildwars2.com/file/696501BA136CA660BD22D0D0A3B19741D4A77529/3680211.png",
     "id": 76633,
-    "is_auto_attack": true,
+    "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": false,
+    "is_profession_skill": true,
     "is_utility_skill": false,
-    "is_weapon_skill": true,
+    "is_weapon_skill": false,
     "name": "Forged Surfer Dash",
     "recharge": 0
   },
@@ -23758,6 +24118,18 @@
     "is_weapon_skill": true,
     "name": "Holo-Dancer Decoy",
     "recharge": 0
+  },
+  "76684": {
+    "icon": "https://render.guildwars2.com/file/473E92AE33757816B7205C4759F1F3065346E600/3680173.png",
+    "id": 76684,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Preservation",
+    "recharge": 20
   },
   "76687": {
     "icon": "https://render.guildwars2.com/file/2E24D2089501C663801BF7CC567E1CC0F5714AD7/3680140.png",
@@ -23882,7 +24254,7 @@
   "76733": {
     "icon": "https://render.guildwars2.com/file/3C1B2075B7B164EB2ABE4F6650F553D40F689E53/3680218.png",
     "id": 76733,
-    "is_auto_attack": true,
+    "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
     "is_profession_skill": false,
@@ -23914,6 +24286,18 @@
     "is_weapon_skill": false,
     "name": "Nightmare Weapon",
     "recharge": 20
+  },
+  "76741": {
+    "icon": "https://render.guildwars2.com/file/604BAC974ED4C76FE95E32BEE6BDB3DE594F9F6C/3680178.png",
+    "id": 76741,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Wanderlust",
+    "recharge": 18
   },
   "76744": {
     "icon": "https://render.guildwars2.com/file/CA51F09750F4C7C70A546E9F040EEF2977370DFF/3680220.png",
@@ -24146,12 +24530,12 @@
   "76816": {
     "icon": "https://render.guildwars2.com/file/4506224EB1921800602CAD52B6B209960FE51153/3680209.png",
     "id": 76816,
-    "is_auto_attack": false,
+    "is_auto_attack": true,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": true,
+    "is_profession_skill": false,
     "is_utility_skill": false,
-    "is_weapon_skill": false,
+    "is_weapon_skill": true,
     "name": "Chak Shield",
     "recharge": 0
   },
@@ -24178,6 +24562,18 @@
     "is_weapon_skill": false,
     "name": "Tale of the Soulkeeper",
     "recharge": 20
+  },
+  "76864": {
+    "icon": "https://render.guildwars2.com/file/9CA8D4479BEE9A28C810CCB0E234BAC7712104A0/3680170.png",
+    "id": 76864,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Anguish",
+    "recharge": 12
   },
   "76879": {
     "icon": "https://render.guildwars2.com/file/B719629A506EBA0444060E2D56A1DDB4183FCAD3/3680222.png",
@@ -24254,12 +24650,12 @@
   "76909": {
     "icon": "https://render.guildwars2.com/file/0FBFB6FA27C9BEBD1872DAACDB040AEA71A616A9/3680208.png",
     "id": 76909,
-    "is_auto_attack": true,
+    "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": false,
+    "is_profession_skill": true,
     "is_utility_skill": false,
-    "is_weapon_skill": true,
+    "is_weapon_skill": false,
     "name": "Unstable Skritt Bomb",
     "recharge": 0
   },
@@ -24370,6 +24766,18 @@
     "is_weapon_skill": false,
     "name": "Harmonious Harp",
     "recharge": 25
+  },
+  "76961": {
+    "icon": "https://render.guildwars2.com/file/604BAC974ED4C76FE95E32BEE6BDB3DE594F9F6C/3680178.png",
+    "id": 76961,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Wanderlust",
+    "recharge": 18
   },
   "76966": {
     "icon": "https://render.guildwars2.com/file/EAD4D329B407462E114B30800D02E25598C8C3A1/3680216.png",
@@ -24586,6 +24994,18 @@
     "is_weapon_skill": false,
     "name": "Rupture Anguish",
     "recharge": 10
+  },
+  "77061": {
+    "icon": "https://render.guildwars2.com/file/BC01E1289EC75D7939952FF29B199E55B6C45F0F/3680172.png",
+    "id": 77061,
+    "is_auto_attack": true,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Essence Blast",
+    "recharge": 0
   },
   "77066": {
     "icon": "https://render.guildwars2.com/file/64FFFDF0DB06E31493673D7313305536B7AAA53D/3680167.png",

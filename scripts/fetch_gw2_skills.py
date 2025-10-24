@@ -94,6 +94,13 @@ class GW2SkillFetcher:
         is_heal_skill = self._is_heal_skill(slot)
         is_profession_skill = self._is_profession_skill(slot)
 
+        # Special rule for Necromancer: Downed_1 to Downed_5 are treated as weapon skills
+        if self._is_necromancer_downed_skill(skill):
+            is_weapon_skill = True
+            # Also check if Downed_1 should be treated as auto attack (like Weapon_1)
+            if slot == "Downed_1":
+                is_auto_attack = True
+
         # Build filtered skill data with only the essential fields
         filtered_skill = {
             "icon": skill.get("icon"),
@@ -216,6 +223,16 @@ class GW2SkillFetcher:
             "Profession_5",
         }
         return slot in profession_slots
+
+    def _is_necromancer_downed_skill(self, skill: Dict[str, Dict[str, Any]]) -> bool:
+        """Check if this is a Necromancer downed skill that should be treated as weapon skill."""
+        slot = skill.get("slot", "")
+        professions = skill.get("professions", [])
+
+        # Check if it's a Necromancer and has a Downed slot
+        if "Necromancer" in professions and slot.startswith("Downed_"):
+            return True
+        return False
 
     def save_skills_to_file(self, skills_data: Dict[str, Dict[str, Any]]) -> None:
         """Save skill data to a JSON file, filtering out uncategorized skills."""
