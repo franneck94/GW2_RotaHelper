@@ -1398,12 +1398,12 @@ void RenderType::render(ID3D11Device *pd3dDevice)
     if (!curr_is_infight)
     {
         auto now = std::chrono::steady_clock::now();
-        auto time_since_went_ooc_s =
-            std::chrono::duration_cast<std::chrono::seconds>(now -
-                                                             time_went_ooc)
+        auto time_since_went_ooc_ms =
+            std::chrono::duration_cast<std::chrono::milliseconds>(now -
+                                                                  time_went_ooc)
                 .count();
 
-        if (time_since_went_ooc_s > 2)
+        if (time_since_went_ooc_ms > 1500)
         {
             restart_rotation();
             time_went_ooc = std::chrono::steady_clock::now();
