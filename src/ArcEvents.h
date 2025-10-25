@@ -15,6 +15,8 @@
 ///----------------------------------------------------------------------------------------------------
 namespace ArcEv
 {
+void ResetSkillCastTracking();
+
 void OnCombatLocal(void *data);
 
 bool OnCombat(const char *channel,

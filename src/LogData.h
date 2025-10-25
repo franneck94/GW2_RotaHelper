@@ -50,6 +50,7 @@ public:
         "Mushroom King",
         "Dodge",
         // GUARDIAN
+        "Fire Jurisdiction",
         // WARRIOR
         // ENGINEER
         " Kit",
@@ -72,7 +73,7 @@ public:
         "Spark Revolver",
         "Fire Rocket Barrage",
         "Orbital Command Strike",
-        // "Bomb", // TODO: Exact name match needed
+        "Bomb",
         // RANGER
         "Unleashed Overbearing Smash (Leap)",
         // THIEF
@@ -83,6 +84,7 @@ public:
         "Mirage Cloak",
         // NECROMANCER
         "Approaching Doom",
+        "Chilling Nova",
         "Cascading Corruption",
         // REVENANT
         "Invoke Torment",
@@ -103,11 +105,14 @@ public:
         // MESMER
         "Distortion",
         // NECROMANCER
+        "Harbinger Shroud",
+        "Reaper's Shroud",
         // REVENANT
     };
 
     const static inline std::set<std::string> special_match_to_gray_out = {
         // GUARDIAN
+        "Zealot's Flame",
         // WARRIOR
         "Sheathe Gunsaber",
         "Unsheathe Gunsaber",
@@ -127,6 +132,7 @@ public:
         "Rolling Smash",
         "Discharge Array",
         "Sky Circus",
+        "Radiant Arc",
         // RANGER
         // THIEF
         // ELEMENTALIST
@@ -140,15 +146,14 @@ public:
         "Jaunt",
         "Crystal Sands",
         // NECROMANCER
-        "Harbinger Shroud",
-        "Reaper Shroud",
-        "Blood Is Power",
         "Plague Signet",
         "Elixir of Promise",
+        "Distress",
         // REVENANT
     };
 
-    const static inline std::set<std::string> special_substr_to_remove_duplicates = {
-        "Rushing Justice",
+    const static inline std::set<std::string>
+        special_substr_to_remove_duplicates = {
+            "Rushing Justice",
     };
 };

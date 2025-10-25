@@ -21,6 +21,8 @@ namespace
 {
 constexpr static auto MIN_TIME_DIFF = 10U;
 
+static auto is_first_cast_map = std::map<std::string, bool>{};
+
 bool IsValidSelfData(const EvCombatData &evCbtData)
 {
     return evCbtData.src->IsSelf && evCbtData.src != nullptr &&
@@ -98,13 +100,26 @@ bool IsNotTheSameCast(const EvCombatDataPersistent &evCbtData)
 {
     const auto now = std::chrono::steady_clock::now();
     const auto last_cast_time = GetLastCastTime(evCbtData);
+    const auto is_not_same_cast =
+        (now - last_cast_time) > std::chrono::milliseconds(MIN_TIME_DIFF);
 
-    return (now - last_cast_time) > std::chrono::milliseconds(MIN_TIME_DIFF);
+    if (is_first_cast_map.find(evCbtData.SkillName) == is_first_cast_map.end())
+    {
+        is_first_cast_map[evCbtData.SkillName] = true;
+        return true;
+    }
+
+    return is_not_same_cast;
 }
 }; // namespace
 
 namespace ArcEv
 {
+void ResetSkillCastTracking()
+{
+    is_first_cast_map.clear();
+}
+
 void OnCombatLocal(void *data)
 {
     if (data == nullptr)

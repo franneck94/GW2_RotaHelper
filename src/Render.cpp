@@ -23,6 +23,7 @@
 
 #include "mumble/Mumble.h"
 
+#include "ArcEvents.h"
 #include "Defines.h"
 #include "LogData.h"
 #include "MumbleUtils.h"
@@ -567,7 +568,7 @@ void SimpleSkillDetectionLogic(
     {
         num_skills_wo_match = 0U;
 
-        if (next_rota_skill.is_auto_attack)
+        if (next_rota_skill.is_auto_attack && next_next_rota_skill.is_auto_attack)
         {
             last_time_aa_did_skip = std::chrono::steady_clock::now();
         }
@@ -1417,6 +1418,7 @@ void RenderType::render(ID3D11Device *pd3dDevice)
         if (time_since_went_ooc_ms > 1000)
         {
             restart_rotation();
+            ArcEv::ResetSkillCastTracking();
             time_went_ooc = std::chrono::steady_clock::now();
         }
     }
