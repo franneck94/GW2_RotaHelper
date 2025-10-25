@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added more non-damage skills to "gray" out
 - Do not show more trait skills
 - Addon unload now works properly
+- Added logs that are wingman sites
 
 ### Developement
 

@@ -33,15 +33,22 @@ Designed to help you perfect your combat skills at the Special Forces Training A
 
 #### Tested Builds
 
-This list shows builds that i tested and approved it to be working properly:
+Builds Working properly:
 
 - Power Scrapper
 - Power Soulbeast Hammer
 - Power Spellbreaker Hammer
 - Power Berserker Hammer
 - Condition 1kit Mechanist
+- Power Mechanist Rifle
 
-This list shows builds that are not working:
+Builds that are currently tested:
+
+- Power Mechanist Sword
+- Condition Harbinger
+- Power Tempest Scepter
+
+Builds are not working at all:
 
 - Power Bladesworn
 
