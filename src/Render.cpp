@@ -1381,9 +1381,8 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
 
 void RenderType::render(ID3D11Device *pd3dDevice)
 {
-    static auto is_infight = false;
     static auto is_not_ui_adjust_active = false;
-    static auto num_frames_ooc = 0U;
+    static auto time_went_ooc = std::chrono::steady_clock::now();
 
     if (!Settings::ShowWindow)
         return;
@@ -1397,15 +1396,23 @@ void RenderType::render(ID3D11Device *pd3dDevice)
 
     const auto curr_is_infight = IsInfight();
     if (!curr_is_infight)
-        ++num_frames_ooc;
-
-    if (!curr_is_infight && is_infight && num_frames_ooc > 60)
     {
-        restart_rotation();
-        num_frames_ooc = 0;
-    }
+        auto now = std::chrono::steady_clock::now();
+        auto time_since_went_ooc_s =
+            std::chrono::duration_cast<std::chrono::seconds>(now -
+                                                             time_went_ooc)
+                .count();
 
-    is_infight = curr_is_infight;
+        if (time_since_went_ooc_s > 2)
+        {
+            restart_rotation();
+            time_went_ooc = std::chrono::steady_clock::now();
+        }
+    }
+    else
+    {
+        time_went_ooc = std::chrono::steady_clock::now();
+    }
 
     if (benches_files.size() == 0)
         benches_files = get_bench_files(bench_path);
