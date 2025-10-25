@@ -488,11 +488,23 @@ void SimpleSkillDetectionLogic(
     const EvCombatDataPersistent &skill_ev,
     EvCombatDataPersistent &last_skill)
 {
+    static auto wait_time_point = std::chrono::steady_clock::now();
+
     auto curr_rota_skill = RotationInfo{};
     auto next_rota_skill = RotationInfo{};
     auto next_next_rota_skill = RotationInfo{};
     auto next_next_next_rota_skill = RotationInfo{};
     auto it = rotation_run.bench_rotation_list.begin();
+
+    auto now = std::chrono::steady_clock::now();
+    auto duration_since_wait =
+        std::chrono::duration_cast<std::chrono::milliseconds>(now -
+                                                              wait_time_point)
+            .count();
+
+    if (duration_since_wait < 50) // wait 50ms to detect next skill
+        return;
+    wait_time_point = std::chrono::steady_clock::now();
 
     if (num_skills_wo_match == 0)
         time_since_last_match = std::chrono::steady_clock::now();
@@ -539,7 +551,6 @@ void SimpleSkillDetectionLogic(
     }
 
 #ifdef USE_SKIP_NEXT_SKILL
-    const auto now = std::chrono::steady_clock::now();
     const auto time_since_last_aa_skip =
         std::chrono::duration_cast<std::chrono::seconds>(now -
                                                          last_time_aa_did_skip)
@@ -1403,7 +1414,7 @@ void RenderType::render(ID3D11Device *pd3dDevice)
                                                                   time_went_ooc)
                 .count();
 
-        if (time_since_went_ooc_ms > 1500)
+        if (time_since_went_ooc_ms > 1000)
         {
             restart_rotation();
             time_went_ooc = std::chrono::steady_clock::now();

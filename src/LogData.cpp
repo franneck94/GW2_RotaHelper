@@ -198,12 +198,21 @@ bool remove_skill_if(const RotationInfo &current, const RotationInfo &previous)
 
 bool is_skill_in_set(const int skill_id,
                      const std::string &skill_name,
-                     const std::set<std::string> &set)
+                     const std::set<std::string> &set,
+                     const bool exact_match = false)
 {
     for (const auto &filter_string : set)
     {
-        if (skill_name.find(filter_string) != std::string::npos)
-            return true;
+        if (exact_match)
+        {
+            if (skill_name == filter_string)
+                return true;
+        }
+        else
+        {
+            if (skill_name.find(filter_string) != std::string::npos)
+                return true;
+        }
     }
 
     return false;
@@ -214,9 +223,11 @@ void get_rotation_info(
     const SkillInfoMap &skill_info_map,
     RotationInfoVec &rotation_vector,
     const SkillDataMap &skill_data_map,
-    const std::set<std::string> &skills_to_drop,
-    const std::set<std::string> &special_to_gray_out,
-    const std::set<std::string> &special_to_remove_duplicates)
+    const std::set<std::string> &skills_substr_to_drop,
+    const std::set<std::string> &skills_match_to_drop,
+    const std::set<std::string> &special_substr_to_gray_out,
+    const std::set<std::string> &special_match_to_gray_out,
+    const std::set<std::string> &special_substr_to_remove_duplicates)
 {
     for (const auto &rotation_entry : node.children)
     {
@@ -318,18 +329,26 @@ void get_rotation_info(
             }
 
             if (!gear_proc && !trait_proc &&
-                !is_skill_in_set(skill_id, skill_name, skills_to_drop))
+                !is_skill_in_set(skill_id, skill_name, skills_substr_to_drop) &&
+                !is_skill_in_set(skill_id,
+                                 skill_name,
+                                 skills_match_to_drop,
+                                 true))
             {
                 const auto is_special_skill =
                     is_skill_in_set(skill_id,
                                     skill_name,
-                                    special_to_gray_out) ||
+                                    special_substr_to_gray_out) ||
+                    is_skill_in_set(skill_id,
+                                    skill_name,
+                                    special_match_to_gray_out,
+                                    true) ||
                     is_heal_skill;
 
                 const auto is_duplicate_skill =
                     is_skill_in_set(skill_id,
                                     skill_name,
-                                    special_to_remove_duplicates);
+                                    special_substr_to_remove_duplicates);
                 const auto was_there_previous =
                     !rotation_vector.empty()
                         ? rotation_vector.back().skill_name == skill_name
@@ -503,9 +522,11 @@ std::tuple<SkillInfoMap, RotationInfoVec, MetaData> get_dpsreport_data(
     const nlohmann::json &j,
     const std::filesystem::path &json_path,
     const SkillDataMap &skill_data_map,
-    const std::set<std::string> &skills_to_drop,
-    const std::set<std::string> &special_to_gray_out,
-    const std::set<std::string> &special_to_remove_duplicates)
+    const std::set<std::string> &skills_substr_to_drop,
+    const std::set<std::string> &skills_match_to_drop,
+    const std::set<std::string> &special_substr_to_gray_out,
+    const std::set<std::string> &special_match_to_gray_out,
+    const std::set<std::string> &special_substr_to_remove_duplicates)
 {
     const auto rotation_data = j["rotation"];
     const auto skill_data = j["skillMap"];
@@ -522,9 +543,11 @@ std::tuple<SkillInfoMap, RotationInfoVec, MetaData> get_dpsreport_data(
                       skill_info_map,
                       rotation_info_vec,
                       skill_data_map,
-                      skills_to_drop,
-                      special_to_gray_out,
-                      special_to_remove_duplicates);
+                      skills_substr_to_drop,
+                      skills_match_to_drop,
+                      special_substr_to_gray_out,
+                      special_match_to_gray_out,
+                      special_substr_to_remove_duplicates);
 
     auto metadata = get_metadata(j);
 
@@ -670,9 +693,11 @@ void RotationRunType::load_data(const std::filesystem::path &json_path,
         get_dpsreport_data(j,
                            json_path,
                            skill_data,
-                           skills_to_drop,
-                           special_to_gray_out,
-                           special_to_remove_duplicates);
+                           skills_substr_to_drop,
+                           skills_match_to_drop,
+                           special_substr_to_gray_out,
+                           special_match_to_gray_out,
+                           special_substr_to_remove_duplicates);
 
     skill_info_map = _skill_info_map;
     rotation_vector = _bench_rotation_vector;

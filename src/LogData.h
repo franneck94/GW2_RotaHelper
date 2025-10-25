@@ -40,7 +40,7 @@ public:
 
     MetaData meta_data;
 
-    const static inline std::set<std::string> skills_to_drop = {
+    const static inline std::set<std::string> skills_substr_to_drop = {
         "Bloodstone Fervor",
         "Blutstein",
         "Waffen Wechsel",
@@ -53,14 +53,30 @@ public:
         // WARRIOR
         // ENGINEER
         " Kit",
-        "Focused Devastation",
-        "Explosive Entrance",
         // RANGER
         "Ranger Pet",
-        "Unleashed Overbearing Smash (Leap)",
         // THIEF
         // ELEMENTALIST
         "Attunement",
+        // MESMER
+        // NECROMANCER
+        // REVENANT
+    };
+
+    const static inline std::set<std::string> skills_match_to_drop = {
+        // GUARDIAN
+        // WARRIOR
+        // ENGINEER
+        "Focused Devastation",
+        "Explosive Entrance",
+        "Spark Revolver",
+        "Fire Rocket Barrage",
+        "Orbital Command Strike",
+        // "Bomb", // TODO: Exact name match needed
+        // RANGER
+        "Unleashed Overbearing Smash (Leap)",
+        // THIEF
+        // ELEMENTALIST
         "Sunspot",
         "Earthen Blast",
         // MESMER
@@ -72,12 +88,26 @@ public:
         "Invoke Torment",
     };
 
-    const static inline std::set<std::string> special_to_gray_out = {
+    const static inline std::set<std::string> special_substr_to_gray_out = {
         // GUARDIAN
         "Chapter 1:",
         "Chapter 2:",
         "Chapter 3:",
         "Chapter 4:",
+        // WARRIOR
+        // ENGINEER
+        "Detonate",
+        // RANGER
+        // THIEF
+        // ELEMENTALIST
+        // MESMER
+        "Distortion",
+        // NECROMANCER
+        // REVENANT
+    };
+
+    const static inline std::set<std::string> special_match_to_gray_out = {
+        // GUARDIAN
         // WARRIOR
         "Sheathe Gunsaber",
         "Unsheathe Gunsaber",
@@ -88,8 +118,12 @@ public:
         "Arcing Slice",
         "Blood Reckoning",
         // ENGINEER
-        "Detonate",
-        "Devastator", // TODO
+        "Devastator",        // TODO
+        "Overcharged Shot",  // TODO
+        "Spark Revolver",    // XXX
+        "Core Reactor Shot", // XXX
+        "Jade Mortar",       // XXX
+        "Rocket Punch",      // XXX
         "Rolling Smash",
         "Discharge Array",
         "Sky Circus",
@@ -98,8 +132,6 @@ public:
         // ELEMENTALIST
         "Earthquake",
         // MESMER
-        "Bladesong Distortion",
-        "Distortion",
         "Signet of Domination",
         "Signet of Midnight",
         "Signet of Inspiration",
@@ -112,10 +144,11 @@ public:
         "Reaper Shroud",
         "Blood Is Power",
         "Plague Signet",
+        "Elixir of Promise",
         // REVENANT
     };
 
-    const static inline std::set<std::string> special_to_remove_duplicates = {
+    const static inline std::set<std::string> special_substr_to_remove_duplicates = {
         "Rushing Justice",
     };
 };
