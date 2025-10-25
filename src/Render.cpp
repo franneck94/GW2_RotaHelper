@@ -669,7 +669,7 @@ std::string get_skill_text(const RotationInfo &skill_info)
         snprintf(time_buffer,
                  sizeof(time_buffer),
                  "%.2f",
-                 skill_info.cast_time);
+                 skill_info.time_of_cast);
         text += time_buffer;
         text += ")";
     }
@@ -825,7 +825,7 @@ void RenderType::skill_activation_callback(
                 if (!is_mesmer_weapon_4 && !is_berserker_f1)
                 {
                     const auto &skill_data = skill_data_it->second;
-                    const auto recharge_time_s = skill_data.recharge;
+                    const auto recharge_time_s = skill_data.recharge_time;
                     const auto recharge_time_w_alac_s =
                         static_cast<int>(recharge_time_s * 0.8f);
 

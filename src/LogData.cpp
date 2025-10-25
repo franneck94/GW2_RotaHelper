@@ -193,7 +193,7 @@ void get_skill_info(const IntNode &node, SkillInfoMap &skill_info_map)
 bool remove_skill_if(const RotationInfo &current, const RotationInfo &previous)
 {
     return (current.skill_id == previous.skill_id &&
-            (current.cast_time - previous.cast_time) < 250);
+            (current.time_of_cast - previous.time_of_cast) < 250);
 }
 
 bool is_skill_in_set(const int skill_id,
@@ -239,9 +239,9 @@ void get_rotation_info(
 
             auto icon_id = 0;
             auto duration_ms = 0.0f;
-            auto cast_time = 0.0f;
+            auto time_of_cast = 0.0f;
 
-            // Get cast_time (index 0)
+            // Get time_of_cast (index 0)
             const auto cast_time_it = skill_array.children.find("0");
             if (cast_time_it != skill_array.children.end() &&
                 cast_time_it->second.value.has_value())
@@ -249,7 +249,7 @@ void get_rotation_info(
                 if (const auto pval =
                         std::get_if<float>(&cast_time_it->second.value.value()))
                 {
-                    cast_time = *pval;
+                    time_of_cast = *pval;
                 }
             }
 
@@ -286,6 +286,7 @@ void get_rotation_info(
             auto is_heal_skill = false;
             auto is_profession_skill = false;
             auto recharge_time = -1.0f;
+            auto cast_time = -1.0f;
 
             // Search for skill name in skill_data_map using icon_id
             for (const auto &[sid, skill_data] : skill_data_map)
@@ -300,7 +301,8 @@ void get_rotation_info(
                     is_elite_skill = skill_data.is_elite_skill;
                     is_heal_skill = skill_data.is_heal_skill;
                     is_profession_skill = skill_data.is_profession_skill;
-                    recharge_time = static_cast<float>(skill_data.recharge);
+                    recharge_time = static_cast<float>(skill_data.recharge_time);
+                    cast_time = static_cast<float>(skill_data.cast_time);
                     break;
                 }
             }
@@ -358,11 +360,12 @@ void get_rotation_info(
                     continue;
 
                 const auto recharge_time_with_alacrity = recharge_time * 0.8f;
+                const auto cast_time_with_quickness = time_of_cast * 0.7f;
 
                 rotation_vector.push_back(RotationInfo{
                     .icon_id = icon_id,
                     .skill_id = skill_id,
-                    .cast_time = cast_time,
+                    .time_of_cast = time_of_cast,
                     .duration_ms = duration_ms,
                     .skill_name = skill_name,
                     .is_auto_attack = is_auto_attack,
@@ -374,6 +377,8 @@ void get_rotation_info(
                     .is_profession_skill = is_profession_skill,
                     .recharge_time = recharge_time,
                     .recharge_time_with_alacrity = recharge_time_with_alacrity,
+                    .cast_time = cast_time,
+                    .cast_time_with_quickness = cast_time_with_quickness,
                 });
             }
         }
@@ -382,7 +387,7 @@ void get_rotation_info(
     std::sort(rotation_vector.begin(),
               rotation_vector.end(),
               [](const RotationInfo &a, const RotationInfo &b) {
-                  return a.cast_time < b.cast_time;
+                  return a.time_of_cast < b.time_of_cast;
               });
 }
 
@@ -399,7 +404,7 @@ SkillDataMap get_skill_data(const nlohmann::json &j)
             skill_data.name = skill_obj["name"].get<std::string>();
 
         if (skill_obj.contains("recharge") && skill_obj["recharge"].is_number())
-            skill_data.recharge = skill_obj["recharge"].get<int>();
+            skill_data.recharge_time = skill_obj["recharge"].get<int>();
 
         if (skill_obj.contains("is_auto_attack") &&
             skill_obj["is_auto_attack"].is_boolean())

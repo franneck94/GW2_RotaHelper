@@ -82,7 +82,7 @@ struct RotationInfo
 {
     int icon_id;
     int skill_id;
-    float cast_time;
+    float time_of_cast;
     float duration_ms;
     std::string skill_name;
     bool is_auto_attack;
@@ -94,6 +94,8 @@ struct RotationInfo
     bool is_profession_skill;
     float recharge_time;
     float recharge_time_with_alacrity;
+    float cast_time;
+    float cast_time_with_quickness;
 };
 
 using RotationInfoVec = std::vector<RotationInfo>;
@@ -103,7 +105,8 @@ struct SkillData
 {
     int icon_id;
     std::string name;
-    int recharge;
+    int recharge_time;
+    int cast_time;
     bool is_auto_attack;
     bool is_weapon_skill;
     bool is_utility_skill;
