@@ -1,12 +1,14 @@
-# GW2 Rotation Helper - Master Your Combat at the Training Golem
+# GW2 Rotation Helper - Master Your Rotation at the Training Golem
 
-Designed to help you perfect your combat skills at the Special Forces Training Area!
+This tool shows ingame the rotation from the snow crows benchmark dps reports.  
+It will always show the last 2 skills, the current skill and the next 7 skills.  
+Depending on what skill the user activates the GUI will go onwards in the rotation.
 
 ## ✨ Installation Guide
 
 1. **Download Components**: Obtain both the DLL and companion ZIP file from our [official releases page](https://github.com/franneck94/GW2_RotaHelper/releases)
 2. **Install Addon**: Place the DLL file into your Nexus addons directory
-3. **Deploy Resources**: Extract the GW2_RotaHelper ZIP archive and copy its contents to your Nexus addons folder
+3. **Deploy Resources**: Extract the GW2RotaHelper ZIP archive and copy its contents to your Nexus addons folder
 
 ## 🎯 User Guide
 
@@ -39,18 +41,23 @@ Builds Working properly:
 - Power Soulbeast Hammer
 - Power Spellbreaker Hammer
 - Power Berserker Hammer
-- Condition 1kit Mechanist
 - Power Mechanist Rifle
-
-Builds that are currently tested:
-
 - Power Mechanist Sword
+
+Builds that are working ok-ish:
+
+- Power Weaver
+- Condition Weaver Scepter
+- Power Harbinger
 - Condition Harbinger
-- Power Tempest Scepter
+- Condition 1kit Mechanist
 
-Builds are not working at all:
+Builds are not working proper:
 
+- Condition Willbender
 - Power Bladesworn
+
+NOTE: Some builds have duo logs uplaoded (like Condition Daredevil Dagger) - there my webparser script downloaded the wrong log.
 
 ## ⚠️ Known Limitations
 
