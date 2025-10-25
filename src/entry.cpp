@@ -77,7 +77,8 @@ extern "C" __declspec(dllexport) AddonDefinition *GetAddonDef()
     AddonDef.Version.Build = BUILD;
     AddonDef.Version.Revision = REVISION;
     AddonDef.Author = "Franneck.1274";
-    AddonDef.Description = "GW2 Rota Helper";
+    AddonDef.Description = "Displays the player's skill rotation and helps "
+                           "improving it by providing visual feedback.";
     AddonDef.Load = AddonLoad;
     AddonDef.Unload = AddonUnload;
     AddonDef.Flags = EAddonFlags_None;
