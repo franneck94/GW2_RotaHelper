@@ -89,46 +89,6 @@ std::string get_current_profession_name()
     }
 }
 
-std::vector<std::string> get_elite_specs_for_profession(ProfessionID profession)
-{
-    std::vector<std::string> elite_specs;
-
-    switch (profession)
-    {
-    case ProfessionID::GUARDIAN:
-        elite_specs = {"dragonhunter", "firebrand", "willbender", "luminary"};
-        break;
-    case ProfessionID::WARRIOR:
-        elite_specs = {"berserker", "spellbreaker", "bladesworn", "paragon"};
-        break;
-    case ProfessionID::ENGINEER:
-        elite_specs = {"scrapper", "holosmith", "mechanist", "amalgam"};
-        break;
-    case ProfessionID::RANGER:
-        elite_specs = {"druid", "soulbeast", "untamed", "galeshot"};
-        break;
-    case ProfessionID::THIEF:
-        elite_specs = {"daredevil", "deadeye", "specter", "antiquary"};
-        break;
-    case ProfessionID::ELEMENTALIST:
-        elite_specs = {"tempest", "weaver", "catalyst", "evoker"};
-        break;
-    case ProfessionID::MESMER:
-        elite_specs = {"chronomancer", "mirage", "virtuoso", "troubadour"};
-        break;
-    case ProfessionID::NECROMANCER:
-        elite_specs = {"reaper", "scourge", "harbinger", "ritualist"};
-        break;
-    case ProfessionID::REVENANT:
-        elite_specs = {"herald", "renegade", "vindicator", "conduit"};
-        break;
-    default:
-        break;
-    }
-
-    return elite_specs;
-}
-
 std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
           std::set<std::string>>
 get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
@@ -310,7 +270,7 @@ get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
     return std::make_pair(filtered_files, directories_with_matches);
 }
 
-void DrawRect(const RotationInfo &skill_info,
+void DrawRect(const RotationStep &rotation_step,
               const std::string &text,
               const ImU32 color,
               const float border_thickness = 2.0f)
@@ -462,14 +422,14 @@ std::vector<BenchFileInfo> get_bench_files(
 }
 
 bool CheckTheNextNskills(const EvCombatDataPersistent &skill_ev,
-                         const RotationInfo &future_rota_skill,
+                         const RotationStep &future_rota_skill,
                          const uint32_t n,
                          const bool is_okay,
                          RotationRunType &rotation_run,
                          EvCombatDataPersistent &last_skill)
 {
     auto is_match =
-        ((future_rota_skill.skill_name == skill_ev.SkillName) && is_okay);
+        ((future_rota_skill.skill_data.name == skill_ev.SkillName) && is_okay);
 
     if (is_match)
     {
@@ -491,10 +451,10 @@ void SimpleSkillDetectionLogic(
 {
     static auto wait_time_point = std::chrono::steady_clock::now();
 
-    auto curr_rota_skill = RotationInfo{};
-    auto next_rota_skill = RotationInfo{};
-    auto next_next_rota_skill = RotationInfo{};
-    auto next_next_next_rota_skill = RotationInfo{};
+    auto curr_rota_skill = RotationStep{};
+    auto next_rota_skill = RotationStep{};
+    auto next_next_rota_skill = RotationStep{};
+    auto next_next_next_rota_skill = RotationStep{};
     auto it = rotation_run.bench_rotation_list.begin();
 
     auto now = std::chrono::steady_clock::now();
@@ -557,8 +517,8 @@ void SimpleSkillDetectionLogic(
                                                          last_time_aa_did_skip)
             .count();
 
-    const auto include_aa_skip =
-        (time_since_last_aa_skip > 3 || !next_rota_skill.is_auto_attack);
+    const auto include_aa_skip = (time_since_last_aa_skip > 3 ||
+                                  !next_rota_skill.skill_data.is_auto_attack);
     if (include_aa_skip && CheckTheNextNskills(skill_ev,
                                                next_rota_skill,
                                                2,
@@ -568,7 +528,8 @@ void SimpleSkillDetectionLogic(
     {
         num_skills_wo_match = 0U;
 
-        if (next_rota_skill.is_auto_attack && next_next_rota_skill.is_auto_attack)
+        if (next_rota_skill.skill_data.is_auto_attack &&
+            next_next_rota_skill.skill_data.is_auto_attack)
         {
             last_time_aa_did_skip = std::chrono::steady_clock::now();
         }
@@ -583,8 +544,9 @@ void SimpleSkillDetectionLogic(
                           Globals::RotationRun.skill_data);
 
 #ifdef USE_SKIP_NEXT_NEXT_SKILL
-    const auto next_next_is_okay = (next_next_rota_skill.is_special_skill ||
-                                    !next_next_rota_skill.is_auto_attack);
+    const auto next_next_is_okay =
+        (next_next_rota_skill.is_special_skill ||
+         !next_next_rota_skill.skill_data.is_auto_attack);
 
     if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
                                                     next_next_rota_skill,
@@ -601,7 +563,7 @@ void SimpleSkillDetectionLogic(
 #ifdef USE_SKIP_NEXT_NEXT_NEXT_SKILL
     const auto next_next_next_is_okay =
         (next_next_rota_skill.is_special_skill ||
-         !next_next_next_rota_skill.is_auto_attack);
+         !next_next_next_rota_skill.skill_data.is_auto_attack);
 
     if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
                                                     next_next_next_rota_skill,
@@ -620,7 +582,7 @@ void SimpleSkillDetectionLogic(
 
     if (num_skills_wo_match > 5)
     {
-        if (curr_rota_skill.is_auto_attack || curr_is_auto_attack)
+        if (curr_rota_skill.skill_data.is_auto_attack || curr_is_auto_attack)
             return;
 
         const auto now = std::chrono::steady_clock::now();
@@ -642,7 +604,7 @@ void SimpleSkillDetectionLogic(
                 return;
 
             const auto rota_skill = *it;
-            if (rota_skill.skill_name == skill_ev.SkillName)
+            if (rota_skill.skill_data.name == skill_ev.SkillName)
             {
                 while (rotation_run.bench_rotation_list.begin() != it)
                     rotation_run.bench_rotation_list.pop_front();
@@ -658,9 +620,9 @@ void SimpleSkillDetectionLogic(
     }
 }
 
-std::string get_skill_text(const RotationInfo &skill_info)
+std::string get_skill_text(const RotationStep &rotation_step)
 {
-    auto text = skill_info.skill_name;
+    auto text = rotation_step.skill_data.name;
 
     if (Settings::ShowSkillTime)
     {
@@ -669,7 +631,7 @@ std::string get_skill_text(const RotationInfo &skill_info)
         snprintf(time_buffer,
                  sizeof(time_buffer),
                  "%.2f",
-                 skill_info.time_of_cast);
+                 rotation_step.time_of_cast);
         text += time_buffer;
         text += ")";
     }
@@ -698,7 +660,7 @@ SkillState get_skill_state(
             Globals::RotationRun.rotation_vector[window_idx];
 
         is_completed_correct =
-            (casted_skill.SkillName == bench_skill.skill_name) ? true : false;
+            (casted_skill.SkillName == bench_skill.skill_data.name) ? true : false;
         is_completed_incorrect = !is_completed_correct;
     }
 
@@ -1271,24 +1233,24 @@ void RenderType::rotation_render_details(ID3D11Device *pd3dDevice)
                                   Globals::RotationRun.rotation_vector.size())
             continue;
 
-        const auto &skill_info = Globals::RotationRun.get_rotation_skill(
+        const auto &rotation_step = Globals::RotationRun.get_rotation_skill(
             static_cast<size_t>(window_idx));
-        const auto *texture = Globals::TextureMap[skill_info.icon_id];
+        const auto *texture = Globals::TextureMap[rotation_step.skill_data.icon_id];
 
         const auto skill_state = get_skill_state(Globals::RotationRun,
                                                  played_rotation,
                                                  window_idx,
                                                  current_idx,
-                                                 skill_info.is_auto_attack);
+                                                 rotation_step.skill_data.is_auto_attack);
 
         auto text = std::string{};
         if ((!Settings::ShowSkillName && !Settings::ShowSkillTime))
             text = "";
         else
-            text = get_skill_text(skill_info);
+            text = get_skill_text(rotation_step);
 
         render_rotation_icons(skill_state,
-                              skill_info,
+                              rotation_step,
                               texture,
                               text,
                               pd3dDevice);
@@ -1328,19 +1290,19 @@ void RenderType::rotation_render_horizontal(ID3D11Device *pd3dDevice)
                                   Globals::RotationRun.rotation_vector.size())
             continue;
 
-        const auto &skill_info = Globals::RotationRun.get_rotation_skill(
+        const auto &rotation_step = Globals::RotationRun.get_rotation_skill(
             static_cast<size_t>(window_idx));
-        const auto *texture = Globals::TextureMap[skill_info.icon_id];
+        const auto *texture = Globals::TextureMap[rotation_step.skill_data.icon_id];
 
         const auto skill_state = get_skill_state(Globals::RotationRun,
                                                  played_rotation,
                                                  window_idx,
                                                  current_idx,
-                                                 skill_info.is_auto_attack);
+                                                 rotation_step.skill_data.is_auto_attack);
         const auto text = std::string{""};
 
         render_rotation_icons(skill_state,
-                              skill_info,
+                              rotation_step,
                               texture,
                               text,
                               pd3dDevice);
@@ -1353,19 +1315,19 @@ void RenderType::rotation_render_horizontal(ID3D11Device *pd3dDevice)
 
 
 void RenderType::render_rotation_icons(const SkillState &skill_state,
-                                       const RotationInfo &skill_info,
+                                       const RotationStep &rotation_step,
                                        const ID3D11ShaderResourceView *texture,
                                        const std::string &text,
                                        ID3D11Device *pd3dDevice)
 {
-    const auto is_special_skill = skill_info.is_special_skill;
+    const auto is_special_skill = rotation_step.is_special_skill;
 
     if (skill_state.is_current && !skill_state.is_last) // white
-        DrawRect(skill_info, text, IM_COL32(255, 255, 255, 255), 7.0F);
+        DrawRect(rotation_step, text, IM_COL32(255, 255, 255, 255), 7.0F);
     else if (skill_state.is_last) // pruple
-        DrawRect(skill_info, text, IM_COL32(128, 0, 128, 255));
-    else if (skill_info.is_auto_attack) // orange
-        DrawRect(skill_info, text, IM_COL32(255, 165, 0, 255));
+        DrawRect(rotation_step, text, IM_COL32(128, 0, 128, 255));
+    else if (rotation_step.skill_data.is_auto_attack) // orange
+        DrawRect(rotation_step, text, IM_COL32(255, 165, 0, 255));
 
     if (texture && pd3dDevice)
     {
@@ -1381,7 +1343,7 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
         {
             ImGui::BeginTooltip();
 
-            auto tooltip_text = get_skill_text(skill_info);
+            auto tooltip_text = get_skill_text(rotation_step);
             ImGui::Text("%s", tooltip_text.c_str());
 
             ImGui::EndTooltip();

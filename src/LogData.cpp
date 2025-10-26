@@ -118,8 +118,6 @@ void get_skill_info(const IntNode &node, SkillInfoMap &skill_info_map)
     {
         auto name = std::string{};
         auto icon = std::string{};
-        auto trait_proc = true;
-        auto gear_proc = true;
 
         const auto name_it = skill_node.children.find("name");
         if (name_it != skill_node.children.end() &&
@@ -130,10 +128,6 @@ void get_skill_info(const IntNode &node, SkillInfoMap &skill_info_map)
                 name = *pval;
         }
 
-        if (name.find("Relic of") != std::string::npos ||
-            name.find("Sigil of") != std::string::npos)
-            continue;
-
         const auto icon_it = skill_node.children.find("icon");
         if (icon_it != skill_node.children.end() &&
             icon_it->second.value.has_value())
@@ -143,56 +137,14 @@ void get_skill_info(const IntNode &node, SkillInfoMap &skill_info_map)
                 icon = convert_cache_url(*pval);
         }
 
-        const auto trait_v12_it = skill_node.children.find("traitProc");
-        if (trait_v12_it != skill_node.children.end() &&
-            trait_v12_it->second.value.has_value())
-        {
-            if (const auto pval =
-                    std::get_if<bool>(&trait_v12_it->second.value.value()))
-                trait_proc = *pval;
-        }
-        const auto trait_v3_it = skill_node.children.find("isTraitProc");
-        if (trait_v3_it != skill_node.children.end() &&
-            trait_v3_it->second.value.has_value())
-        {
-            if (const auto pval =
-                    std::get_if<bool>(&trait_v3_it->second.value.value()))
-                trait_proc = *pval;
-        }
 
-        const auto gear_v12_it = skill_node.children.find("gearProc");
-        if (gear_v12_it != skill_node.children.end() &&
-            gear_v12_it->second.value.has_value())
-        {
-            if (const auto pval =
-                    std::get_if<bool>(&gear_v12_it->second.value.value()))
-                gear_proc = *pval;
-        }
-        const auto gear_v3_it = skill_node.children.find("isGearProc");
-        if (gear_v3_it != skill_node.children.end() &&
-            gear_v3_it->second.value.has_value())
-        {
-            if (const auto pval =
-                    std::get_if<bool>(&gear_v3_it->second.value.value()))
-                gear_proc = *pval;
-        }
-
-        skill_info_map[std::stoi(icon_id)] = {name,
-                                              icon,
-                                              trait_proc,
-                                              gear_proc,
-                                              false,  // is_auto_attack
-                                              false,  // is_weapon_skill
-                                              false,  // is_utility_skill
-                                              false,  // is_elite_skill
-                                              false,  // is_heal_skill
-                                              false}; // is_profession_skill
+        skill_info_map[std::stoi(icon_id)] = {name, icon};
     }
 }
 
-bool remove_skill_if(const RotationInfo &current, const RotationInfo &previous)
+bool remove_skill_if(const RotationStep &current, const RotationStep &previous)
 {
-    return (current.skill_id == previous.skill_id &&
+    return (current.skill_data.skill_id == previous.skill_data.skill_id &&
             (current.time_of_cast - previous.time_of_cast) < 250);
 }
 
@@ -242,12 +194,12 @@ void get_rotation_info(
             auto time_of_cast = 0.0f;
 
             // Get time_of_cast (index 0)
-            const auto cast_time_it = skill_array.children.find("0");
-            if (cast_time_it != skill_array.children.end() &&
-                cast_time_it->second.value.has_value())
+            const auto time_of_cast_it = skill_array.children.find("0");
+            if (time_of_cast_it != skill_array.children.end() &&
+                time_of_cast_it->second.value.has_value())
             {
-                if (const auto pval =
-                        std::get_if<float>(&cast_time_it->second.value.value()))
+                if (const auto pval = std::get_if<float>(
+                        &time_of_cast_it->second.value.value()))
                 {
                     time_of_cast = *pval;
                 }
@@ -279,30 +231,14 @@ void get_rotation_info(
 
             auto skill_id = 0;
             auto skill_name = std::string{"Unknown Skill"};
-            auto is_auto_attack = false;
-            auto is_weapon_skill = false;
-            auto is_utility_skill = false;
-            auto is_elite_skill = false;
-            auto is_heal_skill = false;
-            auto is_profession_skill = false;
-            auto recharge_time = -1.0f;
-            auto cast_time = -1.0f;
 
             // Search for skill name in skill_data_map using icon_id
-            for (const auto &[sid, skill_data] : skill_data_map)
+            auto skill_data = SkillData{};
+            for (const auto &[sid, _skill_data] : skill_data_map)
             {
-                if (skill_data.icon_id == icon_id)
+                if (_skill_data.icon_id == icon_id)
                 {
-                    skill_name = skill_data.name;
-                    skill_id = sid;
-                    is_auto_attack = skill_data.is_auto_attack;
-                    is_weapon_skill = skill_data.is_weapon_skill;
-                    is_utility_skill = skill_data.is_utility_skill;
-                    is_elite_skill = skill_data.is_elite_skill;
-                    is_heal_skill = skill_data.is_heal_skill;
-                    is_profession_skill = skill_data.is_profession_skill;
-                    recharge_time = static_cast<float>(skill_data.recharge_time);
-                    cast_time = static_cast<float>(skill_data.cast_time);
+                    skill_data = _skill_data;
                     break;
                 }
             }
@@ -345,7 +281,7 @@ void get_rotation_info(
                                     skill_name,
                                     special_match_to_gray_out,
                                     true) ||
-                    is_heal_skill;
+                    skill_data.is_heal_skill;
 
                 const auto is_duplicate_skill =
                     is_skill_in_set(skill_id,
@@ -353,40 +289,24 @@ void get_rotation_info(
                                     special_substr_to_remove_duplicates);
                 const auto was_there_previous =
                     !rotation_vector.empty()
-                        ? rotation_vector.back().skill_name == skill_name
+                        ? rotation_vector.back().skill_data.name == skill_name
                         : false;
 
                 if (is_duplicate_skill && was_there_previous)
                     continue;
 
-                const auto recharge_time_with_alacrity = recharge_time * 0.8f;
-                const auto cast_time_with_quickness = time_of_cast * 0.7f;
-
-                rotation_vector.push_back(RotationInfo{
-                    .icon_id = icon_id,
-                    .skill_id = skill_id,
-                    .time_of_cast = time_of_cast,
-                    .duration_ms = duration_ms,
-                    .skill_name = skill_name,
-                    .is_auto_attack = is_auto_attack,
-                    .is_special_skill = is_special_skill,
-                    .is_weapon_skill = is_weapon_skill,
-                    .is_utility_skill = is_utility_skill,
-                    .is_elite_skill = is_elite_skill,
-                    .is_heal_skill = is_heal_skill,
-                    .is_profession_skill = is_profession_skill,
-                    .recharge_time = recharge_time,
-                    .recharge_time_with_alacrity = recharge_time_with_alacrity,
-                    .cast_time = cast_time,
-                    .cast_time_with_quickness = cast_time_with_quickness,
-                });
+                rotation_vector.push_back(
+                    RotationStep{.time_of_cast = time_of_cast,
+                                 .duration_ms = duration_ms,
+                                 .skill_data = skill_data,
+                                 .is_special_skill = is_special_skill});
             }
         }
     }
 
     std::sort(rotation_vector.begin(),
               rotation_vector.end(),
-              [](const RotationInfo &a, const RotationInfo &b) {
+              [](const RotationStep &a, const RotationStep &b) {
                   return a.time_of_cast < b.time_of_cast;
               });
 }
@@ -399,12 +319,34 @@ SkillDataMap get_skill_data(const nlohmann::json &j)
     {
         auto skill_id = std::stoi(skill_id_str);
         auto skill_data = SkillData{};
+        skill_data.skill_id = skill_id;
 
         if (skill_obj.contains("name") && skill_obj["name"].is_string())
             skill_data.name = skill_obj["name"].get<std::string>();
 
         if (skill_obj.contains("recharge") && skill_obj["recharge"].is_number())
+        {
             skill_data.recharge_time = skill_obj["recharge"].get<int>();
+            skill_data.recharge_time_with_alacrity =
+                skill_data.recharge_time * 0.8f;
+        }
+        else
+        {
+            skill_data.recharge_time = -1;
+            skill_data.recharge_time_with_alacrity = -1.0f;
+        }
+
+        if (skill_obj.contains("cast_time") &&
+            skill_obj["cast_time"].is_number())
+        {
+            skill_data.cast_time = skill_obj["cast_time"].get<int>();
+            skill_data.cast_time_with_quickness = skill_data.cast_time * 0.8f;
+        }
+        else
+        {
+            skill_data.cast_time = -1;
+            skill_data.cast_time_with_quickness = -1.0f;
+        }
 
         if (skill_obj.contains("is_auto_attack") &&
             skill_obj["is_auto_attack"].is_boolean())
@@ -759,18 +701,18 @@ std::tuple<int, int, size_t> RotationRunType::get_current_rotation_indices()
     return {start, end, current_idx};
 }
 
-RotationInfo RotationRunType::get_rotation_skill(const size_t idx) const
+RotationStep RotationRunType::get_rotation_skill(const size_t idx) const
 {
     if (idx < rotation_vector.size())
         return rotation_vector.at(idx);
 
-    return RotationInfo{};
+    return RotationStep{};
 }
 
 void RotationRunType::restart_rotation()
 {
     bench_rotation_list =
-        std::list<RotationInfo>(rotation_vector.begin(), rotation_vector.end());
+        std::list<RotationStep>(rotation_vector.begin(), rotation_vector.end());
 }
 
 bool RotationRunType::is_current_run_done() const

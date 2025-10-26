@@ -50,14 +50,6 @@ struct SkillInfo
 {
     std::string name;
     std::string icon_url;
-    bool trait_proc;
-    bool gear_proc;
-    bool is_auto_attack;
-    bool is_weapon_skill;
-    bool is_utility_skill;
-    bool is_elite_skill;
-    bool is_heal_skill;
-    bool is_profession_skill;
 };
 
 using SkillInfoMap = std::map<int, SkillInfo>;
@@ -69,44 +61,15 @@ struct IntNode
     std::optional<LogDataTypes> value;
 };
 
-enum class RotationStatus
-{
-    UNKNOWN,
-    REDUCED,
-    CANCEL,
-    FULL,
-    INSTANT
-};
-
-struct RotationInfo
-{
-    int icon_id;
-    int skill_id;
-    float time_of_cast;
-    float duration_ms;
-    std::string skill_name;
-    bool is_auto_attack;
-    bool is_special_skill;
-    bool is_weapon_skill;
-    bool is_utility_skill;
-    bool is_elite_skill;
-    bool is_heal_skill;
-    bool is_profession_skill;
-    float recharge_time;
-    float recharge_time_with_alacrity;
-    float cast_time;
-    float cast_time_with_quickness;
-};
-
-using RotationInfoVec = std::vector<RotationInfo>;
-using RotationInfoList = std::list<RotationInfo>;
-
 struct SkillData
 {
     int icon_id;
+    int skill_id;
     std::string name;
     int recharge_time;
+    float recharge_time_with_alacrity;
     int cast_time;
+    float cast_time_with_quickness;
     bool is_auto_attack;
     bool is_weapon_skill;
     bool is_utility_skill;
@@ -115,8 +78,17 @@ struct SkillData
     bool is_profession_skill;
 };
 
-using SkillDataMap = std::map<int, SkillData>;
+struct RotationStep
+{
+    float time_of_cast;
+    float duration_ms;
+    SkillData skill_data;
+    bool is_special_skill;
+};
 
+using RotationInfoVec = std::vector<RotationStep>;
+using RotationInfoList = std::list<RotationStep>;
+using SkillDataMap = std::map<int, SkillData>;
 
 enum class ProfessionID : uint32_t
 {
@@ -465,4 +437,45 @@ inline std::string elite_spec_to_string(EliteSpecID elite_spec_id)
     default:
         return "Unknown";
     }
+}
+
+inline std::vector<std::string> get_elite_specs_for_profession(
+    ProfessionID profession)
+{
+    std::vector<std::string> elite_specs;
+
+    switch (profession)
+    {
+    case ProfessionID::GUARDIAN:
+        elite_specs = {"dragonhunter", "firebrand", "willbender", "luminary"};
+        break;
+    case ProfessionID::WARRIOR:
+        elite_specs = {"berserker", "spellbreaker", "bladesworn", "paragon"};
+        break;
+    case ProfessionID::ENGINEER:
+        elite_specs = {"scrapper", "holosmith", "mechanist", "amalgam"};
+        break;
+    case ProfessionID::RANGER:
+        elite_specs = {"druid", "soulbeast", "untamed", "galeshot"};
+        break;
+    case ProfessionID::THIEF:
+        elite_specs = {"daredevil", "deadeye", "specter", "antiquary"};
+        break;
+    case ProfessionID::ELEMENTALIST:
+        elite_specs = {"tempest", "weaver", "catalyst", "evoker"};
+        break;
+    case ProfessionID::MESMER:
+        elite_specs = {"chronomancer", "mirage", "virtuoso", "troubadour"};
+        break;
+    case ProfessionID::NECROMANCER:
+        elite_specs = {"reaper", "scourge", "harbinger", "ritualist"};
+        break;
+    case ProfessionID::REVENANT:
+        elite_specs = {"herald", "renegade", "vindicator", "conduit"};
+        break;
+    default:
+        break;
+    }
+
+    return elite_specs;
 }
