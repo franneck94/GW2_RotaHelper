@@ -100,6 +100,8 @@ public:
         // WARRIOR
         // ENGINEER
         "Detonate",
+        "Photon Forge",
+        "Holoforge",
         // RANGER
         // THIEF
         // ELEMENTALIST
@@ -136,8 +138,13 @@ public:
         "Radiant Arc",
         // RANGER
         // THIEF
+        "Prepare Thousand Needles",
+        "Spider Venom",
+        "Assassin's Signet",
+        "Signet of Malice",
         // ELEMENTALIST
         "Earthquake",
+        "Fire Shield",
         // MESMER
         "Signet of Domination",
         "Signet of Midnight",
@@ -150,12 +157,24 @@ public:
         "Plague Signet",
         "Elixir of Promise",
         "Distress",
+        "Garish Pillar",
+        "Sandstorm Shroud",
         // REVENANT
+        "Legendary Entity Stance",
+        "Legendary Alliance Stance",
+        "Legendary Renegade Stance",
+        "Legendary Demon Stance",
+        "Legendary Dwarf Stance",
+        "Legendary Centaur Stance",
+        "Legendary Assassin Stance",
+        "Legendary Dragon Stance",
+        "Facet of Chaos",
     };
 
     const static inline std::set<std::string>
         special_substr_to_remove_duplicates = {
             "Rushing Justice",
+            "Devastator", // TODO
     };
 
     static inline const std::set<uint64_t> berserker_f1_skills = {

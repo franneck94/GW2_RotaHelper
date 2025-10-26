@@ -276,9 +276,6 @@ void get_rotation_info(
                 }
             }
 
-            auto skill_id = 0;
-            auto skill_name = std::string{"Unknown Skill"};
-
             // Search for skill name in skill_data_map using icon_id
             auto skill_data = SkillData{};
             for (const auto &[sid, _skill_data] : skill_data_map)
@@ -290,22 +287,7 @@ void get_rotation_info(
                 }
             }
 
-            // If not found in skill_data_map, fallback to skill_info_map
-            if (skill_name == "Unknown Skill")
-            {
-                const auto skill_info_it = skill_info_map.find(icon_id);
-                if (skill_info_it != skill_info_map.end() &&
-                    skill_info_it->second.name != "")
-                {
-                    skill_name = skill_info_it->second.name;
-                }
-                else
-                {
-                    continue;
-                }
-            }
-
-            if (skill_name == "")
+            if (skill_data.skill_id == 0)
                 continue;
 
             auto gear_proc = false;
@@ -318,10 +300,12 @@ void get_rotation_info(
             }
 
             const auto is_substr_drop_match =
-                is_skill_in_set(skill_id, skill_name, skills_substr_to_drop);
+                is_skill_in_set(skill_data.skill_id,
+                                skill_data.name,
+                                skills_substr_to_drop);
             const auto is_exact_drop_match =
-                is_skill_in_set(skill_id,
-                                skill_name,
+                is_skill_in_set(skill_data.skill_id,
+                                skill_data.name,
                                 skills_match_to_drop,
                                 true);
 
@@ -329,12 +313,12 @@ void get_rotation_info(
                 !is_exact_drop_match)
             {
                 const auto is_substr_gray_out =
-                    is_skill_in_set(skill_id,
-                                    skill_name,
+                    is_skill_in_set(skill_data.skill_id,
+                                    skill_data.name,
                                     special_substr_to_gray_out);
                 const auto is_match_gray_out =
-                    is_skill_in_set(skill_id,
-                                    skill_name,
+                    is_skill_in_set(skill_data.skill_id,
+                                    skill_data.name,
                                     special_match_to_gray_out,
                                     true);
 
@@ -343,12 +327,12 @@ void get_rotation_info(
                                               skill_data.is_heal_skill;
 
                 const auto is_duplicate_skill =
-                    is_skill_in_set(skill_id,
-                                    skill_name,
+                    is_skill_in_set(skill_data.skill_id,
+                                    skill_data.name,
                                     special_substr_to_remove_duplicates);
                 const auto was_there_previous =
                     !rotation_vector.empty()
-                        ? rotation_vector.back().skill_data.name == skill_name
+                        ? rotation_vector.back().skill_data.name == skill_data.name
                         : false;
 
                 if (is_duplicate_skill && was_there_previous)
