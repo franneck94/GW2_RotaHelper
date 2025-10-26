@@ -24,6 +24,7 @@
 
 #include "LogData.h"
 #include "Types.h"
+#include "TypesUtils.h"
 
 using json = nlohmann::json;
 
@@ -112,12 +113,15 @@ std::string convert_cache_url(const std::string &cache_url)
            ".png";
 }
 
+
 void get_skill_info(const IntNode &node, SkillInfoMap &skill_info_map)
 {
     for (const auto &[icon_id, skill_node] : node.children)
     {
         auto name = std::string{};
         auto icon = std::string{};
+        auto trait_proc = true;
+        auto gear_proc = true;
 
         const auto name_it = skill_node.children.find("name");
         if (name_it != skill_node.children.end() &&
@@ -128,6 +132,10 @@ void get_skill_info(const IntNode &node, SkillInfoMap &skill_info_map)
                 name = *pval;
         }
 
+        if (name.find("Relic of") != std::string::npos ||
+            name.find("Sigil of") != std::string::npos)
+            continue;
+
         const auto icon_it = skill_node.children.find("icon");
         if (icon_it != skill_node.children.end() &&
             icon_it->second.value.has_value())
@@ -137,10 +145,49 @@ void get_skill_info(const IntNode &node, SkillInfoMap &skill_info_map)
                 icon = convert_cache_url(*pval);
         }
 
+        const auto trait_v12_it = skill_node.children.find("traitProc");
+        if (trait_v12_it != skill_node.children.end() &&
+            trait_v12_it->second.value.has_value())
+        {
+            if (const auto pval =
+                    std::get_if<bool>(&trait_v12_it->second.value.value()))
+                trait_proc = *pval;
+        }
+        const auto trait_v3_it = skill_node.children.find("isTraitProc");
+        if (trait_v3_it != skill_node.children.end() &&
+            trait_v3_it->second.value.has_value())
+        {
+            if (const auto pval =
+                    std::get_if<bool>(&trait_v3_it->second.value.value()))
+                trait_proc = *pval;
+        }
 
-        skill_info_map[std::stoi(icon_id)] = {name, icon};
+        const auto gear_v12_it = skill_node.children.find("gearProc");
+        if (gear_v12_it != skill_node.children.end() &&
+            gear_v12_it->second.value.has_value())
+        {
+            if (const auto pval =
+                    std::get_if<bool>(&gear_v12_it->second.value.value()))
+                gear_proc = *pval;
+        }
+        const auto gear_v3_it = skill_node.children.find("isGearProc");
+        if (gear_v3_it != skill_node.children.end() &&
+            gear_v3_it->second.value.has_value())
+        {
+            if (const auto pval =
+                    std::get_if<bool>(&gear_v3_it->second.value.value()))
+                gear_proc = *pval;
+        }
+
+        skill_info_map[std::stoi(icon_id)] = {
+            name,
+            icon,
+            trait_proc,
+            gear_proc,
+        };
     }
 }
+
 
 bool remove_skill_if(const RotationStep &current, const RotationStep &previous)
 {
@@ -173,7 +220,7 @@ bool is_skill_in_set(const int skill_id,
 void get_rotation_info(
     const IntNode &node,
     const SkillInfoMap &skill_info_map,
-    RotationInfoVec &rotation_vector,
+    RotationSteps &rotation_vector,
     const SkillDataMap &skill_data_map,
     const std::set<std::string> &skills_substr_to_drop,
     const std::set<std::string> &skills_match_to_drop,
@@ -247,7 +294,8 @@ void get_rotation_info(
             if (skill_name == "Unknown Skill")
             {
                 const auto skill_info_it = skill_info_map.find(icon_id);
-                if (skill_info_it != skill_info_map.end())
+                if (skill_info_it != skill_info_map.end() &&
+                    skill_info_it->second.name != "")
                 {
                     skill_name = skill_info_it->second.name;
                 }
@@ -256,6 +304,9 @@ void get_rotation_info(
                     continue;
                 }
             }
+
+            if (skill_name == "")
+                continue;
 
             auto gear_proc = false;
             auto trait_proc = false;
@@ -266,22 +317,30 @@ void get_rotation_info(
                 trait_proc = skill_info_it->second.trait_proc;
             }
 
-            if (!gear_proc && !trait_proc &&
-                !is_skill_in_set(skill_id, skill_name, skills_substr_to_drop) &&
-                !is_skill_in_set(skill_id,
-                                 skill_name,
-                                 skills_match_to_drop,
-                                 true))
+            const auto is_substr_drop_match =
+                is_skill_in_set(skill_id, skill_name, skills_substr_to_drop);
+            const auto is_exact_drop_match =
+                is_skill_in_set(skill_id,
+                                skill_name,
+                                skills_match_to_drop,
+                                true);
+
+            if (!gear_proc && !trait_proc && !is_substr_drop_match &&
+                !is_exact_drop_match)
             {
-                const auto is_special_skill =
+                const auto is_substr_gray_out =
                     is_skill_in_set(skill_id,
                                     skill_name,
-                                    special_substr_to_gray_out) ||
+                                    special_substr_to_gray_out);
+                const auto is_match_gray_out =
                     is_skill_in_set(skill_id,
                                     skill_name,
                                     special_match_to_gray_out,
-                                    true) ||
-                    skill_data.is_heal_skill;
+                                    true);
+
+                const auto is_special_skill = is_substr_gray_out ||
+                                              is_match_gray_out ||
+                                              skill_data.is_heal_skill;
 
                 const auto is_duplicate_skill =
                     is_skill_in_set(skill_id,
@@ -411,6 +470,12 @@ SkillDataMap get_skill_data(const nlohmann::json &j)
             }
         }
 
+        if (skill_data.name == "")
+        {
+            int i = 2;
+            continue;
+        }
+
         skill_data_map[skill_id] = skill_data;
     }
 
@@ -465,7 +530,7 @@ MetaData get_metadata(const nlohmann::json &j)
     return metadata;
 }
 
-std::tuple<SkillInfoMap, RotationInfoVec, MetaData> get_dpsreport_data(
+std::tuple<SkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
     const nlohmann::json &j,
     const std::filesystem::path &json_path,
     const SkillDataMap &skill_data_map,
@@ -485,10 +550,10 @@ std::tuple<SkillInfoMap, RotationInfoVec, MetaData> get_dpsreport_data(
 
     auto skill_info_map = SkillInfoMap{};
     get_skill_info(kv_skill, skill_info_map);
-    auto rotation_info_vec = RotationInfoVec{};
+    auto rotation_steps = RotationSteps{};
     get_rotation_info(kv_rotation,
                       skill_info_map,
-                      rotation_info_vec,
+                      rotation_steps,
                       skill_data_map,
                       skills_substr_to_drop,
                       skills_match_to_drop,
@@ -498,7 +563,7 @@ std::tuple<SkillInfoMap, RotationInfoVec, MetaData> get_dpsreport_data(
 
     auto metadata = get_metadata(j);
 
-    return std::make_tuple(skill_info_map, rotation_info_vec, metadata);
+    return std::make_tuple(skill_info_map, rotation_steps, metadata);
 }
 
 bool DownloadFileFromURL(const std::string &url,
