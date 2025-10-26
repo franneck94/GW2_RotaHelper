@@ -15,7 +15,7 @@ class GW2SkillFetcher:
     SKILLS_ENDPOINT = f"{BASE_URL}/skills"
     CHUNK_SIZE = 200  # API supports up to 200 IDs per request
 
-    def __init__(self, output_dir: Path = Path("data/skills")) -> None:
+    def __init__(self, output_dir: Path = Path("internal_data/skills")) -> None:
         """Initialize the skill fetcher.
 
         Args:
@@ -226,7 +226,7 @@ class GW2SkillFetcher:
 
     def _is_necromancer_downed_skill(self, skill: Dict[str, Dict[str, Any]]) -> bool:
         """Check if this is a Necromancer downed skill that should be treated as weapon skill."""
-        slot = skill.get("slot", "")
+        slot: str = skill.get("slot", "")  # type: ignore
         professions = skill.get("professions", [])
 
         # Check if it's a Necromancer and has a Downed slot
@@ -384,7 +384,7 @@ class GW2SkillFetcher:
 async def main() -> None:
     # Get the script directory and set up data path
     script_dir = Path(__file__).parent
-    data_dir = script_dir.parent / "data" / "skills"
+    data_dir = script_dir.parent / "internal_data" / "skills"
 
     # Create and run the fetcher
     fetcher = GW2SkillFetcher(output_dir=data_dir)

@@ -547,8 +547,8 @@ def main():
         "--output",
         "-o",
         type=Path,
-        default="data/html",
-        help="Output directory for HTML files (default: data/html)",
+        default="internal_data/html",
+        help="Output directory for HTML files (default: internal_data/html)",
     )
     parser.add_argument(
         "--delay",

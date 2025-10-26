@@ -529,8 +529,8 @@ def main():
     parser.add_argument(
         "--input", "-i",
         type=Path,
-        default="data/html",
-        help="Input directory containing HTML files (default: data/html)"
+        default="internal_data/html",
+        help="Input directory containing HTML files (default: internal_data/html)"
     )
     parser.add_argument(
         "--output", "-o",
