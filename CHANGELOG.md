@@ -5,7 +5,13 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.5.0 - 2025-10-23
+## BETA 0.6.0
+
+### Improvements
+
+- Added more skills to "gray" out to drop
+
+## 0.5.0 - 2025-10-25
 
 ### Improvements
 
