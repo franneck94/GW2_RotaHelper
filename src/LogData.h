@@ -145,6 +145,7 @@ public:
         // ELEMENTALIST
         "Earthquake",
         "Fire Shield",
+        "Signet of Restoration",
         // MESMER
         "Signet of Domination",
         "Signet of Midnight",
