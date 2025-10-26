@@ -8,3 +8,4 @@ __pycache__
 !media/*.png
 data/bench/**/*.json
 addon_settings.json
+internal_data/html/
