@@ -180,6 +180,58 @@ bool is_skill_in_set(const int skill_id,
     return false;
 }
 
+bool get_is_skill_dropped(const SkillData &skill_data,
+                          const SkillRules &skill_rules)
+{
+    const auto is_substr_drop_match =
+        is_skill_in_set(skill_data.skill_id,
+                        skill_data.name,
+                        skill_rules.skills_substr_to_drop);
+    const auto is_exact_drop_match =
+        is_skill_in_set(skill_data.skill_id,
+                        skill_data.name,
+                        skill_rules.skills_match_to_drop,
+                        true);
+
+    auto drop_skill = is_substr_drop_match || is_exact_drop_match;
+    if (!Settings::ShowWeaponSwap)
+    {
+        const auto is_substr_drop_match =
+            is_skill_in_set(skill_data.skill_id,
+                            skill_data.name,
+                            skill_rules.skills_substr_weapon_swap_like);
+        const auto is_exact_drop_match =
+            is_skill_in_set(skill_data.skill_id,
+                            skill_data.name,
+                            skill_rules.skills_match_weapon_swap_like,
+                            true);
+
+        drop_skill = is_substr_drop_match || is_exact_drop_match ||
+                     is_substr_drop_match || is_exact_drop_match;
+    }
+
+    return drop_skill;
+}
+
+bool get_is_special_skill(const SkillData &skill_data,
+                          const SkillRules &skill_rules)
+{
+    const auto is_substr_gray_out =
+        is_skill_in_set(skill_data.skill_id,
+                        skill_data.name,
+                        skill_rules.special_substr_to_gray_out);
+    const auto is_match_gray_out =
+        is_skill_in_set(skill_data.skill_id,
+                        skill_data.name,
+                        skill_rules.special_match_to_gray_out,
+                        true);
+
+    const auto is_special_skill =
+        is_substr_gray_out || is_match_gray_out || skill_data.is_heal_skill;
+
+    return is_special_skill;
+}
+
 void get_rotation_info(const IntNode &node,
                        const LogSkillInfoMap &log_skill_info_map,
                        RotationSteps &all_rotation_steps,
@@ -248,48 +300,12 @@ void get_rotation_info(const IntNode &node,
             if (skill_data.skill_id == 0)
                 continue;
 
-            const auto is_substr_drop_match =
-                is_skill_in_set(skill_data.skill_id,
-                                skill_data.name,
-                                skill_rules.skills_substr_to_drop);
-            const auto is_exact_drop_match =
-                is_skill_in_set(skill_data.skill_id,
-                                skill_data.name,
-                                skill_rules.skills_match_to_drop,
-                                true);
-
-            auto drop_skill = !is_substr_drop_match && !is_exact_drop_match;
-            if (!Settings::ShowWeaponSwap)
-            {
-                const auto is_substr_drop_match =
-                    is_skill_in_set(skill_data.skill_id,
-                                    skill_data.name,
-                                    skill_rules.skills_substr_weapon_swap_like);
-                const auto is_exact_drop_match =
-                    is_skill_in_set(skill_data.skill_id,
-                                    skill_data.name,
-                                    skill_rules.skills_match_weapon_swap_like,
-                                    true);
-
-                drop_skill = !is_substr_drop_match && !is_exact_drop_match &&
-                             !is_substr_drop_match && !is_exact_drop_match;
-            }
+            auto drop_skill = get_is_skill_dropped(skill_data, skill_rules);
 
             if (!drop_skill)
             {
-                const auto is_substr_gray_out =
-                    is_skill_in_set(skill_data.skill_id,
-                                    skill_data.name,
-                                    skill_rules.special_substr_to_gray_out);
-                const auto is_match_gray_out =
-                    is_skill_in_set(skill_data.skill_id,
-                                    skill_data.name,
-                                    skill_rules.special_match_to_gray_out,
-                                    true);
-
-                const auto is_special_skill = is_substr_gray_out ||
-                                              is_match_gray_out ||
-                                              skill_data.is_heal_skill;
+                const auto is_special_skill =
+                    get_is_special_skill(skill_data, skill_rules);
 
                 const auto is_duplicate_skill = is_skill_in_set(
                     skill_data.skill_id,

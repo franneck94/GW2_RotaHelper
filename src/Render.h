@@ -80,12 +80,15 @@ public:
     void render(ID3D11Device *pd3dDevice);
 
     void render_debug_data();
+    void render_options_checkboxes(bool &is_not_ui_adjust_active);
     void render_options_window(bool &is_not_ui_adjust_active);
     void text_filter();
     void selection();
     void select_bench();
     void restart_rotation();
     void reload_btn();
+
+    float calculate_centered_position(const std::vector<std::string> &items) const;
 
     void render_rotation_window(const bool is_not_ui_adjust_active,
                                 ID3D11Device *pd3dDevice);

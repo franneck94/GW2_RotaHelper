@@ -422,23 +422,11 @@ void SimpleSkillDetectionLogic(
     const EvCombatDataPersistent &skill_ev,
     EvCombatDataPersistent &last_skill)
 {
-    static auto wait_time_point = std::chrono::steady_clock::now();
-
     auto curr_rota_skill = RotationStep{};
     auto next_rota_skill = RotationStep{};
     auto next_next_rota_skill = RotationStep{};
     auto next_next_next_rota_skill = RotationStep{};
     auto it = rotation_run.todo_rotation_steps.begin();
-
-    auto now = std::chrono::steady_clock::now();
-    auto duration_since_wait =
-        std::chrono::duration_cast<std::chrono::milliseconds>(now -
-                                                              wait_time_point)
-            .count();
-
-    if (duration_since_wait < 50) // wait 50ms to detect next skill
-        return;
-    wait_time_point = std::chrono::steady_clock::now();
 
     if (num_skills_wo_match == 0)
         time_since_last_match = std::chrono::steady_clock::now();
@@ -485,6 +473,7 @@ void SimpleSkillDetectionLogic(
     }
 
 #ifdef USE_SKIP_NEXT_SKILL
+    const auto now = std::chrono::steady_clock::now();
     const auto time_since_last_aa_skip =
         std::chrono::duration_cast<std::chrono::seconds>(now -
                                                          last_time_aa_did_skip)
@@ -808,6 +797,24 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
                               last_skill);
 }
 
+float RenderType::calculate_centered_position(
+    const std::vector<std::string> &items) const
+{
+    auto total_width = 0.0f;
+
+    for (size_t i = 0; i < items.size(); ++i)
+    {
+        total_width += ImGui::CalcTextSize(items[i].c_str()).x;
+        total_width += ImGui::GetFrameHeight(); // Checkbox size
+
+        if (i < items.size() - 1)
+            total_width += ImGui::GetStyle().ItemSpacing.x;
+    }
+
+    const auto window_width = ImGui::GetWindowSize().x;
+    return (window_width - total_width) * 0.5f;
+}
+
 void RenderType::render_debug_data()
 {
     static auto identity = Mumble::Identity{};
@@ -847,6 +854,58 @@ void RenderType::render_debug_data()
     ImGui::Text("Last Event ID: %u", curr_combat_data.EventID);
 }
 
+void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
+{
+    const auto first_row_items =
+        std::vector<std::string>{"Names", "Times", "Horizontal"};
+    const auto centered_pos_row_1 =
+        calculate_centered_position(first_row_items);
+    ImGui::SetCursorPosX(centered_pos_row_1);
+
+    if (ImGui::Checkbox("Names", &Settings::ShowSkillName))
+    {
+        Settings::Save(Globals::SettingsPath);
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Checkbox("Times", &Settings::ShowSkillTime))
+    {
+        Settings::Save(Globals::SettingsPath);
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Checkbox("Horizontal", &Settings::HorizontalSkillLayout))
+    {
+        if (Settings::HorizontalSkillLayout)
+            Globals::SkillIconSize = 64.0F;
+        else
+            Globals::SkillIconSize = 28.0F;
+
+        Settings::Save(Globals::SettingsPath);
+    }
+
+    const auto second_row_items =
+        std::vector<std::string>{"Move Skill UI", "Show Weapon Swaps"};
+    const auto centered_pos_row_2 =
+        calculate_centered_position(second_row_items);
+    ImGui::SetCursorPosX(centered_pos_row_2);
+
+    if (ImGui::Checkbox("Move Skill UI", &is_not_ui_adjust_active))
+    {
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Checkbox("Show Weapon Swaps", &Settings::ShowWeaponSwap))
+    {
+        Settings::Save(Globals::SettingsPath);
+
+        Globals::RotationRun.load_data(selected_file_path, img_path);
+    }
+}
+
 void RenderType::render_options_window(bool &is_not_ui_adjust_active)
 {
     if (ImGui::Begin("Rota Helper ###GW2RotaHelper_Options",
@@ -864,45 +923,7 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
 
         select_bench();
 
-        const auto checkbox_width =
-            ImGui::CalcTextSize("Names").x + ImGui::CalcTextSize("Times").x +
-            ImGui::GetStyle().ItemSpacing.x * 3 + ImGui::GetFrameHeight() * 2;
-        const auto window_width = ImGui::GetWindowSize().x;
-        ImGui::SetCursorPosX((window_width - checkbox_width) * 0.5f);
-
-        if (ImGui::Checkbox("Names", &Settings::ShowSkillName))
-        {
-            Settings::Save(Globals::SettingsPath);
-        }
-
-        ImGui::SameLine();
-
-        if (ImGui::Checkbox("Times", &Settings::ShowSkillTime))
-        {
-            Settings::Save(Globals::SettingsPath);
-        }
-
-        const auto checkbox_width2 = ImGui::CalcTextSize("Horizontal").x +
-                                     ImGui::CalcTextSize("Adjust UI").x +
-                                     ImGui::GetStyle().ItemSpacing.x * 3 +
-                                     ImGui::GetFrameHeight() * 2;
-        ImGui::SetCursorPosX((window_width - checkbox_width2) * 0.5f);
-
-        if (ImGui::Checkbox("Horizontal", &Settings::HorizontalSkillLayout))
-        {
-            if (Settings::HorizontalSkillLayout)
-                Globals::SkillIconSize = 64.0F;
-            else
-                Globals::SkillIconSize = 28.0F;
-
-            Settings::Save(Globals::SettingsPath);
-        }
-
-        ImGui::SameLine();
-
-        if (ImGui::Checkbox("Adjust UI", &is_not_ui_adjust_active))
-        {
-        }
+        render_options_checkboxes(is_not_ui_adjust_active);
 
 #ifdef _DEBUG
         if (ImGui::CollapsingHeader("Debug Data",
