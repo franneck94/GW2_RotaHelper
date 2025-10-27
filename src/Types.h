@@ -50,8 +50,6 @@ struct LogSkillInfo
 {
     std::string name;
     std::string icon_url;
-    bool trait_proc;
-    bool gear_proc;
 };
 
 using LogSkillInfoMap = std::map<int, LogSkillInfo>;

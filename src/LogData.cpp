@@ -120,8 +120,6 @@ void get_skill_info(const IntNode &node, LogSkillInfoMap &log_skill_info_map)
     {
         auto name = std::string{};
         auto icon = std::string{};
-        auto trait_proc = true;
-        auto gear_proc = true;
 
         const auto name_it = skill_node.children.find("name");
         if (name_it != skill_node.children.end() &&
@@ -145,45 +143,9 @@ void get_skill_info(const IntNode &node, LogSkillInfoMap &log_skill_info_map)
                 icon = convert_cache_url(*pval);
         }
 
-        const auto trait_v12_it = skill_node.children.find("traitProc");
-        if (trait_v12_it != skill_node.children.end() &&
-            trait_v12_it->second.value.has_value())
-        {
-            if (const auto pval =
-                    std::get_if<bool>(&trait_v12_it->second.value.value()))
-                trait_proc = *pval;
-        }
-        const auto trait_v3_it = skill_node.children.find("isTraitProc");
-        if (trait_v3_it != skill_node.children.end() &&
-            trait_v3_it->second.value.has_value())
-        {
-            if (const auto pval =
-                    std::get_if<bool>(&trait_v3_it->second.value.value()))
-                trait_proc = *pval;
-        }
-
-        const auto gear_v12_it = skill_node.children.find("gearProc");
-        if (gear_v12_it != skill_node.children.end() &&
-            gear_v12_it->second.value.has_value())
-        {
-            if (const auto pval =
-                    std::get_if<bool>(&gear_v12_it->second.value.value()))
-                gear_proc = *pval;
-        }
-        const auto gear_v3_it = skill_node.children.find("isGearProc");
-        if (gear_v3_it != skill_node.children.end() &&
-            gear_v3_it->second.value.has_value())
-        {
-            if (const auto pval =
-                    std::get_if<bool>(&gear_v3_it->second.value.value()))
-                gear_proc = *pval;
-        }
-
         log_skill_info_map[std::stoi(icon_id)] = {
             name,
             icon,
-            trait_proc,
-            gear_proc,
         };
     }
 }
@@ -290,15 +252,6 @@ void get_rotation_info(
             if (skill_data.skill_id == 0)
                 continue;
 
-            auto gear_proc = false;
-            auto trait_proc = false;
-            const auto skill_info_it = log_skill_info_map.find(icon_id);
-            if (skill_info_it != log_skill_info_map.end())
-            {
-                gear_proc = skill_info_it->second.gear_proc;
-                trait_proc = skill_info_it->second.trait_proc;
-            }
-
             const auto is_substr_drop_match =
                 is_skill_in_set(skill_data.skill_id,
                                 skill_data.name,
@@ -309,8 +262,7 @@ void get_rotation_info(
                                 skills_match_to_drop,
                                 true);
 
-            if (!gear_proc && !trait_proc && !is_substr_drop_match &&
-                !is_exact_drop_match)
+            if (!is_substr_drop_match && !is_exact_drop_match)
             {
                 const auto is_substr_gray_out =
                     is_skill_in_set(skill_data.skill_id,
@@ -332,7 +284,8 @@ void get_rotation_info(
                                     special_substr_to_remove_duplicates);
                 const auto was_there_previous =
                     !all_rotation_steps.empty()
-                        ? all_rotation_steps.back().skill_data.name == skill_data.name
+                        ? all_rotation_steps.back().skill_data.name ==
+                              skill_data.name
                         : false;
 
                 if (is_duplicate_skill && was_there_previous)
@@ -725,7 +678,8 @@ std::tuple<int, int, size_t> RotationRunType::get_current_rotation_indices()
 
     const auto num_skills_left =
         static_cast<int64_t>(todo_rotation_steps.size());
-    const auto num_total_skills = static_cast<int64_t>(all_rotation_steps.size());
+    const auto num_total_skills =
+        static_cast<int64_t>(all_rotation_steps.size());
 
     auto current_idx = static_cast<int64_t>(num_total_skills - num_skills_left);
 
@@ -760,8 +714,8 @@ RotationStep RotationRunType::get_rotation_skill(const size_t idx) const
 
 void RotationRunType::restart_rotation()
 {
-    todo_rotation_steps =
-        std::list<RotationStep>(all_rotation_steps.begin(), all_rotation_steps.end());
+    todo_rotation_steps = std::list<RotationStep>(all_rotation_steps.begin(),
+                                                  all_rotation_steps.end());
 }
 
 bool RotationRunType::is_current_run_done() const
