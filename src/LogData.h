@@ -19,6 +19,17 @@
 
 using json = nlohmann::json;
 
+struct SkillRules
+{
+    const std::set<std::string> &skills_substr_weapon_swap_like;
+    const std::set<std::string> &skills_match_weapon_swap_like;
+    const std::set<std::string> &skills_substr_to_drop;
+    const std::set<std::string> &skills_match_to_drop;
+    const std::set<std::string> &special_substr_to_gray_out;
+    const std::set<std::string> &special_match_to_gray_out;
+    const std::set<std::string> &special_substr_to_remove_duplicates;
+};
+
 class RotationRunType
 {
 public:
@@ -39,17 +50,10 @@ public:
     SkillDataMap skill_data;
     MetaData meta_data;
 
-    const static inline std::set<std::string> skills_substr_to_drop = {
-        "Bloodstone Fervor",
-        "Blutstein",
+    const static inline std::set<std::string> skills_substr_weapon_swap_like= {
         "Waffen Wechsel",
         "Weapon Swap",
-        "Relic of",
-        "Relikt des",
-        "Mushroom King",
-        "Dodge",
         // GUARDIAN
-        "Fire Jurisdiction",
         // WARRIOR
         // ENGINEER
         " Kit",
@@ -58,6 +62,39 @@ public:
         // THIEF
         // ELEMENTALIST
         "Attunement",
+        // MESMER
+        // NECROMANCER
+        // REVENANT
+    };
+
+    const static inline std::set<std::string> skills_match_weapon_swap_like= {
+        // GUARDIAN
+        // WARRIOR
+        // ENGINEER
+        "Flamethrower",
+        // RANGER
+        // THIEF
+        // ELEMENTALIST
+        // MESMER
+        // NECROMANCER
+        "Harbinger Shroud",
+        "Reaper's Shroud",
+        // REVENANT
+    };
+
+    const static inline std::set<std::string> skills_substr_to_drop = {
+        "Bloodstone Fervor",
+        "Blutstein",
+        "Relic of",
+        "Relikt des",
+        "Mushroom King",
+        // GUARDIAN
+        "Fire Jurisdiction",
+        // WARRIOR
+        // ENGINEER
+        // RANGER
+        // THIEF
+        // ELEMENTALIST
         // MESMER
         // NECROMANCER
         // REVENANT
@@ -93,6 +130,7 @@ public:
     };
 
     const static inline std::set<std::string> special_substr_to_gray_out = {
+        "Dodge",
         // GUARDIAN
         "Chapter 1:",
         "Chapter 2:",
