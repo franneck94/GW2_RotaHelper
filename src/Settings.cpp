@@ -10,6 +10,7 @@ const char *FILTER_BUFFER = "FilterBuffer";
 const char *SHOW_SKILL_NAME = "ShowSkillName";
 const char *SHOW_SKILL_TIME = "ShowSkillTime";
 const char *HORIZONTAL_SKILL_LAYOUT = "HorizontalSkillLayout";
+const char *SHOW_WEAPON_SWAP = "ShowWeaponSwap";
 
 namespace Settings
 {
@@ -62,6 +63,10 @@ void Load(std::filesystem::path aPath)
     {
         Settings[HORIZONTAL_SKILL_LAYOUT].get_to<bool>(HorizontalSkillLayout);
     }
+    if (!Settings[HORIZONTAL_SKILL_LAYOUT].is_null())
+    {
+        Settings[SHOW_WEAPON_SWAP].get_to<bool>(ShowWeaponSwap);
+    }
 }
 
 void Save(std::filesystem::path aPath)
@@ -73,6 +78,7 @@ void Save(std::filesystem::path aPath)
         Settings[SHOW_SKILL_NAME] = ShowSkillName;
         Settings[SHOW_SKILL_TIME] = ShowSkillTime;
         Settings[HORIZONTAL_SKILL_LAYOUT] = HorizontalSkillLayout;
+        Settings[SHOW_WEAPON_SWAP] = ShowWeaponSwap;
 
         std::ofstream file(aPath);
         file << Settings.dump(1, '\t') << std::endl;
@@ -93,4 +99,5 @@ std::string FilterBuffer;
 bool ShowSkillName = true;
 bool ShowSkillTime = true;
 bool HorizontalSkillLayout = false;
+bool ShowWeaponSwap = false;
 } // namespace Settings
