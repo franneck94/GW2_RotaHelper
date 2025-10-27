@@ -155,10 +155,6 @@ void AddonLoad(AddonAPI *aApi)
                                                 nullptr);
     RegisterQuickAccessShortcut();
 
-#ifdef _DEBUG
-    // Globals::MemoryReader.Initialize();
-#endif
-
     Globals::APIDefs->Events.Subscribe("EV_ARCDPS_COMBATEVENT_LOCAL_RAW",
                                        ArcEv::OnCombatLocal);
 
@@ -178,10 +174,6 @@ void AddonLoad(AddonAPI *aApi)
 
 void AddonUnload()
 {
-#ifdef _DEBUG
-    // Globals::MemoryReader.Cleanup();
-#endif
-
     if (pd3dDevice)
         pd3dDevice->Release();
 
