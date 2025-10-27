@@ -6,6 +6,6 @@ __pycache__
 *.txt
 *.png
 !media/*.png
-data/bench/**/*.json
 addon_settings.json
 internal_data/html/
+!data/img/-1000.png
