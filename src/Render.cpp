@@ -435,7 +435,7 @@ bool CheckTheNextNskills(const EvCombatDataPersistent &skill_ev,
     if (is_match)
     {
         for (uint32_t i = 0; i < n; ++i)
-            rotation_run.bench_rotation_list.pop_front();
+            rotation_run.todo_rotation_steps.pop_front();
 
         last_skill = skill_ev;
     }
@@ -456,7 +456,7 @@ void SimpleSkillDetectionLogic(
     auto next_rota_skill = RotationStep{};
     auto next_next_rota_skill = RotationStep{};
     auto next_next_next_rota_skill = RotationStep{};
-    auto it = rotation_run.bench_rotation_list.begin();
+    auto it = rotation_run.todo_rotation_steps.begin();
 
     auto now = std::chrono::steady_clock::now();
     auto duration_since_wait =
@@ -471,31 +471,31 @@ void SimpleSkillDetectionLogic(
     if (num_skills_wo_match == 0)
         time_since_last_match = std::chrono::steady_clock::now();
 
-    if (rotation_run.bench_rotation_list.size() > 1)
+    if (rotation_run.todo_rotation_steps.size() > 1)
     {
         curr_rota_skill = *it;
 
         while (curr_rota_skill.is_special_skill &&
-               rotation_run.bench_rotation_list.size() > 2)
+               rotation_run.todo_rotation_steps.size() > 2)
         {
-            rotation_run.bench_rotation_list.pop_front();
-            it = rotation_run.bench_rotation_list.begin();
+            rotation_run.todo_rotation_steps.pop_front();
+            it = rotation_run.todo_rotation_steps.begin();
             curr_rota_skill = *it;
         }
 
         ++it;
     }
-    if (rotation_run.bench_rotation_list.size() > 2)
+    if (rotation_run.todo_rotation_steps.size() > 2)
     {
         next_rota_skill = *it;
         ++it;
     }
-    if (rotation_run.bench_rotation_list.size() > 3)
+    if (rotation_run.todo_rotation_steps.size() > 3)
     {
         next_next_rota_skill = *it;
         ++it;
     }
-    if (rotation_run.bench_rotation_list.size() > 4)
+    if (rotation_run.todo_rotation_steps.size() > 4)
     {
         next_next_next_rota_skill = *it;
         ++it;
@@ -595,22 +595,22 @@ void SimpleSkillDetectionLogic(
         if (duration_since_last_match < 10)
             return;
 
-        for (auto it = rotation_run.bench_rotation_list.begin();
-             it != rotation_run.bench_rotation_list.end();
+        for (auto it = rotation_run.todo_rotation_steps.begin();
+             it != rotation_run.todo_rotation_steps.end();
              ++it)
         {
             const auto diff =
-                std::distance(it, rotation_run.bench_rotation_list.begin());
+                std::distance(it, rotation_run.todo_rotation_steps.begin());
             if (diff > 6)
                 return;
 
             const auto rota_skill = *it;
             if (rota_skill.skill_data.name == skill_ev.SkillName)
             {
-                while (rotation_run.bench_rotation_list.begin() != it)
-                    rotation_run.bench_rotation_list.pop_front();
+                while (rotation_run.todo_rotation_steps.begin() != it)
+                    rotation_run.todo_rotation_steps.pop_front();
 
-                rotation_run.bench_rotation_list.pop_front();
+                rotation_run.todo_rotation_steps.pop_front();
 
                 last_skill = skill_ev;
                 num_skills_wo_match = 0U;
@@ -649,7 +649,7 @@ SkillState get_skill_state(
 {
     const auto is_current = (window_idx == static_cast<int32_t>(current_idx));
     const auto is_last =
-        (window_idx == Globals::RotationRun.rotation_vector.size() - 1);
+        (window_idx == Globals::RotationRun.all_rotation_steps.size() - 1);
     const auto is_completed = (window_idx < static_cast<int32_t>(current_idx));
 
     auto is_completed_correct = false;
@@ -658,7 +658,7 @@ SkillState get_skill_state(
     {
         const auto casted_skill = played_rotation[window_idx];
         const auto bench_skill =
-            Globals::RotationRun.rotation_vector[window_idx];
+            Globals::RotationRun.all_rotation_steps[window_idx];
 
         is_completed_correct =
             (casted_skill.SkillName == bench_skill.skill_data.name) ? true
@@ -813,7 +813,7 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
 {
     static auto last_skill = EvCombatDataPersistent{};
 
-    if (Globals::RotationRun.bench_rotation_list.empty())
+    if (Globals::RotationRun.todo_rotation_steps.empty())
         return;
 
     if (skill_ev.SkillID == 0 || skill_ev.SkillID == -10000)
@@ -1188,7 +1188,7 @@ void RenderType::rotation_render_details(ID3D11Device *pd3dDevice)
     for (int32_t window_idx = start; window_idx <= end; ++window_idx)
     {
         if (window_idx < 0 || static_cast<size_t>(window_idx) >=
-                                  Globals::RotationRun.rotation_vector.size())
+                                  Globals::RotationRun.all_rotation_steps.size())
             continue;
 
         const auto &rotation_step = Globals::RotationRun.get_rotation_skill(
@@ -1247,7 +1247,7 @@ void RenderType::rotation_render_horizontal(ID3D11Device *pd3dDevice)
     for (int32_t window_idx = start; window_idx <= end; ++window_idx)
     {
         if (window_idx < 0 || static_cast<size_t>(window_idx) >=
-                                  Globals::RotationRun.rotation_vector.size())
+                                  Globals::RotationRun.all_rotation_steps.size())
             continue;
 
         const auto &rotation_step = Globals::RotationRun.get_rotation_skill(
@@ -1367,14 +1367,14 @@ void RenderType::render(ID3D11Device *pd3dDevice)
         return;
     }
 
-    if (Globals::RotationRun.rotation_vector.size() == 0)
+    if (Globals::RotationRun.all_rotation_steps.size() == 0)
         return;
 
     if (Globals::TextureMap.size() == 0)
     {
         Globals::TextureMap =
             LoadAllSkillTextures(pd3dDevice,
-                                 Globals::RotationRun.skill_info_map,
+                                 Globals::RotationRun.log_skill_info_map,
                                  img_path);
     }
 

@@ -46,7 +46,7 @@ struct EvAgentUpdate
     uint16_t subgroup;    // dst->team  = subgroup
 };
 
-struct SkillInfo
+struct LogSkillInfo
 {
     std::string name;
     std::string icon_url;
@@ -54,7 +54,7 @@ struct SkillInfo
     bool gear_proc;
 };
 
-using SkillInfoMap = std::map<int, SkillInfo>;
+using LogSkillInfoMap = std::map<int, LogSkillInfo>;
 using LogDataTypes = std::variant<int, float, bool, std::string>;
 
 struct IntNode
@@ -89,7 +89,7 @@ struct RotationStep
 };
 
 using RotationSteps = std::vector<RotationStep>;
-using RotationInfoList = std::list<RotationStep>;
+using RotationStepsList = std::list<RotationStep>;
 using SkillDataMap = std::map<int, SkillData>;
 
 enum class ProfessionID : uint32_t

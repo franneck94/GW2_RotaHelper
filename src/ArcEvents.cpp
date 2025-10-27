@@ -169,7 +169,7 @@ bool OnCombat(const char *channel,
             .EventID = evCbtData.id,
         };
 
-        if (Globals::RotationRun.skill_info_map.empty() ||
+        if (Globals::RotationRun.log_skill_info_map.empty() ||
             IsAnySkillFromBuild(data))
         {
             if (IsNotTheSameCast(data))

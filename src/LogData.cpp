@@ -114,7 +114,7 @@ std::string convert_cache_url(const std::string &cache_url)
 }
 
 
-void get_skill_info(const IntNode &node, SkillInfoMap &skill_info_map)
+void get_skill_info(const IntNode &node, LogSkillInfoMap &log_skill_info_map)
 {
     for (const auto &[icon_id, skill_node] : node.children)
     {
@@ -179,7 +179,7 @@ void get_skill_info(const IntNode &node, SkillInfoMap &skill_info_map)
                 gear_proc = *pval;
         }
 
-        skill_info_map[std::stoi(icon_id)] = {
+        log_skill_info_map[std::stoi(icon_id)] = {
             name,
             icon,
             trait_proc,
@@ -219,8 +219,8 @@ bool is_skill_in_set(const int skill_id,
 
 void get_rotation_info(
     const IntNode &node,
-    const SkillInfoMap &skill_info_map,
-    RotationSteps &rotation_vector,
+    const LogSkillInfoMap &log_skill_info_map,
+    RotationSteps &all_rotation_steps,
     const SkillDataMap &skill_data_map,
     const std::set<std::string> &skills_substr_to_drop,
     const std::set<std::string> &skills_match_to_drop,
@@ -292,8 +292,8 @@ void get_rotation_info(
 
             auto gear_proc = false;
             auto trait_proc = false;
-            const auto skill_info_it = skill_info_map.find(icon_id);
-            if (skill_info_it != skill_info_map.end())
+            const auto skill_info_it = log_skill_info_map.find(icon_id);
+            if (skill_info_it != log_skill_info_map.end())
             {
                 gear_proc = skill_info_it->second.gear_proc;
                 trait_proc = skill_info_it->second.trait_proc;
@@ -331,14 +331,14 @@ void get_rotation_info(
                                     skill_data.name,
                                     special_substr_to_remove_duplicates);
                 const auto was_there_previous =
-                    !rotation_vector.empty()
-                        ? rotation_vector.back().skill_data.name == skill_data.name
+                    !all_rotation_steps.empty()
+                        ? all_rotation_steps.back().skill_data.name == skill_data.name
                         : false;
 
                 if (is_duplicate_skill && was_there_previous)
                     continue;
 
-                rotation_vector.push_back(
+                all_rotation_steps.push_back(
                     RotationStep{.time_of_cast = time_of_cast,
                                  .duration_ms = duration_ms,
                                  .skill_data = skill_data,
@@ -347,8 +347,8 @@ void get_rotation_info(
         }
     }
 
-    std::sort(rotation_vector.begin(),
-              rotation_vector.end(),
+    std::sort(all_rotation_steps.begin(),
+              all_rotation_steps.end(),
               [](const RotationStep &a, const RotationStep &b) {
                   return a.time_of_cast < b.time_of_cast;
               });
@@ -514,7 +514,7 @@ MetaData get_metadata(const nlohmann::json &j)
     return metadata;
 }
 
-std::tuple<SkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
+std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
     const nlohmann::json &j,
     const std::filesystem::path &json_path,
     const SkillDataMap &skill_data_map,
@@ -532,11 +532,11 @@ std::tuple<SkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
     auto kv_skill = IntNode{};
     collect_json(skill_data, kv_skill, true);
 
-    auto skill_info_map = SkillInfoMap{};
-    get_skill_info(kv_skill, skill_info_map);
+    auto log_skill_info_map = LogSkillInfoMap{};
+    get_skill_info(kv_skill, log_skill_info_map);
     auto rotation_steps = RotationSteps{};
     get_rotation_info(kv_rotation,
-                      skill_info_map,
+                      log_skill_info_map,
                       rotation_steps,
                       skill_data_map,
                       skills_substr_to_drop,
@@ -547,7 +547,7 @@ std::tuple<SkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
 
     auto metadata = get_metadata(j);
 
-    return std::make_tuple(skill_info_map, rotation_steps, metadata);
+    return std::make_tuple(log_skill_info_map, rotation_steps, metadata);
 }
 
 bool DownloadFileFromURL(const std::string &url,
@@ -633,13 +633,13 @@ bool DownloadFileFromURL(const std::string &url,
 }
 
 std::list<std::future<void>> StartDownloadAllSkillIcons(
-    const SkillInfoMap &skill_info_map,
+    const LogSkillInfoMap &log_skill_info_map,
     const std::filesystem::path &img_folder)
 {
     std::filesystem::create_directories(img_folder);
     auto futures = std::list<std::future<void>>{};
 
-    for (const auto &[icon_id, info] : skill_info_map)
+    for (const auto &[icon_id, info] : log_skill_info_map)
     {
         if (info.icon_url.empty())
             continue;
@@ -674,8 +674,8 @@ void RotationRunType::load_data(const std::filesystem::path &json_path,
     file >> j;
 
     skill_data.clear();
-    skill_info_map.clear();
-    rotation_vector.clear();
+    log_skill_info_map.clear();
+    all_rotation_steps.clear();
 
     const auto skill_data_json =
         json_path.parent_path().parent_path().parent_path().parent_path() /
@@ -685,7 +685,7 @@ void RotationRunType::load_data(const std::filesystem::path &json_path,
     file2 >> j2;
 
     skill_data = get_skill_data(j2);
-    auto [_skill_info_map, _bench_rotation_vector, _meta_data] =
+    auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] =
         get_dpsreport_data(j,
                            json_path,
                            skill_data,
@@ -695,20 +695,20 @@ void RotationRunType::load_data(const std::filesystem::path &json_path,
                            special_match_to_gray_out,
                            special_substr_to_remove_duplicates);
 
-    skill_info_map = _skill_info_map;
-    rotation_vector = _bench_rotation_vector;
+    log_skill_info_map = _skill_info_map;
+    all_rotation_steps = _bench_all_rotation_steps;
     meta_data = _meta_data;
 
     restart_rotation();
 
-    futures = StartDownloadAllSkillIcons(skill_info_map, img_path);
+    futures = StartDownloadAllSkillIcons(log_skill_info_map, img_path);
 }
 
 void RotationRunType::pop_bench_rotation_queue()
 {
-    if (!bench_rotation_list.empty())
+    if (!todo_rotation_steps.empty())
     {
-        bench_rotation_list.pop_front();
+        todo_rotation_steps.pop_front();
     }
 }
 
@@ -720,18 +720,18 @@ std::tuple<int, int, size_t> RotationRunType::get_current_rotation_indices()
     constexpr static auto window_size_right =
         window_size - window_size_left - 1;
 
-    if (bench_rotation_list.empty())
+    if (todo_rotation_steps.empty())
         return {-1, -1, -1};
 
     const auto num_skills_left =
-        static_cast<int64_t>(bench_rotation_list.size());
-    const auto num_total_skills = static_cast<int64_t>(rotation_vector.size());
+        static_cast<int64_t>(todo_rotation_steps.size());
+    const auto num_total_skills = static_cast<int64_t>(all_rotation_steps.size());
 
     auto current_idx = static_cast<int64_t>(num_total_skills - num_skills_left);
 
     while (current_idx < num_total_skills - 1)
     {
-        if (rotation_vector[current_idx].is_special_skill)
+        if (all_rotation_steps[current_idx].is_special_skill)
             ++current_idx;
         else
             break;
@@ -752,28 +752,28 @@ std::tuple<int, int, size_t> RotationRunType::get_current_rotation_indices()
 
 RotationStep RotationRunType::get_rotation_skill(const size_t idx) const
 {
-    if (idx < rotation_vector.size())
-        return rotation_vector.at(idx);
+    if (idx < all_rotation_steps.size())
+        return all_rotation_steps.at(idx);
 
     return RotationStep{};
 }
 
 void RotationRunType::restart_rotation()
 {
-    bench_rotation_list =
-        std::list<RotationStep>(rotation_vector.begin(), rotation_vector.end());
+    todo_rotation_steps =
+        std::list<RotationStep>(all_rotation_steps.begin(), all_rotation_steps.end());
 }
 
 bool RotationRunType::is_current_run_done() const
 {
-    return bench_rotation_list.empty();
+    return todo_rotation_steps.empty();
 }
 
 void RotationRunType::reset_rotation()
 {
-    skill_info_map.clear();
-    rotation_vector.clear();
-    bench_rotation_list.clear();
+    log_skill_info_map.clear();
+    all_rotation_steps.clear();
+    todo_rotation_steps.clear();
     skill_data.clear();
     meta_data = MetaData{};
 }

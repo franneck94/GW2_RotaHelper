@@ -33,11 +33,10 @@ public:
     bool is_current_run_done() const;
 
     std::list<std::future<void>> futures;
-    SkillInfoMap skill_info_map;
-    RotationSteps rotation_vector;
-    RotationInfoList bench_rotation_list;
+    LogSkillInfoMap log_skill_info_map;
+    RotationSteps all_rotation_steps;
+    RotationStepsList todo_rotation_steps;
     SkillDataMap skill_data;
-
     MetaData meta_data;
 
     const static inline std::set<std::string> skills_substr_to_drop = {
@@ -87,6 +86,8 @@ public:
         "Approaching Doom",
         "Chilling Nova",
         "Cascading Corruption",
+        "Harbinger Shroud",
+        "Reaper's Shroud",
         // REVENANT
         "Invoke Torment",
     };
@@ -108,8 +109,6 @@ public:
         // MESMER
         "Distortion",
         // NECROMANCER
-        "Harbinger Shroud",
-        "Reaper's Shroud",
         // REVENANT
     };
 
@@ -128,10 +127,10 @@ public:
         // ENGINEER
         "Devastator",        // TODO
         "Overcharged Shot",  // TODO
-        "Spark Revolver",    // XXX: Mech F Skill
-        "Core Reactor Shot", // XXX: Mech F Skill
-        "Jade Mortar",       // XXX: Mech F Skill
-        "Rocket Punch",      // XXX: Mech F Skill
+        "Spark Revolver",
+        "Core Reactor Shot",
+        "Jade Mortar",
+        "Rocket Punch",
         "Rolling Smash",
         "Discharge Array",
         "Sky Circus",
