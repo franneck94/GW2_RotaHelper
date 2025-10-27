@@ -63,7 +63,7 @@ void Load(std::filesystem::path aPath)
     {
         Settings[HORIZONTAL_SKILL_LAYOUT].get_to<bool>(HorizontalSkillLayout);
     }
-    if (!Settings[HORIZONTAL_SKILL_LAYOUT].is_null())
+    if (!Settings[SHOW_WEAPON_SWAP].is_null())
     {
         Settings[SHOW_WEAPON_SWAP].get_to<bool>(ShowWeaponSwap);
     }
