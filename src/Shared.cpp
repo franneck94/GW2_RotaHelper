@@ -25,4 +25,6 @@ RenderType Globals::Render{};
 std::filesystem::path Globals::SettingsPath;
 float SkillIconSize = 28.0F;
 std::string VersionString = std::string{VERSION_STRING};
+
+Mumble::Identity Identity = {};
 }; // namespace Globals

@@ -29,6 +29,8 @@ extern TextureMapType TextureMap;
 extern std::filesystem::path SettingsPath;
 extern float SkillIconSize;
 extern std::string VersionString;
+
+extern Mumble::Identity Identity;
 }; // namespace Globals
 
 #endif

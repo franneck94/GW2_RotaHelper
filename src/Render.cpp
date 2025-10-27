@@ -52,9 +52,8 @@ std::string get_current_profession_name()
 
     try
     {
-        auto identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
         return profession_to_string(
-            static_cast<ProfessionID>(identity.Profession));
+            static_cast<ProfessionID>(Globals::Identity.Profession));
     }
     catch (...)
     {
@@ -817,35 +816,18 @@ float RenderType::calculate_centered_position(
 
 void RenderType::render_debug_data()
 {
-    static auto identity = Mumble::Identity{};
-    static auto last_parse_time = std::chrono::steady_clock::now();
-
-    if (!Globals::MumbleData)
-        return;
-
-    const auto now = std::chrono::steady_clock::now();
-    const auto time_since_last_parse =
-        std::chrono::duration_cast<std::chrono::seconds>(now - last_parse_time)
-            .count();
-
-    if (time_since_last_parse >= 2)
-    {
-        identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
-        last_parse_time = now;
-    }
-
     ImGui::Separator();
     ImGui::Text(
         "Profession: %d (%s)",
-        static_cast<int>(identity.Profession),
-        profession_to_string(static_cast<ProfessionID>(identity.Profession))
+        static_cast<int>(Globals::Identity.Profession),
+        profession_to_string(static_cast<ProfessionID>(Globals::Identity.Profession))
             .c_str());
     ImGui::Text(
         "Specialization: %u (%s)",
-        identity.Specialization,
-        elite_spec_to_string(static_cast<EliteSpecID>(identity.Specialization))
+        Globals::Identity.Specialization,
+        elite_spec_to_string(static_cast<EliteSpecID>(Globals::Identity.Specialization))
             .c_str());
-    ImGui::Text("Map ID: %u", identity.MapID);
+    ImGui::Text("Map ID: %u", Globals::Identity.MapID);
     ImGui::Text("Is in Combat: %d", Globals::MumbleData->Context.IsInCombat);
 
     ImGui::Text("Last Casted Skill ID: %u", curr_combat_data.SkillID);
@@ -1088,9 +1070,9 @@ void RenderType::selection()
                         selected_bench_index = original_index;
                         selected_file_path = file_info->full_path;
 
+                        ReleaseTextureMap(Globals::TextureMap);
                         Globals::RotationRun.load_data(selected_file_path,
                                                        img_path);
-                        ReleaseTextureMap(Globals::TextureMap);
 
                         ImGui::CloseCurrentPopup();
                     }

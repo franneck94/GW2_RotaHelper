@@ -191,11 +191,38 @@ void AddonUnload()
                                          ArcEv::OnCombatLocal);
 }
 
+void TriggerParseMumble()
+{
+    static auto last_parse_time = std::chrono::steady_clock::now();
+
+    const auto now = std::chrono::steady_clock::now();
+    const auto time_since_last_parse =
+        std::chrono::duration_cast<std::chrono::seconds>(now - last_parse_time)
+            .count();
+
+    if (time_since_last_parse >= 2)
+    {
+        Globals::Identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
+        last_parse_time = now;
+    }
+}
+
 void AddonRender()
 {
+    static auto profession = ProfessionID::UNKNOWN;
+
     if ((!Globals::NexusLink) || (!Globals::NexusLink->IsGameplay) ||
         (!Settings::ShowWindow))
         return;
+
+    TriggerParseMumble();
+    const auto curr_profession =
+        static_cast<ProfessionID>(Globals::Identity.Profession);
+    if (profession != curr_profession)
+    {
+        Globals::RotationRun.reset_rotation();
+        profession = curr_profession;
+    }
 
     Globals::Render.toggle_vis(Settings::ShowWindow);
     Globals::Render.render(pd3dDevice);
