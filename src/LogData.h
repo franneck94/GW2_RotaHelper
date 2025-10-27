@@ -51,7 +51,6 @@ public:
     MetaData meta_data;
 
     const static inline std::set<std::string> skills_substr_weapon_swap_like= {
-        "Waffen Wechsel",
         "Weapon Swap",
         // GUARDIAN
         // WARRIOR
@@ -84,9 +83,7 @@ public:
 
     const static inline std::set<std::string> skills_substr_to_drop = {
         "Bloodstone Fervor",
-        "Blutstein",
         "Relic of",
-        "Relikt des",
         "Mushroom King",
         // GUARDIAN
         "Fire Jurisdiction",
@@ -110,7 +107,6 @@ public:
         "Fire Rocket Barrage",
         "Orbital Command Strike",
         "Bomb",
-        "Flamethrower",
         // RANGER
         "Unleashed Overbearing Smash (Leap)",
         // THIEF
@@ -123,8 +119,6 @@ public:
         "Approaching Doom",
         "Chilling Nova",
         "Cascading Corruption",
-        "Harbinger Shroud",
-        "Reaper's Shroud",
         // REVENANT
         "Invoke Torment",
     };
