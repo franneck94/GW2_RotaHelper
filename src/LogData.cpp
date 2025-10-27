@@ -23,6 +23,7 @@
 #include "nlohmann/json.hpp"
 
 #include "LogData.h"
+#include "Settings.h"
 #include "Types.h"
 #include "TypesUtils.h"
 
@@ -179,16 +180,11 @@ bool is_skill_in_set(const int skill_id,
     return false;
 }
 
-void get_rotation_info(
-    const IntNode &node,
-    const LogSkillInfoMap &log_skill_info_map,
-    RotationSteps &all_rotation_steps,
-    const SkillDataMap &skill_data_map,
-    const std::set<std::string> &skills_substr_to_drop,
-    const std::set<std::string> &skills_match_to_drop,
-    const std::set<std::string> &special_substr_to_gray_out,
-    const std::set<std::string> &special_match_to_gray_out,
-    const std::set<std::string> &special_substr_to_remove_duplicates)
+void get_rotation_info(const IntNode &node,
+                       const LogSkillInfoMap &log_skill_info_map,
+                       RotationSteps &all_rotation_steps,
+                       const SkillDataMap &skill_data_map,
+                       const SkillRules &skill_rules)
 {
     for (const auto &rotation_entry : node.children)
     {
@@ -255,33 +251,50 @@ void get_rotation_info(
             const auto is_substr_drop_match =
                 is_skill_in_set(skill_data.skill_id,
                                 skill_data.name,
-                                skills_substr_to_drop);
+                                skill_rules.skills_substr_to_drop);
             const auto is_exact_drop_match =
                 is_skill_in_set(skill_data.skill_id,
                                 skill_data.name,
-                                skills_match_to_drop,
+                                skill_rules.skills_match_to_drop,
                                 true);
 
-            if (!is_substr_drop_match && !is_exact_drop_match)
+            auto drop_skill = !is_substr_drop_match && !is_exact_drop_match;
+            if (!Settings::ShowWeaponSwap)
+            {
+                const auto is_substr_drop_match =
+                    is_skill_in_set(skill_data.skill_id,
+                                    skill_data.name,
+                                    skill_rules.skills_substr_weapon_swap_like);
+                const auto is_exact_drop_match =
+                    is_skill_in_set(skill_data.skill_id,
+                                    skill_data.name,
+                                    skill_rules.skills_match_weapon_swap_like,
+                                    true);
+
+                drop_skill = !is_substr_drop_match && !is_exact_drop_match &&
+                             !is_substr_drop_match && !is_exact_drop_match;
+            }
+
+            if (!drop_skill)
             {
                 const auto is_substr_gray_out =
                     is_skill_in_set(skill_data.skill_id,
                                     skill_data.name,
-                                    special_substr_to_gray_out);
+                                    skill_rules.special_substr_to_gray_out);
                 const auto is_match_gray_out =
                     is_skill_in_set(skill_data.skill_id,
                                     skill_data.name,
-                                    special_match_to_gray_out,
+                                    skill_rules.special_match_to_gray_out,
                                     true);
 
                 const auto is_special_skill = is_substr_gray_out ||
                                               is_match_gray_out ||
                                               skill_data.is_heal_skill;
 
-                const auto is_duplicate_skill =
-                    is_skill_in_set(skill_data.skill_id,
-                                    skill_data.name,
-                                    special_substr_to_remove_duplicates);
+                const auto is_duplicate_skill = is_skill_in_set(
+                    skill_data.skill_id,
+                    skill_data.name,
+                    skill_rules.special_substr_to_remove_duplicates);
                 const auto was_there_previous =
                     !all_rotation_steps.empty()
                         ? all_rotation_steps.back().skill_data.name ==
@@ -471,11 +484,7 @@ std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
     const nlohmann::json &j,
     const std::filesystem::path &json_path,
     const SkillDataMap &skill_data_map,
-    const std::set<std::string> &skills_substr_to_drop,
-    const std::set<std::string> &skills_match_to_drop,
-    const std::set<std::string> &special_substr_to_gray_out,
-    const std::set<std::string> &special_match_to_gray_out,
-    const std::set<std::string> &special_substr_to_remove_duplicates)
+    const SkillRules &skill_rules)
 {
     const auto rotation_data = j["rotation"];
     const auto skill_data = j["skillMap"];
@@ -492,11 +501,7 @@ std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
                       log_skill_info_map,
                       rotation_steps,
                       skill_data_map,
-                      skills_substr_to_drop,
-                      skills_match_to_drop,
-                      special_substr_to_gray_out,
-                      special_match_to_gray_out,
-                      special_substr_to_remove_duplicates);
+                      skill_rules);
 
     auto metadata = get_metadata(j);
 
@@ -637,16 +642,17 @@ void RotationRunType::load_data(const std::filesystem::path &json_path,
     auto j2{nlohmann::json{}};
     file2 >> j2;
 
+    const auto skill_rules = SkillRules{skills_substr_weapon_swap_like,
+                                        skills_match_weapon_swap_like,
+                                        skills_substr_to_drop,
+                                        skills_match_to_drop,
+                                        special_substr_to_gray_out,
+                                        special_match_to_gray_out,
+                                        special_substr_to_remove_duplicates};
+
     skill_data = get_skill_data(j2);
     auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] =
-        get_dpsreport_data(j,
-                           json_path,
-                           skill_data,
-                           skills_substr_to_drop,
-                           skills_match_to_drop,
-                           special_substr_to_gray_out,
-                           special_match_to_gray_out,
-                           special_substr_to_remove_duplicates);
+        get_dpsreport_data(j, json_path, skill_data, skill_rules);
 
     log_skill_info_map = _skill_info_map;
     all_rotation_steps = _bench_all_rotation_steps;
