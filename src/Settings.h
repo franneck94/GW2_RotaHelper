@@ -16,6 +16,7 @@ extern const char *FILTER_BUFFER;
 extern const char *SHOW_SKILL_NAME;
 extern const char *SHOW_SKILL_TIME;
 extern const char *HORIZONTAL_SKILL_LAYOUT;
+extern const char *SHOW_WEAPON_SWAP;
 
 namespace Settings
 {
@@ -34,6 +35,7 @@ extern std::string FilterBuffer;
 extern bool ShowSkillName;
 extern bool ShowSkillTime;
 extern bool HorizontalSkillLayout;
+extern bool ShowWeaponSwap;
 } // namespace Settings
 
 #endif
