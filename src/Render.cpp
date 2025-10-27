@@ -38,34 +38,6 @@ namespace
 {
 static auto last_time_aa_did_skip = std::chrono::steady_clock::time_point{};
 
-// Function to get skill casting information from memory
-#ifdef _DEBUG
-EvCombatDataPersistent GetMemorySkillCast()
-{
-    EvCombatDataPersistent skill_data = {};
-
-    SkillCastInfo memory_skill = Globals::MemoryReader.GetCurrentSkillCast();
-
-    if (memory_skill.is_casting && memory_skill.skill_id != 0)
-    {
-        skill_data.SkillID = memory_skill.skill_id;
-        skill_data.SkillName = memory_skill.skill_name;
-        // Fill other fields as needed
-        skill_data.SrcName = "Player"; // You might want to get this from Mumble
-    }
-
-    return skill_data;
-}
-
-// Function to check if we should use memory reading vs ArcDPS events
-bool ShouldUseMemoryReading()
-{
-    // Use memory reading as fallback or primary source
-    // You can add logic here to decide when to use memory vs ArcDPS
-    return true;
-}
-#endif
-
 std::string to_lowercase(const std::string &str)
 {
     std::string result = str;
