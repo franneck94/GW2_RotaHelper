@@ -53,6 +53,7 @@ struct LogSkillInfo
 };
 
 using LogSkillInfoMap = std::map<int, LogSkillInfo>;
+
 using LogDataTypes = std::variant<int, float, bool, std::string>;
 
 struct IntNode
