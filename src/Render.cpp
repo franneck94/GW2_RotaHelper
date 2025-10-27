@@ -675,6 +675,62 @@ SkillState get_skill_state(
         .is_completed_incorrect = is_completed_incorrect,
     };
 }
+
+bool SKillCastIsTooEarlyWrtRechargeTime(
+    const std::chrono::steady_clock::time_point &now,
+    const EvCombatDataPersistent &combat_data,
+    std::map<uint64_t, std::chrono::steady_clock::time_point>
+        &skill_last_cast_times)
+{
+    auto last_cast_time = skill_last_cast_times[combat_data.SkillID];
+    skill_last_cast_times[combat_data.SkillID] = now;
+
+    const auto skill_data_it = Globals::RotationRun.skill_data.find(
+        static_cast<int>(combat_data.SkillID));
+
+    if (skill_data_it != Globals::RotationRun.skill_data.end())
+    {
+        auto current_profession = get_current_profession_name();
+        auto profession_lower = to_lowercase(current_profession);
+
+        auto is_mesmer_weapon_4 = false;
+        auto is_berserker_f1 = false;
+
+        if (profession_lower == "mesmer")
+        {
+            // TODO: For Chrono - CS reset
+            is_mesmer_weapon_4 = RotationRunType::mesmer_weapon_4_skills.count(
+                                     combat_data.SkillID) > 0;
+        }
+        else if (profession_lower == "warrior")
+        {
+            is_berserker_f1 = RotationRunType::berserker_f1_skills.count(
+                                  combat_data.SkillID) > 0;
+        }
+
+        if (!is_mesmer_weapon_4 && !is_berserker_f1)
+        {
+            const auto &skill_data = skill_data_it->second;
+            const auto recharge_time_s = skill_data.recharge_time;
+            const auto recharge_time_w_alac_s =
+                static_cast<int>(recharge_time_s * 0.8f);
+
+            const auto cast_time_diff = now - last_cast_time;
+            const auto cast_time_diff_s =
+                std::chrono::duration_cast<std::chrono::seconds>(cast_time_diff)
+                    .count();
+            const auto recharge_duration_s =
+                std::chrono::seconds(recharge_time_w_alac_s);
+
+            if (cast_time_diff_s < recharge_time_w_alac_s * 0.7 &&
+                recharge_time_w_alac_s > 0 &&
+                !skill_data.is_auto_attack) // XXX: Hacky
+                return true;
+        }
+    }
+
+    return false;
+}
 } // namespace
 
 RenderType::RenderType()
@@ -699,7 +755,7 @@ void RenderType::skill_activation_callback(
     const bool pressed,
     const EvCombatDataPersistent &combat_data)
 {
-    static auto skill_last_cast_time =
+    static auto skill_last_cast_times =
         std::map<uint64_t, std::chrono::steady_clock::time_point>{};
 
     key_press_event_in_this_frame = pressed;
@@ -710,63 +766,17 @@ void RenderType::skill_activation_callback(
 
         const auto now = std::chrono::steady_clock::now();
 
-        auto last_cast_time = std::chrono::steady_clock::time_point{};
-        if (skill_last_cast_time.find(combat_data.SkillID) !=
-            skill_last_cast_time.end())
+        if (skill_last_cast_times.find(combat_data.SkillID) !=
+            skill_last_cast_times.end())
         {
-            last_cast_time = skill_last_cast_time[combat_data.SkillID];
-            skill_last_cast_time[combat_data.SkillID] = now;
-
-            const auto skill_data_it = Globals::RotationRun.skill_data.find(
-                static_cast<int>(combat_data.SkillID));
-
-            if (skill_data_it != Globals::RotationRun.skill_data.end())
-            {
-                auto current_profession = get_current_profession_name();
-                auto profession_lower = to_lowercase(current_profession);
-
-                auto is_mesmer_weapon_4 = false;
-                auto is_berserker_f1 = false;
-
-                if (profession_lower == "mesmer")
-                {
-                    // TODO: For Chrono - CS reset
-                    is_mesmer_weapon_4 =
-                        RotationRunType::mesmer_weapon_4_skills.count(
-                            combat_data.SkillID) > 0;
-                }
-                else if (profession_lower == "warrior")
-                {
-                    is_berserker_f1 =
-                        RotationRunType::berserker_f1_skills.count(
-                            combat_data.SkillID) > 0;
-                }
-
-                if (!is_mesmer_weapon_4 && !is_berserker_f1)
-                {
-                    const auto &skill_data = skill_data_it->second;
-                    const auto recharge_time_s = skill_data.recharge_time;
-                    const auto recharge_time_w_alac_s =
-                        static_cast<int>(recharge_time_s * 0.8f);
-
-                    const auto cast_time_diff = now - last_cast_time;
-                    const auto cast_time_diff_s =
-                        std::chrono::duration_cast<std::chrono::seconds>(
-                            cast_time_diff)
-                            .count();
-                    const auto recharge_duration_s =
-                        std::chrono::seconds(recharge_time_w_alac_s);
-
-                    if (cast_time_diff_s < recharge_time_w_alac_s * 0.5 &&
-                        recharge_time_w_alac_s > 0 &&
-                        !skill_data.is_auto_attack) // XXX: Hacky
-                        return;
-                }
-            }
+            if (SKillCastIsTooEarlyWrtRechargeTime(now,
+                                                   combat_data,
+                                                   skill_last_cast_times))
+                return;
         }
         else
         {
-            skill_last_cast_time[combat_data.SkillID] = now;
+            skill_last_cast_times[combat_data.SkillID] = now;
         }
 
         curr_combat_data = combat_data;
@@ -1187,8 +1197,9 @@ void RenderType::rotation_render_details(ID3D11Device *pd3dDevice)
 
     for (int32_t window_idx = start; window_idx <= end; ++window_idx)
     {
-        if (window_idx < 0 || static_cast<size_t>(window_idx) >=
-                                  Globals::RotationRun.all_rotation_steps.size())
+        if (window_idx < 0 ||
+            static_cast<size_t>(window_idx) >=
+                Globals::RotationRun.all_rotation_steps.size())
             continue;
 
         const auto &rotation_step = Globals::RotationRun.get_rotation_skill(
@@ -1246,8 +1257,9 @@ void RenderType::rotation_render_horizontal(ID3D11Device *pd3dDevice)
 
     for (int32_t window_idx = start; window_idx <= end; ++window_idx)
     {
-        if (window_idx < 0 || static_cast<size_t>(window_idx) >=
-                                  Globals::RotationRun.all_rotation_steps.size())
+        if (window_idx < 0 ||
+            static_cast<size_t>(window_idx) >=
+                Globals::RotationRun.all_rotation_steps.size())
             continue;
 
         const auto &rotation_step = Globals::RotationRun.get_rotation_skill(
