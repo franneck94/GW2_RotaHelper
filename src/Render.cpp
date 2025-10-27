@@ -933,7 +933,11 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
         }
 
 #ifdef _DEBUG
-        render_debug_data();
+        if (ImGui::CollapsingHeader("Debug Data",
+                                    ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            render_debug_data();
+        }
 #endif
     }
 
