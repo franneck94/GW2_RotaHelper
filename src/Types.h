@@ -179,3 +179,20 @@ struct MetaData
     std::string dps_report_url;
     std::string html_file_path;
 };
+
+enum class Keys
+{
+    NONE,
+    SHIFT = 2,
+    TAB = 22,
+    E = 69,
+    LEFT_ALT = 202,
+};
+
+// Unchecked
+enum class Modifiers
+{
+    SHIFT = 2,
+    ALT = 4,
+    CTRL = 6,
+};
