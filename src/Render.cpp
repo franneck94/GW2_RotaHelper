@@ -45,22 +45,6 @@ std::string to_lowercase(const std::string &str)
     return result;
 }
 
-std::string get_current_profession_name()
-{
-    if (!Globals::MumbleData)
-        return "";
-
-    try
-    {
-        return profession_to_string(
-            static_cast<ProfessionID>(Globals::Identity.Profession));
-    }
-    catch (...)
-    {
-        return "";
-    }
-}
-
 std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
           std::set<std::string>>
 get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
@@ -817,16 +801,16 @@ float RenderType::calculate_centered_position(
 void RenderType::render_debug_data()
 {
     ImGui::Separator();
-    ImGui::Text(
-        "Profession: %d (%s)",
-        static_cast<int>(Globals::Identity.Profession),
-        profession_to_string(static_cast<ProfessionID>(Globals::Identity.Profession))
-            .c_str());
-    ImGui::Text(
-        "Specialization: %u (%s)",
-        Globals::Identity.Specialization,
-        elite_spec_to_string(static_cast<EliteSpecID>(Globals::Identity.Specialization))
-            .c_str());
+    ImGui::Text("Profession: %d (%s)",
+                static_cast<int>(Globals::Identity.Profession),
+                profession_to_string(
+                    static_cast<ProfessionID>(Globals::Identity.Profession))
+                    .c_str());
+    ImGui::Text("Specialization: %u (%s)",
+                Globals::Identity.Specialization,
+                elite_spec_to_string(
+                    static_cast<EliteSpecID>(Globals::Identity.Specialization))
+                    .c_str());
     ImGui::Text("Map ID: %u", Globals::Identity.MapID);
     ImGui::Text("Is in Combat: %d", Globals::MumbleData->Context.IsInCombat);
 
@@ -886,6 +870,11 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
 
         Globals::RotationRun.load_data(selected_file_path, img_path);
     }
+
+    if (ImGui::Checkbox("Show Keybind", &Settings::ShowKeybind))
+    {
+        Settings::Save(Globals::SettingsPath);
+    }
 }
 
 void RenderType::render_options_window(bool &is_not_ui_adjust_active)
@@ -908,11 +897,19 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
         render_options_checkboxes(is_not_ui_adjust_active);
 
 #ifdef _DEBUG
+#ifdef GW2_NEXUS_ADDON
         if (ImGui::CollapsingHeader("Debug Data",
                                     ImGuiTreeNodeFlags_DefaultOpen))
         {
             render_debug_data();
         }
+#else
+        ImGuiIO &io = ImGui::GetIO();
+        (void)io;
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+                    1000.0f / io.Framerate,
+                    io.Framerate);
+#endif
 #endif
     }
 
@@ -1291,6 +1288,33 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
                      ImVec2(0, 0),
                      ImVec2(1, 1),
                      tint_color);
+
+        if (Settings::ShowKeybind)
+        {
+            auto *draw_list = ImGui::GetWindowDrawList();
+            auto icon_pos = ImGui::GetItemRectMin();
+            auto icon_size = ImGui::GetItemRectSize();
+            const auto skill_type = rotation_step.skill_data.skill_type;
+            const auto keybind = get_keybind_str(skill_type);
+            if (keybind != "")
+            {
+                auto text_size = ImGui::CalcTextSize(keybind.c_str());
+                auto padding = 2.0f;
+                auto text_pos =
+                    ImVec2(icon_pos.x + icon_size.x - text_size.x - padding,
+                           icon_pos.y + icon_size.y - text_size.y - padding);
+                // Draw background for readability
+                draw_list->AddRectFilled(ImVec2(text_pos.x - 2, text_pos.y - 1),
+                                         ImVec2(text_pos.x + text_size.x + 2,
+                                                text_pos.y + text_size.y + 1),
+                                         IM_COL32(0, 0, 0, 180),
+                                         3.0f);
+                // Draw keybind text
+                draw_list->AddText(text_pos,
+                                   IM_COL32(255, 255, 255, 255),
+                                   keybind.c_str());
+            }
+        }
 
         if (ImGui::IsItemHovered())
         {
