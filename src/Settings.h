@@ -17,6 +17,7 @@ extern const char *SHOW_SKILL_NAME;
 extern const char *SHOW_SKILL_TIME;
 extern const char *HORIZONTAL_SKILL_LAYOUT;
 extern const char *SHOW_WEAPON_SWAP;
+extern const char *SHOW_KEYBIND;
 
 namespace Settings
 {
@@ -36,6 +37,7 @@ extern bool ShowSkillName;
 extern bool ShowSkillTime;
 extern bool HorizontalSkillLayout;
 extern bool ShowWeaponSwap;
+extern bool ShowKeybind;
 } // namespace Settings
 
 #endif
