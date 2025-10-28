@@ -687,7 +687,7 @@ void RotationRunType::pop_bench_rotation_queue()
     }
 }
 
-std::tuple<int, int, size_t> RotationRunType::get_current_rotation_indices()
+std::tuple<std::int32_t, std::int32_t, size_t> RotationRunType::get_current_rotation_indices()
     const
 {
     constexpr static auto window_size = 10;
@@ -696,14 +696,14 @@ std::tuple<int, int, size_t> RotationRunType::get_current_rotation_indices()
         window_size - window_size_left - 1;
 
     if (todo_rotation_steps.empty())
-        return {-1, -1, -1};
+        return {-1, -1, static_cast<size_t>(-1)};
 
     const auto num_skills_left =
         static_cast<int64_t>(todo_rotation_steps.size());
     const auto num_total_skills =
         static_cast<int64_t>(all_rotation_steps.size());
 
-    auto current_idx = static_cast<int64_t>(num_total_skills - num_skills_left);
+    auto current_idx = static_cast<size_t>(num_total_skills - num_skills_left);
 
     while (current_idx < num_total_skills - 1)
     {
@@ -721,7 +721,7 @@ std::tuple<int, int, size_t> RotationRunType::get_current_rotation_indices()
         current_idx + window_size < num_total_skills
             ? start > 0 ? static_cast<int32_t>(current_idx + window_size_right)
                         : static_cast<int32_t>(window_size - 1)
-            : num_total_skills - 1;
+            : static_cast<std::int32_t>(num_total_skills - 1);
 
     return {start, end, current_idx};
 }
