@@ -62,6 +62,28 @@ struct IntNode
     std::optional<LogDataTypes> value;
 };
 
+enum class SkillType
+{
+    NONE,
+    WEAPON_1,
+    WEAPON_2,
+    WEAPON_3,
+    WEAPON_4,
+    WEAPON_5,
+    HEAL,
+    UTILITY_1,
+    UTILITY_2,
+    UTILITY_3,
+    ELITE,
+    PROFESSION_1,
+    PROFESSION_2,
+    PROFESSION_3,
+    PROFESSION_4,
+    PROFESSION_5,
+    PROFESSION_6,
+    PROFESSION_7,
+};
+
 struct SkillData
 {
     int icon_id;
@@ -77,6 +99,7 @@ struct SkillData
     bool is_elite_skill;
     bool is_heal_skill;
     bool is_profession_skill;
+    SkillType skill_type;
 };
 
 struct RotationStep
