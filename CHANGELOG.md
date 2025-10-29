@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Reset bench selection on relog
 - Added the option to show weapon swaps
 - Added Unload Rota button
+- Added some new spec builds
 
 ## 0.5.0 - 2025-10-25
 
