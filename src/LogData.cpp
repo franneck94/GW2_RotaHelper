@@ -131,10 +131,6 @@ void get_skill_info(const IntNode &node, LogSkillInfoMap &log_skill_info_map)
                 name = *pval;
         }
 
-        if (name.find("Relic of") != std::string::npos ||
-            name.find("Sigil of") != std::string::npos)
-            continue;
-
         const auto icon_it = skill_node.children.find("icon");
         if (icon_it != skill_node.children.end() &&
             icon_it->second.value.has_value())
@@ -303,15 +299,27 @@ void get_rotation_info(const IntNode &node,
             }
 
             // fallback to search icon id in _skill_info_map
-            for (const auto &[sid, _skill_data] : log_skill_info_map)
+            if (skill_data.name == "" || skill_data.skill_id == 0)
             {
-                if (sid == icon_id)
+                auto skip_skill = false;
+                for (const auto &[sid, _skill_data] : log_skill_info_map)
                 {
-                    skill_data.skill_id = sid;
-                    skill_data.name = _skill_data.name;
-                    skill_data.icon_id = icon_id;
-                    break;
+                    if (sid == icon_id)
+                    {
+                        if (_skill_data.name.find("Relic") !=
+                                std::string::npos ||
+                            _skill_data.name.find("Sigil") != std::string::npos)
+                            skip_skill = true;
+
+                        skill_data.skill_id = sid;
+                        skill_data.name = _skill_data.name;
+                        skill_data.icon_id = icon_id;
+                        break;
+                    }
                 }
+
+                if (skip_skill)
+                    continue;
             }
 
             // TODO
