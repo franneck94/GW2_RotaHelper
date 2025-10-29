@@ -26712,5 +26712,19 @@
         "is_profession_skill": false,
         "recharge": 0,
         "cast_time": 0.0
+    },
+    "-9999": {
+        "icon": "",
+        "id": 9999,
+        "name": "Weapon Swap",
+        "skill_type": 0,
+        "is_auto_attack": false,
+        "is_weapon_skill": false,
+        "is_utility_skill": false,
+        "is_elite_skill": false,
+        "is_heal_skill": false,
+        "is_profession_skill": false,
+        "recharge": 0,
+        "cast_time": 0.0
     }
 }

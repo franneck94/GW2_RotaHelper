@@ -332,6 +332,21 @@ class GW2SkillFetcher:
             "cast_time": 0.0
         }
 
+        categorized_skills["-9999"] = {
+            "icon": "",
+            "id": -9999,
+            "name": "Unknown Skill",
+            "skill_type": str(SkillType.NONE.value),
+            "is_auto_attack": False,
+            "is_weapon_skill": False,
+            "is_utility_skill": False,
+            "is_elite_skill": False,
+            "is_heal_skill": False,
+            "is_profession_skill": False,
+            "recharge": 0,
+            "cast_time": 0.0
+        }
+
         output_file = self.output_dir / "gw2_skills_en.json"
 
         try:

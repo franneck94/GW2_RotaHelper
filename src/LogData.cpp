@@ -302,6 +302,19 @@ void get_rotation_info(const IntNode &node,
                 }
             }
 
+            // fallback to search icon id in _skill_info_map
+            for (const auto &[sid, _skill_data] : log_skill_info_map)
+            {
+                if (sid == icon_id)
+                {
+                    skill_data.skill_id = sid;
+                    skill_data.name = _skill_data.name;
+                    skill_data.icon_id = icon_id;
+                    break;
+                }
+            }
+
+            // TODO
             if (skill_data.skill_id == 0)
             {
                 skill_data.skill_id = icon_id;
