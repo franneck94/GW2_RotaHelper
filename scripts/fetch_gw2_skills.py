@@ -1,11 +1,33 @@
 import asyncio
 import json
 import logging
+from enum import Enum
 from pathlib import Path
 from typing import Any, Dict, List
 
 import aiohttp
 from aiohttp import ClientSession, ClientTimeout
+
+
+class SkillType(Enum):
+    NONE = 0
+    WEAPON_1 = 1
+    WEAPON_2 = 2
+    WEAPON_3 = 3
+    WEAPON_4 = 4
+    WEAPON_5 = 5
+    HEAL = 6
+    UTILITY_1 = 7
+    UTILITY_2 = 8
+    UTILITY_3 = 9
+    ELITE = 10
+    PROFESSION_1 = 11
+    PROFESSION_2 = 12
+    PROFESSION_3 = 13
+    PROFESSION_4 = 14
+    PROFESSION_5 = 15
+    PROFESSION_6 = 16
+    PROFESSION_7 = 17
 
 
 class GW2SkillFetcher:
@@ -93,19 +115,30 @@ class GW2SkillFetcher:
         is_elite_skill = self._is_elite_skill(slot)
         is_heal_skill = self._is_heal_skill(slot)
         is_profession_skill = self._is_profession_skill(slot)
+        skill_type_int = self._get_skill_type_int(slot)
 
         # Special rule for Necromancer: Downed_1 to Downed_5 are treated as weapon skills
         if self._is_necromancer_downed_skill(skill):
             is_weapon_skill = True
-            # Also check if Downed_1 should be treated as auto attack (like Weapon_1)
+            # Update skill type for Necromancer downed skills
             if slot == "Downed_1":
                 is_auto_attack = True
+                skill_type_int = SkillType.WEAPON_1
+            elif slot == "Downed_2":
+                skill_type_int = SkillType.WEAPON_2
+            elif slot == "Downed_3":
+                skill_type_int = SkillType.WEAPON_3
+            elif slot == "Downed_4":
+                skill_type_int = SkillType.WEAPON_4
+            elif slot == "Downed_5":
+                skill_type_int = SkillType.WEAPON_5
 
         # Build filtered skill data with only the essential fields
         filtered_skill = {
             "icon": skill.get("icon"),
             "id": skill.get("id"),
             "name": skill.get("name"),
+            "skill_type": str(skill_type_int),
             "is_auto_attack": is_auto_attack,
             "is_weapon_skill": is_weapon_skill,
             "is_utility_skill": is_utility_skill,
@@ -223,6 +256,32 @@ class GW2SkillFetcher:
             "Profession_5",
         }
         return slot in profession_slots
+
+    def _get_skill_type_int(self, slot: str) -> SkillType:
+        """Get the SkillType enum integer value based on slot."""
+        slot_to_skill_type = {
+            "Weapon_1": SkillType.WEAPON_1,
+            "Weapon_2": SkillType.WEAPON_2,
+            "Weapon_3": SkillType.WEAPON_3,
+            "Weapon_4": SkillType.WEAPON_4,
+            "Weapon_5": SkillType.WEAPON_5,
+            "Weapon": SkillType.WEAPON_1,  # Generic weapon slot, default to weapon 1
+            "Heal": SkillType.HEAL,
+            "Utility": SkillType.UTILITY_1,  # Default utility to utility 1, could be refined later
+            "Elite": SkillType.ELITE,
+            "Profession_1": SkillType.PROFESSION_1,
+            "Profession_2": SkillType.PROFESSION_2,
+            "Profession_3": SkillType.PROFESSION_3,
+            "Profession_4": SkillType.PROFESSION_4,
+            "Profession_5": SkillType.PROFESSION_5,
+            # Downed skills (mapped to weapon slots)
+            "Downed_1": SkillType.WEAPON_1,
+            "Downed_2": SkillType.WEAPON_2,
+            "Downed_3": SkillType.WEAPON_3,
+            "Downed_4": SkillType.WEAPON_4,
+        }
+
+        return slot_to_skill_type.get(slot, SkillType.NONE)
 
     def _is_necromancer_downed_skill(self, skill: Dict[str, Dict[str, Any]]) -> bool:
         """Check if this is a Necromancer downed skill that should be treated as weapon skill."""
@@ -384,7 +443,7 @@ class GW2SkillFetcher:
 async def main() -> None:
     # Get the script directory and set up data path
     script_dir = Path(__file__).parent
-    data_dir = script_dir.parent / "data" / "skills"
+    data_dir = script_dir.parent / "internal_data" / "skills"
 
     # Create and run the fetcher
     fetcher = GW2SkillFetcher(output_dir=data_dir)
