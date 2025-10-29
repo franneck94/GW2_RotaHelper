@@ -225,17 +225,17 @@ class HTMLRotationExtractor:
 
             # Use regex to find all rotation skill images
             # Pattern: <img src="https://render.guildwars2.com/..." data-original-title="..." class="rot-icon...">
-            pattern = r'<img[^>]*src="(https://render\.guildwars2\.com/[^"]*)"[^>]*data-original-title="([^"]*)"[^>]*class="rot-icon[^"]*"[^>]*>'
+            pattern = r'<img[^>]*src="(https:\/\/render\.guildwars2\.com\/[^"]*)"[^>]*data-original-title="([^"]*)"[^>]*class="rot-icon[^"]*"[^>]*>'
             matches = re.findall(pattern, html_content, re.DOTALL | re.IGNORECASE)
 
             if not matches:
                 # Try alternative pattern with different attribute order
-                pattern2 = r'<img[^>]*data-original-title="([^"]*)"[^>]*src="(https://render\.guildwars2\.com/[^"]*)"[^>]*class="rot-icon[^"]*"[^>]*>'
+                pattern2 = r'<img[^>]*data-original-title="([^"]*)"[^>]*src="(https:\/\/render\.guildwars2\.com\/[^"]*)"[^>]*class="rot-icon[^"]*"[^>]*>'
                 matches = [(src, title) for title, src in re.findall(pattern2, html_content, re.DOTALL | re.IGNORECASE)]
 
             if not matches:
                 # Fallback pattern - any img with rot-icon class and gw2 render URL
-                pattern3 = r'<img[^>]*class="[^"]*rot-icon[^"]*"[^>]*src="(https://render\.guildwars2\.com/[^"]*)"[^>]*data-original-title="([^"]*)"[^>]*>'
+                pattern3 = r'<img[^>]*class="[^"]*rot-icon[^"]*"[^>]*src="(https:\/\/render\.guildwars2\.com\/[^"]*)"[^>]*data-original-title="([^"]*)"[^>]*>'
                 matches = re.findall(pattern3, html_content, re.DOTALL | re.IGNORECASE)
 
             if not matches:
