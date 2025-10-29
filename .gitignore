@@ -9,3 +9,4 @@ __pycache__
 addon_settings.json
 internal_data/html/
 !data/img/-1000.png
+!internal_data/html/build_metadata.json

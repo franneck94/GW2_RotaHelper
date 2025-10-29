@@ -604,12 +604,34 @@ class SnowCrowsScraper:
             if i < total_count:  # Don't delay after the last request
                 time.sleep(self.delay)
 
-        # Save build metadata to JSON file
+        # Save build metadata to JSON file (merge with existing data)
         metadata_file = self.output_dir / "build_metadata.json"
-        with open(metadata_file, "w", encoding="utf-8") as f:
-            json.dump(successful_builds, f, indent=2, ensure_ascii=False)
 
-        self.logger.info(f"Saved build metadata to {metadata_file}")
+        # Load existing metadata if it exists
+        existing_builds = {}
+        if metadata_file.exists():
+            try:
+                with open(metadata_file, "r", encoding="utf-8") as f:
+                    existing_data = json.load(f)
+                    # Create lookup dict by URL for efficient merging
+                    for build in existing_data:
+                        key = build.get("url", "") + "|" + build.get("benchmark_type", "")
+                        existing_builds[key] = build
+                self.logger.info(f"Loaded {len(existing_data)} existing build entries")
+            except Exception as e:
+                self.logger.warning(f"Could not load existing metadata: {e}")
+
+        # Merge new builds with existing ones
+        for build in successful_builds:
+            key = build.get("url", "") + "|" + build.get("benchmark_type", "")
+            existing_builds[key] = build  # This updates existing or adds new
+
+        # Convert back to list and save
+        merged_builds = list(existing_builds.values())
+        with open(metadata_file, "w", encoding="utf-8") as f:
+            json.dump(merged_builds, f, indent=2, ensure_ascii=False)
+
+        self.logger.info(f"Saved merged build metadata to {metadata_file} (total: {len(merged_builds)} builds)")
         self.logger.info(f"Download complete: {success_count}/{total_count} successful")
 
     def run(self, manual_file_path: Path | None = None) -> None:
