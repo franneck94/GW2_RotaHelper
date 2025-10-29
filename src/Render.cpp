@@ -870,17 +870,21 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
     {
         Settings::Save(Globals::SettingsPath);
 
-        Globals::RotationRun.load_data(selected_file_path, img_path);
+        if (selected_file_path != "")
+            Globals::RotationRun.load_data(selected_file_path, img_path);
     }
 
+#ifdef _DEBUG
     const auto third_row_items = std::vector<std::string>{"Show Keybind"};
-    const auto centered_pos_row_3 = calculate_centered_position(third_row_items);
+    const auto centered_pos_row_3 =
+        calculate_centered_position(third_row_items);
     ImGui::SetCursorPosX(centered_pos_row_3);
 
     if (ImGui::Checkbox("Show Keybind", &Settings::ShowKeybind))
     {
         Settings::Save(Globals::SettingsPath);
     }
+#endif
 
 #ifdef _DEBUG
 #ifdef GW2_NEXUS_ADDON
@@ -1335,6 +1339,7 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
                      ImVec2(1, 1),
                      tint_color);
 
+#ifdef _DEBUG
         if (Settings::ShowKeybind)
         {
             auto *draw_list = ImGui::GetWindowDrawList();
@@ -1361,6 +1366,7 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
                                    keybind.c_str());
             }
         }
+#endif
 
         if (ImGui::IsItemHovered())
         {
