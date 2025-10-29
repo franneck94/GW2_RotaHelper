@@ -149,6 +149,11 @@ void get_skill_info(const IntNode &node, LogSkillInfoMap &log_skill_info_map)
             icon,
         };
     }
+
+    log_skill_info_map[-9999] = {
+        "Unknown Skill",
+        "local://-9999.png",
+    };
 }
 
 
@@ -298,7 +303,15 @@ void get_rotation_info(const IntNode &node,
             }
 
             if (skill_data.skill_id == 0)
-                continue;
+            {
+                skill_data.skill_id = icon_id;
+                skill_data.name = "Unknown Skill";
+                skill_data.icon_id = -9999;
+                skill_data.recharge_time = -1;
+                skill_data.recharge_time_with_alacrity = -1.0f;
+                skill_data.cast_time = -1;
+                skill_data.cast_time_with_quickness = -1.0f;
+            }
 
             auto drop_skill = get_is_skill_dropped(skill_data, skill_rules);
 
@@ -336,7 +349,7 @@ void get_rotation_info(const IntNode &node,
               });
 }
 
-SkillDataMap get_skill_data(const nlohmann::json &j)
+SkillDataMap get_skill_data_map(const nlohmann::json &j)
 {
     auto skill_data_map = SkillDataMap{};
 
@@ -446,8 +459,18 @@ SkillDataMap get_skill_data(const nlohmann::json &j)
 
         if (skill_data.name == "")
         {
-            skill_data.name = "Weapon Swap";
-            skill_data.icon_id = 9999;
+            if (!skill_data.is_weapon_skill && !skill_data.is_auto_attack &&
+                !skill_data.is_utility_skill && !skill_data.is_elite_skill &&
+                !skill_data.is_heal_skill && !skill_data.is_profession_skill)
+            {
+                skill_data.name = "Weapon Swap";
+                skill_data.icon_id = 9999;
+            }
+            else
+            {
+                skill_data.name = "Unknown";
+                skill_data.icon_id = -99999;
+            }
         }
 
         skill_data_map[skill_id] = skill_data;
@@ -623,7 +646,7 @@ std::list<std::future<void>> StartDownloadAllSkillIcons(
 
     for (const auto &[icon_id, info] : log_skill_info_map)
     {
-        if (info.icon_url.empty())
+        if (info.icon_url.empty() || info.icon_url.find("local://") == 0)
             continue;
 
         auto ext{std::string{".png"}};
@@ -655,7 +678,7 @@ void RotationRunType::load_data(const std::filesystem::path &json_path,
     auto j{nlohmann::json{}};
     file >> j;
 
-    skill_data.clear();
+    skill_data_map.clear();
     log_skill_info_map.clear();
     all_rotation_steps.clear();
 
@@ -666,17 +689,18 @@ void RotationRunType::load_data(const std::filesystem::path &json_path,
     auto j2{nlohmann::json{}};
     file2 >> j2;
 
-    const auto skill_rules = SkillRules{skills_substr_weapon_swap_like,
-                                        skills_match_weapon_swap_like,
-                                        skills_substr_to_drop,
-                                        skills_match_to_drop,
-                                        special_substr_to_gray_out,
-                                        special_match_to_gray_out,
-                                        special_substr_to_remove_duplicates};
+    const static auto skill_rules =
+        SkillRules{skills_substr_weapon_swap_like,
+                   skills_match_weapon_swap_like,
+                   skills_substr_to_drop,
+                   skills_match_to_drop,
+                   special_substr_to_gray_out,
+                   special_match_to_gray_out,
+                   special_substr_to_remove_duplicates};
 
-    skill_data = get_skill_data(j2);
+    skill_data_map = get_skill_data_map(j2);
     auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] =
-        get_dpsreport_data(j, json_path, skill_data, skill_rules);
+        get_dpsreport_data(j, json_path, skill_data_map, skill_rules);
 
     log_skill_info_map = _skill_info_map;
     all_rotation_steps = _bench_all_rotation_steps;
@@ -690,9 +714,7 @@ void RotationRunType::load_data(const std::filesystem::path &json_path,
 void RotationRunType::pop_bench_rotation_queue()
 {
     if (!todo_rotation_steps.empty())
-    {
         todo_rotation_steps.pop_front();
-    }
 }
 
 std::tuple<std::int32_t, std::int32_t, size_t> RotationRunType::
@@ -758,6 +780,6 @@ void RotationRunType::reset_rotation()
     log_skill_info_map.clear();
     all_rotation_steps.clear();
     todo_rotation_steps.clear();
-    skill_data.clear();
+    skill_data_map.clear();
     meta_data = MetaData{};
 }

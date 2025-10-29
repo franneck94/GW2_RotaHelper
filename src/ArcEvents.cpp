@@ -44,15 +44,15 @@ bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
         return true;
 #endif
 
-    const auto &skill_data = Globals::RotationRun.skill_data;
-    const auto found = skill_data.find(evCbtData.SkillID) != skill_data.end();
+    const auto &skill_data_map = Globals::RotationRun.skill_data_map;
+    const auto found = skill_data_map.find(evCbtData.SkillID) != skill_data_map.end();
     return found;
 }
 
 bool IsSkillFromBuild_NameBased(const EvCombatDataPersistent &evCbtData)
 {
-    const auto &skill_data = Globals::RotationRun.skill_data;
-    for (const auto &kv : skill_data)
+    const auto &skill_data_map = Globals::RotationRun.skill_data_map;
+    for (const auto &kv : skill_data_map)
     {
         if (kv.second.name == evCbtData.SkillName)
             return true;

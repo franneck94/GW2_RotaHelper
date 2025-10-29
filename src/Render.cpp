@@ -486,7 +486,7 @@ void SimpleSkillDetectionLogic(
     const auto curr_is_auto_attack =
         IsSkillAutoAttack(skill_ev.SkillID,
                           skill_ev.SkillName,
-                          Globals::RotationRun.skill_data);
+                          Globals::RotationRun.skill_data_map);
 
 #ifdef USE_SKIP_NEXT_NEXT_SKILL
     const auto next_next_is_okay =
@@ -629,10 +629,10 @@ bool SKillCastIsTooEarlyWrtRechargeTime(
     auto last_cast_time = skill_last_cast_times[combat_data.SkillID];
     skill_last_cast_times[combat_data.SkillID] = now;
 
-    const auto skill_data_it = Globals::RotationRun.skill_data.find(
+    const auto skill_data_map_it = Globals::RotationRun.skill_data_map.find(
         static_cast<int>(combat_data.SkillID));
 
-    if (skill_data_it != Globals::RotationRun.skill_data.end())
+    if (skill_data_map_it != Globals::RotationRun.skill_data_map.end())
     {
         auto current_profession = get_current_profession_name();
         auto profession_lower = to_lowercase(current_profession);
@@ -654,7 +654,7 @@ bool SKillCastIsTooEarlyWrtRechargeTime(
 
         if (!is_mesmer_weapon_4 && !is_berserker_f1)
         {
-            const auto &skill_data = skill_data_it->second;
+            const auto &skill_data = skill_data_map_it->second;
             const auto recharge_time_s = skill_data.recharge_time;
             const auto recharge_time_w_alac_s =
                 static_cast<int>(recharge_time_s * 0.8f);

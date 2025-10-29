@@ -47,10 +47,10 @@ public:
     LogSkillInfoMap log_skill_info_map;
     RotationSteps all_rotation_steps;
     RotationStepsList todo_rotation_steps;
-    SkillDataMap skill_data;
+    SkillDataMap skill_data_map;
     MetaData meta_data;
 
-    const static inline std::set<std::string> skills_substr_weapon_swap_like= {
+    const static inline std::set<std::string> skills_substr_weapon_swap_like = {
         "Weapon Swap",
         // GUARDIAN
         // WARRIOR
@@ -63,10 +63,13 @@ public:
         "Attunement",
         // MESMER
         // NECROMANCER
+        "Harbinger Shroud",
+        "Reaper's Shroud",
+        "Ritualist's Shroud",
         // REVENANT
     };
 
-    const static inline std::set<std::string> skills_match_weapon_swap_like= {
+    const static inline std::set<std::string> skills_match_weapon_swap_like = {
         // GUARDIAN
         // WARRIOR
         // ENGINEER
@@ -76,9 +79,6 @@ public:
         // ELEMENTALIST
         // MESMER
         // NECROMANCER
-        "Harbinger Shroud",
-        "Reaper's Shroud",
-        "Ritualist's Shroud",
         // REVENANT
     };
 
@@ -158,8 +158,8 @@ public:
         "Arcing Slice",
         "Blood Reckoning",
         // ENGINEER
-        "Devastator",        // TODO
-        "Overcharged Shot",  // TODO
+        "Devastator",       // TODO
+        "Overcharged Shot", // TODO
         "Spark Revolver",
         "Core Reactor Shot",
         "Jade Mortar",
@@ -192,6 +192,9 @@ public:
         "Distress",
         "Garish Pillar",
         "Sandstorm Shroud",
+        "Perforate",
+        "Soul Shards",
+        "Nightfall",
         // REVENANT
         "Legendary Entity Stance",
         "Legendary Alliance Stance",
