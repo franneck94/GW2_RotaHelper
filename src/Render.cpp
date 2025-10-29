@@ -1088,10 +1088,21 @@ void RenderType::render_load_buttons()
     if (selected_bench_index >= 0 &&
         selected_bench_index < benches_files.size())
     {
-        if (ImGui::Button("Reload", ImVec2(-1, 0)))
+        const auto button_width = ImGui::GetWindowSize().x * 0.5f -
+                                  ImGui::GetStyle().ItemSpacing.x * 0.5f;
+
+        if (ImGui::Button("Reload", ImVec2(button_width, 0)))
         {
             if (!selected_file_path.empty())
                 restart_rotation();
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Unload", ImVec2(button_width, 0)))
+        {
+            restart_rotation();
+            Globals::RotationRun.reset_rotation();
         }
     }
 }
@@ -1109,6 +1120,7 @@ void RenderType::restart_rotation()
     num_skills_wo_match = 0U;
 
     last_time_aa_did_skip = std::chrono::steady_clock::now();
+    ArcEv::ResetSkillCastTracking();
 }
 
 void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,
@@ -1357,7 +1369,6 @@ void RenderType::render(ID3D11Device *pd3dDevice)
         if (time_since_went_ooc_ms > 1000)
         {
             restart_rotation();
-            ArcEv::ResetSkillCastTracking();
             time_went_ooc = std::chrono::steady_clock::now();
         }
     }
