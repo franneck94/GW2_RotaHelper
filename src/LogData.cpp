@@ -197,18 +197,18 @@ bool get_is_skill_dropped(const SkillData &skill_data,
     auto drop_skill = is_substr_drop_match || is_exact_drop_match;
     if (!Settings::ShowWeaponSwap)
     {
-        const auto is_substr_drop_match =
+        const auto drop_substr_swap =
             is_skill_in_set(skill_data.skill_id,
                             skill_data.name,
                             skill_rules.skills_substr_weapon_swap_like);
-        const auto is_exact_drop_match =
+        const auto drop_match_swap =
             is_skill_in_set(skill_data.skill_id,
                             skill_data.name,
                             skill_rules.skills_match_weapon_swap_like,
                             true);
 
         drop_skill = is_substr_drop_match || is_exact_drop_match ||
-                     is_substr_drop_match || is_exact_drop_match;
+                     drop_substr_swap || drop_match_swap;
     }
 
     return drop_skill;
@@ -709,15 +709,6 @@ void RotationRunType::load_data(const std::filesystem::path &json_path,
     auto file2{std::ifstream{skill_data_json}};
     auto j2{nlohmann::json{}};
     file2 >> j2;
-
-    const static auto skill_rules =
-        SkillRules{skills_substr_weapon_swap_like,
-                   skills_match_weapon_swap_like,
-                   skills_substr_to_drop,
-                   skills_match_to_drop,
-                   special_substr_to_gray_out,
-                   special_match_to_gray_out,
-                   special_substr_to_remove_duplicates};
 
     skill_data_map = get_skill_data_map(j2);
     auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] =

@@ -120,6 +120,7 @@ public:
         "Approaching Doom",
         "Chilling Nova",
         "Cascading Corruption",
+        "Explosive Growth",
         // REVENANT
         "Invoke Torment",
     };
@@ -211,6 +212,16 @@ public:
         special_substr_to_remove_duplicates = {
             "Rushing Justice",
             "Devastator", // TODO
+    };
+
+    const static inline SkillRules skill_rules = SkillRules{
+        skills_substr_weapon_swap_like,
+        skills_match_weapon_swap_like,
+        skills_substr_to_drop,
+        skills_match_to_drop,
+        special_substr_to_gray_out,
+        special_match_to_gray_out,
+        special_substr_to_remove_duplicates,
     };
 
     static inline const std::set<uint64_t> berserker_f1_skills = {
