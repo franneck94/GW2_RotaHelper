@@ -78,6 +78,7 @@ public:
         // NECROMANCER
         "Harbinger Shroud",
         "Reaper's Shroud",
+        "Ritualist's Shroud",
         // REVENANT
     };
 
