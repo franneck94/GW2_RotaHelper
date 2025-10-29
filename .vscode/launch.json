@@ -26,6 +26,16 @@
             "justMyCode": false
         },
         {
+            "name": "Debug: MANUAL get_html_logs",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/get_html_logs.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "args": ["--manual"],
+            "justMyCode": false
+        },
+        {
             "name": "Debug: fetch_gw2_skills",
             "type": "debugpy",
             "request": "launch",
