@@ -7,6 +7,8 @@ __pycache__
 *.png
 !media/*.png
 addon_settings.json
-internal_data/html/
+internal_data/html/alac
+internal_data/html/quick
+internal_data/html/dps
 !data/img/-1000.png
 !internal_data/html/build_metadata.json
