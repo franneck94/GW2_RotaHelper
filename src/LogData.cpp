@@ -433,13 +433,21 @@ SkillDataMap get_skill_data(const nlohmann::json &j)
                         skill_data.icon_id = 0;
                     }
                 }
+                else
+                {
+                    skill_data.icon_id = 9999;
+                }
+            }
+            else
+            {
+                skill_data.icon_id = 9999;
             }
         }
 
         if (skill_data.name == "")
         {
-            int i = 2;
-            continue;
+            skill_data.name = "Weapon Swap";
+            skill_data.icon_id = 9999;
         }
 
         skill_data_map[skill_id] = skill_data;
@@ -687,8 +695,8 @@ void RotationRunType::pop_bench_rotation_queue()
     }
 }
 
-std::tuple<std::int32_t, std::int32_t, size_t> RotationRunType::get_current_rotation_indices()
-    const
+std::tuple<std::int32_t, std::int32_t, size_t> RotationRunType::
+    get_current_rotation_indices() const
 {
     constexpr static auto window_size = 10;
     constexpr static auto window_size_left = 2;
