@@ -892,7 +892,7 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
                            Globals::VersionString.c_str());
 #endif
 
-        select_bench();
+        render_select_bench();
 
         render_options_checkboxes(is_not_ui_adjust_active);
 
@@ -924,20 +924,20 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
     ImGui::End();
 }
 
-void RenderType::select_bench()
+void RenderType::render_select_bench()
 {
-    text_filter();
+    render_text_filter();
 
     if (benches_files.empty())
         return;
 
-    selection();
+    render_selection();
 
-    reload_btn();
+    render_load_buttons();
 }
 
 
-void RenderType::text_filter()
+void RenderType::render_text_filter()
 {
     ImGui::Text("Filter:");
     ImGui::SameLine();
@@ -986,7 +986,7 @@ void RenderType::text_filter()
     }
 }
 
-void RenderType::selection()
+void RenderType::render_selection()
 {
     ImGui::Text("Select Bench File:");
 
@@ -1083,7 +1083,7 @@ void RenderType::selection()
     }
 }
 
-void RenderType::reload_btn()
+void RenderType::render_load_buttons()
 {
     if (selected_bench_index >= 0 &&
         selected_bench_index < benches_files.size())
@@ -1147,7 +1147,7 @@ void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,
                          &Settings::ShowWindow,
                          curr_flags_rota))
         {
-            rotation_render_details(pd3dDevice);
+            render_rotation_details(pd3dDevice);
         }
     }
     else
@@ -1156,14 +1156,14 @@ void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,
                          &Settings::ShowWindow,
                          curr_flags_rota))
         {
-            rotation_render_horizontal(pd3dDevice);
+            render_rotation_horizontal(pd3dDevice);
         }
     }
 
     ImGui::End();
 }
 
-void RenderType::rotation_render_details(ID3D11Device *pd3dDevice)
+void RenderType::render_rotation_details(ID3D11Device *pd3dDevice)
 {
     ImGui::Spacing();
     ImGui::Indent(10.0f);
@@ -1223,7 +1223,7 @@ void RenderType::rotation_render_details(ID3D11Device *pd3dDevice)
     ImGui::Unindent(10.0f);
 }
 
-void RenderType::rotation_render_horizontal(ID3D11Device *pd3dDevice)
+void RenderType::render_rotation_horizontal(ID3D11Device *pd3dDevice)
 {
     ImGui::Spacing();
     ImGui::Indent(10.0f);
