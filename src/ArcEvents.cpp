@@ -151,11 +151,11 @@ bool OnCombat(const char *channel,
         return false;
 #endif
 
-    auto evCbtData = EvCombatData{ev, src, dst, skillname, id, revision};
+    if (channel == nullptr || ev == nullptr || src == nullptr ||
+        dst == nullptr || skillname == nullptr)
+        return false;
 
-#ifdef GW2_NEXUS_ADDON
-    Globals::APIDefs->Events.Raise(channel, &evCbtData);
-#endif
+    auto evCbtData = EvCombatData{ev, src, dst, skillname, id, revision};
 
     if (IsValidCombatEvent(evCbtData))
     {
