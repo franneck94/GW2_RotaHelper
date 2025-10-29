@@ -1,0 +1,42 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/arcdps",
+                "${workspaceFolder}/mumble",
+                "${workspaceFolder}/nexus",
+                "${workspaceFolder}/rtapi",
+                "${workspaceFolder}/nlohmann",
+                "${workspaceFolder}/build/_deps/imgui-src",
+                "${workspaceFolder}/build/_deps/nlohmann_json-src/include",
+                "C:/Program Files (x86)/Windows Kits/10/Include/*/um",
+                "C:/Program Files (x86)/Windows Kits/10/Include/*/shared",
+                "C:/Program Files (x86)/Windows Kits/10/Include/*/winrt",
+                "C:/Program Files/Microsoft Visual Studio/*/*/VC/Tools/MSVC/*/include",
+                "C:/Program Files (x86)/Microsoft Visual Studio/*/*/VC/Tools/MSVC/*/include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "WIN32",
+                "_WIN32",
+                "_WIN64",
+                "GW2_NEXUS_ADDON",
+                "USE_SKIP_NEXT_SKILL",
+                "USE_SKIP_NEXT_NEXT_SKILL",
+                "USE_SKIP_NEXT_NEXT_NEXT_SKILL"
+            ],
+            "windowsSdkVersion": "10.0.22621.0",
+            "compilerPath": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.40.33807/bin/Hostx64/x64/cl.exe",
+            "cStandard": "c17",
+            "cppStandard": "c++20",
+            "intelliSenseMode": "windows-msvc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools",
+        }
+    ],
+    "version": 4
+}

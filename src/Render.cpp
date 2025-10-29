@@ -852,8 +852,10 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
         Settings::Save(Globals::SettingsPath);
     }
 
-    const auto second_row_items =
-        std::vector<std::string>{"Move Skill UI", "Show Weapon Swaps"};
+    const auto second_row_items = std::vector<std::string>{
+        "Move Skill UI",
+        "Show Weapon Swaps",
+    };
     const auto centered_pos_row_2 =
         calculate_centered_position(second_row_items);
     ImGui::SetCursorPosX(centered_pos_row_2);
@@ -871,10 +873,42 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
         Globals::RotationRun.load_data(selected_file_path, img_path);
     }
 
+    const auto third_row_items = std::vector<std::string>{"Show Keybind"};
+    const auto centered_pos_row_3 = calculate_centered_position(third_row_items);
+    ImGui::SetCursorPosX(centered_pos_row_3);
+
     if (ImGui::Checkbox("Show Keybind", &Settings::ShowKeybind))
     {
         Settings::Save(Globals::SettingsPath);
     }
+
+#ifdef _DEBUG
+#ifdef GW2_NEXUS_ADDON
+    if (ImGui::Button("Select XML File", ImVec2(-1, 0)))
+    {
+        OPENFILENAME ofn;
+        CHAR szFile[260] = {0};
+
+        ZeroMemory(&ofn, sizeof(ofn));
+        ofn.lStructSize = sizeof(ofn);
+        ofn.lpstrFile = szFile;
+        ofn.nMaxFile = sizeof(szFile);
+        ofn.lpstrFilter = "XML Files\0*.xml\0All Files\0*.*\0";
+        ofn.nFilterIndex = 1;
+        ofn.lpstrFileTitle = NULL;
+        ofn.nMaxFileTitle = 0;
+        ofn.lpstrInitialDir = "C:\\";
+        ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+        if (GetOpenFileName(&ofn) == TRUE)
+        {
+            // File selected, path is in szFile
+            // You can add your XML file processing logic here
+            ImGui::Text("Selected: %s", szFile);
+        }
+    }
+#endif
+#endif
 }
 
 void RenderType::render_options_window(bool &is_not_ui_adjust_active)
