@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added more skills to "gray" out to drop
 - Reset bench selection on relog
-- Added the option to shwo weapon swaps
+- Added the option to show weapon swaps
+- Added Unload Rota button
 
 ## 0.5.0 - 2025-10-25
 

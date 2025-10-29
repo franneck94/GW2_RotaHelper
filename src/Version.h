@@ -4,7 +4,7 @@
 #define MAJOR 0
 #define MINOR 6
 #define BUILD 0
-#define REVISION 2
+#define REVISION 3
 
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
