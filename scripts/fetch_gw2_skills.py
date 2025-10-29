@@ -95,8 +95,10 @@ class GW2SkillFetcher:
 
     def filter_skill_data(self, skill: Dict[str, Any]) -> Dict[str, Any]:
         """Filter skill data to only include required fields."""
-        # Extract recharge value from facts
+        # Extract recharge and cast time values from facts
         recharge_value = None
+        cast_time_value = None
+
         if "facts" in skill and isinstance(skill["facts"], list):
             for fact in skill["facts"]:
                 if (
@@ -105,7 +107,12 @@ class GW2SkillFetcher:
                     and "value" in fact
                 ):
                     recharge_value = fact["value"]
-                    break
+                elif (
+                    fact.get("type") == "Time"
+                    and fact.get("text") == "Cast Time"
+                    and "value" in fact
+                ):
+                    cast_time_value = fact["value"]
 
         # Determine skill types based on slot
         slot = skill.get("slot", "")
@@ -147,11 +154,11 @@ class GW2SkillFetcher:
             "is_profession_skill": is_profession_skill,
         }
 
-        # Add recharge only if it exists
-        if recharge_value is not None:
-            filtered_skill["recharge"] = recharge_value
-        else:
-            filtered_skill["recharge"] = 0
+        # Add recharge and cast time, defaulting to 0 if not found
+        filtered_skill["recharge"] = recharge_value if recharge_value is not None else 0
+        filtered_skill["cast_time"] = (
+            cast_time_value if cast_time_value is not None else 0.0
+        )
 
         return filtered_skill
 
