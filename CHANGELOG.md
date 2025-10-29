@@ -7,13 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## BETA 0.6.0
 
+### Features
+
+- Added Unload Rota button
+- Reset bench selection on relog
+- Added the option to show weapon swaps
+
 ### Improvements
 
 - Added more skills to "gray" out to drop
-- Reset bench selection on relog
-- Added the option to show weapon swaps
-- Added Unload Rota button
 - Added some new spec builds
+- Added logic for unknown skills to show placeholder
+- Dropped canceled skills from the rotation
 
 ## 0.5.0 - 2025-10-25
 

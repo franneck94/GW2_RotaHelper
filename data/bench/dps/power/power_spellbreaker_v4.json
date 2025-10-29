@@ -51,23 +51,9 @@
         1.0
       ],
       [
-        1.512,
-        103149,
-        350.0,
-        1,
-        1.0
-      ],
-      [
         1.861,
         9999,
         0.0,
-        1,
-        1.0
-      ],
-      [
-        1.911,
-        1770652,
-        34.0,
         1,
         1.0
       ],
@@ -247,23 +233,9 @@
         1.0
       ],
       [
-        11.946,
-        1770652,
-        50.0,
-        1,
-        1.0
-      ],
-      [
         11.996,
         1770656,
         317.0,
-        1,
-        1.0
-      ],
-      [
-        12.313,
-        1770652,
-        33.0,
         1,
         1.0
       ],
@@ -726,13 +698,6 @@
         32.982,
         1770654,
         333.0,
-        1,
-        1.0
-      ],
-      [
-        33.315,
-        1770652,
-        33.0,
         1,
         1.0
       ],
@@ -2054,12 +2019,6 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s1770652": {
-      "name": "Precise Cut",
-      "icon": "https://render.guildwars2.com/file/F6A025001C9107083B0671ECD05CB675B14C55CA/1770652.png",
-      "traitProc": false,
-      "gearProc": false
-    },
     "s1770656": {
       "name": "Disrupting Stab",
       "icon": "https://render.guildwars2.com/file/BD4E59A7AD2031F0090FF30C0307A0A8FA942FF3/1770656.png",
@@ -2081,6 +2040,12 @@
     "s103866": {
       "name": "Whirling Axe",
       "icon": "https://render.guildwars2.com/file/7BD3B56E245B01B50F775627C20965C9410DE842/103866.png",
+      "traitProc": false,
+      "gearProc": false
+    },
+    "s1770652": {
+      "name": "Precise Cut",
+      "icon": "https://render.guildwars2.com/file/F6A025001C9107083B0671ECD05CB675B14C55CA/1770652.png",
       "traitProc": false,
       "gearProc": false
     },

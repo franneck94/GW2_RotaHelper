@@ -226,13 +226,6 @@
         1.0
       ],
       [
-        14.671,
-        2503713,
-        50.0,
-        1,
-        1.0
-      ],
-      [
         14.721,
         2503721,
         550.0,
@@ -607,13 +600,6 @@
         39.843,
         3379175,
         234.0,
-        1,
-        1.0
-      ],
-      [
-        40.193,
-        2503713,
-        50.0,
         1,
         1.0
       ],
@@ -1150,13 +1136,6 @@
         1.0
       ],
       [
-        75.561,
-        2503713,
-        34.0,
-        1,
-        1.0
-      ],
-      [
         75.595,
         103865,
         516.0,
@@ -1420,15 +1399,15 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s2503713": {
-      "name": "Hammer Strike",
-      "icon": "https://render.guildwars2.com/file/0BE1C91A2CDD0ECF2073B3FC3CCCE8AD7E16F85D/2503713.png",
-      "traitProc": false,
-      "gearProc": false
-    },
     "s2503719": {
       "name": "Unleashed Overbearing Smash",
       "icon": "https://render.guildwars2.com/file/7BA2A9B41EEEB1E1BF61FD7BF108BE0C05932080/2503719.png",
+      "traitProc": false,
+      "gearProc": false
+    },
+    "s2503713": {
+      "name": "Hammer Strike",
+      "icon": "https://render.guildwars2.com/file/0BE1C91A2CDD0ECF2073B3FC3CCCE8AD7E16F85D/2503713.png",
       "traitProc": false,
       "gearProc": false
     },
