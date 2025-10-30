@@ -18,6 +18,15 @@
                 "scripts/get_html_logs.py",
             ],
             "problemMatcher": ["gcc"]
+        },
+        {
+            "label": "fetch_gw2_skills",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "scripts/fetch_gw2_skills.py",
+            ],
+            "problemMatcher": ["$python"]
         }
     ]
 }
