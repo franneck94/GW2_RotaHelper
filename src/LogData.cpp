@@ -334,7 +334,7 @@ void get_rotation_info(const IntNode &node,
                 skill_data.cast_time_with_quickness = -1.0f;
             }
 
-            auto drop_skill = get_is_skill_dropped(skill_data, skill_rules);
+            const auto drop_skill = get_is_skill_dropped(skill_data, skill_rules);
 
             if (!drop_skill)
             {
