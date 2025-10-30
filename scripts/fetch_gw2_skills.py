@@ -1,4 +1,5 @@
 import asyncio
+import argparse
 import json
 import logging
 from enum import Enum
@@ -216,7 +217,9 @@ class GW2SkillFetcher:
                             f"Unexpected result type for chunk {i}: {type(result)}"
                         )
 
-                self.logger.info(f"Successfully fetched {len(all_skills_filtered)} skills")
+                self.logger.info(
+                    f"Successfully fetched {len(all_skills_filtered)} skills"
+                )
 
             except Exception as e:
                 self.logger.error(f"Error fetching skills: {e}")
@@ -309,9 +312,7 @@ class GW2SkillFetcher:
 
         try:
             with open(output_file, "w", encoding="utf-8") as f:
-                json.dump(
-                    skills_data, f, indent=2, ensure_ascii=False, sort_keys=True
-                )
+                json.dump(skills_data, f, indent=2, ensure_ascii=False, sort_keys=True)
 
             self.logger.info(f"Raw skills data saved to: {output_file}")
             self.logger.info(f"Saved {len(skills_data)} raw skills")
@@ -352,7 +353,7 @@ class GW2SkillFetcher:
             "is_heal_skill": False,
             "is_profession_skill": False,
             "recharge": 0,
-            "cast_time": 0.0
+            "cast_time": 0.0,
         }
 
         categorized_skills["-9999"] = {
@@ -367,7 +368,7 @@ class GW2SkillFetcher:
             "is_heal_skill": False,
             "is_profession_skill": False,
             "recharge": 0,
-            "cast_time": 0.0
+            "cast_time": 0.0,
         }
 
         output_file = self.output_dir / "gw2_skills_en.json"
@@ -471,7 +472,7 @@ class GW2SkillFetcher:
             self.logger.error(f"Error saving metadata: {e}")
             raise
 
-    async def run(self) -> None:
+    async def run(self, save_raw: bool = False) -> None:
         """Main execution method."""
         try:
             self.logger.info("Starting GW2 skill data fetch...")
@@ -484,7 +485,8 @@ class GW2SkillFetcher:
                 return
 
             # Save data and metadata
-            self.save_raw_skills_to_file(raw_skills_data)  # Save raw data first
+            if save_raw:
+                self.save_raw_skills_to_file(raw_skills_data)  # Save raw data first
             self.save_skills_to_file(filtered_skills_data)
             self.save_uncategorized_skills(filtered_skills_data)
             self.save_metadata(filtered_skills_data)
@@ -502,13 +504,38 @@ class GW2SkillFetcher:
 
 
 async def main() -> None:
+    # Parse command line arguments
+    parser = argparse.ArgumentParser(
+        description="Fetch skill data from the Guild Wars 2 API"
+    )
+    parser.add_argument(
+        "--save-raw",
+        action="store_true",
+        default=False,
+        help="Save raw unfiltered skill data to gw2_skills_raw.json (default: False)",
+    )
+    parser.add_argument(
+        "--output",
+        "-o",
+        type=str,
+        default="data/skills",
+        help="Output directory for skill files (default: data/skills)",
+    )
+
+    args = parser.parse_args()
+
     # Get the script directory and set up data path
     script_dir = Path(__file__).parent
-    data_dir = script_dir.parent / "data" / "skills"
+    if args.output.startswith("/") or (len(args.output) > 1 and args.output[1] == ":"):
+        # Absolute path
+        data_dir = Path(args.output)
+    else:
+        # Relative path
+        data_dir = script_dir.parent / args.output
 
     # Create and run the fetcher
     fetcher = GW2SkillFetcher(output_dir=data_dir)
-    await fetcher.run()
+    await fetcher.run(save_raw=args.save_raw)
 
 
 if __name__ == "__main__":
