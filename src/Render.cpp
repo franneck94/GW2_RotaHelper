@@ -25,6 +25,7 @@
 
 #include "ArcEvents.h"
 #include "Defines.h"
+#include "FileUtils.h"
 #include "LogData.h"
 #include "MumbleUtils.h"
 #include "Render.h"
@@ -37,194 +38,6 @@
 namespace
 {
 static auto last_time_aa_did_skip = std::chrono::steady_clock::time_point{};
-
-std::string to_lowercase(const std::string &str)
-{
-    std::string result = str;
-    std::transform(result.begin(), result.end(), result.begin(), ::tolower);
-    return result;
-}
-
-std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
-          std::set<std::string>>
-get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
-                    std::string &filter_string)
-{
-    auto filtered_files = std::vector<std::pair<int, const BenchFileInfo *>>{};
-    auto directories_with_matches = std::set<std::string>{};
-
-    if (filter_string.empty())
-    {
-        // When filter is empty, filter by current character's profession
-        const auto profession = get_current_profession_name();
-        auto current_profession = to_lowercase(profession);
-
-        if (current_profession.empty())
-        {
-            // If no profession available, show all files
-            for (int n = 0; n < benches_files.size(); n++)
-                filtered_files.emplace_back(n, &benches_files[n]);
-        }
-        else
-        {
-            // Get elite specs for this profession
-            auto profession_id = string_to_profession(current_profession);
-            auto elite_specs = get_elite_specs_for_profession(profession_id);
-
-            // First pass: find files that match the profession or elite specs and collect their directories
-            for (int n = 0; n < benches_files.size(); n++)
-            {
-                const auto &file_info = benches_files[n];
-
-                if (!file_info.is_directory_header)
-                {
-                    auto display_lower = to_lowercase(file_info.display_name);
-                    auto path_lower =
-                        to_lowercase(file_info.relative_path.string());
-
-                    bool matches = false;
-
-                    // Check if file matches current profession
-                    if ((display_lower.find(current_profession) !=
-                         std::string::npos) ||
-                        (path_lower.find(current_profession) !=
-                         std::string::npos))
-                    {
-                        matches = true;
-                    }
-
-                    // Check if file matches any elite spec for this profession
-                    if (!matches)
-                    {
-                        for (const auto &elite_spec : elite_specs)
-                        {
-                            if (display_lower.find(elite_spec) !=
-                                    std::string::npos ||
-                                path_lower.find(elite_spec) !=
-                                    std::string::npos)
-                            {
-                                matches = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (matches)
-                    {
-                        const auto parent_dir =
-                            file_info.relative_path.parent_path().string();
-                        if (!parent_dir.empty() && parent_dir != ".")
-                        {
-                            directories_with_matches.insert(parent_dir);
-                        }
-                    }
-                }
-            }
-
-            // Second pass: add directory headers and matching files to filtered list
-            for (int n = 0; n < benches_files.size(); n++)
-            {
-                const auto &file_info = benches_files[n];
-
-                if (file_info.is_directory_header)
-                {
-                    if (directories_with_matches.count(
-                            file_info.relative_path.string()) > 0)
-                    {
-                        filtered_files.emplace_back(n, &file_info);
-                    }
-                }
-                else
-                {
-                    auto display_lower = to_lowercase(file_info.display_name);
-                    auto path_lower =
-                        to_lowercase(file_info.relative_path.string());
-
-                    bool matches = false;
-
-                    // Check if file matches current profession
-                    if (display_lower.find(current_profession) !=
-                            std::string::npos ||
-                        path_lower.find(current_profession) !=
-                            std::string::npos)
-                    {
-                        matches = true;
-                    }
-
-                    // Check if file matches any elite spec for this profession
-                    if (!matches)
-                    {
-                        for (const auto &elite_spec : elite_specs)
-                        {
-                            if (display_lower.find(elite_spec) !=
-                                    std::string::npos ||
-                                path_lower.find(elite_spec) !=
-                                    std::string::npos)
-                            {
-                                matches = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (matches)
-                    {
-                        filtered_files.emplace_back(n, &file_info);
-                    }
-                }
-            }
-        }
-
-        return std::make_pair(filtered_files, directories_with_matches);
-    }
-
-    // First pass: find all files that match and collect their directories
-    for (int n = 0; n < benches_files.size(); n++)
-    {
-        const auto &file_info = benches_files[n];
-
-        if (!file_info.is_directory_header)
-        {
-            auto display_lower = to_lowercase(file_info.display_name);
-
-            if (display_lower.find(filter_string) != std::string::npos)
-            {
-                const auto parent_dir =
-                    file_info.relative_path.parent_path().string();
-                if (!parent_dir.empty() && parent_dir != ".")
-                {
-                    directories_with_matches.insert(parent_dir);
-                }
-            }
-        }
-    }
-
-    // Second pass: add directory headers and matching files to filtered list
-    for (int n = 0; n < benches_files.size(); n++)
-    {
-        const auto &file_info = benches_files[n];
-
-        if (file_info.is_directory_header)
-        {
-            if (directories_with_matches.count(
-                    file_info.relative_path.string()) > 0)
-            {
-                filtered_files.emplace_back(n, &file_info);
-            }
-        }
-        else
-        {
-            auto display_lower = to_lowercase(file_info.display_name);
-
-            if (display_lower.find(filter_string) != std::string::npos)
-            {
-                filtered_files.emplace_back(n, &file_info);
-            }
-        }
-    }
-
-    return std::make_pair(filtered_files, directories_with_matches);
-}
 
 void DrawRect(const RotationStep &rotation_step,
               const std::string &text,
@@ -270,301 +83,6 @@ void DrawRect(const RotationStep &rotation_step,
         IM_COL32(0, 0, 0, 0)); // Transparent to cut out inner area
 }
 
-
-bool IsSkillAutoAttack(const uint64_t skill_id,
-                       const std::string &skill_name,
-                       const SkillDataMap &skill_data_map)
-{
-    auto it = skill_data_map.find(static_cast<int>(skill_id));
-
-    if (it != skill_data_map.end())
-        return it->second.is_auto_attack;
-
-    for (const auto &[skill_id, skill_data] : skill_data_map)
-    {
-        if (skill_data.name == skill_name)
-        {
-            return skill_data.is_auto_attack;
-        }
-    }
-
-    return false; // Default to false if skill not found
-}
-
-std::string format_build_name(const std::string &raw_name)
-{
-    auto result = raw_name;
-
-    const auto start = result.find_first_not_of(" \t");
-    if (start != std::string::npos)
-        result = result.substr(start);
-
-    if (result.starts_with("condition_"))
-        result = result.substr(10); // Remove "condition_"
-    else if (result.starts_with("power_"))
-        result = result.substr(6); // Remove "power_"
-
-    std::replace(result.begin(), result.end(), '_', ' ');
-
-    bool capitalize_next = true;
-    std::ranges::transform(result, result.begin(), [&capitalize_next](char c) {
-        if (c == ' ')
-        {
-            capitalize_next = true;
-            return c;
-        }
-
-        if (capitalize_next)
-        {
-            capitalize_next = false;
-            return static_cast<char>(std::toupper(c));
-        }
-
-        return static_cast<char>(std::tolower(c));
-    });
-
-    return "    " + result;
-}
-
-std::vector<BenchFileInfo> get_bench_files(
-    const std::filesystem::path &bench_path)
-{
-    auto files = std::vector<BenchFileInfo>{};
-    auto directory_files =
-        std::map<std::string, std::vector<std::filesystem::path>>{};
-
-    try
-    {
-        for (const auto &entry :
-             std::filesystem::recursive_directory_iterator(bench_path))
-        {
-            if (entry.is_regular_file() && entry.path().extension() == ".json")
-            {
-                auto relative_path =
-                    std::filesystem::relative(entry.path(), bench_path);
-                auto parent_dir = relative_path.parent_path().string();
-
-                if (parent_dir.empty())
-                    parent_dir = ".";
-
-                directory_files[parent_dir].push_back(entry.path());
-            }
-        }
-
-        for (const auto &[dir_name, dir_files] : directory_files)
-        {
-            if (dir_name != ".")
-            {
-                auto header_path = bench_path / dir_name;
-                files.emplace_back(header_path,
-                                   std::filesystem::path(dir_name),
-                                   true);
-            }
-
-            for (const auto &file_path : dir_files)
-            {
-                auto relative_path =
-                    std::filesystem::relative(file_path, bench_path);
-                files.emplace_back(file_path, relative_path, false);
-            }
-        }
-    }
-    catch (const std::filesystem::filesystem_error &ex)
-    {
-        std::cerr << "Error scanning bench files: " << ex.what() << std::endl;
-    }
-
-    return files;
-}
-
-bool CheckTheNextNskills(const EvCombatDataPersistent &skill_ev,
-                         const RotationStep &future_rota_skill,
-                         const uint32_t n,
-                         const bool is_okay,
-                         RotationRunType &rotation_run,
-                         EvCombatDataPersistent &last_skill)
-{
-    auto is_match =
-        ((future_rota_skill.skill_data.name == skill_ev.SkillName) && is_okay);
-
-    if (is_match)
-    {
-        for (uint32_t i = 0; i < n; ++i)
-            rotation_run.todo_rotation_steps.pop_front();
-
-        last_skill = skill_ev;
-    }
-
-    return is_match;
-}
-
-void SimpleSkillDetectionLogic(
-    uint32_t &num_skills_wo_match,
-    std::chrono::steady_clock::time_point &time_since_last_match,
-    RotationRunType &rotation_run,
-    const EvCombatDataPersistent &skill_ev,
-    EvCombatDataPersistent &last_skill)
-{
-    auto curr_rota_skill = RotationStep{};
-    auto next_rota_skill = RotationStep{};
-    auto next_next_rota_skill = RotationStep{};
-    auto next_next_next_rota_skill = RotationStep{};
-    auto it = rotation_run.todo_rotation_steps.begin();
-
-    if (num_skills_wo_match == 0)
-        time_since_last_match = std::chrono::steady_clock::now();
-
-    if (rotation_run.todo_rotation_steps.size() > 1)
-    {
-        curr_rota_skill = *it;
-
-        while (curr_rota_skill.is_special_skill &&
-               rotation_run.todo_rotation_steps.size() > 2)
-        {
-            rotation_run.todo_rotation_steps.pop_front();
-            it = rotation_run.todo_rotation_steps.begin();
-            curr_rota_skill = *it;
-        }
-
-        ++it;
-    }
-    if (rotation_run.todo_rotation_steps.size() > 2)
-    {
-        next_rota_skill = *it;
-        ++it;
-    }
-    if (rotation_run.todo_rotation_steps.size() > 3)
-    {
-        next_next_rota_skill = *it;
-        ++it;
-    }
-    if (rotation_run.todo_rotation_steps.size() > 4)
-    {
-        next_next_next_rota_skill = *it;
-        ++it;
-    }
-
-    if (CheckTheNextNskills(skill_ev,
-                            curr_rota_skill,
-                            1,
-                            true,
-                            rotation_run,
-                            last_skill))
-    {
-        num_skills_wo_match = 0U;
-        return;
-    }
-
-#ifdef USE_SKIP_NEXT_SKILL
-    const auto now = std::chrono::steady_clock::now();
-    const auto time_since_last_aa_skip =
-        std::chrono::duration_cast<std::chrono::seconds>(now -
-                                                         last_time_aa_did_skip)
-            .count();
-
-    const auto include_aa_skip = (time_since_last_aa_skip > 3 ||
-                                  !next_rota_skill.skill_data.is_auto_attack);
-    if (include_aa_skip && CheckTheNextNskills(skill_ev,
-                                               next_rota_skill,
-                                               2,
-                                               true,
-                                               rotation_run,
-                                               last_skill))
-    {
-        num_skills_wo_match = 0U;
-
-        if (next_rota_skill.skill_data.is_auto_attack &&
-            next_next_rota_skill.skill_data.is_auto_attack)
-        {
-            last_time_aa_did_skip = std::chrono::steady_clock::now();
-        }
-
-        return;
-    }
-#endif
-
-    const auto curr_is_auto_attack =
-        IsSkillAutoAttack(skill_ev.SkillID,
-                          skill_ev.SkillName,
-                          Globals::RotationRun.skill_data_map);
-
-#ifdef USE_SKIP_NEXT_NEXT_SKILL
-    const auto next_next_is_okay =
-        (next_next_rota_skill.is_special_skill ||
-         !next_next_rota_skill.skill_data.is_auto_attack);
-
-    if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
-                                                    next_next_rota_skill,
-                                                    3,
-                                                    next_next_is_okay,
-                                                    rotation_run,
-                                                    last_skill))
-    {
-        num_skills_wo_match = 0U;
-        return;
-    }
-#endif
-
-#ifdef USE_SKIP_NEXT_NEXT_NEXT_SKILL
-    const auto next_next_next_is_okay =
-        (next_next_rota_skill.is_special_skill ||
-         !next_next_next_rota_skill.skill_data.is_auto_attack);
-
-    if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
-                                                    next_next_next_rota_skill,
-                                                    4,
-                                                    next_next_next_is_okay,
-                                                    rotation_run,
-                                                    last_skill))
-    {
-        num_skills_wo_match = 0U;
-        return;
-    }
-#endif
-
-    if (!curr_is_auto_attack)
-        ++num_skills_wo_match;
-
-    if (num_skills_wo_match > 5)
-    {
-        if (curr_rota_skill.skill_data.is_auto_attack || curr_is_auto_attack)
-            return;
-
-        const auto now = std::chrono::steady_clock::now();
-        const auto duration_since_last_match =
-            std::chrono::duration_cast<std::chrono::seconds>(
-                now - time_since_last_match)
-                .count();
-
-        if (duration_since_last_match < 10)
-            return;
-
-        for (auto it = rotation_run.todo_rotation_steps.begin();
-             it != rotation_run.todo_rotation_steps.end();
-             ++it)
-        {
-            const auto diff =
-                std::distance(it, rotation_run.todo_rotation_steps.begin());
-            if (diff > 6)
-                return;
-
-            const auto rota_skill = *it;
-            if (rota_skill.skill_data.name == skill_ev.SkillName)
-            {
-                while (rotation_run.todo_rotation_steps.begin() != it)
-                    rotation_run.todo_rotation_steps.pop_front();
-
-                rotation_run.todo_rotation_steps.pop_front();
-
-                last_skill = skill_ev;
-                num_skills_wo_match = 0U;
-                time_since_last_match = now;
-                return;
-            }
-        }
-    }
-}
-
 std::string get_skill_text(const RotationStep &rotation_step)
 {
     auto text = rotation_step.skill_data.name;
@@ -582,98 +100,6 @@ std::string get_skill_text(const RotationStep &rotation_step)
     }
 
     return text;
-}
-
-SkillState get_skill_state(
-    const RotationRunType &rotation_run,
-    const std::vector<EvCombatDataPersistent> &played_rotation,
-    const size_t window_idx,
-    const size_t current_idx,
-    const bool is_auto_attack)
-{
-    const auto is_current = (window_idx == static_cast<int32_t>(current_idx));
-    const auto is_last =
-        (window_idx == Globals::RotationRun.all_rotation_steps.size() - 1);
-    const auto is_completed = (window_idx < static_cast<int32_t>(current_idx));
-
-    auto is_completed_correct = false;
-    auto is_completed_incorrect = false;
-    if (played_rotation.size() > window_idx && window_idx < current_idx)
-    {
-        const auto casted_skill = played_rotation[window_idx];
-        const auto bench_skill =
-            Globals::RotationRun.all_rotation_steps[window_idx];
-
-        is_completed_correct =
-            (casted_skill.SkillName == bench_skill.skill_data.name) ? true
-                                                                    : false;
-        is_completed_incorrect = !is_completed_correct;
-    }
-
-    return SkillState{
-        .is_history = window_idx < current_idx,
-        .is_current = is_current,
-        .is_last = is_last,
-        .is_auto_attack = is_auto_attack,
-        .is_completed_correct = is_completed_correct,
-        .is_completed_incorrect = is_completed_incorrect,
-    };
-}
-
-bool SKillCastIsTooEarlyWrtRechargeTime(
-    const std::chrono::steady_clock::time_point &now,
-    const EvCombatDataPersistent &combat_data,
-    std::map<uint64_t, std::chrono::steady_clock::time_point>
-        &skill_last_cast_times)
-{
-    auto last_cast_time = skill_last_cast_times[combat_data.SkillID];
-    skill_last_cast_times[combat_data.SkillID] = now;
-
-    const auto skill_data_map_it = Globals::RotationRun.skill_data_map.find(
-        static_cast<int>(combat_data.SkillID));
-
-    if (skill_data_map_it != Globals::RotationRun.skill_data_map.end())
-    {
-        auto current_profession = get_current_profession_name();
-        auto profession_lower = to_lowercase(current_profession);
-
-        auto is_mesmer_weapon_4 = false;
-        auto is_berserker_f1 = false;
-
-        if (profession_lower == "mesmer")
-        {
-            // TODO: For Chrono - CS reset
-            is_mesmer_weapon_4 = RotationRunType::mesmer_weapon_4_skills.count(
-                                     combat_data.SkillID) > 0;
-        }
-        else if (profession_lower == "warrior")
-        {
-            is_berserker_f1 = RotationRunType::berserker_f1_skills.count(
-                                  combat_data.SkillID) > 0;
-        }
-
-        if (!is_mesmer_weapon_4 && !is_berserker_f1)
-        {
-            const auto &skill_data = skill_data_map_it->second;
-            const auto recharge_time_s = skill_data.recharge_time;
-            const auto recharge_time_w_alac_s =
-                static_cast<int>(recharge_time_s * 0.8f);
-
-            const auto cast_time_diff = now - last_cast_time;
-            const auto cast_time_diff_s =
-                std::chrono::duration_cast<std::chrono::seconds>(cast_time_diff)
-                    .count();
-            const auto recharge_duration_s =
-                std::chrono::seconds(recharge_time_w_alac_s);
-
-            if (cast_time_diff_s < recharge_time_w_alac_s * 0.7 &&
-                recharge_time_w_alac_s > 0 &&
-                !skill_data.is_auto_attack) // XXX: Hacky
-                return true;
-        }
-    }
-
-    return false;
 }
 } // namespace
 
@@ -695,52 +121,36 @@ void RenderType::set_data_path(const std::filesystem::path &path)
     benches_files = get_bench_files(bench_path);
 }
 
+void RenderType::append_to_played_rotation(
+    const EvCombatDataPersistent &combat_data)
+{
+    if (played_rotation.size() > 300)
+    {
+        auto last_100 =
+            std::vector<EvCombatDataPersistent>(played_rotation.end() - 100,
+                                                played_rotation.end());
+        played_rotation = std::move(last_100);
+    }
+
+    played_rotation.push_back(combat_data);
+}
+
 void RenderType::skill_activation_callback(
     const bool pressed,
     const EvCombatDataPersistent &combat_data)
 {
-    static auto skill_last_cast_times =
-        std::map<uint64_t, std::chrono::steady_clock::time_point>{};
-
     key_press_event_in_this_frame = pressed;
 
     if (pressed)
     {
-        std::lock_guard<std::mutex> lock(played_rotation_mutex);
-
-        const auto now = std::chrono::steady_clock::now();
-
-        if (skill_last_cast_times.find(combat_data.SkillID) !=
-            skill_last_cast_times.end())
-        {
-            if (SKillCastIsTooEarlyWrtRechargeTime(now,
-                                                   combat_data,
-                                                   skill_last_cast_times))
-                return;
-        }
-        else
-        {
-            skill_last_cast_times[combat_data.SkillID] = now;
-        }
-
         curr_combat_data = combat_data;
 
-        if (played_rotation.size() > 300)
-        {
-            auto last_100 =
-                std::vector<EvCombatDataPersistent>(played_rotation.end() - 100,
-                                                    played_rotation.end());
-            played_rotation = std::move(last_100);
-        }
-
-        played_rotation.push_back(combat_data);
+        append_to_played_rotation(combat_data);
     }
 }
 
 EvCombatDataPersistent RenderType::get_current_skill()
 {
-    std::lock_guard<std::mutex> lock(played_rotation_mutex);
-
     if (!key_press_event_in_this_frame)
     {
         auto skill_ev = EvCombatDataPersistent{};
@@ -758,7 +168,7 @@ EvCombatDataPersistent RenderType::get_current_skill()
     return curr_combat_data;
 }
 
-void RenderType::toggle_vis(const bool flag)
+void RenderType::set_show_window(const bool flag)
 {
     show_window = flag;
 }
@@ -844,11 +254,6 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
 
     if (ImGui::Checkbox("Horizontal", &Settings::HorizontalSkillLayout))
     {
-        if (Settings::HorizontalSkillLayout)
-            Globals::SkillIconSize = 64.0F;
-        else
-            Globals::SkillIconSize = 28.0F;
-
         Settings::Save(Globals::SettingsPath);
     }
 
@@ -1151,7 +556,6 @@ void RenderType::restart_rotation()
     Globals::RotationRun.restart_rotation();
     ReleaseTextureMap(Globals::TextureMap);
 
-    std::lock_guard<std::mutex> lock(played_rotation_mutex);
     played_rotation.clear();
     curr_combat_data = EvCombatDataPersistent{};
 
@@ -1166,18 +570,20 @@ void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,
                                         ID3D11Device *pd3dDevice)
 {
     float window_width = 0.0f;
-    float window_height = Globals::SkillIconSize * 0.0F;
+    float window_height = 0.0f;
     ImGuiIO &io = ImGui::GetIO();
+
     if (!Settings::HorizontalSkillLayout)
     {
         window_width = 400.0f;
-        window_height = Globals::SkillIconSize * 10.0F;
+        window_height = 400.0f;
     }
     else
     {
-        window_width = Globals::SkillIconSize * 10.0F;
-        window_height = 50.0F;
+        window_width = 600.0f;
+        window_height = 100.0f;
     }
+
     ImGui::SetNextWindowSize(ImVec2(window_width, window_height),
                              ImGuiCond_FirstUseEver);
     float pos_x = (io.DisplaySize.x - window_width) * 0.5f;
@@ -1198,6 +604,10 @@ void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,
                          &Settings::ShowWindow,
                          curr_flags_rota))
         {
+            const auto current_window_size = ImGui::GetWindowSize();
+            Globals::SkillIconSize = min(current_window_size.x * 0.15f, 80.0f);
+            Globals::SkillIconSize = max(Globals::SkillIconSize, 24.0f);
+
             render_rotation_details(pd3dDevice);
         }
     }
@@ -1207,6 +617,10 @@ void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,
                          &Settings::ShowWindow,
                          curr_flags_rota))
         {
+            const auto current_window_size = ImGui::GetWindowSize();
+            Globals::SkillIconSize = min(current_window_size.y * 0.7f, 80.0f);
+            Globals::SkillIconSize = max(Globals::SkillIconSize, 24.0f);
+
             render_rotation_horizontal(pd3dDevice);
         }
     }

@@ -20,9 +20,4 @@ TextureMapType LoadAllSkillTextures(ID3D11Device *device,
                                     const LogSkillInfoMap &log_skill_info_map,
                                     const std::filesystem::path &img_folder);
 
-TextureMapType LoadAllSkillTexturesWithAPI(
-    AddonAPI *api_defs,
-    const LogSkillInfoMap &log_skill_info_map,
-    const std::filesystem::path &img_folder);
-
 void ReleaseTextureMap(TextureMapType &texture_map);

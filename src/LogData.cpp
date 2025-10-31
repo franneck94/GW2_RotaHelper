@@ -23,14 +23,59 @@
 #include "nlohmann/json.hpp"
 
 #include "LogData.h"
+
+#include "FileUtils.h"
 #include "Settings.h"
+#include "Shared.h"
 #include "Types.h"
 #include "TypesUtils.h"
 
 using json = nlohmann::json;
 
+
 namespace
 {
+bool IsSkillAutoAttack(const uint64_t skill_id,
+                       const std::string &skill_name,
+                       const SkillDataMap &skill_data_map)
+{
+    auto it = skill_data_map.find(static_cast<int>(skill_id));
+
+    if (it != skill_data_map.end())
+        return it->second.is_auto_attack;
+
+    for (const auto &[skill_id, skill_data] : skill_data_map)
+    {
+        if (skill_data.name == skill_name)
+        {
+            return skill_data.is_auto_attack;
+        }
+    }
+
+    return false;
+}
+
+bool CheckTheNextNskills(const EvCombatDataPersistent &skill_ev,
+                         const RotationStep &future_rota_skill,
+                         const uint32_t n,
+                         const bool is_okay,
+                         RotationRunType &rotation_run,
+                         EvCombatDataPersistent &last_skill)
+{
+    auto is_match =
+        ((future_rota_skill.skill_data.name == skill_ev.SkillName) && is_okay);
+
+    if (is_match)
+    {
+        for (uint32_t i = 0; i < n; ++i)
+            rotation_run.todo_rotation_steps.pop_front();
+
+        last_skill = skill_ev;
+    }
+
+    return is_match;
+}
+
 void collect_json(const json &jval,
                   IntNode &node,
                   const bool drop_first_char = false)
@@ -240,7 +285,8 @@ void get_rotation_info(const IntNode &node,
                        const LogSkillInfoMap &log_skill_info_map,
                        RotationSteps &all_rotation_steps,
                        const SkillDataMap &skill_data_map,
-                       const SkillRules &skill_rules)
+                       const SkillRules &skill_rules,
+                       const std::map<std::string, float> &skill_cast_time_map)
 {
     for (const auto &rotation_entry : node.children)
     {
@@ -325,7 +371,7 @@ void get_rotation_info(const IntNode &node,
                     continue;
             }
 
-            // TODO
+            // TODO: is this always weapon swap?
             if (skill_data.skill_id == 0)
             {
                 skill_data.skill_id = icon_id;
@@ -357,6 +403,13 @@ void get_rotation_info(const IntNode &node,
 
                 if (is_duplicate_skill && was_there_previous)
                     continue;
+
+                const auto cast_time_it =
+                    skill_cast_time_map.find(skill_data.name);
+                if (cast_time_it != skill_cast_time_map.end())
+                {
+                    skill_data.cast_time = cast_time_it->second;
+                }
 
                 all_rotation_steps.push_back(
                     RotationStep{.time_of_cast = time_of_cast,
@@ -563,13 +616,18 @@ MetaData get_metadata(const nlohmann::json &j)
 }
 
 std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
-    const nlohmann::json &j,
     const std::filesystem::path &json_path,
     const SkillDataMap &skill_data_map,
-    const SkillRules &skill_rules)
+    const SkillRules &skill_rules,
+    const std::map<std::string, float> &skill_cast_time_map)
 {
-    const auto rotation_data = j["rotation"];
-    const auto skill_data = j["skillMap"];
+    auto json_rotation_log = nlohmann::json{};
+    auto is_load_success = load_rotaion_json(json_path, json_rotation_log);
+    if (!is_load_success)
+        return std::make_tuple(LogSkillInfoMap{}, RotationSteps{}, MetaData{});
+
+    const auto rotation_data = json_rotation_log["rotation"];
+    const auto skill_data = json_rotation_log["skillMap"];
 
     auto kv_rotation = IntNode{};
     collect_json(rotation_data, kv_rotation);
@@ -583,9 +641,10 @@ std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
                       log_skill_info_map,
                       rotation_steps,
                       skill_data_map,
-                      skill_rules);
+                      skill_rules,
+                      skill_cast_time_map);
 
-    auto metadata = get_metadata(j);
+    auto metadata = get_metadata(json_rotation_log);
 
     return std::make_tuple(log_skill_info_map, rotation_steps, metadata);
 }
@@ -706,27 +765,209 @@ std::list<std::future<void>> StartDownloadAllSkillIcons(
 }
 } // namespace
 
+void SimpleSkillDetectionLogic(
+    uint32_t &num_skills_wo_match,
+    std::chrono::steady_clock::time_point &time_since_last_match,
+    RotationRunType &rotation_run,
+    const EvCombatDataPersistent &skill_ev,
+    EvCombatDataPersistent &last_skill)
+{
+    auto curr_rota_skill = RotationStep{};
+    auto next_rota_skill = RotationStep{};
+    auto next_next_rota_skill = RotationStep{};
+    auto next_next_next_rota_skill = RotationStep{};
+    auto it = rotation_run.todo_rotation_steps.begin();
+
+    if (num_skills_wo_match == 0)
+        time_since_last_match = std::chrono::steady_clock::now();
+
+    if (rotation_run.todo_rotation_steps.size() > 1)
+    {
+        curr_rota_skill = *it;
+
+        while (curr_rota_skill.is_special_skill &&
+               rotation_run.todo_rotation_steps.size() > 2)
+        {
+            rotation_run.todo_rotation_steps.pop_front();
+            it = rotation_run.todo_rotation_steps.begin();
+            curr_rota_skill = *it;
+        }
+
+        ++it;
+    }
+    if (rotation_run.todo_rotation_steps.size() > 2)
+    {
+        next_rota_skill = *it;
+        ++it;
+    }
+    if (rotation_run.todo_rotation_steps.size() > 3)
+    {
+        next_next_rota_skill = *it;
+        ++it;
+    }
+    if (rotation_run.todo_rotation_steps.size() > 4)
+    {
+        next_next_next_rota_skill = *it;
+        ++it;
+    }
+
+    if (CheckTheNextNskills(skill_ev,
+                            curr_rota_skill,
+                            1,
+                            true,
+                            rotation_run,
+                            last_skill))
+    {
+        num_skills_wo_match = 0U;
+        return;
+    }
+
+#ifdef USE_SKIP_NEXT_SKILL
+    const auto now = std::chrono::steady_clock::now();
+    const auto time_since_last_aa_skip =
+        std::chrono::duration_cast<std::chrono::seconds>(now -
+                                                         last_time_aa_did_skip)
+            .count();
+
+    const auto include_aa_skip = (time_since_last_aa_skip > 3 ||
+                                  !next_rota_skill.skill_data.is_auto_attack);
+    if (include_aa_skip && CheckTheNextNskills(skill_ev,
+                                               next_rota_skill,
+                                               2,
+                                               true,
+                                               rotation_run,
+                                               last_skill))
+    {
+        num_skills_wo_match = 0U;
+
+        if (next_rota_skill.skill_data.is_auto_attack &&
+            next_next_rota_skill.skill_data.is_auto_attack)
+        {
+            last_time_aa_did_skip = std::chrono::steady_clock::now();
+        }
+
+        return;
+    }
+#endif
+
+    const auto curr_is_auto_attack =
+        IsSkillAutoAttack(skill_ev.SkillID,
+                          skill_ev.SkillName,
+                          Globals::RotationRun.skill_data_map);
+
+#ifdef USE_SKIP_NEXT_NEXT_SKILL
+    const auto next_next_is_okay =
+        (next_next_rota_skill.is_special_skill ||
+         !next_next_rota_skill.skill_data.is_auto_attack);
+
+    if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
+                                                    next_next_rota_skill,
+                                                    3,
+                                                    next_next_is_okay,
+                                                    rotation_run,
+                                                    last_skill))
+    {
+        num_skills_wo_match = 0U;
+        return;
+    }
+#endif
+
+#ifdef USE_SKIP_NEXT_NEXT_NEXT_SKILL
+    const auto next_next_next_is_okay =
+        (next_next_rota_skill.is_special_skill ||
+         !next_next_next_rota_skill.skill_data.is_auto_attack);
+
+    if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
+                                                    next_next_next_rota_skill,
+                                                    4,
+                                                    next_next_next_is_okay,
+                                                    rotation_run,
+                                                    last_skill))
+    {
+        num_skills_wo_match = 0U;
+        return;
+    }
+#endif
+
+    if (!curr_is_auto_attack)
+        ++num_skills_wo_match;
+
+    if (num_skills_wo_match > 5)
+    {
+        if (curr_rota_skill.skill_data.is_auto_attack || curr_is_auto_attack)
+            return;
+
+        const auto now = std::chrono::steady_clock::now();
+        const auto duration_since_last_match =
+            std::chrono::duration_cast<std::chrono::seconds>(
+                now - time_since_last_match)
+                .count();
+
+        if (duration_since_last_match < 10)
+            return;
+
+        for (auto it = rotation_run.todo_rotation_steps.begin();
+             it != rotation_run.todo_rotation_steps.end();
+             ++it)
+        {
+            const auto diff =
+                std::distance(it, rotation_run.todo_rotation_steps.begin());
+            if (diff > 6)
+                return;
+
+            const auto rota_skill = *it;
+            if (rota_skill.skill_data.name == skill_ev.SkillName)
+            {
+                while (rotation_run.todo_rotation_steps.begin() != it)
+                    rotation_run.todo_rotation_steps.pop_front();
+
+                rotation_run.todo_rotation_steps.pop_front();
+
+                last_skill = skill_ev;
+                num_skills_wo_match = 0U;
+                time_since_last_match = now;
+                return;
+            }
+        }
+    }
+}
+
+SkillState get_skill_state(
+    const RotationRunType &rotation_run,
+    const std::vector<EvCombatDataPersistent> &played_rotation,
+    const size_t window_idx,
+    const size_t current_idx,
+    const bool is_auto_attack)
+{
+    const auto is_current = (window_idx == static_cast<int32_t>(current_idx));
+    const auto is_last =
+        (window_idx == Globals::RotationRun.all_rotation_steps.size() - 1);
+
+    return SkillState{
+        .is_current = is_current,
+        .is_last = is_last,
+        .is_auto_attack = is_auto_attack,
+    };
+}
+
 void RotationRunType::load_data(const std::filesystem::path &json_path,
                                 const std::filesystem::path &img_path)
 {
-    auto file{std::ifstream{json_path}};
-    auto j{nlohmann::json{}};
-    file >> j;
-
     skill_data_map.clear();
     log_skill_info_map.clear();
     all_rotation_steps.clear();
 
-    const auto skill_data_json =
-        json_path.parent_path().parent_path().parent_path().parent_path() /
-        "skills" / "gw2_skills_en.json";
-    auto file2{std::ifstream{skill_data_json}};
-    auto j2{nlohmann::json{}};
-    file2 >> j2;
+    auto jsons_skill_data = nlohmann::json{};
+    const auto load_success = load_skill_data_map(json_path, jsons_skill_data);
+    if (!load_success)
+        return;
+    skill_data_map = get_skill_data_map(jsons_skill_data);
 
-    skill_data_map = get_skill_data_map(j2);
-    auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] =
-        get_dpsreport_data(j, json_path, skill_data_map, skill_rules);
+    const auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] =
+        get_dpsreport_data(json_path,
+                           skill_data_map,
+                           skill_rules,
+                           skill_cast_time_map);
 
     log_skill_info_map = _skill_info_map;
     all_rotation_steps = _bench_all_rotation_steps;

@@ -39,7 +39,8 @@ AddonDefinition AddonDef{};
 std::filesystem::path AddonPath;
 ID3D11Device *pd3dDevice = nullptr;
 
-void ToggleShowWindowGW2_RotaHelper(const char *keybindIdentifier, bool)
+
+void ToggleShowWindowGW2_RotaHelper(const char *, bool)
 {
     Settings::ToggleShowWindow(Globals::SettingsPath);
 }
@@ -54,7 +55,7 @@ void RegisterQuickAccessShortcut()
     Globals::APIDefs->InputBinds.RegisterWithString(
         KB_TOGGLE_GW2_RotaHelper,
         ToggleShowWindowGW2_RotaHelper,
-        "CTRL+Q");
+        "(null)");
 }
 
 void DeregisterQuickAccessShortcut()
@@ -160,12 +161,11 @@ void AddonLoad(AddonAPI *aApi)
 
     if (Globals::APIDefs && Globals::APIDefs->DataLink.Get)
     {
-        IDXGISwapChain *pSwapChain =
-            (IDXGISwapChain *)Globals::APIDefs->SwapChain;
+        auto *pSwapChain = (IDXGISwapChain *)Globals::APIDefs->SwapChain;
         if (pSwapChain)
         {
-            HRESULT hr = pSwapChain->GetDevice(__uuidof(ID3D11Device),
-                                               (void **)&pd3dDevice);
+            auto hr = pSwapChain->GetDevice(__uuidof(ID3D11Device),
+                                            (void **)&pd3dDevice);
             if (FAILED(hr))
                 pd3dDevice = nullptr;
         }
@@ -224,7 +224,7 @@ void AddonRender()
         profession = curr_profession;
     }
 
-    Globals::Render.toggle_vis(Settings::ShowWindow);
+    Globals::Render.set_show_window(Settings::ShowWindow);
     Globals::Render.render(pd3dDevice);
 }
 
