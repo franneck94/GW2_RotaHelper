@@ -2,9 +2,9 @@
 #define VERSION_H
 
 #define MAJOR 0
-#define MINOR 6
+#define MINOR 7
 #define BUILD 0
-#define REVISION 3
+#define REVISION 1
 
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
