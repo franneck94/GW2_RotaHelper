@@ -39,9 +39,19 @@ AddonDefinition AddonDef{};
 std::filesystem::path AddonPath;
 ID3D11Device *pd3dDevice = nullptr;
 
-void ToggleShowWindowGW2_RotaHelper(const char *keybindIdentifier, bool)
+static bool ctrlQWasPressed = false;
+
+void ToggleShowWindowGW2_RotaHelper(const char *keybindIdentifier, bool isPressed)
 {
-    Settings::ToggleShowWindow(Globals::SettingsPath);
+    if (isPressed && !ctrlQWasPressed)
+    {
+        Settings::ToggleShowWindow(Globals::SettingsPath);
+        ctrlQWasPressed = true;
+    }
+    else if (!isPressed)
+    {
+        ctrlQWasPressed = false;
+    }
 }
 
 void RegisterQuickAccessShortcut()
