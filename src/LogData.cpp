@@ -22,16 +22,60 @@
 
 #include "nlohmann/json.hpp"
 
-#include "FileUtils.h"
 #include "LogData.h"
+
+#include "FileUtils.h"
 #include "Settings.h"
+#include "Shared.h"
 #include "Types.h"
 #include "TypesUtils.h"
 
 using json = nlohmann::json;
 
+
 namespace
 {
+bool IsSkillAutoAttack(const uint64_t skill_id,
+                       const std::string &skill_name,
+                       const SkillDataMap &skill_data_map)
+{
+    auto it = skill_data_map.find(static_cast<int>(skill_id));
+
+    if (it != skill_data_map.end())
+        return it->second.is_auto_attack;
+
+    for (const auto &[skill_id, skill_data] : skill_data_map)
+    {
+        if (skill_data.name == skill_name)
+        {
+            return skill_data.is_auto_attack;
+        }
+    }
+
+    return false;
+}
+
+bool CheckTheNextNskills(const EvCombatDataPersistent &skill_ev,
+                         const RotationStep &future_rota_skill,
+                         const uint32_t n,
+                         const bool is_okay,
+                         RotationRunType &rotation_run,
+                         EvCombatDataPersistent &last_skill)
+{
+    auto is_match =
+        ((future_rota_skill.skill_data.name == skill_ev.SkillName) && is_okay);
+
+    if (is_match)
+    {
+        for (uint32_t i = 0; i < n; ++i)
+            rotation_run.todo_rotation_steps.pop_front();
+
+        last_skill = skill_ev;
+    }
+
+    return is_match;
+}
+
 void collect_json(const json &jval,
                   IntNode &node,
                   const bool drop_first_char = false)
@@ -720,6 +764,191 @@ std::list<std::future<void>> StartDownloadAllSkillIcons(
     return futures;
 }
 } // namespace
+
+void SimpleSkillDetectionLogic(
+    uint32_t &num_skills_wo_match,
+    std::chrono::steady_clock::time_point &time_since_last_match,
+    RotationRunType &rotation_run,
+    const EvCombatDataPersistent &skill_ev,
+    EvCombatDataPersistent &last_skill)
+{
+    auto curr_rota_skill = RotationStep{};
+    auto next_rota_skill = RotationStep{};
+    auto next_next_rota_skill = RotationStep{};
+    auto next_next_next_rota_skill = RotationStep{};
+    auto it = rotation_run.todo_rotation_steps.begin();
+
+    if (num_skills_wo_match == 0)
+        time_since_last_match = std::chrono::steady_clock::now();
+
+    if (rotation_run.todo_rotation_steps.size() > 1)
+    {
+        curr_rota_skill = *it;
+
+        while (curr_rota_skill.is_special_skill &&
+               rotation_run.todo_rotation_steps.size() > 2)
+        {
+            rotation_run.todo_rotation_steps.pop_front();
+            it = rotation_run.todo_rotation_steps.begin();
+            curr_rota_skill = *it;
+        }
+
+        ++it;
+    }
+    if (rotation_run.todo_rotation_steps.size() > 2)
+    {
+        next_rota_skill = *it;
+        ++it;
+    }
+    if (rotation_run.todo_rotation_steps.size() > 3)
+    {
+        next_next_rota_skill = *it;
+        ++it;
+    }
+    if (rotation_run.todo_rotation_steps.size() > 4)
+    {
+        next_next_next_rota_skill = *it;
+        ++it;
+    }
+
+    if (CheckTheNextNskills(skill_ev,
+                            curr_rota_skill,
+                            1,
+                            true,
+                            rotation_run,
+                            last_skill))
+    {
+        num_skills_wo_match = 0U;
+        return;
+    }
+
+#ifdef USE_SKIP_NEXT_SKILL
+    const auto now = std::chrono::steady_clock::now();
+    const auto time_since_last_aa_skip =
+        std::chrono::duration_cast<std::chrono::seconds>(now -
+                                                         last_time_aa_did_skip)
+            .count();
+
+    const auto include_aa_skip = (time_since_last_aa_skip > 3 ||
+                                  !next_rota_skill.skill_data.is_auto_attack);
+    if (include_aa_skip && CheckTheNextNskills(skill_ev,
+                                               next_rota_skill,
+                                               2,
+                                               true,
+                                               rotation_run,
+                                               last_skill))
+    {
+        num_skills_wo_match = 0U;
+
+        if (next_rota_skill.skill_data.is_auto_attack &&
+            next_next_rota_skill.skill_data.is_auto_attack)
+        {
+            last_time_aa_did_skip = std::chrono::steady_clock::now();
+        }
+
+        return;
+    }
+#endif
+
+    const auto curr_is_auto_attack =
+        IsSkillAutoAttack(skill_ev.SkillID,
+                          skill_ev.SkillName,
+                          Globals::RotationRun.skill_data_map);
+
+#ifdef USE_SKIP_NEXT_NEXT_SKILL
+    const auto next_next_is_okay =
+        (next_next_rota_skill.is_special_skill ||
+         !next_next_rota_skill.skill_data.is_auto_attack);
+
+    if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
+                                                    next_next_rota_skill,
+                                                    3,
+                                                    next_next_is_okay,
+                                                    rotation_run,
+                                                    last_skill))
+    {
+        num_skills_wo_match = 0U;
+        return;
+    }
+#endif
+
+#ifdef USE_SKIP_NEXT_NEXT_NEXT_SKILL
+    const auto next_next_next_is_okay =
+        (next_next_rota_skill.is_special_skill ||
+         !next_next_next_rota_skill.skill_data.is_auto_attack);
+
+    if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
+                                                    next_next_next_rota_skill,
+                                                    4,
+                                                    next_next_next_is_okay,
+                                                    rotation_run,
+                                                    last_skill))
+    {
+        num_skills_wo_match = 0U;
+        return;
+    }
+#endif
+
+    if (!curr_is_auto_attack)
+        ++num_skills_wo_match;
+
+    if (num_skills_wo_match > 5)
+    {
+        if (curr_rota_skill.skill_data.is_auto_attack || curr_is_auto_attack)
+            return;
+
+        const auto now = std::chrono::steady_clock::now();
+        const auto duration_since_last_match =
+            std::chrono::duration_cast<std::chrono::seconds>(
+                now - time_since_last_match)
+                .count();
+
+        if (duration_since_last_match < 10)
+            return;
+
+        for (auto it = rotation_run.todo_rotation_steps.begin();
+             it != rotation_run.todo_rotation_steps.end();
+             ++it)
+        {
+            const auto diff =
+                std::distance(it, rotation_run.todo_rotation_steps.begin());
+            if (diff > 6)
+                return;
+
+            const auto rota_skill = *it;
+            if (rota_skill.skill_data.name == skill_ev.SkillName)
+            {
+                while (rotation_run.todo_rotation_steps.begin() != it)
+                    rotation_run.todo_rotation_steps.pop_front();
+
+                rotation_run.todo_rotation_steps.pop_front();
+
+                last_skill = skill_ev;
+                num_skills_wo_match = 0U;
+                time_since_last_match = now;
+                return;
+            }
+        }
+    }
+}
+
+SkillState get_skill_state(
+    const RotationRunType &rotation_run,
+    const std::vector<EvCombatDataPersistent> &played_rotation,
+    const size_t window_idx,
+    const size_t current_idx,
+    const bool is_auto_attack)
+{
+    const auto is_current = (window_idx == static_cast<int32_t>(current_idx));
+    const auto is_last =
+        (window_idx == Globals::RotationRun.all_rotation_steps.size() - 1);
+
+    return SkillState{
+        .is_current = is_current,
+        .is_last = is_last,
+        .is_auto_attack = is_auto_attack,
+    };
+}
 
 void RotationRunType::load_data(const std::filesystem::path &json_path,
                                 const std::filesystem::path &img_path)

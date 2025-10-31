@@ -33,3 +33,8 @@ bool load_rotaion_json(const std::filesystem::path &json_path,
 
 bool load_skill_data_map(const std::filesystem::path &json_path,
                          nlohmann::json &j);
+
+std::string format_build_name(const std::string &raw_name);
+
+std::vector<BenchFileInfo> get_bench_files(
+    const std::filesystem::path &bench_path);

@@ -267,3 +267,89 @@ bool load_skill_data_map(const std::filesystem::path &json_path,
 
     return true;
 }
+
+std::string format_build_name(const std::string &raw_name)
+{
+    auto result = raw_name;
+
+    const auto start = result.find_first_not_of(" \t");
+    if (start != std::string::npos)
+        result = result.substr(start);
+
+    if (result.starts_with("condition_"))
+        result = result.substr(10); // Remove "condition_"
+    else if (result.starts_with("power_"))
+        result = result.substr(6); // Remove "power_"
+
+    std::replace(result.begin(), result.end(), '_', ' ');
+
+    bool capitalize_next = true;
+    std::ranges::transform(result, result.begin(), [&capitalize_next](char c) {
+        if (c == ' ')
+        {
+            capitalize_next = true;
+            return c;
+        }
+
+        if (capitalize_next)
+        {
+            capitalize_next = false;
+            return static_cast<char>(std::toupper(c));
+        }
+
+        return static_cast<char>(std::tolower(c));
+    });
+
+    return "    " + result;
+}
+
+std::vector<BenchFileInfo> get_bench_files(
+    const std::filesystem::path &bench_path)
+{
+    auto files = std::vector<BenchFileInfo>{};
+    auto directory_files =
+        std::map<std::string, std::vector<std::filesystem::path>>{};
+
+    try
+    {
+        for (const auto &entry :
+             std::filesystem::recursive_directory_iterator(bench_path))
+        {
+            if (entry.is_regular_file() && entry.path().extension() == ".json")
+            {
+                auto relative_path =
+                    std::filesystem::relative(entry.path(), bench_path);
+                auto parent_dir = relative_path.parent_path().string();
+
+                if (parent_dir.empty())
+                    parent_dir = ".";
+
+                directory_files[parent_dir].push_back(entry.path());
+            }
+        }
+
+        for (const auto &[dir_name, dir_files] : directory_files)
+        {
+            if (dir_name != ".")
+            {
+                auto header_path = bench_path / dir_name;
+                files.emplace_back(header_path,
+                                   std::filesystem::path(dir_name),
+                                   true);
+            }
+
+            for (const auto &file_path : dir_files)
+            {
+                auto relative_path =
+                    std::filesystem::relative(file_path, bench_path);
+                files.emplace_back(file_path, relative_path, false);
+            }
+        }
+    }
+    catch (const std::filesystem::filesystem_error &ex)
+    {
+        std::cerr << "Error scanning bench files: " << ex.what() << std::endl;
+    }
+
+    return files;
+}

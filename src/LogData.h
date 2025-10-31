@@ -19,6 +19,22 @@
 
 using json = nlohmann::json;
 
+class RotationRunType;
+
+void SimpleSkillDetectionLogic(
+    uint32_t &num_skills_wo_match,
+    std::chrono::steady_clock::time_point &time_since_last_match,
+    RotationRunType &rotation_run,
+    const EvCombatDataPersistent &skill_ev,
+    EvCombatDataPersistent &last_skill);
+
+SkillState get_skill_state(
+    const RotationRunType &rotation_run,
+    const std::vector<EvCombatDataPersistent> &played_rotation,
+    const size_t window_idx,
+    const size_t current_idx,
+    const bool is_auto_attack);
+
 struct SkillRules
 {
     const std::set<std::string> &skills_substr_weapon_swap_like;
@@ -272,11 +288,11 @@ public:
     };
 
     const static inline std::map<std::string, float> skill_cast_time_map = {
-        {"Essence Blast", 0.75f}, // rit shroud aa
-        {"Life Rend", 0.5f}, // reaper shroud aa
-        {"Life Slash", 0.5f}, // reaper shroud aa
-        {"Life Reap", 0.5f}, // reaper shroud aa
-        {"Tainted Bolts", 0.5f}, // harbinger shroud aa
+        {"Essence Blast", 0.75f},   // rit shroud aa
+        {"Life Rend", 0.5f},        // reaper shroud aa
+        {"Life Slash", 0.5f},       // reaper shroud aa
+        {"Life Reap", 0.5f},        // reaper shroud aa
+        {"Tainted Bolts", 0.5f},    // harbinger shroud aa
         {"Hail of Justice", 1.25f}, // guard pistol 4
         {"Cleansing Flame", 1.25f}, // guard torch 5
     };
