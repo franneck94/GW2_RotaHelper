@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Improvements
 
 - Made skill icons resizable
+- Show dodge when "weapon swap" option is active
 
 ### Notes
 
