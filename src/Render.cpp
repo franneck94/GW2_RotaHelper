@@ -33,198 +33,11 @@
 #include "Textures.h"
 #include "Types.h"
 #include "TypesUtils.h"
+#include "FileUtils.h"
 
 namespace
 {
 static auto last_time_aa_did_skip = std::chrono::steady_clock::time_point{};
-
-std::string to_lowercase(const std::string &str)
-{
-    std::string result = str;
-    std::transform(result.begin(), result.end(), result.begin(), ::tolower);
-    return result;
-}
-
-std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
-          std::set<std::string>>
-get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
-                    std::string &filter_string)
-{
-    auto filtered_files = std::vector<std::pair<int, const BenchFileInfo *>>{};
-    auto directories_with_matches = std::set<std::string>{};
-
-    if (filter_string.empty())
-    {
-        // When filter is empty, filter by current character's profession
-        const auto profession = get_current_profession_name();
-        auto current_profession = to_lowercase(profession);
-
-        if (current_profession.empty())
-        {
-            // If no profession available, show all files
-            for (int n = 0; n < benches_files.size(); n++)
-                filtered_files.emplace_back(n, &benches_files[n]);
-        }
-        else
-        {
-            // Get elite specs for this profession
-            auto profession_id = string_to_profession(current_profession);
-            auto elite_specs = get_elite_specs_for_profession(profession_id);
-
-            // First pass: find files that match the profession or elite specs and collect their directories
-            for (int n = 0; n < benches_files.size(); n++)
-            {
-                const auto &file_info = benches_files[n];
-
-                if (!file_info.is_directory_header)
-                {
-                    auto display_lower = to_lowercase(file_info.display_name);
-                    auto path_lower =
-                        to_lowercase(file_info.relative_path.string());
-
-                    bool matches = false;
-
-                    // Check if file matches current profession
-                    if ((display_lower.find(current_profession) !=
-                         std::string::npos) ||
-                        (path_lower.find(current_profession) !=
-                         std::string::npos))
-                    {
-                        matches = true;
-                    }
-
-                    // Check if file matches any elite spec for this profession
-                    if (!matches)
-                    {
-                        for (const auto &elite_spec : elite_specs)
-                        {
-                            if (display_lower.find(elite_spec) !=
-                                    std::string::npos ||
-                                path_lower.find(elite_spec) !=
-                                    std::string::npos)
-                            {
-                                matches = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (matches)
-                    {
-                        const auto parent_dir =
-                            file_info.relative_path.parent_path().string();
-                        if (!parent_dir.empty() && parent_dir != ".")
-                        {
-                            directories_with_matches.insert(parent_dir);
-                        }
-                    }
-                }
-            }
-
-            // Second pass: add directory headers and matching files to filtered list
-            for (int n = 0; n < benches_files.size(); n++)
-            {
-                const auto &file_info = benches_files[n];
-
-                if (file_info.is_directory_header)
-                {
-                    if (directories_with_matches.count(
-                            file_info.relative_path.string()) > 0)
-                    {
-                        filtered_files.emplace_back(n, &file_info);
-                    }
-                }
-                else
-                {
-                    auto display_lower = to_lowercase(file_info.display_name);
-                    auto path_lower =
-                        to_lowercase(file_info.relative_path.string());
-
-                    bool matches = false;
-
-                    // Check if file matches current profession
-                    if (display_lower.find(current_profession) !=
-                            std::string::npos ||
-                        path_lower.find(current_profession) !=
-                            std::string::npos)
-                    {
-                        matches = true;
-                    }
-
-                    // Check if file matches any elite spec for this profession
-                    if (!matches)
-                    {
-                        for (const auto &elite_spec : elite_specs)
-                        {
-                            if (display_lower.find(elite_spec) !=
-                                    std::string::npos ||
-                                path_lower.find(elite_spec) !=
-                                    std::string::npos)
-                            {
-                                matches = true;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (matches)
-                    {
-                        filtered_files.emplace_back(n, &file_info);
-                    }
-                }
-            }
-        }
-
-        return std::make_pair(filtered_files, directories_with_matches);
-    }
-
-    // First pass: find all files that match and collect their directories
-    for (int n = 0; n < benches_files.size(); n++)
-    {
-        const auto &file_info = benches_files[n];
-
-        if (!file_info.is_directory_header)
-        {
-            auto display_lower = to_lowercase(file_info.display_name);
-
-            if (display_lower.find(filter_string) != std::string::npos)
-            {
-                const auto parent_dir =
-                    file_info.relative_path.parent_path().string();
-                if (!parent_dir.empty() && parent_dir != ".")
-                {
-                    directories_with_matches.insert(parent_dir);
-                }
-            }
-        }
-    }
-
-    // Second pass: add directory headers and matching files to filtered list
-    for (int n = 0; n < benches_files.size(); n++)
-    {
-        const auto &file_info = benches_files[n];
-
-        if (file_info.is_directory_header)
-        {
-            if (directories_with_matches.count(
-                    file_info.relative_path.string()) > 0)
-            {
-                filtered_files.emplace_back(n, &file_info);
-            }
-        }
-        else
-        {
-            auto display_lower = to_lowercase(file_info.display_name);
-
-            if (display_lower.find(filter_string) != std::string::npos)
-            {
-                filtered_files.emplace_back(n, &file_info);
-            }
-        }
-    }
-
-    return std::make_pair(filtered_files, directories_with_matches);
-}
 
 void DrawRect(const RotationStep &rotation_step,
               const std::string &text,
@@ -619,62 +432,6 @@ SkillState get_skill_state(
         .is_completed_incorrect = is_completed_incorrect,
     };
 }
-
-bool SKillCastIsTooEarlyWrtRechargeTime(
-    const std::chrono::steady_clock::time_point &now,
-    const EvCombatDataPersistent &combat_data,
-    std::map<uint64_t, std::chrono::steady_clock::time_point>
-        &skill_last_cast_times)
-{
-    auto last_cast_time = skill_last_cast_times[combat_data.SkillID];
-    skill_last_cast_times[combat_data.SkillID] = now;
-
-    const auto skill_data_map_it = Globals::RotationRun.skill_data_map.find(
-        static_cast<int>(combat_data.SkillID));
-
-    if (skill_data_map_it != Globals::RotationRun.skill_data_map.end())
-    {
-        auto current_profession = get_current_profession_name();
-        auto profession_lower = to_lowercase(current_profession);
-
-        auto is_mesmer_weapon_4 = false;
-        auto is_berserker_f1 = false;
-
-        if (profession_lower == "mesmer")
-        {
-            // TODO: For Chrono - CS reset
-            is_mesmer_weapon_4 = RotationRunType::mesmer_weapon_4_skills.count(
-                                     combat_data.SkillID) > 0;
-        }
-        else if (profession_lower == "warrior")
-        {
-            is_berserker_f1 = RotationRunType::berserker_f1_skills.count(
-                                  combat_data.SkillID) > 0;
-        }
-
-        if (!is_mesmer_weapon_4 && !is_berserker_f1)
-        {
-            const auto &skill_data = skill_data_map_it->second;
-            const auto recharge_time_s = skill_data.recharge_time;
-            const auto recharge_time_w_alac_s =
-                static_cast<int>(recharge_time_s * 0.8f);
-
-            const auto cast_time_diff = now - last_cast_time;
-            const auto cast_time_diff_s =
-                std::chrono::duration_cast<std::chrono::seconds>(cast_time_diff)
-                    .count();
-            const auto recharge_duration_s =
-                std::chrono::seconds(recharge_time_w_alac_s);
-
-            if (cast_time_diff_s < recharge_time_w_alac_s * 0.7 &&
-                recharge_time_w_alac_s > 0 &&
-                !skill_data.is_auto_attack) // XXX: Hacky
-                return true;
-        }
-    }
-
-    return false;
-}
 } // namespace
 
 RenderType::RenderType()
@@ -695,52 +452,36 @@ void RenderType::set_data_path(const std::filesystem::path &path)
     benches_files = get_bench_files(bench_path);
 }
 
+void RenderType::append_to_played_rotation(
+    const EvCombatDataPersistent &combat_data)
+{
+    if (played_rotation.size() > 300)
+    {
+        auto last_100 =
+            std::vector<EvCombatDataPersistent>(played_rotation.end() - 100,
+                                                played_rotation.end());
+        played_rotation = std::move(last_100);
+    }
+
+    played_rotation.push_back(combat_data);
+}
+
 void RenderType::skill_activation_callback(
     const bool pressed,
     const EvCombatDataPersistent &combat_data)
 {
-    static auto skill_last_cast_times =
-        std::map<uint64_t, std::chrono::steady_clock::time_point>{};
-
     key_press_event_in_this_frame = pressed;
 
     if (pressed)
     {
-        std::lock_guard<std::mutex> lock(played_rotation_mutex);
-
-        const auto now = std::chrono::steady_clock::now();
-
-        if (skill_last_cast_times.find(combat_data.SkillID) !=
-            skill_last_cast_times.end())
-        {
-            if (SKillCastIsTooEarlyWrtRechargeTime(now,
-                                                   combat_data,
-                                                   skill_last_cast_times))
-                return;
-        }
-        else
-        {
-            skill_last_cast_times[combat_data.SkillID] = now;
-        }
-
         curr_combat_data = combat_data;
 
-        if (played_rotation.size() > 300)
-        {
-            auto last_100 =
-                std::vector<EvCombatDataPersistent>(played_rotation.end() - 100,
-                                                    played_rotation.end());
-            played_rotation = std::move(last_100);
-        }
-
-        played_rotation.push_back(combat_data);
+        append_to_played_rotation(combat_data);
     }
 }
 
 EvCombatDataPersistent RenderType::get_current_skill()
 {
-    std::lock_guard<std::mutex> lock(played_rotation_mutex);
-
     if (!key_press_event_in_this_frame)
     {
         auto skill_ev = EvCombatDataPersistent{};
@@ -1151,7 +892,6 @@ void RenderType::restart_rotation()
     Globals::RotationRun.restart_rotation();
     ReleaseTextureMap(Globals::TextureMap);
 
-    std::lock_guard<std::mutex> lock(played_rotation_mutex);
     played_rotation.clear();
     curr_combat_data = EvCombatDataPersistent{};
 

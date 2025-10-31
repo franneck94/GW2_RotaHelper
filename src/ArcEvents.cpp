@@ -14,6 +14,8 @@
 #include "ArcEvents.h"
 
 #include "Defines.h"
+#include "FileUtils.h"
+#include "MumbleUtils.h"
 #include "Shared.h"
 #include "Types.h"
 
@@ -45,7 +47,8 @@ bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
 #endif
 
     const auto &skill_data_map = Globals::RotationRun.skill_data_map;
-    const auto found = skill_data_map.find(evCbtData.SkillID) != skill_data_map.end();
+    const auto found =
+        skill_data_map.find(evCbtData.SkillID) != skill_data_map.end();
     return found;
 }
 
@@ -94,6 +97,62 @@ std::chrono::steady_clock::time_point GetLastCastTime(
 
     const auto now = UpdateCastTime(last_cast_map, evCbtData);
     return now;
+}
+
+bool SKillCastIsTooEarlyWrtRechargeTime(
+    const std::chrono::steady_clock::time_point &now,
+    const EvCombatDataPersistent &combat_data,
+    std::map<uint64_t, std::chrono::steady_clock::time_point>
+        &skill_last_cast_times)
+{
+    auto last_cast_time = skill_last_cast_times[combat_data.SkillID];
+    skill_last_cast_times[combat_data.SkillID] = now;
+
+    const auto skill_data_map_it = Globals::RotationRun.skill_data_map.find(
+        static_cast<int>(combat_data.SkillID));
+
+    if (skill_data_map_it != Globals::RotationRun.skill_data_map.end())
+    {
+        auto current_profession = get_current_profession_name();
+        auto profession_lower = to_lowercase(current_profession);
+
+        auto is_mesmer_weapon_4 = false;
+        auto is_berserker_f1 = false;
+
+        if (profession_lower == "mesmer")
+        {
+            // TODO: For Chrono - CS reset
+            is_mesmer_weapon_4 = RotationRunType::mesmer_weapon_4_skills.count(
+                                     combat_data.SkillID) > 0;
+        }
+        else if (profession_lower == "warrior")
+        {
+            is_berserker_f1 = RotationRunType::berserker_f1_skills.count(
+                                  combat_data.SkillID) > 0;
+        }
+
+        if (!is_mesmer_weapon_4 && !is_berserker_f1)
+        {
+            const auto &skill_data = skill_data_map_it->second;
+            const auto recharge_time_s = skill_data.recharge_time;
+            const auto recharge_time_w_alac_s =
+                static_cast<int>(recharge_time_s * 0.8f);
+
+            const auto cast_time_diff = now - last_cast_time;
+            const auto cast_time_diff_s =
+                std::chrono::duration_cast<std::chrono::seconds>(cast_time_diff)
+                    .count();
+            const auto recharge_duration_s =
+                std::chrono::seconds(recharge_time_w_alac_s);
+
+            if (cast_time_diff_s < recharge_time_w_alac_s * 0.7 &&
+                recharge_time_w_alac_s > 0 &&
+                !skill_data.is_auto_attack) // XXX: Hacky
+                return true;
+        }
+    }
+
+    return false;
 }
 
 bool IsNotTheSameCast(const EvCombatDataPersistent &evCbtData)

@@ -11,62 +11,10 @@
 
 #include "imgui.h"
 
+#include "FileUtils.h"
 #include "LogData.h"
 #include "Textures.h"
 #include "Types.h"
-
-struct BenchFileInfo
-{
-    std::filesystem::path full_path;
-    std::filesystem::path relative_path;
-    std::string display_name;
-    bool is_directory_header;
-
-    BenchFileInfo(const std::filesystem::path &full,
-                  const std::filesystem::path &relative,
-                  bool is_header = false)
-        : full_path(full), relative_path(relative),
-          is_directory_header(is_header)
-    {
-        if (is_header)
-        {
-            display_name = "[+] " + relative.string();
-        }
-        else
-        {
-            auto filename = relative.filename().string();
-            if (filename.ends_with("_v4.json"))
-            {
-                filename = filename.substr(0, filename.length() - 8);
-            }
-            display_name = "    " + filename;
-        }
-    }
-};
-
-struct MatchCandidate
-{
-    size_t rotation_index;
-    float confidence_score;
-    size_t skills_to_advance;
-};
-
-struct MatchResult
-{
-    size_t position;
-    float confidence;
-    size_t advance_count;
-};
-
-struct SkillState
-{
-    bool is_history;
-    bool is_current;
-    bool is_last;
-    bool is_auto_attack;
-    bool is_completed_correct;
-    bool is_completed_incorrect;
-};
 
 class RenderType
 {
@@ -101,6 +49,7 @@ public:
     /* HELPER */
     float calculate_centered_position(
         const std::vector<std::string> &items) const;
+    void append_to_played_rotation(const EvCombatDataPersistent &combat_data);
     void skill_activation_callback(const bool pressed,
                                    const EvCombatDataPersistent &combat_data);
     void set_show_window(const bool flag);

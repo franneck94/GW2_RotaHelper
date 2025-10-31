@@ -325,7 +325,7 @@ void get_rotation_info(const IntNode &node,
                     continue;
             }
 
-            // TODO
+            // TODO: is this always weapon swap?
             if (skill_data.skill_id == 0)
             {
                 skill_data.skill_id = icon_id;
