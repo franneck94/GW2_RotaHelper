@@ -269,4 +269,14 @@ public:
         72007, // Phantasmal Sharpshooter (Rifle)
         72946  // Phantasmal Lancer (Spear)
     };
+
+    const static inline std::map<std::string, float> skill_cast_time_map = {
+        {"Essence Blast", 0.75f}, // rit shroud aa
+        {"Life Rend", 0.5f}, // reaper shroud aa
+        {"Life Slash", 0.5f}, // reaper shroud aa
+        {"Life Reap", 0.5f}, // reaper shroud aa
+        {"Tainted Bolts", 0.5f}, // harbinger shroud aa
+        {"Hail of Justice", 1.25f}, // guard pistol 4
+        {"Cleansing Flame", 1.25f}, // guard torch 5
+    };
 };

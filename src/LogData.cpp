@@ -207,8 +207,11 @@ bool get_is_skill_dropped(const SkillData &skill_data,
                             skill_rules.skills_match_weapon_swap_like,
                             true);
 
+        const auto is_unknownm =
+            skill_data.name.find("Unknown Skill") != std::string::npos;
+
         drop_skill = is_substr_drop_match || is_exact_drop_match ||
-                     drop_substr_swap || drop_match_swap;
+                     drop_substr_swap || drop_match_swap || is_unknownm;
     }
 
     return drop_skill;
@@ -334,7 +337,8 @@ void get_rotation_info(const IntNode &node,
                 skill_data.cast_time_with_quickness = -1.0f;
             }
 
-            const auto drop_skill = get_is_skill_dropped(skill_data, skill_rules);
+            const auto drop_skill =
+                get_is_skill_dropped(skill_data, skill_rules);
 
             if (!drop_skill)
             {
@@ -411,40 +415,50 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
             skill_obj["is_auto_attack"].is_boolean())
             skill_data.is_auto_attack = skill_obj["is_auto_attack"].get<bool>();
         else
-            skill_data.is_auto_attack = false; // Default to false
+            skill_data.is_auto_attack = false;
 
         if (skill_obj.contains("is_weapon_skill") &&
             skill_obj["is_weapon_skill"].is_boolean())
             skill_data.is_weapon_skill =
                 skill_obj["is_weapon_skill"].get<bool>();
         else
-            skill_data.is_weapon_skill = false; // Default to false
+            skill_data.is_weapon_skill = false;
 
         if (skill_obj.contains("is_utility_skill") &&
             skill_obj["is_utility_skill"].is_boolean())
             skill_data.is_utility_skill =
                 skill_obj["is_utility_skill"].get<bool>();
         else
-            skill_data.is_utility_skill = false; // Default to false
+            skill_data.is_utility_skill = false;
 
         if (skill_obj.contains("is_elite_skill") &&
             skill_obj["is_elite_skill"].is_boolean())
             skill_data.is_elite_skill = skill_obj["is_elite_skill"].get<bool>();
         else
-            skill_data.is_elite_skill = false; // Default to false
+            skill_data.is_elite_skill = false;
 
         if (skill_obj.contains("is_heal_skill") &&
             skill_obj["is_heal_skill"].is_boolean())
             skill_data.is_heal_skill = skill_obj["is_heal_skill"].get<bool>();
         else
-            skill_data.is_heal_skill = false; // Default to false
+            skill_data.is_heal_skill = false;
 
         if (skill_obj.contains("is_profession_skill") &&
             skill_obj["is_profession_skill"].is_boolean())
             skill_data.is_profession_skill =
                 skill_obj["is_profession_skill"].get<bool>();
         else
-            skill_data.is_profession_skill = false; // Default to false
+            skill_data.is_profession_skill = false;
+
+        if (skill_obj.contains("skill_type") &&
+            skill_obj["skill_type"].is_string())
+        {
+            const auto _type_str = skill_obj["skill_type"].get<std::string>();
+            skill_data.skill_type =
+                static_cast<SkillType>(std::stoi(_type_str));
+        }
+        else
+            skill_data.skill_type = SkillType::NONE;
 
         skill_data.icon_id = 0; // Default value
         if (skill_obj.contains("icon") && skill_obj["icon"].is_string())
