@@ -1,7 +1,10 @@
 #include <filesystem>
+#include <fstream>
 #include <set>
 #include <string>
 #include <vector>
+
+#include "nlohmann/json.hpp"
 
 #include "FileUtils.h"
 #include "MumbleUtils.h"
@@ -213,4 +216,69 @@ get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
     }
 
     return std::make_pair(filtered_files, directories_with_matches);
+}
+
+
+bool load_rotaion_json(const std::filesystem::path &json_path,
+                       nlohmann::json &j)
+{
+    try
+    {
+        auto file{std::ifstream{json_path}};
+        if (!file.is_open())
+        {
+            std::cerr << "Error: Could not open rotation data file: "
+                      << json_path << std::endl;
+            return false;
+        }
+
+        auto j{nlohmann::json{}};
+        file >> j;
+    }
+    catch (const nlohmann::json::exception &e)
+    {
+        std::cerr << "Error parsing rotation data JSON: " << e.what()
+                  << std::endl;
+        return false;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Error loading rotation data: " << e.what() << std::endl;
+        return false;
+    }
+
+    return true;
+}
+
+bool load_skill_data_map(const std::filesystem::path &json_path,
+                         nlohmann::json &j)
+{
+    const auto skill_data_json =
+        json_path.parent_path().parent_path().parent_path().parent_path() /
+        "skills" / "gw2_skills_en.json";
+
+    try
+    {
+        auto file2{std::ifstream{skill_data_json}};
+        if (!file2.is_open())
+        {
+            std::cerr << "Warning: Could not open skill data file: "
+                      << skill_data_json << std::endl;
+            return false;
+        }
+
+        file2 >> j;
+    }
+    catch (const nlohmann::json::exception &e)
+    {
+        std::cerr << "Error parsing skill data JSON: " << e.what() << std::endl;
+        return false;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Error loading skill data: " << e.what() << std::endl;
+        return false;
+    }
+
+    return true;
 }

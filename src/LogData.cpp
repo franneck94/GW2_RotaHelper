@@ -22,6 +22,7 @@
 
 #include "nlohmann/json.hpp"
 
+#include "FileUtils.h"
 #include "LogData.h"
 #include "Settings.h"
 #include "Types.h"
@@ -571,12 +572,16 @@ MetaData get_metadata(const nlohmann::json &j)
 }
 
 std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
-    const nlohmann::json &j,
     const std::filesystem::path &json_path,
     const SkillDataMap &skill_data_map,
     const SkillRules &skill_rules,
     const std::map<std::string, float> &skill_cast_time_map)
 {
+    auto j = nlohmann::json{};
+    auto is_load_success = load_rotaion_json(json_path, j);
+    if (!is_load_success)
+        return std::make_tuple(LogSkillInfoMap{}, RotationSteps{}, MetaData{});
+
     const auto rotation_data = j["rotation"];
     const auto skill_data = j["skillMap"];
 
@@ -719,25 +724,19 @@ std::list<std::future<void>> StartDownloadAllSkillIcons(
 void RotationRunType::load_data(const std::filesystem::path &json_path,
                                 const std::filesystem::path &img_path)
 {
-    auto file{std::ifstream{json_path}};
-    auto j{nlohmann::json{}};
-    file >> j;
-
     skill_data_map.clear();
     log_skill_info_map.clear();
     all_rotation_steps.clear();
 
-    const auto skill_data_json =
-        json_path.parent_path().parent_path().parent_path().parent_path() /
-        "skills" / "gw2_skills_en.json";
-    auto file2{std::ifstream{skill_data_json}};
-    auto j2{nlohmann::json{}};
-    file2 >> j2;
+    auto j = nlohmann::json{};
+    const auto load_success = load_skill_data_map(json_path, j);
+    if (!load_success)
+        return;
 
-    skill_data_map = get_skill_data_map(j2);
-    auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] =
-        get_dpsreport_data(j,
-                           json_path,
+    skill_data_map = get_skill_data_map(j);
+
+    const auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] =
+        get_dpsreport_data(json_path,
                            skill_data_map,
                            skill_rules,
                            skill_cast_time_map);
