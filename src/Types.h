@@ -96,9 +96,9 @@ struct SkillData
     int icon_id;
     int skill_id;
     std::string name;
-    int recharge_time;
+    float recharge_time;
     float recharge_time_with_alacrity;
-    int cast_time;
+    float cast_time;
     float cast_time_with_quickness;
     bool is_auto_attack;
     bool is_weapon_skill;

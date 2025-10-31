@@ -240,7 +240,8 @@ void get_rotation_info(const IntNode &node,
                        const LogSkillInfoMap &log_skill_info_map,
                        RotationSteps &all_rotation_steps,
                        const SkillDataMap &skill_data_map,
-                       const SkillRules &skill_rules)
+                       const SkillRules &skill_rules,
+                       const std::map<std::string, float> &skill_cast_time_map)
 {
     for (const auto &rotation_entry : node.children)
     {
@@ -357,6 +358,13 @@ void get_rotation_info(const IntNode &node,
 
                 if (is_duplicate_skill && was_there_previous)
                     continue;
+
+                const auto cast_time_it =
+                    skill_cast_time_map.find(skill_data.name);
+                if (cast_time_it != skill_cast_time_map.end())
+                {
+                    skill_data.cast_time = cast_time_it->second;
+                }
 
                 all_rotation_steps.push_back(
                     RotationStep{.time_of_cast = time_of_cast,
@@ -566,7 +574,8 @@ std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
     const nlohmann::json &j,
     const std::filesystem::path &json_path,
     const SkillDataMap &skill_data_map,
-    const SkillRules &skill_rules)
+    const SkillRules &skill_rules,
+    const std::map<std::string, float> &skill_cast_time_map)
 {
     const auto rotation_data = j["rotation"];
     const auto skill_data = j["skillMap"];
@@ -583,7 +592,8 @@ std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
                       log_skill_info_map,
                       rotation_steps,
                       skill_data_map,
-                      skill_rules);
+                      skill_rules,
+                      skill_cast_time_map);
 
     auto metadata = get_metadata(j);
 
@@ -726,7 +736,11 @@ void RotationRunType::load_data(const std::filesystem::path &json_path,
 
     skill_data_map = get_skill_data_map(j2);
     auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] =
-        get_dpsreport_data(j, json_path, skill_data_map, skill_rules);
+        get_dpsreport_data(j,
+                           json_path,
+                           skill_data_map,
+                           skill_rules,
+                           skill_cast_time_map);
 
     log_skill_info_map = _skill_info_map;
     all_rotation_steps = _bench_all_rotation_steps;

@@ -99,7 +99,7 @@ std::chrono::steady_clock::time_point GetLastCastTime(
     return now;
 }
 
-bool SKillCastIsTooEarlyWrtRechargeTime(
+bool SKillCastIsTooEarlyWrtSkillData(
     const std::chrono::steady_clock::time_point &now,
     const EvCombatDataPersistent &combat_data,
     std::map<uint64_t, std::chrono::steady_clock::time_point>
@@ -134,16 +134,17 @@ bool SKillCastIsTooEarlyWrtRechargeTime(
         if (!is_mesmer_weapon_4 && !is_berserker_f1)
         {
             const auto &skill_data = skill_data_map_it->second;
-            const auto recharge_time_s = skill_data.recharge_time;
             const auto recharge_time_w_alac_s =
-                static_cast<int>(recharge_time_s * 0.8f);
+                skill_data.recharge_time_with_alacrity;
+            const auto cast_time_w_quick_s =
+                skill_data.cast_time_with_quickness * 0.8f;
 
             const auto cast_time_diff = now - last_cast_time;
             const auto cast_time_diff_s =
                 std::chrono::duration_cast<std::chrono::seconds>(cast_time_diff)
                     .count();
             const auto recharge_duration_s =
-                std::chrono::seconds(recharge_time_w_alac_s);
+                std::chrono::seconds(static_cast<int>(recharge_time_w_alac_s));
 
             if (cast_time_diff_s < recharge_time_w_alac_s * 0.7 &&
                 recharge_time_w_alac_s > 0 &&
@@ -175,9 +176,9 @@ bool IsNotTheSameCast(const EvCombatDataPersistent &combat_data)
     if (skill_last_cast_times.find(combat_data.SkillID) !=
         skill_last_cast_times.end())
     {
-        if (SKillCastIsTooEarlyWrtRechargeTime(now,
-                                               combat_data,
-                                               skill_last_cast_times))
+        if (SKillCastIsTooEarlyWrtSkillData(now,
+                                            combat_data,
+                                            skill_last_cast_times))
             return false;
     }
     else
