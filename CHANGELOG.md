@@ -13,7 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Improvements
 
-- Fixed Ctrl+Q Keybind for opening/closing the options window
+- .
+
+### Notes
+
+- Dropped Ctrl+Q Keybind
 
 ## 0.6.0 - 2025-10-31
 

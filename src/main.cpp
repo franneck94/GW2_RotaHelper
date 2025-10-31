@@ -100,7 +100,7 @@ int main(int, char **)
 
     // Our state
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-    Globals::Render.toggle_vis(true);
+    Globals::Render.set_show_window(true);
 
     auto data_path = std::filesystem::absolute(
         std::filesystem::path(__FILE__).parent_path().parent_path() / "data");

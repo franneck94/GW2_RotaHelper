@@ -758,7 +758,7 @@ EvCombatDataPersistent RenderType::get_current_skill()
     return curr_combat_data;
 }
 
-void RenderType::toggle_vis(const bool flag)
+void RenderType::set_show_window(const bool flag)
 {
     show_window = flag;
 }

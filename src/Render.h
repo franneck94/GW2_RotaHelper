@@ -103,7 +103,7 @@ public:
         const std::vector<std::string> &items) const;
     void skill_activation_callback(const bool pressed,
                                    const EvCombatDataPersistent &combat_data);
-    void toggle_vis(const bool flag);
+    void set_show_window(const bool flag);
     EvCombatDataPersistent get_current_skill();
     void CycleSkillsLogic(const EvCombatDataPersistent &skill_ev);
     void set_data_path(const std::filesystem::path &path);
