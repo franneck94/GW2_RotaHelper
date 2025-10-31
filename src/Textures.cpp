@@ -138,7 +138,7 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device,
 }
 
 TextureMapType LoadAllSkillTextures(ID3D11Device *device,
-                                    const SkillInfoMap &skill_info_map,
+                                    const LogSkillInfoMap &log_skill_info_map,
                                     const std::filesystem::path &img_folder)
 {
     if (!device)
@@ -146,7 +146,7 @@ TextureMapType LoadAllSkillTextures(ID3D11Device *device,
 
     TextureMapType texture_map;
 
-    for (const auto &[icon_id, info] : skill_info_map)
+    for (const auto &[icon_id, info] : log_skill_info_map)
     {
         if (info.name.empty())
             continue;
@@ -170,7 +170,7 @@ TextureMapType LoadAllSkillTextures(ID3D11Device *device,
 
 TextureMapType LoadAllSkillTexturesWithAPI(
     AddonAPI *api_defs,
-    const SkillInfoMap &skill_info_map,
+    const LogSkillInfoMap &log_skill_info_map,
     const std::filesystem::path &img_folder)
 {
     if (!api_defs)
@@ -178,7 +178,7 @@ TextureMapType LoadAllSkillTexturesWithAPI(
 
     TextureMapType texture_map;
 
-    for (const auto &[icon_id, info] : skill_info_map)
+    for (const auto &[icon_id, info] : log_skill_info_map)
     {
         if (info.name.empty())
             continue;

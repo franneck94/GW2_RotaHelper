@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
+
 project(GW2RotaHelper_Addon)
 
 set(CMAKE_CXX_STANDARD 23)
@@ -29,7 +30,6 @@ file(GLOB IMGUI_SOURCES
     ${imgui_SOURCE_DIR}/backends/imgui_impl_dx11.cpp
 )
 target_sources(third_party_libs PRIVATE ${IMGUI_SOURCES})
-
 
 add_library(nexus INTERFACE
     "nexus/Nexus.h"
@@ -67,7 +67,7 @@ add_library(first_party_libs STATIC
     "src/ArcEvents.cpp"
     "src/Textures.cpp"
     "src/MumbleUtils.cpp"
-    "src/MemoryReader.cpp"
+    $<$<CONFIG:Debug>:src/MemoryReader.cpp>
 )
 set_source_files_properties("src/resource.rc" PROPERTIES LANGUAGE RC)
 target_include_directories(first_party_libs PUBLIC
@@ -89,7 +89,7 @@ target_link_libraries(GW2RotaHelper_App PRIVATE
 add_library(GW2RotaHelper SHARED
     "src/entry.cpp"
 )
-target_compile_definitions(GW2RotaHelper PRIVATE GW2_NEXUS_ADDON)
+target_compile_definitions(GW2RotaHelper PUBLIC GW2_NEXUS_ADDON)
 target_link_libraries(GW2RotaHelper PRIVATE
     third_party_libs
     first_party_libs
@@ -105,5 +105,5 @@ add_custom_command(TARGET GW2RotaHelper POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>"
         "D:/GW2_2/addons" || (exit 0)
-    COMMENT "Copying $<CONFIG> files to GW2 addons directory"
+    COMMENT "Copying binary files to GW2 addons directory"
 )

@@ -26,7 +26,5 @@ std::filesystem::path Globals::SettingsPath;
 float SkillIconSize = 28.0F;
 std::string VersionString = std::string{VERSION_STRING};
 
-#ifdef _DEBUG
-GW2MemoryReader MemoryReader;
-#endif
+Mumble::Identity Identity = {};
 }; // namespace Globals

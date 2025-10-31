@@ -32,101 +32,17 @@
 #include "Shared.h"
 #include "Textures.h"
 #include "Types.h"
+#include "TypesUtils.h"
 
 namespace
 {
 static auto last_time_aa_did_skip = std::chrono::steady_clock::time_point{};
-
-// Function to get skill casting information from memory
-#ifdef _DEBUG
-EvCombatDataPersistent GetMemorySkillCast()
-{
-    EvCombatDataPersistent skill_data = {};
-
-    SkillCastInfo memory_skill = Globals::MemoryReader.GetCurrentSkillCast();
-
-    if (memory_skill.is_casting && memory_skill.skill_id != 0)
-    {
-        skill_data.SkillID = memory_skill.skill_id;
-        skill_data.SkillName = memory_skill.skill_name;
-        // Fill other fields as needed
-        skill_data.SrcName = "Player"; // You might want to get this from Mumble
-    }
-
-    return skill_data;
-}
-
-// Function to check if we should use memory reading vs ArcDPS events
-bool ShouldUseMemoryReading()
-{
-    // Use memory reading as fallback or primary source
-    // You can add logic here to decide when to use memory vs ArcDPS
-    return true;
-}
-#endif
 
 std::string to_lowercase(const std::string &str)
 {
     std::string result = str;
     std::transform(result.begin(), result.end(), result.begin(), ::tolower);
     return result;
-}
-
-std::string get_current_profession_name()
-{
-    if (!Globals::MumbleData)
-        return "";
-
-    try
-    {
-        auto identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
-        return profession_to_string(
-            static_cast<ProfessionID>(identity.Profession));
-    }
-    catch (...)
-    {
-        return "";
-    }
-}
-
-std::vector<std::string> get_elite_specs_for_profession(ProfessionID profession)
-{
-    std::vector<std::string> elite_specs;
-
-    switch (profession)
-    {
-    case ProfessionID::GUARDIAN:
-        elite_specs = {"dragonhunter", "firebrand", "willbender", "luminary"};
-        break;
-    case ProfessionID::WARRIOR:
-        elite_specs = {"berserker", "spellbreaker", "bladesworn", "paragon"};
-        break;
-    case ProfessionID::ENGINEER:
-        elite_specs = {"scrapper", "holosmith", "mechanist", "amalgam"};
-        break;
-    case ProfessionID::RANGER:
-        elite_specs = {"druid", "soulbeast", "untamed", "galeshot"};
-        break;
-    case ProfessionID::THIEF:
-        elite_specs = {"daredevil", "deadeye", "specter", "antiquary"};
-        break;
-    case ProfessionID::ELEMENTALIST:
-        elite_specs = {"tempest", "weaver", "catalyst", "evoker"};
-        break;
-    case ProfessionID::MESMER:
-        elite_specs = {"chronomancer", "mirage", "virtuoso", "troubadour"};
-        break;
-    case ProfessionID::NECROMANCER:
-        elite_specs = {"reaper", "scourge", "harbinger", "ritualist"};
-        break;
-    case ProfessionID::REVENANT:
-        elite_specs = {"herald", "renegade", "vindicator", "conduit"};
-        break;
-    default:
-        break;
-    }
-
-    return elite_specs;
 }
 
 std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
@@ -310,7 +226,7 @@ get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
     return std::make_pair(filtered_files, directories_with_matches);
 }
 
-void DrawRect(const RotationInfo &skill_info,
+void DrawRect(const RotationStep &rotation_step,
               const std::string &text,
               const ImU32 color,
               const float border_thickness = 2.0f)
@@ -462,19 +378,19 @@ std::vector<BenchFileInfo> get_bench_files(
 }
 
 bool CheckTheNextNskills(const EvCombatDataPersistent &skill_ev,
-                         const RotationInfo &future_rota_skill,
+                         const RotationStep &future_rota_skill,
                          const uint32_t n,
                          const bool is_okay,
                          RotationRunType &rotation_run,
                          EvCombatDataPersistent &last_skill)
 {
     auto is_match =
-        ((future_rota_skill.skill_name == skill_ev.SkillName) && is_okay);
+        ((future_rota_skill.skill_data.name == skill_ev.SkillName) && is_okay);
 
     if (is_match)
     {
         for (uint32_t i = 0; i < n; ++i)
-            rotation_run.bench_rotation_list.pop_front();
+            rotation_run.todo_rotation_steps.pop_front();
 
         last_skill = skill_ev;
     }
@@ -489,52 +405,40 @@ void SimpleSkillDetectionLogic(
     const EvCombatDataPersistent &skill_ev,
     EvCombatDataPersistent &last_skill)
 {
-    static auto wait_time_point = std::chrono::steady_clock::now();
-
-    auto curr_rota_skill = RotationInfo{};
-    auto next_rota_skill = RotationInfo{};
-    auto next_next_rota_skill = RotationInfo{};
-    auto next_next_next_rota_skill = RotationInfo{};
-    auto it = rotation_run.bench_rotation_list.begin();
-
-    auto now = std::chrono::steady_clock::now();
-    auto duration_since_wait =
-        std::chrono::duration_cast<std::chrono::milliseconds>(now -
-                                                              wait_time_point)
-            .count();
-
-    if (duration_since_wait < 50) // wait 50ms to detect next skill
-        return;
-    wait_time_point = std::chrono::steady_clock::now();
+    auto curr_rota_skill = RotationStep{};
+    auto next_rota_skill = RotationStep{};
+    auto next_next_rota_skill = RotationStep{};
+    auto next_next_next_rota_skill = RotationStep{};
+    auto it = rotation_run.todo_rotation_steps.begin();
 
     if (num_skills_wo_match == 0)
         time_since_last_match = std::chrono::steady_clock::now();
 
-    if (rotation_run.bench_rotation_list.size() > 1)
+    if (rotation_run.todo_rotation_steps.size() > 1)
     {
         curr_rota_skill = *it;
 
         while (curr_rota_skill.is_special_skill &&
-               rotation_run.bench_rotation_list.size() > 2)
+               rotation_run.todo_rotation_steps.size() > 2)
         {
-            rotation_run.bench_rotation_list.pop_front();
-            it = rotation_run.bench_rotation_list.begin();
+            rotation_run.todo_rotation_steps.pop_front();
+            it = rotation_run.todo_rotation_steps.begin();
             curr_rota_skill = *it;
         }
 
         ++it;
     }
-    if (rotation_run.bench_rotation_list.size() > 2)
+    if (rotation_run.todo_rotation_steps.size() > 2)
     {
         next_rota_skill = *it;
         ++it;
     }
-    if (rotation_run.bench_rotation_list.size() > 3)
+    if (rotation_run.todo_rotation_steps.size() > 3)
     {
         next_next_rota_skill = *it;
         ++it;
     }
-    if (rotation_run.bench_rotation_list.size() > 4)
+    if (rotation_run.todo_rotation_steps.size() > 4)
     {
         next_next_next_rota_skill = *it;
         ++it;
@@ -552,13 +456,14 @@ void SimpleSkillDetectionLogic(
     }
 
 #ifdef USE_SKIP_NEXT_SKILL
+    const auto now = std::chrono::steady_clock::now();
     const auto time_since_last_aa_skip =
         std::chrono::duration_cast<std::chrono::seconds>(now -
                                                          last_time_aa_did_skip)
             .count();
 
-    const auto include_aa_skip =
-        (time_since_last_aa_skip > 3 || !next_rota_skill.is_auto_attack);
+    const auto include_aa_skip = (time_since_last_aa_skip > 3 ||
+                                  !next_rota_skill.skill_data.is_auto_attack);
     if (include_aa_skip && CheckTheNextNskills(skill_ev,
                                                next_rota_skill,
                                                2,
@@ -568,7 +473,8 @@ void SimpleSkillDetectionLogic(
     {
         num_skills_wo_match = 0U;
 
-        if (next_rota_skill.is_auto_attack && next_next_rota_skill.is_auto_attack)
+        if (next_rota_skill.skill_data.is_auto_attack &&
+            next_next_rota_skill.skill_data.is_auto_attack)
         {
             last_time_aa_did_skip = std::chrono::steady_clock::now();
         }
@@ -580,11 +486,12 @@ void SimpleSkillDetectionLogic(
     const auto curr_is_auto_attack =
         IsSkillAutoAttack(skill_ev.SkillID,
                           skill_ev.SkillName,
-                          Globals::RotationRun.skill_data);
+                          Globals::RotationRun.skill_data_map);
 
 #ifdef USE_SKIP_NEXT_NEXT_SKILL
-    const auto next_next_is_okay = (next_next_rota_skill.is_special_skill ||
-                                    !next_next_rota_skill.is_auto_attack);
+    const auto next_next_is_okay =
+        (next_next_rota_skill.is_special_skill ||
+         !next_next_rota_skill.skill_data.is_auto_attack);
 
     if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
                                                     next_next_rota_skill,
@@ -601,7 +508,7 @@ void SimpleSkillDetectionLogic(
 #ifdef USE_SKIP_NEXT_NEXT_NEXT_SKILL
     const auto next_next_next_is_okay =
         (next_next_rota_skill.is_special_skill ||
-         !next_next_next_rota_skill.is_auto_attack);
+         !next_next_next_rota_skill.skill_data.is_auto_attack);
 
     if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
                                                     next_next_next_rota_skill,
@@ -620,7 +527,7 @@ void SimpleSkillDetectionLogic(
 
     if (num_skills_wo_match > 5)
     {
-        if (curr_rota_skill.is_auto_attack || curr_is_auto_attack)
+        if (curr_rota_skill.skill_data.is_auto_attack || curr_is_auto_attack)
             return;
 
         const auto now = std::chrono::steady_clock::now();
@@ -632,22 +539,22 @@ void SimpleSkillDetectionLogic(
         if (duration_since_last_match < 10)
             return;
 
-        for (auto it = rotation_run.bench_rotation_list.begin();
-             it != rotation_run.bench_rotation_list.end();
+        for (auto it = rotation_run.todo_rotation_steps.begin();
+             it != rotation_run.todo_rotation_steps.end();
              ++it)
         {
             const auto diff =
-                std::distance(it, rotation_run.bench_rotation_list.begin());
+                std::distance(it, rotation_run.todo_rotation_steps.begin());
             if (diff > 6)
                 return;
 
             const auto rota_skill = *it;
-            if (rota_skill.skill_name == skill_ev.SkillName)
+            if (rota_skill.skill_data.name == skill_ev.SkillName)
             {
-                while (rotation_run.bench_rotation_list.begin() != it)
-                    rotation_run.bench_rotation_list.pop_front();
+                while (rotation_run.todo_rotation_steps.begin() != it)
+                    rotation_run.todo_rotation_steps.pop_front();
 
-                rotation_run.bench_rotation_list.pop_front();
+                rotation_run.todo_rotation_steps.pop_front();
 
                 last_skill = skill_ev;
                 num_skills_wo_match = 0U;
@@ -658,9 +565,9 @@ void SimpleSkillDetectionLogic(
     }
 }
 
-std::string get_skill_text(const RotationInfo &skill_info)
+std::string get_skill_text(const RotationStep &rotation_step)
 {
-    auto text = skill_info.skill_name;
+    auto text = rotation_step.skill_data.name;
 
     if (Settings::ShowSkillTime)
     {
@@ -669,7 +576,7 @@ std::string get_skill_text(const RotationInfo &skill_info)
         snprintf(time_buffer,
                  sizeof(time_buffer),
                  "%.2f",
-                 skill_info.cast_time);
+                 rotation_step.time_of_cast);
         text += time_buffer;
         text += ")";
     }
@@ -686,7 +593,7 @@ SkillState get_skill_state(
 {
     const auto is_current = (window_idx == static_cast<int32_t>(current_idx));
     const auto is_last =
-        (window_idx == Globals::RotationRun.rotation_vector.size() - 1);
+        (window_idx == Globals::RotationRun.all_rotation_steps.size() - 1);
     const auto is_completed = (window_idx < static_cast<int32_t>(current_idx));
 
     auto is_completed_correct = false;
@@ -695,10 +602,11 @@ SkillState get_skill_state(
     {
         const auto casted_skill = played_rotation[window_idx];
         const auto bench_skill =
-            Globals::RotationRun.rotation_vector[window_idx];
+            Globals::RotationRun.all_rotation_steps[window_idx];
 
         is_completed_correct =
-            (casted_skill.SkillName == bench_skill.skill_name) ? true : false;
+            (casted_skill.SkillName == bench_skill.skill_data.name) ? true
+                                                                    : false;
         is_completed_incorrect = !is_completed_correct;
     }
 
@@ -710,6 +618,62 @@ SkillState get_skill_state(
         .is_completed_correct = is_completed_correct,
         .is_completed_incorrect = is_completed_incorrect,
     };
+}
+
+bool SKillCastIsTooEarlyWrtRechargeTime(
+    const std::chrono::steady_clock::time_point &now,
+    const EvCombatDataPersistent &combat_data,
+    std::map<uint64_t, std::chrono::steady_clock::time_point>
+        &skill_last_cast_times)
+{
+    auto last_cast_time = skill_last_cast_times[combat_data.SkillID];
+    skill_last_cast_times[combat_data.SkillID] = now;
+
+    const auto skill_data_map_it = Globals::RotationRun.skill_data_map.find(
+        static_cast<int>(combat_data.SkillID));
+
+    if (skill_data_map_it != Globals::RotationRun.skill_data_map.end())
+    {
+        auto current_profession = get_current_profession_name();
+        auto profession_lower = to_lowercase(current_profession);
+
+        auto is_mesmer_weapon_4 = false;
+        auto is_berserker_f1 = false;
+
+        if (profession_lower == "mesmer")
+        {
+            // TODO: For Chrono - CS reset
+            is_mesmer_weapon_4 = RotationRunType::mesmer_weapon_4_skills.count(
+                                     combat_data.SkillID) > 0;
+        }
+        else if (profession_lower == "warrior")
+        {
+            is_berserker_f1 = RotationRunType::berserker_f1_skills.count(
+                                  combat_data.SkillID) > 0;
+        }
+
+        if (!is_mesmer_weapon_4 && !is_berserker_f1)
+        {
+            const auto &skill_data = skill_data_map_it->second;
+            const auto recharge_time_s = skill_data.recharge_time;
+            const auto recharge_time_w_alac_s =
+                static_cast<int>(recharge_time_s * 0.8f);
+
+            const auto cast_time_diff = now - last_cast_time;
+            const auto cast_time_diff_s =
+                std::chrono::duration_cast<std::chrono::seconds>(cast_time_diff)
+                    .count();
+            const auto recharge_duration_s =
+                std::chrono::seconds(recharge_time_w_alac_s);
+
+            if (cast_time_diff_s < recharge_time_w_alac_s * 0.7 &&
+                recharge_time_w_alac_s > 0 &&
+                !skill_data.is_auto_attack) // XXX: Hacky
+                return true;
+        }
+    }
+
+    return false;
 }
 } // namespace
 
@@ -735,7 +699,7 @@ void RenderType::skill_activation_callback(
     const bool pressed,
     const EvCombatDataPersistent &combat_data)
 {
-    static auto skill_last_cast_time =
+    static auto skill_last_cast_times =
         std::map<uint64_t, std::chrono::steady_clock::time_point>{};
 
     key_press_event_in_this_frame = pressed;
@@ -746,107 +710,17 @@ void RenderType::skill_activation_callback(
 
         const auto now = std::chrono::steady_clock::now();
 
-        auto last_cast_time = std::chrono::steady_clock::time_point{};
-        if (skill_last_cast_time.find(combat_data.SkillID) !=
-            skill_last_cast_time.end())
+        if (skill_last_cast_times.find(combat_data.SkillID) !=
+            skill_last_cast_times.end())
         {
-            last_cast_time = skill_last_cast_time[combat_data.SkillID];
-            skill_last_cast_time[combat_data.SkillID] = now;
-
-            const auto skill_data_it = Globals::RotationRun.skill_data.find(
-                static_cast<int>(combat_data.SkillID));
-
-            if (skill_data_it != Globals::RotationRun.skill_data.end())
-            {
-                auto current_profession = get_current_profession_name();
-                auto profession_lower = to_lowercase(current_profession);
-
-                auto is_mesmer_weapon_4 = false;
-                auto is_berserker_f1 = false;
-
-                if (profession_lower == "mesmer")
-                {
-                    // TODO: For Chrono - CS reset
-                    static const std::set<uint64_t> mesmer_weapon_4_skills = {
-                        10175, // Phantasmal Duelist (Pistol)
-                        10186, // Temporal Curtain (Focus)
-                        10221, // Phantasmal Berserker (Greatsword)
-                        10280, // Illusionary Riposte (Sword)
-                        10285, // The Prestige (Torch)
-                        10325, // Slipstream (Spear)
-                        10328, // Phantasmal Whaler (Trident)
-                        10331, // Chaos Armor (Staff)
-                        10358, // Counter Blade (Sword)
-                        10363, // Into the Void (Focus)
-                        29649, // Deja Vu (Shield)
-                        30769, // Echo of Memory (Shield)
-                        72007, // Phantasmal Sharpshooter (Rifle)
-                        72946  // Phantasmal Lancer (Spear)
-                    };
-
-                    is_mesmer_weapon_4 =
-                        mesmer_weapon_4_skills.count(combat_data.SkillID) > 0;
-                }
-                else if (profession_lower == "warrior")
-                {
-                    static const std::set<uint64_t> berserker_f1_skills = {
-                        14353, // Eviscerate (Axe)
-                        14367, // Flurry (Sword)
-                        14375, // Arcing Slice (Greatsword)
-                        14387, // Earthshaker (Hammer)
-                        14396, // Kill Shot (Rifle)
-                        14414, // Skull Crack (Mace)
-                        14443, // Whirling Strike (Spear)
-                        14469, // Forceful Shot (Speargun)
-                        14506, // Combustive Shot (Longbow)
-                        29644, // Gun Flame (Rifle)
-                        29679, // Skull Grinder (Mace)
-                        29852, // Arc Divider (Greatsword)
-                        29923, // Scorched Earth (Longbow)
-                        30682, // Flaming Flurry (Sword)
-                        30851, // Decapitate (Axe)
-                        30879, // Rupturing Smash (Hammer)
-                        30989, // Burning Shackles (Speargun)
-                        31048, // Wild Whirl (Spear)
-                        45252, // Breaching Strike (Dagger)
-                        62745, // Unsheathe Gunsaber (None)
-                        62861, // Sheathe Gunsaber (None)
-                        69290, // Slicing Maelstrom (Dagger)
-                        71875, // Rampart Splitter (Staff)
-                        71922, // Path to Victory (Staff)
-                        72911, // Harrier's Toss (Spear)
-                        73103  // Wild Throw (Spear)
-                    };
-
-                    is_berserker_f1 =
-                        berserker_f1_skills.count(combat_data.SkillID) > 0;
-                }
-
-                if (!is_mesmer_weapon_4 && !is_berserker_f1)
-                {
-                    const auto &skill_data = skill_data_it->second;
-                    const auto recharge_time_s = skill_data.recharge;
-                    const auto recharge_time_w_alac_s =
-                        static_cast<int>(recharge_time_s * 0.8f);
-
-                    const auto cast_time_diff = now - last_cast_time;
-                    const auto cast_time_diff_s =
-                        std::chrono::duration_cast<std::chrono::seconds>(
-                            cast_time_diff)
-                            .count();
-                    const auto recharge_duration_s =
-                        std::chrono::seconds(recharge_time_w_alac_s);
-
-                    if (cast_time_diff_s < recharge_time_w_alac_s * 0.5 &&
-                        recharge_time_w_alac_s > 0 &&
-                        !skill_data.is_auto_attack) // XXX: Hacky
-                        return;
-                }
-            }
+            if (SKillCastIsTooEarlyWrtRechargeTime(now,
+                                                   combat_data,
+                                                   skill_last_cast_times))
+                return;
         }
         else
         {
-            skill_last_cast_time[combat_data.SkillID] = now;
+            skill_last_cast_times[combat_data.SkillID] = now;
         }
 
         curr_combat_data = combat_data;
@@ -893,7 +767,7 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
 {
     static auto last_skill = EvCombatDataPersistent{};
 
-    if (Globals::RotationRun.bench_rotation_list.empty())
+    if (Globals::RotationRun.todo_rotation_steps.empty())
         return;
 
     if (skill_ev.SkillID == 0 || skill_ev.SkillID == -10000)
@@ -906,43 +780,140 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
                               last_skill);
 }
 
-void RenderType::render_debug_data()
+float RenderType::calculate_centered_position(
+    const std::vector<std::string> &items) const
 {
-    static auto identity = Mumble::Identity{};
-    static auto last_parse_time = std::chrono::steady_clock::now();
+    auto total_width = 0.0f;
 
-    if (!Globals::MumbleData)
-        return;
-
-    const auto now = std::chrono::steady_clock::now();
-    const auto time_since_last_parse =
-        std::chrono::duration_cast<std::chrono::seconds>(now - last_parse_time)
-            .count();
-
-    if (time_since_last_parse >= 2)
+    for (size_t i = 0; i < items.size(); ++i)
     {
-        identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
-        last_parse_time = now;
+        total_width += ImGui::CalcTextSize(items[i].c_str()).x;
+        total_width += ImGui::GetFrameHeight(); // Checkbox size
+
+        if (i < items.size() - 1)
+            total_width += ImGui::GetStyle().ItemSpacing.x;
     }
 
+    const auto window_width = ImGui::GetWindowSize().x;
+    return (window_width - total_width) * 0.5f;
+}
+
+void RenderType::render_debug_data()
+{
     ImGui::Separator();
-    ImGui::Text(
-        "Profession: %d (%s)",
-        static_cast<int>(identity.Profession),
-        profession_to_string(static_cast<ProfessionID>(identity.Profession))
-            .c_str());
-    ImGui::Text(
-        "Specialization: %u (%s)",
-        identity.Specialization,
-        elite_spec_to_string(static_cast<EliteSpecID>(identity.Specialization))
-            .c_str());
-    ImGui::Text("Map ID: %u", identity.MapID);
+    ImGui::Text("Profession: %d (%s)",
+                static_cast<int>(Globals::Identity.Profession),
+                profession_to_string(
+                    static_cast<ProfessionID>(Globals::Identity.Profession))
+                    .c_str());
+    ImGui::Text("Specialization: %u (%s)",
+                Globals::Identity.Specialization,
+                elite_spec_to_string(
+                    static_cast<EliteSpecID>(Globals::Identity.Specialization))
+                    .c_str());
+    ImGui::Text("Map ID: %u", Globals::Identity.MapID);
     ImGui::Text("Is in Combat: %d", Globals::MumbleData->Context.IsInCombat);
 
     ImGui::Text("Last Casted Skill ID: %u", curr_combat_data.SkillID);
     ImGui::Text("Last Casted Skill Name: %s",
                 curr_combat_data.SkillName.c_str());
     ImGui::Text("Last Event ID: %u", curr_combat_data.EventID);
+}
+
+void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
+{
+    const auto first_row_items =
+        std::vector<std::string>{"Names", "Times", "Horizontal"};
+    const auto centered_pos_row_1 =
+        calculate_centered_position(first_row_items);
+    ImGui::SetCursorPosX(centered_pos_row_1);
+
+    if (ImGui::Checkbox("Names", &Settings::ShowSkillName))
+    {
+        Settings::Save(Globals::SettingsPath);
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Checkbox("Times", &Settings::ShowSkillTime))
+    {
+        Settings::Save(Globals::SettingsPath);
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Checkbox("Horizontal", &Settings::HorizontalSkillLayout))
+    {
+        if (Settings::HorizontalSkillLayout)
+            Globals::SkillIconSize = 64.0F;
+        else
+            Globals::SkillIconSize = 28.0F;
+
+        Settings::Save(Globals::SettingsPath);
+    }
+
+    const auto second_row_items = std::vector<std::string>{
+        "Move Skill UI",
+        "Show Weapon Swaps",
+    };
+    const auto centered_pos_row_2 =
+        calculate_centered_position(second_row_items);
+    ImGui::SetCursorPosX(centered_pos_row_2);
+
+    if (ImGui::Checkbox("Move Skill UI", &is_not_ui_adjust_active))
+    {
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Checkbox("Show Weapon Swaps", &Settings::ShowWeaponSwap))
+    {
+        Settings::Save(Globals::SettingsPath);
+
+        if (selected_file_path != "")
+        {
+            Globals::RotationRun.reset_rotation();
+            Globals::RotationRun.load_data(selected_file_path, img_path);
+        }
+    }
+
+    const auto third_row_items = std::vector<std::string>{"Show Keybind"};
+    const auto centered_pos_row_3 =
+        calculate_centered_position(third_row_items);
+    ImGui::SetCursorPosX(centered_pos_row_3);
+
+    if (ImGui::Checkbox("Show Keybind", &Settings::ShowKeybind))
+    {
+        Settings::Save(Globals::SettingsPath);
+    }
+
+#ifdef _DEBUG
+#ifdef GW2_NEXUS_ADDON
+    if (ImGui::Button("Select XML File", ImVec2(-1, 0)))
+    {
+        OPENFILENAME ofn;
+        CHAR szFile[260] = {0};
+
+        ZeroMemory(&ofn, sizeof(ofn));
+        ofn.lStructSize = sizeof(ofn);
+        ofn.lpstrFile = szFile;
+        ofn.nMaxFile = sizeof(szFile);
+        ofn.lpstrFilter = "XML Files\0*.xml\0All Files\0*.*\0";
+        ofn.nFilterIndex = 1;
+        ofn.lpstrFileTitle = NULL;
+        ofn.nMaxFileTitle = 0;
+        ofn.lpstrInitialDir = "C:\\";
+        ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+        if (GetOpenFileName(&ofn) == TRUE)
+        {
+            // File selected, path is in szFile
+            // You can add your XML file processing logic here
+            ImGui::Text("Selected: %s", szFile);
+        }
+    }
+#endif
+#endif
 }
 
 void RenderType::render_options_window(bool &is_not_ui_adjust_active)
@@ -960,50 +931,24 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
                            Globals::VersionString.c_str());
 #endif
 
-        select_bench();
+        render_select_bench();
 
-        const auto checkbox_width =
-            ImGui::CalcTextSize("Names").x + ImGui::CalcTextSize("Times").x +
-            ImGui::GetStyle().ItemSpacing.x * 3 + ImGui::GetFrameHeight() * 2;
-        const auto window_width = ImGui::GetWindowSize().x;
-        ImGui::SetCursorPosX((window_width - checkbox_width) * 0.5f);
-
-        if (ImGui::Checkbox("Names", &Settings::ShowSkillName))
-        {
-            Settings::Save(Globals::SettingsPath);
-        }
-
-        ImGui::SameLine();
-
-        if (ImGui::Checkbox("Times", &Settings::ShowSkillTime))
-        {
-            Settings::Save(Globals::SettingsPath);
-        }
-
-        const auto checkbox_width2 = ImGui::CalcTextSize("Horizontal").x +
-                                     ImGui::CalcTextSize("Adjust UI").x +
-                                     ImGui::GetStyle().ItemSpacing.x * 3 +
-                                     ImGui::GetFrameHeight() * 2;
-        ImGui::SetCursorPosX((window_width - checkbox_width2) * 0.5f);
-
-        if (ImGui::Checkbox("Horizontal", &Settings::HorizontalSkillLayout))
-        {
-            if (Settings::HorizontalSkillLayout)
-                Globals::SkillIconSize = 64.0F;
-            else
-                Globals::SkillIconSize = 28.0F;
-
-            Settings::Save(Globals::SettingsPath);
-        }
-
-        ImGui::SameLine();
-
-        if (ImGui::Checkbox("Adjust UI", &is_not_ui_adjust_active))
-        {
-        }
+        render_options_checkboxes(is_not_ui_adjust_active);
 
 #ifdef _DEBUG
-        render_debug_data();
+#ifdef GW2_NEXUS_ADDON
+        if (ImGui::CollapsingHeader("Debug Data",
+                                    ImGuiTreeNodeFlags_DefaultOpen))
+        {
+            render_debug_data();
+        }
+#else
+        ImGuiIO &io = ImGui::GetIO();
+        (void)io;
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
+                    1000.0f / io.Framerate,
+                    io.Framerate);
+#endif
 #endif
     }
 
@@ -1018,20 +963,20 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
     ImGui::End();
 }
 
-void RenderType::select_bench()
+void RenderType::render_select_bench()
 {
-    text_filter();
+    render_text_filter();
 
     if (benches_files.empty())
         return;
 
-    selection();
+    render_selection();
 
-    reload_btn();
+    render_load_buttons();
 }
 
 
-void RenderType::text_filter()
+void RenderType::render_text_filter()
 {
     ImGui::Text("Filter:");
     ImGui::SameLine();
@@ -1080,7 +1025,7 @@ void RenderType::text_filter()
     }
 }
 
-void RenderType::selection()
+void RenderType::render_selection()
 {
     ImGui::Text("Select Bench File:");
 
@@ -1161,9 +1106,9 @@ void RenderType::selection()
                         selected_bench_index = original_index;
                         selected_file_path = file_info->full_path;
 
+                        ReleaseTextureMap(Globals::TextureMap);
                         Globals::RotationRun.load_data(selected_file_path,
                                                        img_path);
-                        ReleaseTextureMap(Globals::TextureMap);
 
                         ImGui::CloseCurrentPopup();
                     }
@@ -1177,15 +1122,26 @@ void RenderType::selection()
     }
 }
 
-void RenderType::reload_btn()
+void RenderType::render_load_buttons()
 {
     if (selected_bench_index >= 0 &&
         selected_bench_index < benches_files.size())
     {
-        if (ImGui::Button("Reload", ImVec2(-1, 0)))
+        const auto button_width = ImGui::GetWindowSize().x * 0.5f -
+                                  ImGui::GetStyle().ItemSpacing.x * 0.5f;
+
+        if (ImGui::Button("Reload", ImVec2(button_width, 0)))
         {
             if (!selected_file_path.empty())
                 restart_rotation();
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Unload", ImVec2(button_width, 0)))
+        {
+            restart_rotation();
+            Globals::RotationRun.reset_rotation();
         }
     }
 }
@@ -1203,6 +1159,7 @@ void RenderType::restart_rotation()
     num_skills_wo_match = 0U;
 
     last_time_aa_did_skip = std::chrono::steady_clock::now();
+    ArcEv::ResetSkillCastTracking();
 }
 
 void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,
@@ -1241,7 +1198,7 @@ void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,
                          &Settings::ShowWindow,
                          curr_flags_rota))
         {
-            rotation_render_details(pd3dDevice);
+            render_rotation_details(pd3dDevice);
         }
     }
     else
@@ -1250,14 +1207,14 @@ void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,
                          &Settings::ShowWindow,
                          curr_flags_rota))
         {
-            rotation_render_horizontal(pd3dDevice);
+            render_rotation_horizontal(pd3dDevice);
         }
     }
 
     ImGui::End();
 }
 
-void RenderType::rotation_render_details(ID3D11Device *pd3dDevice)
+void RenderType::render_rotation_details(ID3D11Device *pd3dDevice)
 {
     ImGui::Spacing();
     ImGui::Indent(10.0f);
@@ -1267,28 +1224,31 @@ void RenderType::rotation_render_details(ID3D11Device *pd3dDevice)
 
     for (int32_t window_idx = start; window_idx <= end; ++window_idx)
     {
-        if (window_idx < 0 || static_cast<size_t>(window_idx) >=
-                                  Globals::RotationRun.rotation_vector.size())
+        if (window_idx < 0 ||
+            static_cast<size_t>(window_idx) >=
+                Globals::RotationRun.all_rotation_steps.size())
             continue;
 
-        const auto &skill_info = Globals::RotationRun.get_rotation_skill(
+        const auto &rotation_step = Globals::RotationRun.get_rotation_skill(
             static_cast<size_t>(window_idx));
-        const auto *texture = Globals::TextureMap[skill_info.icon_id];
+        const auto *texture =
+            Globals::TextureMap[rotation_step.skill_data.icon_id];
 
-        const auto skill_state = get_skill_state(Globals::RotationRun,
-                                                 played_rotation,
-                                                 window_idx,
-                                                 current_idx,
-                                                 skill_info.is_auto_attack);
+        const auto skill_state =
+            get_skill_state(Globals::RotationRun,
+                            played_rotation,
+                            window_idx,
+                            current_idx,
+                            rotation_step.skill_data.is_auto_attack);
 
         auto text = std::string{};
         if ((!Settings::ShowSkillName && !Settings::ShowSkillTime))
             text = "";
         else
-            text = get_skill_text(skill_info);
+            text = get_skill_text(rotation_step);
 
         render_rotation_icons(skill_state,
-                              skill_info,
+                              rotation_step,
                               texture,
                               text,
                               pd3dDevice);
@@ -1314,7 +1274,7 @@ void RenderType::rotation_render_details(ID3D11Device *pd3dDevice)
     ImGui::Unindent(10.0f);
 }
 
-void RenderType::rotation_render_horizontal(ID3D11Device *pd3dDevice)
+void RenderType::render_rotation_horizontal(ID3D11Device *pd3dDevice)
 {
     ImGui::Spacing();
     ImGui::Indent(10.0f);
@@ -1324,23 +1284,26 @@ void RenderType::rotation_render_horizontal(ID3D11Device *pd3dDevice)
 
     for (int32_t window_idx = start; window_idx <= end; ++window_idx)
     {
-        if (window_idx < 0 || static_cast<size_t>(window_idx) >=
-                                  Globals::RotationRun.rotation_vector.size())
+        if (window_idx < 0 ||
+            static_cast<size_t>(window_idx) >=
+                Globals::RotationRun.all_rotation_steps.size())
             continue;
 
-        const auto &skill_info = Globals::RotationRun.get_rotation_skill(
+        const auto &rotation_step = Globals::RotationRun.get_rotation_skill(
             static_cast<size_t>(window_idx));
-        const auto *texture = Globals::TextureMap[skill_info.icon_id];
+        const auto *texture =
+            Globals::TextureMap[rotation_step.skill_data.icon_id];
 
-        const auto skill_state = get_skill_state(Globals::RotationRun,
-                                                 played_rotation,
-                                                 window_idx,
-                                                 current_idx,
-                                                 skill_info.is_auto_attack);
+        const auto skill_state =
+            get_skill_state(Globals::RotationRun,
+                            played_rotation,
+                            window_idx,
+                            current_idx,
+                            rotation_step.skill_data.is_auto_attack);
         const auto text = std::string{""};
 
         render_rotation_icons(skill_state,
-                              skill_info,
+                              rotation_step,
                               texture,
                               text,
                               pd3dDevice);
@@ -1353,19 +1316,19 @@ void RenderType::rotation_render_horizontal(ID3D11Device *pd3dDevice)
 
 
 void RenderType::render_rotation_icons(const SkillState &skill_state,
-                                       const RotationInfo &skill_info,
+                                       const RotationStep &rotation_step,
                                        const ID3D11ShaderResourceView *texture,
                                        const std::string &text,
                                        ID3D11Device *pd3dDevice)
 {
-    const auto is_special_skill = skill_info.is_special_skill;
+    const auto is_special_skill = rotation_step.is_special_skill;
 
     if (skill_state.is_current && !skill_state.is_last) // white
-        DrawRect(skill_info, text, IM_COL32(255, 255, 255, 255), 7.0F);
+        DrawRect(rotation_step, text, IM_COL32(255, 255, 255, 255), 7.0F);
     else if (skill_state.is_last) // pruple
-        DrawRect(skill_info, text, IM_COL32(128, 0, 128, 255));
-    else if (skill_info.is_auto_attack) // orange
-        DrawRect(skill_info, text, IM_COL32(255, 165, 0, 255));
+        DrawRect(rotation_step, text, IM_COL32(128, 0, 128, 255));
+    else if (rotation_step.skill_data.is_auto_attack) // orange
+        DrawRect(rotation_step, text, IM_COL32(255, 165, 0, 255));
 
     if (texture && pd3dDevice)
     {
@@ -1377,11 +1340,38 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
                      ImVec2(1, 1),
                      tint_color);
 
+        if (Settings::ShowKeybind)
+        {
+            auto *draw_list = ImGui::GetWindowDrawList();
+            auto icon_pos = ImGui::GetItemRectMin();
+            auto icon_size = ImGui::GetItemRectSize();
+            const auto skill_type = rotation_step.skill_data.skill_type;
+            const auto keybind = get_keybind_str(skill_type);
+            if (keybind != "")
+            {
+                auto text_size = ImGui::CalcTextSize(keybind.c_str());
+                auto padding = 2.0f;
+                auto text_pos =
+                    ImVec2(icon_pos.x + icon_size.x - text_size.x - padding,
+                           icon_pos.y + icon_size.y - text_size.y - padding);
+                // Draw background for readability
+                draw_list->AddRectFilled(ImVec2(text_pos.x - 2, text_pos.y - 1),
+                                         ImVec2(text_pos.x + text_size.x + 2,
+                                                text_pos.y + text_size.y + 1),
+                                         IM_COL32(0, 0, 0, 180),
+                                         3.0f);
+                // Draw keybind text
+                draw_list->AddText(text_pos,
+                                   IM_COL32(255, 255, 255, 255),
+                                   keybind.c_str());
+            }
+        }
+
         if (ImGui::IsItemHovered())
         {
             ImGui::BeginTooltip();
 
-            auto tooltip_text = get_skill_text(skill_info);
+            auto tooltip_text = get_skill_text(rotation_step);
             ImGui::Text("%s", tooltip_text.c_str());
 
             ImGui::EndTooltip();
@@ -1418,7 +1408,6 @@ void RenderType::render(ID3D11Device *pd3dDevice)
         if (time_since_went_ooc_ms > 1000)
         {
             restart_rotation();
-            ArcEv::ResetSkillCastTracking();
             time_went_ooc = std::chrono::steady_clock::now();
         }
     }
@@ -1443,14 +1432,14 @@ void RenderType::render(ID3D11Device *pd3dDevice)
         return;
     }
 
-    if (Globals::RotationRun.rotation_vector.size() == 0)
+    if (Globals::RotationRun.all_rotation_steps.size() == 0)
         return;
 
     if (Globals::TextureMap.size() == 0)
     {
         Globals::TextureMap =
             LoadAllSkillTextures(pd3dDevice,
-                                 Globals::RotationRun.skill_info_map,
+                                 Globals::RotationRun.log_skill_info_map,
                                  img_path);
     }
 

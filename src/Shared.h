@@ -10,7 +10,6 @@
 #include "nexus/Nexus.h"
 #include "rtapi/RTAPI.hpp"
 
-#include "MemoryReader.h"
 #include "Render.h"
 #include "Types.h"
 
@@ -31,9 +30,7 @@ extern std::filesystem::path SettingsPath;
 extern float SkillIconSize;
 extern std::string VersionString;
 
-#ifdef _DEBUG
-extern GW2MemoryReader MemoryReader;
-#endif
+extern Mumble::Identity Identity;
 }; // namespace Globals
 
 #endif

@@ -26,7 +26,12 @@ SLEEP_DELAY = 1.5
 class SnowCrowsScraper:
     """Scraper for SnowCrows benchmark DPS report links"""
 
-    def __init__(self, output_dir: Path, delay: float = 1.0, headless: bool = True):
+    def __init__(
+        self,
+        output_dir: Path,
+        delay: float = 1.0,
+        headless: bool = True,
+    ):
         self.output_dir = output_dir
         self.delay = delay  # Delay between requests to be respectful
         self.headless = headless
@@ -39,10 +44,16 @@ class SnowCrowsScraper:
             }
         )
 
-        logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(levelname)s: %(message)s",
+        )
         self.logger = logging.getLogger(__name__)
 
-        self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.output_dir.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
 
         self.elite_spec_to_profession = {
             # Guardian
@@ -50,47 +61,56 @@ class SnowCrowsScraper:
             "firebrand": "guardian",
             "willbender": "guardian",
             "guardian": "guardian",
+            "luminary": "guardian",
             # Warrior
             "berserker": "warrior",
             "spellbreaker": "warrior",
             "bladesworn": "warrior",
             "warrior": "warrior",
+            "paragon": "warrior",
             # Engineer
             "scrapper": "engineer",
             "holosmith": "engineer",
             "mechanist": "engineer",
             "engineer": "engineer",
+            "amalgam": "engineer",
             # Ranger
             "druid": "ranger",
             "soulbeast": "ranger",
             "untamed": "ranger",
             "ranger": "ranger",
+            "galeshot": "ranger",
             # Thief
             "daredevil": "thief",
             "deadeye": "thief",
             "specter": "thief",
             "spectre": "thief",
             "thief": "thief",
+            "antiquary": "thief",
             # Elementalist
             "tempest": "elementalist",
             "weaver": "elementalist",
             "catalyst": "elementalist",
             "elementalist": "elementalist",
+            "evoker": "elementalist",
             # Mesmer
             "chronomancer": "mesmer",
             "mirage": "mesmer",
             "virtuoso": "mesmer",
             "mesmer": "mesmer",
+            "troubadour": "mesmer",
             # Necromancer
             "reaper": "necromancer",
             "scourge": "necromancer",
             "harbinger": "necromancer",
             "necromancer": "necromancer",
+            "ritualist": "necromancer",
             # Revenant
             "herald": "revenant",
             "renegade": "revenant",
             "vindicator": "revenant",
             "revenant": "revenant",
+            "conduit ": "revenant",
         }
 
     def _setup_webdriver(self):
@@ -106,7 +126,10 @@ class SnowCrowsScraper:
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--window-size=1920,1080")
         chrome_options.add_argument(
-            "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            (
+                "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            )
         )
 
         try:
@@ -157,7 +180,7 @@ class SnowCrowsScraper:
                     re.IGNORECASE,
                 )
 
-                build_urls = build_url_pattern.findall(response.text)
+                build_urls: list[str] = build_url_pattern.findall(response.text)
                 self.logger.info(
                     f"Found {len(build_urls)} {benchmark_type.upper()} build URLs"
                 )
@@ -202,6 +225,66 @@ class SnowCrowsScraper:
             f"Found {len(unique_builds)} total unique builds across all benchmark types"
         )
         return unique_builds
+
+    def get_manual_builds_and_links(
+        self,
+        manual_file_path: Path,
+    ) -> list[dict]:
+        """Extract build info from manual JSON file"""
+        import json
+
+        if not manual_file_path.exists():
+            self.logger.error(f"Manual log list file not found: {manual_file_path}")
+            return []
+
+        try:
+            with open(manual_file_path, "r", encoding="utf-8") as f:
+                manual_logs: dict[str, str] = json.load(f)
+
+            self.logger.info(
+                f"Loaded {len(manual_logs)} manual log entries from {manual_file_path}"
+            )
+
+            builds_info = []
+            for build_name, dps_report_url in manual_logs.items():
+                # Parse build name to extract info
+                build_name_lower = build_name.lower()
+
+                # Determine build type
+                build_type = "condition" if "condition" in build_name_lower else "power"
+
+                # Determine benchmark type based on build name
+                benchmark_type = "dps"  # Default to dps
+                if "quick" in build_name_lower or "quickness" in build_name_lower:
+                    benchmark_type = "quick"
+                elif "alac" in build_name_lower or "alacrity" in build_name_lower:
+                    benchmark_type = "alac"
+
+                # Extract profession info from build name
+                profession, elite_spec = self._deduce_profession_from_build_name(
+                    build_name, build_name
+                )
+
+                build_info = {
+                    "name": build_name.replace("_", " ").title(),
+                    "url": f"manual:{build_name}",  # Mark as manual entry
+                    "benchmark_type": benchmark_type,
+                    "profession": profession,
+                    "elite_spec": elite_spec,
+                    "build_type": build_type,
+                    "url_name": build_name.lower().replace(" ", "_"),
+                    "dps_report_url": dps_report_url,
+                }
+                builds_info.append(build_info)
+
+            self.logger.info(f"Processed {len(builds_info)} manual build entries")
+            return builds_info
+
+        except Exception as e:
+            self.logger.error(
+                f"Error loading manual log list from {manual_file_path}: {e}"
+            )
+            return []
 
     def _url_to_readable_name(self, url_name: str) -> str:
         """Convert URL format build name to readable format"""
@@ -309,54 +392,91 @@ class SnowCrowsScraper:
 
             self.logger.info(f"Processing {build_name}: {url}")
 
-            if self.driver is None:
-                self._setup_webdriver()
+            # Check if this is a manual entry (already has dps_report_url)
+            if url.startswith("manual:") and "dps_report_url" in build_info:
+                dps_report_url = build_info["dps_report_url"]
+                self.logger.info(f"Using manual DPS report URL: {dps_report_url}")
+            else:
+                # Original SnowCrows processing
+                if self.driver is None:
+                    self._setup_webdriver()
 
-            self.driver.get(url)  # type: ignore
-            WebDriverWait(self.driver, 10).until(  # type: ignore
-                EC.presence_of_element_located((By.TAG_NAME, "body"))
-            )
-            time.sleep(SLEEP_DELAY)
-
-            try:
-                self.logger.info("Looking for DPS report link...")
-                try:
-                    # First try to find dps.report link
-                    dps_report_link = WebDriverWait(self.driver, 10).until(  # type: ignore
-                        EC.element_to_be_clickable(
-                            (By.XPATH, "//a[contains(@href, 'dps.report')]")
-                        )
-                    )
-                    dps_report_url = dps_report_link.get_attribute("href")
-                    self.logger.info(f"Found DPS report URL: {dps_report_url}")
-                except TimeoutException:
-                    # If dps.report not found, try wingman proxy as backup
-                    self.logger.info(
-                        "DPS report link not found, trying wingman proxy..."
-                    )
-                    dps_report_link = WebDriverWait(self.driver, 10).until(  # type: ignore
-                        EC.element_to_be_clickable(
-                            (
-                                By.XPATH,
-                                "//a[contains(@href, 'gw2wingman.nevermindcreations.de')]",
-                            )
-                        )
-                    )
-                    dps_report_url = dps_report_link.get_attribute("href")
-                    self.logger.info(f"Found wingman proxy URL: {dps_report_url}")
-
-                # Add DPS report URL to build info
-                build_info["dps_report_url"] = dps_report_url
-
-                self.driver.get(dps_report_url)  # type: ignore
+                self.driver.get(url)  # type: ignore
                 WebDriverWait(self.driver, 10).until(  # type: ignore
                     EC.presence_of_element_located((By.TAG_NAME, "body"))
                 )
+                time.sleep(SLEEP_DELAY)
 
                 try:
-                    self.logger.info("Looking for Player Summary tab...")
+                    self.logger.info("Looking for DPS report link...")
                     try:
-                        # First try to find and click Player Summary tab
+                        # First try to find dps.report link
+                        dps_report_link = WebDriverWait(self.driver, 10).until(  # type: ignore
+                            EC.element_to_be_clickable(
+                                (By.XPATH, "//a[contains(@href, 'dps.report')]")
+                            )
+                        )
+                        dps_report_url = dps_report_link.get_attribute("href")
+                        self.logger.info(f"Found DPS report URL: {dps_report_url}")
+                    except TimeoutException:
+                        # If dps.report not found, try wingman proxy as backup
+                        self.logger.info(
+                            "DPS report link not found, trying wingman proxy..."
+                        )
+                        dps_report_link = WebDriverWait(self.driver, 10).until(  # type: ignore
+                            EC.element_to_be_clickable(
+                                (
+                                    By.XPATH,
+                                    "//a[contains(@href, 'gw2wingman.nevermindcreations.de')]",
+                                )
+                            )
+                        )
+                        dps_report_url = dps_report_link.get_attribute("href")
+                        self.logger.info(f"Found wingman proxy URL: {dps_report_url}")
+
+                    # Add DPS report URL to build info
+                    build_info["dps_report_url"] = dps_report_url
+
+                except TimeoutException:
+                    self.logger.warning(
+                        f"Could not find DPS report link on {url}, skipping..."
+                    )
+                    return False
+
+            # Now process the DPS report URL
+            if self.driver is None:
+                self._setup_webdriver()
+
+            self.driver.get(dps_report_url)  # type: ignore
+            WebDriverWait(self.driver, 10).until(  # type: ignore
+                EC.presence_of_element_located((By.TAG_NAME, "body"))
+            )
+
+            try:
+                self.logger.info("Looking for Player Summary tab...")
+                try:
+                    # First try to find and click Player Summary tab
+                    player_summary_link = WebDriverWait(self.driver, 5).until(  # type: ignore
+                        EC.element_to_be_clickable(
+                            (
+                                By.XPATH,
+                                "//a[contains(text(), 'Player Summary')]",
+                            )
+                        )
+                    )
+                    player_summary_link.click()
+                    self.logger.info("Clicked Player Summary tab")
+                except TimeoutException:
+                    # If we can't click it, try switching to iframe (wingman proxy case)
+                    try:
+                        self.logger.info(
+                            "Trying to switch to iframe for embedded dps.report content..."
+                        )
+                        iframe = self.driver.find_element(By.NAME, "mainContent")  # type: ignore
+                        self.driver.switch_to.frame(iframe)  # type: ignore
+                        self._in_iframe = True
+
+                        # Now try to find Player Summary tab in the iframe
                         player_summary_link = WebDriverWait(self.driver, 5).until(  # type: ignore
                             EC.element_to_be_clickable(
                                 (
@@ -366,104 +486,90 @@ class SnowCrowsScraper:
                             )
                         )
                         player_summary_link.click()
-                        self.logger.info("Clicked Player Summary tab")
+                        self.logger.info("Clicked Player Summary tab in iframe")
                     except TimeoutException:
-                        # If we can't click it, try switching to iframe (wingman proxy case)
-                        try:
-                            self.logger.info("Trying to switch to iframe for embedded dps.report content...")
-                            iframe = self.driver.find_element(By.NAME, "mainContent")
-                            self.driver.switch_to.frame(iframe)
+                        # If still can't find it, just log and continue
+                        player_summary_elements = self.driver.find_elements(  # type: ignore
+                            By.XPATH, "//a[contains(text(), 'Player Summary')]"
+                        )
+                        if player_summary_elements:
+                            self.logger.info(
+                                "Found Player Summary tab (may already be active)"
+                            )
+                        else:
+                            self.logger.warning(
+                                "Could not find Player Summary tab in iframe either"
+                            )
+                    except Exception as e:
+                        self.logger.warning(f"Could not switch to iframe: {e}")
+                        # Switch back to default content if iframe switch failed
+                        self.driver.switch_to.default_content()  # type: ignore
+
+                time.sleep(SLEEP_DELAY)
+
+                self.logger.info("Looking for Simple Rotation tab...")
+                try:
+                    # First try to find and click Simple Rotation tab (if not active)
+                    rotation_link = WebDriverWait(self.driver, 5).until(  # type: ignore
+                        EC.element_to_be_clickable(
+                            (
+                                By.XPATH,
+                                "//a[@class='nav-link' and contains(., 'Simple') and contains(., 'Rotation')]",
+                            )
+                        )
+                    )
+                    rotation_link.click()
+                    self.logger.info("Clicked Simple Rotation tab")
+                except TimeoutException:
+                    # Try to find Simple Rotation tab in iframe if not found in main page
+                    try:
+                        # If we're not already in iframe, switch to it
+                        if not hasattr(self, "_in_iframe") or not self._in_iframe:
+                            self.logger.info(
+                                "Trying to switch to iframe for Simple Rotation tab..."
+                            )
+                            iframe = self.driver.find_element(By.NAME, "mainContent")  # type: ignore
+                            self.driver.switch_to.frame(iframe)  # type: ignore
                             self._in_iframe = True
 
-                            # Now try to find Player Summary tab in the iframe
-                            player_summary_link = WebDriverWait(self.driver, 5).until(  # type: ignore
-                                EC.element_to_be_clickable(
-                                    (
-                                        By.XPATH,
-                                        "//a[contains(text(), 'Player Summary')]",
-                                    )
-                                )
-                            )
-                            player_summary_link.click()
-                            self.logger.info("Clicked Player Summary tab in iframe")
-                        except TimeoutException:
-                            # If still can't find it, just log and continue
-                            player_summary_elements = self.driver.find_elements(  # type: ignore
-                                By.XPATH,
-                                "//a[contains(text(), 'Player Summary')]"
-                            )
-                            if player_summary_elements:
-                                self.logger.info("Found Player Summary tab (may already be active)")
-                            else:
-                                self.logger.warning("Could not find Player Summary tab in iframe either")
-                        except Exception as e:
-                            self.logger.warning(f"Could not switch to iframe: {e}")
-                            # Switch back to default content if iframe switch failed
-                            self.driver.switch_to.default_content()
-
-                    time.sleep(SLEEP_DELAY)
-
-                    self.logger.info("Looking for Simple Rotation tab...")
-                    try:
-                        # First try to find and click Simple Rotation tab (if not active)
                         rotation_link = WebDriverWait(self.driver, 5).until(  # type: ignore
                             EC.element_to_be_clickable(
                                 (
                                     By.XPATH,
-                                    "//a[@class='nav-link' and contains(., 'Simple') and contains(., 'Rotation')]",
+                                    "//a[contains(., 'Simple') and contains(., 'Rotation')]",
                                 )
                             )
                         )
                         rotation_link.click()
-                        self.logger.info("Clicked Simple Rotation tab")
+                        self.logger.info("Clicked Simple Rotation tab in iframe")
                     except TimeoutException:
-                        # Try to find Simple Rotation tab in iframe if not found in main page
-                        try:
-                            # If we're not already in iframe, switch to it
-                            if not hasattr(self, '_in_iframe') or not self._in_iframe:
-                                self.logger.info("Trying to switch to iframe for Simple Rotation tab...")
-                                iframe = self.driver.find_element(By.NAME, "mainContent")  # type: ignore
-                                self.driver.switch_to.frame(iframe)  # type: ignore
-                                self._in_iframe = True
-
-                            rotation_link = WebDriverWait(self.driver, 5).until(  # type: ignore
-                                EC.element_to_be_clickable(
-                                    (
-                                        By.XPATH,
-                                        "//a[contains(., 'Simple') and contains(., 'Rotation')]",
-                                    )
-                                )
+                        # Check if Simple Rotation tab is already active in iframe
+                        active_rotation = self.driver.find_elements(  # type: ignore
+                            By.XPATH,
+                            "//a[contains(@class, 'active') and contains(., 'Simple') and contains(., 'Rotation')]",
+                        )
+                        if active_rotation:
+                            self.logger.info(
+                                "Simple Rotation tab is already active in iframe"
                             )
-                            rotation_link.click()
-                            self.logger.info("Clicked Simple Rotation tab in iframe")
-                        except TimeoutException:
-                            # Check if Simple Rotation tab is already active in iframe
-                            active_rotation = self.driver.find_elements(  # type: ignore
-                                By.XPATH,
-                                "//a[contains(@class, 'active') and contains(., 'Simple') and contains(., 'Rotation')]"
+                        else:
+                            self.logger.warning(
+                                "Could not find Simple Rotation tab in iframe either"
                             )
-                            if active_rotation:
-                                self.logger.info("Simple Rotation tab is already active in iframe")
-                            else:
-                                self.logger.warning("Could not find Simple Rotation tab in iframe either")
-                        except Exception as e:
-                            self.logger.warning(f"Could not access Simple Rotation tab in iframe: {e}")
+                    except Exception as e:
+                        self.logger.warning(
+                            f"Could not access Simple Rotation tab in iframe: {e}"
+                        )
 
-                    time.sleep(SLEEP_DELAY)
-
-                except TimeoutException:
-                    self.logger.warning(
-                        f"Could not find navigation elements for {build_name}, saving current page content"
-                    )
-
-                html_content = self.driver.page_source  # type: ignore
-                html_content = self._process_html_content(html_content)
+                time.sleep(SLEEP_DELAY)
 
             except TimeoutException:
                 self.logger.warning(
-                    f"Could not find DPS report link on {url}, skipping..."
+                    f"Could not find navigation elements for {build_name}, saving current page content"
                 )
-                return False
+
+            html_content = self.driver.page_source  # type: ignore
+            html_content = self._process_html_content(html_content)
 
             # Create appropriate subdirectory structure
             build_subdir = self.output_dir / benchmark_type / build_info["build_type"]
@@ -515,18 +621,48 @@ class SnowCrowsScraper:
             if i < total_count:  # Don't delay after the last request
                 time.sleep(self.delay)
 
-        # Save build metadata to JSON file
+        # Save build metadata to JSON file (merge with existing data)
         metadata_file = self.output_dir / "build_metadata.json"
-        with open(metadata_file, "w", encoding="utf-8") as f:
-            json.dump(successful_builds, f, indent=2, ensure_ascii=False)
 
-        self.logger.info(f"Saved build metadata to {metadata_file}")
+        # Load existing metadata if it exists
+        existing_builds = {}
+        if metadata_file.exists():
+            try:
+                with open(metadata_file, "r", encoding="utf-8") as f:
+                    existing_data = json.load(f)
+                    # Create lookup dict by URL for efficient merging
+                    for build in existing_data:
+                        key = (
+                            build.get("url", "") + "|" + build.get("benchmark_type", "")
+                        )
+                        existing_builds[key] = build
+                self.logger.info(f"Loaded {len(existing_data)} existing build entries")
+            except Exception as e:
+                self.logger.warning(f"Could not load existing metadata: {e}")
+
+        # Merge new builds with existing ones
+        for build in successful_builds:
+            key = build.get("url", "") + "|" + build.get("benchmark_type", "")
+            existing_builds[key] = build  # This updates existing or adds new
+
+        # Convert back to list and save
+        merged_builds = list(existing_builds.values())
+        with open(metadata_file, "w", encoding="utf-8") as f:
+            json.dump(merged_builds, f, indent=2, ensure_ascii=False)
+
+        self.logger.info(
+            f"Saved merged build metadata to {metadata_file} (total: {len(merged_builds)} builds)"
+        )
         self.logger.info(f"Download complete: {success_count}/{total_count} successful")
 
-    def run(self) -> None:
+    def run(self, manual_file_path: Path | None = None) -> None:
         """Main execution method"""
         try:
-            builds_and_links = self.get_snowcrows_builds_and_links()
+            if manual_file_path:
+                self.logger.info(f"Using manual log list from: {manual_file_path}")
+                builds_and_links = self.get_manual_builds_and_links(manual_file_path)
+            else:
+                builds_and_links = self.get_snowcrows_builds_and_links()
 
             if not builds_and_links:
                 self.logger.warning("No builds with DPS report links found")
@@ -541,14 +677,14 @@ class SnowCrowsScraper:
 def main():
     """Main function with CLI interface"""
     parser = argparse.ArgumentParser(
-        description="Download benchmark report HTML files from SnowCrows (DPS, Quick, Alac)"
+        description="Download benchmark report HTML files from SnowCrows (DPS, Quick, Alac) or manual list"
     )
     parser.add_argument(
         "--output",
         "-o",
         type=Path,
-        default="data/html",
-        help="Output directory for HTML files (default: data/html)",
+        default="internal_data/html",
+        help="Output directory for HTML files (default: internal_data/html)",
     )
     parser.add_argument(
         "--delay",
@@ -568,12 +704,22 @@ def main():
         action="store_true",
         help="Run browser in visible mode (default: headless)",
     )
+    parser.add_argument(
+        "--manual",
+        "-m",
+        type=Path,
+        nargs="?",
+        const=Path("internal_data/manual_log_list.json"),
+        help="Use manual log list JSON file instead of scraping SnowCrows (default: internal_data/manual_log_list.json)",
+    )
 
     args = parser.parse_args()
 
     print(f"📁 Output directory: {args.output}")
     print(f"⏱️  Delay between requests: {args.delay}s")
     print(f"🌐 Browser mode: {'Visible' if args.visible else 'Headless'}")
+    if args.manual:
+        print(f"📋 Using manual log list: {args.manual}")
 
     scraper = SnowCrowsScraper(
         output_dir=args.output, delay=args.delay, headless=not args.visible
@@ -581,8 +727,12 @@ def main():
 
     if args.list_only:
         # Just list the builds and URLs
-        print("🔍 Finding builds with benchmark report links (DPS, Quick, Alac)...")
-        builds_and_links = scraper.get_snowcrows_builds_and_links()
+        if args.manual:
+            print(f"🔍 Loading builds from manual log list: {args.manual}...")
+            builds_and_links = scraper.get_manual_builds_and_links(args.manual)
+        else:
+            print("🔍 Finding builds with benchmark report links (DPS, Quick, Alac)...")
+            builds_and_links = scraper.get_snowcrows_builds_and_links()
 
         if builds_and_links:
             print(
@@ -597,13 +747,19 @@ def main():
                     f"     Profession: {build_info['profession']} ({build_info['elite_spec']})"
                 )
                 print(f"     Type: {build_info['build_type']}")
-                print(f"     URL: {build_info['url']}")
+                if args.manual:
+                    print(f"     DPS Report: {build_info['dps_report_url']}")
+                else:
+                    print(f"     URL: {build_info['url']}")
         else:
             print("❌ No builds with benchmark report links found")
     else:
         # Run the full scraper
-        print("🌐 Starting SnowCrows benchmark scraper (DPS, Quick, Alac)...")
-        scraper.run()
+        if args.manual:
+            print(f"🌐 Starting manual log list processing from: {args.manual}...")
+        else:
+            print("🌐 Starting SnowCrows benchmark scraper (DPS, Quick, Alac)...")
+        scraper.run(args.manual)
         print("✅ Scraping completed!")
         print(f"📄 Build metadata saved to: {scraper.output_dir}/build_metadata.json")
 

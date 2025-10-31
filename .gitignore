@@ -6,5 +6,9 @@ __pycache__
 *.txt
 *.png
 !media/*.png
-data/bench/**/*.json
 addon_settings.json
+internal_data/html/alac
+internal_data/html/quick
+internal_data/html/dps
+!data/img/-1000.png
+!internal_data/html/build_metadata.json

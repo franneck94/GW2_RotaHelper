@@ -14,7 +14,7 @@
 
 namespace
 {
-enum class Keys
+enum class _Keys
 {
     W,
     A,
@@ -133,17 +133,17 @@ int main(int, char **)
 
         ImGuiIO &io = ImGui::GetIO();
 
-        auto key = Keys::NONE;
-        std::map<int, Keys> key_map = {
-            {0x57, Keys::W}, // VK_W
-            {0x41, Keys::A}, // VK_A
-            {0x53, Keys::S}, // VK_S
-            {0x44, Keys::D}, // VK_D
-            {0x43, Keys::C}  // VK_C
+        auto key = _Keys::NONE;
+        std::map<int, _Keys> key_map = {
+            {0x57, _Keys::W}, // VK_W
+            {0x41, _Keys::A}, // VK_A
+            {0x53, _Keys::S}, // VK_S
+            {0x44, _Keys::D}, // VK_D
+            {0x43, _Keys::C}  // VK_C
         };
 
         for (int vk = 0x08; vk <= 0xFE;
-             vk++) // VK_BACK to 0xFE (most virtual keys)
+             vk++) // VK_BACK to 0xFE (most virtual _Keys)
         {
             if (GetAsyncKeyState(vk) & 0x8000)
             {
@@ -156,34 +156,34 @@ int main(int, char **)
             }
         }
 
-        if (key != Keys::NONE)
+        if (key != _Keys::NONE)
         {
             auto icon_id = std::int32_t{0};
             auto skill_id = std::int32_t{0};
             auto skill_name = std::string{""};
             switch (key)
             {
-            case Keys::W:
+            case _Keys::W:
                 icon_id = 1058593;
                 skill_id = 30713;
                 skill_name = "Thunderclap";
                 break;
-            case Keys::A:
+            case _Keys::A:
                 icon_id = 1058590;
                 skill_id = 30088;
                 skill_name = "Electro-whirl";
                 break;
-            case Keys::S:
+            case _Keys::S:
                 icon_id = 103176;
                 skill_id = 76530;
                 skill_name = "Magnetic Bomb";
                 break;
-            case Keys::D:
+            case _Keys::D:
                 icon_id = 103404;
                 skill_id = 5823;
                 skill_name = "Fire Bomb";
                 break;
-            case Keys::ANY:
+            case _Keys::ANY:
             default:
                 icon_id = static_cast<uint64_t>(-1);
                 skill_id = static_cast<uint64_t>(-1);

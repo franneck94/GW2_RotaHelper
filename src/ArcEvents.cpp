@@ -44,15 +44,15 @@ bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
         return true;
 #endif
 
-    const auto &skill_data = Globals::RotationRun.skill_data;
-    const auto found = skill_data.find(evCbtData.SkillID) != skill_data.end();
+    const auto &skill_data_map = Globals::RotationRun.skill_data_map;
+    const auto found = skill_data_map.find(evCbtData.SkillID) != skill_data_map.end();
     return found;
 }
 
 bool IsSkillFromBuild_NameBased(const EvCombatDataPersistent &evCbtData)
 {
-    const auto &skill_data = Globals::RotationRun.skill_data;
-    for (const auto &kv : skill_data)
+    const auto &skill_data_map = Globals::RotationRun.skill_data_map;
+    for (const auto &kv : skill_data_map)
     {
         if (kv.second.name == evCbtData.SkillName)
             return true;
@@ -151,11 +151,11 @@ bool OnCombat(const char *channel,
         return false;
 #endif
 
-    auto evCbtData = EvCombatData{ev, src, dst, skillname, id, revision};
+    if (channel == nullptr || ev == nullptr || src == nullptr ||
+        dst == nullptr || skillname == nullptr)
+        return false;
 
-#ifdef GW2_NEXUS_ADDON
-    Globals::APIDefs->Events.Raise(channel, &evCbtData);
-#endif
+    auto evCbtData = EvCombatData{ev, src, dst, skillname, id, revision};
 
     if (IsValidCombatEvent(evCbtData))
     {
@@ -169,7 +169,7 @@ bool OnCombat(const char *channel,
             .EventID = evCbtData.id,
         };
 
-        if (Globals::RotationRun.skill_info_map.empty() ||
+        if (Globals::RotationRun.log_skill_info_map.empty() ||
             IsAnySkillFromBuild(data))
         {
             if (IsNotTheSameCast(data))

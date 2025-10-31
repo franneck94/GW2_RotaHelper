@@ -2,15 +2,17 @@
 #define VERSION_H
 
 #define MAJOR 0
-#define MINOR 5
+#define MINOR 6
 #define BUILD 0
-#define REVISION 0
+#define REVISION 3
 
-// Macro to convert a number to string
 #define STRINGIFY(x) #x
 #define TOSTRING(x) STRINGIFY(x)
 
-// Macro to build version string
+#ifdef _DEBUG
+#define VERSION_STRING TOSTRING(MAJOR) "." TOSTRING(MINOR) "." TOSTRING(BUILD) "." TOSTRING(REVISION)
+#else
 #define VERSION_STRING TOSTRING(MAJOR) "." TOSTRING(MINOR) "." TOSTRING(BUILD)
+#endif
 
 #endif // VERSION_H

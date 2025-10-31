@@ -7,8 +7,6 @@
             "command": "python",
             "args": [
                 "scripts/html_log_to_json.py",
-                "--output",
-                "data/bench"
             ],
             "problemMatcher": ["gcc"]
         },
@@ -18,10 +16,17 @@
             "command": "python",
             "args": [
                 "scripts/get_html_logs.py",
-                "--output",
-                "data/html",
             ],
             "problemMatcher": ["gcc"]
+        },
+        {
+            "label": "fetch_gw2_skills",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "scripts/fetch_gw2_skills.py",
+            ],
+            "problemMatcher": ["$python"]
         }
     ]
 }

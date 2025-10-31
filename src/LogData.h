@@ -19,6 +19,17 @@
 
 using json = nlohmann::json;
 
+struct SkillRules
+{
+    const std::set<std::string> &skills_substr_weapon_swap_like;
+    const std::set<std::string> &skills_match_weapon_swap_like;
+    const std::set<std::string> &skills_substr_to_drop;
+    const std::set<std::string> &skills_match_to_drop;
+    const std::set<std::string> &special_substr_to_gray_out;
+    const std::set<std::string> &special_match_to_gray_out;
+    const std::set<std::string> &special_substr_to_remove_duplicates;
+};
+
 class RotationRunType
 {
 public:
@@ -27,30 +38,21 @@ public:
 
     void pop_bench_rotation_queue();
     std::tuple<int, int, size_t> get_current_rotation_indices() const;
-    RotationInfo get_rotation_skill(const size_t idx) const;
+    RotationStep get_rotation_skill(const size_t idx) const;
     void restart_rotation();
     void reset_rotation();
     bool is_current_run_done() const;
 
     std::list<std::future<void>> futures;
-    SkillInfoMap skill_info_map;
-    RotationInfoVec rotation_vector;
-    RotationInfoList bench_rotation_list;
-    SkillDataMap skill_data;
-
+    LogSkillInfoMap log_skill_info_map;
+    RotationSteps all_rotation_steps;
+    RotationStepsList todo_rotation_steps;
+    SkillDataMap skill_data_map;
     MetaData meta_data;
 
-    const static inline std::set<std::string> skills_substr_to_drop = {
-        "Bloodstone Fervor",
-        "Blutstein",
-        "Waffen Wechsel",
+    const static inline std::set<std::string> skills_substr_weapon_swap_like = {
         "Weapon Swap",
-        "Relic of",
-        "Relikt des",
-        "Mushroom King",
-        "Dodge",
         // GUARDIAN
-        "Fire Jurisdiction",
         // WARRIOR
         // ENGINEER
         " Kit",
@@ -59,6 +61,38 @@ public:
         // THIEF
         // ELEMENTALIST
         "Attunement",
+        // MESMER
+        // NECROMANCER
+        "Harbinger Shroud",
+        "Reaper's Shroud",
+        "Ritualist's Shroud",
+        // REVENANT
+    };
+
+    const static inline std::set<std::string> skills_match_weapon_swap_like = {
+        // GUARDIAN
+        // WARRIOR
+        // ENGINEER
+        "Flamethrower",
+        // RANGER
+        // THIEF
+        // ELEMENTALIST
+        // MESMER
+        // NECROMANCER
+        // REVENANT
+    };
+
+    const static inline std::set<std::string> skills_substr_to_drop = {
+        "Bloodstone Fervor",
+        "Relic of",
+        "Mushroom King",
+        // GUARDIAN
+        "Fire Jurisdiction",
+        // WARRIOR
+        // ENGINEER
+        // RANGER
+        // THIEF
+        // ELEMENTALIST
         // MESMER
         // NECROMANCER
         // REVENANT
@@ -86,11 +120,13 @@ public:
         "Approaching Doom",
         "Chilling Nova",
         "Cascading Corruption",
+        "Explosive Growth",
         // REVENANT
         "Invoke Torment",
     };
 
     const static inline std::set<std::string> special_substr_to_gray_out = {
+        "Dodge",
         // GUARDIAN
         "Chapter 1:",
         "Chapter 2:",
@@ -99,14 +135,14 @@ public:
         // WARRIOR
         // ENGINEER
         "Detonate",
+        "Photon Forge",
+        "Holoforge",
         // RANGER
         // THIEF
         // ELEMENTALIST
         // MESMER
         "Distortion",
         // NECROMANCER
-        "Harbinger Shroud",
-        "Reaper's Shroud",
         // REVENANT
     };
 
@@ -123,20 +159,26 @@ public:
         "Arcing Slice",
         "Blood Reckoning",
         // ENGINEER
-        "Devastator",        // TODO
-        "Overcharged Shot",  // TODO
-        "Spark Revolver",    // XXX
-        "Core Reactor Shot", // XXX
-        "Jade Mortar",       // XXX
-        "Rocket Punch",      // XXX
+        "Devastator",       // TODO
+        "Overcharged Shot", // TODO
+        "Spark Revolver",
+        "Core Reactor Shot",
+        "Jade Mortar",
+        "Rocket Punch",
         "Rolling Smash",
         "Discharge Array",
         "Sky Circus",
         "Radiant Arc",
         // RANGER
         // THIEF
+        "Prepare Thousand Needles",
+        "Spider Venom",
+        "Assassin's Signet",
+        "Signet of Malice",
         // ELEMENTALIST
         "Earthquake",
+        "Fire Shield",
+        "Signet of Restoration",
         // MESMER
         "Signet of Domination",
         "Signet of Midnight",
@@ -149,11 +191,92 @@ public:
         "Plague Signet",
         "Elixir of Promise",
         "Distress",
+        "Garish Pillar",
+        "Sandstorm Shroud",
+        "Perforate",
+        "Soul Shards",
+        "Nightfall",
         // REVENANT
+        "Legendary Entity Stance",
+        "Legendary Alliance Stance",
+        "Legendary Renegade Stance",
+        "Legendary Demon Stance",
+        "Legendary Dwarf Stance",
+        "Legendary Centaur Stance",
+        "Legendary Assassin Stance",
+        "Legendary Dragon Stance",
+        "Facet of Chaos",
     };
 
     const static inline std::set<std::string>
         special_substr_to_remove_duplicates = {
             "Rushing Justice",
+            "Devastator", // TODO
+    };
+
+    const static inline SkillRules skill_rules = SkillRules{
+        skills_substr_weapon_swap_like,
+        skills_match_weapon_swap_like,
+        skills_substr_to_drop,
+        skills_match_to_drop,
+        special_substr_to_gray_out,
+        special_match_to_gray_out,
+        special_substr_to_remove_duplicates,
+    };
+
+    static inline const std::set<uint64_t> berserker_f1_skills = {
+        14353, // Eviscerate (Axe)
+        14367, // Flurry (Sword)
+        14375, // Arcing Slice (Greatsword)
+        14387, // Earthshaker (Hammer)
+        14396, // Kill Shot (Rifle)
+        14414, // Skull Crack (Mace)
+        14443, // Whirling Strike (Spear)
+        14469, // Forceful Shot (Speargun)
+        14506, // Combustive Shot (Longbow)
+        29644, // Gun Flame (Rifle)
+        29679, // Skull Grinder (Mace)
+        29852, // Arc Divider (Greatsword)
+        29923, // Scorched Earth (Longbow)
+        30682, // Flaming Flurry (Sword)
+        30851, // Decapitate (Axe)
+        30879, // Rupturing Smash (Hammer)
+        30989, // Burning Shackles (Speargun)
+        31048, // Wild Whirl (Spear)
+        45252, // Breaching Strike (Dagger)
+        62745, // Unsheathe Gunsaber (None)
+        62861, // Sheathe Gunsaber (None)
+        69290, // Slicing Maelstrom (Dagger)
+        71875, // Rampart Splitter (Staff)
+        71922, // Path to Victory (Staff)
+        72911, // Harrier's Toss (Spear)
+        73103  // Wild Throw (Spear)
+    };
+
+    static inline const std::set<uint64_t> mesmer_weapon_4_skills = {
+        10175, // Phantasmal Duelist (Pistol)
+        10186, // Temporal Curtain (Focus)
+        10221, // Phantasmal Berserker (Greatsword)
+        10280, // Illusionary Riposte (Sword)
+        10285, // The Prestige (Torch)
+        10325, // Slipstream (Spear)
+        10328, // Phantasmal Whaler (Trident)
+        10331, // Chaos Armor (Staff)
+        10358, // Counter Blade (Sword)
+        10363, // Into the Void (Focus)
+        29649, // Deja Vu (Shield)
+        30769, // Echo of Memory (Shield)
+        72007, // Phantasmal Sharpshooter (Rifle)
+        72946  // Phantasmal Lancer (Spear)
+    };
+
+    const static inline std::map<std::string, float> skill_cast_time_map = {
+        {"Essence Blast", 0.75f}, // rit shroud aa
+        {"Life Rend", 0.5f}, // reaper shroud aa
+        {"Life Slash", 0.5f}, // reaper shroud aa
+        {"Life Reap", 0.5f}, // reaper shroud aa
+        {"Tainted Bolts", 0.5f}, // harbinger shroud aa
+        {"Hail of Justice", 1.25f}, // guard pistol 4
+        {"Cleansing Flame", 1.25f}, // guard torch 5
     };
 };

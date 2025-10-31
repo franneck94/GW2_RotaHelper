@@ -12,7 +12,6 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/scripts/html_log_to_json.py",
-            "args": ["--output", "data/bench"],
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "justMyCode": false
@@ -22,9 +21,18 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/scripts/get_html_logs.py",
-            "args": ["--output", "data/html"],
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
+            "justMyCode": false
+        },
+        {
+            "name": "Debug: MANUAL get_html_logs",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/get_html_logs.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "args": ["--manual"],
             "justMyCode": false
         },
         {

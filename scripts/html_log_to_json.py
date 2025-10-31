@@ -33,6 +33,12 @@ class HTMLRotationExtractor:
         # Create output directory
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
+        # Define skills where cancellation is acceptable (icon_id: reason)
+        self.cancellation_allowed_skills = {
+            "Spatial Surge",  # 10219 - Mesmer GS AA
+            "Arc Lightning",  # 5526 -  Ele Air Scepter AA
+        }
+
         # Load build metadata
         self.build_metadata = self._load_build_metadata()
 
@@ -45,35 +51,37 @@ class HTMLRotationExtractor:
             return {}
 
         try:
-            with open(metadata_file, 'r', encoding='utf-8') as f:
+            with open(metadata_file, "r", encoding="utf-8") as f:
                 metadata_list = json.load(f)
 
             # Create a lookup dictionary with multiple keys for quick access
             metadata_dict = {}
             for build_info in metadata_list:
                 # Use the html_file_path as key for lookup
-                if 'html_file_path' in build_info:
-                    html_path = build_info['html_file_path']
+                if "html_file_path" in build_info:
+                    html_path = build_info["html_file_path"]
                     metadata_dict[html_path] = build_info
                     # Also normalize the path separators
-                    normalized_path = html_path.replace('\\', '/')
+                    normalized_path = html_path.replace("\\", "/")
                     metadata_dict[normalized_path] = build_info
 
                 # Also create lookup by url_name with and without .html
-                if 'url_name' in build_info:
-                    url_name = build_info['url_name']
+                if "url_name" in build_info:
+                    url_name = build_info["url_name"]
                     metadata_dict[url_name] = build_info
-                    metadata_dict[url_name + '.html'] = build_info
+                    metadata_dict[url_name + ".html"] = build_info
 
                 # Create lookup by name field as well
-                if 'name' in build_info:
-                    name = build_info['name']
+                if "name" in build_info:
+                    name = build_info["name"]
                     # Convert spaces and special chars to match likely filenames
-                    name_as_filename = name.lower().replace(' ', '_').replace('-', '_')
+                    name_as_filename = name.lower().replace(" ", "_").replace("-", "_")
                     metadata_dict[name_as_filename] = build_info
-                    metadata_dict[name_as_filename + '.html'] = build_info
+                    metadata_dict[name_as_filename + ".html"] = build_info
 
-            self.logger.info(f"Loaded metadata for {len(metadata_list)} builds with {len(metadata_dict)} lookup keys")
+            self.logger.info(
+                f"Loaded metadata for {len(metadata_list)} builds with {len(metadata_dict)} lookup keys"
+            )
 
             # Debug: show some sample keys
             sample_keys = list(metadata_dict.keys())[:10]
@@ -93,11 +101,13 @@ class HTMLRotationExtractor:
         # Try to find metadata by relative path
         try:
             relative_path = html_file.relative_to(self.input_dir)
-            relative_path_str = str(relative_path).replace('\\', '/')
+            relative_path_str = str(relative_path).replace("\\", "/")
 
             self.logger.debug(f"Trying relative path: {relative_path_str}")
             if relative_path_str in self.build_metadata:
-                self.logger.debug(f"Found metadata by relative path: {relative_path_str}")
+                self.logger.debug(
+                    f"Found metadata by relative path: {relative_path_str}"
+                )
                 return self.build_metadata[relative_path_str]
         except ValueError:
             pass  # File is not relative to input_dir
@@ -110,7 +120,7 @@ class HTMLRotationExtractor:
             return self.build_metadata[filename]
 
         # Try to find by stem (filename without extension)
-        stem_html = html_file.stem + '.html'
+        stem_html = html_file.stem + ".html"
         self.logger.debug(f"Trying stem + .html: {stem_html}")
         if stem_html in self.build_metadata:
             self.logger.debug(f"Found metadata by stem: {stem_html}")
@@ -124,7 +134,9 @@ class HTMLRotationExtractor:
             return self.build_metadata[stem]
 
         # Show available keys for debugging
-        self.logger.debug(f"Available metadata keys: {list(self.build_metadata.keys())[:5]}...")
+        self.logger.debug(
+            f"Available metadata keys: {list(self.build_metadata.keys())[:5]}..."
+        )
 
         # Return empty dict if no metadata found
         self.logger.debug(f"No metadata found for {html_file.name}")
@@ -135,10 +147,11 @@ class HTMLRotationExtractor:
         try:
             # Decode HTML entities first
             import html
+
             tooltip = html.unescape(tooltip)
 
             # Example: "Weapon Swap at 0.725s<br>Weapon Swap cast 1 of 50<br>Skill cast 5 of 274"
-            lines = tooltip.split('<br>')
+            lines = tooltip.split("<br>")
             if not lines:
                 return "Unknown", 0.0, 0.0
 
@@ -152,13 +165,13 @@ class HTMLRotationExtractor:
 
             # Extract cast time (e.g., "0.725s")
             cast_time = 0.0
-            time_match = re.search(r'at\s+([-+]?\d+\.?\d*)s', first_line)
+            time_match = re.search(r"at\s+([-+]?\d+\.?\d*)s", first_line)
             if time_match:
                 cast_time = float(time_match.group(1))
 
             # Extract duration (e.g., "3204ms")
             duration = 0.0
-            duration_match = re.search(r'for\s+(\d+\.?\d*)ms', first_line)
+            duration_match = re.search(r"for\s+(\d+\.?\d*)ms", first_line)
             if duration_match:
                 duration = float(duration_match.group(1))
 
@@ -168,44 +181,47 @@ class HTMLRotationExtractor:
             self.logger.warning(f"Error parsing tooltip '{tooltip}': {e}")
             return "Unknown", 0.0, 0.0
 
-    def _extract_skill_id_from_url(self, img_src: str) -> int:
+    def _extract_icon_id_from_url(self, img_src: str) -> int:
         """Extract skill ID from image URL"""
         try:
-            # New format: "https://render.guildwars2.com/file/hash/skill_id.png"
+            # New format: "https://render.guildwars2.com/file/hash/icon_id.png"
             # Example: "https://render.guildwars2.com/file/c_ce_Weapon_Swap/Button.png"
 
             # For weapon swap and utility skills, try to extract from the path
             if "render.guildwars2.com/file/" in img_src:
                 # Split by '/' and get the last part (filename)
-                parts = img_src.split('/')
+                parts = img_src.split("/")
                 if len(parts) >= 2:
                     filename = parts[-1]  # e.g., "Button.png" or "12345.png"
                     hash_part = parts[-2]  # e.g., "c_ce_Weapon_Swap" or "hash"
 
                     # Try to extract number from filename first
-                    filename_match = re.search(r'(\d+)\.png$', filename)
+                    filename_match = re.search(r"(\d+)\.png$", filename)
                     if filename_match:
                         return int(filename_match.group(1))
 
                     # For special cases like weapon swap, extract from hash part
-                    hash_match = re.search(r'(\d+)', hash_part)
+                    hash_match = re.search(r"(\d+)", hash_part)
                     if hash_match:
                         return int(hash_match.group(1))
 
                     # For weapon swap specifically, use a known ID
-                    if "weapon_swap" in hash_part.lower() or "weaponswap" in hash_part.lower():
+                    if (
+                        "weapon_swap" in hash_part.lower()
+                        or "weaponswap" in hash_part.lower()
+                    ):
                         return 9999  # Use a special ID for weapon swap
 
                     # Generate a hash-based ID for other special skills
                     return abs(hash(hash_part + filename)) % 1000000
 
             # Old format fallback: "/cache/https_render.guildwars2.com_file_hash_skill_id.png"
-            match = re.search(r'_(\d+)\.png$', img_src)
+            match = re.search(r"_(\d+)\.png$", img_src)
             if match:
                 return int(match.group(1))
 
             # Fallback: try to find any number in the URL
-            numbers = re.findall(r'\d+', img_src)
+            numbers = re.findall(r"\d+", img_src)
             if numbers:
                 return int(numbers[-1])  # Use the last number found
 
@@ -220,23 +236,33 @@ class HTMLRotationExtractor:
         try:
             self.logger.info(f"Processing HTML file: {html_file.name}")
 
-            with open(html_file, 'r', encoding='utf-8') as f:
+            with open(html_file, "r", encoding="utf-8") as f:
                 html_content = f.read()
 
-            # Use regex to find all rotation skill images
+            # Use regex to find all rotation skill images, capturing class attribute to filter out cancelled skills
             # Pattern: <img src="https://render.guildwars2.com/..." data-original-title="..." class="rot-icon...">
-            pattern = r'<img[^>]*src="(https://render\.guildwars2\.com/[^"]*)"[^>]*data-original-title="([^"]*)"[^>]*class="rot-icon[^"]*"[^>]*>'
+            pattern = r'<img[^>]*src="(https:\/\/render\.guildwars2\.com\/[^"]*)"[^>]*data-original-title="([^"]*)"[^>]*class="([^"]*rot-icon[^"]*)"[^>]*>'
             matches = re.findall(pattern, html_content, re.DOTALL | re.IGNORECASE)
 
             if not matches:
                 # Try alternative pattern with different attribute order
-                pattern2 = r'<img[^>]*data-original-title="([^"]*)"[^>]*src="(https://render\.guildwars2\.com/[^"]*)"[^>]*class="rot-icon[^"]*"[^>]*>'
-                matches = [(src, title) for title, src in re.findall(pattern2, html_content, re.DOTALL | re.IGNORECASE)]
+                pattern2 = r'<img[^>]*data-original-title="([^"]*)"[^>]*src="(https:\/\/render\.guildwars2\.com\/[^"]*)"[^>]*class="([^"]*rot-icon[^"]*)"[^>]*>'
+                matches = [
+                    (src, title, class_attr)
+                    for title, src, class_attr in re.findall(
+                        pattern2, html_content, re.DOTALL | re.IGNORECASE
+                    )
+                ]
 
             if not matches:
                 # Fallback pattern - any img with rot-icon class and gw2 render URL
-                pattern3 = r'<img[^>]*class="[^"]*rot-icon[^"]*"[^>]*src="(https://render\.guildwars2\.com/[^"]*)"[^>]*data-original-title="([^"]*)"[^>]*>'
-                matches = re.findall(pattern3, html_content, re.DOTALL | re.IGNORECASE)
+                pattern3 = r'<img[^>]*class="([^"]*rot-icon[^"]*)"[^>]*src="(https:\/\/render\.guildwars2\.com\/[^"]*)"[^>]*data-original-title="([^"]*)"[^>]*>'
+                matches = [
+                    (src, title, class_attr)
+                    for class_attr, src, title in re.findall(
+                        pattern3, html_content, re.DOTALL | re.IGNORECASE
+                    )
+                ]
 
             if not matches:
                 self.logger.warning(f"No rotation skills found in {html_file.name}")
@@ -245,39 +271,55 @@ class HTMLRotationExtractor:
             rotation_entries = []
             skill_map = {}
 
-            for img_src, tooltip in matches:
+            for img_src, tooltip, class_attr in matches:
                 if not tooltip:
                     continue
 
-                # Parse skill information
+                # Parse skill information first to get skill_id for cancellation check
                 skill_name, cast_time, duration = self._parse_skill_tooltip(tooltip)
-                skill_id = self._extract_skill_id_from_url(img_src)
+                icon_id = self._extract_icon_id_from_url(img_src)
 
-                if skill_id == 0:
+                if icon_id == 0:
                     continue
 
-                # Create rotation entry in v3 format: [castTime, skill_id, duration, status, quickness]
+                # Check if skill is cancelled and if cancellation is allowed for this skill
+                if "rot-cancelled" in class_attr:
+                    if skill_name in self.cancellation_allowed_skills:
+                        reason = self.cancellation_allowed_skills[skill_name]
+                        self.logger.debug(
+                            f"Including cancelled skill {skill_name} (ID: {icon_id}) - {reason}"
+                        )
+                    else:
+                        self.logger.debug(
+                            f"Skipping cancelled skill: {skill_name} (ID: {icon_id})"
+                        )
+
+                        continue
+
+                # Create rotation entry in v3 format: [castTime, icon_id, duration, status, quickness]
                 # We don't have status or quickness info from HTML, so use defaults
                 rotation_entry = [
-                    cast_time,      # Cast time in seconds
-                    skill_id,       # Skill ID
-                    duration,       # Duration in ms
-                    1,              # Status (default to 1, meaning successful cast)
-                    1.0             # Quickness (default to 1.0, no quickness effect)
+                    cast_time,  # Cast time in seconds
+                    icon_id,  # Skill ID
+                    duration,  # Duration in ms
+                    1,  # Status (default to 1, meaning successful cast)
+                    1.0,  # Quickness (default to 1.0, no quickness effect)
                 ]
 
                 rotation_entries.append(rotation_entry)
 
                 # Add to skill map if not already present
-                skill_key = f"s{skill_id}"
+                skill_key = f"s{icon_id}"
                 if skill_key not in skill_map:
                     # Try to construct skill map entry
                     # We don't have all the info from HTML, so create minimal entry
                     skill_map[skill_key] = {
                         "name": skill_name,
-                        "icon": img_src if img_src.startswith('http') else f"https://dps.report{img_src}",
+                        "icon": img_src
+                        if img_src.startswith("http")
+                        else f"https://dps.report{img_src}",
                         "traitProc": False,  # Default values since we don't have this info
-                        "gearProc": False
+                        "gearProc": False,
                     }
 
             # Sort rotation by cast time
@@ -289,7 +331,7 @@ class HTMLRotationExtractor:
             # Create the output structure with build metadata
             result = {
                 "rotation": [rotation_entries],  # Wrapped in array for v3 format
-                "skillMap": skill_map
+                "skillMap": skill_map,
             }
 
             # Add build metadata if available
@@ -301,7 +343,7 @@ class HTMLRotationExtractor:
                     "build_type": build_metadata.get("build_type", "power"),
                     "benchmark_type": build_metadata.get("benchmark_type", "dps"),
                     "url": build_metadata.get("url", ""),
-                    "dps_report_url": build_metadata.get("dps_report_url", "")
+                    "dps_report_url": build_metadata.get("dps_report_url", ""),
                 }
             else:
                 # Fallback: determine from file path/name
@@ -312,7 +354,7 @@ class HTMLRotationExtractor:
                     "build_type": self._determine_build_type(html_file),
                     "benchmark_type": self._determine_benchmark_type(html_file),
                     "url": "",
-                    "dps_report_url": ""
+                    "dps_report_url": "",
                 }
 
             # Log extraction results with profession info
@@ -321,7 +363,9 @@ class HTMLRotationExtractor:
             if elite_spec:
                 profession_info += f" ({elite_spec})"
 
-            self.logger.info(f"Extracted {len(rotation_entries)} rotation entries from {html_file.name} - {profession_info}")
+            self.logger.info(
+                f"Extracted {len(rotation_entries)} rotation entries from {html_file.name} - {profession_info}"
+            )
 
             return result
 
@@ -371,9 +415,9 @@ class HTMLRotationExtractor:
         if self.build_metadata:
             # Process files that have metadata first
             for metadata_key, build_info in self.build_metadata.items():
-                if 'html_file_path' in build_info:
-                    html_path = self.input_dir / build_info['html_file_path']
-                    if html_path.exists() and html_path.suffix.lower() == '.html':
+                if "html_file_path" in build_info:
+                    html_path = self.input_dir / build_info["html_file_path"]
+                    if html_path.exists() and html_path.suffix.lower() == ".html":
                         html_files.append(html_path)
                         metadata_files_processed.add(str(html_path))
 
@@ -404,10 +448,14 @@ class HTMLRotationExtractor:
         html_files.extend(additional_files)
 
         if additional_files:
-            self.logger.info(f"Found {len(additional_files)} additional HTML files without metadata")
+            self.logger.info(
+                f"Found {len(additional_files)} additional HTML files without metadata"
+            )
 
         if not html_files:
-            self.logger.warning(f"No HTML files found matching pattern '{pattern}' in {self.input_dir} or subdirectories")
+            self.logger.warning(
+                f"No HTML files found matching pattern '{pattern}' in {self.input_dir} or subdirectories"
+            )
             return
 
         success_count = 0
@@ -420,14 +468,22 @@ class HTMLRotationExtractor:
                 # Extract rotation data
                 extracted_data = self.extract_rotation_from_html(html_file)
 
-                if not extracted_data["rotation"][0]:  # Check if rotation array is empty
-                    self.logger.warning(f"No rotation data extracted from {html_file.name}")
+                if not extracted_data["rotation"][
+                    0
+                ]:  # Check if rotation array is empty
+                    self.logger.warning(
+                        f"No rotation data extracted from {html_file.name}"
+                    )
                     continue
 
                 # Use metadata for benchmark and build types if available, otherwise determine from path
                 build_metadata = extracted_data.get("buildMetadata", {})
-                benchmark_type = build_metadata.get("benchmark_type", self._determine_benchmark_type(html_file))
-                build_type = build_metadata.get("build_type", self._determine_build_type(html_file))
+                benchmark_type = build_metadata.get(
+                    "benchmark_type", self._determine_benchmark_type(html_file)
+                )
+                build_type = build_metadata.get(
+                    "build_type", self._determine_build_type(html_file)
+                )
 
                 # Create appropriate output subdirectory
                 output_subdir = self.output_dir / benchmark_type / build_type
@@ -438,7 +494,7 @@ class HTMLRotationExtractor:
                 output_path = output_subdir / output_filename
 
                 # Save extracted data
-                with open(output_path, 'w', encoding='utf-8') as f:
+                with open(output_path, "w", encoding="utf-8") as f:
                     json.dump(extracted_data, f, indent=2, ensure_ascii=False)
 
                 profession_info = build_metadata.get("profession", "Unknown")
@@ -446,14 +502,18 @@ class HTMLRotationExtractor:
                 if elite_spec:
                     profession_info += f" ({elite_spec})"
 
-                self.logger.info(f"Saved: {benchmark_type}/{build_type}/{output_filename} - {profession_info}")
+                self.logger.info(
+                    f"Saved: {benchmark_type}/{build_type}/{output_filename} - {profession_info}"
+                )
                 success_count += 1
 
             except Exception as e:
                 self.logger.error(f"Error processing {html_file.name}: {e}")
                 continue
 
-        self.logger.info(f"Processing complete: {success_count}/{total_count} successful")
+        self.logger.info(
+            f"Processing complete: {success_count}/{total_count} successful"
+        )
 
     def process_single_file(self, filename: str) -> bool:
         """Process a single HTML file by filename"""
@@ -468,7 +528,9 @@ class HTMLRotationExtractor:
         # Add all possible benchmark/build type combinations
         for benchmark_type in benchmark_types:
             for build_type in build_types:
-                possible_paths.append(self.input_dir / benchmark_type / build_type / filename)
+                possible_paths.append(
+                    self.input_dir / benchmark_type / build_type / filename
+                )
 
         for path in possible_paths:
             if path.exists():
@@ -476,10 +538,12 @@ class HTMLRotationExtractor:
                 break
 
         if html_file is None:
-            self.logger.error(f"File not found: {filename} (searched in input directory and subdirectories)")
+            self.logger.error(
+                f"File not found: {filename} (searched in input directory and subdirectories)"
+            )
             return False
 
-        if not html_file.suffix.lower() == '.html':
+        if not html_file.suffix.lower() == ".html":
             self.logger.error(f"File is not an HTML file: {html_file}")
             return False
 
@@ -493,8 +557,12 @@ class HTMLRotationExtractor:
 
             # Use metadata for benchmark and build types if available, otherwise determine from path
             build_metadata = extracted_data.get("buildMetadata", {})
-            benchmark_type = build_metadata.get("benchmark_type", self._determine_benchmark_type(html_file))
-            build_type = build_metadata.get("build_type", self._determine_build_type(html_file))
+            benchmark_type = build_metadata.get(
+                "benchmark_type", self._determine_benchmark_type(html_file)
+            )
+            build_type = build_metadata.get(
+                "build_type", self._determine_build_type(html_file)
+            )
 
             # Create appropriate output subdirectory
             output_subdir = self.output_dir / benchmark_type / build_type
@@ -505,7 +573,7 @@ class HTMLRotationExtractor:
             output_path = output_subdir / output_filename
 
             # Save extracted data
-            with open(output_path, 'w', encoding='utf-8') as f:
+            with open(output_path, "w", encoding="utf-8") as f:
                 json.dump(extracted_data, f, indent=2, ensure_ascii=False)
 
             profession_info = build_metadata.get("profession", "Unknown")
@@ -513,7 +581,9 @@ class HTMLRotationExtractor:
             if elite_spec:
                 profession_info += f" ({elite_spec})"
 
-            self.logger.info(f"Saved: {benchmark_type}/{build_type}/{output_filename} - {profession_info}")
+            self.logger.info(
+                f"Saved: {benchmark_type}/{build_type}/{output_filename} - {profession_info}"
+            )
             return True
 
         except Exception as e:
@@ -527,25 +597,25 @@ def main():
         description="Extract rotation data from benchmark report HTML files (DPS, Quick, Alac)"
     )
     parser.add_argument(
-        "--input", "-i",
+        "--input",
+        "-i",
         type=Path,
-        default="data/html",
-        help="Input directory containing HTML files (default: data/html)"
+        default="internal_data/html",
+        help="Input directory containing HTML files (default: internal_data/html)",
     )
     parser.add_argument(
-        "--output", "-o",
+        "--output",
+        "-o",
         type=Path,
         default="data/bench",
-        help="Output directory for JSON files (default: data/bench)"
+        help="Output directory for JSON files (default: data/bench)",
     )
+    parser.add_argument("--file", "-f", help="Process single file instead of all files")
     parser.add_argument(
-        "--file", "-f",
-        help="Process single file instead of all files"
-    )
-    parser.add_argument(
-        "--pattern", "-p",
+        "--pattern",
+        "-p",
         default="*.html",
-        help="File pattern to match (default: *.html)"
+        help="File pattern to match (default: *.html)",
     )
 
     args = parser.parse_args()

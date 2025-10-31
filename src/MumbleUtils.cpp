@@ -4,6 +4,8 @@
 #include <conio.h>
 #include <locale>
 
+#include "TypesUtils.h"
+
 unsigned int GetCurrentMapID()
 {
     if (Globals::MumbleData && Globals::MumbleData->Context.MapID != 0)
@@ -28,10 +30,25 @@ bool IsInfight()
     return false;
 }
 
+std::string get_current_profession_name()
+{
+    if (!Globals::MumbleData)
+        return "";
+
+    try
+    {
+        return profession_to_string(
+            static_cast<ProfessionID>(Globals::Identity.Profession));
+    }
+    catch (...)
+    {
+        return "";
+    }
+}
 
 Mumble::Identity ParseMumbleIdentity(const wchar_t *identityString)
 {
-    Mumble::Identity identity = {};
+    static auto identity = Mumble::Identity{};
 
     try
     {
@@ -42,19 +59,32 @@ Mumble::Identity ParseMumbleIdentity(const wchar_t *identityString)
 
         if (json.contains("profession") &&
             json["profession"].is_number_integer())
-            identity.Profession =
+        {
+            const auto _profession =
                 static_cast<Mumble::EProfession>(json["profession"].get<int>());
 
+            if (_profession != Mumble::EProfession::None)
+                identity.Profession = _profession;
+        }
+
+        auto _specialization = 0;
         if (json.contains("spec") && json["spec"].is_number_unsigned())
-            identity.Specialization = json["spec"].get<unsigned>();
+            _specialization = json["spec"].get<unsigned>();
         else if (json.contains("specialization") &&
                  json["specialization"].is_number_unsigned())
-            identity.Specialization = json["specialization"].get<unsigned>();
+            _specialization = json["specialization"].get<unsigned>();
 
+        if (_specialization != 0)
+            identity.Specialization = _specialization;
+
+        auto _map_id = 0;
         if (json.contains("map_id") && json["map_id"].is_number_unsigned())
-            identity.MapID = json["map_id"].get<unsigned>();
+            _map_id = json["map_id"].get<unsigned>();
         else if (json.contains("map") && json["map"].is_number_unsigned())
-            identity.MapID = json["map"].get<unsigned>();
+            _map_id = json["map"].get<unsigned>();
+
+        if (_map_id != 0)
+            identity.MapID = _map_id;
     }
     catch (const std::exception &e)
     {

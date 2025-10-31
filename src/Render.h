@@ -72,32 +72,35 @@ class RenderType
 {
 public:
     RenderType();
-    RenderType(bool &show_window) : show_window(show_window)
-    {
-    }
+    RenderType(bool &show_window) : show_window(show_window) {};
     ~RenderType();
 
     void render(ID3D11Device *pd3dDevice);
 
+    /* RENDER OPTIONS WINDOW */
     void render_debug_data();
+    void render_options_checkboxes(bool &is_not_ui_adjust_active);
     void render_options_window(bool &is_not_ui_adjust_active);
-    void text_filter();
-    void selection();
-    void select_bench();
+    void render_text_filter();
+    void render_selection();
+    void render_select_bench();
     void restart_rotation();
-    void reload_btn();
+    void render_load_buttons();
 
+    /* RENDER ROTATION WINDOW */
     void render_rotation_window(const bool is_not_ui_adjust_active,
                                 ID3D11Device *pd3dDevice);
-    void rotation_render_details(ID3D11Device *pd3dDevice);
-    void rotation_render_horizontal(ID3D11Device *pd3dDevice);
+    void render_rotation_details(ID3D11Device *pd3dDevice);
+    void render_rotation_horizontal(ID3D11Device *pd3dDevice);
     void render_rotation_icons(const SkillState &skill_state,
-                               const RotationInfo &skill_info,
+                               const RotationStep &rotation_step,
                                const ID3D11ShaderResourceView *texture,
                                const std::string &text,
-
                                ID3D11Device *pd3dDevice);
 
+    /* HELPER */
+    float calculate_centered_position(
+        const std::vector<std::string> &items) const;
     void skill_activation_callback(const bool pressed,
                                    const EvCombatDataPersistent &combat_data);
     void toggle_vis(const bool flag);

@@ -5,7 +5,22 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.5.0 - 2025-10-23
+## BETA 0.6.0
+
+### Features
+
+- Added Unload Rota button
+- Reset bench selection on relog
+- Added the option to show weapon swaps
+
+### Improvements
+
+- Added more skills to "gray" out to drop
+- Added some new spec builds
+- Added logic for unknown skills to show placeholder
+- Dropped canceled skills from the rotation
+
+## 0.5.0 - 2025-10-25
 
 ### Improvements
 

@@ -17,12 +17,12 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device,
                                                  const std::wstring &filename);
 
 TextureMapType LoadAllSkillTextures(ID3D11Device *device,
-                                    const SkillInfoMap &skill_info_map,
+                                    const LogSkillInfoMap &log_skill_info_map,
                                     const std::filesystem::path &img_folder);
 
 TextureMapType LoadAllSkillTexturesWithAPI(
     AddonAPI *api_defs,
-    const SkillInfoMap &skill_info_map,
+    const LogSkillInfoMap &log_skill_info_map,
     const std::filesystem::path &img_folder);
 
 void ReleaseTextureMap(TextureMapType &texture_map);
