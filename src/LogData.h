@@ -52,6 +52,7 @@ public:
 
     const static inline std::set<std::string> skills_substr_weapon_swap_like = {
         "Weapon Swap",
+        "Dodge",
         // GUARDIAN
         // WARRIOR
         // ENGINEER
@@ -126,7 +127,6 @@ public:
     };
 
     const static inline std::set<std::string> special_substr_to_gray_out = {
-        "Dodge",
         // GUARDIAN
         "Chapter 1:",
         "Chapter 2:",
@@ -187,6 +187,7 @@ public:
         "Signet of the Ether",
         "Jaunt",
         "Crystal Sands",
+        "Continuum Split",
         // NECROMANCER
         "Plague Signet",
         "Elixir of Promise",
