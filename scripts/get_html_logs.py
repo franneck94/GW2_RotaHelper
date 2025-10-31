@@ -26,7 +26,12 @@ SLEEP_DELAY = 1.5
 class SnowCrowsScraper:
     """Scraper for SnowCrows benchmark DPS report links"""
 
-    def __init__(self, output_dir: Path, delay: float = 1.0, headless: bool = True):
+    def __init__(
+        self,
+        output_dir: Path,
+        delay: float = 1.0,
+        headless: bool = True,
+    ):
         self.output_dir = output_dir
         self.delay = delay  # Delay between requests to be respectful
         self.headless = headless
@@ -39,10 +44,16 @@ class SnowCrowsScraper:
             }
         )
 
-        logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+        logging.basicConfig(
+            level=logging.INFO,
+            format="%(levelname)s: %(message)s",
+        )
         self.logger = logging.getLogger(__name__)
 
-        self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.output_dir.mkdir(
+            parents=True,
+            exist_ok=True,
+        )
 
         self.elite_spec_to_profession = {
             # Guardian
@@ -115,7 +126,10 @@ class SnowCrowsScraper:
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--window-size=1920,1080")
         chrome_options.add_argument(
-            "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            (
+                "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+            )
         )
 
         try:
@@ -166,7 +180,7 @@ class SnowCrowsScraper:
                     re.IGNORECASE,
                 )
 
-                build_urls = build_url_pattern.findall(response.text)
+                build_urls: list[str] = build_url_pattern.findall(response.text)
                 self.logger.info(
                     f"Found {len(build_urls)} {benchmark_type.upper()} build URLs"
                 )
@@ -212,7 +226,10 @@ class SnowCrowsScraper:
         )
         return unique_builds
 
-    def get_manual_builds_and_links(self, manual_file_path: Path) -> list[dict]:
+    def get_manual_builds_and_links(
+        self,
+        manual_file_path: Path,
+    ) -> list[dict]:
         """Extract build info from manual JSON file"""
         import json
 
@@ -615,7 +632,9 @@ class SnowCrowsScraper:
                     existing_data = json.load(f)
                     # Create lookup dict by URL for efficient merging
                     for build in existing_data:
-                        key = build.get("url", "") + "|" + build.get("benchmark_type", "")
+                        key = (
+                            build.get("url", "") + "|" + build.get("benchmark_type", "")
+                        )
                         existing_builds[key] = build
                 self.logger.info(f"Loaded {len(existing_data)} existing build entries")
             except Exception as e:
@@ -631,7 +650,9 @@ class SnowCrowsScraper:
         with open(metadata_file, "w", encoding="utf-8") as f:
             json.dump(merged_builds, f, indent=2, ensure_ascii=False)
 
-        self.logger.info(f"Saved merged build metadata to {metadata_file} (total: {len(merged_builds)} builds)")
+        self.logger.info(
+            f"Saved merged build metadata to {metadata_file} (total: {len(merged_builds)} builds)"
+        )
         self.logger.info(f"Download complete: {success_count}/{total_count} successful")
 
     def run(self, manual_file_path: Path | None = None) -> None:

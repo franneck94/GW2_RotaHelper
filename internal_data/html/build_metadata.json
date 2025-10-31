@@ -29,7 +29,7 @@
     "elite_spec": "Thief",
     "build_type": "power",
     "url_name": "power-antiquary",
-    "dps_report_url": "https://dps.report/konc-20251028-165134_golem",
+    "dps_report_url": "https://dps.report/W3nt-20251029-201211_golem",
     "html_file_path": "dps\\power\\power_antiquary.html"
   },
   {
@@ -73,7 +73,7 @@
     "elite_spec": "Elementalist",
     "build_type": "power",
     "url_name": "power-evoker-scepter-dagger-pf",
-    "dps_report_url": "https://dps.report/Hj3a-20250828-161917_golem",
+    "dps_report_url": "https://dps.report/LJ1M-20251030-141358_golem",
     "html_file_path": "dps\\power\\power_evoker_scepter_dagger_pf.html"
   },
   {
@@ -964,7 +964,7 @@
     "elite_spec": "Elementalist",
     "build_type": "power",
     "url_name": "power-quickness-evoker-hare",
-    "dps_report_url": "https://dps.report/keId-20251028-154734_golem",
+    "dps_report_url": "https://dps.report/crDJ-20251029-120949_golem",
     "html_file_path": "quick\\power\\power_quickness_evoker_hare.html"
   },
   {
@@ -1516,5 +1516,93 @@
     "url_name": "celestial-alacrity-scourge",
     "dps_report_url": "https://dps.report/xICN-20250628-071219_golem",
     "html_file_path": "alac\\power\\celestial_alacrity_scourge.html"
+  },
+  {
+    "name": "Condition Antiquary",
+    "url": "https://snowcrows.com/builds/raids/thief/condition-antiquary",
+    "benchmark_type": "dps",
+    "profession": "Thief",
+    "elite_spec": "Thief",
+    "build_type": "condition",
+    "url_name": "condition-antiquary",
+    "dps_report_url": "https://dps.report/ol9r-20251029-200808_golem",
+    "html_file_path": "dps\\condition\\condition_antiquary.html"
+  },
+  {
+    "name": "Inferno Evoker Specialized Elements",
+    "url": "https://snowcrows.com/builds/raids/elementalist/inferno-evoker-specialized-elements",
+    "benchmark_type": "dps",
+    "profession": "Elementalist",
+    "elite_spec": "Elementalist",
+    "build_type": "power",
+    "url_name": "inferno-evoker-specialized-elements",
+    "dps_report_url": "https://dps.report/3MmZ-20251029-212515_golem",
+    "html_file_path": "dps\\power\\inferno_evoker_specialized_elements.html"
+  },
+  {
+    "name": "Condition Conduit",
+    "url": "https://snowcrows.com/builds/raids/revenant/condition-conduit",
+    "benchmark_type": "dps",
+    "profession": "Revenant",
+    "elite_spec": "Revenant",
+    "build_type": "condition",
+    "url_name": "condition-conduit",
+    "dps_report_url": "https://dps.report/fh81-20251029-182331_golem",
+    "html_file_path": "dps\\condition\\condition_conduit.html"
+  },
+  {
+    "name": "Power Galeshot",
+    "url": "https://snowcrows.com/builds/raids/ranger/power-galeshot",
+    "benchmark_type": "dps",
+    "profession": "Ranger",
+    "elite_spec": "Ranger",
+    "build_type": "power",
+    "url_name": "power-galeshot",
+    "dps_report_url": "https://dps.report/qFi8-20251030-151746_golem",
+    "html_file_path": "dps\\power\\power_galeshot.html"
+  },
+  {
+    "name": "Power Luminary",
+    "url": "https://snowcrows.com/builds/raids/guardian/power-luminary",
+    "benchmark_type": "dps",
+    "profession": "Guardian",
+    "elite_spec": "Guardian",
+    "build_type": "power",
+    "url_name": "power-luminary",
+    "dps_report_url": "https://dps.report/HTRJ-20251030-035444_golem",
+    "html_file_path": "dps\\power\\power_luminary.html"
+  },
+  {
+    "name": "Power Quickness Galeshot",
+    "url": "https://snowcrows.com/builds/raids/ranger/power-quickness-galeshot",
+    "benchmark_type": "dps",
+    "profession": "Ranger",
+    "elite_spec": "Ranger",
+    "build_type": "power",
+    "url_name": "power-quickness-galeshot",
+    "dps_report_url": "https://dps.report/hbkX-20251029-231807_golem",
+    "html_file_path": "dps\\power\\power_quickness_galeshot.html"
+  },
+  {
+    "name": "Inferno Quickness Evoker Specialized Elements",
+    "url": "https://snowcrows.com/builds/raids/elementalist/inferno-quickness-evoker-specialized-elements",
+    "benchmark_type": "quick",
+    "profession": "Elementalist",
+    "elite_spec": "Elementalist",
+    "build_type": "power",
+    "url_name": "inferno-quickness-evoker-specialized-elements",
+    "dps_report_url": "https://dps.report/kwP2-20251030-001145_golem",
+    "html_file_path": "quick\\power\\inferno_quickness_evoker_specialized_elements.html"
+  },
+  {
+    "name": "Power Alacrity Antiquary",
+    "url": "https://snowcrows.com/builds/raids/thief/power-alacrity-antiquary",
+    "benchmark_type": "alac",
+    "profession": "Thief",
+    "elite_spec": "Thief",
+    "build_type": "power",
+    "url_name": "power-alacrity-antiquary",
+    "dps_report_url": "https://dps.report/LJFa-20251029-025741_golem",
+    "html_file_path": "alac\\power\\power_alacrity_antiquary.html"
   }
 ]
