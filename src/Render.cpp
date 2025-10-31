@@ -25,6 +25,7 @@
 
 #include "ArcEvents.h"
 #include "Defines.h"
+#include "FileUtils.h"
 #include "LogData.h"
 #include "MumbleUtils.h"
 #include "Render.h"
@@ -33,7 +34,6 @@
 #include "Textures.h"
 #include "Types.h"
 #include "TypesUtils.h"
-#include "FileUtils.h"
 
 namespace
 {
@@ -407,29 +407,11 @@ SkillState get_skill_state(
     const auto is_current = (window_idx == static_cast<int32_t>(current_idx));
     const auto is_last =
         (window_idx == Globals::RotationRun.all_rotation_steps.size() - 1);
-    const auto is_completed = (window_idx < static_cast<int32_t>(current_idx));
-
-    auto is_completed_correct = false;
-    auto is_completed_incorrect = false;
-    if (played_rotation.size() > window_idx && window_idx < current_idx)
-    {
-        const auto casted_skill = played_rotation[window_idx];
-        const auto bench_skill =
-            Globals::RotationRun.all_rotation_steps[window_idx];
-
-        is_completed_correct =
-            (casted_skill.SkillName == bench_skill.skill_data.name) ? true
-                                                                    : false;
-        is_completed_incorrect = !is_completed_correct;
-    }
 
     return SkillState{
-        .is_history = window_idx < current_idx,
         .is_current = is_current,
         .is_last = is_last,
         .is_auto_attack = is_auto_attack,
-        .is_completed_correct = is_completed_correct,
-        .is_completed_incorrect = is_completed_incorrect,
     };
 }
 } // namespace

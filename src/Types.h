@@ -48,12 +48,9 @@ struct EvAgentUpdate
 
 struct SkillState
 {
-    bool is_history;
     bool is_current;
     bool is_last;
     bool is_auto_attack;
-    bool is_completed_correct;
-    bool is_completed_incorrect;
 };
 
 struct LogSkillInfo

@@ -25,77 +25,77 @@ constexpr static auto MIN_TIME_DIFF = 10U;
 
 static auto is_first_cast_map = std::map<std::string, bool>{};
 
-bool IsValidSelfData(const EvCombatData &evCbtData)
+bool IsValidSelfData(const EvCombatData &combat_data)
 {
-    return evCbtData.src->IsSelf && evCbtData.src != nullptr &&
-           evCbtData.skillname != nullptr && evCbtData.ev != nullptr &&
-           evCbtData.src->Name != nullptr;
+    return combat_data.src->IsSelf && combat_data.src != nullptr &&
+           combat_data.skillname != nullptr && combat_data.ev != nullptr &&
+           combat_data.src->Name != nullptr;
 }
 
-bool IsValidCombatEvent(const EvCombatData &evCbtData)
+bool IsValidCombatEvent(const EvCombatData &combat_data)
 {
-    const auto is_valid_self = IsValidSelfData(evCbtData);
+    const auto is_valid_self = IsValidSelfData(combat_data);
 
     return is_valid_self;
 }
 
-bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &evCbtData)
+bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &combat_data)
 {
 #ifdef _DEBUG
-    if (evCbtData.SkillID == static_cast<uint64_t>(-1))
+    if (combat_data.SkillID == static_cast<uint64_t>(-1))
         return true;
 #endif
 
     const auto &skill_data_map = Globals::RotationRun.skill_data_map;
     const auto found =
-        skill_data_map.find(evCbtData.SkillID) != skill_data_map.end();
+        skill_data_map.find(combat_data.SkillID) != skill_data_map.end();
     return found;
 }
 
-bool IsSkillFromBuild_NameBased(const EvCombatDataPersistent &evCbtData)
+bool IsSkillFromBuild_NameBased(const EvCombatDataPersistent &combat_data)
 {
     const auto &skill_data_map = Globals::RotationRun.skill_data_map;
     for (const auto &kv : skill_data_map)
     {
-        if (kv.second.name == evCbtData.SkillName)
+        if (kv.second.name == combat_data.SkillName)
             return true;
     }
     return false;
 }
 
-bool IsAnySkillFromBuild(const EvCombatDataPersistent &evCbtData)
+bool IsAnySkillFromBuild(const EvCombatDataPersistent &combat_data)
 {
-    return IsSkillFromBuild_NameBased(evCbtData) ||
-           IsSkillFromBuild_IdBased(evCbtData);
+    return IsSkillFromBuild_NameBased(combat_data) ||
+           IsSkillFromBuild_IdBased(combat_data);
 }
 
 std::chrono::steady_clock::time_point UpdateCastTime(
     std::map<std::string, std::chrono::steady_clock::time_point> &last_cast_map,
-    const EvCombatDataPersistent &evCbtData)
+    const EvCombatDataPersistent &combat_data)
 {
     const auto now = std::chrono::steady_clock::now();
 
-    last_cast_map[evCbtData.SkillName] = now;
+    last_cast_map[combat_data.SkillName] = now;
 
     return now;
 }
 
 std::chrono::steady_clock::time_point GetLastCastTime(
-    const EvCombatDataPersistent &evCbtData)
+    const EvCombatDataPersistent &combat_data)
 {
     static auto last_cast_map =
         std::map<std::string, std::chrono::steady_clock::time_point>{};
 
-    const auto it = last_cast_map.find(evCbtData.SkillName);
+    const auto it = last_cast_map.find(combat_data.SkillName);
     if (it != last_cast_map.end())
     {
         const auto time = it->second;
-        UpdateCastTime(last_cast_map, evCbtData);
+        UpdateCastTime(last_cast_map, combat_data);
 
         return time;
     }
 
-    const auto now = UpdateCastTime(last_cast_map, evCbtData);
+    const auto now = UpdateCastTime(last_cast_map, combat_data);
     return now;
 }
 
@@ -155,17 +155,34 @@ bool SKillCastIsTooEarlyWrtRechargeTime(
     return false;
 }
 
-bool IsNotTheSameCast(const EvCombatDataPersistent &evCbtData)
+bool IsNotTheSameCast(const EvCombatDataPersistent &combat_data)
 {
+    static auto skill_last_cast_times =
+        std::map<uint64_t, std::chrono::steady_clock::time_point>{};
+
     const auto now = std::chrono::steady_clock::now();
-    const auto last_cast_time = GetLastCastTime(evCbtData);
+    const auto last_cast_time = GetLastCastTime(combat_data);
     const auto is_not_same_cast =
         (now - last_cast_time) > std::chrono::milliseconds(MIN_TIME_DIFF);
 
-    if (is_first_cast_map.find(evCbtData.SkillName) == is_first_cast_map.end())
+    if (is_first_cast_map.find(combat_data.SkillName) ==
+        is_first_cast_map.end())
     {
-        is_first_cast_map[evCbtData.SkillName] = true;
+        is_first_cast_map[combat_data.SkillName] = true;
         return true;
+    }
+
+    if (skill_last_cast_times.find(combat_data.SkillID) !=
+        skill_last_cast_times.end())
+    {
+        if (SKillCastIsTooEarlyWrtRechargeTime(now,
+                                               combat_data,
+                                               skill_last_cast_times))
+            return false;
+    }
+    else
+    {
+        skill_last_cast_times[combat_data.SkillID] = now;
     }
 
     return is_not_same_cast;
@@ -214,18 +231,18 @@ bool OnCombat(const char *channel,
         dst == nullptr || skillname == nullptr)
         return false;
 
-    auto evCbtData = EvCombatData{ev, src, dst, skillname, id, revision};
+    auto combat_data = EvCombatData{ev, src, dst, skillname, id, revision};
 
-    if (IsValidCombatEvent(evCbtData))
+    if (IsValidCombatEvent(combat_data))
     {
         const auto data = EvCombatDataPersistent{
-            .SrcName = std::string(evCbtData.src->Name),
-            .SrcID = evCbtData.src->ID,
-            .SrcProfession = evCbtData.src->Profession,
-            .SrcSpecialization = evCbtData.src->Specialization,
-            .SkillName = std::string(evCbtData.skillname),
-            .SkillID = evCbtData.ev->SkillID,
-            .EventID = evCbtData.id,
+            .SrcName = std::string(combat_data.src->Name),
+            .SrcID = combat_data.src->ID,
+            .SrcProfession = combat_data.src->Profession,
+            .SrcSpecialization = combat_data.src->Specialization,
+            .SkillName = std::string(combat_data.skillname),
+            .SkillID = combat_data.ev->SkillID,
+            .EventID = combat_data.id,
         };
 
         if (Globals::RotationRun.log_skill_info_map.empty() ||
