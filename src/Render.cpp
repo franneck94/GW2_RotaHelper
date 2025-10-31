@@ -567,11 +567,6 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
 
     if (ImGui::Checkbox("Horizontal", &Settings::HorizontalSkillLayout))
     {
-        if (Settings::HorizontalSkillLayout)
-            Globals::SkillIconSize = 64.0F;
-        else
-            Globals::SkillIconSize = 28.0F;
-
         Settings::Save(Globals::SettingsPath);
     }
 
@@ -888,18 +883,20 @@ void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,
                                         ID3D11Device *pd3dDevice)
 {
     float window_width = 0.0f;
-    float window_height = Globals::SkillIconSize * 0.0F;
+    float window_height = 0.0f;
     ImGuiIO &io = ImGui::GetIO();
+
     if (!Settings::HorizontalSkillLayout)
     {
         window_width = 400.0f;
-        window_height = Globals::SkillIconSize * 10.0F;
+        window_height = 400.0f;
     }
     else
     {
-        window_width = Globals::SkillIconSize * 10.0F;
-        window_height = 50.0F;
+        window_width = 600.0f;
+        window_height = 100.0f;
     }
+
     ImGui::SetNextWindowSize(ImVec2(window_width, window_height),
                              ImGuiCond_FirstUseEver);
     float pos_x = (io.DisplaySize.x - window_width) * 0.5f;
@@ -920,6 +917,10 @@ void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,
                          &Settings::ShowWindow,
                          curr_flags_rota))
         {
+            const auto current_window_size = ImGui::GetWindowSize();
+            Globals::SkillIconSize = min(current_window_size.x * 0.15f, 80.0f);
+            Globals::SkillIconSize = max(Globals::SkillIconSize, 24.0f);
+
             render_rotation_details(pd3dDevice);
         }
     }
@@ -929,6 +930,10 @@ void RenderType::render_rotation_window(const bool is_not_ui_adjust_active,
                          &Settings::ShowWindow,
                          curr_flags_rota))
         {
+            const auto current_window_size = ImGui::GetWindowSize();
+            Globals::SkillIconSize = min(current_window_size.y * 0.7f, 80.0f);
+            Globals::SkillIconSize = max(Globals::SkillIconSize, 24.0f);
+
             render_rotation_horizontal(pd3dDevice);
         }
     }
