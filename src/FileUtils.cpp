@@ -225,14 +225,6 @@ bool load_rotaion_json(const std::filesystem::path &json_path,
     try
     {
         auto file{std::ifstream{json_path}};
-        if (!file.is_open())
-        {
-            std::cerr << "Error: Could not open rotation data file: "
-                      << json_path << std::endl;
-            return false;
-        }
-
-        auto j{nlohmann::json{}};
         file >> j;
     }
     catch (const nlohmann::json::exception &e)
@@ -260,13 +252,6 @@ bool load_skill_data_map(const std::filesystem::path &json_path,
     try
     {
         auto file2{std::ifstream{skill_data_json}};
-        if (!file2.is_open())
-        {
-            std::cerr << "Warning: Could not open skill data file: "
-                      << skill_data_json << std::endl;
-            return false;
-        }
-
         file2 >> j;
     }
     catch (const nlohmann::json::exception &e)

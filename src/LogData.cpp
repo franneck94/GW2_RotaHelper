@@ -577,13 +577,13 @@ std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
     const SkillRules &skill_rules,
     const std::map<std::string, float> &skill_cast_time_map)
 {
-    auto j = nlohmann::json{};
-    auto is_load_success = load_rotaion_json(json_path, j);
+    auto json_rotation_log = nlohmann::json{};
+    auto is_load_success = load_rotaion_json(json_path, json_rotation_log);
     if (!is_load_success)
         return std::make_tuple(LogSkillInfoMap{}, RotationSteps{}, MetaData{});
 
-    const auto rotation_data = j["rotation"];
-    const auto skill_data = j["skillMap"];
+    const auto rotation_data = json_rotation_log["rotation"];
+    const auto skill_data = json_rotation_log["skillMap"];
 
     auto kv_rotation = IntNode{};
     collect_json(rotation_data, kv_rotation);
@@ -600,7 +600,7 @@ std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
                       skill_rules,
                       skill_cast_time_map);
 
-    auto metadata = get_metadata(j);
+    auto metadata = get_metadata(json_rotation_log);
 
     return std::make_tuple(log_skill_info_map, rotation_steps, metadata);
 }
@@ -728,12 +728,11 @@ void RotationRunType::load_data(const std::filesystem::path &json_path,
     log_skill_info_map.clear();
     all_rotation_steps.clear();
 
-    auto j = nlohmann::json{};
-    const auto load_success = load_skill_data_map(json_path, j);
+    auto jsons_skill_data = nlohmann::json{};
+    const auto load_success = load_skill_data_map(json_path, jsons_skill_data);
     if (!load_success)
         return;
-
-    skill_data_map = get_skill_data_map(j);
+    skill_data_map = get_skill_data_map(jsons_skill_data);
 
     const auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] =
         get_dpsreport_data(json_path,
