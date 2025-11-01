@@ -10,7 +10,7 @@ import aiohttp
 from aiohttp import ClientSession, ClientTimeout
 
 
-class SkillType(Enum):
+class SkillSlot(Enum):
     NONE = 0
     WEAPON_1 = 1
     WEAPON_2 = 2
@@ -131,15 +131,15 @@ class GW2SkillFetcher:
             # Update skill type for Necromancer downed skills
             if slot == "Downed_1":
                 is_auto_attack = True
-                skill_type_int = SkillType.WEAPON_1.value
+                skill_type_int = SkillSlot.WEAPON_1.value
             elif slot == "Downed_2":
-                skill_type_int = SkillType.WEAPON_2.value
+                skill_type_int = SkillSlot.WEAPON_2.value
             elif slot == "Downed_3":
-                skill_type_int = SkillType.WEAPON_3.value
+                skill_type_int = SkillSlot.WEAPON_3.value
             elif slot == "Downed_4":
-                skill_type_int = SkillType.WEAPON_4.value
+                skill_type_int = SkillSlot.WEAPON_4.value
             elif slot == "Downed_5":
-                skill_type_int = SkillType.WEAPON_5.value
+                skill_type_int = SkillSlot.WEAPON_5.value
 
         # Build filtered skill data with only the essential fields
         filtered_skill = {
@@ -271,30 +271,30 @@ class GW2SkillFetcher:
         return slot in profession_slots
 
     def _get_skill_type_int(self, slot: str) -> int:
-        """Get the SkillType enum integer value based on slot."""
+        """Get the SkillSlot enum integer value based on slot."""
         slot_to_skill_type = {
-            "Weapon_1": SkillType.WEAPON_1,
-            "Weapon_2": SkillType.WEAPON_2,
-            "Weapon_3": SkillType.WEAPON_3,
-            "Weapon_4": SkillType.WEAPON_4,
-            "Weapon_5": SkillType.WEAPON_5,
-            "Weapon": SkillType.WEAPON_1,  # Generic weapon slot, default to weapon 1
-            "Heal": SkillType.HEAL,
-            "Utility": SkillType.UTILITY_1,  # Default utility to utility 1, could be refined later
-            "Elite": SkillType.ELITE,
-            "Profession_1": SkillType.PROFESSION_1,
-            "Profession_2": SkillType.PROFESSION_2,
-            "Profession_3": SkillType.PROFESSION_3,
-            "Profession_4": SkillType.PROFESSION_4,
-            "Profession_5": SkillType.PROFESSION_5,
+            "Weapon_1": SkillSlot.WEAPON_1,
+            "Weapon_2": SkillSlot.WEAPON_2,
+            "Weapon_3": SkillSlot.WEAPON_3,
+            "Weapon_4": SkillSlot.WEAPON_4,
+            "Weapon_5": SkillSlot.WEAPON_5,
+            "Weapon": SkillSlot.WEAPON_1,  # Generic weapon slot, default to weapon 1
+            "Heal": SkillSlot.HEAL,
+            "Utility": SkillSlot.UTILITY_1,  # Default utility to utility 1, could be refined later
+            "Elite": SkillSlot.ELITE,
+            "Profession_1": SkillSlot.PROFESSION_1,
+            "Profession_2": SkillSlot.PROFESSION_2,
+            "Profession_3": SkillSlot.PROFESSION_3,
+            "Profession_4": SkillSlot.PROFESSION_4,
+            "Profession_5": SkillSlot.PROFESSION_5,
             # Downed skills (mapped to weapon slots)
-            "Downed_1": SkillType.WEAPON_1,
-            "Downed_2": SkillType.WEAPON_2,
-            "Downed_3": SkillType.WEAPON_3,
-            "Downed_4": SkillType.WEAPON_4,
+            "Downed_1": SkillSlot.WEAPON_1,
+            "Downed_2": SkillSlot.WEAPON_2,
+            "Downed_3": SkillSlot.WEAPON_3,
+            "Downed_4": SkillSlot.WEAPON_4,
         }
 
-        return slot_to_skill_type.get(slot, SkillType.NONE).value
+        return slot_to_skill_type.get(slot, SkillSlot.NONE).value
 
     def _is_necromancer_downed_skill(self, skill: Dict[str, Dict[str, Any]]) -> bool:
         """Check if this is a Necromancer downed skill that should be treated as weapon skill."""
@@ -345,7 +345,7 @@ class GW2SkillFetcher:
             "icon": "",
             "id": 9999,
             "name": "Weapon Swap",
-            "skill_type": str(SkillType.NONE.value),
+            "skill_type": str(SkillSlot.NONE.value),
             "is_auto_attack": False,
             "is_weapon_skill": False,
             "is_utility_skill": False,
@@ -360,7 +360,7 @@ class GW2SkillFetcher:
             "icon": "",
             "id": -9999,
             "name": "Unknown Skill",
-            "skill_type": str(SkillType.NONE.value),
+            "skill_type": str(SkillSlot.NONE.value),
             "is_auto_attack": False,
             "is_weapon_skill": False,
             "is_utility_skill": False,

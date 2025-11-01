@@ -307,84 +307,84 @@ inline std::vector<std::string> get_elite_specs_for_profession(
     return elite_specs;
 }
 
-inline std::string get_keybind_str(SkillType skill_type)
+inline std::string get_keybind_str(SkillSlot skill_type)
 {
     switch (skill_type)
     {
-    case SkillType::WEAPON_1:
+    case SkillSlot::WEAPON_1:
         return "1";
-    case SkillType::WEAPON_2:
+    case SkillSlot::WEAPON_2:
         return "2";
-    case SkillType::WEAPON_3:
+    case SkillSlot::WEAPON_3:
         return "3";
-    case SkillType::WEAPON_4:
+    case SkillSlot::WEAPON_4:
         return "4";
-    case SkillType::WEAPON_5:
+    case SkillSlot::WEAPON_5:
         return "5";
-    case SkillType::HEAL:
+    case SkillSlot::HEAL:
         return "6";
-    case SkillType::UTILITY_1:
-        return "7";
-    case SkillType::UTILITY_2:
-        return "8";
-    case SkillType::UTILITY_3:
-        return "9";
-    case SkillType::ELITE:
+    case SkillSlot::UTILITY_1:
+        return "Util"; // XXX
+    case SkillSlot::UTILITY_2:
+        return "Util"; // XXX
+    case SkillSlot::UTILITY_3:
+        return "Util"; // XXX
+    case SkillSlot::ELITE:
         return "0";
-    case SkillType::PROFESSION_1:
+    case SkillSlot::PROFESSION_1:
         return "F1";
-    case SkillType::PROFESSION_2:
+    case SkillSlot::PROFESSION_2:
         return "F2";
-    case SkillType::PROFESSION_3:
+    case SkillSlot::PROFESSION_3:
         return "F3";
-    case SkillType::PROFESSION_4:
+    case SkillSlot::PROFESSION_4:
         return "F4";
-    case SkillType::PROFESSION_5:
+    case SkillSlot::PROFESSION_5:
         return "F5";
-    case SkillType::PROFESSION_6:
+    case SkillSlot::PROFESSION_6:
         return "F6";
-    case SkillType::PROFESSION_7:
+    case SkillSlot::PROFESSION_7:
         return "F7";
     default:
         return "";
     }
 }
 
-inline SkillType load_keybind(const std::string keybind_str)
+inline SkillSlot load_keybind(const std::string keybind_str)
 {
     if (keybind_str == "Weapon_1")
-        return SkillType::WEAPON_1;
+        return SkillSlot::WEAPON_1;
     if (keybind_str == "Weapon_2")
-        return SkillType::WEAPON_2;
+        return SkillSlot::WEAPON_2;
     if (keybind_str == "Weapon_3")
-        return SkillType::WEAPON_3;
+        return SkillSlot::WEAPON_3;
     if (keybind_str == "Weapon_4")
-        return SkillType::WEAPON_4;
+        return SkillSlot::WEAPON_4;
     if (keybind_str == "Weapon_5")
-        return SkillType::WEAPON_5;
+        return SkillSlot::WEAPON_5;
     if (keybind_str == "Heal")
-        return SkillType::HEAL;
+        return SkillSlot::HEAL;
     if (keybind_str == "Utility_1")
-        return SkillType::UTILITY_1;
+        return SkillSlot::UTILITY_1;
     if (keybind_str == "Utility_2")
-        return SkillType::UTILITY_2;
+        return SkillSlot::UTILITY_2;
     if (keybind_str == "Utility_3")
-        return SkillType::UTILITY_3;
+        return SkillSlot::UTILITY_3;
     if (keybind_str == "Elite")
-        return SkillType::ELITE;
+        return SkillSlot::ELITE;
     if (keybind_str == "Profession_1")
-        return SkillType::PROFESSION_1;
+        return SkillSlot::PROFESSION_1;
     if (keybind_str == "Profession_2")
-        return SkillType::PROFESSION_2;
+        return SkillSlot::PROFESSION_2;
     if (keybind_str == "Profession_3")
-        return SkillType::PROFESSION_3;
+        return SkillSlot::PROFESSION_3;
     if (keybind_str == "Profession_4")
-        return SkillType::PROFESSION_4;
+        return SkillSlot::PROFESSION_4;
     if (keybind_str == "Profession_5")
-        return SkillType::PROFESSION_5;
+        return SkillSlot::PROFESSION_5;
     if (keybind_str == "Profession_6")
-        return SkillType::PROFESSION_6;
+        return SkillSlot::PROFESSION_6;
     if (keybind_str == "Profession_7")
-        return SkillType::PROFESSION_7;
-    return SkillType::NONE;
+        return SkillSlot::PROFESSION_7;
+    return SkillSlot::NONE;
 }
