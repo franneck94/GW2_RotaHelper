@@ -67,6 +67,7 @@ add_library(first_party_libs STATIC
     "src/ArcEvents.cpp"
     "src/Textures.cpp"
     "src/FileUtils.cpp"
+    "src/TypesUtils.cpp"
     "src/MumbleUtils.cpp"
     $<$<CONFIG:Debug>:src/MemoryReader.cpp>
 )
