@@ -230,6 +230,33 @@ void RenderType::render_debug_data()
     ImGui::Text("Last Event ID: %u", curr_combat_data.EventID);
 }
 
+void RenderType::render_xml_selection()
+{
+    if (ImGui::Button("Select Keybinds XML", ImVec2(-1, 0)))
+    {
+        OPENFILENAME ofn;
+        CHAR szFile[260] = {0};
+
+        ZeroMemory(&ofn, sizeof(ofn));
+        ofn.lStructSize = sizeof(ofn);
+        ofn.lpstrFile = szFile;
+        ofn.nMaxFile = sizeof(szFile);
+        ofn.lpstrFilter = "XML Files\0*.xml\0All Files\0*.*\0";
+        ofn.nFilterIndex = 1;
+        ofn.lpstrFileTitle = NULL;
+        ofn.nMaxFileTitle = 0;
+        ofn.lpstrInitialDir = "C:\\";
+        ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+        if (GetOpenFileName(&ofn) == TRUE)
+        {
+            // File selected, path is in szFile
+            // You can add your XML file processing logic here
+            ImGui::Text("Selected: %s", szFile);
+        }
+    }
+}
+
 void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
 {
     const auto first_row_items =
@@ -293,31 +320,7 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
     }
 
 #ifdef _DEBUG
-#ifdef GW2_NEXUS_ADDON
-    if (ImGui::Button("Select XML File", ImVec2(-1, 0)))
-    {
-        OPENFILENAME ofn;
-        CHAR szFile[260] = {0};
-
-        ZeroMemory(&ofn, sizeof(ofn));
-        ofn.lStructSize = sizeof(ofn);
-        ofn.lpstrFile = szFile;
-        ofn.nMaxFile = sizeof(szFile);
-        ofn.lpstrFilter = "XML Files\0*.xml\0All Files\0*.*\0";
-        ofn.nFilterIndex = 1;
-        ofn.lpstrFileTitle = NULL;
-        ofn.nMaxFileTitle = 0;
-        ofn.lpstrInitialDir = "C:\\";
-        ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-        if (GetOpenFileName(&ofn) == TRUE)
-        {
-            // File selected, path is in szFile
-            // You can add your XML file processing logic here
-            ImGui::Text("Selected: %s", szFile);
-        }
-    }
-#endif
+    render_xml_selection();
 #endif
 }
 

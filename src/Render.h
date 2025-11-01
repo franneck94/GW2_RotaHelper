@@ -31,6 +31,7 @@ public:
     void render_options_window(bool &is_not_ui_adjust_active);
     void render_text_filter();
     void render_selection();
+    void render_xml_selection();
     void render_select_bench();
     void restart_rotation();
     void render_load_buttons();
