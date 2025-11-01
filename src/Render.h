@@ -33,6 +33,7 @@ public:
     void render_selection();
     void render_xml_selection();
     void render_select_bench();
+    void render_keybind(const RotationStep &rotation_step);
     void restart_rotation();
     void render_load_buttons();
 

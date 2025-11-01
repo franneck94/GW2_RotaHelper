@@ -1,10 +1,14 @@
 #pragma once
 
 #include <algorithm>
+#include <map>
 #include <string>
 #include <vector>
 
 #include "Types.h"
+
+// Forward declaration
+struct KeybindInfo;
 
 ProfessionID string_to_profession(const std::string &profession_name)
 {
@@ -306,7 +310,7 @@ std::vector<std::string> get_elite_specs_for_profession(ProfessionID profession)
     return elite_specs;
 }
 
-std::string get_keybind_str(SkillSlot skill_type)
+std::string skillslot_to_string(SkillSlot skill_type)
 {
     switch (skill_type)
     {
@@ -349,7 +353,7 @@ std::string get_keybind_str(SkillSlot skill_type)
     }
 }
 
-SkillSlot load_keybind(const std::string keybind_str)
+SkillSlot str_to_skillslot(const std::string keybind_str)
 {
     if (keybind_str == "Weapon_1")
         return SkillSlot::WEAPON_1;
@@ -388,7 +392,7 @@ SkillSlot load_keybind(const std::string keybind_str)
     return SkillSlot::NONE;
 }
 
-std::string keys_to_string(Keys key)
+std::string custom_keys_to_string(Keys key)
 {
     switch (key)
     {
@@ -492,6 +496,10 @@ std::string keys_to_string(Keys key)
         return "Z";
     case Keys::LEFT_ALT:
         return "LAlt";
+    case Keys::LEFT_ARROW:
+        return "Left";
+    case Keys::RIGHT_ARROW:
+        return "Right";
     default:
         return "Unknown";
     }
@@ -512,4 +520,64 @@ std::string modifiers_to_string(Modifiers modifier)
     default:
         return "Unknown";
     }
+}
+
+Keys get_keybind_for_skill_type(SkillSlot skill_type,
+                                const std::map<std::string, KeybindInfo>& keybinds)
+{
+    std::string action_name;
+
+    // Map SkillSlot to corresponding XML action names
+    switch (skill_type)
+    {
+    case SkillSlot::WEAPON_1:
+    case SkillSlot::PROFESSION_1:
+        action_name = "Profession Skill 1";
+        break;
+    case SkillSlot::WEAPON_2:
+    case SkillSlot::PROFESSION_2:
+        action_name = "Profession Skill 2";
+        break;
+    case SkillSlot::WEAPON_3:
+    case SkillSlot::PROFESSION_3:
+        action_name = "Profession Skill 3";
+        break;
+    case SkillSlot::WEAPON_4:
+    case SkillSlot::PROFESSION_4:
+        action_name = "Profession Skill 4";
+        break;
+    case SkillSlot::WEAPON_5:
+    case SkillSlot::PROFESSION_5:
+        action_name = "Profession Skill 5";
+        break;
+    case SkillSlot::PROFESSION_7:
+        action_name = "Profession Skill 7";
+        break;
+    case SkillSlot::HEAL:
+        action_name = "Healing Skill";
+        break;
+    case SkillSlot::UTILITY_1:
+        action_name = "Utility Skill 1";
+        break;
+    case SkillSlot::UTILITY_2:
+        action_name = "Utility Skill 2";
+        break;
+    case SkillSlot::UTILITY_3:
+        action_name = "Utility Skill 3";
+        break;
+    case SkillSlot::ELITE:
+        action_name = "Elite Skill";
+        break;
+    default:
+        return Keys::NONE;
+    }
+
+    // Look up the keybind in the map
+    auto it = keybinds.find(action_name);
+    if (it != keybinds.end())
+    {
+        return it->second.button;
+    }
+
+    return Keys::NONE;
 }

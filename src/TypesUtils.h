@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <map>
 #include <string>
 #include <vector>
 
@@ -17,10 +18,13 @@ std::string elite_spec_to_string(EliteSpecID elite_spec_id);
 std::vector<std::string> get_elite_specs_for_profession(
     ProfessionID profession);
 
-std::string get_keybind_str(SkillSlot skill_type);
+std::string skillslot_to_string(SkillSlot skill_type);
 
-SkillSlot load_keybind(const std::string keybind_str);
+SkillSlot str_to_skillslot(const std::string keybind_str);
 
-std::string keys_to_string(Keys key);
+std::string custom_keys_to_string(Keys key);
 
 std::string modifiers_to_string(Modifiers modifier);
+
+Keys get_keybind_for_skill_type(SkillSlot skill_type,
+                                const std::map<std::string, KeybindInfo>& keybinds);

@@ -220,6 +220,8 @@ enum class Keys
     CAPS = 5,
     ZIRUMFLEX = 17,
     TAB = 22,
+    LEFT_ARROW = 29,
+    RIGHT_ARROW = 30,
     F1 = 32,
     F2 = 33,
     F3 = 34,

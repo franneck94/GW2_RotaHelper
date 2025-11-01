@@ -243,10 +243,11 @@ void RenderType::render_debug_data()
             auto display_text = action_name + ": ";
             if (keybind_info.button != Keys::NONE)
             {
-                display_text += keys_to_string(keybind_info.button);
+                display_text += custom_keys_to_string(keybind_info.button);
                 if (keybind_info.modifier != Modifiers::NONE)
                 {
-                    display_text += " + " + modifiers_to_string(keybind_info.modifier);
+                    display_text +=
+                        " + " + modifiers_to_string(keybind_info.modifier);
                 }
             }
             else
@@ -787,6 +788,39 @@ void RenderType::render_rotation_horizontal(ID3D11Device *pd3dDevice)
     ImGui::Unindent(10.0f);
 }
 
+void RenderType::render_keybind(const RotationStep &rotation_step)
+{
+    auto *draw_list = ImGui::GetWindowDrawList();
+    auto icon_pos = ImGui::GetItemRectMin();
+    auto icon_size = ImGui::GetItemRectSize();
+    const auto skill_type = rotation_step.skill_data.skill_type;
+
+    auto keybind = std::string{};
+    if (!Settings::XmlSettingsPath.empty())
+        keybind = skillslot_to_string(skill_type);
+    else
+        keybind = custom_keys_to_string(
+            get_keybind_for_skill_type(skill_type, keybinds));
+
+    if (keybind != "")
+    {
+        auto text_size = ImGui::CalcTextSize(keybind.c_str());
+        auto padding = 2.0f;
+        auto text_pos =
+            ImVec2(icon_pos.x + icon_size.x - text_size.x - padding,
+                   icon_pos.y + icon_size.y - text_size.y - padding);
+        // Draw background for readability
+        draw_list->AddRectFilled(
+            ImVec2(text_pos.x - 2, text_pos.y - 1),
+            ImVec2(text_pos.x + text_size.x + 2, text_pos.y + text_size.y + 1),
+            IM_COL32(0, 0, 0, 180),
+            3.0f);
+        // Draw keybind text
+        draw_list->AddText(text_pos,
+                           IM_COL32(255, 255, 255, 255),
+                           keybind.c_str());
+    }
+}
 
 void RenderType::render_rotation_icons(const SkillState &skill_state,
                                        const RotationStep &rotation_step,
@@ -815,29 +849,7 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
 
         if (Settings::ShowKeybind)
         {
-            auto *draw_list = ImGui::GetWindowDrawList();
-            auto icon_pos = ImGui::GetItemRectMin();
-            auto icon_size = ImGui::GetItemRectSize();
-            const auto skill_type = rotation_step.skill_data.skill_type;
-            const auto keybind = get_keybind_str(skill_type);
-            if (keybind != "")
-            {
-                auto text_size = ImGui::CalcTextSize(keybind.c_str());
-                auto padding = 2.0f;
-                auto text_pos =
-                    ImVec2(icon_pos.x + icon_size.x - text_size.x - padding,
-                           icon_pos.y + icon_size.y - text_size.y - padding);
-                // Draw background for readability
-                draw_list->AddRectFilled(ImVec2(text_pos.x - 2, text_pos.y - 1),
-                                         ImVec2(text_pos.x + text_size.x + 2,
-                                                text_pos.y + text_size.y + 1),
-                                         IM_COL32(0, 0, 0, 180),
-                                         3.0f);
-                // Draw keybind text
-                draw_list->AddText(text_pos,
-                                   IM_COL32(255, 255, 255, 255),
-                                   keybind.c_str());
-            }
+            render_keybind();
         }
 
         if (ImGui::IsItemHovered())
