@@ -775,6 +775,12 @@ void SimpleSkillDetectionLogic(
     const EvCombatDataPersistent &skill_ev,
     EvCombatDataPersistent &last_skill)
 {
+    static auto time_of_last_next_next_skill_check =
+        std::chrono::steady_clock::now();
+    static auto time_of_last_next_next_next_skill_check =
+        std::chrono::steady_clock::now();
+    const auto now = std::chrono::steady_clock::now();
+
     auto curr_rota_skill = RotationStep{};
     auto next_rota_skill = RotationStep{};
     auto next_next_rota_skill = RotationStep{};
@@ -825,74 +831,72 @@ void SimpleSkillDetectionLogic(
         return;
     }
 
-#ifdef USE_SKIP_NEXT_SKILL
-    static auto last_time_aa_did_skip = std::chrono::steady_clock::now();
-
-    const auto now = std::chrono::steady_clock::now();
-    const auto time_span_since_aa_skip =
-        std::chrono::duration_cast<std::chrono::seconds>(now -
-                                                         last_time_aa_did_skip)
-            .count();
-
-    const auto include_aa_skip = (time_span_since_aa_skip > 3 ||
-                                  !next_rota_skill.skill_data.is_auto_attack);
-    if (include_aa_skip && CheckTheNextNskills(skill_ev,
-                                               next_rota_skill,
-                                               2,
-                                               true,
-                                               rotation_run,
-                                               last_skill))
-    {
-        num_skills_wo_match = 0U;
-
-        if (next_rota_skill.skill_data.is_auto_attack &&
-            next_next_rota_skill.skill_data.is_auto_attack)
-        {
-            last_time_aa_did_skip = std::chrono::steady_clock::now();
-        }
-
-        return;
-    }
-#endif
-
     const auto curr_is_auto_attack =
         IsSkillAutoAttack(skill_ev.SkillID,
                           skill_ev.SkillName,
                           Globals::RotationRun.skill_data_map);
 
-#ifdef USE_SKIP_NEXT_NEXT_SKILL
-    const auto next_next_is_okay =
-        (next_next_rota_skill.is_special_skill ||
-         !next_next_rota_skill.skill_data.is_auto_attack);
-
-    if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
-                                                    next_next_rota_skill,
-                                                    3,
-                                                    next_next_is_okay,
-                                                    rotation_run,
-                                                    last_skill))
+    if (!Settings::StrictModeForSkillDetection)
     {
-        num_skills_wo_match = 0U;
-        return;
-    }
-#endif
+        static auto last_time_aa_did_skip = std::chrono::steady_clock::now();
 
-#ifdef USE_SKIP_NEXT_NEXT_NEXT_SKILL
-    const auto next_next_next_is_okay =
-        (next_next_rota_skill.is_special_skill ||
-         !next_next_next_rota_skill.skill_data.is_auto_attack);
+        const auto time_span_since_aa_skip =
+            std::chrono::duration_cast<std::chrono::seconds>(
+                now - last_time_aa_did_skip)
+                .count();
 
-    if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
-                                                    next_next_next_rota_skill,
-                                                    4,
-                                                    next_next_next_is_okay,
-                                                    rotation_run,
-                                                    last_skill))
-    {
-        num_skills_wo_match = 0U;
-        return;
+        const auto include_aa_skip =
+            (time_span_since_aa_skip > 3 ||
+             !next_rota_skill.skill_data.is_auto_attack);
+        if (include_aa_skip && CheckTheNextNskills(skill_ev,
+                                                   next_rota_skill,
+                                                   2,
+                                                   true,
+                                                   rotation_run,
+                                                   last_skill))
+        {
+            num_skills_wo_match = 0U;
+
+            if (next_rota_skill.skill_data.is_auto_attack &&
+                next_next_rota_skill.skill_data.is_auto_attack)
+            {
+                last_time_aa_did_skip = std::chrono::steady_clock::now();
+            }
+
+            return;
+        }
+
+        const auto next_next_is_okay =
+            (next_next_rota_skill.is_special_skill ||
+             !next_next_rota_skill.skill_data.is_auto_attack);
+
+        if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
+                                                        next_next_rota_skill,
+                                                        3,
+                                                        next_next_is_okay,
+                                                        rotation_run,
+                                                        last_skill))
+        {
+            num_skills_wo_match = 0U;
+            return;
+        }
+
+        const auto next_next_next_is_okay =
+            (next_next_rota_skill.is_special_skill ||
+             !next_next_next_rota_skill.skill_data.is_auto_attack);
+
+        if (!curr_is_auto_attack &&
+            CheckTheNextNskills(skill_ev,
+                                next_next_next_rota_skill,
+                                4,
+                                next_next_next_is_okay,
+                                rotation_run,
+                                last_skill))
+        {
+            num_skills_wo_match = 0U;
+            return;
+        }
     }
-#endif
 
     if (!curr_is_auto_attack)
         ++num_skills_wo_match;
