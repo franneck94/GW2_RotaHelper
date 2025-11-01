@@ -304,5 +304,7 @@ public:
         {"Tainted Bolts", 0.5f},    // harbinger shroud aa
         {"Hail of Justice", 1.25f}, // guard pistol 4
         {"Cleansing Flame", 1.25f}, // guard torch 5
+        {"Rapid Fire", 2.25f},      //
+        {"Barrage", 2.25f},         //
     };
 };
