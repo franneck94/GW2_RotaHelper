@@ -1,7 +1,3 @@
 #pragma once
 
-#define USE_SKIP_NEXT_SKILL
-#define USE_SKIP_NEXT_NEXT_SKILL
-#define USE_SKIP_NEXT_NEXT_NEXT_SKILL
-
 #define GW2_NEXUS_ADDON

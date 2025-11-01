@@ -20,6 +20,7 @@ extern const char *HORIZONTAL_SKILL_LAYOUT;
 extern const char *SHOW_WEAPON_SWAP;
 extern const char *SHOW_KEYBIND;
 extern const char *XML_SETTINGS_FILE;
+extern const char *STRICT_MODE_FOR_SKILL_DETECTION;
 
 namespace Settings
 {
@@ -40,6 +41,7 @@ extern bool ShowSkillTime;
 extern bool HorizontalSkillLayout;
 extern bool ShowWeaponSwap;
 extern bool ShowKeybind;
+extern bool StrictModeForSkillDetection;
 extern std::filesystem::path XmlSettingsPath;
 } // namespace Settings
 
