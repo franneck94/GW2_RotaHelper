@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "Types.h"
@@ -26,5 +27,6 @@ std::string custom_keys_to_string(Keys key);
 
 std::string modifiers_to_string(Modifiers modifier);
 
-Keys get_keybind_for_skill_type(SkillSlot skill_type,
-                                const std::map<std::string, KeybindInfo>& keybinds);
+std::pair<Keys, Modifiers> get_keybind_for_skill_type(
+    SkillSlot skill_type,
+    const std::map<std::string, KeybindInfo> &keybinds);

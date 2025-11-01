@@ -5,10 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "FileUtils.h"
 #include "Types.h"
-
-// Forward declaration
-struct KeybindInfo;
 
 ProfessionID string_to_profession(const std::string &profession_name)
 {
@@ -495,7 +493,7 @@ std::string custom_keys_to_string(Keys key)
     case Keys::Z:
         return "Z";
     case Keys::LEFT_ALT:
-        return "LAlt";
+        return "ALT";
     case Keys::LEFT_ARROW:
         return "Left";
     case Keys::RIGHT_ARROW:
@@ -522,31 +520,26 @@ std::string modifiers_to_string(Modifiers modifier)
     }
 }
 
-Keys get_keybind_for_skill_type(SkillSlot skill_type,
-                                const std::map<std::string, KeybindInfo>& keybinds)
+std::pair<Keys, Modifiers> get_keybind_for_skill_type(
+    SkillSlot skill_type,
+    const std::map<std::string, KeybindInfo> &keybinds)
 {
     std::string action_name;
 
-    // Map SkillSlot to corresponding XML action names
     switch (skill_type)
     {
-    case SkillSlot::WEAPON_1:
     case SkillSlot::PROFESSION_1:
         action_name = "Profession Skill 1";
         break;
-    case SkillSlot::WEAPON_2:
     case SkillSlot::PROFESSION_2:
         action_name = "Profession Skill 2";
         break;
-    case SkillSlot::WEAPON_3:
     case SkillSlot::PROFESSION_3:
         action_name = "Profession Skill 3";
         break;
-    case SkillSlot::WEAPON_4:
     case SkillSlot::PROFESSION_4:
         action_name = "Profession Skill 4";
         break;
-    case SkillSlot::WEAPON_5:
     case SkillSlot::PROFESSION_5:
         action_name = "Profession Skill 5";
         break;
@@ -569,15 +562,14 @@ Keys get_keybind_for_skill_type(SkillSlot skill_type,
         action_name = "Elite Skill";
         break;
     default:
-        return Keys::NONE;
+        return std::make_pair(Keys::NONE, Modifiers::NONE);
     }
 
-    // Look up the keybind in the map
     auto it = keybinds.find(action_name);
     if (it != keybinds.end())
     {
-        return it->second.button;
+        return std::make_pair(it->second.button, it->second.modifier);
     }
 
-    return Keys::NONE;
+    return std::make_pair(Keys::NONE, Modifiers::NONE);
 }
