@@ -404,11 +404,12 @@ std::map<std::string, KeybindInfo> parse_xml_keybinds(
                                         button2_end - button2_start);
                         try
                         {
-                            keybind.button = std::stoi(button2_str);
+                            auto button_val = std::stoi(button2_str);
+                            keybind.button = static_cast<Keys>(button_val);
                         }
                         catch (...)
                         {
-                            keybind.button = -1;
+                            keybind.button = Keys::NONE;
                         }
                     }
 
@@ -422,11 +423,13 @@ std::map<std::string, KeybindInfo> parse_xml_keybinds(
                                 line.substr(mod2_start, mod2_end - mod2_start);
                             try
                             {
-                                keybind.modifier = std::stoi(mod2_str);
+                                auto mod_val = std::stoi(mod2_str);
+                                keybind.modifier =
+                                    static_cast<Modifiers>(mod_val);
                             }
                             catch (...)
                             {
-                                keybind.modifier = 0;
+                                keybind.modifier = static_cast<Modifiers>(0);
                             }
                         }
                     }
@@ -446,11 +449,12 @@ std::map<std::string, KeybindInfo> parse_xml_keybinds(
                                             button_end - button_start);
                             try
                             {
-                                keybind.button = std::stoi(button_str);
+                                int button_val = std::stoi(button_str);
+                                keybind.button = static_cast<Keys>(button_val);
                             }
                             catch (...)
                             {
-                                keybind.button = -1;
+                                keybind.button = Keys::NONE;
                             }
                         }
                     }
@@ -466,18 +470,21 @@ std::map<std::string, KeybindInfo> parse_xml_keybinds(
                                 line.substr(mod_start, mod_end - mod_start);
                             try
                             {
-                                keybind.modifier = std::stoi(mod_str);
+                                int mod_val = std::stoi(mod_str);
+                                keybind.modifier =
+                                    static_cast<Modifiers>(mod_val);
                             }
                             catch (...)
                             {
-                                keybind.modifier = 0;
+                                keybind.modifier = static_cast<Modifiers>(0);
                             }
                         }
                     }
                 }
 
                 // Only store specific skill-related keybinds
-                if (!keybind.action_name.empty() && keybind.button != -1)
+                if (!keybind.action_name.empty() &&
+                    keybind.button != Keys::NONE)
                 {
                     // Check if this is one of the allowed action names
                     if (keybind.action_name == "Profession Skill 1" ||

@@ -241,13 +241,12 @@ void RenderType::render_debug_data()
                 break; // Show only first 5 for testing
 
             auto display_text = action_name + ": ";
-            if (keybind_info.button != -1)
+            if (keybind_info.button != Keys::NONE)
             {
-                display_text += "Button=" + std::to_string(keybind_info.button);
-                if (keybind_info.modifier != 0)
+                display_text += keys_to_string(keybind_info.button);
+                if (keybind_info.modifier != Modifiers::NONE)
                 {
-                    display_text +=
-                        " Mod=" + std::to_string(keybind_info.modifier);
+                    display_text += " + " + modifiers_to_string(keybind_info.modifier);
                 }
             }
             else

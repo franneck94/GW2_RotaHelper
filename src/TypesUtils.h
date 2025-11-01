@@ -388,3 +388,129 @@ inline SkillSlot load_keybind(const std::string keybind_str)
         return SkillSlot::PROFESSION_7;
     return SkillSlot::NONE;
 }
+
+inline std::string keys_to_string(Keys key)
+{
+    switch (key)
+    {
+    case Keys::NONE:
+        return "None";
+    case Keys::LEFT_CTRL:
+        return "LCtrl";
+    case Keys::LEFT_SHIFT:
+        return "LShift";
+    case Keys::CAPS:
+        return "Caps";
+    case Keys::ZIRUMFLEX:
+        return "^";
+    case Keys::TAB:
+        return "Tab";
+    case Keys::F1:
+        return "F1";
+    case Keys::F2:
+        return "F2";
+    case Keys::F3:
+        return "F3";
+    case Keys::F4:
+        return "F4";
+    case Keys::F5:
+        return "F5";
+    case Keys::F6:
+        return "F6";
+    case Keys::F7:
+        return "F7";
+    case Keys::ONE:
+        return "1";
+    case Keys::TWO:
+        return "2";
+    case Keys::THREE:
+        return "3";
+    case Keys::FOUR:
+        return "4";
+    case Keys::FIVE:
+        return "5";
+    case Keys::SIX:
+        return "6";
+    case Keys::SEVEN:
+        return "7";
+    case Keys::EIGHT:
+        return "8";
+    case Keys::NINE:
+        return "9";
+    case Keys::ZERO:
+        return "0";
+    case Keys::A:
+        return "A";
+    case Keys::B:
+        return "B";
+    case Keys::C:
+        return "C";
+    case Keys::D:
+        return "D";
+    case Keys::E:
+        return "E";
+    case Keys::F:
+        return "F";
+    case Keys::G:
+        return "G";
+    case Keys::H:
+        return "H";
+    case Keys::I:
+        return "I";
+    case Keys::J:
+        return "J";
+    case Keys::K:
+        return "K";
+    case Keys::L:
+        return "L";
+    case Keys::M:
+        return "M";
+    case Keys::N:
+        return "N";
+    case Keys::O:
+        return "O";
+    case Keys::P:
+        return "P";
+    case Keys::Q:
+        return "Q";
+    case Keys::R:
+        return "R";
+    case Keys::S:
+        return "S";
+    case Keys::T:
+        return "T";
+    case Keys::U:
+        return "U";
+    case Keys::V:
+        return "V";
+    case Keys::W:
+        return "W";
+    case Keys::X:
+        return "X";
+    case Keys::Y:
+        return "Y";
+    case Keys::Z:
+        return "Z";
+    case Keys::LEFT_ALT:
+        return "LAlt";
+    default:
+        return "Unknown";
+    }
+}
+
+inline std::string modifiers_to_string(Modifiers modifier)
+{
+    switch (modifier)
+    {
+    case Modifiers::NONE:
+        return "None";
+    case Modifiers::SHIFT:
+        return "Shift";
+    case Modifiers::ALT:
+        return "Alt";
+    case Modifiers::CTRL:
+        return "Ctrl";
+    default:
+        return "Unknown";
+    }
+}

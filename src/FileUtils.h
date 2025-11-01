@@ -25,8 +25,8 @@ struct BenchFileInfo
 struct KeybindInfo
 {
     std::string action_name;
-    int button = -1;
-    int modifier = 0;
+    Keys button = Keys::NONE;
+    Modifiers modifier = Modifiers::NONE;
 };
 
 std::string to_lowercase(const std::string &str);
