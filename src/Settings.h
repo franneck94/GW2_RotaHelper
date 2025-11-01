@@ -1,6 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include <filesystem>
 #include <mutex>
 #include <string>
 
@@ -39,6 +40,7 @@ extern bool ShowSkillTime;
 extern bool HorizontalSkillLayout;
 extern bool ShowWeaponSwap;
 extern bool ShowKeybind;
+extern std::filesystem::path XmlSettingsPath;
 } // namespace Settings
 
 #endif
