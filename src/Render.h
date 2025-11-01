@@ -82,6 +82,9 @@ public:
     int selected_bench_index = -1;
     std::filesystem::path selected_file_path;
 
+    std::map<std::string, KeybindInfo> keybinds{};
+    bool keybinds_loaded = false;
+
     ImGuiWindowFlags flags_rota =
         ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
         ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavInputs |

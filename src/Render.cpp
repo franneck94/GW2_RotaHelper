@@ -228,11 +228,56 @@ void RenderType::render_debug_data()
     ImGui::Text("Last Casted Skill Name: %s",
                 curr_combat_data.SkillName.c_str());
     ImGui::Text("Last Event ID: %u", curr_combat_data.EventID);
+
+    if (!keybinds.empty())
+    {
+        ImGui::Separator();
+        ImGui::Text("Parsed Keybinds (sample):");
+
+        int count = 0;
+        for (const auto &[action_name, keybind_info] : keybinds)
+        {
+            if (count >= 5)
+                break; // Show only first 5 for testing
+
+            auto display_text = action_name + ": ";
+            if (keybind_info.button != -1)
+            {
+                display_text += "Button=" + std::to_string(keybind_info.button);
+                if (keybind_info.modifier != 0)
+                {
+                    display_text +=
+                        " Mod=" + std::to_string(keybind_info.modifier);
+                }
+            }
+            else
+            {
+                display_text += "No binding";
+            }
+
+            ImGui::Text("%s", display_text.c_str());
+            count++;
+        }
+    }
 }
 
 void RenderType::render_xml_selection()
 {
-    if (ImGui::Button("Select Keybinds XML", ImVec2(-1, 0)))
+    if (!Settings::XmlSettingsPath.empty())
+    {
+        if (!keybinds_loaded &&
+            std::filesystem::exists(Settings::XmlSettingsPath))
+        {
+            keybinds = parse_xml_keybinds(Settings::XmlSettingsPath);
+
+            keybinds_loaded = true;
+        }
+    }
+
+    const auto button_width = ImGui::GetWindowSize().x * 0.5f -
+                              ImGui::GetStyle().ItemSpacing.x * 0.5f;
+
+    if (ImGui::Button("Select Keybinds", ImVec2(button_width, 0)))
     {
         OPENFILENAME ofn;
         CHAR szFile[260] = {0};
@@ -245,15 +290,27 @@ void RenderType::render_xml_selection()
         ofn.nFilterIndex = 1;
         ofn.lpstrFileTitle = NULL;
         ofn.nMaxFileTitle = 0;
-        ofn.lpstrInitialDir = "C:\\";
+        ofn.lpstrInitialDir = "C:/";
         ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
         if (GetOpenFileName(&ofn) == TRUE)
         {
-            // File selected, path is in szFile
-            // You can add your XML file processing logic here
-            ImGui::Text("Selected: %s", szFile);
+            Settings::XmlSettingsPath = std::filesystem::path(szFile);
+            Settings::Save(Globals::SettingsPath);
+
+            keybinds_loaded = false;
         }
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Button("Unselect Keybinds", ImVec2(button_width, 0)))
+    {
+        Settings::XmlSettingsPath.clear();
+        Settings::Save(Globals::SettingsPath);
+
+        keybinds_loaded = false;
+        keybinds.clear();
     }
 }
 
