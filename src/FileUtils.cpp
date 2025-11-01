@@ -1,6 +1,8 @@
 #include <filesystem>
 #include <fstream>
+#include <map>
 #include <set>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -352,4 +354,156 @@ std::vector<BenchFileInfo> get_bench_files(
     }
 
     return files;
+}
+
+std::map<std::string, KeybindInfo> parse_xml_keybinds(
+    const std::filesystem::path &xml_path)
+{
+    auto keybinds = std::map<std::string, KeybindInfo>{};
+
+    if (!std::filesystem::exists(xml_path))
+        return keybinds;
+
+    try
+    {
+        std::ifstream file(xml_path);
+        std::string line;
+
+        while (std::getline(file, line))
+        {
+            if (line.find("<action") != std::string::npos)
+            {
+                auto keybind = KeybindInfo{};
+
+                auto name_start = line.find("name=\"");
+                if (name_start != std::string::npos)
+                {
+                    name_start += 6; // Skip 'name="'
+                    auto name_end = line.find("\"", name_start);
+                    if (name_end != std::string::npos)
+                    {
+                        keybind.action_name =
+                            line.substr(name_start, name_end - name_start);
+                    }
+                }
+
+                // Check for button2/mod2 first (prioritized)
+                auto button2_start = line.find("button2=\"");
+                auto mod2_start = line.find("mod2=\"");
+                bool has_button2 = button2_start != std::string::npos;
+
+                if (has_button2)
+                {
+                    // Use button2/mod2 pair
+                    button2_start += 9; // Skip 'button2="'
+                    auto button2_end = line.find("\"", button2_start);
+                    if (button2_end != std::string::npos)
+                    {
+                        auto button2_str =
+                            line.substr(button2_start,
+                                        button2_end - button2_start);
+                        try
+                        {
+                            keybind.button = std::stoi(button2_str);
+                        }
+                        catch (...)
+                        {
+                            keybind.button = -1;
+                        }
+                    }
+
+                    if (mod2_start != std::string::npos)
+                    {
+                        mod2_start += 6; // Skip 'mod2="'
+                        auto mod2_end = line.find("\"", mod2_start);
+                        if (mod2_end != std::string::npos)
+                        {
+                            auto mod2_str =
+                                line.substr(mod2_start, mod2_end - mod2_start);
+                            try
+                            {
+                                keybind.modifier = std::stoi(mod2_str);
+                            }
+                            catch (...)
+                            {
+                                keybind.modifier = 0;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    // Use button/mod pair as fallback
+                    auto button_start = line.find("button=\"");
+                    if (button_start != std::string::npos)
+                    {
+                        button_start += 8; // Skip 'button="'
+                        auto button_end = line.find("\"", button_start);
+                        if (button_end != std::string::npos)
+                        {
+                            std::string button_str =
+                                line.substr(button_start,
+                                            button_end - button_start);
+                            try
+                            {
+                                keybind.button = std::stoi(button_str);
+                            }
+                            catch (...)
+                            {
+                                keybind.button = -1;
+                            }
+                        }
+                    }
+
+                    auto mod_start = line.find("mod=\"");
+                    if (mod_start != std::string::npos)
+                    {
+                        mod_start += 5; // Skip 'mod="'
+                        auto mod_end = line.find("\"", mod_start);
+                        if (mod_end != std::string::npos)
+                        {
+                            std::string mod_str =
+                                line.substr(mod_start, mod_end - mod_start);
+                            try
+                            {
+                                keybind.modifier = std::stoi(mod_str);
+                            }
+                            catch (...)
+                            {
+                                keybind.modifier = 0;
+                            }
+                        }
+                    }
+                }
+
+                // Only store specific skill-related keybinds
+                if (!keybind.action_name.empty() && keybind.button != -1)
+                {
+                    // Check if this is one of the allowed action names
+                    if (keybind.action_name == "Profession Skill 1" ||
+                        keybind.action_name == "Profession Skill 2" ||
+                        keybind.action_name == "Profession Skill 3" ||
+                        keybind.action_name == "Profession Skill 4" ||
+                        keybind.action_name == "Profession Skill 5" ||
+                        keybind.action_name == "Profession Skill 7" ||
+                        keybind.action_name == "Healing Skill" ||
+                        keybind.action_name == "Utility Skill 1" ||
+                        keybind.action_name == "Utility Skill 2" ||
+                        keybind.action_name == "Utility Skill 3" ||
+                        keybind.action_name == "Elite Skill")
+                    {
+                        keybinds[keybind.action_name] = keybind;
+                    }
+                }
+            }
+        }
+
+        file.close();
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Error parsing XML keybinds: " << e.what() << std::endl;
+    }
+
+    return keybinds;
 }

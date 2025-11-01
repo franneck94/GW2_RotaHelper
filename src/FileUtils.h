@@ -1,6 +1,7 @@
 #pragma once
 
 #include <filesystem>
+#include <map>
 #include <set>
 #include <string>
 #include <vector>
@@ -21,6 +22,13 @@ struct BenchFileInfo
                   bool is_header = false);
 };
 
+struct KeybindInfo
+{
+    std::string action_name;
+    int button = -1;
+    int modifier = 0;
+};
+
 std::string to_lowercase(const std::string &str);
 
 std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
@@ -38,3 +46,6 @@ std::string format_build_name(const std::string &raw_name);
 
 std::vector<BenchFileInfo> get_bench_files(
     const std::filesystem::path &bench_path);
+
+std::map<std::string, KeybindInfo> parse_xml_keybinds(
+    const std::filesystem::path &xml_path);
