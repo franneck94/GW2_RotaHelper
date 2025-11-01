@@ -18,6 +18,7 @@ extern const char *SHOW_SKILL_TIME;
 extern const char *HORIZONTAL_SKILL_LAYOUT;
 extern const char *SHOW_WEAPON_SWAP;
 extern const char *SHOW_KEYBIND;
+extern const char *XML_SETTINGS_FILE;
 
 namespace Settings
 {

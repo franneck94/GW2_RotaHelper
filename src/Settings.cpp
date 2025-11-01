@@ -12,6 +12,7 @@ const char *SHOW_SKILL_TIME = "ShowSkillTime";
 const char *HORIZONTAL_SKILL_LAYOUT = "HorizontalSkillLayout";
 const char *SHOW_WEAPON_SWAP = "ShowWeaponSwap";
 const char *SHOW_KEYBIND = "ShowKeybind";
+const char *XML_SETTINGS_FILE = "XmlSettingsFile";
 
 namespace Settings
 {
@@ -36,9 +37,11 @@ void Load(std::filesystem::path aPath)
         catch (json::parse_error &ex)
         {
             Globals::APIDefs->Log(ELogLevel_WARNING,
-                         "GW2RotaHelper",
-                         "Settings.json could not be parsed.");
-            Globals::APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", ex.what());
+                                  "GW2RotaHelper",
+                                  "Settings.json could not be parsed.");
+            Globals::APIDefs->Log(ELogLevel_WARNING,
+                                  "GW2RotaHelper",
+                                  ex.what());
         }
     }
     Settings::Mutex.unlock();
@@ -72,6 +75,12 @@ void Load(std::filesystem::path aPath)
     {
         Settings[SHOW_KEYBIND].get_to<bool>(ShowKeybind);
     }
+    if (!Settings[XML_SETTINGS_FILE].is_null())
+    {
+        auto _XmlSettingsPath = std::string{};
+        Settings[XML_SETTINGS_FILE].get_to<std::string>(_XmlSettingsPath);
+        XmlSettingsPath = std::filesystem::path{_XmlSettingsPath};
+    }
 }
 
 void Save(std::filesystem::path aPath)
@@ -85,6 +94,7 @@ void Save(std::filesystem::path aPath)
         Settings[HORIZONTAL_SKILL_LAYOUT] = HorizontalSkillLayout;
         Settings[SHOW_WEAPON_SWAP] = ShowWeaponSwap;
         Settings[SHOW_KEYBIND] = ShowKeybind;
+        Settings[XML_SETTINGS_FILE] = XmlSettingsPath.string();
 
         std::ofstream file(aPath);
         file << Settings.dump(1, '\t') << std::endl;
@@ -107,4 +117,5 @@ bool ShowSkillTime = true;
 bool HorizontalSkillLayout = false;
 bool ShowWeaponSwap = false;
 bool ShowKeybind = false;
+std::filesystem::path XmlSettingsPath;
 } // namespace Settings
