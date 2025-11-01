@@ -10,6 +10,8 @@
 
 #include "arcdps/ArcDPS.h"
 
+#include "Defines.h"
+
 struct EvCombatDataPersistent
 {
     std::string SrcName;
@@ -69,7 +71,7 @@ struct IntNode
     std::optional<LogDataTypes> value;
 };
 
-enum class SkillType
+enum class SkillSlot
 {
     NONE,
     WEAPON_1,
@@ -106,7 +108,7 @@ struct SkillData
     bool is_elite_skill;
     bool is_heal_skill;
     bool is_profession_skill;
-    SkillType skill_type;
+    SkillSlot skill_type;
 };
 
 struct RotationStep

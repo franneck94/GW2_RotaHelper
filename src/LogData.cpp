@@ -338,6 +338,11 @@ void get_rotation_info(const IntNode &node,
 
             // Search for skill name in skill_data_map using icon_id
             auto skill_data = SkillData{};
+            skill_data.recharge_time = -1;
+            skill_data.recharge_time_with_alacrity = -1.0f;
+            skill_data.cast_time = -1;
+            skill_data.cast_time_with_quickness = -1.0f;
+
             for (const auto &[sid, _skill_data] : skill_data_map)
             {
                 if (_skill_data.icon_id == icon_id)
@@ -377,10 +382,6 @@ void get_rotation_info(const IntNode &node,
                 skill_data.skill_id = icon_id;
                 skill_data.name = "Unknown Skill";
                 skill_data.icon_id = -9999;
-                skill_data.recharge_time = -1;
-                skill_data.recharge_time_with_alacrity = -1.0f;
-                skill_data.cast_time = -1;
-                skill_data.cast_time_with_quickness = -1.0f;
             }
 
             const auto drop_skill =
@@ -409,6 +410,8 @@ void get_rotation_info(const IntNode &node,
                 if (cast_time_it != skill_cast_time_map.end())
                 {
                     skill_data.cast_time = cast_time_it->second;
+                    skill_data.cast_time_with_quickness =
+                        skill_data.cast_time * 0.8f;
                 }
 
                 all_rotation_steps.push_back(
@@ -508,10 +511,10 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
         {
             const auto _type_str = skill_obj["skill_type"].get<std::string>();
             skill_data.skill_type =
-                static_cast<SkillType>(std::stoi(_type_str));
+                static_cast<SkillSlot>(std::stoi(_type_str));
         }
         else
-            skill_data.skill_type = SkillType::NONE;
+            skill_data.skill_type = SkillSlot::NONE;
 
         skill_data.icon_id = 0; // Default value
         if (skill_obj.contains("icon") && skill_obj["icon"].is_string())
@@ -823,13 +826,15 @@ void SimpleSkillDetectionLogic(
     }
 
 #ifdef USE_SKIP_NEXT_SKILL
+    static auto last_time_aa_did_skip = std::chrono::steady_clock::now();
+
     const auto now = std::chrono::steady_clock::now();
-    const auto time_since_last_aa_skip =
+    const auto time_span_since_aa_skip =
         std::chrono::duration_cast<std::chrono::seconds>(now -
                                                          last_time_aa_did_skip)
             .count();
 
-    const auto include_aa_skip = (time_since_last_aa_skip > 3 ||
+    const auto include_aa_skip = (time_span_since_aa_skip > 3 ||
                                   !next_rota_skill.skill_data.is_auto_attack);
     if (include_aa_skip && CheckTheNextNskills(skill_ev,
                                                next_rota_skill,

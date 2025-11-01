@@ -137,7 +137,7 @@ bool SKillCastIsTooEarlyWrtSkillData(
             const auto recharge_time_w_alac_s =
                 skill_data.recharge_time_with_alacrity;
             const auto cast_time_w_quick_s =
-                skill_data.cast_time_with_quickness * 0.8f;
+                skill_data.cast_time_with_quickness;
 
             const auto cast_time_diff = now - last_cast_time;
             const auto cast_time_diff_s =

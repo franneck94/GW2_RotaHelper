@@ -92,6 +92,8 @@ public:
         // ENGINEER
         "Flamethrower",
         // RANGER
+        "Summon Cyclone Bow",
+        "Dismiss Cyclone Bow",
         // THIEF
         // ELEMENTALIST
         // MESMER
@@ -126,6 +128,7 @@ public:
         "Orbital Command Strike",
         "Bomb",
         // RANGER
+        "Wuthering Wind",
         "Unleashed Overbearing Smash (Leap)",
         // THIEF
         // ELEMENTALIST
@@ -186,6 +189,10 @@ public:
         "Sky Circus",
         "Radiant Arc",
         // RANGER
+        "Quarry's Peril",
+        "Perfect Storm",
+        "Mistral",
+        "Pelt",
         // THIEF
         "Prepare Thousand Needles",
         "Spider Venom",
@@ -213,6 +220,8 @@ public:
         "Perforate",
         "Soul Shards",
         "Nightfall",
+        "Preservation",
+        "Grasping Dark",
         // REVENANT
         "Legendary Entity Stance",
         "Legendary Alliance Stance",
