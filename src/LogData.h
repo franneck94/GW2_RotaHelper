@@ -21,7 +21,7 @@ using json = nlohmann::json;
 
 class RotationRunType;
 
-void SimpleSkillDetectionLogic(
+void SkillDetectionLogic(
     uint32_t &num_skills_wo_match,
     std::chrono::steady_clock::time_point &time_since_last_match,
     RotationRunType &rotation_run,
