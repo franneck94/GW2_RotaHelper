@@ -498,6 +498,28 @@ std::string custom_keys_to_string(Keys key)
         return "Left";
     case Keys::RIGHT_ARROW:
         return "Right";
+    case Keys::NUM_ADD:
+        return "Num+";
+    case Keys::NUM_1:
+        return "Num1";
+    case Keys::NUM_2:
+        return "Num2";
+    case Keys::NUM_3:
+        return "Num3";
+    case Keys::NUM_4:
+        return "Num4";
+    case Keys::NUM_5:
+        return "Num5";
+    case Keys::NUM_6:
+        return "Num6";
+    case Keys::NUM_7:
+        return "Num7";
+    case Keys::NUM_8:
+        return "Num8";
+    case Keys::NUM_9:
+        return "Num9";
+    case Keys::NUM_RET:
+        return "NumEnter";
     default:
         return "Unknown";
     }
