@@ -365,8 +365,14 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
             Globals::RotationRun.load_data(selected_file_path, img_path);
         }
     }
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        ImGui::Text("All weapon swap like skills will be shown in the rotation UI.");
+        ImGui::EndTooltip();
+    }
 
-    const auto third_row_items = std::vector<std::string>{"Show Keybind"};
+    const auto third_row_items = std::vector<std::string>{"Show Keybind", "Strict Rotation"};
     const auto centered_pos_row_3 =
         calculate_centered_position(third_row_items);
     ImGui::SetCursorPosX(centered_pos_row_3);
@@ -375,16 +381,28 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
     {
         Settings::Save(Globals::SettingsPath);
     }
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        ImGui::Text("You can load keybinds from your GW2 XML settings file.");
+        ImGui::Text("If not selected, default keybinds will be used.");
+        ImGui::EndTooltip();
+    }
 
-    if (ImGui::Checkbox("Strict Rotation", &Settings::StrictModeForSkillDetection))
+    ImGui::SameLine();
+
+    if (ImGui::Checkbox("Strict Rotation",
+                        &Settings::StrictModeForSkillDetection))
     {
         Settings::Save(Globals::SettingsPath);
     }
     if (ImGui::IsItemHovered())
     {
         ImGui::BeginTooltip();
-        ImGui::Text("When enabled, rotation progression requires exact skill matching.");
-        ImGui::Text("When disabled, allows more flexible skill detection with fallbacks.");
+        ImGui::Text("When enabled, rotation progression requires exact skill "
+                    "matching.");
+        ImGui::Text("When disabled, allows more flexible skill detection with "
+                    "fallbacks.");
         ImGui::EndTooltip();
     }
 
