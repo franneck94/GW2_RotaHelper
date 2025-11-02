@@ -183,11 +183,11 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
     if (skill_ev.SkillID == 0 || skill_ev.SkillID == -10000)
         return;
 
-    SimpleSkillDetectionLogic(num_skills_wo_match,
-                              time_since_last_match,
-                              Globals::RotationRun,
-                              skill_ev,
-                              last_skill);
+    SkillDetectionLogic(num_skills_wo_match,
+                        time_since_last_match,
+                        Globals::RotationRun,
+                        skill_ev,
+                        last_skill);
 }
 
 float RenderType::calculate_centered_position(
@@ -374,6 +374,18 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
     if (ImGui::Checkbox("Show Keybind", &Settings::ShowKeybind))
     {
         Settings::Save(Globals::SettingsPath);
+    }
+
+    if (ImGui::Checkbox("Strict Rotation", &Settings::StrictModeForSkillDetection))
+    {
+        Settings::Save(Globals::SettingsPath);
+    }
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        ImGui::Text("When enabled, rotation progression requires exact skill matching.");
+        ImGui::Text("When disabled, allows more flexible skill detection with fallbacks.");
+        ImGui::EndTooltip();
     }
 
 #ifdef _DEBUG
