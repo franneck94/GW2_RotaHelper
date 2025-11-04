@@ -768,11 +768,13 @@ std::list<std::future<void>> StartDownloadAllSkillIcons(
 }
 
 void ResetSkillDetectionData(
+    std::chrono::steady_clock::time_point &time_of_last_next_skill_check,
     std::chrono::steady_clock::time_point &time_of_last_next_next_skill_check,
     std::chrono::steady_clock::time_point
         &time_of_last_next_next_next_skill_check,
     uint32_t &num_skills_wo_match)
 {
+    time_of_last_next_skill_check = std::chrono::steady_clock::now();
     time_of_last_next_next_skill_check = std::chrono::steady_clock::now();
     time_of_last_next_next_next_skill_check = std::chrono::steady_clock::now();
     num_skills_wo_match = 0U;
@@ -839,6 +841,12 @@ void SkillDetectionLogic(
     const EvCombatDataPersistent &skill_ev,
     EvCombatDataPersistent &last_skill)
 {
+    constexpr static auto min_time_for_next_s = 0.3f;
+    constexpr static auto min_time_for_next_next_s = 0.6f;
+    constexpr static auto min_time_for_next_next_next_s = 1.2f;
+
+    static auto time_of_last_next_skill_check =
+        std::chrono::steady_clock::now();
     static auto time_of_last_next_next_skill_check =
         std::chrono::steady_clock::now();
     static auto time_of_last_next_next_next_skill_check =
@@ -846,14 +854,16 @@ void SkillDetectionLogic(
     static auto time_of_last_aa_skip = std::chrono::steady_clock::now();
 
     const auto now = std::chrono::steady_clock::now();
+    const auto time_since_last_next_skill_check =
+        GetTimeSinceInSeconds(time_of_last_next_skill_check, now);
     const auto time_since_last_next_next_skill_check =
-        GetTimeSinceInSeconds(now, time_of_last_next_next_skill_check);
+        GetTimeSinceInSeconds(time_of_last_next_next_skill_check, now);
     const auto time_since_last_next_next_next_skill_check =
-        GetTimeSinceInSeconds(now, time_of_last_next_next_next_skill_check);
+        GetTimeSinceInSeconds(time_of_last_next_next_next_skill_check, now);
     const auto time_span_since_aa_skip =
-        GetTimeSinceInSeconds(now, time_of_last_aa_skip);
+        GetTimeSinceInSeconds(time_of_last_aa_skip, now);
     const auto duration_since_last_match =
-        GetTimeSinceInSeconds(now, time_since_last_match);
+        GetTimeSinceInSeconds(time_since_last_match, now);
 
     const auto curr_is_auto_attack =
         IsSkillAutoAttack(skill_ev.SkillID,
@@ -869,6 +879,20 @@ void SkillDetectionLogic(
           next_next_next_rota_skill] = GetCurrAndNextRotaSkills(rotation_run);
 
 
+    const auto check_for_next_skill =
+        (time_span_since_aa_skip > 3 ||
+         !next_rota_skill.skill_data.is_auto_attack) &&
+        time_since_last_next_skill_check > min_time_for_next_s;
+    const auto check_for_next_next_skill =
+        (next_next_rota_skill.is_special_skill ||
+         !next_next_rota_skill.skill_data.is_auto_attack) &&
+        time_since_last_next_next_skill_check > min_time_for_next_next_s;
+    const auto check_for_next_next_next_skill =
+        (next_next_rota_skill.is_special_skill ||
+         !next_next_next_rota_skill.skill_data.is_auto_attack) &&
+        time_since_last_next_next_next_skill_check >
+            min_time_for_next_next_next_s;
+
     if (CheckTheNextNskills(skill_ev,
                             curr_rota_skill,
                             1,
@@ -876,7 +900,8 @@ void SkillDetectionLogic(
                             rotation_run,
                             last_skill))
     {
-        ResetSkillDetectionData(time_of_last_next_next_skill_check,
+        ResetSkillDetectionData(time_of_last_next_skill_check,
+                                time_of_last_next_next_skill_check,
                                 time_of_last_next_next_next_skill_check,
                                 num_skills_wo_match);
         return;
@@ -884,17 +909,17 @@ void SkillDetectionLogic(
 
     if (!Settings::StrictModeForSkillDetection)
     {
-        const auto include_aa_skip =
-            (time_span_since_aa_skip > 3 ||
-             !next_rota_skill.skill_data.is_auto_attack);
-        if (include_aa_skip && CheckTheNextNskills(skill_ev,
-                                                   next_rota_skill,
-                                                   2,
-                                                   true,
-                                                   rotation_run,
-                                                   last_skill))
+
+        if (!curr_is_auto_attack && check_for_next_skill &&
+            CheckTheNextNskills(skill_ev,
+                                next_rota_skill,
+                                2,
+                                true,
+                                rotation_run,
+                                last_skill))
         {
-            ResetSkillDetectionData(time_of_last_next_next_skill_check,
+            ResetSkillDetectionData(time_of_last_next_skill_check,
+                                    time_of_last_next_next_skill_check,
                                     time_of_last_next_next_next_skill_check,
                                     num_skills_wo_match);
 
@@ -907,38 +932,31 @@ void SkillDetectionLogic(
             return;
         }
 
-        const auto next_next_is_okay =
-            (next_next_rota_skill.is_special_skill ||
-             !next_next_rota_skill.skill_data.is_auto_attack) &&
-            time_since_last_next_next_skill_check > 1.5;
-
-        if (!curr_is_auto_attack && CheckTheNextNskills(skill_ev,
-                                                        next_next_rota_skill,
-                                                        3,
-                                                        next_next_is_okay,
-                                                        rotation_run,
-                                                        last_skill))
+        if (!curr_is_auto_attack &&
+            CheckTheNextNskills(skill_ev,
+                                next_next_rota_skill,
+                                3,
+                                check_for_next_next_skill,
+                                rotation_run,
+                                last_skill))
         {
-            ResetSkillDetectionData(time_of_last_next_next_skill_check,
+            ResetSkillDetectionData(time_of_last_next_skill_check,
+                                    time_of_last_next_next_skill_check,
                                     time_of_last_next_next_next_skill_check,
                                     num_skills_wo_match);
             return;
         }
 
-        const auto next_next_next_is_okay =
-            (next_next_rota_skill.is_special_skill ||
-             !next_next_next_rota_skill.skill_data.is_auto_attack) &&
-            time_since_last_next_next_skill_check > 2.5;
-
         if (!curr_is_auto_attack &&
             CheckTheNextNskills(skill_ev,
                                 next_next_next_rota_skill,
                                 4,
-                                next_next_next_is_okay,
+                                check_for_next_next_next_skill,
                                 rotation_run,
                                 last_skill))
         {
-            ResetSkillDetectionData(time_of_last_next_next_skill_check,
+            ResetSkillDetectionData(time_of_last_next_skill_check,
+                                    time_of_last_next_next_skill_check,
                                     time_of_last_next_next_next_skill_check,
                                     num_skills_wo_match);
             return;

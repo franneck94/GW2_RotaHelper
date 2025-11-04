@@ -43,6 +43,7 @@ Builds Working properly:
 - Power Berserker Hammer
 - Power Mechanist Rifle
 - Power Mechanist Sword
+- Power Galeshot
 
 Builds that are working ok-ish:
 

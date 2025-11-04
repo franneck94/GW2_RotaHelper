@@ -193,6 +193,7 @@ public:
         "Perfect Storm",
         "Mistral",
         "Pelt",
+        "Path of Scars",
         // THIEF
         "Prepare Thousand Needles",
         "Spider Venom",

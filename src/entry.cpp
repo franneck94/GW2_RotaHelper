@@ -200,7 +200,7 @@ void TriggerParseMumble()
         std::chrono::duration_cast<std::chrono::seconds>(now - last_parse_time)
             .count();
 
-    if (time_since_last_parse >= 2)
+    if (time_since_last_parse >= 3 || time_since_last_parse == 0)
     {
         Globals::Identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
         last_parse_time = now;
