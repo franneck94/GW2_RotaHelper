@@ -60,6 +60,29 @@ Builds are not working proper:
 
 NOTE: Some builds have duo logs uplaoded (like Condition Daredevil Dagger) - there my webparser script downloaded the wrong log.
 
+#### Converting your own logs
+
+You can convert your own HTML logs from dps.report or other sources using the provided Python scripts:
+
+1. **Setup Python Environment** (if not already installed):
+   - Install Python 3.10+ from [python.org](https://python.org)
+   - Install required dependencies: `pip install -r scripts/requirements.txt`
+
+2. **Add manual Log List**
+   - Add you dps.report http link to: internal_data/manual_log_list.json
+
+3. **Download HTML Logs**:
+   - Run: `python scripts/get_html_logs.py --manual`
+   - This will download HTML logs and save them in the `internal_data/html/` directory
+
+4. **Convert to JSON Format**:
+   - Run: `python scripts/html_log_to_json.py`
+   - This converts the HTML logs to the JSON format used by the addon
+   - Converted files are saved in the `data/bench/` directory
+
+5. **Install Your Custom Rotations**:
+   - Copy the generated JSON files to your addon's bench folder
+
 ## ⚠️ Known Limitations
 
 Full list of Issues: [here](ISSUES.md)
