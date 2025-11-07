@@ -194,15 +194,45 @@ void AddonUnload()
 void TriggerParseMumble()
 {
     static auto last_parse_time = std::chrono::steady_clock::now();
+    static auto pending_identity = Mumble::Identity{};
+    static auto pending_count = 0;
 
     const auto now = std::chrono::steady_clock::now();
     const auto time_since_last_parse =
         std::chrono::duration_cast<std::chrono::seconds>(now - last_parse_time)
             .count();
 
-    if (time_since_last_parse >= 3 || time_since_last_parse == 0)
+    if (time_since_last_parse >= 1 || time_since_last_parse == 0)
     {
-        Globals::Identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
+        auto current_identity =
+            ParseMumbleIdentity(Globals::MumbleData->Identity);
+
+        if (current_identity.Profession != Globals::Identity.Profession)
+        {
+            if (current_identity.Profession != pending_identity.Profession)
+            {
+                pending_identity = current_identity;
+                pending_count = 1;
+            }
+            else
+            {
+                pending_count++;
+
+                if (pending_count >= 3)
+                {
+                    Globals::Identity = current_identity;
+                    pending_count = 0;
+                    pending_identity = Mumble::Identity{};
+                }
+            }
+        }
+        else
+        {
+            Globals::Identity = current_identity;
+            pending_count = 0;
+            pending_identity = Mumble::Identity{};
+        }
+
         last_parse_time = now;
     }
 }
