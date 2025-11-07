@@ -57,9 +57,7 @@ struct BenchFileInfo
     std::string display_name;
     bool is_directory_header;
 
-    BenchFileInfo(const std::filesystem::path &full,
-                  const std::filesystem::path &relative,
-                  bool is_header = false);
+    BenchFileInfo(const std::filesystem::path &full, const std::filesystem::path &relative, bool is_header = false);
 };
 
 struct SkillState

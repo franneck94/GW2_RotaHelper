@@ -13,8 +13,7 @@
 using TextureMapType = std::unordered_map<int, ID3D11ShaderResourceView *>;
 
 
-ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device,
-                                                 const std::wstring &filename);
+ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std::wstring &filename);
 
 TextureMapType LoadAllSkillTextures(ID3D11Device *device,
                                     const LogSkillInfoMap &log_skill_info_map,

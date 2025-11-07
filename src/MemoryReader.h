@@ -28,13 +28,13 @@ public:
     bool IsSkillCasting();
 
     // Memory pattern scanning
-    uintptr_t FindPattern(const char* pattern, const char* mask, uintptr_t start = 0, size_t size = 0);
+    uintptr_t FindPattern(const char *pattern, const char *mask, uintptr_t start = 0, size_t size = 0);
 
     // Memory reading utilities
-    template<typename T>
+    template <typename T>
     T ReadMemory(uintptr_t address);
 
-    bool ReadMemoryBuffer(uintptr_t address, void* buffer, size_t size);
+    bool ReadMemoryBuffer(uintptr_t address, void *buffer, size_t size);
     std::string ReadString(uintptr_t address, size_t max_length = 256);
 
 private:
@@ -58,16 +58,16 @@ private:
     struct Patterns
     {
         // Pattern for skill casting state
-        const char* skill_cast_pattern = "\x8B\x0D\x00\x00\x00\x00\x85\xC9\x74\x00\x8B\x81";
-        const char* skill_cast_mask = "xx????xxx?xx";
+        const char *skill_cast_pattern = "\x8B\x0D\x00\x00\x00\x00\x85\xC9\x74\x00\x8B\x81";
+        const char *skill_cast_mask = "xx????xxx?xx";
 
         // Pattern for skill ID
-        const char* skill_id_pattern = "\x89\x0D\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x85\xC0";
-        const char* skill_id_mask = "xx????x????xx";
+        const char *skill_id_pattern = "\x89\x0D\x00\x00\x00\x00\xE8\x00\x00\x00\x00\x85\xC0";
+        const char *skill_id_mask = "xx????x????xx";
 
         // Pattern for cast time
-        const char* cast_time_pattern = "\xF3\x0F\x11\x05\x00\x00\x00\x00\xF3\x0F\x10\x05";
-        const char* cast_time_mask = "xxxx????xxxx";
+        const char *cast_time_pattern = "\xF3\x0F\x11\x05\x00\x00\x00\x00\xF3\x0F\x10\x05";
+        const char *cast_time_mask = "xxxx????xxxx";
     };
 
     Patterns m_patterns;
@@ -79,7 +79,7 @@ private:
 };
 
 // Template implementation
-template<typename T>
+template <typename T>
 T GW2MemoryReader::ReadMemory(uintptr_t address)
 {
     T value = {};

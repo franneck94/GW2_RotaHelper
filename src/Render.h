@@ -38,8 +38,7 @@ public:
     void render_load_buttons();
 
     /* RENDER ROTATION WINDOW */
-    void render_rotation_window(const bool is_not_ui_adjust_active,
-                                ID3D11Device *pd3dDevice);
+    void render_rotation_window(const bool is_not_ui_adjust_active, ID3D11Device *pd3dDevice);
     void render_rotation_details(ID3D11Device *pd3dDevice);
     void render_rotation_horizontal(ID3D11Device *pd3dDevice);
     void render_rotation_icons(const SkillState &skill_state,
@@ -49,8 +48,7 @@ public:
                                ID3D11Device *pd3dDevice);
 
     /* HELPER */
-    float calculate_centered_position(
-        const std::vector<std::string> &items) const;
+    float calculate_centered_position(const std::vector<std::string> &items) const;
     void append_to_played_rotation(const EvCombatDataPersistent &combat_data);
     void skill_activation_callback(EvCombatDataPersistent combat_data);
     void set_show_window(const bool flag);
@@ -85,9 +83,8 @@ public:
     std::map<std::string, KeybindInfo> keybinds{};
     bool keybinds_loaded = false;
 
-    ImGuiWindowFlags flags_rota =
-        ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
-        ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavInputs |
-        ImGuiWindowFlags_NoNavFocus | ImGuiWindowFlags_NoFocusOnAppearing |
-        ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize;
+    ImGuiWindowFlags flags_rota = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
+                                  ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
+                                  ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoScrollbar |
+                                  ImGuiWindowFlags_NoResize;
 };

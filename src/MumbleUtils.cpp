@@ -37,8 +37,7 @@ std::string get_current_profession_name()
 
     try
     {
-        return profession_to_string(
-            static_cast<ProfessionID>(Globals::Identity.Profession));
+        return profession_to_string(static_cast<ProfessionID>(Globals::Identity.Profession));
     }
     catch (...)
     {
@@ -57,11 +56,9 @@ Mumble::Identity ParseMumbleIdentity(const wchar_t *identityString)
 
         auto json = nlohmann::json::parse(jsonString);
 
-        if (json.contains("profession") &&
-            json["profession"].is_number_integer())
+        if (json.contains("profession") && json["profession"].is_number_integer())
         {
-            const auto _profession =
-                static_cast<Mumble::EProfession>(json["profession"].get<int>());
+            const auto _profession = static_cast<Mumble::EProfession>(json["profession"].get<int>());
 
             if (_profession != Mumble::EProfession::None)
                 identity.Profession = _profession;
@@ -70,8 +67,7 @@ Mumble::Identity ParseMumbleIdentity(const wchar_t *identityString)
         auto _specialization = 0;
         if (json.contains("spec") && json["spec"].is_number_unsigned())
             _specialization = json["spec"].get<unsigned>();
-        else if (json.contains("specialization") &&
-                 json["specialization"].is_number_unsigned())
+        else if (json.contains("specialization") && json["specialization"].is_number_unsigned())
             _specialization = json["specialization"].get<unsigned>();
 
         if (_specialization != 0)

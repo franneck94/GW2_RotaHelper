@@ -34,9 +34,7 @@ using json = nlohmann::json;
 
 namespace
 {
-void collect_json(const json &jval,
-                  IntNode &node,
-                  const bool drop_first_char = false)
+void collect_json(const json &jval, IntNode &node, const bool drop_first_char = false)
 {
     if (jval.is_object())
     {
@@ -75,8 +73,7 @@ void collect_json(const json &jval,
     }
 }
 
-std::string get_cache_remainder(const std::string &cache_url,
-                                const std::string &cache)
+std::string get_cache_remainder(const std::string &cache_url, const std::string &cache)
 {
     const auto remainder = cache_url.substr(cache.length());
 
@@ -85,10 +82,8 @@ std::string get_cache_remainder(const std::string &cache_url,
 
 std::string convert_cache_url(const std::string &cache_url)
 {
-    static const auto cache1 =
-        std::string{"/cache/https_render.guildwars2.com_file_"};
-    static const auto cache2 =
-        std::string{"/cache/https_wiki.guildwars2.com_images_"};
+    static const auto cache1 = std::string{"/cache/https_render.guildwars2.com_file_"};
+    static const auto cache2 = std::string{"/cache/https_wiki.guildwars2.com_images_"};
 
     if (cache_url.find(cache1) != 0 && cache_url.find(cache2))
         return cache_url;
@@ -109,12 +104,9 @@ std::string convert_cache_url(const std::string &cache_url)
     const auto icon_id_with_ext = remainder.substr(last_underscore + 1);
 
     const auto dot_pos = icon_id_with_ext.find_last_of('.');
-    const auto icon_id = (dot_pos != std::string::npos)
-                             ? icon_id_with_ext.substr(0, dot_pos)
-                             : icon_id_with_ext;
+    const auto icon_id = (dot_pos != std::string::npos) ? icon_id_with_ext.substr(0, dot_pos) : icon_id_with_ext;
 
-    return "https://render.guildwars2.com/file/" + hash + "/" + icon_id +
-           ".png";
+    return "https://render.guildwars2.com/file/" + hash + "/" + icon_id + ".png";
 }
 
 
@@ -126,20 +118,16 @@ void get_skill_info(const IntNode &node, LogSkillInfoMap &log_skill_info_map)
         auto icon = std::string{};
 
         const auto name_it = skill_node.children.find("name");
-        if (name_it != skill_node.children.end() &&
-            name_it->second.value.has_value())
+        if (name_it != skill_node.children.end() && name_it->second.value.has_value())
         {
-            if (const auto pval =
-                    std::get_if<std::string>(&name_it->second.value.value()))
+            if (const auto pval = std::get_if<std::string>(&name_it->second.value.value()))
                 name = *pval;
         }
 
         const auto icon_it = skill_node.children.find("icon");
-        if (icon_it != skill_node.children.end() &&
-            icon_it->second.value.has_value())
+        if (icon_it != skill_node.children.end() && icon_it->second.value.has_value())
         {
-            if (const auto pval =
-                    std::get_if<std::string>(&icon_it->second.value.value()))
+            if (const auto pval = std::get_if<std::string>(&icon_it->second.value.value()))
                 icon = convert_cache_url(*pval);
         }
 
@@ -184,57 +172,37 @@ bool is_skill_in_set(const int skill_id,
     return false;
 }
 
-bool get_is_skill_dropped(const SkillData &skill_data,
-                          const SkillRules &skill_rules)
+bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_rules)
 {
     const auto is_substr_drop_match =
-        is_skill_in_set(skill_data.skill_id,
-                        skill_data.name,
-                        skill_rules.skills_substr_to_drop);
+        is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.skills_substr_to_drop);
     const auto is_exact_drop_match =
-        is_skill_in_set(skill_data.skill_id,
-                        skill_data.name,
-                        skill_rules.skills_match_to_drop,
-                        true);
+        is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.skills_match_to_drop, true);
 
     auto drop_skill = is_substr_drop_match || is_exact_drop_match;
     if (!Settings::ShowWeaponSwap)
     {
         const auto drop_substr_swap =
-            is_skill_in_set(skill_data.skill_id,
-                            skill_data.name,
-                            skill_rules.skills_substr_weapon_swap_like);
+            is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.skills_substr_weapon_swap_like);
         const auto drop_match_swap =
-            is_skill_in_set(skill_data.skill_id,
-                            skill_data.name,
-                            skill_rules.skills_match_weapon_swap_like,
-                            true);
+            is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.skills_match_weapon_swap_like, true);
 
-        const auto is_unknownm =
-            skill_data.name.find("Unknown Skill") != std::string::npos;
+        const auto is_unknownm = skill_data.name.find("Unknown Skill") != std::string::npos;
 
-        drop_skill = is_substr_drop_match || is_exact_drop_match ||
-                     drop_substr_swap || drop_match_swap || is_unknownm;
+        drop_skill = is_substr_drop_match || is_exact_drop_match || drop_substr_swap || drop_match_swap || is_unknownm;
     }
 
     return drop_skill;
 }
 
-bool get_is_special_skill(const SkillData &skill_data,
-                          const SkillRules &skill_rules)
+bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_rules)
 {
     const auto is_substr_gray_out =
-        is_skill_in_set(skill_data.skill_id,
-                        skill_data.name,
-                        skill_rules.special_substr_to_gray_out);
+        is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.special_substr_to_gray_out);
     const auto is_match_gray_out =
-        is_skill_in_set(skill_data.skill_id,
-                        skill_data.name,
-                        skill_rules.special_match_to_gray_out,
-                        true);
+        is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.special_match_to_gray_out, true);
 
-    const auto is_special_skill =
-        is_substr_gray_out || is_match_gray_out || skill_data.is_heal_skill;
+    const auto is_special_skill = is_substr_gray_out || is_match_gray_out || skill_data.is_heal_skill;
 
     return is_special_skill;
 }
@@ -260,11 +228,9 @@ void get_rotation_info(const IntNode &node,
 
             // Get time_of_cast (index 0)
             const auto time_of_cast_it = skill_array.children.find("0");
-            if (time_of_cast_it != skill_array.children.end() &&
-                time_of_cast_it->second.value.has_value())
+            if (time_of_cast_it != skill_array.children.end() && time_of_cast_it->second.value.has_value())
             {
-                if (const auto pval = std::get_if<float>(
-                        &time_of_cast_it->second.value.value()))
+                if (const auto pval = std::get_if<float>(&time_of_cast_it->second.value.value()))
                 {
                     time_of_cast = *pval;
                 }
@@ -272,11 +238,9 @@ void get_rotation_info(const IntNode &node,
 
             // Get icon_id (index 1)
             const auto icon_id_it = skill_array.children.find("1");
-            if (icon_id_it != skill_array.children.end() &&
-                icon_id_it->second.value.has_value())
+            if (icon_id_it != skill_array.children.end() && icon_id_it->second.value.has_value())
             {
-                if (const auto pval =
-                        std::get_if<int>(&icon_id_it->second.value.value()))
+                if (const auto pval = std::get_if<int>(&icon_id_it->second.value.value()))
                 {
                     icon_id = *pval;
                 }
@@ -284,11 +248,9 @@ void get_rotation_info(const IntNode &node,
 
             // Get duration_ms (index 2)
             const auto duration_it = skill_array.children.find("2");
-            if (duration_it != skill_array.children.end() &&
-                duration_it->second.value.has_value())
+            if (duration_it != skill_array.children.end() && duration_it->second.value.has_value())
             {
-                if (const auto pval =
-                        std::get_if<int>(&duration_it->second.value.value()))
+                if (const auto pval = std::get_if<int>(&duration_it->second.value.value()))
                 {
                     duration_ms = static_cast<float>(*pval);
                 }
@@ -318,8 +280,7 @@ void get_rotation_info(const IntNode &node,
                 {
                     if (sid == icon_id)
                     {
-                        if (_skill_data.name.find("Relic") !=
-                                std::string::npos ||
+                        if (_skill_data.name.find("Relic") != std::string::npos ||
                             _skill_data.name.find("Sigil") != std::string::npos)
                             skip_skill = true;
 
@@ -342,50 +303,39 @@ void get_rotation_info(const IntNode &node,
                 skill_data.icon_id = -9999;
             }
 
-            const auto drop_skill =
-                get_is_skill_dropped(skill_data, skill_rules);
+            const auto drop_skill = get_is_skill_dropped(skill_data, skill_rules);
 
             if (!drop_skill)
             {
-                const auto is_special_skill =
-                    get_is_special_skill(skill_data, skill_rules);
+                const auto is_special_skill = get_is_special_skill(skill_data, skill_rules);
 
-                const auto is_duplicate_skill = is_skill_in_set(
-                    skill_data.skill_id,
-                    skill_data.name,
-                    skill_rules.special_substr_to_remove_duplicates);
+                const auto is_duplicate_skill = is_skill_in_set(skill_data.skill_id,
+                                                                skill_data.name,
+                                                                skill_rules.special_substr_to_remove_duplicates);
                 const auto was_there_previous =
-                    !all_rotation_steps.empty()
-                        ? all_rotation_steps.back().skill_data.name ==
-                              skill_data.name
-                        : false;
+                    !all_rotation_steps.empty() ? all_rotation_steps.back().skill_data.name == skill_data.name : false;
 
                 if (is_duplicate_skill && was_there_previous)
                     continue;
 
-                const auto cast_time_it =
-                    skill_cast_time_map.find(skill_data.name);
+                const auto cast_time_it = skill_cast_time_map.find(skill_data.name);
                 if (cast_time_it != skill_cast_time_map.end())
                 {
                     skill_data.cast_time = cast_time_it->second;
-                    skill_data.cast_time_with_quickness =
-                        skill_data.cast_time * 0.8f;
+                    skill_data.cast_time_with_quickness = skill_data.cast_time * 0.8f;
                 }
 
-                all_rotation_steps.push_back(
-                    RotationStep{.time_of_cast = time_of_cast,
-                                 .duration_ms = duration_ms,
-                                 .skill_data = skill_data,
-                                 .is_special_skill = is_special_skill});
+                all_rotation_steps.push_back(RotationStep{.time_of_cast = time_of_cast,
+                                                          .duration_ms = duration_ms,
+                                                          .skill_data = skill_data,
+                                                          .is_special_skill = is_special_skill});
             }
         }
     }
 
-    std::sort(all_rotation_steps.begin(),
-              all_rotation_steps.end(),
-              [](const RotationStep &a, const RotationStep &b) {
-                  return a.time_of_cast < b.time_of_cast;
-              });
+    std::sort(all_rotation_steps.begin(), all_rotation_steps.end(), [](const RotationStep &a, const RotationStep &b) {
+        return a.time_of_cast < b.time_of_cast;
+    });
 }
 
 SkillDataMap get_skill_data_map(const nlohmann::json &j)
@@ -404,8 +354,7 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
         if (skill_obj.contains("recharge") && skill_obj["recharge"].is_number())
         {
             skill_data.recharge_time = skill_obj["recharge"].get<int>();
-            skill_data.recharge_time_with_alacrity =
-                skill_data.recharge_time * 0.8f;
+            skill_data.recharge_time_with_alacrity = skill_data.recharge_time * 0.8f;
         }
         else
         {
@@ -413,8 +362,7 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
             skill_data.recharge_time_with_alacrity = -1.0f;
         }
 
-        if (skill_obj.contains("cast_time") &&
-            skill_obj["cast_time"].is_number())
+        if (skill_obj.contains("cast_time") && skill_obj["cast_time"].is_number())
         {
             skill_data.cast_time = skill_obj["cast_time"].get<int>();
             skill_data.cast_time_with_quickness = skill_data.cast_time * 0.8f;
@@ -425,51 +373,40 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
             skill_data.cast_time_with_quickness = -1.0f;
         }
 
-        if (skill_obj.contains("is_auto_attack") &&
-            skill_obj["is_auto_attack"].is_boolean())
+        if (skill_obj.contains("is_auto_attack") && skill_obj["is_auto_attack"].is_boolean())
             skill_data.is_auto_attack = skill_obj["is_auto_attack"].get<bool>();
         else
             skill_data.is_auto_attack = false;
 
-        if (skill_obj.contains("is_weapon_skill") &&
-            skill_obj["is_weapon_skill"].is_boolean())
-            skill_data.is_weapon_skill =
-                skill_obj["is_weapon_skill"].get<bool>();
+        if (skill_obj.contains("is_weapon_skill") && skill_obj["is_weapon_skill"].is_boolean())
+            skill_data.is_weapon_skill = skill_obj["is_weapon_skill"].get<bool>();
         else
             skill_data.is_weapon_skill = false;
 
-        if (skill_obj.contains("is_utility_skill") &&
-            skill_obj["is_utility_skill"].is_boolean())
-            skill_data.is_utility_skill =
-                skill_obj["is_utility_skill"].get<bool>();
+        if (skill_obj.contains("is_utility_skill") && skill_obj["is_utility_skill"].is_boolean())
+            skill_data.is_utility_skill = skill_obj["is_utility_skill"].get<bool>();
         else
             skill_data.is_utility_skill = false;
 
-        if (skill_obj.contains("is_elite_skill") &&
-            skill_obj["is_elite_skill"].is_boolean())
+        if (skill_obj.contains("is_elite_skill") && skill_obj["is_elite_skill"].is_boolean())
             skill_data.is_elite_skill = skill_obj["is_elite_skill"].get<bool>();
         else
             skill_data.is_elite_skill = false;
 
-        if (skill_obj.contains("is_heal_skill") &&
-            skill_obj["is_heal_skill"].is_boolean())
+        if (skill_obj.contains("is_heal_skill") && skill_obj["is_heal_skill"].is_boolean())
             skill_data.is_heal_skill = skill_obj["is_heal_skill"].get<bool>();
         else
             skill_data.is_heal_skill = false;
 
-        if (skill_obj.contains("is_profession_skill") &&
-            skill_obj["is_profession_skill"].is_boolean())
-            skill_data.is_profession_skill =
-                skill_obj["is_profession_skill"].get<bool>();
+        if (skill_obj.contains("is_profession_skill") && skill_obj["is_profession_skill"].is_boolean())
+            skill_data.is_profession_skill = skill_obj["is_profession_skill"].get<bool>();
         else
             skill_data.is_profession_skill = false;
 
-        if (skill_obj.contains("skill_type") &&
-            skill_obj["skill_type"].is_string())
+        if (skill_obj.contains("skill_type") && skill_obj["skill_type"].is_string())
         {
             const auto _type_str = skill_obj["skill_type"].get<std::string>();
-            skill_data.skill_type =
-                static_cast<SkillSlot>(std::stoi(_type_str));
+            skill_data.skill_type = static_cast<SkillSlot>(std::stoi(_type_str));
         }
         else
             skill_data.skill_type = SkillSlot::NONE;
@@ -508,9 +445,8 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
 
         if (skill_data.name == "")
         {
-            if (!skill_data.is_weapon_skill && !skill_data.is_auto_attack &&
-                !skill_data.is_utility_skill && !skill_data.is_elite_skill &&
-                !skill_data.is_heal_skill && !skill_data.is_profession_skill)
+            if (!skill_data.is_weapon_skill && !skill_data.is_auto_attack && !skill_data.is_utility_skill &&
+                !skill_data.is_elite_skill && !skill_data.is_heal_skill && !skill_data.is_profession_skill)
             {
                 skill_data.name = "Weapon Swap";
                 skill_data.icon_id = 9999;
@@ -540,35 +476,26 @@ MetaData get_metadata(const nlohmann::json &j)
     if (build_meta.contains("url") && build_meta["url"].is_string())
         metadata.url = build_meta["url"].get<std::string>();
 
-    if (build_meta.contains("benchmark_type") &&
-        build_meta["benchmark_type"].is_string())
-        metadata.benchmark_type =
-            build_meta["benchmark_type"].get<std::string>();
+    if (build_meta.contains("benchmark_type") && build_meta["benchmark_type"].is_string())
+        metadata.benchmark_type = build_meta["benchmark_type"].get<std::string>();
 
-    if (build_meta.contains("profession") &&
-        build_meta["profession"].is_string())
+    if (build_meta.contains("profession") && build_meta["profession"].is_string())
         metadata.profession = build_meta["profession"].get<std::string>();
 
-    if (build_meta.contains("elite_spec") &&
-        build_meta["elite_spec"].is_string())
+    if (build_meta.contains("elite_spec") && build_meta["elite_spec"].is_string())
         metadata.elite_spec = build_meta["elite_spec"].get<std::string>();
 
-    if (build_meta.contains("build_type") &&
-        build_meta["build_type"].is_string())
+    if (build_meta.contains("build_type") && build_meta["build_type"].is_string())
         metadata.build_type = build_meta["build_type"].get<std::string>();
 
     if (build_meta.contains("url_name") && build_meta["url_name"].is_string())
         metadata.url_name = build_meta["url_name"].get<std::string>();
 
-    if (build_meta.contains("dps_report_url") &&
-        build_meta["dps_report_url"].is_string())
-        metadata.dps_report_url =
-            build_meta["dps_report_url"].get<std::string>();
+    if (build_meta.contains("dps_report_url") && build_meta["dps_report_url"].is_string())
+        metadata.dps_report_url = build_meta["dps_report_url"].get<std::string>();
 
-    if (build_meta.contains("html_file_path") &&
-        build_meta["html_file_path"].is_string())
-        metadata.html_file_path =
-            build_meta["html_file_path"].get<std::string>();
+    if (build_meta.contains("html_file_path") && build_meta["html_file_path"].is_string())
+        metadata.html_file_path = build_meta["html_file_path"].get<std::string>();
 
     metadata.elite_spec_id = string_to_elite_spec(metadata.elite_spec);
     metadata.profession_id = string_to_profession(metadata.profession);
@@ -610,26 +537,16 @@ std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
     return std::make_tuple(log_skill_info_map, rotation_steps, metadata);
 }
 
-bool DownloadFileFromURL(const std::string &url,
-                         const std::filesystem::path &out_path)
+bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &out_path)
 {
-    const auto hInternet = InternetOpenA("GW2RotaHelper",
-                                         INTERNET_OPEN_TYPE_PRECONFIG,
-                                         NULL,
-                                         NULL,
-                                         0);
+    const auto hInternet = InternetOpenA("GW2RotaHelper", INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
     if (!hInternet)
     {
         std::cerr << "Failed to open internet connection" << std::endl;
         return false;
     }
 
-    const auto hFile = InternetOpenUrlA(hInternet,
-                                        url.c_str(),
-                                        NULL,
-                                        0,
-                                        INTERNET_FLAG_RELOAD,
-                                        0);
+    const auto hFile = InternetOpenUrlA(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
     if (!hFile)
     {
         std::cerr << "Failed to open URL: " << url << std::endl;
@@ -659,8 +576,7 @@ bool DownloadFileFromURL(const std::string &url,
                 outFile.write(buffer.data(), bytesRead);
                 if (outFile.fail())
                 {
-                    std::cerr << "Failed to write to file: " << out_path
-                              << std::endl;
+                    std::cerr << "Failed to write to file: " << out_path << std::endl;
                     success = false;
                     break;
                 }
@@ -681,8 +597,7 @@ bool DownloadFileFromURL(const std::string &url,
 
     if (success)
     {
-        std::cout << "Successfully downloaded: " << url << " -> " << out_path
-                  << std::endl;
+        std::cout << "Successfully downloaded: " << url << " -> " << out_path << std::endl;
     }
     else
     {
@@ -692,9 +607,8 @@ bool DownloadFileFromURL(const std::string &url,
     return success;
 }
 
-std::list<std::future<void>> StartDownloadAllSkillIcons(
-    const LogSkillInfoMap &log_skill_info_map,
-    const std::filesystem::path &img_folder)
+std::list<std::future<void>> StartDownloadAllSkillIcons(const LogSkillInfoMap &log_skill_info_map,
+                                                        const std::filesystem::path &img_folder)
 {
     std::filesystem::create_directories(img_folder);
     auto futures = std::list<std::future<void>>{};
@@ -714,28 +628,23 @@ std::list<std::future<void>> StartDownloadAllSkillIcons(
         if (std::filesystem::exists(out_path))
             continue;
 
-        std::cout << "Downloading " << info.icon_url << " to " << out_path
-                  << std::endl;
+        std::cout << "Downloading " << info.icon_url << " to " << out_path << std::endl;
         futures.emplace_back(
-            std::async(std::launch::async, [url = info.icon_url, out_path]() {
-                DownloadFileFromURL(url, out_path);
-            }));
+            std::async(std::launch::async, [url = info.icon_url, out_path]() { DownloadFileFromURL(url, out_path); }));
     }
 
     return futures;
 }
 } // namespace
 
-SkillState get_skill_state(
-    const RotationLogType &rotation_run,
-    const std::vector<EvCombatDataPersistent> &played_rotation,
-    const size_t window_idx,
-    const size_t current_idx,
-    const bool is_auto_attack)
+SkillState get_skill_state(const RotationLogType &rotation_run,
+                           const std::vector<EvCombatDataPersistent> &played_rotation,
+                           const size_t window_idx,
+                           const size_t current_idx,
+                           const bool is_auto_attack)
 {
     const auto is_current = (window_idx == static_cast<int32_t>(current_idx));
-    const auto is_last =
-        (window_idx == Globals::RotationRun.all_rotation_steps.size() - 1);
+    const auto is_last = (window_idx == Globals::RotationRun.all_rotation_steps.size() - 1);
 
     return SkillState{
         .is_current = is_current,
@@ -744,8 +653,7 @@ SkillState get_skill_state(
     };
 }
 
-void RotationLogType::load_data(const std::filesystem::path &json_path,
-                                const std::filesystem::path &img_path)
+void RotationLogType::load_data(const std::filesystem::path &json_path, const std::filesystem::path &img_path)
 {
     skill_data_map.clear();
     log_skill_info_map.clear();
@@ -758,10 +666,7 @@ void RotationLogType::load_data(const std::filesystem::path &json_path,
     skill_data_map = get_skill_data_map(jsons_skill_data);
 
     const auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] =
-        get_dpsreport_data(json_path,
-                           skill_data_map,
-                           skill_rules,
-                           skill_cast_time_map);
+        get_dpsreport_data(json_path, skill_data_map, skill_rules, skill_cast_time_map);
 
     log_skill_info_map = _skill_info_map;
     all_rotation_steps = _bench_all_rotation_steps;
@@ -778,21 +683,17 @@ void RotationLogType::pop_bench_rotation_queue()
         todo_rotation_steps.pop_front();
 }
 
-std::tuple<std::int32_t, std::int32_t, size_t> RotationLogType::
-    get_current_rotation_indices() const
+std::tuple<std::int32_t, std::int32_t, size_t> RotationLogType::get_current_rotation_indices() const
 {
     constexpr static auto window_size = 10;
     constexpr static auto window_size_left = 2;
-    constexpr static auto window_size_right =
-        window_size - window_size_left - 1;
+    constexpr static auto window_size_right = window_size - window_size_left - 1;
 
     if (todo_rotation_steps.empty())
         return {-1, -1, static_cast<size_t>(-1)};
 
-    const auto num_skills_left =
-        static_cast<int64_t>(todo_rotation_steps.size());
-    const auto num_total_skills =
-        static_cast<int64_t>(all_rotation_steps.size());
+    const auto num_skills_left = static_cast<int64_t>(todo_rotation_steps.size());
+    const auto num_total_skills = static_cast<int64_t>(all_rotation_steps.size());
 
     auto current_idx = static_cast<size_t>(num_total_skills - num_skills_left);
 
@@ -804,14 +705,10 @@ std::tuple<std::int32_t, std::int32_t, size_t> RotationLogType::
             break;
     }
 
-    const auto start =
-        current_idx - 2 >= 0
-            ? static_cast<int32_t>(current_idx - window_size_left)
-            : 0;
+    const auto start = current_idx - 2 >= 0 ? static_cast<int32_t>(current_idx - window_size_left) : 0;
     const auto end =
         current_idx + window_size < num_total_skills
-            ? start > 0 ? static_cast<int32_t>(current_idx + window_size_right)
-                        : static_cast<int32_t>(window_size - 1)
+            ? start > 0 ? static_cast<int32_t>(current_idx + window_size_right) : static_cast<int32_t>(window_size - 1)
             : static_cast<std::int32_t>(num_total_skills - 1);
 
     return {start, end, current_idx};
@@ -827,8 +724,7 @@ RotationStep RotationLogType::get_rotation_skill(const size_t idx) const
 
 void RotationLogType::restart_rotation()
 {
-    todo_rotation_steps = std::list<RotationStep>(all_rotation_steps.begin(),
-                                                  all_rotation_steps.end());
+    todo_rotation_steps = std::list<RotationStep>(all_rotation_steps.begin(), all_rotation_steps.end());
 }
 
 bool RotationLogType::is_current_run_done() const

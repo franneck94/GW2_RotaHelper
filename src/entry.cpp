@@ -52,10 +52,7 @@ void RegisterQuickAccessShortcut()
                                       "TEX_GW2_RotaHelper_HOVER",
                                       KB_TOGGLE_GW2_RotaHelper,
                                       "Toggle GW2_RotaHelper Window");
-    Globals::APIDefs->InputBinds.RegisterWithString(
-        KB_TOGGLE_GW2_RotaHelper,
-        ToggleShowWindowGW2_RotaHelper,
-        "(null)");
+    Globals::APIDefs->InputBinds.RegisterWithString(KB_TOGGLE_GW2_RotaHelper, ToggleShowWindowGW2_RotaHelper, "(null)");
 }
 
 void DeregisterQuickAccessShortcut()
@@ -111,24 +108,18 @@ void AddonLoad(AddonAPI *aApi)
 
     Globals::APIDefs = aApi;
     ImGui::SetCurrentContext((ImGuiContext *)Globals::APIDefs->ImguiContext);
-    ImGui::SetAllocatorFunctions(
-        (void *(*)(size_t, void *))Globals::APIDefs->ImguiMalloc,
-        (void (*)(void *, void *))Globals::APIDefs->ImguiFree);
+    ImGui::SetAllocatorFunctions((void *(*)(size_t, void *))Globals::APIDefs->ImguiMalloc,
+                                 (void (*)(void *, void *))Globals::APIDefs->ImguiFree);
 
-    Globals::NexusLink =
-        (NexusLinkData *)Globals::APIDefs->DataLink.Get("DL_NEXUS_LINK");
-    Globals::MumbleData =
-        (Mumble::Data *)Globals::APIDefs->DataLink.Get("DL_MUMBLE_LINK");
-    Globals::RTAPIData =
-        (RTAPI::RealTimeData *)Globals::APIDefs->DataLink.Get("DL_RTAPI");
+    Globals::NexusLink = (NexusLinkData *)Globals::APIDefs->DataLink.Get("DL_NEXUS_LINK");
+    Globals::MumbleData = (Mumble::Data *)Globals::APIDefs->DataLink.Get("DL_MUMBLE_LINK");
+    Globals::RTAPIData = (RTAPI::RealTimeData *)Globals::APIDefs->DataLink.Get("DL_RTAPI");
 
     Globals::APIDefs->Renderer.Register(ERenderType_Render, AddonRender);
-    Globals::APIDefs->Renderer.Register(ERenderType_OptionsRender,
-                                        AddonOptions);
+    Globals::APIDefs->Renderer.Register(ERenderType_OptionsRender, AddonOptions);
 
     AddonPath = Globals::APIDefs->Paths.GetAddonDirectory("GW2RotaHelper");
-    Globals::SettingsPath = Globals::APIDefs->Paths.GetAddonDirectory(
-        "GW2RotaHelper/settings.json");
+    Globals::SettingsPath = Globals::APIDefs->Paths.GetAddonDirectory("GW2RotaHelper/settings.json");
 
     std::filesystem::create_directories(AddonPath);
 
@@ -146,26 +137,18 @@ void AddonLoad(AddonAPI *aApi)
     else
         Globals::SkillIconSize = 28.0F;
 
-    Globals::APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_NORMAL",
-                                                IDB_GW2_RotaHelper_NORMAL,
-                                                hSelf,
-                                                nullptr);
-    Globals::APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_HOVER",
-                                                IDB_GW2_RotaHelper_HOVER,
-                                                hSelf,
-                                                nullptr);
+    Globals::APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_NORMAL", IDB_GW2_RotaHelper_NORMAL, hSelf, nullptr);
+    Globals::APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_HOVER", IDB_GW2_RotaHelper_HOVER, hSelf, nullptr);
     RegisterQuickAccessShortcut();
 
-    Globals::APIDefs->Events.Subscribe("EV_ARCDPS_COMBATEVENT_LOCAL_RAW",
-                                       ArcEv::OnCombatLocal);
+    Globals::APIDefs->Events.Subscribe("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ArcEv::OnCombatLocal);
 
     if (Globals::APIDefs && Globals::APIDefs->DataLink.Get)
     {
         auto *pSwapChain = (IDXGISwapChain *)Globals::APIDefs->SwapChain;
         if (pSwapChain)
         {
-            auto hr = pSwapChain->GetDevice(__uuidof(ID3D11Device),
-                                            (void **)&pd3dDevice);
+            auto hr = pSwapChain->GetDevice(__uuidof(ID3D11Device), (void **)&pd3dDevice);
             if (FAILED(hr))
                 pd3dDevice = nullptr;
         }
@@ -187,8 +170,7 @@ void AddonUnload()
 
     DeregisterQuickAccessShortcut();
 
-    Globals::APIDefs->Events.Unsubscribe("EV_ARCDPS_COMBATEVENT_LOCAL_RAW",
-                                         ArcEv::OnCombatLocal);
+    Globals::APIDefs->Events.Unsubscribe("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ArcEv::OnCombatLocal);
 }
 
 void TriggerParseMumble()
@@ -198,14 +180,11 @@ void TriggerParseMumble()
     static auto pending_count = 0;
 
     const auto now = std::chrono::steady_clock::now();
-    const auto time_since_last_parse =
-        std::chrono::duration_cast<std::chrono::seconds>(now - last_parse_time)
-            .count();
+    const auto time_since_last_parse = std::chrono::duration_cast<std::chrono::seconds>(now - last_parse_time).count();
 
     if (time_since_last_parse >= 1 || time_since_last_parse == 0)
     {
-        auto current_identity =
-            ParseMumbleIdentity(Globals::MumbleData->Identity);
+        auto current_identity = ParseMumbleIdentity(Globals::MumbleData->Identity);
 
         if (current_identity.Profession != Globals::Identity.Profession)
         {
@@ -241,13 +220,11 @@ void AddonRender()
 {
     static auto profession = ProfessionID::UNKNOWN;
 
-    if ((!Globals::NexusLink) || (!Globals::NexusLink->IsGameplay) ||
-        (!Settings::ShowWindow))
+    if ((!Globals::NexusLink) || (!Globals::NexusLink->IsGameplay) || (!Settings::ShowWindow))
         return;
 
     TriggerParseMumble();
-    const auto curr_profession =
-        static_cast<ProfessionID>(Globals::Identity.Profession);
+    const auto curr_profession = static_cast<ProfessionID>(Globals::Identity.Profession);
     if (profession != curr_profession)
     {
         Globals::RotationRun.reset_rotation();

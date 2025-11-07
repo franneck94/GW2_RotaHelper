@@ -37,12 +37,8 @@ void Load(std::filesystem::path aPath)
         }
         catch (json::parse_error &ex)
         {
-            Globals::APIDefs->Log(ELogLevel_WARNING,
-                                  "GW2RotaHelper",
-                                  "Settings.json could not be parsed.");
-            Globals::APIDefs->Log(ELogLevel_WARNING,
-                                  "GW2RotaHelper",
-                                  ex.what());
+            Globals::APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", "Settings.json could not be parsed.");
+            Globals::APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", ex.what());
         }
     }
     Settings::Mutex.unlock();

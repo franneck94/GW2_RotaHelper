@@ -12,21 +12,16 @@
 
 std::string to_lowercase(const std::string &str);
 
-std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,
-          std::set<std::string>>
-get_file_data_pairs(std::vector<BenchFileInfo> &benches_files,
-                    std::string &filter_string);
+std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::string>> get_file_data_pairs(
+    std::vector<BenchFileInfo> &benches_files,
+    std::string &filter_string);
 
-bool load_rotaion_json(const std::filesystem::path &json_path,
-                       nlohmann::json &j);
+bool load_rotaion_json(const std::filesystem::path &json_path, nlohmann::json &j);
 
-bool load_skill_data_map(const std::filesystem::path &json_path,
-                         nlohmann::json &j);
+bool load_skill_data_map(const std::filesystem::path &json_path, nlohmann::json &j);
 
 std::string format_build_name(const std::string &raw_name);
 
-std::vector<BenchFileInfo> get_bench_files(
-    const std::filesystem::path &bench_path);
+std::vector<BenchFileInfo> get_bench_files(const std::filesystem::path &bench_path);
 
-std::map<std::string, KeybindInfo> parse_xml_keybinds(
-    const std::filesystem::path &xml_path);
+std::map<std::string, KeybindInfo> parse_xml_keybinds(const std::filesystem::path &xml_path);
