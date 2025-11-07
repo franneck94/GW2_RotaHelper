@@ -52,8 +52,7 @@ public:
     float calculate_centered_position(
         const std::vector<std::string> &items) const;
     void append_to_played_rotation(const EvCombatDataPersistent &combat_data);
-    void skill_activation_callback(const bool pressed,
-                                   const EvCombatDataPersistent &combat_data);
+    void skill_activation_callback(EvCombatDataPersistent combat_data);
     void set_show_window(const bool flag);
     EvCombatDataPersistent get_current_skill();
     void CycleSkillsLogic(const EvCombatDataPersistent &skill_ev);

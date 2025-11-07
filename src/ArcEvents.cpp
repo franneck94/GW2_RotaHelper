@@ -253,7 +253,7 @@ bool OnCombat(const char *channel,
     if (!IsNotTheSameCast(data))
         return false;
 
-    Globals::Render.skill_activation_callback(true, data);
+    Globals::Render.skill_activation_callback(data);
 
     return true;
 }

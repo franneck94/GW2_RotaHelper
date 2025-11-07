@@ -21,6 +21,7 @@ struct EvCombatDataPersistent
     std::string SkillName;
     uint64_t SkillID;
     uint64_t EventID;
+    bool RepeatedSkill;
 };
 
 struct EvCombatData

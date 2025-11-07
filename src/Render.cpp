@@ -136,18 +136,15 @@ void RenderType::append_to_played_rotation(
     played_rotation.push_back(combat_data);
 }
 
-void RenderType::skill_activation_callback(
-    const bool pressed,
-    const EvCombatDataPersistent &combat_data)
+void RenderType::skill_activation_callback(EvCombatDataPersistent combat_data)
 {
-    key_press_event_in_this_frame = pressed;
+    if (curr_combat_data.SkillID == combat_data.SkillID)
+        combat_data.RepeatedSkill = true;
 
-    if (pressed)
-    {
-        curr_combat_data = combat_data;
+    key_press_event_in_this_frame = true;
+    curr_combat_data = combat_data;
 
-        append_to_played_rotation(combat_data);
-    }
+    append_to_played_rotation(combat_data);
 }
 
 EvCombatDataPersistent RenderType::get_current_skill()
@@ -229,6 +226,8 @@ void RenderType::render_debug_data()
     ImGui::Text("Last Casted Skill Name: %s",
                 curr_combat_data.SkillName.c_str());
     ImGui::Text("Last Event ID: %u", curr_combat_data.EventID);
+    ImGui::Text("Repeated skill: %s",
+                curr_combat_data.RepeatedSkill == true ? "true" : "false");
 
     if (!keybinds.empty())
     {
