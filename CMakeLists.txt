@@ -66,6 +66,7 @@ add_library(first_party_libs STATIC
     "src/resource.rc"
     "src/ArcEvents.cpp"
     "src/Textures.cpp"
+    "src/Rotation.cpp"
     "src/FileUtils.cpp"
     "src/TypesUtils.cpp"
     "src/MumbleUtils.cpp"

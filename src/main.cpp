@@ -42,8 +42,8 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // Main code
 int main(int, char **)
 {
-    Globals::SettingsPath = std::filesystem::absolute(
-        std::filesystem::path(__FILE__).parent_path() / "addon_settings.json");
+    Globals::SettingsPath =
+        std::filesystem::absolute(std::filesystem::path(__FILE__).parent_path() / "addon_settings.json");
 
     // Create application window
     // ImGui_ImplWin32_EnableDpiAwareness();
@@ -102,8 +102,7 @@ int main(int, char **)
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
     Globals::Render.set_show_window(true);
 
-    auto data_path = std::filesystem::absolute(
-        std::filesystem::path(__FILE__).parent_path().parent_path() / "data");
+    auto data_path = std::filesystem::absolute(std::filesystem::path(__FILE__).parent_path().parent_path() / "data");
     Globals::Render.set_data_path(data_path);
 
     Settings::Load(Globals::SettingsPath);
@@ -142,8 +141,7 @@ int main(int, char **)
             {0x43, _Keys::C}  // VK_C
         };
 
-        for (int vk = 0x08; vk <= 0xFE;
-             vk++) // VK_BACK to 0xFE (most virtual _Keys)
+        for (int vk = 0x08; vk <= 0xFE; vk++) // VK_BACK to 0xFE (most virtual _Keys)
         {
             if (GetAsyncKeyState(vk) & 0x8000)
             {
@@ -195,9 +193,7 @@ int main(int, char **)
             auto fake_src = ArcDPS::AgentShort{};
             auto fake_dst = ArcDPS::AgentShort{};
             char fake_skillname[64] = {};
-            strncpy(fake_skillname,
-                    skill_name.c_str(),
-                    sizeof(fake_skillname) - 1);
+            strncpy(fake_skillname, skill_name.c_str(), sizeof(fake_skillname) - 1);
             auto fake_id = static_cast<uint64_t>(skill_id);
             auto fake_revision = static_cast<uint64_t>(1);
 
@@ -212,12 +208,7 @@ int main(int, char **)
             fake_dst.Specialization = 6;
             fake_dst.Name = (char *)"Target";
 
-            auto ev = EvCombatData{&fake_ev,
-                                   &fake_src,
-                                   &fake_dst,
-                                   fake_skillname,
-                                   fake_id,
-                                   fake_revision};
+            auto ev = EvCombatData{&fake_ev, &fake_src, &fake_dst, fake_skillname, fake_id, fake_revision};
 
             ArcEv::OnCombatLocal((void *)&ev);
         }
@@ -225,11 +216,8 @@ int main(int, char **)
         Globals::Render.render(g_pd3dDevice);
 
         ImGui::Render();
-        g_pd3dDeviceContext->OMSetRenderTargets(1,
-                                                &g_mainRenderTargetView,
-                                                NULL);
-        g_pd3dDeviceContext->ClearRenderTargetView(g_mainRenderTargetView,
-                                                   (float *)&clear_color);
+        g_pd3dDeviceContext->OMSetRenderTargets(1, &g_mainRenderTargetView, NULL);
+        g_pd3dDeviceContext->ClearRenderTargetView(g_mainRenderTargetView, (float *)&clear_color);
         ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
         g_pSwapChain->Present(1, 0); // Present with vsync
@@ -315,9 +303,7 @@ void CreateRenderTarget()
 {
     ID3D11Texture2D *pBackBuffer;
     g_pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
-    g_pd3dDevice->CreateRenderTargetView(pBackBuffer,
-                                         NULL,
-                                         &g_mainRenderTargetView);
+    g_pd3dDevice->CreateRenderTargetView(pBackBuffer, NULL, &g_mainRenderTargetView);
     pBackBuffer->Release();
 }
 
@@ -330,10 +316,7 @@ void CleanupRenderTarget()
     }
 }
 
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd,
-                                                             UINT msg,
-                                                             WPARAM wParam,
-                                                             LPARAM lParam);
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -346,11 +329,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         if (g_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
         {
             CleanupRenderTarget();
-            g_pSwapChain->ResizeBuffers(0,
-                                        (UINT)LOWORD(lParam),
-                                        (UINT)HIWORD(lParam),
-                                        DXGI_FORMAT_UNKNOWN,
-                                        0);
+            g_pSwapChain->ResizeBuffers(0, (UINT)LOWORD(lParam), (UINT)HIWORD(lParam), DXGI_FORMAT_UNKNOWN, 0);
             CreateRenderTarget();
         }
         return 0;

@@ -1539,6 +1539,20 @@
     "recharge": 0,
     "skill_type": "11"
   },
+  "10586": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/A9050BAB0847390C0112694321B0F6AEDF7AE1FB/102804.png",
+    "id": 10586,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Locked",
+    "recharge": 0,
+    "skill_type": "4"
+  },
   "10588": {
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/6CAB0D17DF604E5C6330523A350EC4430409A309/103818.png",
@@ -15279,13 +15293,13 @@
     "id": 44677,
     "is_auto_attack": false,
     "is_elite_skill": false,
-    "is_heal_skill": true,
+    "is_heal_skill": false,
     "is_profession_skill": false,
-    "is_utility_skill": false,
+    "is_utility_skill": true,
     "is_weapon_skill": false,
     "name": "Mirage Mirror",
     "recharge": 0,
-    "skill_type": "6"
+    "skill_type": "7"
   },
   "44681": {
     "cast_time": 0.0,
@@ -27863,15 +27877,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/02727B1807CF0FEF31037FD9E307BABB2055AE3C/3680214.png",
     "id": 76582,
-    "is_auto_attack": true,
+    "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": false,
+    "is_profession_skill": true,
     "is_utility_skill": false,
-    "is_weapon_skill": true,
+    "is_weapon_skill": false,
     "name": "Metal Legion Guitar",
     "recharge": 0,
-    "skill_type": "1"
+    "skill_type": "12"
   },
   "76583": {
     "cast_time": 0.0,
@@ -28129,7 +28143,7 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/CEE6340604724A060D7C570709C4B05DFAD56617/3680212.png",
     "id": 76674,
-    "is_auto_attack": false,
+    "is_auto_attack": true,
     "is_elite_skill": false,
     "is_heal_skill": false,
     "is_profession_skill": false,
@@ -28137,7 +28151,7 @@
     "is_weapon_skill": true,
     "name": "Holo-Dancer Decoy",
     "recharge": 0,
-    "skill_type": "4"
+    "skill_type": "1"
   },
   "76684": {
     "cast_time": 0.0,
@@ -28297,15 +28311,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/3C1B2075B7B164EB2ABE4F6650F553D40F689E53/3680218.png",
     "id": 76733,
-    "is_auto_attack": false,
+    "is_auto_attack": true,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": true,
+    "is_profession_skill": false,
     "is_utility_skill": false,
-    "is_weapon_skill": false,
+    "is_weapon_skill": true,
     "name": "Zephyrite Sun Crystal",
     "recharge": 1,
-    "skill_type": "12"
+    "skill_type": "1"
   },
   "76738": {
     "cast_time": 0.0,
@@ -28692,12 +28706,12 @@
     "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": false,
+    "is_profession_skill": true,
     "is_utility_skill": false,
-    "is_weapon_skill": true,
+    "is_weapon_skill": false,
     "name": "Zephyrite Sun Crystal",
     "recharge": 1,
-    "skill_type": "3"
+    "skill_type": "12"
   },
   "76900": {
     "cast_time": 0.0,
@@ -28731,15 +28745,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/0FBFB6FA27C9BEBD1872DAACDB040AEA71A616A9/3680208.png",
     "id": 76909,
-    "is_auto_attack": true,
+    "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": false,
+    "is_profession_skill": true,
     "is_utility_skill": false,
-    "is_weapon_skill": true,
+    "is_weapon_skill": false,
     "name": "Unstable Skritt Bomb",
     "recharge": 0,
-    "skill_type": "1"
+    "skill_type": "12"
   },
   "76910": {
     "cast_time": 0.0,

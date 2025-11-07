@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <map>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "FileUtils.h"
@@ -11,10 +12,7 @@
 ProfessionID string_to_profession(const std::string &profession_name)
 {
     auto lower_name = profession_name;
-    std::transform(lower_name.begin(),
-                   lower_name.end(),
-                   lower_name.begin(),
-                   ::tolower);
+    std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(), ::tolower);
 
     if (lower_name == "guardian")
         return ProfessionID::GUARDIAN;
@@ -41,10 +39,7 @@ ProfessionID string_to_profession(const std::string &profession_name)
 EliteSpecID string_to_elite_spec(const std::string &spec_name)
 {
     auto lower_name = spec_name;
-    std::transform(lower_name.begin(),
-                   lower_name.end(),
-                   lower_name.begin(),
-                   ::tolower);
+    std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(), ::tolower);
 
     // Elementalist
     if (lower_name == "catalyst")
@@ -542,9 +537,8 @@ std::string modifiers_to_string(Modifiers modifier)
     }
 }
 
-std::pair<Keys, Modifiers> get_keybind_for_skill_type(
-    SkillSlot skill_type,
-    const std::map<std::string, KeybindInfo> &keybinds)
+std::pair<Keys, Modifiers> get_keybind_for_skill_type(SkillSlot skill_type,
+                                                      const std::map<std::string, KeybindInfo> &keybinds)
 {
     std::string action_name;
 

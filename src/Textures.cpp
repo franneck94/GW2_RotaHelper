@@ -17,10 +17,10 @@
 #include "Textures.h"
 #include "Types.h"
 
-ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device,
-                                                 const std::wstring &filename)
+ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std::wstring &filename)
 {
-    if (!device) return nullptr;
+    if (!device)
+        return nullptr;
 
     IWICImagingFactory *factory = nullptr;
     IWICBitmapDecoder *decoder = nullptr;
@@ -35,11 +35,9 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device,
     if (FAILED(hr) && hr != RPC_E_CHANGED_MODE)
         return nullptr;
 
-    try {
-        hr = CoCreateInstance(CLSID_WICImagingFactory,
-                              nullptr,
-                              CLSCTX_INPROC_SERVER,
-                              IID_PPV_ARGS(&factory));
+    try
+    {
+        hr = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&factory));
         if (FAILED(hr))
         {
             if (com_initialized)
@@ -101,10 +99,7 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device,
         UINT width, height;
         converter->GetSize(&width, &height);
         std::vector<BYTE> buffer(width * height * 4);
-        converter->CopyPixels(nullptr,
-                              width * 4,
-                              static_cast<uint32_t>(buffer.size()),
-                              buffer.data());
+        converter->CopyPixels(nullptr, width * 4, static_cast<uint32_t>(buffer.size()), buffer.data());
 
         D3D11_TEXTURE2D_DESC desc = {};
         desc.Width = width;
@@ -138,33 +133,56 @@ ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device,
             CoUninitialize();
 
         return srv;
-
-    } catch (const std::bad_alloc& e) {
+    }
+    catch (const std::bad_alloc &e)
+    {
         // Handle memory allocation failures
-        if (texture) texture->Release();
-        if (converter) converter->Release();
-        if (frame) frame->Release();
-        if (decoder) decoder->Release();
-        if (factory) factory->Release();
-        if (com_initialized) CoUninitialize();
+        if (texture)
+            texture->Release();
+        if (converter)
+            converter->Release();
+        if (frame)
+            frame->Release();
+        if (decoder)
+            decoder->Release();
+        if (factory)
+            factory->Release();
+        if (com_initialized)
+            CoUninitialize();
         return nullptr;
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception &e)
+    {
         // Handle other standard exceptions
-        if (texture) texture->Release();
-        if (converter) converter->Release();
-        if (frame) frame->Release();
-        if (decoder) decoder->Release();
-        if (factory) factory->Release();
-        if (com_initialized) CoUninitialize();
+        if (texture)
+            texture->Release();
+        if (converter)
+            converter->Release();
+        if (frame)
+            frame->Release();
+        if (decoder)
+            decoder->Release();
+        if (factory)
+            factory->Release();
+        if (com_initialized)
+            CoUninitialize();
         return nullptr;
-    } catch (...) {
+    }
+    catch (...)
+    {
         // Handle any other exceptions
-        if (texture) texture->Release();
-        if (converter) converter->Release();
-        if (frame) frame->Release();
-        if (decoder) decoder->Release();
-        if (factory) factory->Release();
-        if (com_initialized) CoUninitialize();
+        if (texture)
+            texture->Release();
+        if (converter)
+            converter->Release();
+        if (frame)
+            frame->Release();
+        if (decoder)
+            decoder->Release();
+        if (factory)
+            factory->Release();
+        if (com_initialized)
+            CoUninitialize();
         return nullptr;
     }
 }
@@ -178,10 +196,12 @@ TextureMapType LoadAllSkillTextures(ID3D11Device *device,
 
     TextureMapType texture_map;
 
-    try {
+    try
+    {
         for (const auto &[icon_id, info] : log_skill_info_map)
         {
-            try {
+            try
+            {
                 if (info.name.empty())
                     continue;
 
@@ -190,20 +210,23 @@ TextureMapType LoadAllSkillTextures(ID3D11Device *device,
                 if (dot != std::string::npos && dot + 1 < info.icon_url.size())
                     ext = info.icon_url.substr(dot);
 
-                std::filesystem::path img_path =
-                    img_folder / (std::to_string(icon_id) + ext);
+                std::filesystem::path img_path = img_folder / (std::to_string(icon_id) + ext);
                 if (!std::filesystem::exists(img_path))
                     continue;
 
                 auto *tex = LoadTextureFromPNG_WIC(device, img_path.wstring());
                 if (tex)
                     texture_map[icon_id] = tex;
-            } catch (const std::exception& e) {
+            }
+            catch (const std::exception &e)
+            {
                 // Skip this texture if there's an error loading it
                 continue;
             }
         }
-    } catch (const std::exception& e) {
+    }
+    catch (const std::exception &e)
+    {
         // If there's a general error, clean up what we have and return empty map
         ReleaseTextureMap(texture_map);
         return {};

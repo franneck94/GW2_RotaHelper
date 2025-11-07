@@ -24,13 +24,16 @@ extern ArcDPS::Exports ArcExports;
 
 extern std::filesystem::path Logpath;
 extern RenderType Render;
-extern RotationRunType RotationRun;
+extern RotationLogType RotationRun;
 extern TextureMapType TextureMap;
 extern std::filesystem::path SettingsPath;
 extern float SkillIconSize;
 extern std::string VersionString;
 
 extern Mumble::Identity Identity;
+
+extern bool IsSameCast;
+extern std::map<uint64_t, std::chrono::steady_clock::time_point> SkillLastTimeCast;
 }; // namespace Globals
 
 #endif

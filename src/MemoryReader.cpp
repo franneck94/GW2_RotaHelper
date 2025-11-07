@@ -1,14 +1,11 @@
 #include "MemoryReader.h"
-#include <TlHelp32.h>
 #include <Psapi.h>
+#include <TlHelp32.h>
 #include <iostream>
 
 #pragma comment(lib, "psapi.lib")
 
-GW2MemoryReader::GW2MemoryReader()
-    : m_process_handle(nullptr)
-    , m_base_address(0)
-    , m_module_size(0)
+GW2MemoryReader::GW2MemoryReader() : m_process_handle(nullptr), m_base_address(0), m_module_size(0)
 {
 }
 
@@ -104,7 +101,7 @@ bool GW2MemoryReader::IsSkillCasting()
     }
 }
 
-uintptr_t GW2MemoryReader::FindPattern(const char* pattern, const char* mask, uintptr_t start, size_t size)
+uintptr_t GW2MemoryReader::FindPattern(const char *pattern, const char *mask, uintptr_t start, size_t size)
 {
     if (start == 0)
         start = m_base_address;
@@ -137,17 +134,13 @@ uintptr_t GW2MemoryReader::FindPattern(const char* pattern, const char* mask, ui
     return 0;
 }
 
-bool GW2MemoryReader::ReadMemoryBuffer(uintptr_t address, void* buffer, size_t size)
+bool GW2MemoryReader::ReadMemoryBuffer(uintptr_t address, void *buffer, size_t size)
 {
     if (!m_process_handle || !buffer || size == 0)
         return false;
 
     SIZE_T bytes_read = 0;
-    bool result = ReadProcessMemory(m_process_handle,
-                                   reinterpret_cast<LPCVOID>(address),
-                                   buffer,
-                                   size,
-                                   &bytes_read);
+    bool result = ReadProcessMemory(m_process_handle, reinterpret_cast<LPCVOID>(address), buffer, size, &bytes_read);
 
     return result && bytes_read == size;
 }
@@ -159,15 +152,14 @@ std::string GW2MemoryReader::ReadString(uintptr_t address, size_t max_length)
     if (!ReadMemoryBuffer(address, buffer.data(), max_length))
         return "";
 
-    buffer[max_length] = '\0';  // Ensure null termination
+    buffer[max_length] = '\0'; // Ensure null termination
     return std::string(buffer.data());
 }
 
 bool GW2MemoryReader::FindMemoryOffsets()
 {
     // Find skill casting state pattern
-    auto skill_cast_addr = FindPattern(m_patterns.skill_cast_pattern,
-                                           m_patterns.skill_cast_mask);
+    auto skill_cast_addr = FindPattern(m_patterns.skill_cast_pattern, m_patterns.skill_cast_mask);
 
     if (skill_cast_addr != 0)
     {
@@ -178,8 +170,7 @@ bool GW2MemoryReader::FindMemoryOffsets()
     }
 
     // Find skill ID pattern
-    auto skill_id_addr = FindPattern(m_patterns.skill_id_pattern,
-                                         m_patterns.skill_id_mask);
+    auto skill_id_addr = FindPattern(m_patterns.skill_id_pattern, m_patterns.skill_id_mask);
 
     if (skill_id_addr != 0)
     {
@@ -188,8 +179,7 @@ bool GW2MemoryReader::FindMemoryOffsets()
     }
 
     // Find cast time pattern
-    auto cast_time_addr = FindPattern(m_patterns.cast_time_pattern,
-                                          m_patterns.cast_time_mask);
+    auto cast_time_addr = FindPattern(m_patterns.cast_time_pattern, m_patterns.cast_time_mask);
 
     if (cast_time_addr != 0)
     {

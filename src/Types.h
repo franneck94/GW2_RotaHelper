@@ -11,6 +11,7 @@
 #include "arcdps/ArcDPS.h"
 
 #include "Defines.h"
+#include "SkillIDs.h"
 
 struct EvCombatDataPersistent
 {
@@ -21,6 +22,7 @@ struct EvCombatDataPersistent
     std::string SkillName;
     uint64_t SkillID;
     uint64_t EventID;
+    bool RepeatedSkill;
 };
 
 struct EvCombatData
@@ -46,6 +48,16 @@ struct EvAgentUpdate
     uint32_t elite;       // dst->elite = elite spec
     uint16_t team;        // src->team  = team
     uint16_t subgroup;    // dst->team  = subgroup
+};
+
+struct BenchFileInfo
+{
+    std::filesystem::path full_path;
+    std::filesystem::path relative_path;
+    std::string display_name;
+    bool is_directory_header;
+
+    BenchFileInfo(const std::filesystem::path &full, const std::filesystem::path &relative, bool is_header = false);
 };
 
 struct SkillState
@@ -279,11 +291,17 @@ enum class Keys
     LEFT_ALT = 202,
 };
 
-// Unchecked
 enum class Modifiers
 {
     NONE = 0,
     SHIFT = 2,
     ALT = 4,
     CTRL = 6,
+};
+
+struct KeybindInfo
+{
+    std::string action_name;
+    Keys button = Keys::NONE;
+    Modifiers modifier = Modifiers::NONE;
 };
