@@ -66,13 +66,11 @@ bool IsAnySkillFromBuild(const EvCombatDataPersistent &combat_data)
     return IsSkillFromBuild_NameBased(combat_data) || IsSkillFromBuild_IdBased(combat_data);
 }
 
-std::chrono::steady_clock::time_point GetLastCastTime(
-    std::map<uint64_t, std::chrono::steady_clock::time_point> &last_cast_map,
-    const std::chrono::steady_clock::time_point &now,
-    const EvCombatDataPersistent &combat_data)
+std::chrono::steady_clock::time_point GetLastCastTime(const std::chrono::steady_clock::time_point &now,
+                                                      const EvCombatDataPersistent &combat_data)
 {
-    const auto it = last_cast_map.find(combat_data.SkillID);
-    if (it != last_cast_map.end())
+    const auto it = Globals::SkillLastTimeCast.find(combat_data.SkillID);
+    if (it != Globals::SkillLastTimeCast.end())
     {
         return it->second;
     }
@@ -80,12 +78,10 @@ std::chrono::steady_clock::time_point GetLastCastTime(
     return now;
 }
 
-bool SKillCastIsTooEarlyWrtSkillData(const std::chrono::steady_clock::time_point &now,
-                                     const EvCombatDataPersistent &combat_data,
-                                     std::map<uint64_t, std::chrono::steady_clock::time_point> &skill_last_cast_times)
+bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvCombatDataPersistent &combat_data)
 {
-    auto last_cast_time = skill_last_cast_times[combat_data.SkillID];
-    skill_last_cast_times[combat_data.SkillID] = now;
+    auto last_cast_time = Globals::SkillLastTimeCast[combat_data.SkillID];
+    Globals::SkillLastTimeCast[combat_data.SkillID] = now;
 
     const auto skill_data_map_it = Globals::RotationRun.skill_data_map.find(static_cast<int>(combat_data.SkillID));
 
@@ -115,28 +111,32 @@ bool SKillCastIsTooEarlyWrtSkillData(const std::chrono::steady_clock::time_point
     const auto cast_time_diff_s = std::chrono::duration<float>(cast_time_diff).count();
     const auto recharge_duration_s = std::chrono::seconds(static_cast<int>(recharge_time_w_alac_s));
 
-    const auto is_not_same_alac_based =
-        recharge_time_w_alac_s > 0 ? cast_time_diff_s < recharge_time_w_alac_s * 0.75 : false;
-    const auto is_not_same_quick_based =
-        cast_time_w_quick_s > 0 ? cast_time_diff_s < cast_time_w_quick_s * 0.75 : false;
+    const auto is_same_alac_based =
+        recharge_time_w_alac_s > 0 ? cast_time_diff_s < recharge_time_w_alac_s * 0.90 : false;
+    const auto is_same_quick_based = cast_time_w_quick_s > 0 ? cast_time_diff_s < cast_time_w_quick_s * 0.75 : false;
 
-    if (is_not_same_alac_based || is_not_same_quick_based)
+    if (is_same_alac_based || is_same_quick_based)
+    {
+        Globals::IsSameCast = true;
         return true;
+    }
+    else
+    {
+        Globals::IsSameCast = false;
+    }
 
     return false;
 }
 
 bool IsSameCast(const EvCombatDataPersistent &combat_data)
 {
-    static auto skill_last_cast_times = std::map<uint64_t, std::chrono::steady_clock::time_point>{};
-
     const auto now = std::chrono::steady_clock::now();
-    const auto last_cast_time = GetLastCastTime(skill_last_cast_times, now, combat_data);
+    const auto last_cast_time = GetLastCastTime(now, combat_data);
     auto too_small_time_diff = (now - last_cast_time) < std::chrono::milliseconds(MIN_TIME_DIFF);
 
     if (too_small_time_diff)
     {
-        skill_last_cast_times[combat_data.SkillID] = now;
+        Globals::SkillLastTimeCast[combat_data.SkillID] = now;
         return true;
     }
 
@@ -146,16 +146,19 @@ bool IsSameCast(const EvCombatDataPersistent &combat_data)
         return false;
     }
 
-    if (skill_last_cast_times.find(combat_data.SkillID) != skill_last_cast_times.end())
+    if (Globals::SkillLastTimeCast.find(combat_data.SkillID) != Globals::SkillLastTimeCast.end())
     {
-        if (SKillCastIsTooEarlyWrtSkillData(now, combat_data, skill_last_cast_times))
+        if (IsMultiHitSkill(now, combat_data))
         {
-            skill_last_cast_times[combat_data.SkillID] = now;
             return true;
+        }
+        else
+        {
+            Globals::SkillLastTimeCast[combat_data.SkillID] = now;
         }
     }
 
-    skill_last_cast_times[combat_data.SkillID] = now;
+    Globals::SkillLastTimeCast[combat_data.SkillID] = now;
     return false;
 }
 }; // namespace

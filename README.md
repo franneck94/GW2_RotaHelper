@@ -52,10 +52,10 @@ Builds that are working ok-ish:
 - Power Harbinger
 - Condition Harbinger
 - Condition 1kit Mechanist
+- Condition Willbender Scepter
 
 Builds are not working proper:
 
-- Condition Willbender
 - Power Bladesworn
 
 NOTE: Some builds have duo logs uplaoded (like Condition Daredevil Dagger) - there my webparser script downloaded the wrong log.

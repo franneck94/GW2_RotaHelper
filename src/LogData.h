@@ -150,6 +150,7 @@ public:
         "Holoforge",
         // RANGER
         // THIEF
+        "Shadow Meld",
         // ELEMENTALIST
         // MESMER
         "Distortion",
@@ -160,6 +161,9 @@ public:
     const static inline std::set<std::string> special_match_to_gray_out = {
         // GUARDIAN
         "Zealot's Flame",
+        "Rushing Justice",
+        "Symbol of Punishment",
+        "Flowing Resolve",
         // WARRIOR
         "Sheathe Gunsaber",
         "Unsheathe Gunsaber",
@@ -191,7 +195,6 @@ public:
         "Spider Venom",
         "Assassin's Signet",
         "Signet of Malice",
-        "Shadow Meld",
         // ELEMENTALIST
         "Earthquake",
         "Fire Shield",
@@ -279,11 +282,12 @@ public:
         {"Life Reap", 0.5f},            // reaper shroud aa
         {"Tainted Bolts", 0.5f},        // harbinger shroud aa
         {"Hail of Justice", 1.25f},     // guard pistol 4
-        {"Cleansing Flame", 1.25f},     // guard torch 5
+        {"Cleansing Flame", 3.25f},     // guard torch 5
         {"Rapid Fire", 2.25f},          // ranger lb 2
         {"Barrage", 2.25f},             // ranger lb 5
         {"Weakening Whirlwind", 0.75f}, // thief staff 3
         {"Double Tap", 0.75f},          // thief rilfe 3
         {"Three Round Burst", 1.0f},    // thief rilfe 3
+        {"Whirling Defense", 3.25f},    // ranger axe 5
     };
 };

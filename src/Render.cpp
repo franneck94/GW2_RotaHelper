@@ -204,6 +204,7 @@ void RenderType::render_debug_data()
     ImGui::Text("Last Casted Skill Name: %s", curr_combat_data.SkillName.c_str());
     ImGui::Text("Last Event ID: %u", curr_combat_data.EventID);
     ImGui::Text("Repeated skill: %s", curr_combat_data.RepeatedSkill == true ? "true" : "false");
+    ImGui::Text("Is Same Cast: %s", Globals::IsSameCast == true ? "true" : "false");
 
     if (!keybinds.empty())
     {
@@ -594,6 +595,7 @@ void RenderType::restart_rotation()
 
     last_time_aa_did_skip = std::chrono::steady_clock::now();
     ArcEv::ResetSkillCastTracking();
+    Globals::SkillLastTimeCast.clear();
 }
 
 void RenderType::render_rotation_window(const bool is_not_ui_adjust_active, ID3D11Device *pd3dDevice)

@@ -31,6 +31,9 @@ extern float SkillIconSize;
 extern std::string VersionString;
 
 extern Mumble::Identity Identity;
+
+extern bool IsSameCast;
+extern std::map<uint64_t, std::chrono::steady_clock::time_point> SkillLastTimeCast;
 }; // namespace Globals
 
 #endif

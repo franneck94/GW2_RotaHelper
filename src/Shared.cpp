@@ -27,4 +27,7 @@ float SkillIconSize = 28.0F;
 std::string VersionString = std::string{VERSION_STRING};
 
 Mumble::Identity Identity = {};
+
+bool IsSameCast = false;
+std::map<uint64_t, std::chrono::steady_clock::time_point> SkillLastTimeCast = {};
 }; // namespace Globals
