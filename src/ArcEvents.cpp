@@ -122,12 +122,12 @@ bool SKillCastIsTooEarlyWrtSkillData(
         if (profession_lower == "mesmer")
         {
             // TODO: For Chrono - CS reset
-            is_mesmer_weapon_4 = RotationRunType::mesmer_weapon_4_skills.count(
+            is_mesmer_weapon_4 = RotationLogType::mesmer_weapon_4_skills.count(
                                      combat_data.SkillID) > 0;
         }
         else if (profession_lower == "warrior")
         {
-            is_berserker_f1 = RotationRunType::berserker_f1_skills.count(
+            is_berserker_f1 = RotationLogType::berserker_f1_skills.count(
                                   combat_data.SkillID) > 0;
         }
 
@@ -234,30 +234,27 @@ bool OnCombat(const char *channel,
 
     auto combat_data = EvCombatData{ev, src, dst, skillname, id, revision};
 
-    if (IsValidCombatEvent(combat_data))
-    {
-        const auto data = EvCombatDataPersistent{
-            .SrcName = std::string(combat_data.src->Name),
-            .SrcID = combat_data.src->ID,
-            .SrcProfession = combat_data.src->Profession,
-            .SrcSpecialization = combat_data.src->Specialization,
-            .SkillName = std::string(combat_data.skillname),
-            .SkillID = combat_data.ev->SkillID,
-            .EventID = combat_data.id,
-        };
+    if (!IsValidCombatEvent(combat_data))
+        return false;
 
-        if (Globals::RotationRun.log_skill_info_map.empty() ||
-            IsAnySkillFromBuild(data))
-        {
-            if (IsNotTheSameCast(data))
-            {
-                Globals::Render.skill_activation_callback(true, data);
+    const auto data = EvCombatDataPersistent{
+        .SrcName = std::string(combat_data.src->Name),
+        .SrcID = combat_data.src->ID,
+        .SrcProfession = combat_data.src->Profession,
+        .SrcSpecialization = combat_data.src->Specialization,
+        .SkillName = std::string(combat_data.skillname),
+        .SkillID = combat_data.ev->SkillID,
+        .EventID = combat_data.id,
+    };
 
-                return true;
-            }
-        }
-    }
+    if (!IsAnySkillFromBuild(data))
+        return false;
 
-    return false;
+    if (!IsNotTheSameCast(data))
+        return false;
+
+    Globals::Render.skill_activation_callback(true, data);
+
+    return true;
 }
 } // namespace ArcEv

@@ -19,17 +19,10 @@
 
 using json = nlohmann::json;
 
-class RotationRunType;
-
-void SkillDetectionLogic(
-    uint32_t &num_skills_wo_match,
-    std::chrono::steady_clock::time_point &time_since_last_match,
-    RotationRunType &rotation_run,
-    const EvCombatDataPersistent &skill_ev,
-    EvCombatDataPersistent &last_skill);
+class RotationLogType;
 
 SkillState get_skill_state(
-    const RotationRunType &rotation_run,
+    const RotationLogType &rotation_run,
     const std::vector<EvCombatDataPersistent> &played_rotation,
     const size_t window_idx,
     const size_t current_idx,
@@ -46,7 +39,7 @@ struct SkillRules
     const std::set<std::string> &special_substr_to_remove_duplicates;
 };
 
-class RotationRunType
+class RotationLogType
 {
 public:
     void load_data(const std::filesystem::path &json_path,
@@ -298,14 +291,15 @@ public:
     };
 
     const static inline std::map<std::string, float> skill_cast_time_map = {
-        {"Essence Blast", 0.75f},   // rit shroud aa
-        {"Life Rend", 0.5f},        // reaper shroud aa
-        {"Life Slash", 0.5f},       // reaper shroud aa
-        {"Life Reap", 0.5f},        // reaper shroud aa
-        {"Tainted Bolts", 0.5f},    // harbinger shroud aa
-        {"Hail of Justice", 1.25f}, // guard pistol 4
-        {"Cleansing Flame", 1.25f}, // guard torch 5
-        {"Rapid Fire", 2.25f},      //
-        {"Barrage", 2.25f},         //
+        {"Essence Blast", 0.75f},     // rit shroud aa
+        {"Life Rend", 0.5f},          // reaper shroud aa
+        {"Life Slash", 0.5f},         // reaper shroud aa
+        {"Life Reap", 0.5f},          // reaper shroud aa
+        {"Tainted Bolts", 0.5f},      // harbinger shroud aa
+        {"Hail of Justice", 1.25f},   // guard pistol 4
+        {"Cleansing Flame", 1.25f},   // guard torch 5
+        {"Rapid Fire", 2.25f},        // ranger lb 2
+        {"Barrage", 2.25f},           // ranger lb 5
+        {"Weakening Whirlwind", 1.0f} // thief staff 3
     };
 };

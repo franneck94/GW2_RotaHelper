@@ -24,7 +24,7 @@ extern ArcDPS::Exports ArcExports;
 
 extern std::filesystem::path Logpath;
 extern RenderType Render;
-extern RotationRunType RotationRun;
+extern RotationLogType RotationRun;
 extern TextureMapType TextureMap;
 extern std::filesystem::path SettingsPath;
 extern float SkillIconSize;

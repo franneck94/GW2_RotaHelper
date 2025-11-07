@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 
+#include "FileUtils.h"
 #include "Types.h"
 
 ProfessionID string_to_profession(const std::string &profession_name);

@@ -29,6 +29,7 @@
 #include "LogData.h"
 #include "MumbleUtils.h"
 #include "Render.h"
+#include "Rotation.h"
 #include "Settings.h"
 #include "Shared.h"
 #include "Textures.h"
@@ -368,11 +369,13 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
     if (ImGui::IsItemHovered())
     {
         ImGui::BeginTooltip();
-        ImGui::Text("All weapon swap like skills will be shown in the rotation UI.");
+        ImGui::Text(
+            "All weapon swap like skills will be shown in the rotation UI.");
         ImGui::EndTooltip();
     }
 
-    const auto third_row_items = std::vector<std::string>{"Show Keybind", "Strict Rotation"};
+    const auto third_row_items =
+        std::vector<std::string>{"Show Keybind", "Strict Rotation"};
     const auto centered_pos_row_3 =
         calculate_centered_position(third_row_items);
     ImGui::SetCursorPosX(centered_pos_row_3);

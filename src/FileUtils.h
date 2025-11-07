@@ -10,25 +10,6 @@
 
 #include "Types.h"
 
-struct BenchFileInfo
-{
-    std::filesystem::path full_path;
-    std::filesystem::path relative_path;
-    std::string display_name;
-    bool is_directory_header;
-
-    BenchFileInfo(const std::filesystem::path &full,
-                  const std::filesystem::path &relative,
-                  bool is_header = false);
-};
-
-struct KeybindInfo
-{
-    std::string action_name;
-    Keys button = Keys::NONE;
-    Modifiers modifier = Modifiers::NONE;
-};
-
 std::string to_lowercase(const std::string &str);
 
 std::pair<std::vector<std::pair<int, const BenchFileInfo *>>,

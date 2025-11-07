@@ -19,7 +19,7 @@ std::string AccountName;
 ArcDPS::Exports ArcExports = {};
 
 std::filesystem::path Logpath;
-RotationRunType RotationRun{};
+RotationLogType RotationRun{};
 TextureMapType Globals::TextureMap{};
 RenderType Globals::Render{};
 std::filesystem::path Globals::SettingsPath;

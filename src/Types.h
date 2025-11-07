@@ -48,6 +48,18 @@ struct EvAgentUpdate
     uint16_t subgroup;    // dst->team  = subgroup
 };
 
+struct BenchFileInfo
+{
+    std::filesystem::path full_path;
+    std::filesystem::path relative_path;
+    std::string display_name;
+    bool is_directory_header;
+
+    BenchFileInfo(const std::filesystem::path &full,
+                  const std::filesystem::path &relative,
+                  bool is_header = false);
+};
+
 struct SkillState
 {
     bool is_current;
@@ -279,11 +291,17 @@ enum class Keys
     LEFT_ALT = 202,
 };
 
-// Unchecked
 enum class Modifiers
 {
     NONE = 0,
     SHIFT = 2,
     ALT = 4,
     CTRL = 6,
+};
+
+struct KeybindInfo
+{
+    std::string action_name;
+    Keys button = Keys::NONE;
+    Modifiers modifier = Modifiers::NONE;
 };
