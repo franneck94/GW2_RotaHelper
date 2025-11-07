@@ -11,6 +11,7 @@
 #include "arcdps/ArcDPS.h"
 
 #include "Defines.h"
+#include "SkillIDs.h"
 
 struct EvCombatDataPersistent
 {
