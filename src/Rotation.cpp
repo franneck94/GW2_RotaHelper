@@ -120,6 +120,10 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
     constexpr static auto min_time_for_next_next_s = 0.6f;
     constexpr static auto min_time_for_next_next_next_s = 1.2f;
 
+    static auto is_first_check_for_next = true;
+    static auto is_first_check_for_next_next = true;
+    static auto is_first_check_for_next_next_next = true;
+
     static auto time_of_last_next_skill_check = std::chrono::steady_clock::now();
     static auto time_of_last_next_next_skill_check = std::chrono::steady_clock::now();
     static auto time_of_last_next_next_next_skill_check = std::chrono::steady_clock::now();
@@ -142,15 +146,16 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
     auto [curr_rota_skill, next_rota_skill, next_next_rota_skill, next_next_next_rota_skill] =
         GetCurrAndNextRotaSkills(rotation_run);
 
-
-    const auto check_for_next_skill = (time_span_since_aa_skip > 3 || !next_rota_skill.skill_data.is_auto_attack) &&
-                                      time_since_last_next_skill_check > min_time_for_next_s;
+    const auto check_for_next_skill =
+        (time_span_since_aa_skip > 3 || !next_rota_skill.skill_data.is_auto_attack) &&
+        (time_since_last_next_skill_check > min_time_for_next_s || is_first_check_for_next);
     const auto check_for_next_next_skill =
         (next_next_rota_skill.is_special_skill || !next_next_rota_skill.skill_data.is_auto_attack) &&
-        time_since_last_next_next_skill_check > min_time_for_next_next_s;
+        (time_since_last_next_next_skill_check > min_time_for_next_next_s || is_first_check_for_next_next);
     const auto check_for_next_next_next_skill =
         (next_next_rota_skill.is_special_skill || !next_next_next_rota_skill.skill_data.is_auto_attack) &&
-        time_since_last_next_next_next_skill_check > min_time_for_next_next_next_s;
+        (time_since_last_next_next_next_skill_check > min_time_for_next_next_next_s ||
+         is_first_check_for_next_next_next);
 
     if (CheckTheNextNskills(skill_ev, curr_rota_skill, 1, true, rotation_run, last_skill))
     {
@@ -158,6 +163,8 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
                                 time_of_last_next_next_skill_check,
                                 time_of_last_next_next_next_skill_check,
                                 num_skills_wo_match);
+
+        is_first_check_for_next = false;
         return;
     }
 
@@ -177,6 +184,7 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
                 time_of_last_aa_skip = std::chrono::steady_clock::now();
             }
 
+            is_first_check_for_next_next = false;
             return;
         }
 
@@ -187,6 +195,8 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
                                     time_of_last_next_next_skill_check,
                                     time_of_last_next_next_next_skill_check,
                                     num_skills_wo_match);
+
+            is_first_check_for_next_next = false;
             return;
         }
 
@@ -201,6 +211,8 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
                                     time_of_last_next_next_skill_check,
                                     time_of_last_next_next_next_skill_check,
                                     num_skills_wo_match);
+
+            is_first_check_for_next_next_next = false;
             return;
         }
     }

@@ -131,14 +131,6 @@ bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvC
 bool IsSameCast(const EvCombatDataPersistent &combat_data)
 {
     const auto now = std::chrono::steady_clock::now();
-    const auto last_cast_time = GetLastCastTime(now, combat_data);
-    auto too_small_time_diff = (now - last_cast_time) < std::chrono::milliseconds(MIN_TIME_DIFF);
-
-    if (too_small_time_diff)
-    {
-        Globals::SkillLastTimeCast[combat_data.SkillID] = now;
-        return true;
-    }
 
     if (is_first_cast_map.find(combat_data.SkillName) == is_first_cast_map.end())
     {
