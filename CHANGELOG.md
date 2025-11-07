@@ -7,11 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.9.0
 
+### Improvements
+
+- Improved same cast detection logic (important for skills that do multiple hits)
+
 ### Notes
 
 - Added guide how to add your own rotations
 - Added debug info for same skill chain
 - Added weakaning whirl cast time
+- Added SkillID enum
 
 ## 0.8.0 - 2025-11-04
 

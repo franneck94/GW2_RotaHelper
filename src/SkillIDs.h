@@ -5,7 +5,7 @@
 
 #include <cstdint>
 
-enum class SkillID : uint32_t
+enum class SkillID : int32_t
 {
     UNKNOWN_SKILL = -9999,
     THROW_GUNK = 1110,

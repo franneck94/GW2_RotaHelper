@@ -191,6 +191,7 @@ public:
         "Spider Venom",
         "Assassin's Signet",
         "Signet of Malice",
+        "Shadow Meld",
         // ELEMENTALIST
         "Earthquake",
         "Fire Shield",
@@ -248,10 +249,10 @@ public:
         static_cast<uint64_t>(SkillID::EARTHSHAKER),       //  Earthshaker (Hammer)
         static_cast<uint64_t>(SkillID::WHIRLING_STRIKE_2), // Whirling Strike (Spear)
         static_cast<uint64_t>(SkillID::ARC_DIVIDER),       // Arc Divider (Greatsword)
-        static_cast<uint64_t>(SkillID::FLAMING_FLURRY),             // Flaming Flurry (Sword)
-        static_cast<uint64_t>(SkillID::DECAPITATE),                 // Decapitate (Axe)
-        static_cast<uint64_t>(SkillID::RUPTURING_SMASH),            // Rupturing Smash (Hammer)
-        static_cast<uint64_t>(SkillID::WILD_THROW),                 // Wild Throw (Spear)
+        static_cast<uint64_t>(SkillID::FLAMING_FLURRY),    // Flaming Flurry (Sword)
+        static_cast<uint64_t>(SkillID::DECAPITATE),        // Decapitate (Axe)
+        static_cast<uint64_t>(SkillID::RUPTURING_SMASH),   // Rupturing Smash (Hammer)
+        static_cast<uint64_t>(SkillID::WILD_THROW),        // Wild Throw (Spear)
     };
 
     static inline const std::set<uint64_t> mesmer_weapon_4_skills = {
@@ -272,15 +273,17 @@ public:
     };
 
     const static inline std::map<std::string, float> skill_cast_time_map = {
-        {"Essence Blast", 0.75f},     // rit shroud aa
-        {"Life Rend", 0.5f},          // reaper shroud aa
-        {"Life Slash", 0.5f},         // reaper shroud aa
-        {"Life Reap", 0.5f},          // reaper shroud aa
-        {"Tainted Bolts", 0.5f},      // harbinger shroud aa
-        {"Hail of Justice", 1.25f},   // guard pistol 4
-        {"Cleansing Flame", 1.25f},   // guard torch 5
-        {"Rapid Fire", 2.25f},        // ranger lb 2
-        {"Barrage", 2.25f},           // ranger lb 5
-        {"Weakening Whirlwind", 1.0f} // thief staff 3
+        {"Essence Blast", 0.75f},       // rit shroud aa
+        {"Life Rend", 0.5f},            // reaper shroud aa
+        {"Life Slash", 0.5f},           // reaper shroud aa
+        {"Life Reap", 0.5f},            // reaper shroud aa
+        {"Tainted Bolts", 0.5f},        // harbinger shroud aa
+        {"Hail of Justice", 1.25f},     // guard pistol 4
+        {"Cleansing Flame", 1.25f},     // guard torch 5
+        {"Rapid Fire", 2.25f},          // ranger lb 2
+        {"Barrage", 2.25f},             // ranger lb 5
+        {"Weakening Whirlwind", 0.75f}, // thief staff 3
+        {"Double Tap", 0.75f},          // thief rilfe 3
+        {"Three Round Burst", 1.0f},    // thief rilfe 3
     };
 };

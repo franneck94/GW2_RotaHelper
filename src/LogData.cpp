@@ -362,7 +362,13 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
             skill_data.recharge_time_with_alacrity = -1.0f;
         }
 
-        if (skill_obj.contains("cast_time") && skill_obj["cast_time"].is_number())
+        const auto cast_time_it = RotationLogType::skill_cast_time_map.find(skill_data.name);
+        if (cast_time_it != RotationLogType::skill_cast_time_map.end())
+        {
+            skill_data.cast_time = cast_time_it->second;
+            skill_data.cast_time_with_quickness = skill_data.cast_time * 0.8f;
+        }
+        else if (skill_obj.contains("cast_time") && skill_obj["cast_time"].is_number())
         {
             skill_data.cast_time = skill_obj["cast_time"].get<int>();
             skill_data.cast_time_with_quickness = skill_data.cast_time * 0.8f;

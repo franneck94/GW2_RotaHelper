@@ -66,31 +66,17 @@ bool IsAnySkillFromBuild(const EvCombatDataPersistent &combat_data)
     return IsSkillFromBuild_NameBased(combat_data) || IsSkillFromBuild_IdBased(combat_data);
 }
 
-std::chrono::steady_clock::time_point UpdateCastTime(
-    std::map<std::string, std::chrono::steady_clock::time_point> &last_cast_map,
+std::chrono::steady_clock::time_point GetLastCastTime(
+    std::map<uint64_t, std::chrono::steady_clock::time_point> &last_cast_map,
+    const std::chrono::steady_clock::time_point &now,
     const EvCombatDataPersistent &combat_data)
 {
-    const auto now = std::chrono::steady_clock::now();
-
-    last_cast_map[combat_data.SkillName] = now;
-
-    return now;
-}
-
-std::chrono::steady_clock::time_point GetLastCastTime(const EvCombatDataPersistent &combat_data)
-{
-    static auto last_cast_map = std::map<std::string, std::chrono::steady_clock::time_point>{};
-
-    const auto it = last_cast_map.find(combat_data.SkillName);
+    const auto it = last_cast_map.find(combat_data.SkillID);
     if (it != last_cast_map.end())
     {
-        const auto time = it->second;
-        UpdateCastTime(last_cast_map, combat_data);
-
-        return time;
+        return it->second;
     }
 
-    const auto now = UpdateCastTime(last_cast_map, combat_data);
     return now;
 }
 
@@ -103,68 +89,74 @@ bool SKillCastIsTooEarlyWrtSkillData(const std::chrono::steady_clock::time_point
 
     const auto skill_data_map_it = Globals::RotationRun.skill_data_map.find(static_cast<int>(combat_data.SkillID));
 
-    if (skill_data_map_it != Globals::RotationRun.skill_data_map.end())
-    {
-        auto current_profession = get_current_profession_name();
-        auto profession_lower = to_lowercase(current_profession);
+    if (skill_data_map_it == Globals::RotationRun.skill_data_map.end())
+        return false;
 
-        auto is_mesmer_weapon_4 = false;
-        auto is_berserker_f1 = false;
+    auto current_profession = get_current_profession_name();
+    auto profession_lower = to_lowercase(current_profession);
 
-        if (profession_lower == "mesmer")
-        {
-            // TODO: For Chrono - CS reset
-            is_mesmer_weapon_4 = RotationLogType::mesmer_weapon_4_skills.count(combat_data.SkillID) > 0;
-        }
-        else if (profession_lower == "warrior")
-        {
-            is_berserker_f1 = RotationLogType::berserker_f1_skills.count(combat_data.SkillID) > 0;
-        }
+    auto is_mesmer_weapon_4 = false;
+    auto is_berserker_f1 = false;
 
-        if (!is_mesmer_weapon_4 && !is_berserker_f1)
-        {
-            const auto &skill_data = skill_data_map_it->second;
-            const auto recharge_time_w_alac_s = skill_data.recharge_time_with_alacrity;
-            const auto cast_time_w_quick_s = skill_data.cast_time_with_quickness;
+    // TODO: For Chrono - CS reset
+    if (profession_lower == "mesmer")
+        is_mesmer_weapon_4 = RotationLogType::mesmer_weapon_4_skills.count(combat_data.SkillID) > 0;
+    else if (profession_lower == "warrior")
+        is_berserker_f1 = RotationLogType::berserker_f1_skills.count(combat_data.SkillID) > 0;
 
-            const auto cast_time_diff = now - last_cast_time;
-            const auto cast_time_diff_s = std::chrono::duration_cast<std::chrono::seconds>(cast_time_diff).count();
-            const auto recharge_duration_s = std::chrono::seconds(static_cast<int>(recharge_time_w_alac_s));
+    if (is_mesmer_weapon_4 || is_berserker_f1)
+        return false;
 
-            if (cast_time_diff_s < recharge_time_w_alac_s * 0.7 && recharge_time_w_alac_s > 0 &&
-                !skill_data.is_auto_attack) // XXX: Hacky
-                return true;
-        }
-    }
+    const auto &skill_data = skill_data_map_it->second;
+    const auto recharge_time_w_alac_s = skill_data.recharge_time_with_alacrity;
+    const auto cast_time_w_quick_s = skill_data.cast_time_with_quickness;
+
+    const auto cast_time_diff = now - last_cast_time;
+    const auto cast_time_diff_s = std::chrono::duration<float>(cast_time_diff).count();
+    const auto recharge_duration_s = std::chrono::seconds(static_cast<int>(recharge_time_w_alac_s));
+
+    const auto is_not_same_alac_based =
+        recharge_time_w_alac_s > 0 ? cast_time_diff_s < recharge_time_w_alac_s * 0.75 : false;
+    const auto is_not_same_quick_based =
+        cast_time_w_quick_s > 0 ? cast_time_diff_s < cast_time_w_quick_s * 0.75 : false;
+
+    if (is_not_same_alac_based || is_not_same_quick_based)
+        return true;
 
     return false;
 }
 
-bool IsNotTheSameCast(const EvCombatDataPersistent &combat_data)
+bool IsSameCast(const EvCombatDataPersistent &combat_data)
 {
     static auto skill_last_cast_times = std::map<uint64_t, std::chrono::steady_clock::time_point>{};
 
     const auto now = std::chrono::steady_clock::now();
-    const auto last_cast_time = GetLastCastTime(combat_data);
-    const auto is_not_same_cast = (now - last_cast_time) > std::chrono::milliseconds(MIN_TIME_DIFF);
+    const auto last_cast_time = GetLastCastTime(skill_last_cast_times, now, combat_data);
+    auto too_small_time_diff = (now - last_cast_time) < std::chrono::milliseconds(MIN_TIME_DIFF);
+
+    if (too_small_time_diff)
+    {
+        skill_last_cast_times[combat_data.SkillID] = now;
+        return true;
+    }
 
     if (is_first_cast_map.find(combat_data.SkillName) == is_first_cast_map.end())
     {
         is_first_cast_map[combat_data.SkillName] = true;
-        return true;
+        return false;
     }
 
     if (skill_last_cast_times.find(combat_data.SkillID) != skill_last_cast_times.end())
     {
         if (SKillCastIsTooEarlyWrtSkillData(now, combat_data, skill_last_cast_times))
-            return false;
-    }
-    else
-    {
-        skill_last_cast_times[combat_data.SkillID] = now;
+        {
+            skill_last_cast_times[combat_data.SkillID] = now;
+            return true;
+        }
     }
 
-    return is_not_same_cast;
+    skill_last_cast_times[combat_data.SkillID] = now;
+    return false;
 }
 }; // namespace
 
@@ -227,7 +219,7 @@ bool OnCombat(const char *channel,
     if (!IsAnySkillFromBuild(data))
         return false;
 
-    if (!IsNotTheSameCast(data))
+    if (IsSameCast(data))
         return false;
 
     Globals::Render.skill_activation_callback(data);
