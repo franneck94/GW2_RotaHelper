@@ -167,20 +167,6 @@
     "recharge": 15,
     "skill_type": "4"
   },
-  "10586": {
-    "cast_time": 0.0,
-    "icon": "https://render.guildwars2.com/file/A9050BAB0847390C0112694321B0F6AEDF7AE1FB/102804.png",
-    "id": 10586,
-    "is_auto_attack": false,
-    "is_elite_skill": false,
-    "is_heal_skill": false,
-    "is_profession_skill": false,
-    "is_utility_skill": false,
-    "is_weapon_skill": false,
-    "name": "Locked",
-    "recharge": 0,
-    "skill_type": "0"
-  },
   "11164": {
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/5768E4562820674064E06BA30DB994D762F4561D/103044.png",

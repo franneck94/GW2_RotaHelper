@@ -15,18 +15,18 @@
 
 #include "nlohmann/json.hpp"
 
+#include "SkillIDs.h"
 #include "Types.h"
 
 using json = nlohmann::json;
 
 class RotationLogType;
 
-SkillState get_skill_state(
-    const RotationLogType &rotation_run,
-    const std::vector<EvCombatDataPersistent> &played_rotation,
-    const size_t window_idx,
-    const size_t current_idx,
-    const bool is_auto_attack);
+SkillState get_skill_state(const RotationLogType &rotation_run,
+                           const std::vector<EvCombatDataPersistent> &played_rotation,
+                           const size_t window_idx,
+                           const size_t current_idx,
+                           const bool is_auto_attack);
 
 struct SkillRules
 {
@@ -42,8 +42,7 @@ struct SkillRules
 class RotationLogType
 {
 public:
-    void load_data(const std::filesystem::path &json_path,
-                   const std::filesystem::path &img_path);
+    void load_data(const std::filesystem::path &json_path, const std::filesystem::path &img_path);
 
     void pop_bench_rotation_queue();
     std::tuple<int, int, size_t> get_current_rotation_indices() const;
@@ -228,10 +227,9 @@ public:
         "Facet of Chaos",
     };
 
-    const static inline std::set<std::string>
-        special_substr_to_remove_duplicates = {
-            "Rushing Justice",
-            "Devastator", // TODO
+    const static inline std::set<std::string> special_substr_to_remove_duplicates = {
+        "Rushing Justice",
+        "Devastator", // TODO
     };
 
     const static inline SkillRules skill_rules = SkillRules{
@@ -245,49 +243,32 @@ public:
     };
 
     static inline const std::set<uint64_t> berserker_f1_skills = {
-        14353, // Eviscerate (Axe)
-        14367, // Flurry (Sword)
-        14375, // Arcing Slice (Greatsword)
-        14387, // Earthshaker (Hammer)
-        14396, // Kill Shot (Rifle)
-        14414, // Skull Crack (Mace)
-        14443, // Whirling Strike (Spear)
-        14469, // Forceful Shot (Speargun)
-        14506, // Combustive Shot (Longbow)
-        29644, // Gun Flame (Rifle)
-        29679, // Skull Grinder (Mace)
-        29852, // Arc Divider (Greatsword)
-        29923, // Scorched Earth (Longbow)
-        30682, // Flaming Flurry (Sword)
-        30851, // Decapitate (Axe)
-        30879, // Rupturing Smash (Hammer)
-        30989, // Burning Shackles (Speargun)
-        31048, // Wild Whirl (Spear)
-        45252, // Breaching Strike (Dagger)
-        62745, // Unsheathe Gunsaber (None)
-        62861, // Sheathe Gunsaber (None)
-        69290, // Slicing Maelstrom (Dagger)
-        71875, // Rampart Splitter (Staff)
-        71922, // Path to Victory (Staff)
-        72911, // Harrier's Toss (Spear)
-        73103  // Wild Throw (Spear)
+        static_cast<uint64_t>(SkillID::EVISCERATE),        // Eviscerate (Axe)
+        static_cast<uint64_t>(SkillID::ARCING_SLICE),      // Arcing Slice (Greatsword)
+        static_cast<uint64_t>(SkillID::EARTHSHAKER),       //  Earthshaker (Hammer)
+        static_cast<uint64_t>(SkillID::WHIRLING_STRIKE_2), // Whirling Strike (Spear)
+        static_cast<uint64_t>(SkillID::ARC_DIVIDER),       // Arc Divider (Greatsword)
+        static_cast<uint64_t>(SkillID::FLAMING_FLURRY),             // Flaming Flurry (Sword)
+        static_cast<uint64_t>(SkillID::DECAPITATE),                 // Decapitate (Axe)
+        static_cast<uint64_t>(SkillID::RUPTURING_SMASH),            // Rupturing Smash (Hammer)
+        static_cast<uint64_t>(SkillID::WILD_THROW),                 // Wild Throw (Spear)
     };
 
     static inline const std::set<uint64_t> mesmer_weapon_4_skills = {
-        10175, // Phantasmal Duelist (Pistol)
-        10186, // Temporal Curtain (Focus)
-        10221, // Phantasmal Berserker (Greatsword)
-        10280, // Illusionary Riposte (Sword)
-        10285, // The Prestige (Torch)
-        10325, // Slipstream (Spear)
-        10328, // Phantasmal Whaler (Trident)
-        10331, // Chaos Armor (Staff)
-        10358, // Counter Blade (Sword)
-        10363, // Into the Void (Focus)
-        29649, // Deja Vu (Shield)
-        30769, // Echo of Memory (Shield)
-        72007, // Phantasmal Sharpshooter (Rifle)
-        72946  // Phantasmal Lancer (Spear)
+        static_cast<uint64_t>(SkillID::PHANTASMAL_DUELIST),      // Phantasmal Duelist (Pistol)
+        static_cast<uint64_t>(SkillID::TEMPORAL_CURTAIN),        // Temporal Curtain (Focus)
+        static_cast<uint64_t>(SkillID::PHANTASMAL_BERSERKER),    // Phantasmal Berserker (Greatsword)
+        static_cast<uint64_t>(SkillID::ILLUSIONARY_RIPOSTE),     // Illusionary Riposte (Sword)
+        static_cast<uint64_t>(SkillID::THE_PRESTIGE),            // The Prestige (Torch)
+        static_cast<uint64_t>(SkillID::SLIPSTREAM),              // Slipstream (Spear)
+        static_cast<uint64_t>(SkillID::PHANTASMAL_WHALER),       // Phantasmal Whaler (Trident)
+        static_cast<uint64_t>(SkillID::CHAOS_ARMOR),             // Chaos Armor (Staff)
+        static_cast<uint64_t>(SkillID::COUNTER_BLADE),           // Counter Blade (Sword)
+        static_cast<uint64_t>(SkillID::INTO_THE_VOID),           // Into the Void (Focus)
+        static_cast<uint64_t>(SkillID::DEJA_VU),                 // Deja Vu (Shield)
+        30769,                                                   // Echo of Memory (Shield)
+        static_cast<uint64_t>(SkillID::PHANTASMAL_SHARPSHOOTER), // 72007 - Phantasmal Sharpshooter (Rifle)
+        static_cast<uint64_t>(SkillID::PHANTASMAL_LANCER)        // 72946 - Phantasmal Lancer (Spear)
     };
 
     const static inline std::map<std::string, float> skill_cast_time_map = {

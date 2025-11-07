@@ -89,14 +89,8 @@ def generate_skill_enum(skills_data: dict, output_path: Path):
 
             used_names.add(sanitized_name)
 
-            # Add comment with original name if different
-            comment = ""
-            if skill_name != sanitized_name:
-                # Escape any problematic characters in comments
-                clean_name = skill_name.replace('/*', '').replace('*/', '').replace('//', '')
-                comment = f" // {clean_name}"
-
-            enum_content.append(f"    {sanitized_name} = {skill_id},{comment}")
+            # No comment after the enum value
+            enum_content.append(f"    {sanitized_name} = {skill_id},")
             valid_skills += 1
 
         except Exception as e:
@@ -126,7 +120,7 @@ def main():
     project_root = script_dir.parent
 
     # Input and output paths
-    json_path = project_root / "internal_data" / "gw2_skills_raw.json"
+    json_path = project_root / "data" / "skills" / "gw2_skills_en.json"
     output_path = project_root / "src" / "SkillIDs.h"
 
     # Check if input file exists

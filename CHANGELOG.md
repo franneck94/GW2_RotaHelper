@@ -7,7 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.9.0
 
-- ...
+### Notes
+
+- Added guide how to add your own rotations
+- Added debug info for same skill chain
+- Added weakaning whirl cast time
 
 ## 0.8.0 - 2025-11-04
 
