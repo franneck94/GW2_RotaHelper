@@ -208,6 +208,10 @@ public:
         "Jaunt",
         "Crystal Sands",
         "Continuum Split",
+        "Bladesong Sorrow",
+        "Phantasmal Warden",
+        "Bladeturn Requiem",
+        "Bladecall",
         // NECROMANCER
         "Plague Signet",
         "Elixir of Promise",
