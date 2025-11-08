@@ -141,13 +141,9 @@ bool IsSameCast(const EvCombatDataPersistent &combat_data)
     if (Globals::SkillLastTimeCast.find(combat_data.SkillID) != Globals::SkillLastTimeCast.end())
     {
         if (IsMultiHitSkill(now, combat_data))
-        {
             return true;
-        }
         else
-        {
             Globals::SkillLastTimeCast[combat_data.SkillID] = now;
-        }
     }
 
     Globals::SkillLastTimeCast[combat_data.SkillID] = now;
