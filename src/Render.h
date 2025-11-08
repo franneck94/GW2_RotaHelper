@@ -29,6 +29,7 @@ public:
     void render_debug_data();
     void render_options_checkboxes(bool &is_not_ui_adjust_active);
     void render_options_window(bool &is_not_ui_adjust_active);
+    void render_snowcrows_build_link();
     void render_text_filter();
     void render_selection();
     void render_xml_selection();
