@@ -703,13 +703,13 @@ std::tuple<std::int32_t, std::int32_t, size_t> RotationLogType::get_current_rota
 
     auto current_idx = static_cast<size_t>(num_total_skills - num_skills_left);
 
-    while (current_idx < num_total_skills - 1)
-    {
-        if (all_rotation_steps[current_idx].is_special_skill)
-            ++current_idx;
-        else
-            break;
-    }
+    // while (current_idx < num_total_skills - 1)
+    // {
+    //     if (all_rotation_steps[current_idx].is_special_skill)
+    //         ++current_idx;
+    //     else
+    //         break;
+    // }
 
     const auto start = current_idx - 2 >= 0 ? static_cast<int32_t>(current_idx - window_size_left) : 0;
     const auto end =

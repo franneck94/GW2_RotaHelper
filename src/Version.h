@@ -2,7 +2,7 @@
 #define VERSION_H
 
 #define MAJOR 0
-#define MINOR 9
+#define MINOR 10
 #define BUILD 0
 #define REVISION 1
 

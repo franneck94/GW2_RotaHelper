@@ -63,25 +63,34 @@ void ResetSkillDetectionData(std::chrono::steady_clock::time_point &time_of_last
 std::tuple<RotationStep, RotationStep, RotationStep, RotationStep> GetCurrAndNextRotaSkills(
     RotationLogType &rotation_run)
 {
+    static auto first_time_pop = true;
+    static auto last_time_pop = std::chrono::steady_clock::now();
+    const auto now = std::chrono::steady_clock::now();
+    const auto time_since_last_pop = std::chrono::duration_cast<std::chrono::milliseconds>(now - last_time_pop).count();
+
     auto it = rotation_run.todo_rotation_steps.begin();
-    RotationStep curr_rota_skill;
-    RotationStep next_rota_skill;
-    RotationStep next_next_rota_skill;
-    RotationStep next_next_next_rota_skill;
+    auto curr_rota_skill = RotationStep{};
+    auto next_rota_skill = RotationStep{};
+    auto next_next_rota_skill = RotationStep{};
+    auto next_next_next_rota_skill = RotationStep{};
 
     if (rotation_run.todo_rotation_steps.size() > 1)
     {
         curr_rota_skill = *it;
 
-        while (curr_rota_skill.is_special_skill && rotation_run.todo_rotation_steps.size() > 2)
+        if (curr_rota_skill.is_special_skill && (time_since_last_pop > 150 || first_time_pop))
         {
             rotation_run.todo_rotation_steps.pop_front();
             it = rotation_run.todo_rotation_steps.begin();
             curr_rota_skill = *it;
+
+            last_time_pop = std::chrono::steady_clock::now();
+            first_time_pop = false;
         }
 
         ++it;
     }
+
     if (rotation_run.todo_rotation_steps.size() > 2)
     {
         next_rota_skill = *it;
@@ -217,25 +226,21 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
         }
     }
 
-    if (!curr_is_auto_attack)
-        ++num_skills_wo_match;
+    ++num_skills_wo_match;
 
-    if (num_skills_wo_match > 5)
+    if (num_skills_wo_match > 6)
     {
-        if (curr_rota_skill.skill_data.is_auto_attack || curr_is_auto_attack)
-            return;
-
-        if (duration_since_last_match < 10)
+        if (duration_since_last_match < 4)
             return;
 
         for (auto it = rotation_run.todo_rotation_steps.begin(); it != rotation_run.todo_rotation_steps.end(); ++it)
         {
-            const auto diff = std::distance(it, rotation_run.todo_rotation_steps.begin());
+            const auto diff = std::distance(rotation_run.todo_rotation_steps.begin(), it);
             if (diff > 6)
                 return;
 
             const auto rota_skill = *it;
-            if (rota_skill.skill_data.name == skill_ev.SkillName)
+             if (rota_skill.skill_data.name == skill_ev.SkillName)
             {
                 while (rotation_run.todo_rotation_steps.begin() != it)
                     rotation_run.todo_rotation_steps.pop_front();

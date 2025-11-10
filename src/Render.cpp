@@ -392,6 +392,8 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
 
         render_select_bench();
 
+        render_snowcrows_build_link();
+
         render_options_checkboxes(is_not_ui_adjust_active);
 
 #ifdef _DEBUG
@@ -416,6 +418,43 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
 #endif
 
     ImGui::End();
+}
+
+void RenderType::render_snowcrows_build_link()
+{
+    if (!Globals::RotationRun.meta_data.url.empty() &&
+        Globals::RotationRun.meta_data.url.find("snowcrows.com") != std::string::npos)
+    {
+        const auto button_text = "Copy Snow Crows Build Link";
+        const auto first_row_items = std::vector<std::string>{button_text};
+        const auto centered_pos_row_1 = calculate_centered_position(first_row_items);
+        ImGui::SetCursorPosX(centered_pos_row_1);
+
+        if (ImGui::Button(button_text))
+        {
+            if (OpenClipboard(nullptr))
+            {
+                EmptyClipboard();
+                const std::string &url = Globals::RotationRun.meta_data.url;
+                const size_t size = (url.length() + 1) * sizeof(char);
+                HGLOBAL h_mem = GlobalAlloc(GMEM_MOVEABLE, size);
+                if (h_mem)
+                {
+                    char *buffer = static_cast<char *>(GlobalLock(h_mem));
+                    if (buffer)
+                    {
+                        strcpy_s(buffer, size, url.c_str());
+                        GlobalUnlock(h_mem);
+                        SetClipboardData(CF_TEXT, h_mem);
+                    }
+                }
+                CloseClipboard();
+            }
+        }
+
+        if (ImGui::IsItemHovered())
+            ImGui::SetTooltip("Copy the Snow Crows build guide link to clipboard");
+    }
 }
 
 void RenderType::render_select_bench()
