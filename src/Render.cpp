@@ -435,12 +435,12 @@ void RenderType::render_snowcrows_build_link()
             if (OpenClipboard(nullptr))
             {
                 EmptyClipboard();
-                const std::string &url = Globals::RotationRun.meta_data.url;
-                const size_t size = (url.length() + 1) * sizeof(char);
+                const auto &url = Globals::RotationRun.meta_data.url;
+                const auto size = (url.length() + 1) * sizeof(char);
                 HGLOBAL h_mem = GlobalAlloc(GMEM_MOVEABLE, size);
                 if (h_mem)
                 {
-                    char *buffer = static_cast<char *>(GlobalLock(h_mem));
+                    auto *buffer = static_cast<char *>(GlobalLock(h_mem));
                     if (buffer)
                     {
                         strcpy_s(buffer, size, url.c_str());
