@@ -91,6 +91,14 @@ public:
         // MESMER
         // NECROMANCER
         // REVENANT
+        "Legendary Entity Stance",
+        "Legendary Alliance Stance",
+        "Legendary Renegade Stance",
+        "Legendary Demon Stance",
+        "Legendary Dwarf Stance",
+        "Legendary Centaur Stance",
+        "Legendary Assassin Stance",
+        "Legendary Dragon Stance",
     };
 
     const static inline std::set<std::string> skills_substr_to_drop = {
@@ -123,6 +131,7 @@ public:
         "Wuthering Wind",
         "Unleashed Overbearing Smash (Leap)",
         // THIEF
+        "Impaling Lotus",
         // ELEMENTALIST
         "Sunspot",
         "Earthen Blast",
@@ -223,15 +232,8 @@ public:
         "Nightfall",
         "Preservation",
         "Grasping Dark",
+        "\"You Are All Weaklings!\"",
         // REVENANT
-        "Legendary Entity Stance",
-        "Legendary Alliance Stance",
-        "Legendary Renegade Stance",
-        "Legendary Demon Stance",
-        "Legendary Dwarf Stance",
-        "Legendary Centaur Stance",
-        "Legendary Assassin Stance",
-        "Legendary Dragon Stance",
         "Facet of Chaos",
     };
 
