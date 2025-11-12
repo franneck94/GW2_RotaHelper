@@ -322,6 +322,7 @@ public:
         {"Three Round Burst", 1.0f},    // thief rilfe 3
         {"Wild Throw", 3.25f},          // warrrior spear f1
         {"Whirling Defense", 3.25f},    // ranger axe 5
+        {"Rifle Burst", 0.5f},          // engi rifle 1
     };
 
     static const inline std::set<std::string> starred_builds = {
@@ -342,6 +343,7 @@ public:
         "power_quickness_berserker_greatsword",
         "power_quickness_ritualist",
         "power_quickness_harbinger",
+        "power_alacrity_mechanist",
         // CONDI BUILDS
         "condition_mechanist",
         "condition_mechanist_two_kits",
