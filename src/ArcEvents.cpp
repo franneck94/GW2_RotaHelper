@@ -217,6 +217,8 @@ bool OnCombat(const char *channel,
     if (!IsAnySkillFromBuild(data))
         return false;
 
+    Globals::LastArcEventSkillName = data.SkillName;
+
     if (IsSameCast(data))
         return false;
 
