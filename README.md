@@ -48,20 +48,19 @@ Builds Working properly:
 - Power/Quickness Ritualist
 - Power/Quickness Harbinger
 - Power Reaper Spear
+- Condition (Alacrity) Mechanist 1kit/2kit
 
 Builds that are working ok-ish:
 
 - Power/Quickness Berserker Spear
   - Problem: Spear F1 multi hit
-- Power Weaver
-- Condition Weaver Scepter
 - Condition Harbinger
   - Opener with BIP does not trigger sometimes
 - Condition Willbender Scepter
-- Condition Mechanist 1kit/Kitless
-  - Devastator double entry
+- Power Weaver
+- Condition Weaver Scepter
 
-Builds are not working proper:
+Builds are defi working proper:
 
 - Power Bladesworn
 

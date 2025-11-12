@@ -5,12 +5,14 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.11.0
+## 0.11.0 - 2025-11-12
 
 ### Improvements
 
 - Strict rotation options deactivates weapon swap steps
 - Good working builds are marked with a star in the dropdown list
+- Optimized auto attack detection
+- Added option for easy skill mode (for more info hover over the checkbox)
 
 ### Notes
 
@@ -19,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Power/Quickness Harbinger
   - Power/Quickness Ritualist
   - Power Spear Reaper
+  - Power/Quickness Berserker GS Axe/Axe
+  - and many more
 
 ## 0.10.0 - 2025-11-10
 
