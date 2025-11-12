@@ -514,7 +514,7 @@ void RenderType::render_text_filter()
     if (text_changed)
         open_combo_next_frame = true;
 
-    filter_input_width = ImGui::GetItemRectSize().x;
+    filter_input_width = ImGui::GetItemRectSize().x * 2.0f; // TODO: width should be largest build name in filter
 
     if (ImGui::IsItemActive() && ImGui::IsKeyPressed(ImGuiKey_Tab))
         open_combo_next_frame = true;
