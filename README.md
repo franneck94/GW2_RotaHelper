@@ -37,22 +37,29 @@ Depending on what skill the user activates the GUI will go onwards in the rotati
 
 Builds Working properly:
 
-- Power Scrapper
-- Power Soulbeast Hammer
 - Power Spellbreaker Hammer
-- Power Berserker Hammer
+- Power Berserker Hammer Axe/Mace
+- Power/Quickness Berserker GS Axe/Axe
 - Power Mechanist Rifle
 - Power Mechanist Sword
-- Power Galeshot
+- Power/Quickness Scrapper
+- Power/Quickness Galeshot
+- Power Soulbeast Hammer
+- Power/Quickness Ritualist
+- Power/Quickness Harbinger
+- Power Reaper Spear
 
 Builds that are working ok-ish:
 
+- Power/Quickness Berserker Spear
+  - Problem: Spear F1 multi hit
 - Power Weaver
 - Condition Weaver Scepter
-- Power Harbinger
 - Condition Harbinger
-- Condition 1kit Mechanist
+  - Opener with BIP does not trigger sometimes
 - Condition Willbender Scepter
+- Condition Mechanist 1kit/Kitless
+  - Devastator double entry
 
 Builds are not working proper:
 

@@ -1714,5 +1714,27 @@
     "url_name": "condition-alacrity-amalgam-two-kits",
     "dps_report_url": "https://dps.report/xMPq-20251103-163857_golem",
     "html_file_path": "alac\\condition\\condition_alacrity_amalgam_two_kits.html"
+  },
+  {
+    "name": "Power Thieftotest",
+    "url": "manual:Power_ThiefToTest",
+    "benchmark_type": "dps",
+    "profession": "Thief",
+    "elite_spec": "Thief",
+    "build_type": "power",
+    "url_name": "power_thieftotest",
+    "dps_report_url": "https://dps.report/9r27-20240706-223552_golem",
+    "html_file_path": "dps\\power\\power_thieftotest.html"
+  },
+  {
+    "name": "Power Ritualist",
+    "url": "manual:Power_Ritualist",
+    "benchmark_type": "dps",
+    "profession": "Necromancer",
+    "elite_spec": "Ritualist",
+    "build_type": "power",
+    "url_name": "power_ritualist",
+    "dps_report_url": "https://dps.report/G60X-20251110-213730_golem",
+    "html_file_path": "dps\\power\\power_ritualist.html"
   }
 ]

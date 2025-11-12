@@ -7,7 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.11.0
 
-...
+### Improvements
+
+- Strict rotation options deactivates weapon swap steps
+- Good working builds are marked with a star in the dropdown list
+
+### Notes
+
+- Identified more non damaging skills
+- Added the following builds to working:
+  - Power/Quickness Harbinger
+  - Power/Quickness Ritualist
+  - Power Spear Reaper
 
 ## 0.10.0 - 2025-11-10
 
