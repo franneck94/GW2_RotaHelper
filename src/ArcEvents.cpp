@@ -100,9 +100,6 @@ bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvC
     else if (profession_lower == "warrior")
         is_berserker_f1 = RotationLogType::berserker_f1_skills.count(combat_data.SkillID) > 0;
 
-    if (is_mesmer_weapon_4 || is_berserker_f1)
-        return false;
-
     const auto &skill_data = skill_data_map_it->second;
     const auto recharge_time_w_alac_s = skill_data.recharge_time_with_alacrity;
     const auto cast_time_w_quick_s = skill_data.cast_time_with_quickness;
@@ -114,6 +111,16 @@ bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvC
     const auto is_same_alac_based =
         recharge_time_w_alac_s > 0 ? cast_time_diff_s < recharge_time_w_alac_s * 0.90 : false;
     const auto is_same_quick_based = cast_time_w_quick_s > 0 ? cast_time_diff_s < cast_time_w_quick_s * 0.75 : false;
+
+    if (is_mesmer_weapon_4 || is_berserker_f1)
+    {
+        if (is_same_quick_based)
+            Globals::IsSameCast = true;
+        else
+            Globals::IsSameCast = false;
+
+        return false;
+    }
 
     if (is_same_alac_based || is_same_quick_based)
     {
