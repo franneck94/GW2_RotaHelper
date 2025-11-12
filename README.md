@@ -40,8 +40,8 @@ Builds Working properly:
 - Power Spellbreaker Hammer
 - Power Berserker Hammer Axe/Mace
 - Power/Quickness Berserker GS Axe/Axe
-- Power Mechanist Rifle
-- Power Mechanist Sword
+- Power (Alacrity) Mechanist Sword
+- Power (Alacrity) Mechanist Rifle
 - Power/Quickness Scrapper
 - Power/Quickness Galeshot
 - Power Soulbeast Hammer
@@ -56,6 +56,8 @@ Builds that are working ok-ish:
   - Problem: Spear F1 multi hit
 - Condition Harbinger
   - Opener with BIP does not trigger sometimes
+- Power Mechanist Rifle
+  - Rifle auto attack mutli hit trigger
 - Condition Willbender Scepter
 - Power Weaver
 - Condition Weaver Scepter

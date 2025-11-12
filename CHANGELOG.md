@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Power/Quickness Ritualist
   - Power Spear Reaper
   - Power/Quickness Berserker GS Axe/Axe
-  - and many more
+  - and many more (full list in the README)
 
 ## 0.10.0 - 2025-11-10
 
