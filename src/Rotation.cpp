@@ -35,9 +35,13 @@ bool CheckTheNextNskills(const EvCombatDataPersistent &skill_ev,
                          RotationLogType &rotation_run,
                          EvCombatDataPersistent &last_skill)
 {
-    auto is_match = ((future_rota_skill.skill_data.name == skill_ev.SkillName) && is_okay);
+    const auto is_match = ((future_rota_skill.skill_data.name == skill_ev.SkillName) && is_okay);
+    const auto is_any_other_aa = !is_match && future_rota_skill.skill_data.is_auto_attack &&
+                                 IsSkillAutoAttack(skill_ev.SkillID, skill_ev.SkillName, rotation_run.skill_data_map);
 
-    if (is_match)
+    const auto is_special_mapping = false; // TODO: Add for engi spear 5 and spear 3
+
+    if (is_match || is_any_other_aa)
     {
         for (uint32_t i = 0; i < n; ++i)
             rotation_run.todo_rotation_steps.pop_front();
@@ -240,7 +244,13 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
                 return;
 
             const auto rota_skill = *it;
-             if (rota_skill.skill_data.name == skill_ev.SkillName)
+            const auto is_exact_match = (rota_skill.skill_data.name == skill_ev.SkillName);
+            const auto is_auto_attack_match =
+                !is_exact_match &&
+                (rota_skill.skill_data.is_auto_attack &&
+                 IsSkillAutoAttack(skill_ev.SkillID, skill_ev.SkillName, rotation_run.skill_data_map));
+
+            if (is_exact_match || is_auto_attack_match)
             {
                 while (rotation_run.todo_rotation_steps.begin() != it)
                     rotation_run.todo_rotation_steps.pop_front();
