@@ -9,11 +9,13 @@
 #include <d3d11.h>
 
 #include <algorithm>
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <future>
 #include <iostream>
 #include <map>
+#include <numbers>
 #include <set>
 #include <string>
 #include <thread>
@@ -364,12 +366,19 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
     if (ImGui::Checkbox("Strict Rotation", &Settings::StrictModeForSkillDetection))
     {
         Settings::Save(Globals::SettingsPath);
+
+        if (selected_file_path != "")
+        {
+            Globals::RotationRun.reset_rotation();
+            Globals::RotationRun.load_data(selected_file_path, img_path);
+        }
     }
     if (ImGui::IsItemHovered())
     {
         ImGui::BeginTooltip();
         ImGui::Text("When enabled, rotation progression requires exact skill "
                     "matching.");
+        ImGui::Text("This will turn off the weapon swap icons.");
         ImGui::Text("When disabled, allows more flexible skill detection with "
                     "fallbacks.");
         ImGui::EndTooltip();
@@ -426,11 +435,7 @@ void RenderType::render_snowcrows_build_link()
         Globals::RotationRun.meta_data.url.find("snowcrows.com") != std::string::npos)
     {
         const auto button_text = "Copy Snow Crows Build Link";
-        const auto first_row_items = std::vector<std::string>{button_text};
-        const auto centered_pos_row_1 = calculate_centered_position(first_row_items);
-        ImGui::SetCursorPosX(centered_pos_row_1);
-
-        if (ImGui::Button(button_text))
+        if (ImGui::Button(button_text, ImVec2(-1, 0)))
         {
             if (OpenClipboard(nullptr))
             {
@@ -538,7 +543,8 @@ void RenderType::render_selection()
     {
         if (filtered_files.empty())
         {
-            ImGui::TextDisabled("No results");
+            ImGui::TextDisabled(
+                "No builds found. Please make sure to also download the ZIP file from Github w.r.t. the README.");
         }
         else
         {
@@ -554,7 +560,10 @@ void RenderType::render_selection()
                 {
                     const auto is_selected = (selected_bench_index == original_index);
 
+                    auto base_formatted_name = std::string{};
                     auto formatted_name_item = std::string{};
+                    auto is_starred = false;
+
                     if (file_info->is_directory_header)
                     {
                         formatted_name_item = file_info->display_name;
@@ -576,18 +585,73 @@ void RenderType::render_selection()
                         else if (path_str.find("condition") != std::string::npos)
                             build_type_postdic += "[Condi] ";
 
-                        formatted_name_item = format_build_name(file_info->display_name) + "##" + build_type_postdic;
+                        base_formatted_name = format_build_name(file_info->display_name);
+
+                        is_starred = (RotationLogType::starred_builds.find(file_info->display_name.substr(4)) !=
+                                      RotationLogType::starred_builds.end());
+
+                        formatted_name_item = base_formatted_name + "##" + build_type_postdic;
                     }
 
-                    if (ImGui::Selectable(formatted_name_item.c_str(), is_selected))
+                    // Custom rendering for starred builds
+                    if (is_starred)
                     {
-                        selected_bench_index = original_index;
-                        selected_file_path = file_info->full_path;
+                        // Calculate positions
+                        float star_size = ImGui::GetTextLineHeight() * 0.8f;
+                        float item_height = ImGui::GetTextLineHeightWithSpacing();
 
-                        ReleaseTextureMap(Globals::TextureMap);
-                        Globals::RotationRun.load_data(selected_file_path, img_path);
+                        // Make the selectable area
+                        if (ImGui::Selectable(("##starred_" + std::to_string(original_index)).c_str(),
+                                              is_selected,
+                                              0,
+                                              ImVec2(0, item_height)))
+                        {
+                            selected_bench_index = original_index;
+                            selected_file_path = file_info->full_path;
 
-                        ImGui::CloseCurrentPopup();
+                            ReleaseTextureMap(Globals::TextureMap);
+                            Globals::RotationRun.load_data(selected_file_path, img_path);
+
+                            ImGui::CloseCurrentPopup();
+                        }
+
+                        auto item_rect = ImGui::GetItemRectMin();
+                        auto draw_list = ImGui::GetWindowDrawList();
+
+                        float star_center_x = item_rect.x + star_size * 0.5f + 4;
+                        float star_center_y = item_rect.y + item_height * 0.5f;
+                        float star_radius = star_size * 0.4f;
+
+                        ImVec2 star_points[10];
+                        for (int i = 0; i < 10; i++)
+                        {
+                            const auto angle = i * std::numbers::pi/ 5.0f - std::numbers::pi / 2.0f;
+                            const auto radius = (i % 2 == 0) ? star_radius : star_radius * 0.4f;
+                            star_points[i] =
+                                ImVec2(star_center_x + cos(angle) * radius, star_center_y + sin(angle) * radius);
+                        }
+
+                        draw_list->AddConvexPolyFilled(star_points, 10, IM_COL32(255, 215, 0, 255));
+                        draw_list->AddPolyline(star_points, 10, IM_COL32(200, 150, 0, 255), true, 1.0f);
+
+                        auto text_pos = ImVec2(item_rect.x + star_size + 12,
+                                               item_rect.y + (item_height - ImGui::GetTextLineHeight()) * 0.5f);
+                        draw_list->AddText(text_pos,
+                                           ImGui::GetColorU32(ImGuiCol_Text),
+                                           base_formatted_name.substr(4).c_str());
+                    }
+                    else
+                    {
+                        if (ImGui::Selectable(formatted_name_item.c_str(), is_selected))
+                        {
+                            selected_bench_index = original_index;
+                            selected_file_path = file_info->full_path;
+
+                            ReleaseTextureMap(Globals::TextureMap);
+                            Globals::RotationRun.load_data(selected_file_path, img_path);
+
+                            ImGui::CloseCurrentPopup();
+                        }
                     }
 
                     if (is_selected)
