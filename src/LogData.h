@@ -37,6 +37,7 @@ struct SkillRules
     const std::set<std::string> &special_substr_to_gray_out;
     const std::set<std::string> &special_match_to_gray_out;
     const std::set<std::string> &special_substr_to_remove_duplicates;
+    const std::set<std::string> &easy_mode_drop_match;
 };
 
 class RotationLogType
@@ -186,8 +187,13 @@ public:
         "Blood Reckoning",
         "Outrage",
         // ENGINEER
-        "Devastator",       // TODO
+        "Devastator",
+        "Flame Blast",
+        "Air Blast",
         "Overcharged Shot", // TODO
+        "Superconducting Signet",
+        "Overclock Signet",
+        "Lightning Rod",
         "Spark Revolver",
         "Core Reactor Shot",
         "Jade Mortar",
@@ -196,6 +202,10 @@ public:
         "Discharge Array",
         "Sky Circus",
         "Radiant Arc",
+        "Barrier Burst",
+        "Crisis Zone",
+        "Napalm",
+        "Glue Shot",
         // RANGER
         "Quarry's Peril",
         "Perfect Storm",
@@ -245,7 +255,18 @@ public:
 
     const static inline std::set<std::string> special_substr_to_remove_duplicates = {
         "Rushing Justice",
-        "Devastator", // TODO
+        "Devastator", // XXX
+    };
+
+    const static inline std::set<std::string> easy_mode_drop_match = {
+        "Sky Circus",
+        "Spark Revolver",
+        "Core Reactor Shot",
+        "Jade Mortar",
+        "Rocket Punch",
+        "Rolling Smash",
+        "Barrier Burst",
+        "Crisis Zone",
     };
 
     const static inline SkillRules skill_rules = SkillRules{
@@ -256,18 +277,17 @@ public:
         special_substr_to_gray_out,
         special_match_to_gray_out,
         special_substr_to_remove_duplicates,
+        easy_mode_drop_match,
     };
 
     static inline const std::set<uint64_t> berserker_f1_skills = {
-        static_cast<uint64_t>(SkillID::EVISCERATE),        // Eviscerate (Axe)
-        static_cast<uint64_t>(SkillID::ARCING_SLICE),      // Arcing Slice (Greatsword)
-        static_cast<uint64_t>(SkillID::EARTHSHAKER),       //  Earthshaker (Hammer)
-        static_cast<uint64_t>(SkillID::WHIRLING_STRIKE_2), // Whirling Strike (Spear)
-        static_cast<uint64_t>(SkillID::ARC_DIVIDER),       // Arc Divider (Greatsword)
-        static_cast<uint64_t>(SkillID::FLAMING_FLURRY),    // Flaming Flurry (Sword)
-        static_cast<uint64_t>(SkillID::DECAPITATE),        // Decapitate (Axe)
-        static_cast<uint64_t>(SkillID::RUPTURING_SMASH),   // Rupturing Smash (Hammer)
-        static_cast<uint64_t>(SkillID::WILD_THROW),        // Wild Throw (Spear)
+        static_cast<uint64_t>(SkillID::EVISCERATE),      // Eviscerate (Axe)
+        static_cast<uint64_t>(SkillID::EARTHSHAKER),     // Earthshaker (Hammer)
+        static_cast<uint64_t>(SkillID::ARC_DIVIDER),     // Arc Divider (Greatsword)
+        static_cast<uint64_t>(SkillID::FLAMING_FLURRY),  // Flaming Flurry (Sword)
+        static_cast<uint64_t>(SkillID::DECAPITATE),      // Decapitate (Axe)
+        static_cast<uint64_t>(SkillID::RUPTURING_SMASH), // Rupturing Smash (Hammer)
+        static_cast<uint64_t>(SkillID::WILD_THROW),      // Wild Throw (Spear)
     };
 
     static inline const std::set<uint64_t> mesmer_weapon_4_skills = {
@@ -282,7 +302,7 @@ public:
         static_cast<uint64_t>(SkillID::COUNTER_BLADE),           // Counter Blade (Sword)
         static_cast<uint64_t>(SkillID::INTO_THE_VOID),           // Into the Void (Focus)
         static_cast<uint64_t>(SkillID::DEJA_VU),                 // Deja Vu (Shield)
-        30769,                                                   // Echo of Memory (Shield)
+        static_cast<uint64_t>(SkillID::ECHO_OF_MEMORY),          // Echo of Memory (Shield)
         static_cast<uint64_t>(SkillID::PHANTASMAL_SHARPSHOOTER), // 72007 - Phantasmal Sharpshooter (Rifle)
         static_cast<uint64_t>(SkillID::PHANTASMAL_LANCER)        // 72946 - Phantasmal Lancer (Spear)
     };
@@ -304,21 +324,31 @@ public:
         {"Whirling Defense", 3.25f},    // ranger axe 5
     };
 
-    static const inline std::set<std::string> starred_builds = {"power_galeshot",
-                                                                "power_soulbeast_hammer",
-                                                                "power_spellbreaker_hammer",
-                                                                "power_berserker_hammer_axe_mace",
-                                                                "power_berserker_greatsword",
-                                                                "power_quickness_berserker_greatsword",
-                                                                "power_mechanist",
-                                                                "power_mechanist_sword",
-                                                                "power_scrapper",
-                                                                "power_quickness_scrapper",
-                                                                "power_ritualist",
-                                                                "power_quickness_ritualist",
-                                                                "power_harbinger",
-                                                                "power_quickness_harbinger",
-                                                                "power_reaper_spear"};
+    static const inline std::set<std::string> starred_builds = {
+        // POWER BUILDS
+        "power_galeshot",
+        "power_soulbeast_hammer",
+        "power_spellbreaker_hammer",
+        "power_berserker_hammer_axe_mace",
+        "power_berserker_greatsword",
+        "power_mechanist",
+        "power_mechanist_sword",
+        "power_scrapper",
+        "power_ritualist",
+        "power_harbinger",
+        "power_reaper_spear",
+        // POWER BOON BUILDS
+        "power_quickness_scrapper",
+        "power_quickness_berserker_greatsword",
+        "power_quickness_ritualist",
+        "power_quickness_harbinger",
+        // CONDI BUILDS
+        "condition_mechanist",
+        "condition_mechanist_two_kits",
+        // CONDI BOON BUILDS
+        "condition_alacrity_mechanist_1_kit",
+        "condition_alacrity_mechanist",
+    };
 
     static const inline std::map<int, int> fix_skill_img_ids = {
         {3332122, 3379164}, // Isolate

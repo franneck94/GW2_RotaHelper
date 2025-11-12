@@ -192,6 +192,14 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
         drop_skill = is_substr_drop_match || is_exact_drop_match || drop_substr_swap || drop_match_swap || is_unknownm;
     }
 
+    if (Settings::EasySkillMode && !drop_skill)
+    {
+        const auto is_exact_easy_mode_drop_match =
+            is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.easy_mode_drop_match, true);
+
+        drop_skill = is_exact_easy_mode_drop_match;
+    }
+
     return drop_skill;
 }
 
@@ -312,8 +320,19 @@ void get_rotation_info(const IntNode &node,
                 const auto is_duplicate_skill = is_skill_in_set(skill_data.skill_id,
                                                                 skill_data.name,
                                                                 skill_rules.special_substr_to_remove_duplicates);
-                const auto was_there_previous =
-                    !all_rotation_steps.empty() ? all_rotation_steps.back().skill_data.name == skill_data.name : false;
+
+                auto was_there_previous = false;
+                if (!all_rotation_steps.empty())
+                {
+                    // Check last skill
+                    if (all_rotation_steps.back().skill_data.name == skill_data.name)
+                        was_there_previous = true;
+
+                    // Check second-to-last skill
+                    if (all_rotation_steps.size() >= 2 &&
+                        all_rotation_steps[all_rotation_steps.size() - 2].skill_data.name == skill_data.name)
+                        was_there_previous = true;
+                }
 
                 if (is_duplicate_skill && was_there_previous)
                     continue;
