@@ -14,6 +14,7 @@
 
 #include "nexus/Nexus.h"
 
+#include "LogData.h"
 #include "Textures.h"
 #include "Types.h"
 
@@ -205,12 +206,16 @@ TextureMapType LoadAllSkillTextures(ID3D11Device *device,
                 if (info.name.empty())
                     continue;
 
+                auto actual_icon_id = icon_id;
+                if (RotationLogType::fix_skill_img_ids.find(icon_id) != RotationLogType::fix_skill_img_ids.end())
+                    actual_icon_id = RotationLogType::fix_skill_img_ids.at(icon_id);
+
                 std::string ext = ".png";
                 size_t dot = info.icon_url.find_last_of('.');
                 if (dot != std::string::npos && dot + 1 < info.icon_url.size())
                     ext = info.icon_url.substr(dot);
 
-                std::filesystem::path img_path = img_folder / (std::to_string(icon_id) + ext);
+                std::filesystem::path img_path = img_folder / (std::to_string(actual_icon_id) + ext);
                 if (!std::filesystem::exists(img_path))
                     continue;
 

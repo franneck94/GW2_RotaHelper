@@ -105,6 +105,7 @@ public:
         "Bloodstone Fervor",
         "Relic of",
         "Mushroom King",
+        "Superior Sigil",
         // GUARDIAN
         "Fire Jurisdiction",
         // WARRIOR
@@ -142,6 +143,7 @@ public:
         "Chilling Nova",
         "Cascading Corruption",
         "Explosive Growth",
+        "Deathly Haste",
         // REVENANT
         "Invoke Torment",
     };
@@ -182,6 +184,7 @@ public:
         "Tactical Reload",
         "Arcing Slice",
         "Blood Reckoning",
+        "Outrage",
         // ENGINEER
         "Devastator",       // TODO
         "Overcharged Shot", // TODO
@@ -224,13 +227,16 @@ public:
         // NECROMANCER
         "Plague Signet",
         "Elixir of Promise",
-        "Distress",
         "Garish Pillar",
         "Sandstorm Shroud",
-        "Perforate",
         "Soul Shards",
-        "Nightfall",
         "Preservation",
+        "Grasping Dark",
+        "Innervate Wanderlust",
+        "Innervate Anguish",
+        "Distress",
+        "Death's Charge",
+        "Perforate",
         "Grasping Dark",
         "\"You Are All Weaklings!\"",
         // REVENANT
@@ -294,6 +300,31 @@ public:
         {"Weakening Whirlwind", 0.75f}, // thief staff 3
         {"Double Tap", 0.75f},          // thief rilfe 3
         {"Three Round Burst", 1.0f},    // thief rilfe 3
+        {"Wild Throw", 3.25f},          // warrrior spear f1
         {"Whirling Defense", 3.25f},    // ranger axe 5
+    };
+
+    static const inline std::set<std::string> starred_builds = {"power_galeshot",
+                                                                "power_soulbeast_hammer",
+                                                                "power_spellbreaker_hammer",
+                                                                "power_berserker_hammer_axe_mace",
+                                                                "power_berserker_greatsword",
+                                                                "power_quickness_berserker_greatsword",
+                                                                "power_mechanist",
+                                                                "power_mechanist_sword",
+                                                                "power_scrapper",
+                                                                "power_quickness_scrapper",
+                                                                "power_ritualist",
+                                                                "power_quickness_ritualist",
+                                                                "power_harbinger",
+                                                                "power_quickness_harbinger",
+                                                                "power_reaper_spear"};
+
+    static const inline std::map<int, int> fix_skill_img_ids = {
+        {3332122, 3379164}, // Isolate
+        {3332077, 3379162}, // Perforate
+        {3332117, 3379165}, // Distress
+        {3332087, 3379166}, // Extirpate
+        {3332102, 3379163}, // Addle
     };
 };
