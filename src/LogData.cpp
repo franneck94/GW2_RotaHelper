@@ -180,7 +180,7 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
         is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.skills_match_to_drop, true);
 
     auto drop_skill = is_substr_drop_match || is_exact_drop_match;
-    if (!Settings::ShowWeaponSwap)
+    if (!Settings::ShowWeaponSwap || Settings::StrictModeForSkillDetection)
     {
         const auto drop_substr_swap =
             is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.skills_substr_weapon_swap_like);
