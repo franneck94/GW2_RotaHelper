@@ -14,6 +14,7 @@ const char *SHOW_WEAPON_SWAP = "ShowWeaponSwap";
 const char *SHOW_KEYBIND = "ShowKeybind";
 const char *XML_SETTINGS_FILE = "XmlSettingsFile";
 const char *STRICT_MODE_FOR_SKILL_DETECTION = "StrictModeForSkillDetection";
+const char *EASY_SKILL_MODE = "EasySkillMode";
 
 namespace Settings
 {
@@ -76,6 +77,10 @@ void Load(std::filesystem::path aPath)
     {
         Settings[STRICT_MODE_FOR_SKILL_DETECTION].get_to<bool>(StrictModeForSkillDetection);
     }
+    if (!Settings[EASY_SKILL_MODE].is_null())
+    {
+        Settings[EASY_SKILL_MODE].get_to<bool>(EasySkillMode);
+    }
     if (!Settings[XML_SETTINGS_FILE].is_null())
     {
         auto _XmlSettingsPath = std::string{};
@@ -97,6 +102,7 @@ void Save(std::filesystem::path aPath)
         Settings[SHOW_KEYBIND] = ShowKeybind;
         Settings[XML_SETTINGS_FILE] = XmlSettingsPath.string();
         Settings[STRICT_MODE_FOR_SKILL_DETECTION] = StrictModeForSkillDetection;
+        Settings[EASY_SKILL_MODE] = EasySkillMode;
 
         std::ofstream file(aPath);
         file << Settings.dump(1, '\t') << std::endl;
@@ -120,5 +126,6 @@ bool HorizontalSkillLayout = false;
 bool ShowWeaponSwap = false;
 bool ShowKeybind = false;
 bool StrictModeForSkillDetection = false;
+bool EasySkillMode = false;
 std::filesystem::path XmlSettingsPath;
 } // namespace Settings

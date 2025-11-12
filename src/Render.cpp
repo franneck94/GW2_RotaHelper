@@ -204,6 +204,7 @@ void RenderType::render_debug_data()
 
     ImGui::Text("Last Casted Skill ID: %u", curr_combat_data.SkillID);
     ImGui::Text("Last Casted Skill Name: %s", curr_combat_data.SkillName.c_str());
+    ImGui::Text("Last Arc Event Skill Name: %s", Globals::LastArcEventSkillName.c_str());
     ImGui::Text("Last Event ID: %u", curr_combat_data.EventID);
     ImGui::Text("Repeated skill: %s", curr_combat_data.RepeatedSkill == true ? "true" : "false");
     ImGui::Text("Is Same Cast: %s", Globals::IsSameCast == true ? "true" : "false");
@@ -345,7 +346,7 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
         ImGui::EndTooltip();
     }
 
-    const auto third_row_items = std::vector<std::string>{"Show Keybind", "Strict Rotation"};
+    const auto third_row_items = std::vector<std::string>{"Show Keybind", "Strict Rotation", "Easy Skill Mode"};
     const auto centered_pos_row_3 = calculate_centered_position(third_row_items);
     ImGui::SetCursorPosX(centered_pos_row_3);
 
@@ -381,6 +382,26 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
         ImGui::Text("This will turn off the weapon swap icons.");
         ImGui::Text("When disabled, allows more flexible skill detection with "
                     "fallbacks.");
+        ImGui::EndTooltip();
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Checkbox("Easy Skill Mode", &Settings::EasySkillMode))
+    {
+        Settings::Save(Globals::SettingsPath);
+
+        if (selected_file_path != "")
+        {
+            Globals::RotationRun.reset_rotation();
+            Globals::RotationRun.load_data(selected_file_path, img_path);
+        }
+    }
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        ImGui::Text("When enabled, some rotation skills are not shown.");
+        ImGui::Text("For example on Mechanist the F skills are not shown to have a better overview as a beginner.");
         ImGui::EndTooltip();
     }
 
