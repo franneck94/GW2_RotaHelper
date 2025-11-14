@@ -49,7 +49,8 @@ public:
     void render_tick_and_text(bool &is_selected,
                               const int original_index,
                               const BenchFileInfo *const &file_info,
-                              const std::string base_formatted_name);
+                              const std::string base_formatted_name,
+                              const ImU32 Color);
     void render_orange_cross_and_text(bool &is_selected,
                                       const int original_index,
                                       const BenchFileInfo *const &file_info,
