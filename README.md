@@ -35,24 +35,14 @@ Depending on what skill the user activates the GUI will go onwards in the rotati
 
 #### Tested Builds
 
-Builds Working properly:
+In general you can see ingame via the star/tick/cross icons about the state of a build.
 
-- Power Spellbreaker Hammer
-- Power Berserker Hammer Axe/Mace
-- Power/Quickness Berserker GS Axe/Axe
-- Power (Alacrity) Mechanist Sword
-- Power (Alacrity) Mechanist Rifle
-- Power/Quickness Scrapper
-- Power/Quickness Galeshot
-- Power Soulbeast Hammer
-- Power/Quickness Ritualist
-- Power/Quickness Harbinger
-- Power Reaper Spear
-- Condition (Alacrity) Mechanist 1kit/2kit
-- Condition Harbinger
-  - Opener with BIP does not trigger sometimes
-
-In general you can see ingame via the start/tick/cross icons about the state of a build.
+- Very good Working builds are marked with a ⭐
+- Working builds are marked with a gree<span style="color: #009220ff">green</span> ✔️
+- Okayish working builds are marked with a <span style="color: #DAA520">yellow</span> ✔️
+- Poorly working builds are marked with an <span style="color: #ffa200ff">orange</span> 🗙
+- Very bad working builds are marked with an <span style="color: #e82204ff">red</span> 🗙
+- Not yet tested builds are marked with a <span style="color: #43403fff">gray</span>  ❔
 
 NOTE: Some builds have duo logs uplaoded (like Condition Daredevil Dagger) - there my webparser script downloaded the wrong log.
 

@@ -9,9 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Features
 
-- Added copy to clipboard for sDps.Report
+- Added copy to clipboard for Dps.Report
 - Working builds are marked with a green tick
-- Okas-ish working builds are marked with a yellow tick
+- Okayish working builds are marked with a yellow tick
 - Poorly working builds are marked with an orange cross
 - Not yet tested builds are marked with a gray question mark
 
@@ -21,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optimized for Power Paragon
 - Optimized for Power Virt GS/Spear
 - Added updated builds for condition conduit
-- Started optimization for conditon coduit and revenant, power vindicator, power herald
+- Started optimization for condition conduit and revenant, power vindicator, power herald
   - Always show dodge on vindicator
 
 ## 0.11.0 - 2025-11-12
