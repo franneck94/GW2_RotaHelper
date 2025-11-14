@@ -96,6 +96,7 @@ bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvC
 
     auto is_mesmer_weapon_4 = false;
     auto is_berserker_f1 = false;
+    auto is_reset_like_skill = RotationLogType::reset_like_skill.count(combat_data.SkillID) > 0;
 
     // TODO: For Chrono - CS reset
     if (profession_lower == "mesmer")
@@ -115,14 +116,18 @@ bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvC
         recharge_time_w_alac_s > 0 ? cast_time_diff_s < recharge_time_w_alac_s * 0.90 : false;
     const auto is_same_quick_based = cast_time_w_quick_s > 0 ? cast_time_diff_s < cast_time_w_quick_s * 0.75 : false;
 
-    if (is_mesmer_weapon_4 || is_berserker_f1)
+    if (is_mesmer_weapon_4 || is_berserker_f1 || is_reset_like_skill)
     {
         if (is_same_quick_based)
+        {
             Globals::IsSameCast = true;
+            return true;
+        }
         else
+        {
             Globals::IsSameCast = false;
-
-        return false;
+            return false;
+        }
     }
 
     if (is_same_alac_based || is_same_quick_based)

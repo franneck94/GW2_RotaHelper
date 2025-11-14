@@ -2,6 +2,7 @@
 #include <string>
 
 #include "LogData.h"
+#include "MumbleUtils.h"
 #include "Rotation.h"
 #include "Settings.h"
 #include "Shared.h"
@@ -163,12 +164,14 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
         (time_span_since_aa_skip > 3 || !next_rota_skill.skill_data.is_auto_attack) &&
         (time_since_last_next_skill_check > min_time_for_next_s || is_first_check_for_next);
     const auto check_for_next_next_skill =
-        (next_next_rota_skill.is_special_skill || !next_next_rota_skill.skill_data.is_auto_attack) &&
-        (time_since_last_next_next_skill_check > min_time_for_next_next_s || is_first_check_for_next_next);
+        check_for_next_skill &&
+        ((next_next_rota_skill.is_special_skill || !next_next_rota_skill.skill_data.is_auto_attack) &&
+         (time_since_last_next_next_skill_check > min_time_for_next_next_s || is_first_check_for_next_next));
     const auto check_for_next_next_next_skill =
-        (next_next_rota_skill.is_special_skill || !next_next_next_rota_skill.skill_data.is_auto_attack) &&
-        (time_since_last_next_next_next_skill_check > min_time_for_next_next_next_s ||
-         is_first_check_for_next_next_next);
+        check_for_next_next_skill &
+        ((next_next_rota_skill.is_special_skill || !next_next_next_rota_skill.skill_data.is_auto_attack) &&
+         (time_since_last_next_next_next_skill_check > min_time_for_next_next_next_s ||
+          is_first_check_for_next_next_next));
 
     if (CheckTheNextNskills(skill_ev, curr_rota_skill, 1, true, rotation_run, last_skill))
     {
@@ -183,6 +186,23 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
 
     if (!Settings::StrictModeForSkillDetection)
     {
+        auto current_profession = get_current_profession_name();
+        auto profession_lower = to_lowercase(current_profession);
+
+        auto is_mesmer_weapon_4 = false;
+        auto is_berserker_f1 = false;
+
+        // TODO: For Chrono - CS reset
+        if (profession_lower == "mesmer")
+            is_mesmer_weapon_4 = RotationLogType::mesmer_weapon_4_skills.count(skill_ev.SkillID) > 0;
+        else if (profession_lower == "warrior")
+            is_berserker_f1 = RotationLogType::berserker_f1_skills.count(skill_ev.SkillID) > 0;
+
+        if (is_mesmer_weapon_4 || is_berserker_f1)
+        {
+            // early return
+            return;
+        }
 
         if (!curr_is_auto_attack && check_for_next_skill &&
             CheckTheNextNskills(skill_ev, next_rota_skill, 2, true, rotation_run, last_skill))
