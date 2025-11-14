@@ -55,7 +55,7 @@ public:
     std::list<std::future<void>> futures;
     LogSkillInfoMap log_skill_info_map;
     RotationSteps all_rotation_steps;
-    RotationStepsList todo_rotation_steps;
+    RotationStepsList missing_rotation_steps;
     SkillDataMap skill_data_map;
     MetaData meta_data;
 
@@ -180,6 +180,7 @@ public:
     };
 
     const static inline std::set<std::string> special_match_to_gray_out = {
+        "Dodge",
         // GUARDIAN
         "Zealot's Flame",
         "Rushing Justice",
@@ -203,7 +204,7 @@ public:
         "Devastator",
         "Flame Blast",
         "Air Blast",
-        "Overcharged Shot", // TODO
+        "Overcharged Shot",
         "Superconducting Signet",
         "Overclock Signet",
         "Lightning Rod",
@@ -279,11 +280,15 @@ public:
         "Cosmic Wisdom",
         "Energy Meld",
         "Spear of Archemorus",
+        "Facet of Elements",
+        "Facet of Darkness",
+        "Facet of Strength",
+        "Relinquish Power",
     };
 
     const static inline std::set<std::string> special_substr_to_remove_duplicates = {
         "Rushing Justice",
-        "Devastator", // XXX
+        "Devastator",
         "Signet of Fury",
         "Offensive Protocol: Demolish",
         "Abyssal Blitz",
@@ -297,6 +302,7 @@ public:
         "Legendary Assassin Stance",
         "Legendary Dragon Stance",
         "Deathstrike",
+        "Dodge",
     };
 
     const static inline std::set<std::string> easy_mode_drop_match = {
@@ -386,8 +392,17 @@ public:
 
     static const inline std::set<std::string> orange_crossed_builds = {
         // POWER BUILDS
+        "power_vindicator",
         // CONDI BUILDS
         "condition_virtuoso",
+    };
+
+    static const inline std::set<std::string> yellow_tick_builds = {
+        // POWER BUILDS
+        // POWER BOON BUILDS
+        // CONDITION BUILDS
+        "condition_conduit",
+        "condition_renegade",
     };
 
     static const inline std::set<std::string> green_tick_builds = {
@@ -400,8 +415,13 @@ public:
         "power_virtuoso_spear_greatsword",
         "power_virtuoso_sagger_sword_greatsword",
         // POWER BOON BUILDS
+        "power_quickness_herald_sword",
         "power_quickness_berserker",
         "power_alacrity_mechanist_sword",
+        // CONDITION BUILDS
+        "condition_harbinger",
+        // CONDI BOON BUILDS
+        "condition_quickness_harbinger",
     };
 
     static const inline std::set<std::string> starred_builds = {
@@ -425,11 +445,9 @@ public:
         "power_quickness_harbinger",
         "power_alacrity_mechanist",
         // CONDI BUILDS
-        "condition_harbinger",
         "condition_mechanist",
         "condition_mechanist_two_kits",
         // CONDI BOON BUILDS
-        "condition_quickness_harbinger",
         "condition_alacrity_mechanist_1_kit",
         "condition_alacrity_mechanist",
     };

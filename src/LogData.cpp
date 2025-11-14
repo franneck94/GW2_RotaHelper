@@ -718,8 +718,8 @@ void RotationLogType::load_data(const std::filesystem::path &json_path, const st
 
 void RotationLogType::pop_bench_rotation_queue()
 {
-    if (!todo_rotation_steps.empty())
-        todo_rotation_steps.pop_front();
+    if (!missing_rotation_steps.empty())
+        missing_rotation_steps.pop_front();
 }
 
 std::tuple<std::int32_t, std::int32_t, size_t> RotationLogType::get_current_rotation_indices() const
@@ -728,10 +728,10 @@ std::tuple<std::int32_t, std::int32_t, size_t> RotationLogType::get_current_rota
     constexpr static auto window_size_left = 2;
     constexpr static auto window_size_right = window_size - window_size_left - 1;
 
-    if (todo_rotation_steps.empty())
+    if (missing_rotation_steps.empty())
         return {-1, -1, static_cast<size_t>(-1)};
 
-    const auto num_skills_left = static_cast<int64_t>(todo_rotation_steps.size());
+    const auto num_skills_left = static_cast<int64_t>(missing_rotation_steps.size());
     const auto num_total_skills = static_cast<int64_t>(all_rotation_steps.size());
 
     auto current_idx = static_cast<size_t>(num_total_skills - num_skills_left);
@@ -763,19 +763,19 @@ RotationStep RotationLogType::get_rotation_skill(const size_t idx) const
 
 void RotationLogType::restart_rotation()
 {
-    todo_rotation_steps = std::list<RotationStep>(all_rotation_steps.begin(), all_rotation_steps.end());
+    missing_rotation_steps = std::list<RotationStep>(all_rotation_steps.begin(), all_rotation_steps.end());
 }
 
 bool RotationLogType::is_current_run_done() const
 {
-    return todo_rotation_steps.empty();
+    return missing_rotation_steps.empty();
 }
 
 void RotationLogType::reset_rotation()
 {
     log_skill_info_map.clear();
     all_rotation_steps.clear();
-    todo_rotation_steps.clear();
+    missing_rotation_steps.clear();
     skill_data_map.clear();
     meta_data = MetaData{};
 }

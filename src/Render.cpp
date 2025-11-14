@@ -165,7 +165,7 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
 {
     static auto last_skill = EvCombatDataPersistent{};
 
-    if (Globals::RotationRun.todo_rotation_steps.empty())
+    if (Globals::RotationRun.missing_rotation_steps.empty())
         return;
 
     if (skill_ev.SkillID == 0 || skill_ev.SkillID == -10000)
@@ -521,21 +521,23 @@ void RenderType::render_text_filter()
         ImGui::SetTooltip("Good working builds have a star, very bad working a red cross.");
 
     ImGui::SameLine();
-    auto *filter_buffer = (char *)Settings::FilterBuffer.c_str();
+    auto *filter_buffer = (char *)Settings::FilterBuffer;
 
     ImGui::PushAllowKeyboardFocus(false);
 
     filter_input_pos = ImGui::GetCursorScreenPos();
 
-    auto text_changed =
-        ImGui::InputText("##filter", filter_buffer, sizeof(filter_buffer), ImGuiInputTextFlags_EnterReturnsTrue);
+    auto text_changed = ImGui::InputText("##filter",
+                                         filter_buffer,
+                                         sizeof(Settings::FilterBuffer),
+                                         ImGuiInputTextFlags_EnterReturnsTrue);
 
-    Settings::FilterBuffer = to_lowercase(std::string(filter_buffer));
+    to_lowercase(Settings::FilterBuffer);
 
     if (text_changed)
         open_combo_next_frame = true;
 
-    filter_input_width = ImGui::GetItemRectSize().x * 2.0f; // TODO: width should be largest build name in filter
+    filter_input_width = ImGui::GetWindowWidth() * 0.5f; // TODO: width should be largest build name in filter
 
     if (ImGui::IsItemActive() && ImGui::IsKeyPressed(ImGuiKey_Tab))
         open_combo_next_frame = true;
@@ -678,11 +680,10 @@ void RenderType::render_untested_and_text(bool &is_selected,
     auto draw_question_mark = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
         float line_thickness = 2.5f;
 
-        // Draw yellow question mark
         // Question mark curve (top part)
         auto curve_center = ImVec2(center.x, center.y - radius * 0.3f);
         auto curve_radius = radius * 0.4f;
-        draw_list->AddCircle(curve_center, curve_radius, IM_COL32(255, 255, 0, 255), 16, line_thickness);
+        draw_list->AddCircle(curve_center, curve_radius, IM_COL32(128, 128, 128, 255), 16, line_thickness);
 
         // Remove bottom part of circle to make it look like a question mark
         auto mask_rect_min = ImVec2(center.x - curve_radius * 1.2f, center.y - radius * 0.1f);
@@ -692,11 +693,11 @@ void RenderType::render_untested_and_text(bool &is_selected,
         // Vertical line (middle part)
         auto line_start = ImVec2(center.x, center.y + radius * 0.1f);
         auto line_end = ImVec2(center.x, center.y + radius * 0.4f);
-        draw_list->AddLine(line_start, line_end, IM_COL32(255, 255, 0, 255), line_thickness);
+        draw_list->AddLine(line_start, line_end, IM_COL32(128, 128, 128, 255), line_thickness);
 
         // Dot (bottom part)
         auto dot_center = ImVec2(center.x, center.y + radius * 0.6f);
-        draw_list->AddCircleFilled(dot_center, line_thickness * 0.6f, IM_COL32(255, 255, 0, 255));
+        draw_list->AddCircleFilled(dot_center, line_thickness * 0.6f, IM_COL32(128, 128, 128, 255));
     };
 
     render_symbol_and_text(is_selected,
@@ -731,20 +732,17 @@ void RenderType::render_star_and_text(bool &is_selected,
 void RenderType::render_tick_and_text(bool &is_selected,
                                       const int original_index,
                                       const BenchFileInfo *const &file_info,
-                                      const std::string base_formatted_name)
+                                      const std::string base_formatted_name,
+                                      const ImU32 Color)
 {
-    auto draw_tick = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
+    auto draw_tick = [&Color](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
         float line_thickness = 2.5f;
 
-        // Draw green checkmark (tick symbol)
-        // Define the three points of the checkmark
         auto tick_start = ImVec2(center.x - radius * 0.5f, center.y);
         auto tick_middle = ImVec2(center.x - radius * 0.1f, center.y + radius * 0.4f);
         auto tick_end = ImVec2(center.x + radius * 0.6f, center.y - radius * 0.5f);
-
-        // Draw the two lines of the checkmark
-        draw_list->AddLine(tick_start, tick_middle, IM_COL32(34, 139, 34, 255), line_thickness);
-        draw_list->AddLine(tick_middle, tick_end, IM_COL32(34, 139, 34, 255), line_thickness);
+        draw_list->AddLine(tick_start, tick_middle, Color, line_thickness);
+        draw_list->AddLine(tick_middle, tick_end, Color, line_thickness);
     };
 
     render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, "##ticked_", draw_tick);
@@ -754,6 +752,11 @@ void RenderType::render_selection()
 {
     ImGui::Text("Select Bench File:");
 
+    const auto window_pos = ImGui::GetWindowPos();
+    const auto popup_pos = ImVec2(window_pos.x, filter_input_pos.y + ImGui::GetTextLineHeightWithSpacing() * 2.5f);
+    ImGui::SetNextWindowPos(popup_pos, ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(filter_input_width, 0), ImGuiCond_Always);
+
     if (open_combo_next_frame)
     {
         ImGui::OpenPopup("benches_popup");
@@ -762,13 +765,6 @@ void RenderType::render_selection()
 
     if (ImGui::Button(formatted_name.c_str(), ImVec2(-1, 0)))
         ImGui::OpenPopup("benches_popup");
-
-    const auto window_pos = ImGui::GetWindowPos();
-    const auto popup_pos = ImVec2(window_pos.x, filter_input_pos.y + ImGui::GetTextLineHeightWithSpacing() * 2.5f);
-
-
-    ImGui::SetNextWindowPos(popup_pos, ImGuiCond_Appearing);
-    ImGui::SetNextWindowSize(ImVec2(-1, 0), ImGuiCond_Appearing);
 
     if (ImGui::BeginPopup("benches_popup"))
     {
@@ -797,6 +793,7 @@ void RenderType::render_selection()
                     auto is_red_crossed = false;
                     auto is_green_ticked = false;
                     auto is_orange_crossed = false;
+                    auto is_yellow_ticked = false;
                     auto is_untested = false;
 
                     if (file_info->is_directory_header)
@@ -834,8 +831,12 @@ void RenderType::render_selection()
                         is_green_ticked = !is_orange_crossed &&
                                           (RotationLogType::green_tick_builds.find(file_info->display_name.substr(4)) !=
                                            RotationLogType::green_tick_builds.end());
+                        is_yellow_ticked =
+                            !is_green_ticked &&
+                            (RotationLogType::yellow_tick_builds.find(file_info->display_name.substr(4)) !=
+                             RotationLogType::yellow_tick_builds.end());
                         is_untested = !is_green_ticked && !is_green_ticked && !is_red_crossed && !is_starred &&
-                                      !is_orange_crossed;
+                                      !is_orange_crossed && !is_yellow_ticked;
 
                         formatted_name_item = base_formatted_name + "##" + build_type_postdic;
                     }
@@ -850,7 +851,19 @@ void RenderType::render_selection()
                     }
                     else if (is_green_ticked)
                     {
-                        render_tick_and_text(is_selected, original_index, file_info, base_formatted_name);
+                        render_tick_and_text(is_selected,
+                                             original_index,
+                                             file_info,
+                                             base_formatted_name,
+                                             IM_COL32(34, 139, 34, 255));
+                    }
+                    else if (is_yellow_ticked)
+                    {
+                        render_tick_and_text(is_selected,
+                                             original_index,
+                                             file_info,
+                                             base_formatted_name,
+                                             IM_COL32(218, 165, 32, 255));
                     }
                     else if (is_orange_crossed)
                     {
@@ -1141,6 +1154,28 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
 
             ImGui::EndTooltip();
         }
+    }
+    else if (rotation_step.skill_data.icon_id == 2)
+    {
+        // Draw a SkillIconSize x SkillIconSize image with a black "D" inside
+        auto draw_list = ImGui::GetWindowDrawList();
+        auto cursor_pos = ImGui::GetCursorScreenPos();
+
+        // Draw background rectangle
+        draw_list->AddRectFilled(cursor_pos,
+                                 ImVec2(cursor_pos.x + Globals::SkillIconSize, cursor_pos.y + Globals::SkillIconSize),
+                                 IM_COL32(200, 200, 200, 255)); // Light gray background
+
+        // Calculate text position for centering
+        auto text_size = ImGui::CalcTextSize("D");
+        auto text_pos = ImVec2(cursor_pos.x + (Globals::SkillIconSize - text_size.x) * 0.5f,
+                               cursor_pos.y + (Globals::SkillIconSize - text_size.y) * 0.5f);
+
+        // Draw black "D" in the center
+        draw_list->AddText(text_pos, IM_COL32(0, 0, 0, 255), "D");
+
+        // Reserve the space for ImGui layout
+        ImGui::Dummy(ImVec2(Globals::SkillIconSize, Globals::SkillIconSize));
     }
     else
         ImGui::Dummy(ImVec2(Globals::SkillIconSize, Globals::SkillIconSize));
