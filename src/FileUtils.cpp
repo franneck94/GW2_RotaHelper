@@ -30,6 +30,18 @@ BenchFileInfo::BenchFileInfo(const std::filesystem::path &full, const std::files
     }
 };
 
+void to_lowercase(char *str)
+{
+    if (str == nullptr)
+        return;
+
+    while (*str)
+    {
+        *str = static_cast<char>(::tolower(*str));
+        str++;
+    }
+}
+
 std::string to_lowercase(const std::string &str)
 {
     std::string result = str;
@@ -39,12 +51,12 @@ std::string to_lowercase(const std::string &str)
 
 std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::string>> get_file_data_pairs(
     std::vector<BenchFileInfo> &benches_files,
-    std::string &filter_string)
+    char *filter_string)
 {
     auto filtered_files = std::vector<std::pair<int, const BenchFileInfo *>>{};
     auto directories_with_matches = std::set<std::string>{};
 
-    if (filter_string.empty())
+    if (filter_string[0] == '\0' || filter_string == nullptr)
     {
         // When filter is empty, filter by current character's profession
         const auto profession = get_current_profession_name();

@@ -10,11 +10,13 @@
 
 #include "Types.h"
 
+void to_lowercase(char *str);
+
 std::string to_lowercase(const std::string &str);
 
 std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::string>> get_file_data_pairs(
     std::vector<BenchFileInfo> &benches_files,
-    std::string &filter_string);
+    char *filter_string);
 
 bool load_rotaion_json(const std::filesystem::path &json_path, nlohmann::json &j);
 
