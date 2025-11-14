@@ -84,6 +84,9 @@ public:
         // WARRIOR
         // ENGINEER
         "Flamethrower",
+        "Elixir Gun",
+        "Bomb Kit",
+        "Grenade Kit",
         // RANGER
         "Summon Cyclone Bow",
         "Dismiss Cyclone Bow",
@@ -214,6 +217,10 @@ public:
         "Crisis Zone",
         "Napalm",
         "Glue Shot",
+        "Acid Bomb",
+        "Offensive Protocol: Obliterate",
+        "Offensive Protocol: Demolish",
+        "Evolve",
         // RANGER
         "Quarry's Peril",
         "Perfect Storm",
@@ -245,6 +252,7 @@ public:
         "Tale of the Soulkeeper",
         "Harmonious Harp",
         "Tale of the August Queen",
+        "Phantasmal Disenchanter",
         // NECROMANCER
         "Plague Signet",
         "Elixir of Promise",
@@ -268,6 +276,7 @@ public:
         "Rushing Justice",
         "Devastator", // XXX
         "Signet of Fury",
+        "Offensive Protocol: Demolish",
     };
 
     const static inline std::set<std::string> easy_mode_drop_match = {
@@ -279,6 +288,7 @@ public:
         "Rolling Smash",
         "Barrier Burst",
         "Crisis Zone",
+        "Power Spike",
     };
 
     const static inline SkillRules skill_rules = SkillRules{
@@ -321,6 +331,9 @@ public:
 
     static inline const std::set<uint64_t> reset_like_skill = {
         static_cast<uint64_t>(SkillID::CRUSHING_BLOW),
+        static_cast<uint64_t>(SkillID::REFRACTION_CUTTER),
+        static_cast<uint64_t>(SkillID::REFRACTION_CUTTER_1),
+        static_cast<uint64_t>(SkillID::MIND_THE_GAP),
     };
 
     const static inline std::map<std::string, float> skill_cast_time_map = {
@@ -339,6 +352,8 @@ public:
         {"Wild Throw", 3.25f},          // warrrior spear f1
         {"Whirling Defense", 3.25f},    // ranger axe 5
         {"Rifle Burst", 0.5f},          // engi rifle 1
+        {"Spatial Surge", 1.0f},        // mesmer gs 1
+        {"Flying Cutter", 0.5f},        // mesmer sw 1
     };
 
     static const inline std::set<std::string> red_crossed_builds = {
@@ -346,16 +361,27 @@ public:
         "power_bladesworn",
         "power_alacrity_bladesworn",
         "power_alacrity_bladesworn_overcharged",
+        "power_amalgam",
+    };
+
+    static const inline std::set<std::string> orange_crossed_builds = {
+        // POWER BUILDS
+        // CONDI BUILDS
+        "condition_virtuoso",
     };
 
     static const inline std::set<std::string> green_tick_builds = {
         // POWER BUILDS
+        "power_troubadour",
         "power_berserker",
-        "power_paragon",
         "power_warrior",
         "power_spellbreaker",
+        "power_virtuoso",
+        "power_virtuoso_spear_greatsword",
+        "power_virtuoso_sagger_sword_greatsword",
         // POWER BOON BUILDS
         "power_quickness_berserker",
+        "power_alacrity_mechanist_sword",
     };
 
     static const inline std::set<std::string> starred_builds = {
@@ -371,6 +397,7 @@ public:
         "power_ritualist",
         "power_harbinger",
         "power_reaper_spear",
+        "power_paragon",
         // POWER BOON BUILDS
         "power_quickness_scrapper",
         "power_quickness_berserker_greatsword",

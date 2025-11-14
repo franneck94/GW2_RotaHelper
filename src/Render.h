@@ -50,6 +50,14 @@ public:
                               const int original_index,
                               const BenchFileInfo *const &file_info,
                               const std::string base_formatted_name);
+    void render_orange_cross_and_text(bool &is_selected,
+                                      const int original_index,
+                                      const BenchFileInfo *const &file_info,
+                                      const std::string base_formatted_name);
+    void render_untested_and_text(bool &is_selected,
+                                  const int original_index,
+                                  const BenchFileInfo *const &file_info,
+                                  const std::string base_formatted_name);
     void render_selection();
     void render_xml_selection();
     void render_select_bench();

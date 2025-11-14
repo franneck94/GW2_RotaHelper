@@ -566,7 +566,7 @@ void RenderType::render_symbol_and_text(bool &is_selected,
                                         const BenchFileInfo *const &file_info,
                                         const std::string &base_formatted_name,
                                         const std::string &selectable_id,
-                                        std::function<void(ImDrawList*, ImVec2, float, float)> draw_symbol_func)
+                                        std::function<void(ImDrawList *, ImVec2, float, float)> draw_symbol_func)
 {
     auto symbol_size = ImGui::GetTextLineHeight() * 0.8f;
     auto item_height = ImGui::GetTextLineHeightWithSpacing();
@@ -601,21 +601,19 @@ void RenderType::render_symbol_and_text(bool &is_selected,
     auto symbol_rect_min = ImVec2(item_rect.x, item_rect.y);
     auto symbol_rect_max = ImVec2(item_rect.x + symbol_size + 8, item_rect.y + item_height);
 
-    if (mouse_pos.x >= symbol_rect_min.x && mouse_pos.x <= symbol_rect_max.x &&
-        mouse_pos.y >= symbol_rect_min.y && mouse_pos.y <= symbol_rect_max.y)
+    if (mouse_pos.x >= symbol_rect_min.x && mouse_pos.x <= symbol_rect_max.x && mouse_pos.y >= symbol_rect_min.y &&
+        mouse_pos.y <= symbol_rect_max.y)
     {
         if (selectable_id.find("starred") != std::string::npos)
-        {
-            ImGui::SetTooltip("Good working build");
-        }
+            ImGui::SetTooltip("Excellent working build");
         else if (selectable_id.find("red_crossed") != std::string::npos)
-        {
             ImGui::SetTooltip("Very bad working build");
-        }
+        else if (selectable_id.find("orange_crossed") != std::string::npos)
+            ImGui::SetTooltip("Poorly working build");
         else if (selectable_id.find("ticked") != std::string::npos)
-        {
             ImGui::SetTooltip("Working build");
-        }
+        else if (selectable_id.find("untested") != std::string::npos)
+            ImGui::SetTooltip("Untested build");
     }
 
     auto text_pos =
@@ -628,7 +626,7 @@ void RenderType::render_red_cross_and_text(bool &is_selected,
                                            const BenchFileInfo *const &file_info,
                                            const std::string base_formatted_name)
 {
-    auto draw_cross = [](ImDrawList* draw_list, ImVec2 center, float radius, float size) {
+    auto draw_cross = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
         float line_thickness = 2.0f;
 
         // Draw red cross (X shape)
@@ -645,12 +643,76 @@ void RenderType::render_red_cross_and_text(bool &is_selected,
     render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, "##red_crossed_", draw_cross);
 }
 
+void RenderType::render_orange_cross_and_text(bool &is_selected,
+                                              const int original_index,
+                                              const BenchFileInfo *const &file_info,
+                                              const std::string base_formatted_name)
+{
+    auto draw_cross = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
+        float line_thickness = 2.0f;
+
+        // Draw orange cross (X shape)
+        auto cross_top_left = ImVec2(center.x - radius * 0.7f, center.y - radius * 0.7f);
+        auto cross_bottom_right = ImVec2(center.x + radius * 0.7f, center.y + radius * 0.7f);
+        auto cross_top_right = ImVec2(center.x + radius * 0.7f, center.y - radius * 0.7f);
+        auto cross_bottom_left = ImVec2(center.x - radius * 0.7f, center.y + radius * 0.7f);
+
+        // Draw the two lines of the X
+        draw_list->AddLine(cross_top_left, cross_bottom_right, IM_COL32(255, 140, 0, 255), line_thickness);
+        draw_list->AddLine(cross_top_right, cross_bottom_left, IM_COL32(255, 140, 0, 255), line_thickness);
+    };
+
+    render_symbol_and_text(is_selected,
+                           original_index,
+                           file_info,
+                           base_formatted_name,
+                           "##orange_crossed_",
+                           draw_cross);
+}
+
+void RenderType::render_untested_and_text(bool &is_selected,
+                                          const int original_index,
+                                          const BenchFileInfo *const &file_info,
+                                          const std::string base_formatted_name)
+{
+    auto draw_question_mark = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
+        float line_thickness = 2.5f;
+
+        // Draw yellow question mark
+        // Question mark curve (top part)
+        auto curve_center = ImVec2(center.x, center.y - radius * 0.3f);
+        auto curve_radius = radius * 0.4f;
+        draw_list->AddCircle(curve_center, curve_radius, IM_COL32(255, 255, 0, 255), 16, line_thickness);
+
+        // Remove bottom part of circle to make it look like a question mark
+        auto mask_rect_min = ImVec2(center.x - curve_radius * 1.2f, center.y - radius * 0.1f);
+        auto mask_rect_max = ImVec2(center.x + curve_radius * 1.2f, center.y + radius * 0.8f);
+        draw_list->AddRectFilled(mask_rect_min, mask_rect_max, IM_COL32(0, 0, 0, 0));
+
+        // Vertical line (middle part)
+        auto line_start = ImVec2(center.x, center.y + radius * 0.1f);
+        auto line_end = ImVec2(center.x, center.y + radius * 0.4f);
+        draw_list->AddLine(line_start, line_end, IM_COL32(255, 255, 0, 255), line_thickness);
+
+        // Dot (bottom part)
+        auto dot_center = ImVec2(center.x, center.y + radius * 0.6f);
+        draw_list->AddCircleFilled(dot_center, line_thickness * 0.6f, IM_COL32(255, 255, 0, 255));
+    };
+
+    render_symbol_and_text(is_selected,
+                           original_index,
+                           file_info,
+                           base_formatted_name,
+                           "##untested_",
+                           draw_question_mark);
+}
+
 void RenderType::render_star_and_text(bool &is_selected,
                                       const int original_index,
                                       const BenchFileInfo *const &file_info,
                                       const std::string base_formatted_name)
 {
-    auto draw_star = [](ImDrawList* draw_list, ImVec2 center, float radius, float size) {
+    auto draw_star = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
         ImVec2 star_points[10];
         for (int i = 0; i < 10; i++)
         {
@@ -671,7 +733,7 @@ void RenderType::render_tick_and_text(bool &is_selected,
                                       const BenchFileInfo *const &file_info,
                                       const std::string base_formatted_name)
 {
-    auto draw_tick = [](ImDrawList* draw_list, ImVec2 center, float radius, float size) {
+    auto draw_tick = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
         float line_thickness = 2.5f;
 
         // Draw green checkmark (tick symbol)
@@ -706,7 +768,7 @@ void RenderType::render_selection()
 
 
     ImGui::SetNextWindowPos(popup_pos, ImGuiCond_Appearing);
-    ImGui::SetNextWindowSize(ImVec2(filter_input_width, 0), ImGuiCond_Appearing);
+    ImGui::SetNextWindowSize(ImVec2(-1, 0), ImGuiCond_Appearing);
 
     if (ImGui::BeginPopup("benches_popup"))
     {
@@ -734,6 +796,8 @@ void RenderType::render_selection()
                     auto is_starred = false;
                     auto is_red_crossed = false;
                     auto is_green_ticked = false;
+                    auto is_orange_crossed = false;
+                    auto is_untested = false;
 
                     if (file_info->is_directory_header)
                     {
@@ -760,10 +824,18 @@ void RenderType::render_selection()
 
                         is_starred = (RotationLogType::starred_builds.find(file_info->display_name.substr(4)) !=
                                       RotationLogType::starred_builds.end());
-                        is_red_crossed = (RotationLogType::red_crossed_builds.find(file_info->display_name.substr(4)) !=
+                        is_red_crossed = !is_starred &&
+                                         (RotationLogType::red_crossed_builds.find(file_info->display_name.substr(4)) !=
                                           RotationLogType::red_crossed_builds.end());
-                        is_green_ticked = (RotationLogType::green_tick_builds.find(file_info->display_name.substr(4)) !=
+                        is_orange_crossed =
+                            !is_red_crossed &&
+                            (RotationLogType::orange_crossed_builds.find(file_info->display_name.substr(4)) !=
+                             RotationLogType::orange_crossed_builds.end());
+                        is_green_ticked = !is_orange_crossed &&
+                                          (RotationLogType::green_tick_builds.find(file_info->display_name.substr(4)) !=
                                            RotationLogType::green_tick_builds.end());
+                        is_untested = !is_green_ticked && !is_green_ticked && !is_red_crossed && !is_starred &&
+                                      !is_orange_crossed;
 
                         formatted_name_item = base_formatted_name + "##" + build_type_postdic;
                     }
@@ -779,6 +851,14 @@ void RenderType::render_selection()
                     else if (is_green_ticked)
                     {
                         render_tick_and_text(is_selected, original_index, file_info, base_formatted_name);
+                    }
+                    else if (is_orange_crossed)
+                    {
+                        render_orange_cross_and_text(is_selected, original_index, file_info, base_formatted_name);
+                    }
+                    else if (is_untested)
+                    {
+                        render_untested_and_text(is_selected, original_index, file_info, base_formatted_name);
                     }
                     else
                     {
