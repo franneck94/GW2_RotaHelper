@@ -122,6 +122,8 @@ public:
     const static inline std::set<std::string> skills_match_to_drop = {
         // GUARDIAN
         // WARRIOR
+        "King of Fires",
+        "Magebane Tether",
         // ENGINEER
         "Focused Devastation",
         "Explosive Entrance",
@@ -139,6 +141,8 @@ public:
         "Earthen Blast",
         // MESMER
         "Mirage Cloak",
+        "Syncopate",
+        "Syncopate (Delay Wave)",
         // NECROMANCER
         "Approaching Doom",
         "Chilling Nova",
@@ -186,6 +190,10 @@ public:
         "Arcing Slice",
         "Blood Reckoning",
         "Outrage",
+        "Chant of Action",
+        "Signet of Fury",
+        "Signet of Might",
+        "Signet of Rage",
         // ENGINEER
         "Devastator",
         "Flame Blast",
@@ -234,6 +242,9 @@ public:
         "Phantasmal Warden",
         "Bladeturn Requiem",
         "Bladecall",
+        "Tale of the Soulkeeper",
+        "Harmonious Harp",
+        "Tale of the August Queen",
         // NECROMANCER
         "Plague Signet",
         "Elixir of Promise",
@@ -256,6 +267,7 @@ public:
     const static inline std::set<std::string> special_substr_to_remove_duplicates = {
         "Rushing Justice",
         "Devastator", // XXX
+        "Signet of Fury",
     };
 
     const static inline std::set<std::string> easy_mode_drop_match = {
@@ -307,6 +319,10 @@ public:
         static_cast<uint64_t>(SkillID::PHANTASMAL_LANCER)        // 72946 - Phantasmal Lancer (Spear)
     };
 
+    static inline const std::set<uint64_t> reset_like_skill = {
+        static_cast<uint64_t>(SkillID::CRUSHING_BLOW),
+    };
+
     const static inline std::map<std::string, float> skill_cast_time_map = {
         {"Essence Blast", 0.75f},       // rit shroud aa
         {"Life Rend", 0.5f},            // reaper shroud aa
@@ -323,6 +339,23 @@ public:
         {"Wild Throw", 3.25f},          // warrrior spear f1
         {"Whirling Defense", 3.25f},    // ranger axe 5
         {"Rifle Burst", 0.5f},          // engi rifle 1
+    };
+
+    static const inline std::set<std::string> red_crossed_builds = {
+        // POWER BUILDS
+        "power_bladesworn",
+        "power_alacrity_bladesworn",
+        "power_alacrity_bladesworn_overcharged",
+    };
+
+    static const inline std::set<std::string> green_tick_builds = {
+        // POWER BUILDS
+        "power_berserker",
+        "power_paragon",
+        "power_warrior",
+        "power_spellbreaker",
+        // POWER BOON BUILDS
+        "power_quickness_berserker",
     };
 
     static const inline std::set<std::string> starred_builds = {
@@ -345,9 +378,11 @@ public:
         "power_quickness_harbinger",
         "power_alacrity_mechanist",
         // CONDI BUILDS
+        "condition_harbinger",
         "condition_mechanist",
         "condition_mechanist_two_kits",
         // CONDI BOON BUILDS
+        "condition_quickness_harbinger",
         "condition_alacrity_mechanist_1_kit",
         "condition_alacrity_mechanist",
     };
