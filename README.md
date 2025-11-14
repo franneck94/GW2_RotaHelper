@@ -52,18 +52,7 @@ Builds Working properly:
 - Condition Harbinger
   - Opener with BIP does not trigger sometimes
 
-Builds that are working ok-ish:
-
-- Power/Quickness Berserker Spear
-  - Problem: Spear F1 multi hit
-- Condition Willbender Scepter
-- Power Weaver
-- Condition Weaver Scepter
-- Power Troubadour
-
-Builds are defi working proper:
-
-- Power Bladesworn
+In general you can see ingame via the start/tick/cross icons about the state of a build.
 
 NOTE: Some builds have duo logs uplaoded (like Condition Daredevil Dagger) - there my webparser script downloaded the wrong log.
 

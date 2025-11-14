@@ -1736,5 +1736,16 @@
     "url_name": "power_ritualist",
     "dps_report_url": "https://dps.report/G60X-20251110-213730_golem",
     "html_file_path": "dps\\power\\power_ritualist.html"
+  },
+  {
+    "name": "Condition Conduitfixes",
+    "url": "manual:Condition_ConduitFixes",
+    "benchmark_type": "dps",
+    "profession": "Unknown",
+    "elite_spec": "",
+    "build_type": "condition",
+    "url_name": "condition_conduitfixes",
+    "dps_report_url": "https://dps.report/InK1-20251112-194936_golem",
+    "html_file_path": "dps\\condition\\condition_conduitfixes.html"
   }
 ]

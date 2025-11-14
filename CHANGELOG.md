@@ -5,17 +5,22 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.12.0
+## 0.12.0 - 2025-11-14
 
 ### Features
 
 - Added copy to clipboard for sDps.Report
 - Okay working builds are marked with a green tick
+- Poorly working builds are marked with an orange cross
+- Not yet tested builds are marked with a gray question mark
 
 ### Improvements
 
 - Optimized for Power Troubadour
 - Optimized for Power Paragon
+- Optimized for Power Virt GS/Spear
+- Started optimization for conditon coduit and revenant, power vindicator
+  - Always show dodge on vindicator
 
 ## 0.11.0 - 2025-11-12
 
