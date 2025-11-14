@@ -320,11 +320,11 @@ std::string skillslot_to_string(SkillSlot skill_type)
     case SkillSlot::HEAL:
         return "6";
     case SkillSlot::UTILITY_1:
-        return "Util"; // XXX
+        return "Util"; // XXX: n/a about skill slot
     case SkillSlot::UTILITY_2:
-        return "Util"; // XXX
+        return "Util"; // XXX n/a about skill slot
     case SkillSlot::UTILITY_3:
-        return "Util"; // XXX
+        return "Util"; // XXX n/a about skill slot
     case SkillSlot::ELITE:
         return "0";
     case SkillSlot::PROFESSION_1:
