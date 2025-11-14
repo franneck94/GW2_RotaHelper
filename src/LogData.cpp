@@ -24,6 +24,7 @@
 
 #include "FileUtils.h"
 #include "LogData.h"
+#include "MumbleUtils.h"
 #include "Settings.h"
 #include "Shared.h"
 #include "Types.h"
@@ -182,6 +183,7 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
     auto drop_skill = is_substr_drop_match || is_exact_drop_match;
     if (!Settings::ShowWeaponSwap || Settings::StrictModeForSkillDetection)
     {
+        const auto drop_dodge = true; //  "Dodge"
         const auto drop_substr_swap =
             is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.skills_substr_weapon_swap_like);
         const auto drop_match_swap =
@@ -190,6 +192,18 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
         const auto is_unknownm = skill_data.name.find("Unknown Skill") != std::string::npos;
 
         drop_skill = is_substr_drop_match || is_exact_drop_match || drop_substr_swap || drop_match_swap || is_unknownm;
+
+        if (!drop_skill)
+        {
+            auto current_profession = get_current_profession_name();
+            auto profession_lower = to_lowercase(current_profession);
+
+            if (profession_lower == "revenant" && skill_data.name == "Dodge")
+                drop_skill = false;
+        }
+
+        drop_skill = is_substr_drop_match || is_exact_drop_match || drop_substr_swap || drop_match_swap ||
+                     is_unknownm || drop_skill;
     }
 
     if (Settings::EasySkillMode && !drop_skill)

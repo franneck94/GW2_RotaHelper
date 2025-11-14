@@ -61,7 +61,6 @@ public:
 
     const static inline std::set<std::string> skills_substr_weapon_swap_like = {
         "Weapon Swap",
-        "Dodge",
         // GUARDIAN
         // WARRIOR
         // ENGINEER
@@ -97,6 +96,7 @@ public:
         // REVENANT
         "Legendary Entity Stance",
         "Legendary Alliance Stance",
+        "Legendary Alliance",
         "Legendary Renegade Stance",
         "Legendary Demon Stance",
         "Legendary Dwarf Stance",
@@ -123,6 +123,7 @@ public:
     };
 
     const static inline std::set<std::string> skills_match_to_drop = {
+        "Doom",
         // GUARDIAN
         // WARRIOR
         "King of Fires",
@@ -154,6 +155,7 @@ public:
         "Deathly Haste",
         // REVENANT
         "Invoke Torment",
+        "Mistfire",
     };
 
     const static inline std::set<std::string> special_substr_to_gray_out = {
@@ -270,6 +272,13 @@ public:
         "\"You Are All Weaklings!\"",
         // REVENANT
         "Facet of Chaos",
+        "Abyssal Blitz",
+        "Resist the Darkness",
+        "Embrace the Darkness",
+        "Razorclaw's Rage",
+        "Cosmic Wisdom",
+        "Energy Meld",
+        "Spear of Archemorus",
     };
 
     const static inline std::set<std::string> special_substr_to_remove_duplicates = {
@@ -277,6 +286,17 @@ public:
         "Devastator", // XXX
         "Signet of Fury",
         "Offensive Protocol: Demolish",
+        "Abyssal Blitz",
+        "Legendary Entity Stance",
+        "Legendary Alliance Stance",
+        "Legendary Alliance",
+        "Legendary Renegade Stance",
+        "Legendary Demon Stance",
+        "Legendary Dwarf Stance",
+        "Legendary Centaur Stance",
+        "Legendary Assassin Stance",
+        "Legendary Dragon Stance",
+        "Deathstrike",
     };
 
     const static inline std::set<std::string> easy_mode_drop_match = {
