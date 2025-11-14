@@ -5,12 +5,25 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.12.0
+
+### Features
+
+- Added copy to clipboard for sDps.Report
+- Okay working builds are marked with a green tick
+
+### Improvements
+
+- Optimized for Power Troubadour
+- Optimized for Power Paragon
+
 ## 0.11.0 - 2025-11-12
 
 ### Improvements
 
 - Strict rotation options deactivates weapon swap steps
 - Good working builds are marked with a star in the dropdown list
+- Very bad working builds are marked with a red cross in the dropdown list
 - Optimized auto attack detection
 - Added option for easy skill mode (for more info hover over the checkbox)
 
@@ -44,7 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added guide how to add your own rotations
 - Added debug info for same skill chain
-- Added weakaning whirl cast time
+- Added weakening whirl cast time
 - Added SkillID enum
 
 ## 0.8.0 - 2025-11-04
@@ -76,7 +89,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added unload rota button
 - Reset bench selection on relog
 - Added the option to show weapon swaps
-- Added the option to show the (default) keybidn for the skills
+- Added the option to show the (default) keybind for the skills
 
 ### Improvements
 
@@ -95,7 +108,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Addon unload now works properly
 - Added logs that are wingman sites
 
-### Developement
+### Development
 
 - Added recharge time to skill struct
 - Added Event ID to Debug info
@@ -105,7 +118,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Features
 
 - Skill info on icon hover in horizontal mode
-- Only draw in training area and aerodome
+- Only draw in training area and aerodrome
 - Auto reload if ooc
 
 ### Improvements

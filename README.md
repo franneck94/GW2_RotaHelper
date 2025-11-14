@@ -49,18 +49,17 @@ Builds Working properly:
 - Power/Quickness Harbinger
 - Power Reaper Spear
 - Condition (Alacrity) Mechanist 1kit/2kit
+- Condition Harbinger
+  - Opener with BIP does not trigger sometimes
 
 Builds that are working ok-ish:
 
 - Power/Quickness Berserker Spear
   - Problem: Spear F1 multi hit
-- Condition Harbinger
-  - Opener with BIP does not trigger sometimes
-- Power Mechanist Rifle
-  - Rifle auto attack mutli hit trigger
 - Condition Willbender Scepter
 - Power Weaver
 - Condition Weaver Scepter
+- Power Troubadour
 
 Builds are defi working proper:
 
