@@ -65,6 +65,8 @@ bool IsAnySkillFromBuild(const EvCombatDataPersistent &combat_data)
 {
     if (combat_data.SkillName == "Rifle Burst Grenade")
         return false; // XXX
+    if (combat_data.SkillName == "Lightning Strike")
+        return false; // XXX
 
     return IsSkillFromBuild_NameBased(combat_data) || IsSkillFromBuild_IdBased(combat_data);
 }
@@ -84,7 +86,6 @@ std::chrono::steady_clock::time_point GetLastCastTime(const std::chrono::steady_
 bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvCombatDataPersistent &combat_data)
 {
     auto last_cast_time = Globals::SkillLastTimeCast[combat_data.SkillID];
-    Globals::SkillLastTimeCast[combat_data.SkillID] = now;
 
     const auto skill_data_map_it = Globals::RotationRun.skill_data_map.find(static_cast<int>(combat_data.SkillID));
 
@@ -126,6 +127,7 @@ bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvC
         else
         {
             Globals::IsSameCast = false;
+            Globals::SkillLastTimeCast[combat_data.SkillID] = now;
             return false;
         }
     }
@@ -140,6 +142,7 @@ bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvC
         Globals::IsSameCast = false;
     }
 
+    Globals::SkillLastTimeCast[combat_data.SkillID] = now;
     return false;
 }
 
