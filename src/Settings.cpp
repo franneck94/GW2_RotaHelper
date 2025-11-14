@@ -51,7 +51,8 @@ void Load(std::filesystem::path aPath)
     }
     if (!Settings[FILTER_BUFFER].is_null())
     {
-        Settings[FILTER_BUFFER].get_to<std::string>(FilterBuffer);
+        auto filter_str = Settings[FILTER_BUFFER].get<std::string>();
+        strncpy_s(FilterBuffer, sizeof(FilterBuffer), filter_str.c_str(), _TRUNCATE);
     }
     if (!Settings[SHOW_SKILL_NAME].is_null())
     {
@@ -94,7 +95,7 @@ void Save(std::filesystem::path aPath)
     Settings::Mutex.lock();
     {
         Settings[SHOW_WINDOW] = ShowWindow;
-        Settings[FILTER_BUFFER] = FilterBuffer;
+        Settings[FILTER_BUFFER] = std::string(FilterBuffer);
         Settings[SHOW_SKILL_NAME] = ShowSkillName;
         Settings[SHOW_SKILL_TIME] = ShowSkillTime;
         Settings[HORIZONTAL_SKILL_LAYOUT] = HorizontalSkillLayout;
@@ -119,7 +120,7 @@ void ToggleShowWindow(std::filesystem::path SettingsPath)
 }
 
 bool ShowWindow = true;
-std::string FilterBuffer;
+char FilterBuffer[50] = "";
 bool ShowSkillName = true;
 bool ShowSkillTime = true;
 bool HorizontalSkillLayout = false;

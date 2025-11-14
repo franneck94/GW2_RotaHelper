@@ -36,7 +36,7 @@ void Save(std::filesystem::path aPath);
 void ToggleShowWindow(std::filesystem::path SettingsPath);
 
 extern bool ShowWindow;
-extern std::string FilterBuffer;
+extern char FilterBuffer[50];
 extern bool ShowSkillName;
 extern bool ShowSkillTime;
 extern bool HorizontalSkillLayout;
