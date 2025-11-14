@@ -12,6 +12,7 @@
 #include <cmath>
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <future>
 #include <iostream>
 #include <map>
@@ -450,37 +451,54 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
     ImGui::End();
 }
 
-void RenderType::render_snowcrows_build_link()
+static void copy_to_clipboard(const std::string &url)
 {
-    if (!Globals::RotationRun.meta_data.url.empty() &&
-        Globals::RotationRun.meta_data.url.find("snowcrows.com") != std::string::npos)
+    if (OpenClipboard(nullptr))
     {
-        const auto button_text = "Copy Snow Crows Build Link";
-        if (ImGui::Button(button_text, ImVec2(-1, 0)))
+        EmptyClipboard();
+        const auto size = (url.length() + 1) * sizeof(char);
+        HGLOBAL h_mem = GlobalAlloc(GMEM_MOVEABLE, size);
+        if (h_mem)
         {
-            if (OpenClipboard(nullptr))
+            auto *buffer = static_cast<char *>(GlobalLock(h_mem));
+            if (buffer)
             {
-                EmptyClipboard();
-                const auto &url = Globals::RotationRun.meta_data.url;
-                const auto size = (url.length() + 1) * sizeof(char);
-                HGLOBAL h_mem = GlobalAlloc(GMEM_MOVEABLE, size);
-                if (h_mem)
-                {
-                    auto *buffer = static_cast<char *>(GlobalLock(h_mem));
-                    if (buffer)
-                    {
-                        strcpy_s(buffer, size, url.c_str());
-                        GlobalUnlock(h_mem);
-                        SetClipboardData(CF_TEXT, h_mem);
-                    }
-                }
-                CloseClipboard();
+                strcpy_s(buffer, size, url.c_str());
+                GlobalUnlock(h_mem);
+                SetClipboardData(CF_TEXT, h_mem);
             }
         }
-
-        if (ImGui::IsItemHovered())
-            ImGui::SetTooltip("Copy the Snow Crows build guide link to clipboard");
+        CloseClipboard();
     }
+}
+
+void RenderType::render_snowcrows_build_link()
+{
+    if (Globals::RotationRun.meta_data.url.empty() ||
+        Globals::RotationRun.meta_data.url.find("snowcrows.com") == std::string::npos)
+        return;
+
+    const auto button_width = ImGui::GetWindowSize().x * 0.5f - ImGui::GetStyle().ItemSpacing.x * 0.5f;
+
+    const auto button_text = "Copy SC Build Link";
+    if (ImGui::Button(button_text, ImVec2(button_width, 0)))
+    {
+        copy_to_clipboard(Globals::RotationRun.meta_data.url);
+    }
+
+    if (ImGui::IsItemHovered())
+        ImGui::SetTooltip("Copy the Snow Crows build guide link to clipboard");
+
+    ImGui::SameLine();
+
+    const auto button_text2 = "Copy DPS Report Link";
+    if (ImGui::Button(button_text2, ImVec2(button_width, 0)))
+    {
+        copy_to_clipboard(Globals::RotationRun.meta_data.dps_report_url);
+    }
+
+    if (ImGui::IsItemHovered())
+        ImGui::SetTooltip("Copy the Dps.Report link to clipboard");
 }
 
 void RenderType::render_select_bench()
@@ -499,14 +517,17 @@ void RenderType::render_select_bench()
 void RenderType::render_text_filter()
 {
     ImGui::Text("Filter:");
+    if (ImGui::IsItemHovered())
+        ImGui::SetTooltip("Good working builds have a star, very bad working a red cross.");
+
     ImGui::SameLine();
-    char *filter_buffer = (char *)Settings::FilterBuffer.c_str();
+    auto *filter_buffer = (char *)Settings::FilterBuffer.c_str();
 
     ImGui::PushAllowKeyboardFocus(false);
 
     filter_input_pos = ImGui::GetCursorScreenPos();
 
-    bool text_changed =
+    auto text_changed =
         ImGui::InputText("##filter", filter_buffer, sizeof(filter_buffer), ImGuiInputTextFlags_EnterReturnsTrue);
 
     Settings::FilterBuffer = to_lowercase(std::string(filter_buffer));
@@ -538,6 +559,133 @@ void RenderType::render_text_filter()
         formatted_name = format_build_name(combo_preview_slice);
         formatted_name = formatted_name.substr(4);
     }
+}
+
+void RenderType::render_symbol_and_text(bool &is_selected,
+                                        const int original_index,
+                                        const BenchFileInfo *const &file_info,
+                                        const std::string &base_formatted_name,
+                                        const std::string &selectable_id,
+                                        std::function<void(ImDrawList*, ImVec2, float, float)> draw_symbol_func)
+{
+    auto symbol_size = ImGui::GetTextLineHeight() * 0.8f;
+    auto item_height = ImGui::GetTextLineHeightWithSpacing();
+
+    // Make the selectable area
+    if (ImGui::Selectable((selectable_id + std::to_string(original_index)).c_str(),
+                          is_selected,
+                          0,
+                          ImVec2(0, item_height)))
+    {
+        selected_bench_index = original_index;
+        selected_file_path = file_info->full_path;
+
+        ReleaseTextureMap(Globals::TextureMap);
+        Globals::RotationRun.load_data(selected_file_path, img_path);
+
+        ImGui::CloseCurrentPopup();
+    }
+
+    auto item_rect = ImGui::GetItemRectMin();
+    auto draw_list = ImGui::GetWindowDrawList();
+
+    float symbol_center_x = item_rect.x + symbol_size * 0.5f + 4;
+    float symbol_center_y = item_rect.y + item_height * 0.5f;
+    float symbol_radius = symbol_size * 0.4f;
+
+    // Call the custom drawing function
+    draw_symbol_func(draw_list, ImVec2(symbol_center_x, symbol_center_y), symbol_radius, symbol_size);
+
+    // Check if mouse is hovering over the symbol area only
+    auto mouse_pos = ImGui::GetMousePos();
+    auto symbol_rect_min = ImVec2(item_rect.x, item_rect.y);
+    auto symbol_rect_max = ImVec2(item_rect.x + symbol_size + 8, item_rect.y + item_height);
+
+    if (mouse_pos.x >= symbol_rect_min.x && mouse_pos.x <= symbol_rect_max.x &&
+        mouse_pos.y >= symbol_rect_min.y && mouse_pos.y <= symbol_rect_max.y)
+    {
+        if (selectable_id.find("starred") != std::string::npos)
+        {
+            ImGui::SetTooltip("Good working build");
+        }
+        else if (selectable_id.find("red_crossed") != std::string::npos)
+        {
+            ImGui::SetTooltip("Very bad working build");
+        }
+        else if (selectable_id.find("ticked") != std::string::npos)
+        {
+            ImGui::SetTooltip("Working build");
+        }
+    }
+
+    auto text_pos =
+        ImVec2(item_rect.x + symbol_size + 12, item_rect.y + (item_height - ImGui::GetTextLineHeight()) * 0.5f);
+    draw_list->AddText(text_pos, ImGui::GetColorU32(ImGuiCol_Text), base_formatted_name.substr(4).c_str());
+}
+
+void RenderType::render_red_cross_and_text(bool &is_selected,
+                                           const int original_index,
+                                           const BenchFileInfo *const &file_info,
+                                           const std::string base_formatted_name)
+{
+    auto draw_cross = [](ImDrawList* draw_list, ImVec2 center, float radius, float size) {
+        float line_thickness = 2.0f;
+
+        // Draw red cross (X shape)
+        auto cross_top_left = ImVec2(center.x - radius * 0.7f, center.y - radius * 0.7f);
+        auto cross_bottom_right = ImVec2(center.x + radius * 0.7f, center.y + radius * 0.7f);
+        auto cross_top_right = ImVec2(center.x + radius * 0.7f, center.y - radius * 0.7f);
+        auto cross_bottom_left = ImVec2(center.x - radius * 0.7f, center.y + radius * 0.7f);
+
+        // Draw the two lines of the X
+        draw_list->AddLine(cross_top_left, cross_bottom_right, IM_COL32(220, 20, 60, 255), line_thickness);
+        draw_list->AddLine(cross_top_right, cross_bottom_left, IM_COL32(220, 20, 60, 255), line_thickness);
+    };
+
+    render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, "##red_crossed_", draw_cross);
+}
+
+void RenderType::render_star_and_text(bool &is_selected,
+                                      const int original_index,
+                                      const BenchFileInfo *const &file_info,
+                                      const std::string base_formatted_name)
+{
+    auto draw_star = [](ImDrawList* draw_list, ImVec2 center, float radius, float size) {
+        ImVec2 star_points[10];
+        for (int i = 0; i < 10; i++)
+        {
+            const auto angle = i * std::numbers::pi / 5.0f - std::numbers::pi / 2.0f;
+            const auto star_radius = (i % 2 == 0) ? radius : radius * 0.4f;
+            star_points[i] = ImVec2(center.x + cos(angle) * star_radius, center.y + sin(angle) * star_radius);
+        }
+
+        draw_list->AddConvexPolyFilled(star_points, 10, IM_COL32(255, 215, 0, 255));
+        draw_list->AddPolyline(star_points, 10, IM_COL32(200, 150, 0, 255), true, 1.0f);
+    };
+
+    render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, "##starred_", draw_star);
+}
+
+void RenderType::render_tick_and_text(bool &is_selected,
+                                      const int original_index,
+                                      const BenchFileInfo *const &file_info,
+                                      const std::string base_formatted_name)
+{
+    auto draw_tick = [](ImDrawList* draw_list, ImVec2 center, float radius, float size) {
+        float line_thickness = 2.5f;
+
+        // Draw green checkmark (tick symbol)
+        // Define the three points of the checkmark
+        auto tick_start = ImVec2(center.x - radius * 0.5f, center.y);
+        auto tick_middle = ImVec2(center.x - radius * 0.1f, center.y + radius * 0.4f);
+        auto tick_end = ImVec2(center.x + radius * 0.6f, center.y - radius * 0.5f);
+
+        // Draw the two lines of the checkmark
+        draw_list->AddLine(tick_start, tick_middle, IM_COL32(34, 139, 34, 255), line_thickness);
+        draw_list->AddLine(tick_middle, tick_end, IM_COL32(34, 139, 34, 255), line_thickness);
+    };
+
+    render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, "##ticked_", draw_tick);
 }
 
 void RenderType::render_selection()
@@ -579,11 +727,13 @@ void RenderType::render_selection()
                 }
                 else
                 {
-                    const auto is_selected = (selected_bench_index == original_index);
+                    auto is_selected = (selected_bench_index == original_index);
 
                     auto base_formatted_name = std::string{};
                     auto formatted_name_item = std::string{};
                     auto is_starred = false;
+                    auto is_red_crossed = false;
+                    auto is_green_ticked = false;
 
                     if (file_info->is_directory_header)
                     {
@@ -610,56 +760,25 @@ void RenderType::render_selection()
 
                         is_starred = (RotationLogType::starred_builds.find(file_info->display_name.substr(4)) !=
                                       RotationLogType::starred_builds.end());
+                        is_red_crossed = (RotationLogType::red_crossed_builds.find(file_info->display_name.substr(4)) !=
+                                          RotationLogType::red_crossed_builds.end());
+                        is_green_ticked = (RotationLogType::green_tick_builds.find(file_info->display_name.substr(4)) !=
+                                           RotationLogType::green_tick_builds.end());
 
                         formatted_name_item = base_formatted_name + "##" + build_type_postdic;
                     }
 
-                    // Custom rendering for starred builds
                     if (is_starred)
                     {
-                        // Calculate positions
-                        float star_size = ImGui::GetTextLineHeight() * 0.8f;
-                        float item_height = ImGui::GetTextLineHeightWithSpacing();
-
-                        // Make the selectable area
-                        if (ImGui::Selectable(("##starred_" + std::to_string(original_index)).c_str(),
-                                              is_selected,
-                                              0,
-                                              ImVec2(0, item_height)))
-                        {
-                            selected_bench_index = original_index;
-                            selected_file_path = file_info->full_path;
-
-                            ReleaseTextureMap(Globals::TextureMap);
-                            Globals::RotationRun.load_data(selected_file_path, img_path);
-
-                            ImGui::CloseCurrentPopup();
-                        }
-
-                        auto item_rect = ImGui::GetItemRectMin();
-                        auto draw_list = ImGui::GetWindowDrawList();
-
-                        float star_center_x = item_rect.x + star_size * 0.5f + 4;
-                        float star_center_y = item_rect.y + item_height * 0.5f;
-                        float star_radius = star_size * 0.4f;
-
-                        ImVec2 star_points[10];
-                        for (int i = 0; i < 10; i++)
-                        {
-                            const auto angle = i * std::numbers::pi/ 5.0f - std::numbers::pi / 2.0f;
-                            const auto radius = (i % 2 == 0) ? star_radius : star_radius * 0.4f;
-                            star_points[i] =
-                                ImVec2(star_center_x + cos(angle) * radius, star_center_y + sin(angle) * radius);
-                        }
-
-                        draw_list->AddConvexPolyFilled(star_points, 10, IM_COL32(255, 215, 0, 255));
-                        draw_list->AddPolyline(star_points, 10, IM_COL32(200, 150, 0, 255), true, 1.0f);
-
-                        auto text_pos = ImVec2(item_rect.x + star_size + 12,
-                                               item_rect.y + (item_height - ImGui::GetTextLineHeight()) * 0.5f);
-                        draw_list->AddText(text_pos,
-                                           ImGui::GetColorU32(ImGuiCol_Text),
-                                           base_formatted_name.substr(4).c_str());
+                        render_star_and_text(is_selected, original_index, file_info, base_formatted_name);
+                    }
+                    else if (is_red_crossed)
+                    {
+                        render_red_cross_and_text(is_selected, original_index, file_info, base_formatted_name);
+                    }
+                    else if (is_green_ticked)
+                    {
+                        render_tick_and_text(is_selected, original_index, file_info, base_formatted_name);
                     }
                     else
                     {

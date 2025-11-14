@@ -3,6 +3,7 @@
 #include <d3d11.h>
 
 #include <filesystem>
+#include <functional>
 #include <mutex>
 #include <set>
 #include <string>
@@ -31,6 +32,24 @@ public:
     void render_options_window(bool &is_not_ui_adjust_active);
     void render_snowcrows_build_link();
     void render_text_filter();
+    void render_symbol_and_text(bool &is_selected,
+                                const int original_index,
+                                const BenchFileInfo *const &file_info,
+                                const std::string &base_formatted_name,
+                                const std::string &selectable_id,
+                                std::function<void(ImDrawList *, ImVec2, float, float)> draw_symbol_func);
+    void render_red_cross_and_text(bool &is_selected,
+                                   const int original_index,
+                                   const BenchFileInfo *const &file_info,
+                                   const std::string base_formatted_name);
+    void render_star_and_text(bool &is_selected,
+                              const int original_index,
+                              const BenchFileInfo *const &file_info,
+                              const std::string base_formatted_name);
+    void render_tick_and_text(bool &is_selected,
+                              const int original_index,
+                              const BenchFileInfo *const &file_info,
+                              const std::string base_formatted_name);
     void render_selection();
     void render_xml_selection();
     void render_select_bench();
