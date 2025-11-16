@@ -41,6 +41,107 @@
 
 namespace
 {
+static const inline std::set<std::string_view> red_crossed_builds = {
+    // POWER BUILDS
+    "power_bladesworn",
+    "power_alacrity_bladesworn",
+    "power_alacrity_bladesworn_overcharged",
+    "power_amalgam",
+    "power_holosmith",
+    // CONDITION BUILDS
+    "condition_amalgam_steamshrieker",
+    "condition_alacrity_amalgam_two_kits",
+    "condition_holosmith_spear",
+    "condition_boon_chronomancer",
+    "condition_chronomancer",
+    "condition_mirage_dagger",
+    "condition_mirage_dune_cloak",
+    "condition_mirage_ih_ether",
+    "condition_mirage_ih_oasis",
+    "condition_alacrity_mirage_staff",
+    "condition_alacrity_mirage_axe_torch_staff",
+};
+
+static const inline std::set<std::string_view> orange_crossed_builds = {
+    // POWER BUILDS
+    "power_vindicator",
+    "power_quickness_untamed",
+    // CONDI BUILDS
+    "condition_virtuoso",
+    "condition_quickness_scrapper",
+};
+
+static const inline std::set<std::string_view> yellow_tick_builds = {
+    // POWER BUILDS
+    // POWER BOON BUILDS
+    "power_boon_chronomancer",
+    "power_untamed",
+    "power_untamed_sword_axe",
+    "power_tempest_sword",
+    // CONDITION BUILDS
+    "condition_conduit",
+    "condition_renegade",
+};
+
+static const inline std::set<std::string_view> green_tick_builds = {
+    // POWER BUILDS
+    "power_troubadour",
+    "power_berserker",
+    "power_warrior",
+    "power_spellbreaker",
+    "power_virtuoso",
+    "power_chronomancer",
+    "power_virtuoso_spear_greatsword",
+    "power_virtuoso_dagger_sword_greatsword",
+    "power_berserker_axe_axe_axe_mace",
+    "power_scrapper",
+    "power_tempest_inferno_scepter_dagger",
+    "power_tempest",
+    // POWER BOON BUILDS
+    "power_quickness_herald_sword",
+    "power_quickness_berserker",
+    "power_alacrity_mechanist_sword",
+    "power_quickness_scrapper",
+    // CONDITION BUILDS
+    "condition_harbinger",
+    "condition_berserker",
+    "condition_druid",
+    // CONDI BOON BUILDS
+    "condition_quickness_harbinger",
+};
+
+static const inline std::set<std::string_view> starred_builds = {
+    // POWER BUILDS
+    "power_galeshot",
+    "power_soulbeast_hammer",
+    "power_spellbreaker_hammer",
+    "power_berserker_hammer_axe_mace",
+    "power_berserker_greatsword",
+    "power_mechanist",
+    "power_mechanist_sword",
+    "power_ritualist",
+    "power_harbinger",
+    "power_reaper_spear",
+    "power_paragon",
+    // POWER BOON BUILDS
+    "power_quickness_galeshot",
+    "power_quickness_berserker_greatsword",
+    "power_quickness_ritualist",
+    "power_quickness_harbinger",
+    "power_alacrity_mechanist",
+    // CONDI BUILDS
+    "condition_mechanist",
+    "condition_mechanist_two_kits",
+    // CONDI BOON BUILDS
+    "condition_alacrity_mechanist_1_kit",
+    "condition_alacrity_mechanist",
+};
+
+bool IsInBuildCategory(std::string_view display_name, const std::set<std::string_view> &category_builds)
+{
+    return (category_builds.find(display_name.substr(4)) != category_builds.end());
+}
+
 static auto last_time_aa_did_skip = std::chrono::steady_clock::time_point{};
 
 void DrawRect(const RotationStep &rotation_step,
@@ -819,22 +920,15 @@ void RenderType::render_selection()
 
                         base_formatted_name = format_build_name(file_info->display_name);
 
-                        is_starred = (RotationLogType::starred_builds.find(file_info->display_name.substr(4)) !=
-                                      RotationLogType::starred_builds.end());
-                        is_red_crossed = !is_starred &&
-                                         (RotationLogType::red_crossed_builds.find(file_info->display_name.substr(4)) !=
-                                          RotationLogType::red_crossed_builds.end());
+                        is_starred = IsInBuildCategory(file_info->display_name, starred_builds);
+                        is_red_crossed = !is_starred && IsInBuildCategory(file_info->display_name, red_crossed_builds);
                         is_orange_crossed =
-                            !is_red_crossed &&
-                            (RotationLogType::orange_crossed_builds.find(file_info->display_name.substr(4)) !=
-                             RotationLogType::orange_crossed_builds.end());
-                        is_green_ticked = !is_orange_crossed &&
-                                          (RotationLogType::green_tick_builds.find(file_info->display_name.substr(4)) !=
-                                           RotationLogType::green_tick_builds.end());
+                            !is_red_crossed && IsInBuildCategory(file_info->display_name, orange_crossed_builds);
+                        is_green_ticked =
+                            !is_orange_crossed && IsInBuildCategory(file_info->display_name, green_tick_builds);
                         is_yellow_ticked =
-                            !is_green_ticked &&
-                            (RotationLogType::yellow_tick_builds.find(file_info->display_name.substr(4)) !=
-                             RotationLogType::yellow_tick_builds.end());
+                            !is_green_ticked && IsInBuildCategory(file_info->display_name, yellow_tick_builds);
+
                         is_untested = !is_green_ticked && !is_green_ticked && !is_red_crossed && !is_starred &&
                                       !is_orange_crossed && !is_yellow_ticked;
 

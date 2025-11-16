@@ -10,6 +10,7 @@
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
+#include <map>
 #include <string>
 
 #include "nexus/Nexus.h"
@@ -17,6 +18,18 @@
 #include "LogData.h"
 #include "Textures.h"
 #include "Types.h"
+
+namespace
+{
+static const std::map<int, int> fix_skill_img_ids = {
+    {3332122, 3379164}, // Isolate
+    {3332077, 3379162}, // Perforate
+    {3332117, 3379165}, // Distress
+    {3332087, 3379166}, // Extirpate
+    {3332102, 3379163}, // Addle
+};
+} // namespace
+
 
 ID3D11ShaderResourceView *LoadTextureFromPNG_WIC(ID3D11Device *device, const std::wstring &filename)
 {
@@ -207,15 +220,15 @@ TextureMapType LoadAllSkillTextures(ID3D11Device *device,
                     continue;
 
                 auto actual_icon_id = icon_id;
-                if (RotationLogType::fix_skill_img_ids.find(icon_id) != RotationLogType::fix_skill_img_ids.end())
-                    actual_icon_id = RotationLogType::fix_skill_img_ids.at(icon_id);
+                if (fix_skill_img_ids.find(icon_id) != fix_skill_img_ids.end())
+                    actual_icon_id = fix_skill_img_ids.at(icon_id);
 
                 std::string ext = ".png";
                 size_t dot = info.icon_url.find_last_of('.');
                 if (dot != std::string::npos && dot + 1 < info.icon_url.size())
                     ext = info.icon_url.substr(dot);
 
-                std::filesystem::path img_path = img_folder / (std::to_string(actual_icon_id) + ext);
+                const auto img_path = img_folder / (std::to_string(actual_icon_id) + ext);
                 if (!std::filesystem::exists(img_path))
                     continue;
 
