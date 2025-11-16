@@ -124,6 +124,7 @@ public:
         // RANGER
         // THIEF
         // ELEMENTALIST
+        "Flame Explosion",
         // MESMER
         // NECROMANCER
         // REVENANT
@@ -145,6 +146,7 @@ public:
         // RANGER
         "Wuthering Wind",
         "Unleashed Overbearing Smash (Leap)",
+        "Quick Draw",
         // THIEF
         "Impaling Lotus",
         // ELEMENTALIST
@@ -171,6 +173,8 @@ public:
         "Chapter 2:",
         "Chapter 3:",
         "Chapter 4:",
+        "Tome of ",
+        " Radiant Forge",
         // WARRIOR
         // ENGINEER
         "Detonate",
@@ -182,6 +186,8 @@ public:
         // THIEF
         "Shadow Meld",
         // ELEMENTALIST
+        "Deploy Jade Sphere",
+        "Zap",
         // MESMER
         "Distortion",
         // NECROMANCER
@@ -257,17 +263,24 @@ public:
         "Seed of Life",
         "Lunar Impact",
         "Natural Convergence",
+        "Sharpen Spines",
+        "Vulture Stance",
+        "Bumble",
+        "Rain of Spikes",
         // THIEF
         "Prepare Thousand Needles",
         "Spider Venom",
         "Assassin's Signet",
         "Signet of Malice",
+        "Skritt Scuffle",
         // ELEMENTALIST
         "Earthquake",
         "Fire Shield",
         "Signet of Restoration",
         "Flame Barrage",
         "Dragon's Tooth",
+        "Fire Shield",
+        "Sand Squall",
         // MESMER
         "Signet of Domination",
         "Signet of Midnight",
@@ -302,7 +315,13 @@ public:
         "Perforate",
         "Grasping Dark",
         "\"You Are All Weaklings!\"",
+        "Haunt",
+        "Plaguelands",
+        "Nefarious Favor",
+        "Terrify",
+        "Infusing Terror",
         // REVENANT
+        "True Nature",
         "Facet of Chaos",
         "Abyssal Blitz",
         "Resist the Darkness",
@@ -315,6 +334,7 @@ public:
         "Facet of Darkness",
         "Facet of Strength",
         "Relinquish Power",
+        "Orders from Above",
     };
 
     const static inline std::set<std::string_view> special_substr_to_remove_duplicates = {
@@ -339,6 +359,8 @@ public:
         "Jaunt",
         "Cry of Frustration",
         "Arcane Blast",
+        "Twilight Combo",
+        "Death Blossom",
     };
 
     const static inline std::set<std::string_view> easy_mode_drop_match = {
@@ -397,6 +419,10 @@ public:
         static_cast<uint64_t>(SkillID::REFRACTION_CUTTER),
         static_cast<uint64_t>(SkillID::REFRACTION_CUTTER_1),
         static_cast<uint64_t>(SkillID::MIND_THE_GAP),
+        static_cast<uint64_t>(SkillID::OVERLOAD_AIR),
+        static_cast<uint64_t>(SkillID::OVERLOAD_FIRE),
+        static_cast<uint64_t>(SkillID::OVERLOAD_WATER),
+        static_cast<uint64_t>(SkillID::OVERLOAD_EARTH),
     };
 
     const static inline std::map<std::string_view, float> skill_cast_time_map = {
@@ -421,6 +447,8 @@ public:
         {"Scorched Earth", 3.25f},      // warrior lb f1
         {"Overload Air", 4.0f},         // f1 air
         {"Overload Fire", 4.0f},        // f1 fire
-        {"Flamestrike", 0.75f},         // f1 fire
+        {"Flamestrike", 0.9f},          // f1 fire
+        {"Scorching Shot", 0.5f},       // ele earth pistol 1
+        {"Piercing Pebble", 0.5f},      // ele fire pistol 1
     };
 };

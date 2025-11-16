@@ -48,7 +48,16 @@ static const inline std::set<std::string_view> red_crossed_builds = {
     "power_alacrity_bladesworn_overcharged",
     "power_amalgam",
     "power_holosmith",
+    "power_evoker",
+    "power_evoker_scepter_dagger_pf",
+    "power_conduit",
     // CONDITION BUILDS
+    "condition_daredevil",
+    "condition_firebrand",
+    "condition_quickness_firebrand",
+    "condition_evoker",
+    "inferno_evoker_specialized_elements",
+    "condition_evoker_specialized_elements",
     "condition_amalgam_steamshrieker",
     "condition_alacrity_amalgam_two_kits",
     "condition_holosmith_spear",
@@ -66,21 +75,55 @@ static const inline std::set<std::string_view> orange_crossed_builds = {
     // POWER BUILDS
     "power_vindicator",
     "power_quickness_untamed",
+    "power_quickness_untamed_maces",
+    "power_quickness_untamed_offhand_mace",
+    "power_catalyst_scepter_dagger_pf",
+    "power_catalyst_sword_dagger_pf",
+    "power_catalyst_scepter_dagger_inferno",
     // CONDI BUILDS
+    "condition_catalyst",
     "condition_virtuoso",
     "condition_quickness_scrapper",
+    "condition_quickness_untamed",
+    "condition_alacrity_scourge",
 };
 
 static const inline std::set<std::string_view> yellow_tick_builds = {
     // POWER BUILDS
-    // POWER BOON BUILDS
-    "power_boon_chronomancer",
     "power_untamed",
     "power_untamed_sword_axe",
     "power_tempest_sword",
+    "power_tempest_hammer",
+    "power_herald",
+    "power_luminary",
+    // POWER BOON BUILDS
+    "power_quickness_herald",
+    "power_boon_chronomancer",
+    "power_alacrity_tempest_hammer",
+    "power_alacrity_tempest",
+    "power_alacrity_tempest_inferno_scepter_focus",
+    "celestial_alacrity_scourge",
+    "power_alacrity_renegade",
     // CONDITION BUILDS
+    "condition_willbender",
+    "condition_willbender_scepter",
+    "condition_weaver_scepter",
+    "condition_weaver_pistol",
+    "condition_alacrity_tempest",
+    "condition_tempest",
+    "condition_reaper",
+    "condition_scourge",
     "condition_conduit",
     "condition_renegade",
+    "condition_quickness_herald_shortbow",
+    "condition_quickness_herald_spear",
+    "condition_quickness_herald",
+    "condition_alacrity_renegade",
+    "condition_mechanist_kitless",
+    "condition_soulbeast",
+    "condition_soulbeast_shortbow",
+    "condition_soulbeast_quickdraw",
+    "condition_alacrity_tempest_scepter",
 };
 
 static const inline std::set<std::string_view> green_tick_builds = {
@@ -97,12 +140,21 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_scrapper",
     "power_tempest_inferno_scepter_dagger",
     "power_tempest",
+    "power_berserker_greatsword",
+    "power_reaper",
+    "power_reaper_greatsword_sword_sword",
+    "power_harbinger_greatsword_dagger_sword",
+    "power_harbinger_greatsword_sword_sword",
+    "power_weaver",
     // POWER BOON BUILDS
+    "power_alacrity_tempest_inferno_scepter_focus",
     "power_quickness_herald_sword",
     "power_quickness_berserker",
     "power_alacrity_mechanist_sword",
+    "power_quickness_berserker_greatsword",
     "power_quickness_scrapper",
     // CONDITION BUILDS
+    "condition_tempest_scepter",
     "condition_harbinger",
     "condition_berserker",
     "condition_druid",
@@ -116,7 +168,6 @@ static const inline std::set<std::string_view> starred_builds = {
     "power_soulbeast_hammer",
     "power_spellbreaker_hammer",
     "power_berserker_hammer_axe_mace",
-    "power_berserker_greatsword",
     "power_mechanist",
     "power_mechanist_sword",
     "power_ritualist",
@@ -125,7 +176,6 @@ static const inline std::set<std::string_view> starred_builds = {
     "power_paragon",
     // POWER BOON BUILDS
     "power_quickness_galeshot",
-    "power_quickness_berserker_greatsword",
     "power_quickness_ritualist",
     "power_quickness_harbinger",
     "power_alacrity_mechanist",
@@ -517,9 +567,9 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
     if (ImGui::Begin("Rota Helper ###GW2RotaHelper_Options", &Settings::ShowWindow))
     {
 #ifdef _DEBUG
-        ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.3f, 1.0f), "RotaHelper BETA v%s", Globals::VersionString.c_str());
+        ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.3f, 1.0f), "BETA v%s", Globals::VersionString.c_str());
 #else
-        ImGui::TextColored(ImVec4(0.2f, 0.8f, 1.0f, 1.0f), "RotaHelper v%s", Globals::VersionString.c_str());
+        ImGui::TextColored(ImVec4(0.2f, 0.8f, 1.0f, 1.0f), "v%s", Globals::VersionString.c_str());
 #endif
 
         render_select_bench();
@@ -713,7 +763,9 @@ void RenderType::render_symbol_and_text(bool &is_selected,
             ImGui::SetTooltip("Very bad working build");
         else if (selectable_id.find("orange_crossed") != std::string::npos)
             ImGui::SetTooltip("Poorly working build");
-        else if (selectable_id.find("ticked") != std::string::npos)
+        else if (selectable_id.find("yellow_ticked") != std::string::npos)
+            ImGui::SetTooltip("Okay-ish Working build");
+        else if (selectable_id.find("green_ticked") != std::string::npos)
             ImGui::SetTooltip("Working build");
         else if (selectable_id.find("untested") != std::string::npos)
             ImGui::SetTooltip("Untested build");
@@ -834,7 +886,8 @@ void RenderType::render_tick_and_text(bool &is_selected,
                                       const int original_index,
                                       const BenchFileInfo *const &file_info,
                                       const std::string base_formatted_name,
-                                      const ImU32 Color)
+                                      const ImU32 Color,
+                                      const std::string &label)
 {
     auto draw_tick = [&Color](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
         float line_thickness = 2.5f;
@@ -846,7 +899,7 @@ void RenderType::render_tick_and_text(bool &is_selected,
         draw_list->AddLine(tick_middle, tick_end, Color, line_thickness);
     };
 
-    render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, "##ticked_", draw_tick);
+    render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, label, draw_tick);
 }
 
 void RenderType::render_selection()
@@ -921,9 +974,13 @@ void RenderType::render_selection()
                         base_formatted_name = format_build_name(file_info->display_name);
 
                         is_starred = IsInBuildCategory(file_info->display_name, starred_builds);
-                        is_red_crossed = !is_starred && IsInBuildCategory(file_info->display_name, red_crossed_builds);
+                        is_red_crossed =
+                            !is_starred && (IsInBuildCategory(file_info->display_name, red_crossed_builds) ||
+                                            file_info->display_name.find("antiquary") != std::string::npos);
                         is_orange_crossed =
-                            !is_red_crossed && IsInBuildCategory(file_info->display_name, orange_crossed_builds);
+                            !is_red_crossed && (IsInBuildCategory(file_info->display_name, orange_crossed_builds) ||
+                                                file_info->display_name.find("daredevil") != std::string::npos ||
+                                                file_info->display_name.find("deadeye") != std::string::npos);
                         is_green_ticked =
                             !is_orange_crossed && IsInBuildCategory(file_info->display_name, green_tick_builds);
                         is_yellow_ticked =
@@ -949,7 +1006,8 @@ void RenderType::render_selection()
                                              original_index,
                                              file_info,
                                              base_formatted_name,
-                                             IM_COL32(34, 139, 34, 255));
+                                             IM_COL32(34, 139, 34, 255),
+                                             "##green_ticked_");
                     }
                     else if (is_yellow_ticked)
                     {
@@ -957,7 +1015,8 @@ void RenderType::render_selection()
                                              original_index,
                                              file_info,
                                              base_formatted_name,
-                                             IM_COL32(218, 165, 32, 255));
+                                             IM_COL32(218, 165, 32, 255),
+                                             "##yellow_ticked_");
                     }
                     else if (is_orange_crossed)
                     {
@@ -1251,24 +1310,34 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
     }
     else if (rotation_step.skill_data.icon_id == 2)
     {
-        // Draw a SkillIconSize x SkillIconSize image with a black "D" inside
         auto draw_list = ImGui::GetWindowDrawList();
         auto cursor_pos = ImGui::GetCursorScreenPos();
 
-        // Draw background rectangle
         draw_list->AddRectFilled(cursor_pos,
                                  ImVec2(cursor_pos.x + Globals::SkillIconSize, cursor_pos.y + Globals::SkillIconSize),
                                  IM_COL32(200, 200, 200, 255)); // Light gray background
 
-        // Calculate text position for centering
         auto text_size = ImGui::CalcTextSize("D");
         auto text_pos = ImVec2(cursor_pos.x + (Globals::SkillIconSize - text_size.x) * 0.5f,
                                cursor_pos.y + (Globals::SkillIconSize - text_size.y) * 0.5f);
 
-        // Draw black "D" in the center
         draw_list->AddText(text_pos, IM_COL32(0, 0, 0, 255), "D");
+        ImGui::Dummy(ImVec2(Globals::SkillIconSize, Globals::SkillIconSize));
+    }
+    else if (rotation_step.skill_data.icon_id == 9)
+    {
+        auto draw_list = ImGui::GetWindowDrawList();
+        auto cursor_pos = ImGui::GetCursorScreenPos();
 
-        // Reserve the space for ImGui layout
+        draw_list->AddRectFilled(cursor_pos,
+                                 ImVec2(cursor_pos.x + Globals::SkillIconSize, cursor_pos.y + Globals::SkillIconSize),
+                                 IM_COL32(200, 200, 200, 255)); // Light gray background
+
+        auto text_size = ImGui::CalcTextSize("D");
+        auto text_pos = ImVec2(cursor_pos.x + (Globals::SkillIconSize - text_size.x) * 0.1f,
+                               cursor_pos.y + (Globals::SkillIconSize - text_size.y) * 0.5f);
+
+        draw_list->AddText(text_pos, IM_COL32(0, 0, 0, 255), "Unknown");
         ImGui::Dummy(ImVec2(Globals::SkillIconSize, Globals::SkillIconSize));
     }
     else

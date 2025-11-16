@@ -13,7 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Condi Druid
   - Power Untamed
   - Power Chronomancer
-  - Condi berserker
+  - Condi Berserker
+  - Power Tempest Builds in general
+- Changed weapon swaps to non-damage skill category
 
 ## 0.12.0 - 2025-11-14
 

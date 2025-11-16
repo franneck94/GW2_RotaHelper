@@ -7,6 +7,7 @@
 #include <mutex>
 #include <set>
 #include <string>
+#include <string_view>
 #include <utility>
 #include <vector>
 
@@ -50,7 +51,8 @@ public:
                               const int original_index,
                               const BenchFileInfo *const &file_info,
                               const std::string base_formatted_name,
-                              const ImU32 Color);
+                              const ImU32 Color,
+                              const std::string &label);
     void render_orange_cross_and_text(bool &is_selected,
                                       const int original_index,
                                       const BenchFileInfo *const &file_info,

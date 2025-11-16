@@ -46,6 +46,11 @@ In general you can see ingame via the star/tick/cross icons about the state of a
 
 NOTE: Some builds have duo logs uplaoded (like Condition Daredevil Dagger) - there my webparser script downloaded the wrong log.
 
+Classes that are not proper optimized for:
+
+- Thief
+- Guardian
+
 #### Converting your own logs
 
 You can convert your own HTML logs from dps.report or other sources using the provided Python scripts:

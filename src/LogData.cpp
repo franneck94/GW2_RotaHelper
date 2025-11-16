@@ -197,7 +197,6 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
     auto drop_skill = is_substr_drop_match || is_exact_drop_match;
     if (!Settings::ShowWeaponSwap || Settings::StrictModeForSkillDetection)
     {
-        const auto drop_dodge = true; //  "Dodge"
         const auto drop_substr_swap = is_skill_in_set(skill_data.name, skill_rules.skills_substr_weapon_swap_like);
         const auto drop_match_swap = is_skill_in_set(skill_data.name, skill_rules.skills_match_weapon_swap_like, true);
 
@@ -232,12 +231,19 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
 
 bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_rules)
 {
+    if (skill_data.is_heal_skill)
+        return true;
+
     const auto is_substr_gray_out = is_skill_in_set(skill_data.name, skill_rules.special_substr_to_gray_out);
     const auto is_match_gray_out = is_skill_in_set(skill_data.name, skill_rules.special_match_to_gray_out, true);
 
-    const auto is_special_skill = is_substr_gray_out || is_match_gray_out || skill_data.is_heal_skill;
+    if (is_substr_gray_out || is_match_gray_out)
+        return true;
 
-    return is_special_skill;
+    const auto drop_substr_swap = is_skill_in_set(skill_data.name, skill_rules.skills_substr_weapon_swap_like);
+    const auto drop_match_swap = is_skill_in_set(skill_data.name, skill_rules.skills_match_weapon_swap_like, true);
+
+    return drop_substr_swap || drop_match_swap;
 }
 
 void get_rotation_info(const IntNode &node,
@@ -342,9 +348,6 @@ void get_rotation_info(const IntNode &node,
             {
                 const auto is_special_skill = get_is_special_skill(skill_data, skill_rules);
 
-                if (skill_data.name.find("Unleashed") != std::string::npos)
-                    int i = 2;
-
                 const auto is_duplicate_skill =
                     is_skill_in_set(skill_data.name, skill_rules.special_substr_to_remove_duplicates);
 
@@ -361,7 +364,7 @@ void get_rotation_info(const IntNode &node,
                         was_there_previous = true;
                 }
 
-                if (is_duplicate_skill && was_there_previous)
+                if (is_duplicate_skill && was_there_previous && !skill_data.is_auto_attack)
                     continue;
 
                 const auto cast_time_it = skill_cast_time_map.find(skill_data.name);
