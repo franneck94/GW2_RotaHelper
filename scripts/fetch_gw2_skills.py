@@ -32,29 +32,29 @@ class SkillSlot(Enum):
 
 
 class WeaponType(Enum):
-    NONE = "None"
+    NONE = 0
     # Two-handed weapons
-    GREATSWORD = "Greatsword"
-    HAMMER = "Hammer"
-    LONGBOW = "Longbow"
-    RIFLE = "Rifle"
-    SHORTBOW = "Shortbow"
-    STAFF = "Staff"
-    SPEAR = "Spear"
-    TRIDENT = "Trident"
-    HARPOON_GUN = "Harpoon gun"
+    GREATSWORD = 1
+    HAMMER = 2
+    LONGBOW = 3
+    RIFLE = 4
+    SHORTBOW = 5
+    STAFF = 6
+    SPEAR = 7
+    TRIDENT = 8
+    HARPOON_GUN = 9
     # Main hand weapons
-    AXE = "Axe"
-    DAGGER = "Dagger"
-    MACE = "Mace"
-    PISTOL = "Pistol"
-    SCEPTER = "Scepter"
-    SWORD = "Sword"
+    AXE = 10
+    DAGGER = 11
+    MACE = 12
+    PISTOL = 13
+    SCEPTER = 14
+    SWORD = 15
     # Off hand weapons
-    FOCUS = "Focus"
-    SHIELD = "Shield"
-    TORCH = "Torch"
-    WARHORN = "Warhorn"
+    FOCUS = 16
+    SHIELD = 17
+    TORCH = 18
+    WARHORN = 19
 
 
 class GW2SkillFetcher:
@@ -94,7 +94,7 @@ class GW2SkillFetcher:
         )
         return logging.getLogger(__name__)
 
-    def _normalize_weapon_type(self, weapon_type: str | None) -> str:
+    def _normalize_weapon_type(self, weapon_type: str | None) -> int:
         """Normalize weapon type string to standardized enum value."""
         if not weapon_type:
             return WeaponType.NONE.value
@@ -125,8 +125,8 @@ class GW2SkillFetcher:
             "warhorn": WeaponType.WARHORN.value,
         }
 
-        # Return mapped value or original if not found in mapping
-        normalized = weapon_mapping.get(weapon_type.lower(), weapon_type)
+        # Return mapped value or default to NONE if not found in mapping
+        normalized = weapon_mapping.get(weapon_type.lower(), WeaponType.NONE.value)
 
         # Validate against enum values
         try:

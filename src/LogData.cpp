@@ -463,8 +463,14 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
             const auto _type_str = skill_obj["skill_type"].get<std::string>();
             skill_data.skill_type = static_cast<SkillSlot>(std::stoi(_type_str));
         }
+        skill_data.skill_type = SkillSlot::NONE;
+        if (skill_obj.contains("weapon_type") && skill_obj["weapon_type"].is_number_integer())
+        {
+            const auto val = skill_obj["weapon_type"].get<int>();
+            skill_data.weapon_type = static_cast<WeaponType>(val);
+        }
         else
-            skill_data.skill_type = SkillSlot::NONE;
+            skill_data.weapon_type = WeaponType::NONE;
 
         skill_data.icon_id = 0; // Default value
         if (skill_obj.contains("icon") && skill_obj["icon"].is_string())

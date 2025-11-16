@@ -105,6 +105,30 @@ enum class SkillSlot
     PROFESSION_7,
 };
 
+enum class WeaponType
+{
+    NONE = 0,
+    GREATSWORD = 1,
+    HAMMER = 2,
+    LONGBOW = 3,
+    RIFLE = 4,
+    SHORTBOW = 5,
+    STAFF = 6,
+    SPEAR = 7,
+    TRIDENT = 8,
+    HARPOON_GUN = 9,
+    AXE = 10,
+    DAGGER = 11,
+    MACE = 12,
+    PISTOL = 13,
+    SCEPTER = 14,
+    SWORD = 15,
+    FOCUS = 16,
+    SHIELD = 17,
+    TORCH = 18,
+    WARHORN = 19,
+};
+
 struct SkillData
 {
     int icon_id;
@@ -121,6 +145,7 @@ struct SkillData
     bool is_heal_skill;
     bool is_profession_skill;
     SkillSlot skill_type;
+    WeaponType weapon_type;
 };
 
 struct RotationStep
