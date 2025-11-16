@@ -273,6 +273,7 @@ public:
         "Assassin's Signet",
         "Signet of Malice",
         "Skritt Scuffle",
+        "Harrowing Storm",
         // ELEMENTALIST
         "Earthquake",
         "Fire Shield",

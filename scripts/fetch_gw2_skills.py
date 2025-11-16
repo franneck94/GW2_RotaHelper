@@ -31,6 +31,32 @@ class SkillSlot(Enum):
     PROFESSION_7 = 17
 
 
+class WeaponType(Enum):
+    NONE = "None"
+    # Two-handed weapons
+    GREATSWORD = "Greatsword"
+    HAMMER = "Hammer"
+    LONGBOW = "Longbow"
+    RIFLE = "Rifle"
+    SHORTBOW = "Shortbow"
+    STAFF = "Staff"
+    SPEAR = "Spear"
+    TRIDENT = "Trident"
+    HARPOON_GUN = "Harpoon gun"
+    # Main hand weapons
+    AXE = "Axe"
+    DAGGER = "Dagger"
+    MACE = "Mace"
+    PISTOL = "Pistol"
+    SCEPTER = "Scepter"
+    SWORD = "Sword"
+    # Off hand weapons
+    FOCUS = "Focus"
+    SHIELD = "Shield"
+    TORCH = "Torch"
+    WARHORN = "Warhorn"
+
+
 class GW2SkillFetcher:
     """Fetches skill data from the Guild Wars 2 API."""
 
@@ -67,6 +93,73 @@ class GW2SkillFetcher:
             ],
         )
         return logging.getLogger(__name__)
+
+    def _normalize_weapon_type(self, weapon_type: str | None) -> str:
+        """Normalize weapon type string to standardized enum value."""
+        if not weapon_type:
+            return WeaponType.NONE.value
+
+        # Handle common variations and ensure consistent naming
+        weapon_type = weapon_type.strip()
+
+        # Map variations to standard enum values
+        weapon_mapping = {
+            "greatsword": WeaponType.GREATSWORD.value,
+            "hammer": WeaponType.HAMMER.value,
+            "longbow": WeaponType.LONGBOW.value,
+            "rifle": WeaponType.RIFLE.value,
+            "shortbow": WeaponType.SHORTBOW.value,
+            "staff": WeaponType.STAFF.value,
+            "spear": WeaponType.SPEAR.value,
+            "trident": WeaponType.TRIDENT.value,
+            "harpoon gun": WeaponType.HARPOON_GUN.value,
+            "axe": WeaponType.AXE.value,
+            "dagger": WeaponType.DAGGER.value,
+            "mace": WeaponType.MACE.value,
+            "pistol": WeaponType.PISTOL.value,
+            "scepter": WeaponType.SCEPTER.value,
+            "sword": WeaponType.SWORD.value,
+            "focus": WeaponType.FOCUS.value,
+            "shield": WeaponType.SHIELD.value,
+            "torch": WeaponType.TORCH.value,
+            "warhorn": WeaponType.WARHORN.value,
+        }
+
+        # Return mapped value or original if not found in mapping
+        normalized = weapon_mapping.get(weapon_type.lower(), weapon_type)
+
+        # Validate against enum values
+        try:
+            # Check if the value exists in the enum
+            for weapon_enum in WeaponType:
+                if weapon_enum.value == normalized:
+                    return normalized
+        except ValueError:
+            pass
+
+        # If not found in enum, default to None
+        self.logger.debug(f"Unknown weapon type '{weapon_type}', defaulting to None")
+        return WeaponType.NONE.value
+
+    def read_existing_skill_data(self) -> Dict[str, Dict[str, Any]]:
+        """Read existing skill data from the JSON file if it exists."""
+        existing_file = self.output_dir / "gw2_skills_en.json"
+
+        if not existing_file.exists():
+            self.logger.info("No existing skill data file found, starting fresh")
+            return {}
+
+        try:
+            with open(existing_file, "r", encoding="utf-8") as f:
+                existing_data = json.load(f)
+
+            self.logger.info(f"Loaded {len(existing_data)} existing skills from {existing_file}")
+            return existing_data
+
+        except Exception as e:
+            self.logger.error(f"Error reading existing skill data: {e}")
+            self.logger.info("Starting with empty skill data")
+            return {}
 
     async def get_all_skill_ids(self, session: ClientSession) -> List[int]:
         """Fetch all available skill IDs from the API."""
@@ -115,6 +208,10 @@ class GW2SkillFetcher:
                 ):
                     cast_time_value = fact["value"]
 
+        # Extract weapon type, defaulting to 'None' if not present
+        raw_weapon_type = skill.get("weapon_type")
+        weapon_type = self._normalize_weapon_type(raw_weapon_type)
+
         # Determine skill types based on slot
         slot = skill.get("slot", "")
         is_auto_attack = self._is_auto_attack(skill)
@@ -146,6 +243,7 @@ class GW2SkillFetcher:
             "icon": skill.get("icon"),
             "id": skill.get("id"),
             "name": skill.get("name"),
+            "weapon_type": weapon_type,
             "skill_type": str(skill_type_int),
             "is_auto_attack": is_auto_attack,
             "is_weapon_skill": is_weapon_skill,
@@ -163,10 +261,13 @@ class GW2SkillFetcher:
 
         return filtered_skill
 
-    async def fetch_all_skills(self) -> tuple[Dict[str, Any], Dict[str, Any]]:
-        """Fetch all skill information from the GW2 API."""
+    async def fetch_all_skills(self, existing_skills: Dict[str, Dict[str, Any]] | None = None) -> tuple[Dict[str, Any], Dict[str, Any]]:
+        """Fetch all skill information from the GW2 API, preserving existing data for missing skills."""
+        if existing_skills is None:
+            existing_skills = {}
+
         all_skills_raw = {}
-        all_skills_filtered = {}
+        all_skills_filtered = existing_skills.copy()  # Start with existing data
 
         async with ClientSession(
             timeout=self.timeout, connector=self.connector
@@ -174,6 +275,10 @@ class GW2SkillFetcher:
             try:
                 # Get all skill IDs
                 skill_ids = await self.get_all_skill_ids(session)
+
+                # Track which skills we successfully fetch
+                fetched_skill_ids = set()
+                api_fetch_count = 0
 
                 # Create chunks for batch requests
                 skill_chunks = [
@@ -207,6 +312,8 @@ class GW2SkillFetcher:
                         for skill in result:
                             skill_id = skill.get("id")
                             if skill_id:
+                                fetched_skill_ids.add(skill_id)
+                                api_fetch_count += 1
                                 # Store raw skill data
                                 all_skills_raw[str(skill_id)] = skill
                                 # Filter skill data to only include required fields
@@ -217,8 +324,30 @@ class GW2SkillFetcher:
                             f"Unexpected result type for chunk {i}: {type(result)}"
                         )
 
+                # Check for skills that weren't fetched from API
+                missing_from_api = set(skill_ids) - fetched_skill_ids
+                preserved_count = 0
+
+                for missing_id in missing_from_api:
+                    missing_id_str = str(missing_id)
+                    if missing_id_str in existing_skills:
+                        # Keep the existing data for this skill
+                        if missing_id_str not in all_skills_filtered:
+                            existing_skill = existing_skills[missing_id_str].copy()
+                            all_skills_filtered[missing_id_str] = existing_skill
+                            preserved_count += 1
+                        if "weapon_type" not in existing_skills[missing_id_str]:
+                            existing_skills[missing_id_str]["weapon_type"] = WeaponType.NONE.value
+
                 self.logger.info(
-                    f"Successfully fetched {len(all_skills_filtered)} skills"
+                    f"Successfully fetched {api_fetch_count} skills from API"
+                )
+                if preserved_count > 0:
+                    self.logger.info(
+                        f"Preserved {preserved_count} existing skills that weren't available from API"
+                    )
+                self.logger.info(
+                    f"Total skills in dataset: {len(all_skills_filtered)}"
                 )
 
             except Exception as e:
@@ -345,6 +474,23 @@ class GW2SkillFetcher:
             "icon": "",
             "id": 9999,
             "name": "Weapon Swap",
+            "weapon_type": WeaponType.NONE.value,
+            "skill_type": str(SkillSlot.NONE.value),
+            "is_auto_attack": False,
+            "is_weapon_skill": False,
+            "is_utility_skill": False,
+            "is_elite_skill": False,
+            "is_heal_skill": False,
+            "is_profession_skill": False,
+            "recharge": 0,
+            "cast_time": 0.0,
+        }
+
+        categorized_skills["-1"] = {
+            "icon": "",
+            "id": -1,
+            "name": "No Skill",
+            "weapon_type": WeaponType.NONE.value,
             "skill_type": str(SkillSlot.NONE.value),
             "is_auto_attack": False,
             "is_weapon_skill": False,
@@ -360,6 +506,7 @@ class GW2SkillFetcher:
             "icon": "",
             "id": -9999,
             "name": "Unknown Skill",
+            "weapon_type": WeaponType.NONE.value,
             "skill_type": str(SkillSlot.NONE.value),
             "is_auto_attack": False,
             "is_weapon_skill": False,
@@ -477,8 +624,11 @@ class GW2SkillFetcher:
         try:
             self.logger.info("Starting GW2 skill data fetch...")
 
-            # Fetch all skills
-            raw_skills_data, filtered_skills_data = await self.fetch_all_skills()
+            # Read existing skill data first
+            existing_skills = self.read_existing_skill_data()
+
+            # Fetch all skills, preserving existing data for missing ones
+            raw_skills_data, filtered_skills_data = await self.fetch_all_skills(existing_skills)
 
             if not filtered_skills_data:
                 self.logger.warning("No skills data retrieved")
