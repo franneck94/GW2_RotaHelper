@@ -151,10 +151,26 @@ bool remove_skill_if(const RotationStep &current, const RotationStep &previous)
             (current.time_of_cast - previous.time_of_cast) < 250);
 }
 
-bool is_skill_in_set(const int skill_id,
-                     const std::string &skill_name,
-                     const std::set<std::string> &set,
-                     const bool exact_match = false)
+bool is_skill_in_set(const std::string &skill_name, const std::set<std::string> &set, const bool exact_match = false)
+{
+    for (const auto &filter_string : set)
+    {
+        if (exact_match)
+        {
+            if (skill_name == filter_string)
+                return true;
+        }
+        else
+        {
+            if (skill_name.find(filter_string) != std::string::npos)
+                return true;
+        }
+    }
+
+    return false;
+}
+
+bool is_skill_in_set(std::string_view skill_name, const std::set<std::string_view> &set, const bool exact_match = false)
 {
     for (const auto &filter_string : set)
     {
@@ -175,19 +191,15 @@ bool is_skill_in_set(const int skill_id,
 
 bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_rules)
 {
-    const auto is_substr_drop_match =
-        is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.skills_substr_to_drop);
-    const auto is_exact_drop_match =
-        is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.skills_match_to_drop, true);
+    const auto is_substr_drop_match = is_skill_in_set(skill_data.name, skill_rules.skills_substr_to_drop);
+    const auto is_exact_drop_match = is_skill_in_set(skill_data.name, skill_rules.skills_match_to_drop, true);
 
     auto drop_skill = is_substr_drop_match || is_exact_drop_match;
     if (!Settings::ShowWeaponSwap || Settings::StrictModeForSkillDetection)
     {
         const auto drop_dodge = true; //  "Dodge"
-        const auto drop_substr_swap =
-            is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.skills_substr_weapon_swap_like);
-        const auto drop_match_swap =
-            is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.skills_match_weapon_swap_like, true);
+        const auto drop_substr_swap = is_skill_in_set(skill_data.name, skill_rules.skills_substr_weapon_swap_like);
+        const auto drop_match_swap = is_skill_in_set(skill_data.name, skill_rules.skills_match_weapon_swap_like, true);
 
         const auto is_unknownm = skill_data.name.find("Unknown Skill") != std::string::npos;
 
@@ -195,10 +207,11 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
 
         if (!drop_skill)
         {
-            auto current_profession = get_current_profession_name();
-            auto profession_lower = to_lowercase(current_profession);
+            auto current_spec = get_current_spec_name();
+            auto spec_lower = to_lowercase(current_spec);
 
-            if (profession_lower == "revenant" && skill_data.name == "Dodge")
+            if ((spec_lower == "vindicator" || spec_lower == "mirage" || spec_lower == "druid") &&
+                skill_data.name == "Dodge")
                 drop_skill = false;
         }
 
@@ -209,7 +222,7 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
     if (Settings::EasySkillMode && !drop_skill)
     {
         const auto is_exact_easy_mode_drop_match =
-            is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.easy_mode_drop_match, true);
+            is_skill_in_set(skill_data.name, skill_rules.easy_mode_drop_match, true);
 
         drop_skill = is_exact_easy_mode_drop_match;
     }
@@ -219,10 +232,8 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
 
 bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_rules)
 {
-    const auto is_substr_gray_out =
-        is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.special_substr_to_gray_out);
-    const auto is_match_gray_out =
-        is_skill_in_set(skill_data.skill_id, skill_data.name, skill_rules.special_match_to_gray_out, true);
+    const auto is_substr_gray_out = is_skill_in_set(skill_data.name, skill_rules.special_substr_to_gray_out);
+    const auto is_match_gray_out = is_skill_in_set(skill_data.name, skill_rules.special_match_to_gray_out, true);
 
     const auto is_special_skill = is_substr_gray_out || is_match_gray_out || skill_data.is_heal_skill;
 
@@ -234,7 +245,7 @@ void get_rotation_info(const IntNode &node,
                        RotationSteps &all_rotation_steps,
                        const SkillDataMap &skill_data_map,
                        const SkillRules &skill_rules,
-                       const std::map<std::string, float> &skill_cast_time_map)
+                       const std::map<std::string_view, float> &skill_cast_time_map)
 {
     for (const auto &rotation_entry : node.children)
     {
@@ -331,9 +342,11 @@ void get_rotation_info(const IntNode &node,
             {
                 const auto is_special_skill = get_is_special_skill(skill_data, skill_rules);
 
-                const auto is_duplicate_skill = is_skill_in_set(skill_data.skill_id,
-                                                                skill_data.name,
-                                                                skill_rules.special_substr_to_remove_duplicates);
+                if (skill_data.name.find("Unleashed") != std::string::npos)
+                    int i = 2;
+
+                const auto is_duplicate_skill =
+                    is_skill_in_set(skill_data.name, skill_rules.special_substr_to_remove_duplicates);
 
                 auto was_there_previous = false;
                 if (!all_rotation_steps.empty())
@@ -546,7 +559,7 @@ std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
     const std::filesystem::path &json_path,
     const SkillDataMap &skill_data_map,
     const SkillRules &skill_rules,
-    const std::map<std::string, float> &skill_cast_time_map)
+    const std::map<std::string_view, float> &skill_cast_time_map)
 {
     auto json_rotation_log = nlohmann::json{};
     auto is_load_success = load_rotaion_json(json_path, json_rotation_log);

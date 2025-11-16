@@ -29,6 +29,25 @@ bool IsSkillAutoAttack(const uint64_t skill_id, const std::string &skill_name, c
     return false;
 }
 
+bool IsOtherValidAutoAttack(const RotationStep &future_rota_skill,
+                            const EvCombatDataPersistent &skill_ev,
+                            const RotationLogType &rotation_run)
+{
+    const auto future_is_aa = future_rota_skill.skill_data.is_auto_attack;
+    const auto is_not_special_cast_time_skill =
+        RotationLogType::skill_cast_time_map.find(future_rota_skill.skill_data.name) ==
+        RotationLogType::skill_cast_time_map.end();
+    const auto user_skill_is_aa = IsSkillAutoAttack(skill_ev.SkillID, skill_ev.SkillName, rotation_run.skill_data_map);
+
+    return future_is_aa && is_not_special_cast_time_skill && user_skill_is_aa;
+}
+
+bool IsSpecialMappingSkill(const EvCombatDataPersistent &,
+                           const RotationStep &)
+{
+    return false; // TODO: Add for engi spear 5 and spear 3
+}
+
 bool CheckTheNextNskills(const EvCombatDataPersistent &skill_ev,
                          const RotationStep &future_rota_skill,
                          const uint32_t n,
@@ -37,10 +56,8 @@ bool CheckTheNextNskills(const EvCombatDataPersistent &skill_ev,
                          EvCombatDataPersistent &last_skill)
 {
     const auto is_match = ((future_rota_skill.skill_data.name == skill_ev.SkillName) && is_okay);
-    const auto is_any_other_aa = !is_match && future_rota_skill.skill_data.is_auto_attack &&
-                                 IsSkillAutoAttack(skill_ev.SkillID, skill_ev.SkillName, rotation_run.skill_data_map);
-
-    const auto is_special_mapping = false; // TODO: Add for engi spear 5 and spear 3
+    const auto is_any_other_aa = !is_match && IsOtherValidAutoAttack(future_rota_skill, skill_ev, rotation_run);
+    const auto is_special_mapping = IsSpecialMappingSkill(skill_ev, future_rota_skill);
 
     if (is_match || is_any_other_aa)
     {

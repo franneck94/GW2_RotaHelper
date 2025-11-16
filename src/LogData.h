@@ -10,6 +10,7 @@
 #include <optional>
 #include <set>
 #include <string>
+#include <string_view>
 #include <variant>
 #include <vector>
 
@@ -30,14 +31,14 @@ SkillState get_skill_state(const RotationLogType &rotation_run,
 
 struct SkillRules
 {
-    const std::set<std::string> &skills_substr_weapon_swap_like;
-    const std::set<std::string> &skills_match_weapon_swap_like;
-    const std::set<std::string> &skills_substr_to_drop;
-    const std::set<std::string> &skills_match_to_drop;
-    const std::set<std::string> &special_substr_to_gray_out;
-    const std::set<std::string> &special_match_to_gray_out;
-    const std::set<std::string> &special_substr_to_remove_duplicates;
-    const std::set<std::string> &easy_mode_drop_match;
+    const std::set<std::string_view> &skills_substr_weapon_swap_like;
+    const std::set<std::string_view> &skills_match_weapon_swap_like;
+    const std::set<std::string_view> &skills_substr_to_drop;
+    const std::set<std::string_view> &skills_match_to_drop;
+    const std::set<std::string_view> &special_substr_to_gray_out;
+    const std::set<std::string_view> &special_match_to_gray_out;
+    const std::set<std::string_view> &special_substr_to_remove_duplicates;
+    const std::set<std::string_view> &easy_mode_drop_match;
 };
 
 class RotationLogType
@@ -59,14 +60,16 @@ public:
     SkillDataMap skill_data_map;
     MetaData meta_data;
 
-    const static inline std::set<std::string> skills_substr_weapon_swap_like = {
+    const static inline std::set<std::string_view> skills_substr_weapon_swap_like = {
         "Weapon Swap",
         // GUARDIAN
         // WARRIOR
         // ENGINEER
         " Kit",
+        "Photon Forge",
         // RANGER
         "Ranger Pet",
+        "Celestial Avatar",
         // THIEF
         // ELEMENTALIST
         "Attunement",
@@ -78,9 +81,10 @@ public:
         // REVENANT
     };
 
-    const static inline std::set<std::string> skills_match_weapon_swap_like = {
+    const static inline std::set<std::string_view> skills_match_weapon_swap_like = {
         // GUARDIAN
         // WARRIOR
+        "Berserk",
         // ENGINEER
         "Flamethrower",
         "Elixir Gun",
@@ -89,6 +93,8 @@ public:
         // RANGER
         "Summon Cyclone Bow",
         "Dismiss Cyclone Bow",
+        "Unleash Ranger",
+        "Unleash Pet",
         // THIEF
         // ELEMENTALIST
         // MESMER
@@ -105,9 +111,10 @@ public:
         "Legendary Dragon Stance",
     };
 
-    const static inline std::set<std::string> skills_substr_to_drop = {
+    const static inline std::set<std::string_view> skills_substr_to_drop = {
         "Bloodstone Fervor",
         "Relic of",
+        "Relikt des ",
         "Mushroom King",
         "Superior Sigil",
         // GUARDIAN
@@ -122,7 +129,7 @@ public:
         // REVENANT
     };
 
-    const static inline std::set<std::string> skills_match_to_drop = {
+    const static inline std::set<std::string_view> skills_match_to_drop = {
         "Doom",
         // GUARDIAN
         // WARRIOR
@@ -158,7 +165,7 @@ public:
         "Mistfire",
     };
 
-    const static inline std::set<std::string> special_substr_to_gray_out = {
+    const static inline std::set<std::string_view> special_substr_to_gray_out = {
         // GUARDIAN
         "Chapter 1:",
         "Chapter 2:",
@@ -169,7 +176,9 @@ public:
         "Detonate",
         "Photon Forge",
         "Holoforge",
+        "-Storm",
         // RANGER
+        "Blood Moon",
         // THIEF
         "Shadow Meld",
         // ELEMENTALIST
@@ -179,7 +188,7 @@ public:
         // REVENANT
     };
 
-    const static inline std::set<std::string> special_match_to_gray_out = {
+    const static inline std::set<std::string_view> special_match_to_gray_out = {
         "Dodge",
         // GUARDIAN
         "Zealot's Flame",
@@ -200,6 +209,8 @@ public:
         "Signet of Fury",
         "Signet of Might",
         "Signet of Rage",
+        "Berserk",
+        "Flames of War",
         // ENGINEER
         "Devastator",
         "Flame Blast",
@@ -224,12 +235,28 @@ public:
         "Offensive Protocol: Obliterate",
         "Offensive Protocol: Demolish",
         "Evolve",
+        "Corona Burst",
+        "Photon Blitz",
+        "Holo Leap",
         // RANGER
         "Quarry's Peril",
         "Perfect Storm",
         "Mistral",
         "Pelt",
         "Path of Scars",
+        "Rending Vines",
+        "Enveloping Haze",
+        "Flame Trap",
+        "Frost Trap",
+        "Venomous Outburst",
+        "\"Sic 'Em!\"",
+        "Sharpening Stone",
+        "Sun Spirit",
+        "Entangle",
+        "Viper's Nest",
+        "Seed of Life",
+        "Lunar Impact",
+        "Natural Convergence",
         // THIEF
         "Prepare Thousand Needles",
         "Spider Venom",
@@ -239,6 +266,8 @@ public:
         "Earthquake",
         "Fire Shield",
         "Signet of Restoration",
+        "Flame Barrage",
+        "Dragon's Tooth",
         // MESMER
         "Signet of Domination",
         "Signet of Midnight",
@@ -247,7 +276,6 @@ public:
         "Signet of the Ether",
         "Jaunt",
         "Crystal Sands",
-        "Continuum Split",
         "Bladesong Sorrow",
         "Phantasmal Warden",
         "Bladeturn Requiem",
@@ -256,6 +284,9 @@ public:
         "Harmonious Harp",
         "Tale of the August Queen",
         "Phantasmal Disenchanter",
+        "Continuum Split",
+        "Continuum Shift",
+        "Time Sink",
         // NECROMANCER
         "Plague Signet",
         "Elixir of Promise",
@@ -286,7 +317,7 @@ public:
         "Relinquish Power",
     };
 
-    const static inline std::set<std::string> special_substr_to_remove_duplicates = {
+    const static inline std::set<std::string_view> special_substr_to_remove_duplicates = {
         "Rushing Justice",
         "Devastator",
         "Signet of Fury",
@@ -303,9 +334,14 @@ public:
         "Legendary Dragon Stance",
         "Deathstrike",
         "Dodge",
+        "Wolf's Onslaught",
+        "Unleashed Overbearing Smash",
+        "Jaunt",
+        "Cry of Frustration",
+        "Arcane Blast",
     };
 
-    const static inline std::set<std::string> easy_mode_drop_match = {
+    const static inline std::set<std::string_view> easy_mode_drop_match = {
         "Sky Circus",
         "Spark Revolver",
         "Core Reactor Shot",
@@ -336,6 +372,7 @@ public:
         static_cast<uint64_t>(SkillID::DECAPITATE),      // Decapitate (Axe)
         static_cast<uint64_t>(SkillID::RUPTURING_SMASH), // Rupturing Smash (Hammer)
         static_cast<uint64_t>(SkillID::WILD_THROW),      // Wild Throw (Spear)
+        static_cast<uint64_t>(SkillID::SCORCHED_EARTH),  // Scorched Earth (LB)
     };
 
     static inline const std::set<uint64_t> mesmer_weapon_4_skills = {
@@ -362,7 +399,7 @@ public:
         static_cast<uint64_t>(SkillID::MIND_THE_GAP),
     };
 
-    const static inline std::map<std::string, float> skill_cast_time_map = {
+    const static inline std::map<std::string_view, float> skill_cast_time_map = {
         {"Essence Blast", 0.75f},       // rit shroud aa
         {"Life Rend", 0.5f},            // reaper shroud aa
         {"Life Slash", 0.5f},           // reaper shroud aa
@@ -380,51 +417,82 @@ public:
         {"Rifle Burst", 0.5f},          // engi rifle 1
         {"Spatial Surge", 1.0f},        // mesmer gs 1
         {"Flying Cutter", 0.5f},        // mesmer sw 1
+        {"Flaming Flurry", 3.25f},      // warrior sw f1
+        {"Scorched Earth", 3.25f},      // warrior lb f1
+        {"Overload Air", 4.0f},         // f1 air
+        {"Overload Fire", 4.0f},        // f1 fire
+        {"Flamestrike", 0.75f},         // f1 fire
     };
 
-    static const inline std::set<std::string> red_crossed_builds = {
+    static const inline std::set<std::string_view> red_crossed_builds = {
         // POWER BUILDS
         "power_bladesworn",
         "power_alacrity_bladesworn",
         "power_alacrity_bladesworn_overcharged",
         "power_amalgam",
+        "power_holosmith",
+        // CONDITION BUILDS
+        "condition_amalgam_steamshrieker",
+        "condition_alacrity_amalgam_two_kits",
+        "condition_holosmith_spear",
+        "condition_boon_chronomancer",
+        "condition_chronomancer",
+        "condition_mirage_dagger",
+        "condition_mirage_dune_cloak",
+        "condition_mirage_ih_ether",
+        "condition_mirage_ih_oasis",
+        "condition_alacrity_mirage_staff",
+        "condition_alacrity_mirage_axe_torch_staff",
     };
 
-    static const inline std::set<std::string> orange_crossed_builds = {
+    static const inline std::set<std::string_view> orange_crossed_builds = {
         // POWER BUILDS
         "power_vindicator",
+        "power_quickness_untamed",
         // CONDI BUILDS
         "condition_virtuoso",
     };
 
-    static const inline std::set<std::string> yellow_tick_builds = {
+    static const inline std::set<std::string_view> yellow_tick_builds = {
         // POWER BUILDS
         // POWER BOON BUILDS
+        "power_boon_chronomancer",
+        "power_untamed",
+        "power_untamed_sword_axe",
+        "power_tempest_sword",
         // CONDITION BUILDS
         "condition_conduit",
         "condition_renegade",
     };
 
-    static const inline std::set<std::string> green_tick_builds = {
+    static const inline std::set<std::string_view> green_tick_builds = {
         // POWER BUILDS
         "power_troubadour",
         "power_berserker",
         "power_warrior",
         "power_spellbreaker",
         "power_virtuoso",
+        "power_chronomancer",
         "power_virtuoso_spear_greatsword",
-        "power_virtuoso_sagger_sword_greatsword",
+        "power_virtuoso_dagger_sword_greatsword",
+        "power_berserker_axe_axe_axe_mace",
+        "power_scrapper",
+        "power_tempest_inferno_scepter_dagger",
+        "power_tempest",
         // POWER BOON BUILDS
         "power_quickness_herald_sword",
         "power_quickness_berserker",
         "power_alacrity_mechanist_sword",
+        "power_quickness_scrapper",
         // CONDITION BUILDS
         "condition_harbinger",
+        "condition_berserker",
+        "condition_druid",
         // CONDI BOON BUILDS
         "condition_quickness_harbinger",
     };
 
-    static const inline std::set<std::string> starred_builds = {
+    static const inline std::set<std::string_view> starred_builds = {
         // POWER BUILDS
         "power_galeshot",
         "power_soulbeast_hammer",
@@ -433,13 +501,12 @@ public:
         "power_berserker_greatsword",
         "power_mechanist",
         "power_mechanist_sword",
-        "power_scrapper",
         "power_ritualist",
         "power_harbinger",
         "power_reaper_spear",
         "power_paragon",
         // POWER BOON BUILDS
-        "power_quickness_scrapper",
+        "power_quickness_galeshot",
         "power_quickness_berserker_greatsword",
         "power_quickness_ritualist",
         "power_quickness_harbinger",

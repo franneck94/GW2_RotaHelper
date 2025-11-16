@@ -45,6 +45,21 @@ std::string get_current_profession_name()
     }
 }
 
+std::string get_current_spec_name()
+{
+    if (!Globals::MumbleData)
+        return "";
+
+    try
+    {
+        return elite_spec_to_string(static_cast<EliteSpecID>(Globals::Identity.Specialization));
+    }
+    catch (...)
+    {
+        return "";
+    }
+}
+
 Mumble::Identity ParseMumbleIdentity(const wchar_t *identityString)
 {
     static auto identity = Mumble::Identity{};
