@@ -374,6 +374,8 @@ public:
         "Barrier Burst",
         "Crisis Zone",
         "Power Spike",
+        "Abyssal Strike",
+        "Abyssal Fire",
     };
 
     const static inline SkillRules skill_rules = SkillRules{
