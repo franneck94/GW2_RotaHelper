@@ -149,6 +149,11 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_harbinger_greatsword_dagger_sword",
     "power_harbinger_greatsword_sword_sword",
     "power_weaver",
+    "power_mechanist",
+    "power_mechanist_sword",
+    "power_harbinger",
+    "power_reaper_spear",
+    "power_paragon",
     // POWER BOON BUILDS
     "power_alacrity_tempest_inferno_scepter_focus",
     "power_quickness_herald_sword",
@@ -156,13 +161,19 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_alacrity_mechanist_sword",
     "power_quickness_berserker_greatsword",
     "power_quickness_scrapper",
+    "power_alacrity_mechanist",
+    "power_quickness_harbinger",
     // CONDITION BUILDS
     "condition_tempest_scepter",
     "condition_harbinger",
     "condition_berserker",
     "condition_druid",
+    "condition_mechanist",
+    "condition_mechanist_two_kits",
     // CONDI BOON BUILDS
     "condition_quickness_harbinger",
+    "condition_alacrity_mechanist_1_kit",
+    "condition_alacrity_mechanist",
 };
 
 static const inline std::set<std::string_view> starred_builds = {
@@ -171,23 +182,10 @@ static const inline std::set<std::string_view> starred_builds = {
     "power_soulbeast_hammer",
     "power_spellbreaker_hammer",
     "power_berserker_hammer_axe_mace",
-    "power_mechanist",
-    "power_mechanist_sword",
     "power_ritualist",
-    "power_harbinger",
-    "power_reaper_spear",
-    "power_paragon",
     // POWER BOON BUILDS
     "power_quickness_galeshot",
     "power_quickness_ritualist",
-    "power_quickness_harbinger",
-    "power_alacrity_mechanist",
-    // CONDI BUILDS
-    "condition_mechanist",
-    "condition_mechanist_two_kits",
-    // CONDI BOON BUILDS
-    "condition_alacrity_mechanist_1_kit",
-    "condition_alacrity_mechanist",
 };
 
 bool IsInBuildCategory(std::string_view display_name, const std::set<std::string_view> &category_builds)
