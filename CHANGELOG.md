@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Condi Berserker
   - Power Tempest Builds in general
 - Changed weapon swaps to non-damage skill category
+- Added weapon type info to skills struct
 
 ## 0.12.0 - 2025-11-14
 
