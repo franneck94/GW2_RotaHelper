@@ -81,7 +81,7 @@ extern "C" __declspec(dllexport) AddonDefinition *GetAddonDef()
     AddonDef.Unload = AddonUnload;
     AddonDef.Flags = EAddonFlags_None;
     AddonDef.Provider = EUpdateProvider_GitHub;
-    AddonDef.UpdateLink = "https://github.com/franneck94/GW2RotaHelper";
+    AddonDef.UpdateLink = "https://github.com/franneck94/GW2_RotaHelper";
 
     return &AddonDef;
 }
