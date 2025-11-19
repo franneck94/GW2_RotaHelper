@@ -7,6 +7,7 @@
 #include <string>
 #include <variant>
 #include <vector>
+#include <filesystem>
 
 #include "arcdps/ArcDPS.h"
 

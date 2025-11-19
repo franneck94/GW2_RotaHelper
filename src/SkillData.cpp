@@ -7,6 +7,9 @@
 
 #include "Types.h"
 
+namespace SkillRuleData
+{
+
 const std::set<std::string_view> skills_substr_weapon_swap_like = {
     "Weapon Swap",
     // GUARDIAN
@@ -414,3 +417,5 @@ const std::map<std::string_view, float> skill_cast_time_map = {
     {"Scorching Shot", 0.5f},       // ele earth pistol 1
     {"Piercing Pebble", 0.5f},      // ele fire pistol 1
 };
+
+} // namespace SkillData

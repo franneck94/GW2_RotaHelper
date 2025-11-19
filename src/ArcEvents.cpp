@@ -17,6 +17,7 @@
 #include "FileUtils.h"
 #include "MumbleUtils.h"
 #include "Shared.h"
+#include "SkillData.h"
 #include "Types.h"
 
 namespace
@@ -63,7 +64,7 @@ bool IsSkillFromBuild_NameBased(const EvCombatDataPersistent &combat_data)
 
 bool IsAnySkillFromBuild(const EvCombatDataPersistent &combat_data)
 {
-    if (RotationLogType::skills_to_not_track.find(combat_data.SkillName) != RotationLogType::skills_to_not_track.end())
+    if (SkillRuleData::skills_to_not_track.find(combat_data.SkillName) != SkillRuleData::skills_to_not_track.end())
         return false;
 
     return IsSkillFromBuild_NameBased(combat_data) || IsSkillFromBuild_IdBased(combat_data);
@@ -95,13 +96,13 @@ bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvC
 
     auto is_mesmer_weapon_4 = false;
     auto is_berserker_f1 = false;
-    auto is_reset_like_skill = RotationLogType::reset_like_skill.count(combat_data.SkillID) > 0;
+    auto is_reset_like_skill = SkillRuleData::reset_like_skill.count(combat_data.SkillID) > 0;
 
     // TODO: For Chrono - CS reset
     if (profession_lower == "mesmer")
-        is_mesmer_weapon_4 = RotationLogType::mesmer_weapon_4_skills.count(combat_data.SkillID) > 0;
+        is_mesmer_weapon_4 = SkillRuleData::mesmer_weapon_4_skills.count(combat_data.SkillID) > 0;
     else if (profession_lower == "warrior")
-        is_berserker_f1 = RotationLogType::berserker_f1_skills.count(combat_data.SkillID) > 0;
+        is_berserker_f1 = SkillRuleData::berserker_f1_skills.count(combat_data.SkillID) > 0;
 
     const auto &skill_data = skill_data_map_it->second;
     const auto recharge_time_w_alac_s = skill_data.recharge_time_with_alacrity;

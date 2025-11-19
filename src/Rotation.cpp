@@ -6,6 +6,7 @@
 #include "Rotation.h"
 #include "Settings.h"
 #include "Shared.h"
+#include "SkillData.h"
 #include "Types.h"
 #include "TypesUtils.h"
 
@@ -35,8 +36,8 @@ bool IsOtherValidAutoAttack(const RotationStep &future_rota_skill,
 {
     const auto future_is_aa = future_rota_skill.skill_data.is_auto_attack;
     const auto is_not_special_cast_time_skill =
-        RotationLogType::skill_cast_time_map.find(future_rota_skill.skill_data.name) ==
-        RotationLogType::skill_cast_time_map.end();
+        SkillRuleData::skill_cast_time_map.find(future_rota_skill.skill_data.name) ==
+        SkillRuleData::skill_cast_time_map.end();
     const auto user_skill_is_aa = IsSkillAutoAttack(skill_ev.SkillID, skill_ev.SkillName, rotation_run.skill_data_map);
 
     return future_is_aa && is_not_special_cast_time_skill && user_skill_is_aa;
@@ -44,18 +45,17 @@ bool IsOtherValidAutoAttack(const RotationStep &future_rota_skill,
 
 bool IsSpecialMappingSkill(const EvCombatDataPersistent &skill_ev, const RotationStep &future_rota_skill)
 {
-    if (RotationLogType::special_mapping_skills.find(skill_ev.SkillName) !=
-        RotationLogType::special_mapping_skills.end())
+    if (SkillRuleData::special_mapping_skills.find(skill_ev.SkillName) != SkillRuleData::special_mapping_skills.end())
     {
-        const auto mapped_name = RotationLogType::special_mapping_skills.at(skill_ev.SkillName);
+        const auto mapped_name = SkillRuleData::special_mapping_skills.at(skill_ev.SkillName);
         if (mapped_name == future_rota_skill.skill_data.name)
             return true;
     }
 
-    if (RotationLogType::special_mapping_skills.find(future_rota_skill.skill_data.name) !=
-        RotationLogType::special_mapping_skills.end())
+    if (SkillRuleData ::special_mapping_skills.find(future_rota_skill.skill_data.name) !=
+        SkillRuleData::special_mapping_skills.end())
     {
-        const auto mapped_name = RotationLogType::special_mapping_skills.at(future_rota_skill.skill_data.name);
+        const auto mapped_name = SkillRuleData::special_mapping_skills.at(future_rota_skill.skill_data.name);
         if (mapped_name == skill_ev.SkillName)
             return true;
     }
@@ -227,9 +227,9 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
 
         // TODO: For Chrono - CS reset
         if (profession_lower == "mesmer")
-            is_mesmer_weapon_4 = RotationLogType::mesmer_weapon_4_skills.count(skill_ev.SkillID) > 0;
+            is_mesmer_weapon_4 = SkillRuleData::mesmer_weapon_4_skills.count(skill_ev.SkillID) > 0;
         else if (profession_lower == "warrior")
-            is_berserker_f1 = RotationLogType::berserker_f1_skills.count(skill_ev.SkillID) > 0;
+            is_berserker_f1 = SkillRuleData::berserker_f1_skills.count(skill_ev.SkillID) > 0;
 
         if (is_mesmer_weapon_4 || is_berserker_f1)
             return;

@@ -27,6 +27,7 @@
 #include "MumbleUtils.h"
 #include "Settings.h"
 #include "Shared.h"
+#include "SkillData.h"
 #include "Types.h"
 #include "TypesUtils.h"
 
@@ -411,8 +412,8 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
             skill_data.recharge_time_with_alacrity = -1.0f;
         }
 
-        const auto cast_time_it = RotationLogType::skill_cast_time_map.find(skill_data.name);
-        if (cast_time_it != RotationLogType::skill_cast_time_map.end())
+        const auto cast_time_it = SkillRuleData::skill_cast_time_map.find(skill_data.name);
+        if (cast_time_it != SkillRuleData::skill_cast_time_map.end())
         {
             skill_data.cast_time = cast_time_it->second;
             skill_data.cast_time_with_quickness = skill_data.cast_time * 0.8f;
@@ -728,7 +729,7 @@ void RotationLogType::load_data(const std::filesystem::path &json_path, const st
     skill_data_map = get_skill_data_map(jsons_skill_data);
 
     const auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] =
-        get_dpsreport_data(json_path, skill_data_map, skill_rules, skill_cast_time_map);
+        get_dpsreport_data(json_path, skill_data_map, SkillRuleData::skill_rules, SkillRuleData::skill_cast_time_map);
 
     log_skill_info_map = _skill_info_map;
     all_rotation_steps = _bench_all_rotation_steps;

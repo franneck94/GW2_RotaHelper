@@ -7,6 +7,9 @@
 
 #include "Types.h"
 
+namespace SkillRuleData
+{
+
 extern const std::set<std::string_view> skills_substr_weapon_swap_like;
 
 extern const std::set<std::string_view> skills_match_weapon_swap_like;
@@ -36,3 +39,5 @@ extern const std::set<uint64_t> mesmer_weapon_4_skills;
 extern const std::set<uint64_t> reset_like_skill;
 
 extern const std::map<std::string_view, float> skill_cast_time_map;
+
+} // namespace SkillData
