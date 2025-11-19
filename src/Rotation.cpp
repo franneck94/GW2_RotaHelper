@@ -42,10 +42,25 @@ bool IsOtherValidAutoAttack(const RotationStep &future_rota_skill,
     return future_is_aa && is_not_special_cast_time_skill && user_skill_is_aa;
 }
 
-bool IsSpecialMappingSkill(const EvCombatDataPersistent &,
-                           const RotationStep &)
+bool IsSpecialMappingSkill(const EvCombatDataPersistent &skill_ev, const RotationStep &future_rota_skill)
 {
-    return false; // TODO: Add for engi spear 5 and spear 3
+    if (RotationLogType::special_mapping_skills.find(skill_ev.SkillName) !=
+        RotationLogType::special_mapping_skills.end())
+    {
+        const auto mapped_name = RotationLogType::special_mapping_skills.at(skill_ev.SkillName);
+        if (mapped_name == future_rota_skill.skill_data.name)
+            return true;
+    }
+
+    if (RotationLogType::special_mapping_skills.find(future_rota_skill.skill_data.name) !=
+        RotationLogType::special_mapping_skills.end())
+    {
+        const auto mapped_name = RotationLogType::special_mapping_skills.at(future_rota_skill.skill_data.name);
+        if (mapped_name == skill_ev.SkillName)
+            return true;
+    }
+
+    return false;
 }
 
 bool CheckTheNextNskills(const EvCombatDataPersistent &skill_ev,
@@ -55,9 +70,10 @@ bool CheckTheNextNskills(const EvCombatDataPersistent &skill_ev,
                          RotationLogType &rotation_run,
                          EvCombatDataPersistent &last_skill)
 {
-    const auto is_match = ((future_rota_skill.skill_data.name == skill_ev.SkillName) && is_okay);
-    const auto is_any_other_aa = !is_match && IsOtherValidAutoAttack(future_rota_skill, skill_ev, rotation_run);
     const auto is_special_mapping = IsSpecialMappingSkill(skill_ev, future_rota_skill);
+    const auto is_match =
+        (((future_rota_skill.skill_data.name == skill_ev.SkillName) || is_special_mapping) && is_okay);
+    const auto is_any_other_aa = !is_match && IsOtherValidAutoAttack(future_rota_skill, skill_ev, rotation_run);
 
     if (is_match || is_any_other_aa)
     {
@@ -216,10 +232,7 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
             is_berserker_f1 = RotationLogType::berserker_f1_skills.count(skill_ev.SkillID) > 0;
 
         if (is_mesmer_weapon_4 || is_berserker_f1)
-        {
-            // early return
             return;
-        }
 
         if (!curr_is_auto_attack && check_for_next_skill &&
             CheckTheNextNskills(skill_ev, next_rota_skill, 2, true, rotation_run, last_skill))

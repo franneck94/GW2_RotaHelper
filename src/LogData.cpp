@@ -338,7 +338,7 @@ void get_rotation_info(const IntNode &node,
             if (skill_data.skill_id == 0)
             {
                 skill_data.skill_id = icon_id;
-                skill_data.name = "Unknown Skill";
+                skill_data.name = "Weapon Swap";
                 skill_data.icon_id = -9999;
             }
 
