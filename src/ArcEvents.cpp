@@ -63,10 +63,8 @@ bool IsSkillFromBuild_NameBased(const EvCombatDataPersistent &combat_data)
 
 bool IsAnySkillFromBuild(const EvCombatDataPersistent &combat_data)
 {
-    if (combat_data.SkillName == "Rifle Burst Grenade")
-        return false; // XXX add static set for filtering
-    if (combat_data.SkillName == "Lightning Strike")
-        return false; // XXX add static set for filtering
+    if (RotationLogType::skills_to_not_track.find(combat_data.SkillName) != RotationLogType::skills_to_not_track.end())
+        return false;
 
     return IsSkillFromBuild_NameBased(combat_data) || IsSkillFromBuild_IdBased(combat_data);
 }
