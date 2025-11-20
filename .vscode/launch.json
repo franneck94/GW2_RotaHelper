@@ -44,5 +44,18 @@
             "cwd": "${workspaceFolder}",
             "justMyCode": false
         },
+        {
+            "name": "Debug: version script",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/create_version_file.py",
+            "args": [
+                "--version=1.0.0",
+                "--output=C:/Users/schaf.JANPC/Documents/_LocalCoding/GW2_RotaHelper/data"
+            ],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false
+        },
     ]
 }

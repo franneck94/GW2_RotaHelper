@@ -110,3 +110,9 @@ add_custom_command(TARGET GW2RotaHelper POST_BUILD
         "D:/GW2_2/addons" || (exit 0)
     COMMENT "Copying binary files to GW2 addons directory"
 )
+
+# Separate command for version file generation in Release mode only
+add_custom_command(TARGET GW2RotaHelper POST_BUILD
+    COMMAND python "${CMAKE_SOURCE_DIR}/scripts/create_version_file.py --version=1.0.0 -output=${CMAKE_SOURCE_DIR}/data"
+    COMMENT "Creating version file"
+)
