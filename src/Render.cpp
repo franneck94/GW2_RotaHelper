@@ -565,30 +565,37 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
 
 void RenderType::render_options_window(bool &is_not_ui_adjust_active)
 {
-    if (ImGui::Begin("Rota Helper ###GW2RotaHelper_Options", &Settings::ShowWindow))
-    {
 #ifdef _DEBUG
-        ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.3f, 1.0f), "BETA v%s", Globals::VersionString.c_str());
+    const auto version_string = std::string("BETA v") + Globals::VersionString;
 #else
-        ImGui::TextColored(ImVec4(0.2f, 0.8f, 1.0f, 1.0f), "v%s", Globals::VersionString.c_str());
+    const auto version_string = std::string("v") + Globals::VersionString;
 #endif
 
+    const auto window_title = std::string("Rota Helper ") + version_string + "###GW2RotaHelper_Options";
+
+    if (ImGui::Begin(window_title.c_str(), &Settings::ShowWindow))
+    {
         render_select_bench();
-
         render_snowcrows_build_link();
-
         render_options_checkboxes(is_not_ui_adjust_active);
+
+        if (benches_files.empty())
+        {
+            const auto missing_content_text = "IMPORTANT: Missing build files!";
+            const auto centered_pos_missing = calculate_centered_position({missing_content_text});
+            ImGui::SetCursorPosX(centered_pos_missing);
+            ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), missing_content_text);
+
+            const auto missing_content_text_2 = "Please download and extract the ZIP from GitHub.";
+            const auto centered_pos_missing_2 = calculate_centered_position({missing_content_text_2});
+            ImGui::SetCursorPosX(centered_pos_missing_2);
+            ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), missing_content_text_2);
+        }
 
 #ifdef _DEBUG
 #ifdef GW2_NEXUS_ADDON
         if (ImGui::CollapsingHeader("Debug Data", ImGuiTreeNodeFlags_DefaultOpen))
-        {
             render_debug_data();
-        }
-#else
-        ImGuiIO &io = ImGui::GetIO();
-        (void)io;
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
 #endif
 #endif
     }
@@ -596,7 +603,12 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
 #ifndef _DEBUG
     if (!IsValidMap())
     {
-        ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), "Rotation only shown in Training Area!");
+        const auto warning_text = "Rotation only shown in Training Area!";
+        const auto centered_pos = calculate_centered_position({warning_text});
+        ImGui::SetCursorPosX(centered_pos);
+
+        ImGui::SetCursorPosX(centered_pos);
+        ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), warning_text);
     }
 #endif
 
@@ -669,16 +681,16 @@ void RenderType::render_select_bench()
 void RenderType::render_text_filter()
 {
     ImGui::Text("Filter:");
-    if (ImGui::IsItemHovered())
-        ImGui::SetTooltip("Good working builds have a star, very bad working a red cross.");
 
     ImGui::SameLine();
+
     auto *filter_buffer = (char *)Settings::FilterBuffer;
 
     ImGui::PushAllowKeyboardFocus(false);
 
     filter_input_pos = ImGui::GetCursorScreenPos();
 
+    ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.75f);
     auto text_changed = ImGui::InputText("##filter",
                                          filter_buffer,
                                          sizeof(Settings::FilterBuffer),
@@ -689,7 +701,7 @@ void RenderType::render_text_filter()
     if (text_changed)
         open_combo_next_frame = true;
 
-    filter_input_width = ImGui::GetWindowWidth() * 0.5f; // TODO: width should be largest build name in filter
+    filter_input_width = ImGui::GetWindowWidth() * 0.75f;
 
     if (ImGui::IsItemActive() && ImGui::IsKeyPressed(ImGuiKey_Tab))
         open_combo_next_frame = true;
