@@ -98,6 +98,7 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "power_tempest_hammer",
     "power_herald",
     "power_luminary",
+    "power_ritualist",
     // POWER BOON BUILDS
     "power_quickness_herald",
     "power_boon_chronomancer",
@@ -106,6 +107,7 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "power_alacrity_tempest_inferno_scepter_focus",
     "celestial_alacrity_scourge",
     "power_alacrity_renegade",
+    "power_quickness_ritualist",
     // CONDITION BUILDS
     "condition_thief",
     "condition_thief_spear",
@@ -183,10 +185,8 @@ static const inline std::set<std::string_view> starred_builds = {
     "power_soulbeast_hammer",
     "power_spellbreaker_hammer",
     "power_berserker_hammer_axe_mace",
-    "power_ritualist",
     // POWER BOON BUILDS
     "power_quickness_galeshot",
-    "power_quickness_ritualist",
 };
 
 bool IsVersionIsRange(const std::string version,
@@ -539,7 +539,7 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
     {
         ImGui::BeginTooltip();
         ImGui::Text("When enabled, rotation progression requires exact skill "
-                    "matching.");
+                    "matching (for not grayed out skills).");
         ImGui::Text("This will turn off the weapon swap icons.");
         ImGui::Text("When disabled, allows more flexible skill detection with "
                     "fallbacks.");

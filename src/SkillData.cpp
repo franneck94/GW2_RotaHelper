@@ -271,6 +271,9 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Nefarious Favor",
     "Terrify",
     "Infusing Terror",
+    "Anguish",
+    "Summon Spirits",
+    "Wanderlust",
     // REVENANT
     "True Nature",
     "Facet of Chaos",
