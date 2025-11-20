@@ -1747,5 +1747,16 @@
     "url_name": "condition_conduitfixes",
     "dps_report_url": "https://dps.report/InK1-20251112-194936_golem",
     "html_file_path": "dps\\condition\\condition_conduitfixes.html"
+  },
+  {
+    "name": "Condition Conduit",
+    "url": "manual:Condition_Conduit",
+    "benchmark_type": "dps",
+    "profession": "Unknown",
+    "elite_spec": "",
+    "build_type": "condition",
+    "url_name": "condition_conduit",
+    "dps_report_url": "https://dps.report/InK1-20251112-194936_golem",
+    "html_file_path": "dps\\condition\\condition_conduit.html"
   }
 ]
