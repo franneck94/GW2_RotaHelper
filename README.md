@@ -11,6 +11,7 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
 1. **Download Components**: Obtain both the DLL and companion ZIP file from our [official releases page](https://github.com/franneck94/GW2_RotaHelper/releases)
 2. **Install Addon**: Place the DLL file into your Nexus addons directory.
 3. **Deploy Resources**: Extract the GW2RotaHelper ZIP archive and copy its contents to your Nexus addons folder.
+   1. NOTE: This step is still needed even if you installed the dll via ingame nexus
 
 ## 🎯 User Guide
 
