@@ -125,28 +125,6 @@ void AddonLoad(AddonAPI *aApi)
     std::filesystem::create_directories(AddonPath);
     Globals::Render.set_data_path(data_path);
 
-    auto version_file_path = data_path / "VERSION.txt";
-    if (std::filesystem::exists(version_file_path))
-    {
-        std::ifstream version_file(version_file_path);
-        if (version_file.is_open())
-        {
-            std::string line;
-            if (std::getline(version_file, line))
-            {
-                // Parse "VERSION = X.X.X" format
-                auto pos = line.find("=");
-                if (pos != std::string::npos && pos + 1 < line.length())
-                {
-                    Globals::BenchFilesVersionString = line.substr(pos + 1);
-                    Globals::BenchFilesVersionString.erase(0, Globals::BenchFilesVersionString.find_first_not_of(" \t"));
-                    Globals::BenchFilesVersionString.erase(Globals::BenchFilesVersionString.find_last_not_of(" \t") + 1);
-                }
-            }
-            version_file.close();
-        }
-    }
-
     Settings::Load(Globals::SettingsPath);
 
     if (Settings::HorizontalSkillLayout)

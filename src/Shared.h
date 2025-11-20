@@ -29,7 +29,8 @@ extern TextureMapType TextureMap;
 extern std::filesystem::path SettingsPath;
 extern float SkillIconSize;
 extern std::string VersionString;
-extern std::string BenchFilesVersionString;
+extern std::string BenchFilesLowerVersionString;
+extern std::string BenchFilesUpperVersionString;
 
 extern Mumble::Identity Identity;
 

@@ -18,6 +18,7 @@
 #include <map>
 #include <numbers>
 #include <set>
+#include <sstream>
 #include <string>
 #include <thread>
 #include <utility>
@@ -187,6 +188,13 @@ static const inline std::set<std::string_view> starred_builds = {
     "power_quickness_galeshot",
     "power_quickness_ritualist",
 };
+
+bool IsVersionIsRange(const std::string version,
+                      const std::string &lower_version_bound,
+                      const std::string &upper_version_bound)
+{
+    return version >= lower_version_bound && version <= upper_version_bound;
+}
 
 bool IsInBuildCategory(std::string_view display_name, const std::set<std::string_view> &category_builds)
 {
@@ -592,12 +600,17 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
             ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), missing_content_text_2);
         }
 
-        if (Globals::BenchFilesVersionString != "" && Globals::BenchFilesVersionString != Globals::VersionString)
+        if (Globals::BenchFilesLowerVersionString != "" && Globals::BenchFilesUpperVersionString != "")
         {
-            const auto missing_content_text3 = "NOTE: There is a newer version for the builds ZIP on github!";
-            const auto centered_pos_missing3 = calculate_centered_position({missing_content_text3});
-            ImGui::SetCursorPosX(centered_pos_missing3);
-            ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), missing_content_text3);
+            if (!IsVersionIsRange(Globals::VersionString,
+                                  Globals::BenchFilesLowerVersionString,
+                                  Globals::BenchFilesUpperVersionString))
+            {
+                const auto missing_content_text3 = "NOTE: There is a newer version for the builds ZIP on github!";
+                const auto centered_pos_missing3 = calculate_centered_position({missing_content_text3});
+                ImGui::SetCursorPosX(centered_pos_missing3);
+                ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), missing_content_text3);
+            }
         }
 
 #ifdef _DEBUG

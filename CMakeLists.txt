@@ -103,7 +103,7 @@ set_target_properties(GW2RotaHelper PROPERTIES
 )
 
 add_custom_command(TARGET GW2RotaHelper POST_BUILD
-    COMMAND python "${CMAKE_SOURCE_DIR}/scripts/create_version_file.py" "--header_path=${CMAKE_SOURCE_DIR}/src/Version.h" "--output=${CMAKE_SOURCE_DIR}/data"
+    COMMAND python "${CMAKE_SOURCE_DIR}/scripts/create_version_file.py" "--lower_version=0.13.0.0" "--header_path=${CMAKE_SOURCE_DIR}/src/Version.h"
     COMMENT "Creating version file"
 )
 add_custom_command(TARGET GW2RotaHelper POST_BUILD
@@ -113,8 +113,5 @@ add_custom_command(TARGET GW2RotaHelper POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/data"
         "D:/GW2/addons/GW2RotaHelper" || (exit 0)
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/data"
-        "D:/GW2_2/addons/GW2RotaHelper" || (exit 0)
     COMMENT "Copying files."
 )
