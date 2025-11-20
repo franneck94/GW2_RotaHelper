@@ -101,18 +101,20 @@ set_target_properties(GW2RotaHelper PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_SOURCE_DIR}/bin/debug"
     RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/bin/release"
 )
+
+add_custom_command(TARGET GW2RotaHelper POST_BUILD
+    COMMAND python "${CMAKE_SOURCE_DIR}/scripts/create_version_file.py" "--header_path=${CMAKE_SOURCE_DIR}/src/Version.h" "--output=${CMAKE_SOURCE_DIR}/data"
+    COMMENT "Creating version file"
+)
 add_custom_command(TARGET GW2RotaHelper POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
         "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>"
         "D:/GW2/addons" || (exit 0)
     COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${CMAKE_SOURCE_DIR}/bin/$<CONFIG>"
-        "D:/GW2_2/addons" || (exit 0)
-    COMMENT "Copying binary files to GW2 addons directory"
-)
-
-# Separate command for version file generation in Release mode only
-add_custom_command(TARGET GW2RotaHelper POST_BUILD
-    COMMAND python "${CMAKE_SOURCE_DIR}/scripts/create_version_file.py --version=1.0.0 -output=${CMAKE_SOURCE_DIR}/data"
-    COMMENT "Creating version file"
+        "${CMAKE_SOURCE_DIR}/data"
+        "D:/GW2/addons/GW2RotaHelper" || (exit 0)
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${CMAKE_SOURCE_DIR}/data"
+        "D:/GW2_2/addons/GW2RotaHelper" || (exit 0)
+    COMMENT "Copying files."
 )

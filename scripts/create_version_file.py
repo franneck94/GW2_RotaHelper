@@ -1,10 +1,42 @@
 """
 Modern Python script to create a version file with command-line arguments.
 Creates a file with VERSION = {NUMBER} format.
+Reads version from src/Version.h if no version is provided.
 """
 
 import argparse
+import re
 from pathlib import Path
+
+
+def read_version_from_header(header_path: Path) -> str:
+    """
+    Read version from src/Version.h file by parsing MAJOR, MINOR, BUILD defines.
+
+    Args:
+        header_path: Path to the Version.h file
+
+    Returns:
+        Version string in format "MAJOR.MINOR.BUILD"
+    """
+    if not header_path.exists():
+        raise FileNotFoundError(f"Version header file not found: {header_path}")
+
+    content = header_path.read_text(encoding="utf-8")
+
+    # Extract version components using regex
+    major_match = re.search(r'#define\s+MAJOR\s+(\d+)', content)
+    minor_match = re.search(r'#define\s+MINOR\s+(\d+)', content)
+    build_match = re.search(r'#define\s+BUILD\s+(\d+)', content)
+
+    if not all([major_match, minor_match, build_match]):
+        raise ValueError("Could not parse version defines from Version.h")
+
+    major = major_match.group(1)  # type: ignore
+    minor = minor_match.group(1)  # type: ignore
+    build = build_match.group(1)  # type: ignore
+
+    return f"{major}.{minor}.{build}"
 
 
 def create_version_file(version: str, output_dir: Path) -> None:
@@ -41,9 +73,10 @@ def parse_arguments() -> argparse.Namespace:
     )
 
     parser.add_argument(
-        "-v",
-        "--version",
-        help="Version number to write to the file",
+        "--header_path",
+        type=Path,
+        default=Path("src/Version.h"),
+        help="Path to Version.h file (default: src/Version.h)",
     )
 
     parser.add_argument(
@@ -62,11 +95,14 @@ def main() -> None:
     try:
         args = parse_arguments()
 
+        print(f"[INFO] Reading version from: {args.header_path}")
+        version = read_version_from_header(args.header_path)
+        print(f"[INFO] Parsed version from header: {version}")
+
         print("[START] Creating version file...")
-        print(f"[INFO] Version: {args.version}")
         print(f"[INFO] Output directory: {args.output.resolve()}")
 
-        create_version_file(args.version, args.output)
+        create_version_file(version, args.output)
 
     except KeyboardInterrupt:
         print("\n[WARNING] Operation cancelled by user")

@@ -592,6 +592,14 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
             ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), missing_content_text_2);
         }
 
+        if (Globals::BenchFilesVersionString != "" && Globals::BenchFilesVersionString != Globals::VersionString)
+        {
+            const auto missing_content_text3 = "NOTE: There is a newer version for the builds ZIP on github!";
+            const auto centered_pos_missing3 = calculate_centered_position({missing_content_text3});
+            ImGui::SetCursorPosX(centered_pos_missing3);
+            ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), missing_content_text3);
+        }
+
 #ifdef _DEBUG
 #ifdef GW2_NEXUS_ADDON
         if (ImGui::CollapsingHeader("Debug Data", ImGuiTreeNodeFlags_DefaultOpen))
@@ -603,7 +611,7 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
 #ifndef _DEBUG
     if (!IsValidMap())
     {
-        const auto warning_text = "Rotation only shown in Training Area!";
+        const auto warning_text = "NOTE: Rotation only shown in Training Area!";
         const auto centered_pos = calculate_centered_position({warning_text});
         ImGui::SetCursorPosX(centered_pos);
 
