@@ -10,9 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Improvements
 
 - Better User Guide in README
-- Added info that users also have to download the ZIP file from github
+- Added info that users also have to download the ZIP file from GitHub
 - Cosmetic Changes to the UI
-- Added versioning for the bench data files
+- Added versioning for the bench data files and a message in-game if they are out of sync
 
 ## 0.13.0 - 2025-11-17
 
@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Power Untamed
   - Power Chronomancer
   - Condi Berserker
-  - Power Tempest Builds in general
+  - Power Tempest builds in general
   - Condition Conduit/Renegade
 - Changed weapon swaps to non-damage skill category
 - Added weapon type info to skills struct (not used in code yet)
@@ -51,7 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Improvements
 
-- Strict rotation options deactivates weapon swap steps
+- Strict rotation option deactivates weapon swap steps
 - Good working builds are marked with a star in the dropdown list
 - Very bad working builds are marked with a red cross in the dropdown list
 - Optimized auto attack detection
@@ -71,11 +71,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Features
 
-- Added copy to clipboard for snow crows link
+- Added copy to clipboard for Snow Crows link
 
 ### Improvements
 
-- Improved non damage skill logic
+- Improved non-damage skill logic
 
 ## 0.9.0 - 2025-11-07
 
@@ -99,7 +99,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Improvements
 
-- Better skill detection in non strict mode
+- Better skill detection in non-strict mode
 
 ## 0.7.0 - 2025-10-31
 
@@ -149,7 +149,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Skill info on icon hover in horizontal mode
 - Only draw in training area and aerodrome
-- Auto reload if ooc
+- Auto reload if OOC
 
 ### Improvements
 
@@ -157,7 +157,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show Rushing Justice only once per cast
 - Added debug info for the mumble context
 - Options window is now collapsible
-- Added adjust UI option where the skills are movable and resizable, otherwise its fixed
+- Added adjust UI option where the skills are movable and resizable, otherwise it's fixed
 - Added better README
 
 ## 0.3.0 - 2025-10-19
