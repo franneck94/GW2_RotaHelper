@@ -121,13 +121,8 @@ void AddonLoad(AddonAPI *aApi)
     AddonPath = Globals::APIDefs->Paths.GetAddonDirectory("GW2RotaHelper");
     Globals::SettingsPath = Globals::APIDefs->Paths.GetAddonDirectory("GW2RotaHelper/settings.json");
 
-    std::filesystem::create_directories(AddonPath);
-
     auto data_path = AddonPath;
-    std::filesystem::create_directories(data_path / "img");
-    std::filesystem::create_directories(data_path / "bench");
-    std::filesystem::create_directories(data_path / "bench/power");
-    std::filesystem::create_directories(data_path / "bench/condition");
+    std::filesystem::create_directories(AddonPath);
     Globals::Render.set_data_path(data_path);
 
     Settings::Load(Globals::SettingsPath);
