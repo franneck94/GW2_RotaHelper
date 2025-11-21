@@ -15,6 +15,7 @@ const char *SHOW_KEYBIND = "ShowKeybind";
 const char *XML_SETTINGS_FILE = "XmlSettingsFile";
 const char *STRICT_MODE_FOR_SKILL_DETECTION = "StrictModeForSkillDetection";
 const char *EASY_SKILL_MODE = "EasySkillMode";
+const char *VERSION_OF_LAST_BENCH_FILES_UPDATE = "VersionOfLastBenchFilesUpdate";
 
 namespace Settings
 {
@@ -82,6 +83,10 @@ void Load(std::filesystem::path aPath)
     {
         Settings[EASY_SKILL_MODE].get_to<bool>(EasySkillMode);
     }
+    if (!Settings[VERSION_OF_LAST_BENCH_FILES_UPDATE].is_null())
+    {
+        Settings[VERSION_OF_LAST_BENCH_FILES_UPDATE].get_to<std::string>(VersionOfLastBenchFilesUpdate);
+    }
     if (!Settings[XML_SETTINGS_FILE].is_null())
     {
         auto _XmlSettingsPath = std::string{};
@@ -104,6 +109,7 @@ void Save(std::filesystem::path aPath)
         Settings[XML_SETTINGS_FILE] = XmlSettingsPath.string();
         Settings[STRICT_MODE_FOR_SKILL_DETECTION] = StrictModeForSkillDetection;
         Settings[EASY_SKILL_MODE] = EasySkillMode;
+        Settings[VERSION_OF_LAST_BENCH_FILES_UPDATE] = VersionOfLastBenchFilesUpdate;
 
         std::ofstream file(aPath);
         file << Settings.dump(1, '\t') << std::endl;
@@ -129,4 +135,5 @@ bool ShowKeybind = false;
 bool StrictModeForSkillDetection = false;
 bool EasySkillMode = false;
 std::filesystem::path XmlSettingsPath;
+std::string VersionOfLastBenchFilesUpdate = "0.1.0.0";
 } // namespace Settings

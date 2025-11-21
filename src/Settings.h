@@ -22,17 +22,15 @@ extern const char *SHOW_KEYBIND;
 extern const char *XML_SETTINGS_FILE;
 extern const char *STRICT_MODE_FOR_SKILL_DETECTION;
 extern const char *EASY_SKILL_MODE;
+extern const char *VERSION_OF_LAST_BENCH_FILES_UPDATE;
 
 namespace Settings
 {
 extern std::mutex Mutex;
 extern json Settings;
 
-/* Loads the settings. */
 void Load(std::filesystem::path aPath);
-/* Saves the settings. */
 void Save(std::filesystem::path aPath);
-
 void ToggleShowWindow(std::filesystem::path SettingsPath);
 
 extern bool ShowWindow;
@@ -45,6 +43,7 @@ extern bool ShowKeybind;
 extern bool StrictModeForSkillDetection;
 extern bool EasySkillMode;
 extern std::filesystem::path XmlSettingsPath;
+extern std::string VersionOfLastBenchFilesUpdate;
 } // namespace Settings
 
 #endif

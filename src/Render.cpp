@@ -619,17 +619,45 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
             ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), missing_content_text_2);
         }
 
-        if (Globals::BenchFilesLowerVersionString != "" && Globals::BenchFilesUpperVersionString != "")
+        if (Globals::BenchFilesLowerVersionString != "" && Globals::BenchFilesUpperVersionString != "" &&
+            Settings::VersionOfLastBenchFilesUpdate != "")
         {
-            if (!IsVersionIsRange(Globals::VersionString,
+            if (!IsVersionIsRange(Settings::VersionOfLastBenchFilesUpdate,
                                   Globals::BenchFilesLowerVersionString,
                                   Globals::BenchFilesUpperVersionString))
             {
-                const auto missing_content_text3 = "NOTE: There is a newer version for the builds ZIP on github!";
+                const auto missing_content_text3 = "NOTE: There is a newer version for the builds.";
                 const auto centered_pos_missing3 = calculate_centered_position({missing_content_text3});
                 ImGui::SetCursorPosX(centered_pos_missing3);
                 ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), missing_content_text3);
+
+                static bool started_download = false;
+                const auto btn_text = !started_download ? "Start Downloading" : "Downloading...";
+                const auto centered_pos = calculate_centered_position({btn_text});
+                ImGui::SetCursorPosX(centered_pos);
+
+                if (!started_download)
+                {
+                    if (ImGui::Button(btn_text))
+                    {
+                        started_download = true;
+
+                        const auto AddonPath = Globals::APIDefs->Paths.GetAddonDirectory("GW2RotaHelper");
+                        Globals::BenchDataDownloadState = DownloadState::STARTED;
+                        DownloadAndExtractDataAsync(AddonPath);
+                    }
+                }
+                else
+                {
+                    ImGui::Text(btn_text);
+                }
             }
+        }
+        else if (Settings::VersionOfLastBenchFilesUpdate == "")
+        {
+            Settings::VersionOfLastBenchFilesUpdate =
+                "0.1.0.0"; // init with oldest version to always update in next cycle
+            Settings::Save(Globals::SettingsPath);
         }
 
 #ifdef _DEBUG

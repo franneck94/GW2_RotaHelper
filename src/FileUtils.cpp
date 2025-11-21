@@ -20,6 +20,7 @@
 
 #include "FileUtils.h"
 #include "MumbleUtils.h"
+#include "Settings.h"
 #include "Types.h"
 #include "TypesUtils.h"
 
@@ -568,6 +569,9 @@ void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath)
                     std::filesystem::remove(temp_zip_path);
                     Globals::BenchDataDownloadState = DownloadState::FINISHED;
                     Globals::DownloadedBenchData = true;
+
+                    Settings::VersionOfLastBenchFilesUpdate = Globals::VersionString;
+                    Settings::Save(Globals::SettingsPath);
                 }
                 else
                 {
