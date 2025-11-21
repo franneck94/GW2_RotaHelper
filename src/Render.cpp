@@ -36,6 +36,7 @@
 #include "Rotation.h"
 #include "Settings.h"
 #include "Shared.h"
+#include "SkillData.h"
 #include "Textures.h"
 #include "Types.h"
 #include "TypesUtils.h"
@@ -361,14 +362,18 @@ void RenderType::render_debug_data()
                 Globals::Identity.Specialization,
                 elite_spec_to_string(static_cast<EliteSpecID>(Globals::Identity.Specialization)).c_str());
     ImGui::Text("Map ID: %u", Globals::Identity.MapID);
-    ImGui::Text("Is in Combat: %d", Globals::MumbleData->Context.IsInCombat);
+    ImGui::Text("Is in Combat: %d", Globals::MumbleData->Context.IsInCombat == true ? "true" : "false");
 
     ImGui::Text("Last Casted Skill ID: %u", curr_combat_data.SkillID);
-    ImGui::Text("Last Casted Skill Name: %s", curr_combat_data.SkillName.c_str());
-    ImGui::Text("Last Arc Event Skill Name: %s", Globals::LastArcEventSkillName.c_str());
+    ImGui::Text("Last Casted Skill Name: %s",
+                curr_combat_data.SkillName != "" ? curr_combat_data.SkillName.c_str() : "None");
+    ImGui::Text("Last Arc Event Skill Name: %s",
+                Globals::LastArcEventSkillName != "" ? Globals::LastArcEventSkillName.c_str() : "None");
     ImGui::Text("Last Event ID: %u", curr_combat_data.EventID);
     ImGui::Text("Repeated skill: %s", curr_combat_data.RepeatedSkill == true ? "true" : "false");
     ImGui::Text("Is Same Cast: %s", Globals::IsSameCast == true ? "true" : "false");
+    const auto skill_data = SkillRuleData::GetDataByID(curr_combat_data.SkillID, Globals::RotationRun.skill_data_map);
+    ImGui::Text("Weapon Type of Skill: %s", weapon_type_to_string(skill_data.weapon_type).c_str());
 
     ImGui::Separator();
 
