@@ -315,6 +315,7 @@ const std::set<std::string_view> special_substr_to_remove_duplicates = {
     "Arcane Blast",
     "Twilight Combo",
     "Death Blossom",
+    "Beguiling Haze",
 };
 
 const std::set<std::string_view> easy_mode_drop_match = {
@@ -347,7 +348,6 @@ const std::set<std::string> skills_to_not_track = {
     "Lightning Strike",
 };
 
-// TODO: Add for engi spear 5 and spear 3
 const std::map<std::string, std::string> special_mapping_skills = {
     {"Devastator", "Focused Devastation"},
     {"Focused Devastation", "Devastator"},
