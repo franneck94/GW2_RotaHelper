@@ -40,20 +40,19 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
 #### Important Notes
 
 - The addon is only active in the Aerodrome and in the training area.
-- This addon does not do any memory reading by itself it just uses the public ArcDPS API which has its limitations
+- This addon does not do any memory reading by itself it just uses the public ArcDPS API which has its limitations (see [here](#arcdps-public-api-limitations))
 - The rotation starts at the first time point where damage is dealt to the enemy; hence, pre-cast abilities are excluded.
 
 #### Visual Learning System
 
 - White Border: Current skill to cast
-- Purple Border: Final skill in rotation
 - Orange Border: Auto-attack skills
 - Greyed Icons: Skills that do no damage or are not forwarded by the public ArcDPS API
 
 <div align="left" style="margin-left:50px;">
    <img src="./media/CurrentSkillBorder.png" alt="Current Skill Border" style="display:inline-block; margin-right:10px;" />
-   <img src="./media/GreyedOutSkill.png" alt="Greyed Out Skill" style="display:inline-block; margin-right:10px;" />
    <img src="./media/AutoAttackBorder.png" alt="Auto Attack Border" style="display:inline-block;" />
+    <img src="./media/GreyedOutSkill.png" alt="Greyed Out Skill" style="display:inline-block; margin-right:10px;" />
 </div>
 
 #### Features and Options
@@ -72,7 +71,8 @@ Note: Most features and settings have a detailed tooltip if you hover over it in
    <img src="./media/default_keybinds.png" alt="Example Screenshot" />
 </div>
 
-- Furthermore, you can even load in your custom keybinds via the XML file.
+- Furthermore, you can even load in your custom keybinds via the XML file in:  
+C:\Users\XXX\Documents\Guild Wars 2\InputBinds
 
 <div align="left" style="margin-left:50px;">
    <img src="./media/user_keybinds.png" alt="Example Screenshot" />
@@ -87,11 +87,24 @@ You can copy the following data to the clipboard:
 
 ##### Rotation Settings
 
-- Strict Rotation: Every skill has to match exactly, so there is no room for skill swapping like 2->3 instead of 3->2.
-   - Not recommended for most builds.
-- Easy Skill Mode: On certain classes, some skills are not mandatory (or even not shown). Examples:
-   - F-Skills on Mechanist
-   - Sword Auto Attack on Condi Renegade/Conduit
+- Strict Rotation: Every skill has to match, so there is no room for skill swapping like 2->3 instead of 3->2.
+  - The logic for greyed out skills still applies here
+  - Not recommended for most builds.
+- Easy Skill Mode: On certain classes, some skills are not shown. Examples:
+  - F-Skills on Mechanist
+  - Sword Auto Attack on Condi Renegade/Conduit
+
+Regular Mode:
+
+<div align="left" style="margin-left:50px;">
+   <img src="./media/mech_with_f.png" alt="Example Screenshot" />
+</div>
+
+Easy Mode:
+
+<div align="left" style="margin-left:50px;">
+   <img src="./media/mech_without_f.png" alt="Example Screenshot" />
+</div>
 
 #### Tested Builds
 
@@ -103,13 +116,6 @@ In general, you can see in-game via the star/tick/cross icons the state of a bui
 - Poorly working builds are marked with an <span style="color: #ffa200ff">orange</span> 🗙
 - Very bad working builds are marked with a <span style="color: #e82204ff">red</span> 🗙
 - Not yet tested builds are marked with a <span style="color: #43403fff">gray</span>  ❔
-
-NOTE: Some builds have duo logs uploaded (like Condition Daredevil Dagger) - there my web parser script downloaded the wrong log.
-
-Classes that are not properly optimized for:
-
-- Thief
-- Guardian
 
 #### Converting your own logs
 
@@ -137,6 +143,19 @@ You can convert your own HTML logs from dps.report or other sources using the pr
 ## ⚠️ Known Limitations
 
 Full list of issues: [here](ISSUES.md)
+
+### ArcDPS Public API Limitations
+
+There are a few skills that either do no direct damage to the golem or only delayed damage, which means they don't trigger through the ArcDPS combat event system. These skills appear greyed out in the rotation helper to indicate they won't advance the rotation automatically.
+
+1. **Cast it manually** - The skill is part of the optimal rotation but won't be automatically detected
+2. **Don't wait** - Continue with the next skill in sequence immediately after casting
+3. **Visual indicator only** - The grey tint helps you identify which skills need manual progression
+
+This limitation is inherent to the ArcDPS public API, which only forwards combat events that deal damage to enemies. Support skills, buffs, and defensive abilities don't generate these events.
+A list of such skills can be found [here](https://github.com/franneck94/GW2_RotaHelper/blob/main/src/SkillData.cpp#L147)
+
+NOTE: Since i have no clue about reverse engineering i cannot do the skill detection by myself.
 
 ## 💬 Support & Feedback
 
