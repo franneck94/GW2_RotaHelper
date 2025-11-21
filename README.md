@@ -117,6 +117,10 @@ In general, you can see in-game via the star/tick/cross icons the state of a bui
 - Very bad working builds are marked with a <span style="color: #e82204ff">red</span> 🗙
 - Not yet tested builds are marked with a <span style="color: #43403fff">gray</span>  ❔
 
+<div align="left" style="margin-left:50px;">
+   <img src="./media/build_categories.png" alt="Example Screenshot" />
+</div>
+
 #### Converting your own logs
 
 You can convert your own HTML logs from dps.report or other sources using the provided Python scripts:
