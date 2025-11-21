@@ -8,30 +8,39 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
 
 ## ✨ Installation Guide
 
-0. **Install ArcDPS**: Install arcdps by e.g. Nexus Addon Manager
-1. **Download Components**: Obtain both the DLL and companion ZIP file from our [official releases page](https://github.com/franneck94/GW2_RotaHelper/releases)
-2. **Install Addon**: Place the DLL file into your Nexus addons directory.
-3. **Deploy Resources**: Extract the GW2RotaHelper ZIP archive and copy its contents to your Nexus addons folder.
-   1. NOTE: This step is still needed even if you installed the dll via ingame nexus
+1. **Install Nexus**: Install Nexus Addon Manager
+2. **Install ArcDPS**: Install arcdps via the Nexus Addon Manager
+3. **Install this Addon**: Obtain the DLL either by
+   1. Ingame in the nexus addon library
+   2. The GitHub release [page](https://github.com/franneck94/GW2_RotaHelper/releases), there you need to place the dll in the GW2/addons dir
 
 ## 🎯 User Guide
 
 #### Selecting a Rotation
 
 - The addon ships exported benchmark rotations from the Snow Crows website.
-  - They are included in the ZIP file you downloaded
 - You can input a filter text; otherwise, all are listed for the currently selected profession.
+
+<div align="left" style="margin-left:50px;">
+   <img src="./media/Filter.png" alt="Example Screenshot" />
+</div>
 
 <div align="left" style="margin-left:50px;">
    <img src="./media/selection.png" alt="Example Screenshot" />
 </div>
 
 - There's a vertical and a horizontal layout depending on your needs.
-- Skill names and cast times (from the bench) can be turned on.
+- Skill names and cast times from the bench log can be turned on.
+
+<div align="left" style="margin-left:50px;">
+   <img src="./media/NameAndTime.png" alt="Example Screenshot" />
+</div>
+
 
 #### Important Notes
 
 - The addon is only active in the Aerodrome and in the training area.
+- This addon does not do any memory reading by itself it just uses the public ArcDPS API which has its limitations
 - The rotation starts at the first time point where damage is dealt to the enemy; hence, pre-cast abilities are excluded.
 
 #### Visual Learning System
@@ -39,7 +48,13 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
 - White Border: Current skill to cast
 - Purple Border: Final skill in rotation
 - Orange Border: Auto-attack skills
-- Greyed Icons: Special skills (attunements, stances - in general, non-damaging skills)
+- Greyed Icons: Skills that do no damage or are not forwarded by the public ArcDPS API
+
+<div align="left" style="margin-left:50px;">
+   <img src="./media/CurrentSkillBorder.png" alt="Current Skill Border" style="display:inline-block; margin-right:10px;" />
+   <img src="./media/GreyedOutSkill.png" alt="Greyed Out Skill" style="display:inline-block; margin-right:10px;" />
+   <img src="./media/AutoAttackBorder.png" alt="Auto Attack Border" style="display:inline-block;" />
+</div>
 
 #### Features and Options
 
