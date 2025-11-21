@@ -9,17 +9,17 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
 ## ✨ Installation Guide
 
 1. **Install Nexus**: Install Nexus Addon Manager
-2. **Install ArcDPS**: Install arcdps via the Nexus Addon Manager
+2. **Install ArcDPS**: Install arcdps via the Nexus Addon Library
 3. **Install this Addon**: Obtain the DLL either by
-   1. Ingame in the nexus addon library
+   1. Ingame in the Nexus Addon Library
    2. The GitHub release [page](https://github.com/franneck94/GW2_RotaHelper/releases), there you need to place the dll in the GW2/addons dir
 
 ## 🎯 User Guide
 
 #### Selecting a Rotation
 
-- The addon ships exported benchmark rotations from the Snow Crows website.
-- You can input a filter text; otherwise, all are listed for the currently selected profession.
+- The addon ships exported benchmark rotations from the Snow Crows [website](https://snowcrows.com/benchmarks).
+- You can input a filter text; otherwise, all builds are listed for the currently selected profession.
 
 <div align="left" style="margin-left:50px;">
    <img src="./media/Filter.png" alt="Example Screenshot" />
@@ -47,7 +47,7 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
 
 - White Border: Current skill to cast
 - Orange Border: Auto-attack skills
-- Greyed Icons: Skills that do no damage or are not forwarded by the public ArcDPS API
+- Greyed Icons: Skills that do no damage or are not forwarded by the public ArcDPS API (see [here](#arcdps-public-api-limitations) again)
 
 <div align="left" style="margin-left:50px;">
    <img src="./media/CurrentSkillBorder.png" alt="Current Skill Border" style="display:inline-block; margin-right:10px;" />
@@ -151,15 +151,15 @@ Full list of issues: [here](ISSUES.md)
 
 There are a few skills that either do no direct damage to the golem or only delayed damage, which means they don't trigger through the ArcDPS combat event system. These skills appear greyed out in the rotation helper to indicate they won't advance the rotation automatically.
 
-1. **Cast it manually** - The skill is part of the optimal rotation but won't be automatically detected
+1. **Cast it** - The skill is part of the optimal rotation but won't be properly detected by ArcDPS
 2. **Don't wait** - Continue with the next skill in sequence immediately after casting
-3. **Visual indicator only** - The grey tint helps you identify which skills need manual progression
+3. **Visual indicator only** - The grey tint helps you identify this kind of skill
 
 This limitation is inherent to the ArcDPS public API, which only forwards combat events that deal damage to enemies. Support skills, buffs, and defensive abilities don't generate these events.
 A list of such skills can be found [here](https://github.com/franneck94/GW2_RotaHelper/blob/main/src/SkillData.cpp#L147)
 
-NOTE: Since i have no clue about reverse engineering i cannot do the skill detection by myself.
+NOTE: Since i have no clue about reverse engineering i cannot do the skill detection by myself. In the future i may add this if i get good, or get some help :)
 
 ## 💬 Support & Feedback
 
-Encountered an issue or have suggestions for improvement? We'd love to hear from you! Reach out via Discord or submit a detailed GitHub issue to help us enhance your experience.
+Encountered an issue or have suggestions for improvement? Reach out via Discord or submit a detailed GitHub issue to help us enhance your experience.
