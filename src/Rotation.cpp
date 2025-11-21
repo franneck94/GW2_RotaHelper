@@ -12,16 +12,6 @@
 
 namespace
 {
-SkillData GetSkillDataByID(const uint64_t skill_id, const SkillDataMap &skill_data_map)
-{
-    auto it = skill_data_map.find(static_cast<int>(skill_id));
-
-    if (it != skill_data_map.end())
-        return it->second;
-
-    return {};
-}
-
 bool IsSkillAutoAttack(const uint64_t skill_id, const std::string &skill_name, const SkillDataMap &skill_data_map)
 {
     auto it = skill_data_map.find(static_cast<int>(skill_id));
@@ -53,11 +43,13 @@ bool IsOtherValidAutoAttack(const RotationStep &n_th_future_rota_skill,
                                                                       rotation_run.skill_data_map);
 
     const auto n_th_future_skill_weapon_type = n_th_future_rota_skill.skill_data.weapon_type;
-    const auto actual_skill_data = GetSkillDataByID(curr_actual_casted_skill.SkillID, rotation_run.skill_data_map);
+    const auto actual_skill_data =
+        SkillRuleData::GetDataByID(curr_actual_casted_skill.SkillID, rotation_run.skill_data_map);
     const auto actual_casted_skill_weapon_type = actual_skill_data.weapon_type;
     const auto same_weapon_type = n_th_future_skill_weapon_type == actual_casted_skill_weapon_type;
 
-    return future_is_auto_attack && is_not_special_cast_time_skill && actual_casted_skill_is_auto_attack;
+    return future_is_auto_attack && is_not_special_cast_time_skill && actual_casted_skill_is_auto_attack &&
+           same_weapon_type;
 }
 
 bool IsSpecialMappingSkill(const EvCombatDataPersistent &curr_actual_casted_skill,
