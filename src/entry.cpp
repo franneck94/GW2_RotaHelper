@@ -173,6 +173,8 @@ void AddonLoad(AddonAPI *aApi)
                 pd3dDevice = nullptr;
         }
     }
+
+    (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Loaded Addon");
 }
 
 void AddonUnload()
@@ -191,6 +193,7 @@ void AddonUnload()
     DeregisterQuickAccessShortcut();
 
     Globals::APIDefs->Events.Unsubscribe("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ArcEv::OnCombatLocal);
+    (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Unloaded Addon");
 }
 
 void TriggerParseMumble()
@@ -222,6 +225,7 @@ void TriggerParseMumble()
                     Globals::Identity = current_identity;
                     pending_count = 0;
                     pending_identity = Mumble::Identity{};
+                    (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Detected other profession.");
                 }
             }
         }

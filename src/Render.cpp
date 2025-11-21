@@ -332,6 +332,9 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
     if (skill_ev.SkillID == 0 || skill_ev.SkillID == -10000)
         return;
 
+    const auto debug_msg = std::string{"Player Casted Skill: "} + skill_ev.SkillName;
+    (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", debug_msg.c_str());
+
     SkillDetectionLogic(num_skills_wo_match, time_since_last_match, Globals::RotationRun, skill_ev, last_skill);
 }
 
@@ -355,6 +358,7 @@ float RenderType::calculate_centered_position(const std::vector<std::string> &it
 void RenderType::render_debug_data()
 {
     ImGui::Separator();
+
     ImGui::Text("Profession: %d (%s)",
                 static_cast<int>(Globals::Identity.Profession),
                 profession_to_string(static_cast<ProfessionID>(Globals::Identity.Profession)).c_str());
@@ -362,6 +366,9 @@ void RenderType::render_debug_data()
                 Globals::Identity.Specialization,
                 elite_spec_to_string(static_cast<EliteSpecID>(Globals::Identity.Specialization)).c_str());
     ImGui::Text("Map ID: %u", Globals::Identity.MapID);
+
+    ImGui::Separator();
+
     ImGui::Text("Is in Combat: %d", Globals::MumbleData->Context.IsInCombat == true ? "true" : "false");
 
     ImGui::Text("Last Casted Skill ID: %u", curr_combat_data.SkillID);
@@ -389,7 +396,7 @@ void RenderType::render_debug_data()
         for (const auto &[action_name, keybind_info] : keybinds)
         {
             if (count >= 5)
-                break; // Show only first 5 for testing
+                break;
 
             auto display_text = action_name + ": ";
             if (keybind_info.button != Keys::NONE)
@@ -447,6 +454,7 @@ void RenderType::render_xml_selection()
             Settings::Save(Globals::SettingsPath);
 
             keybinds_loaded = false;
+            (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Loaded XML InputBinds File.");
         }
     }
 

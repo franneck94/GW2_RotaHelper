@@ -499,7 +499,9 @@ bool DownloadFile(const std::string &url, const std::filesystem::path &outputPat
 {
     try
     {
-        HRESULT hr = URLDownloadToFileA(nullptr, url.c_str(), outputPath.string().c_str(), 0, nullptr);
+        (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Started ZIP Downloading");
+
+        const auto hr = URLDownloadToFileA(nullptr, url.c_str(), outputPath.string().c_str(), 0, nullptr);
         return SUCCEEDED(hr);
     }
     catch (...)
@@ -512,6 +514,8 @@ bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem:
 {
     try
     {
+        (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Started ZIP Extracting");
+
         const auto psCommand = "powershell.exe -Command \"Expand-Archive -Path '" + zipPath.string() +
                                "' -DestinationPath '" + extractPath.string() + "' -Force\"";
 

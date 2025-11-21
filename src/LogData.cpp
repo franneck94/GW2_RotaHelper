@@ -738,6 +738,7 @@ void RotationLogType::load_data(const std::filesystem::path &json_path, const st
     restart_rotation();
 
     futures = StartDownloadAllSkillIcons(log_skill_info_map, img_path);
+    (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Loaded Rotation");
 }
 
 void RotationLogType::pop_bench_rotation_queue()
@@ -759,15 +760,6 @@ std::tuple<std::int32_t, std::int32_t, size_t> RotationLogType::get_current_rota
     const auto num_total_skills = static_cast<int64_t>(all_rotation_steps.size());
 
     auto current_idx = static_cast<size_t>(num_total_skills - num_skills_left);
-
-    // while (current_idx < num_total_skills - 1)
-    // {
-    //     if (all_rotation_steps[current_idx].is_special_skill)
-    //         ++current_idx;
-    //     else
-    //         break;
-    // }
-
     const auto start = current_idx - 2 >= 0 ? static_cast<int32_t>(current_idx - window_size_left) : 0;
     const auto end =
         current_idx + window_size < num_total_skills
@@ -802,4 +794,5 @@ void RotationLogType::reset_rotation()
     missing_rotation_steps.clear();
     skill_data_map.clear();
     meta_data = MetaData{};
+    (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Resetted Rotation");
 }
