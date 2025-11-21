@@ -157,6 +157,10 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_harbinger",
     "power_reaper_spear",
     "power_paragon",
+    "power_galeshot",
+    "power_soulbeast_hammer",
+    "power_spellbreaker_hammer",
+    "power_berserker_hammer_axe_mace",
     // POWER BOON BUILDS
     "power_alacrity_tempest_inferno_scepter_focus",
     "power_quickness_herald_sword",
@@ -166,6 +170,7 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_quickness_scrapper",
     "power_alacrity_mechanist",
     "power_quickness_harbinger",
+    "power_quickness_galeshot",
     // CONDITION BUILDS
     "condition_tempest_scepter",
     "condition_harbinger",
@@ -181,12 +186,7 @@ static const inline std::set<std::string_view> green_tick_builds = {
 
 static const inline std::set<std::string_view> starred_builds = {
     // POWER BUILDS
-    "power_galeshot",
-    "power_soulbeast_hammer",
-    "power_spellbreaker_hammer",
-    "power_berserker_hammer_axe_mace",
     // POWER BOON BUILDS
-    "power_quickness_galeshot",
 };
 
 bool IsVersionIsRange(const std::string version,

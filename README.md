@@ -108,9 +108,8 @@ Easy Mode:
 
 #### Tested Builds
 
-In general, you can see in-game via the star/tick/cross icons the state of a build.
+In general, you can see in-game the state of a build.
 
-- Very good working builds are marked with a ⭐
 - Working builds are marked with a <span style="color: #009220ff">green</span> ✔️
 - Okayish working builds are marked with a <span style="color: #DAA520">yellow</span> ✔️
 - Poorly working builds are marked with an <span style="color: #ffa200ff">orange</span> 🗙
