@@ -568,7 +568,7 @@ void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath)
                 {
                     std::filesystem::remove(temp_zip_path);
                     Globals::BenchDataDownloadState = DownloadState::FINISHED;
-                    Globals::DownloadedBenchData = true;
+                    Globals::ExtractedBenchData = true;
 
                     Settings::VersionOfLastBenchFilesUpdate = Globals::VersionString;
                     Settings::Save(Globals::SettingsPath);

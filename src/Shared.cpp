@@ -29,7 +29,7 @@ std::string BenchFilesLowerVersionString = std::string{LOWER_VERSION_RANGE};
 std::string BenchFilesUpperVersionString = std::string{UPPER_VERSION_RANGE};
 
 DownloadState BenchDataDownloadState = DownloadState::NOT_STARTED;
-bool DownloadedBenchData = false;
+bool ExtractedBenchData = false;
 
 Mumble::Identity Identity = {};
 

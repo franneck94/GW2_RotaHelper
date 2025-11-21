@@ -33,7 +33,7 @@ extern std::string BenchFilesLowerVersionString;
 extern std::string BenchFilesUpperVersionString;
 
 extern DownloadState BenchDataDownloadState;
-extern bool DownloadedBenchData;
+extern bool ExtractedBenchData;
 
 extern Mumble::Identity Identity;
 
