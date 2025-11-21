@@ -18,6 +18,7 @@
 
 #include "ArcEvents.h"
 #include "Constants.h"
+#include "FileUtils.h"
 #include "MumbleUtils.h"
 #include "Render.h"
 #include "Settings.h"
@@ -38,7 +39,6 @@ HMODULE hSelf;
 AddonDefinition AddonDef{};
 std::filesystem::path AddonPath;
 ID3D11Device *pd3dDevice = nullptr;
-
 
 void ToggleShowWindowGW2_RotaHelper(const char *, bool)
 {
@@ -121,8 +121,33 @@ void AddonLoad(AddonAPI *aApi)
     AddonPath = Globals::APIDefs->Paths.GetAddonDirectory("GW2RotaHelper");
     Globals::SettingsPath = Globals::APIDefs->Paths.GetAddonDirectory("GW2RotaHelper/settings.json");
 
-    auto data_path = AddonPath;
+    const auto data_path = AddonPath;
     std::filesystem::create_directories(AddonPath);
+
+    const auto bench_dir = data_path / "bench";
+    const auto img_dir = data_path / "img";
+    const auto skills_dir = data_path / "skills";
+
+    bool has_data_files = false;
+    if (std::filesystem::exists(bench_dir) && std::filesystem::exists(img_dir) && std::filesystem::exists(skills_dir))
+    {
+        try
+        {
+            has_data_files = !std::filesystem::is_empty(bench_dir) || !std::filesystem::is_empty(img_dir) ||
+                             !std::filesystem::is_empty(skills_dir);
+        }
+        catch (...)
+        {
+            has_data_files = false;
+        }
+    }
+
+    if (!has_data_files)
+    {
+        Globals::BenchDataDownloadState = DownloadState::STARTED;
+        DownloadAndExtractDataAsync(AddonPath);
+    }
+
     Globals::Render.set_data_path(data_path);
 
     Settings::Load(Globals::SettingsPath);
@@ -148,8 +173,6 @@ void AddonLoad(AddonAPI *aApi)
                 pd3dDevice = nullptr;
         }
     }
-
-
 }
 
 void AddonUnload()

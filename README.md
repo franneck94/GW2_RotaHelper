@@ -8,6 +8,7 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
 
 ## ✨ Installation Guide
 
+0. **Install ArcDPS**: Install arcdps by e.g. Nexus Addon Manager
 1. **Download Components**: Obtain both the DLL and companion ZIP file from our [official releases page](https://github.com/franneck94/GW2_RotaHelper/releases)
 2. **Install Addon**: Place the DLL file into your Nexus addons directory.
 3. **Deploy Resources**: Extract the GW2RotaHelper ZIP archive and copy its contents to your Nexus addons folder.

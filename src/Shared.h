@@ -32,6 +32,9 @@ extern std::string VersionString;
 extern std::string BenchFilesLowerVersionString;
 extern std::string BenchFilesUpperVersionString;
 
+extern DownloadState BenchDataDownloadState;
+extern bool DownloadedBenchData;
+
 extern Mumble::Identity Identity;
 
 extern bool IsSameCast;

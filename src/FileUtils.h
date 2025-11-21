@@ -27,3 +27,9 @@ std::string format_build_name(const std::string &raw_name);
 std::vector<BenchFileInfo> get_bench_files(const std::filesystem::path &bench_path);
 
 std::map<std::string, KeybindInfo> parse_xml_keybinds(const std::filesystem::path &xml_path);
+
+bool DownloadFile(const std::string &url, const std::filesystem::path &outputPath);
+
+bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem::path &extractPath);
+
+void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath);

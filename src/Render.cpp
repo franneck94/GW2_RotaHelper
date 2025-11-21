@@ -370,9 +370,14 @@ void RenderType::render_debug_data()
     ImGui::Text("Repeated skill: %s", curr_combat_data.RepeatedSkill == true ? "true" : "false");
     ImGui::Text("Is Same Cast: %s", Globals::IsSameCast == true ? "true" : "false");
 
+    ImGui::Separator();
+
+    ImGui::Text("Download State: %s", download_state_to_string(Globals::BenchDataDownloadState));
+
     if (!keybinds.empty())
     {
         ImGui::Separator();
+
         ImGui::Text("Parsed Keybinds (sample):");
 
         int count = 0;
@@ -583,6 +588,13 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
 
     if (ImGui::Begin(window_title.c_str(), &Settings::ShowWindow))
     {
+        if (Globals::DownloadedBenchData)
+        {
+            ImGui::Text("Successfully Downloaded Bench Data. Please restart the game.");
+            ImGui::End();
+            return;
+        }
+
         render_select_bench();
         render_snowcrows_build_link();
         render_options_checkboxes(is_not_ui_adjust_active);

@@ -343,3 +343,11 @@ struct SkillRules
     const std::set<std::string_view> &special_substr_to_remove_duplicates;
     const std::set<std::string_view> &easy_mode_drop_match;
 };
+
+enum class DownloadState
+{
+    NOT_STARTED,
+    STARTED,
+    FINISHED,
+    FAILED,
+};

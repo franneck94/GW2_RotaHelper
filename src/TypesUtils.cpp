@@ -589,3 +589,20 @@ std::pair<Keys, Modifiers> get_keybind_for_skill_type(SkillSlot skill_type,
 
     return std::make_pair(Keys::NONE, Modifiers::NONE);
 }
+
+std::string download_state_to_string(DownloadState state)
+{
+    switch (state)
+    {
+    case DownloadState::NOT_STARTED:
+        return "Not Started";
+    case DownloadState::STARTED:
+        return "In Progress";
+    case DownloadState::FINISHED:
+        return "Completed";
+    case DownloadState::FAILED:
+        return "Failed";
+    default:
+        return "Unknown";
+    }
+}

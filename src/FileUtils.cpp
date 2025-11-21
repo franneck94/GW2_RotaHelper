@@ -1,15 +1,26 @@
 #include <filesystem>
 #include <fstream>
+#include <future>
 #include <map>
 #include <set>
 #include <sstream>
 #include <string>
+#include <thread>
 #include <vector>
+
+#include <shlwapi.h>
+#include <urlmon.h>
+#include <wininet.h>
+
+#pragma comment(lib, "wininet.lib")
+#pragma comment(lib, "urlmon.lib")
+#pragma comment(lib, "shlwapi.lib")
 
 #include "nlohmann/json.hpp"
 
 #include "FileUtils.h"
 #include "MumbleUtils.h"
+#include "Types.h"
 #include "TypesUtils.h"
 
 BenchFileInfo::BenchFileInfo(const std::filesystem::path &full, const std::filesystem::path &relative, bool is_header)
@@ -481,4 +492,97 @@ std::map<std::string, KeybindInfo> parse_xml_keybinds(const std::filesystem::pat
     }
 
     return keybinds;
+}
+
+bool DownloadFile(const std::string &url, const std::filesystem::path &outputPath)
+{
+    try
+    {
+        HRESULT hr = URLDownloadToFileA(nullptr, url.c_str(), outputPath.string().c_str(), 0, nullptr);
+        return SUCCEEDED(hr);
+    }
+    catch (...)
+    {
+        return false;
+    }
+}
+
+bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem::path &extractPath)
+{
+    try
+    {
+        const auto psCommand = "powershell.exe -Command \"Expand-Archive -Path '" + zipPath.string() +
+                               "' -DestinationPath '" + extractPath.string() + "' -Force\"";
+
+        STARTUPINFOA si = {sizeof(si)};
+        PROCESS_INFORMATION pi = {};
+        si.dwFlags = STARTF_USESHOWWINDOW;
+        si.wShowWindow = SW_HIDE;
+
+        if (CreateProcessA(nullptr,
+                           const_cast<char *>(psCommand.c_str()),
+                           nullptr,
+                           nullptr,
+                           FALSE,
+                           0,
+                           nullptr,
+                           nullptr,
+                           &si,
+                           &pi))
+        {
+            WaitForSingleObject(pi.hProcess, 30000); // Wait max 30 seconds
+            DWORD exitCode;
+            GetExitCodeProcess(pi.hProcess, &exitCode);
+            CloseHandle(pi.hProcess);
+            CloseHandle(pi.hThread);
+
+            return exitCode == 0;
+        }
+
+        return false;
+    }
+    catch (...)
+    {
+        Globals::BenchDataDownloadState = DownloadState::FAILED;
+        return false;
+    }
+}
+
+void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath)
+{
+    std::thread([addonPath]() {
+        try
+        {
+            const std::string data_url =
+                "https://github.com/franneck94/GW2_RotaHelper/releases/latest/download/GW2RotaHelper.zip";
+
+            auto temp_zip_path = addonPath / "temp_GW2RotaHelper.zip";
+            auto extract_path = addonPath.parent_path(); // Extract one level above
+
+            if (DownloadFile(data_url, temp_zip_path))
+            {
+                std::filesystem::create_directories(addonPath);
+
+                if (ExtractZipFile(temp_zip_path, extract_path))
+                {
+                    std::filesystem::remove(temp_zip_path);
+                    Globals::BenchDataDownloadState = DownloadState::FINISHED;
+                    Globals::DownloadedBenchData = true;
+                }
+                else
+                {
+                    std::filesystem::remove(temp_zip_path);
+                    Globals::BenchDataDownloadState = DownloadState::FAILED;
+                }
+            }
+            else
+            {
+                Globals::BenchDataDownloadState = DownloadState::FAILED;
+            }
+        }
+        catch (...)
+        {
+            Globals::BenchDataDownloadState = DownloadState::FAILED;
+        }
+    }).detach();
 }
