@@ -1,25 +1,36 @@
 [
   {
-    "name": "Power Evoker",
-    "url": "manual:Power_Evoker",
+    "name": "Condition Antiquary",
+    "url": "https://snowcrows.com/builds/raids/thief/condition-antiquary",
     "benchmark_type": "dps",
-    "profession": "Elementalist",
-    "elite_spec": "Evoker",
-    "build_type": "power",
-    "url_name": "power_evoker",
-    "dps_report_url": "https://dps.report/O5hF-20251028-204031_golem",
-    "html_file_path": "dps\\power\\power_evoker.html"
+    "profession": "Thief",
+    "elite_spec": "Thief",
+    "build_type": "condition",
+    "url_name": "condition-antiquary",
+    "dps_report_url": "https://dps.report/lw5N-20251106-180429_golem",
+    "html_file_path": "dps\\condition\\condition_antiquary.html"
   },
   {
-    "name": "Condition Evoker Specialized Elements",
-    "url": "https://snowcrows.com/builds/raids/elementalist/condition-evoker-specialized-elements",
+    "name": "Condition Antiquary Spear",
+    "url": "https://snowcrows.com/builds/raids/thief/condition-antiquary-spear",
     "benchmark_type": "dps",
-    "profession": "Elementalist",
-    "elite_spec": "Elementalist",
+    "profession": "Thief",
+    "elite_spec": "Thief",
     "build_type": "condition",
-    "url_name": "condition-evoker-specialized-elements",
-    "dps_report_url": "https://dps.report/yICw-20251028-222009_golem",
-    "html_file_path": "dps\\condition\\condition_evoker_specialized_elements.html"
+    "url_name": "condition-antiquary-spear",
+    "dps_report_url": "https://dps.report/quH8-20251031-115310_golem",
+    "html_file_path": "dps\\condition\\condition_antiquary_spear.html"
+  },
+  {
+    "name": "Condition Antiquary Scepter Dagger",
+    "url": "https://snowcrows.com/builds/raids/thief/condition-antiquary-scepter-dagger",
+    "benchmark_type": "dps",
+    "profession": "Thief",
+    "elite_spec": "Thief",
+    "build_type": "condition",
+    "url_name": "condition-antiquary-scepter-dagger",
+    "dps_report_url": "https://dps.report/eWEW-20251106-125038_golem",
+    "html_file_path": "dps\\condition\\condition_antiquary_scepter_dagger.html"
   },
   {
     "name": "Power Antiquary",
@@ -33,6 +44,28 @@
     "html_file_path": "dps\\power\\power_antiquary.html"
   },
   {
+    "name": "Condition Conduit",
+    "url": "https://snowcrows.com/builds/raids/revenant/condition-conduit",
+    "benchmark_type": "dps",
+    "profession": "Revenant",
+    "elite_spec": "Revenant",
+    "build_type": "condition",
+    "url_name": "condition-conduit",
+    "dps_report_url": "https://dps.report/c1u8-20251108-235203_golem",
+    "html_file_path": "dps\\condition\\condition_conduit.html"
+  },
+  {
+    "name": "Power Antiquary Rifle And Dagger",
+    "url": "https://snowcrows.com/builds/raids/thief/power-antiquary-rifle-and-dagger",
+    "benchmark_type": "dps",
+    "profession": "Thief",
+    "elite_spec": "Thief",
+    "build_type": "power",
+    "url_name": "power-antiquary-rifle-and-dagger",
+    "dps_report_url": "https://dps.report/YeHu-20251101-182603_golem",
+    "html_file_path": "dps\\power\\power_antiquary_rifle_and_dagger.html"
+  },
+  {
     "name": "Power Ritualist",
     "url": "https://snowcrows.com/builds/raids/necromancer/power-ritualist",
     "benchmark_type": "dps",
@@ -42,6 +75,28 @@
     "url_name": "power-ritualist",
     "dps_report_url": "https://dps.report/HbSg-20251107-181658_golem",
     "html_file_path": "dps\\power\\power_ritualist.html"
+  },
+  {
+    "name": "Condition Evoker",
+    "url": "https://snowcrows.com/builds/raids/elementalist/condition-evoker",
+    "benchmark_type": "dps",
+    "profession": "Elementalist",
+    "elite_spec": "Elementalist",
+    "build_type": "condition",
+    "url_name": "condition-evoker",
+    "dps_report_url": "https://dps.report/HSym-20251104-082438_golem",
+    "html_file_path": "dps\\condition\\condition_evoker.html"
+  },
+  {
+    "name": "Condition Amalgam Steamshrieker",
+    "url": "https://snowcrows.com/builds/raids/engineer/condition-amalgam-steamshrieker",
+    "benchmark_type": "dps",
+    "profession": "Engineer",
+    "elite_spec": "Engineer",
+    "build_type": "condition",
+    "url_name": "condition-amalgam-steamshrieker",
+    "dps_report_url": "https://dps.report/2uqx-20251107-183356_golem",
+    "html_file_path": "dps\\condition\\condition_amalgam_steamshrieker.html"
   },
   {
     "name": "Condition Mirage IH Oasis",
@@ -55,6 +110,28 @@
     "html_file_path": "dps\\condition\\condition_mirage_ih_oasis.html"
   },
   {
+    "name": "Power Galeshot",
+    "url": "https://snowcrows.com/builds/raids/ranger/power-galeshot",
+    "benchmark_type": "dps",
+    "profession": "Ranger",
+    "elite_spec": "Ranger",
+    "build_type": "power",
+    "url_name": "power-galeshot",
+    "dps_report_url": "http://dps.report/Y74I-20251104-212104_golem",
+    "html_file_path": "dps\\power\\power_galeshot.html"
+  },
+  {
+    "name": "Power Evoker Scepter Dagger",
+    "url": "https://snowcrows.com/builds/raids/elementalist/power-evoker-scepter-dagger",
+    "benchmark_type": "dps",
+    "profession": "Elementalist",
+    "elite_spec": "Elementalist",
+    "build_type": "power",
+    "url_name": "power-evoker-scepter-dagger",
+    "dps_report_url": "https://dps.report/8KU7-20251118-161211_golem",
+    "html_file_path": "dps\\power\\power_evoker_scepter_dagger.html"
+  },
+  {
     "name": "Condition Mirage IH Ether",
     "url": "https://snowcrows.com/builds/raids/mesmer/condition-mirage-ih-ether",
     "benchmark_type": "dps",
@@ -64,17 +141,6 @@
     "url_name": "condition-mirage-ih-ether",
     "dps_report_url": "https://dps.report/6iDz-20250825-051630_golem",
     "html_file_path": "dps\\condition\\condition_mirage_ih_ether.html"
-  },
-  {
-    "name": "Power Evoker Scepter Dagger Pf",
-    "url": "https://snowcrows.com/builds/raids/elementalist/power-evoker-scepter-dagger-pf",
-    "benchmark_type": "dps",
-    "profession": "Elementalist",
-    "elite_spec": "Elementalist",
-    "build_type": "power",
-    "url_name": "power-evoker-scepter-dagger-pf",
-    "dps_report_url": "https://dps.report/cNcT-20251104-151729_golem",
-    "html_file_path": "dps\\power\\power_evoker_scepter_dagger_pf.html"
   },
   {
     "name": "Condition Mirage Dagger",
@@ -99,26 +165,26 @@
     "html_file_path": "dps\\condition\\condition_druid.html"
   },
   {
-    "name": "Power Catalyst Scepter Dagger Inferno",
-    "url": "https://snowcrows.com/builds/raids/elementalist/power-catalyst-scepter-dagger-inferno",
+    "name": "Power Luminary",
+    "url": "https://snowcrows.com/builds/raids/guardian/power-luminary",
+    "benchmark_type": "dps",
+    "profession": "Guardian",
+    "elite_spec": "Guardian",
+    "build_type": "power",
+    "url_name": "power-luminary",
+    "dps_report_url": "https://dps.report/2VVl-20251103-182443_golem",
+    "html_file_path": "dps\\power\\power_luminary.html"
+  },
+  {
+    "name": "Inferno Catalyst Scepter Dagger",
+    "url": "https://snowcrows.com/builds/raids/elementalist/inferno-catalyst-scepter-dagger",
     "benchmark_type": "dps",
     "profession": "Elementalist",
     "elite_spec": "Catalyst",
     "build_type": "power",
-    "url_name": "power-catalyst-scepter-dagger-inferno",
-    "dps_report_url": "https://dps.report/NJJV-20250901-203540_golem",
-    "html_file_path": "dps\\power\\power_catalyst_scepter_dagger_inferno.html"
-  },
-  {
-    "name": "Power Tempest Inferno Scepter Dagger",
-    "url": "https://snowcrows.com/builds/raids/elementalist/power-tempest-inferno-scepter-dagger",
-    "benchmark_type": "dps",
-    "profession": "Elementalist",
-    "elite_spec": "Tempest",
-    "build_type": "power",
-    "url_name": "power-tempest-inferno-scepter-dagger",
-    "dps_report_url": "https://dps.report/Xyxk-20251006-140132_golem",
-    "html_file_path": "dps\\power\\power_tempest_inferno_scepter_dagger.html"
+    "url_name": "inferno-catalyst-scepter-dagger",
+    "dps_report_url": "https://dps.report/xxvM-20251119-100627_golem",
+    "html_file_path": "dps\\power\\inferno_catalyst_scepter_dagger.html"
   },
   {
     "name": "Condition Willbender",
@@ -143,6 +209,17 @@
     "html_file_path": "dps\\power\\power_bladesworn.html"
   },
   {
+    "name": "Inferno Tempest Scepter Dagger",
+    "url": "https://snowcrows.com/builds/raids/elementalist/inferno-tempest-scepter-dagger",
+    "benchmark_type": "dps",
+    "profession": "Elementalist",
+    "elite_spec": "Tempest",
+    "build_type": "power",
+    "url_name": "inferno-tempest-scepter-dagger",
+    "dps_report_url": "https://dps.report/lpOL-20251006-093317_golem",
+    "html_file_path": "dps\\power\\inferno_tempest_scepter_dagger.html"
+  },
+  {
     "name": "Condition Mirage Dune Cloak",
     "url": "https://snowcrows.com/builds/raids/mesmer/condition-mirage-dune-cloak",
     "benchmark_type": "dps",
@@ -154,17 +231,6 @@
     "html_file_path": "dps\\condition\\condition_mirage_dune_cloak.html"
   },
   {
-    "name": "Power Catalyst Scepter Dagger Pf",
-    "url": "https://snowcrows.com/builds/raids/elementalist/power-catalyst-scepter-dagger-pf",
-    "benchmark_type": "dps",
-    "profession": "Elementalist",
-    "elite_spec": "Catalyst",
-    "build_type": "power",
-    "url_name": "power-catalyst-scepter-dagger-pf",
-    "dps_report_url": "https://dps.report/8YzX-20251020-203616_golem",
-    "html_file_path": "dps\\power\\power_catalyst_scepter_dagger_pf.html"
-  },
-  {
     "name": "Condition Willbender Scepter",
     "url": "https://snowcrows.com/builds/raids/guardian/condition-willbender-scepter",
     "benchmark_type": "dps",
@@ -174,6 +240,17 @@
     "url_name": "condition-willbender-scepter",
     "dps_report_url": "https://dps.report/RSLy-20250930-003329_golem",
     "html_file_path": "dps\\condition\\condition_willbender_scepter.html"
+  },
+  {
+    "name": "Power Amalgam",
+    "url": "https://snowcrows.com/builds/raids/engineer/power-amalgam",
+    "benchmark_type": "dps",
+    "profession": "Engineer",
+    "elite_spec": "Engineer",
+    "build_type": "power",
+    "url_name": "power-amalgam",
+    "dps_report_url": "https://dps.report/YgbY-20251119-171958_golem",
+    "html_file_path": "dps\\power\\power_amalgam.html"
   },
   {
     "name": "Condition Daredevil Spear",
@@ -218,6 +295,17 @@
     "url_name": "condition-mechanist-two-kits",
     "dps_report_url": "https://dps.report/NlFH-20250705-173537_golem",
     "html_file_path": "dps\\condition\\condition_mechanist_two_kits.html"
+  },
+  {
+    "name": "Power Catalyst Scepter Dagger",
+    "url": "https://snowcrows.com/builds/raids/elementalist/power-catalyst-scepter-dagger",
+    "benchmark_type": "dps",
+    "profession": "Elementalist",
+    "elite_spec": "Catalyst",
+    "build_type": "power",
+    "url_name": "power-catalyst-scepter-dagger",
+    "dps_report_url": "https://dps.report/KglF-20251119-115538_golem",
+    "html_file_path": "dps\\power\\power_catalyst_scepter_dagger.html"
   },
   {
     "name": "Condition Weaver Pistol",
@@ -286,17 +374,6 @@
     "html_file_path": "dps\\power\\power_tempest_hammer.html"
   },
   {
-    "name": "Power Scrapper",
-    "url": "https://snowcrows.com/builds/raids/engineer/power-scrapper",
-    "benchmark_type": "dps",
-    "profession": "Engineer",
-    "elite_spec": "Scrapper",
-    "build_type": "power",
-    "url_name": "power-scrapper",
-    "dps_report_url": "https://dps.report/UHe7-20250702-183202_golem",
-    "html_file_path": "dps\\power\\power_scrapper.html"
-  },
-  {
     "name": "Condition Holosmith Spear",
     "url": "https://snowcrows.com/builds/raids/engineer/condition-holosmith-spear",
     "benchmark_type": "dps",
@@ -317,17 +394,6 @@
     "url_name": "condition-weaver-scepter",
     "dps_report_url": "https://dps.report/0ix2-20250630-030645_golem",
     "html_file_path": "dps\\condition\\condition_weaver_scepter.html"
-  },
-  {
-    "name": "Power Alacrity Antiquary",
-    "url": "https://snowcrows.com/builds/raids/thief/power-alacrity-antiquary",
-    "benchmark_type": "dps",
-    "profession": "Thief",
-    "elite_spec": "Thief",
-    "build_type": "power",
-    "url_name": "power-alacrity-antiquary",
-    "dps_report_url": "https://dps.report/LJFa-20251029-025741_golem",
-    "html_file_path": "dps\\power\\power_alacrity_antiquary.html"
   },
   {
     "name": "Power Willbender",
@@ -792,15 +858,15 @@
     "html_file_path": "dps\\power\\power_daredevil.html"
   },
   {
-    "name": "Power Mechanist Sword",
-    "url": "https://snowcrows.com/builds/raids/engineer/power-mechanist-sword",
+    "name": "Power Troubadour",
+    "url": "https://snowcrows.com/builds/raids/mesmer/power-troubadour",
     "benchmark_type": "dps",
-    "profession": "Engineer",
-    "elite_spec": "Mechanist",
+    "profession": "Mesmer",
+    "elite_spec": "Mesmer",
     "build_type": "power",
-    "url_name": "power-mechanist-sword",
-    "dps_report_url": "https://dps.report/JaPO-20250702-023357_golem",
-    "html_file_path": "dps\\power\\power_mechanist_sword.html"
+    "url_name": "power-troubadour",
+    "dps_report_url": "https://dps.report/j0er-20251101-002010_golem",
+    "html_file_path": "dps\\power\\power_troubadour.html"
   },
   {
     "name": "Power Reaper",
@@ -823,6 +889,17 @@
     "url_name": "power-virtuoso-dagger-sword-greatsword",
     "dps_report_url": "https://dps.report/B3J7-20250903-042627_golem",
     "html_file_path": "dps\\power\\power_virtuoso_dagger_sword_greatsword.html"
+  },
+  {
+    "name": "Power Mechanist Sword",
+    "url": "https://snowcrows.com/builds/raids/engineer/power-mechanist-sword",
+    "benchmark_type": "dps",
+    "profession": "Engineer",
+    "elite_spec": "Mechanist",
+    "build_type": "power",
+    "url_name": "power-mechanist-sword",
+    "dps_report_url": "https://dps.report/DX0r-20251119-223007_golem",
+    "html_file_path": "dps\\power\\power_mechanist_sword.html"
   },
   {
     "name": "Condition Tempest Scepter",
@@ -858,6 +935,17 @@
     "html_file_path": "dps\\power\\power_reaper_greatsword_sword_sword.html"
   },
   {
+    "name": "Power Quickness Galeshot",
+    "url": "https://snowcrows.com/builds/raids/ranger/power-quickness-galeshot",
+    "benchmark_type": "dps",
+    "profession": "Ranger",
+    "elite_spec": "Ranger",
+    "build_type": "power",
+    "url_name": "power-quickness-galeshot",
+    "dps_report_url": "https://dps.report/E7tJ-20251102-210014_golem",
+    "html_file_path": "dps\\power\\power_quickness_galeshot.html"
+  },
+  {
     "name": "Power Mechanist",
     "url": "https://snowcrows.com/builds/raids/engineer/power-mechanist",
     "benchmark_type": "dps",
@@ -869,6 +957,17 @@
     "html_file_path": "dps\\power\\power_mechanist.html"
   },
   {
+    "name": "Power Conduit",
+    "url": "https://snowcrows.com/builds/raids/revenant/power-conduit",
+    "benchmark_type": "dps",
+    "profession": "Revenant",
+    "elite_spec": "Revenant",
+    "build_type": "power",
+    "url_name": "power-conduit",
+    "dps_report_url": "https://dps.report/nl9q-20251118-035108_golem",
+    "html_file_path": "dps\\power\\power_conduit.html"
+  },
+  {
     "name": "Condition Thief Spear",
     "url": "https://snowcrows.com/builds/raids/thief/condition-thief-spear",
     "benchmark_type": "dps",
@@ -878,6 +977,17 @@
     "url_name": "condition-thief-spear",
     "dps_report_url": "https://dps.report/utfh-20250421-151309_golem",
     "html_file_path": "dps\\condition\\condition_thief_spear.html"
+  },
+  {
+    "name": "Power Paragon",
+    "url": "https://snowcrows.com/builds/raids/warrior/power-paragon",
+    "benchmark_type": "dps",
+    "profession": "Warrior",
+    "elite_spec": "Warrior",
+    "build_type": "power",
+    "url_name": "power-paragon",
+    "dps_report_url": "https://dps.report/YWMp-20251103-021915_golem",
+    "html_file_path": "dps\\power\\power_paragon.html"
   },
   {
     "name": "Condition Virtuoso",
@@ -913,17 +1023,6 @@
     "html_file_path": "dps\\condition\\condition_mechanist_kitless.html"
   },
   {
-    "name": "Power Conduit",
-    "url": "https://snowcrows.com/builds/raids/revenant/power-conduit",
-    "benchmark_type": "dps",
-    "profession": "Revenant",
-    "elite_spec": "Revenant",
-    "build_type": "power",
-    "url_name": "power-conduit",
-    "dps_report_url": "https://dps.report/UaFP-20251030-203032_golem",
-    "html_file_path": "dps\\power\\power_conduit.html"
-  },
-  {
     "name": "Power Warrior",
     "url": "https://snowcrows.com/builds/raids/warrior/power-warrior",
     "benchmark_type": "dps",
@@ -946,6 +1045,17 @@
     "html_file_path": "dps\\power\\power_herald.html"
   },
   {
+    "name": "Inferno Quickness Evoker Specialized Elements",
+    "url": "https://snowcrows.com/builds/raids/elementalist/inferno-quickness-evoker-specialized-elements",
+    "benchmark_type": "quick",
+    "profession": "Elementalist",
+    "elite_spec": "Elementalist",
+    "build_type": "power",
+    "url_name": "inferno-quickness-evoker-specialized-elements",
+    "dps_report_url": "https://dps.report/On4f-20251119-150939_golem",
+    "html_file_path": "quick\\power\\inferno_quickness_evoker_specialized_elements.html"
+  },
+  {
     "name": "Power Quickness Ritualist",
     "url": "https://snowcrows.com/builds/raids/necromancer/power-quickness-ritualist",
     "benchmark_type": "quick",
@@ -957,15 +1067,15 @@
     "html_file_path": "quick\\power\\power_quickness_ritualist.html"
   },
   {
-    "name": "Power Quickness Evoker Hare",
-    "url": "https://snowcrows.com/builds/raids/elementalist/power-quickness-evoker-hare",
+    "name": "Power Quickness Evoker",
+    "url": "https://snowcrows.com/builds/raids/elementalist/power-quickness-evoker",
     "benchmark_type": "quick",
     "profession": "Elementalist",
     "elite_spec": "Elementalist",
     "build_type": "power",
-    "url_name": "power-quickness-evoker-hare",
-    "dps_report_url": "https://dps.report/CQks-20251111-003401_golem",
-    "html_file_path": "quick\\power\\power_quickness_evoker_hare.html"
+    "url_name": "power-quickness-evoker",
+    "dps_report_url": "https://dps.report/Y2PE-20251118-164617_golem",
+    "html_file_path": "quick\\power\\power_quickness_evoker.html"
   },
   {
     "name": "Condition Quickness Scrapper",
@@ -990,26 +1100,15 @@
     "html_file_path": "quick\\power\\power_quickness_deadeye_axe.html"
   },
   {
-    "name": "Power Quickness Catalyst Scepter Dagger Inferno",
-    "url": "https://snowcrows.com/builds/raids/elementalist/power-quickness-catalyst-scepter-dagger-inferno",
+    "name": "Inferno Quickness Catalyst Scepter Dagger",
+    "url": "https://snowcrows.com/builds/raids/elementalist/inferno-quickness-catalyst-scepter-dagger",
     "benchmark_type": "quick",
     "profession": "Elementalist",
     "elite_spec": "Catalyst",
     "build_type": "power",
-    "url_name": "power-quickness-catalyst-scepter-dagger-inferno",
-    "dps_report_url": "https://dps.report/guFV-20250702-160846_golem",
-    "html_file_path": "quick\\power\\power_quickness_catalyst_scepter_dagger_inferno.html"
-  },
-  {
-    "name": "Power Quickness Catalyst Scepter Dagger Pf",
-    "url": "https://snowcrows.com/builds/raids/elementalist/power-quickness-catalyst-scepter-dagger-pf",
-    "benchmark_type": "quick",
-    "profession": "Elementalist",
-    "elite_spec": "Catalyst",
-    "build_type": "power",
-    "url_name": "power-quickness-catalyst-scepter-dagger-pf",
-    "dps_report_url": "https://dps.report/IBBk-20250702-181341_golem",
-    "html_file_path": "quick\\power\\power_quickness_catalyst_scepter_dagger_pf.html"
+    "url_name": "inferno-quickness-catalyst-scepter-dagger",
+    "dps_report_url": "https://dps.report/40Ob-20251119-123511_golem",
+    "html_file_path": "quick\\power\\inferno_quickness_catalyst_scepter_dagger.html"
   },
   {
     "name": "Power Quickness Deadeye",
@@ -1021,6 +1120,17 @@
     "url_name": "power-quickness-deadeye",
     "dps_report_url": "https://dps.report/nW89-20250426-162330_golem",
     "html_file_path": "quick\\power\\power_quickness_deadeye.html"
+  },
+  {
+    "name": "Power Quickness Catalyst Scepter Dagger",
+    "url": "https://snowcrows.com/builds/raids/elementalist/power-quickness-catalyst-scepter-dagger",
+    "benchmark_type": "quick",
+    "profession": "Elementalist",
+    "elite_spec": "Catalyst",
+    "build_type": "power",
+    "url_name": "power-quickness-catalyst-scepter-dagger",
+    "dps_report_url": "https://dps.report/ZPUi-20251119-114928_golem",
+    "html_file_path": "quick\\power\\power_quickness_catalyst_scepter_dagger.html"
   },
   {
     "name": "Condition Quickness Catalyst",
@@ -1133,6 +1243,17 @@
     "html_file_path": "quick\\condition\\condition_quickness_untamed.html"
   },
   {
+    "name": "Power Boon Chronomancer",
+    "url": "https://snowcrows.com/builds/raids/mesmer/power-boon-chronomancer",
+    "benchmark_type": "quick",
+    "profession": "Mesmer",
+    "elite_spec": "Chronomancer",
+    "build_type": "power",
+    "url_name": "power-boon-chronomancer",
+    "dps_report_url": "https://dps.report/Vc4z-20251031-212055_golem",
+    "html_file_path": "quick\\power\\power_boon_chronomancer.html"
+  },
+  {
     "name": "Condition Quickness Catalyst Pistol Warhorn",
     "url": "https://snowcrows.com/builds/raids/elementalist/condition-quickness-catalyst-pistol-warhorn",
     "benchmark_type": "quick",
@@ -1177,17 +1298,6 @@
     "html_file_path": "quick\\condition\\condition_quickness_harbinger.html"
   },
   {
-    "name": "Power Quickness Scrapper",
-    "url": "https://snowcrows.com/builds/raids/engineer/power-quickness-scrapper",
-    "benchmark_type": "quick",
-    "profession": "Engineer",
-    "elite_spec": "Scrapper",
-    "build_type": "power",
-    "url_name": "power-quickness-scrapper",
-    "dps_report_url": "https://dps.report/gLsC-20250702-211726_golem",
-    "html_file_path": "quick\\power\\power_quickness_scrapper.html"
-  },
-  {
     "name": "Condition Quickness Deadeye Scepter",
     "url": "https://snowcrows.com/builds/raids/thief/condition-quickness-deadeye-scepter",
     "benchmark_type": "quick",
@@ -1210,15 +1320,15 @@
     "html_file_path": "quick\\condition\\condition_boon_chronomancer.html"
   },
   {
-    "name": "Power Boon Chronomancer",
-    "url": "https://snowcrows.com/builds/raids/mesmer/power-boon-chronomancer",
+    "name": "Power Quickness Scrapper",
+    "url": "https://snowcrows.com/builds/raids/engineer/power-quickness-scrapper",
     "benchmark_type": "quick",
-    "profession": "Mesmer",
-    "elite_spec": "Chronomancer",
+    "profession": "Engineer",
+    "elite_spec": "Scrapper",
     "build_type": "power",
-    "url_name": "power-boon-chronomancer",
-    "dps_report_url": "https://dps.report/Vc4z-20251031-212055_golem",
-    "html_file_path": "quick\\power\\power_boon_chronomancer.html"
+    "url_name": "power-quickness-scrapper",
+    "dps_report_url": "https://dps.report/9Q4e-20251119-204454_golem",
+    "html_file_path": "quick\\power\\power_quickness_scrapper.html"
   },
   {
     "name": "Power Quickness Untamed Maces",
@@ -1287,6 +1397,50 @@
     "html_file_path": "quick\\power\\power_quickness_herald_sword.html"
   },
   {
+    "name": "Condition Alacrity Antiquary",
+    "url": "https://snowcrows.com/builds/raids/thief/condition-alacrity-antiquary",
+    "benchmark_type": "alac",
+    "profession": "Thief",
+    "elite_spec": "Thief",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-antiquary",
+    "dps_report_url": "https://dps.report/yrBH-20251104-152158_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_antiquary.html"
+  },
+  {
+    "name": "Condition Alacrity Amalgam Two Kits",
+    "url": "https://snowcrows.com/builds/raids/engineer/condition-alacrity-amalgam-two-kits",
+    "benchmark_type": "alac",
+    "profession": "Engineer",
+    "elite_spec": "Engineer",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-amalgam-two-kits",
+    "dps_report_url": "https://dps.report/xMPq-20251103-163857_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_amalgam_two_kits.html"
+  },
+  {
+    "name": "Power Alacrity Antiquary",
+    "url": "https://snowcrows.com/builds/raids/thief/power-alacrity-antiquary",
+    "benchmark_type": "alac",
+    "profession": "Thief",
+    "elite_spec": "Thief",
+    "build_type": "power",
+    "url_name": "power-alacrity-antiquary",
+    "dps_report_url": "https://dps.report/LJFa-20251029-025741_golem",
+    "html_file_path": "alac\\power\\power_alacrity_antiquary.html"
+  },
+  {
+    "name": "Power Alacrity Amalgam",
+    "url": "https://snowcrows.com/builds/raids/engineer/power-alacrity-amalgam",
+    "benchmark_type": "alac",
+    "profession": "Engineer",
+    "elite_spec": "Engineer",
+    "build_type": "power",
+    "url_name": "power-alacrity-amalgam",
+    "dps_report_url": "https://dps.report/uWIy-20251119-172016_golem",
+    "html_file_path": "alac\\power\\power_alacrity_amalgam.html"
+  },
+  {
     "name": "Power Alacrity Bladesworn Overcharged",
     "url": "https://snowcrows.com/builds/raids/warrior/power-alacrity-bladesworn-overcharged",
     "benchmark_type": "alac",
@@ -1338,7 +1492,7 @@
     "elite_spec": "Tempest",
     "build_type": "power",
     "url_name": "power-alacrity-tempest-inferno-scepter-focus",
-    "dps_report_url": "https://dps.report/sPgQ-20250701-183253_golem",
+    "dps_report_url": "https://dps.report/0kW0-20251120-143549_golem",
     "html_file_path": "alac\\power\\power_alacrity_tempest_inferno_scepter_focus.html"
   },
   {
@@ -1375,6 +1529,17 @@
     "html_file_path": "alac\\condition\\condition_alacrity_spectre_scepter.html"
   },
   {
+    "name": "Power Boon Chronomancer",
+    "url": "https://snowcrows.com/builds/raids/mesmer/power-boon-chronomancer",
+    "benchmark_type": "alac",
+    "profession": "Mesmer",
+    "elite_spec": "Chronomancer",
+    "build_type": "power",
+    "url_name": "power-boon-chronomancer",
+    "dps_report_url": "https://dps.report/Vc4z-20251031-212055_golem",
+    "html_file_path": "alac\\power\\power_boon_chronomancer.html"
+  },
+  {
     "name": "Condition Alacrity Mirage Staff",
     "url": "https://snowcrows.com/builds/raids/mesmer/condition-alacrity-mirage-staff",
     "benchmark_type": "alac",
@@ -1406,17 +1571,6 @@
     "url_name": "condition-alacrity-tempest",
     "dps_report_url": "https://dps.report/ToYQ-20240320-030855_golem",
     "html_file_path": "alac\\condition\\condition_alacrity_tempest.html"
-  },
-  {
-    "name": "Power Boon Chronomancer",
-    "url": "https://snowcrows.com/builds/raids/mesmer/power-boon-chronomancer",
-    "benchmark_type": "alac",
-    "profession": "Mesmer",
-    "elite_spec": "Chronomancer",
-    "build_type": "power",
-    "url_name": "power-boon-chronomancer",
-    "dps_report_url": "https://dps.report/Vc4z-20251031-212055_golem",
-    "html_file_path": "alac\\power\\power_boon_chronomancer.html"
   },
   {
     "name": "Condition Alacrity Tempest Scepter",
@@ -1516,237 +1670,6 @@
     "url_name": "celestial-alacrity-scourge",
     "dps_report_url": "https://dps.report/xICN-20250628-071219_golem",
     "html_file_path": "alac\\power\\celestial_alacrity_scourge.html"
-  },
-  {
-    "name": "Condition Antiquary",
-    "url": "https://snowcrows.com/builds/raids/thief/condition-antiquary",
-    "benchmark_type": "dps",
-    "profession": "Thief",
-    "elite_spec": "Thief",
-    "build_type": "condition",
-    "url_name": "condition-antiquary",
-    "dps_report_url": "https://dps.report/lw5N-20251106-180429_golem",
-    "html_file_path": "dps\\condition\\condition_antiquary.html"
-  },
-  {
-    "name": "Inferno Evoker Specialized Elements",
-    "url": "https://snowcrows.com/builds/raids/elementalist/inferno-evoker-specialized-elements",
-    "benchmark_type": "dps",
-    "profession": "Elementalist",
-    "elite_spec": "Elementalist",
-    "build_type": "power",
-    "url_name": "inferno-evoker-specialized-elements",
-    "dps_report_url": "https://dps.report/3MmZ-20251029-212515_golem",
-    "html_file_path": "dps\\power\\inferno_evoker_specialized_elements.html"
-  },
-  {
-    "name": "Condition Conduit",
-    "url": "https://snowcrows.com/builds/raids/revenant/condition-conduit",
-    "benchmark_type": "dps",
-    "profession": "Revenant",
-    "elite_spec": "Revenant",
-    "build_type": "condition",
-    "url_name": "condition-conduit",
-    "dps_report_url": "https://dps.report/2FlZ-20251101-144253_golem",
-    "html_file_path": "dps\\condition\\condition_conduit.html"
-  },
-  {
-    "name": "Power Galeshot",
-    "url": "https://snowcrows.com/builds/raids/ranger/power-galeshot",
-    "benchmark_type": "dps",
-    "profession": "Ranger",
-    "elite_spec": "Ranger",
-    "build_type": "power",
-    "url_name": "power-galeshot",
-    "dps_report_url": "https://snowcrows.com/builds/raids/ranger/dps.report/Y74I-20251104-212104_golem",
-    "html_file_path": "dps\\power\\power_galeshot.html"
-  },
-  {
-    "name": "Power Luminary",
-    "url": "https://snowcrows.com/builds/raids/guardian/power-luminary",
-    "benchmark_type": "dps",
-    "profession": "Guardian",
-    "elite_spec": "Guardian",
-    "build_type": "power",
-    "url_name": "power-luminary",
-    "dps_report_url": "https://dps.report/2VVl-20251103-182443_golem",
-    "html_file_path": "dps\\power\\power_luminary.html"
-  },
-  {
-    "name": "Power Quickness Galeshot",
-    "url": "https://snowcrows.com/builds/raids/ranger/power-quickness-galeshot",
-    "benchmark_type": "dps",
-    "profession": "Ranger",
-    "elite_spec": "Ranger",
-    "build_type": "power",
-    "url_name": "power-quickness-galeshot",
-    "dps_report_url": "https://dps.report/E7tJ-20251102-210014_golem",
-    "html_file_path": "dps\\power\\power_quickness_galeshot.html"
-  },
-  {
-    "name": "Inferno Quickness Evoker Specialized Elements",
-    "url": "https://snowcrows.com/builds/raids/elementalist/inferno-quickness-evoker-specialized-elements",
-    "benchmark_type": "quick",
-    "profession": "Elementalist",
-    "elite_spec": "Elementalist",
-    "build_type": "power",
-    "url_name": "inferno-quickness-evoker-specialized-elements",
-    "dps_report_url": "https://dps.report/kwP2-20251030-001145_golem",
-    "html_file_path": "quick\\power\\inferno_quickness_evoker_specialized_elements.html"
-  },
-  {
-    "name": "Power Alacrity Antiquary",
-    "url": "https://snowcrows.com/builds/raids/thief/power-alacrity-antiquary",
-    "benchmark_type": "alac",
-    "profession": "Thief",
-    "elite_spec": "Thief",
-    "build_type": "power",
-    "url_name": "power-alacrity-antiquary",
-    "dps_report_url": "https://dps.report/LJFa-20251029-025741_golem",
-    "html_file_path": "alac\\power\\power_alacrity_antiquary.html"
-  },
-  {
-    "name": "Condition Antiquary Spear",
-    "url": "https://snowcrows.com/builds/raids/thief/condition-antiquary-spear",
-    "benchmark_type": "dps",
-    "profession": "Thief",
-    "elite_spec": "Thief",
-    "build_type": "condition",
-    "url_name": "condition-antiquary-spear",
-    "dps_report_url": "https://dps.report/quH8-20251031-115310_golem",
-    "html_file_path": "dps\\condition\\condition_antiquary_spear.html"
-  },
-  {
-    "name": "Power Antiquary Rifle And Dagger",
-    "url": "https://snowcrows.com/builds/raids/thief/power-antiquary-rifle-and-dagger",
-    "benchmark_type": "dps",
-    "profession": "Thief",
-    "elite_spec": "Thief",
-    "build_type": "power",
-    "url_name": "power-antiquary-rifle-and-dagger",
-    "dps_report_url": "https://dps.report/YeHu-20251101-182603_golem",
-    "html_file_path": "dps\\power\\power_antiquary_rifle_and_dagger.html"
-  },
-  {
-    "name": "Power Amalgam",
-    "url": "https://snowcrows.com/builds/raids/engineer/power-amalgam",
-    "benchmark_type": "dps",
-    "profession": "Engineer",
-    "elite_spec": "Engineer",
-    "build_type": "power",
-    "url_name": "power-amalgam",
-    "dps_report_url": "https://dps.report/pGf2-20251103-134155_golem",
-    "html_file_path": "dps\\power\\power_amalgam.html"
-  },
-  {
-    "name": "Power Troubadour",
-    "url": "https://snowcrows.com/builds/raids/mesmer/power-troubadour",
-    "benchmark_type": "dps",
-    "profession": "Mesmer",
-    "elite_spec": "Mesmer",
-    "build_type": "power",
-    "url_name": "power-troubadour",
-    "dps_report_url": "https://dps.report/j0er-20251101-002010_golem",
-    "html_file_path": "dps\\power\\power_troubadour.html"
-  },
-  {
-    "name": "Condition Antiquary Scepter Dagger",
-    "url": "https://snowcrows.com/builds/raids/thief/condition-antiquary-scepter-dagger",
-    "benchmark_type": "dps",
-    "profession": "Thief",
-    "elite_spec": "Thief",
-    "build_type": "condition",
-    "url_name": "condition-antiquary-scepter-dagger",
-    "dps_report_url": "https://dps.report/eWEW-20251106-125038_golem",
-    "html_file_path": "dps\\condition\\condition_antiquary_scepter_dagger.html"
-  },
-  {
-    "name": "Condition Evoker",
-    "url": "https://snowcrows.com/builds/raids/elementalist/condition-evoker",
-    "benchmark_type": "dps",
-    "profession": "Elementalist",
-    "elite_spec": "Elementalist",
-    "build_type": "condition",
-    "url_name": "condition-evoker",
-    "dps_report_url": "https://dps.report/HSym-20251104-082438_golem",
-    "html_file_path": "dps\\condition\\condition_evoker.html"
-  },
-  {
-    "name": "Condition Amalgam Steamshrieker",
-    "url": "https://snowcrows.com/builds/raids/engineer/condition-amalgam-steamshrieker",
-    "benchmark_type": "dps",
-    "profession": "Engineer",
-    "elite_spec": "Engineer",
-    "build_type": "condition",
-    "url_name": "condition-amalgam-steamshrieker",
-    "dps_report_url": "https://dps.report/2uqx-20251107-183356_golem",
-    "html_file_path": "dps\\condition\\condition_amalgam_steamshrieker.html"
-  },
-  {
-    "name": "Power Paragon",
-    "url": "https://snowcrows.com/builds/raids/warrior/power-paragon",
-    "benchmark_type": "dps",
-    "profession": "Warrior",
-    "elite_spec": "Warrior",
-    "build_type": "power",
-    "url_name": "power-paragon",
-    "dps_report_url": "https://dps.report/YWMp-20251103-021915_golem",
-    "html_file_path": "dps\\power\\power_paragon.html"
-  },
-  {
-    "name": "Condition Alacrity Antiquary",
-    "url": "https://snowcrows.com/builds/raids/thief/condition-alacrity-antiquary",
-    "benchmark_type": "alac",
-    "profession": "Thief",
-    "elite_spec": "Thief",
-    "build_type": "condition",
-    "url_name": "condition-alacrity-antiquary",
-    "dps_report_url": "https://dps.report/yrBH-20251104-152158_golem",
-    "html_file_path": "alac\\condition\\condition_alacrity_antiquary.html"
-  },
-  {
-    "name": "Condition Alacrity Amalgam Two Kits",
-    "url": "https://snowcrows.com/builds/raids/engineer/condition-alacrity-amalgam-two-kits",
-    "benchmark_type": "alac",
-    "profession": "Engineer",
-    "elite_spec": "Engineer",
-    "build_type": "condition",
-    "url_name": "condition-alacrity-amalgam-two-kits",
-    "dps_report_url": "https://dps.report/xMPq-20251103-163857_golem",
-    "html_file_path": "alac\\condition\\condition_alacrity_amalgam_two_kits.html"
-  },
-  {
-    "name": "Power Thieftotest",
-    "url": "manual:Power_ThiefToTest",
-    "benchmark_type": "dps",
-    "profession": "Thief",
-    "elite_spec": "Thief",
-    "build_type": "power",
-    "url_name": "power_thieftotest",
-    "dps_report_url": "https://dps.report/9r27-20240706-223552_golem",
-    "html_file_path": "dps\\power\\power_thieftotest.html"
-  },
-  {
-    "name": "Power Ritualist",
-    "url": "manual:Power_Ritualist",
-    "benchmark_type": "dps",
-    "profession": "Necromancer",
-    "elite_spec": "Ritualist",
-    "build_type": "power",
-    "url_name": "power_ritualist",
-    "dps_report_url": "https://dps.report/G60X-20251110-213730_golem",
-    "html_file_path": "dps\\power\\power_ritualist.html"
-  },
-  {
-    "name": "Condition Conduitfixes",
-    "url": "manual:Condition_ConduitFixes",
-    "benchmark_type": "dps",
-    "profession": "Unknown",
-    "elite_spec": "",
-    "build_type": "condition",
-    "url_name": "condition_conduitfixes",
-    "dps_report_url": "https://dps.report/InK1-20251112-194936_golem",
-    "html_file_path": "dps\\condition\\condition_conduitfixes.html"
   },
   {
     "name": "Condition Conduit",
