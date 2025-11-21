@@ -608,3 +608,52 @@ std::string download_state_to_string(DownloadState state)
         return "Unknown";
     }
 }
+
+std::string weapon_type_to_string(WeaponType weapon_type)
+{
+    switch (weapon_type)
+    {
+    case WeaponType::NONE:
+        return "None";
+    case WeaponType::GREATSWORD:
+        return "Greatsword";
+    case WeaponType::HAMMER:
+        return "Hammer";
+    case WeaponType::LONGBOW:
+        return "Longbow";
+    case WeaponType::RIFLE:
+        return "Rifle";
+    case WeaponType::SHORTBOW:
+        return "Shortbow";
+    case WeaponType::STAFF:
+        return "Staff";
+    case WeaponType::SPEAR:
+        return "Spear";
+    case WeaponType::TRIDENT:
+        return "Trident";
+    case WeaponType::HARPOON_GUN:
+        return "Harpoon Gun";
+    case WeaponType::AXE:
+        return "Axe";
+    case WeaponType::DAGGER:
+        return "Dagger";
+    case WeaponType::MACE:
+        return "Mace";
+    case WeaponType::PISTOL:
+        return "Pistol";
+    case WeaponType::SCEPTER:
+        return "Scepter";
+    case WeaponType::SWORD:
+        return "Sword";
+    case WeaponType::FOCUS:
+        return "Focus";
+    case WeaponType::SHIELD:
+        return "Shield";
+    case WeaponType::TORCH:
+        return "Torch";
+    case WeaponType::WARHORN:
+        return "Warhorn";
+    default:
+        return "Unknown";
+    }
+}
