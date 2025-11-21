@@ -593,9 +593,10 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
 
     if (ImGui::Begin(window_title.c_str(), &Settings::ShowWindow))
     {
-        if (Globals::DownloadedBenchData)
+        if (Globals::ExtractedBenchData)
         {
-            ImGui::Text("Successfully Downloaded Bench Data. Please restart the game.");
+            ImGui::Text("Successfully Downloaded and Extracted Bench Data.");
+            ImGui::Text("Please restart the game or the addon.");
             ImGui::End();
             return;
         }
