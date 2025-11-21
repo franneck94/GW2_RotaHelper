@@ -489,7 +489,7 @@ std::map<std::string, KeybindInfo> parse_xml_keybinds(const std::filesystem::pat
     }
     catch (const std::exception &e)
     {
-        std::cerr << "Error parsing XML keybinds: " << e.what() << std::endl;
+        (void)Globals::APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", "Error parsing XML keybinds");
     }
 
     return keybinds;
@@ -506,6 +506,7 @@ bool DownloadFile(const std::string &url, const std::filesystem::path &outputPat
     }
     catch (...)
     {
+        (void)Globals::APIDefs->Log(ELogLevel_CRITICAL, "GW2RotaHelper", "ZIP downloading failed.");
         return false;
     }
 }
@@ -549,6 +550,7 @@ bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem:
     catch (...)
     {
         Globals::BenchDataDownloadState = DownloadState::FAILED;
+        (void)Globals::APIDefs->Log(ELogLevel_CRITICAL, "GW2RotaHelper", "ZIP extraction failed.");
         return false;
     }
 }
@@ -591,6 +593,7 @@ void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath)
         catch (...)
         {
             Globals::BenchDataDownloadState = DownloadState::FAILED;
+            (void)Globals::APIDefs->Log(ELogLevel_CRITICAL, "GW2RotaHelper", "DownloadAndExtractDataAsync failed.");
         }
     }).detach();
 }

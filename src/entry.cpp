@@ -225,7 +225,7 @@ void TriggerParseMumble()
                     Globals::Identity = current_identity;
                     pending_count = 0;
                     pending_identity = Mumble::Identity{};
-                    (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Detected other profession.");
+                    (void)Globals::APIDefs->Log(ELogLevel_INFO, "GW2RotaHelper", "Detected other profession.");
                 }
             }
         }
