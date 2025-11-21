@@ -51,7 +51,6 @@ static const inline std::set<std::string_view> red_crossed_builds = {
     "power_holosmith",
     "power_evoker",
     "power_evoker_scepter_dagger_pf",
-    "power_conduit",
     "power_deadeye_staff_and_dagger",
     // CONDITION BUILDS
     "condition_daredevil",
@@ -99,6 +98,7 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "power_herald",
     "power_luminary",
     "power_ritualist",
+    "power_conduit",
     // POWER BOON BUILDS
     "power_quickness_herald",
     "power_boon_chronomancer",
