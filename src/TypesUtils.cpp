@@ -602,6 +602,8 @@ std::string download_state_to_string(DownloadState state)
         return "Completed";
     case DownloadState::FAILED:
         return "Failed";
+    case DownloadState::NO_UPDATE_NEEDED:
+        return "No Update Needed";
     default:
         return "Unknown";
     }

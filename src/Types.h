@@ -1,13 +1,13 @@
 #pragma once
 
 #include <cstdint>
+#include <filesystem>
 #include <list>
 #include <map>
 #include <optional>
 #include <string>
 #include <variant>
 #include <vector>
-#include <filesystem>
 
 #include "arcdps/ArcDPS.h"
 
@@ -350,4 +350,5 @@ enum class DownloadState
     STARTED,
     FINISHED,
     FAILED,
+    NO_UPDATE_NEEDED,
 };

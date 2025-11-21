@@ -372,7 +372,7 @@ void RenderType::render_debug_data()
 
     ImGui::Separator();
 
-    ImGui::Text("Download State: %s", download_state_to_string(Globals::BenchDataDownloadState));
+    ImGui::Text("Download State: %s", download_state_to_string(Globals::BenchDataDownloadState).c_str());
 
     if (!keybinds.empty())
     {
@@ -591,6 +591,13 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
         if (Globals::DownloadedBenchData)
         {
             ImGui::Text("Successfully Downloaded Bench Data. Please restart the game.");
+            ImGui::End();
+            return;
+        }
+
+        if (Globals::BenchDataDownloadState == DownloadState::FAILED)
+        {
+            ImGui::Text("Failed Downloading/Extracting Bench Data. Please reach out to me.");
             ImGui::End();
             return;
         }
