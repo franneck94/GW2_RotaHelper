@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated logs regarding the bloodstone nerf
 - Changed logic for power ritu shroud skills (unfortunately not working proper atm)
 - Updated power conduit build and moved it from not working at all to okay-ish working build category
+- Added nexus logging messages
 
 ## 0.14.0 - 2025-11-20
 
