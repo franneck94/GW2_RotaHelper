@@ -5,7 +5,11 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.15.0
+## 0.15.0 - 2025-11-21
+
+### Improvements
+
+- Added the auto download (and update) of the bench data (ZIP) from github, so there is no need to do it manually anymore
 
 ### Notes
 
