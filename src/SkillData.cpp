@@ -414,11 +414,22 @@ const std::map<std::string_view, float> skill_cast_time_map = {
     {"Flying Cutter", 0.5f},        // mesmer sw 1
     {"Flaming Flurry", 3.25f},      // warrior sw f1
     {"Scorched Earth", 3.25f},      // warrior lb f1
-    {"Overload Air", 4.0f},         // f1 air
-    {"Overload Fire", 4.0f},        // f1 fire
-    {"Flamestrike", 0.9f},          // f1 fire
+    {"Overload Air", 4.0f},         // ele tempest f1 air
+    {"Overload Fire", 4.0f},        // ele tempest f1 fire
+    {"Flamestrike", 0.9f},          // ele scepter 1 fire
     {"Scorching Shot", 0.5f},       // ele earth pistol 1
     {"Piercing Pebble", 0.5f},      // ele fire pistol 1
+    {"Rift Slash", 0.5f},           // rev sword 1
 };
 
-} // namespace SkillData
+SkillData GetDataByID(const uint64_t skill_id, const SkillDataMap &skill_data_map)
+{
+    auto it = skill_data_map.find(static_cast<int>(skill_id));
+
+    if (it != skill_data_map.end())
+        return it->second;
+
+    return {};
+}
+
+} // namespace SkillRuleData

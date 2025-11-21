@@ -40,4 +40,6 @@ extern const std::set<uint64_t> reset_like_skill;
 
 extern const std::map<std::string_view, float> skill_cast_time_map;
 
+SkillData GetDataByID(const uint64_t skill_id, const SkillDataMap &skill_data_map);
+
 } // namespace SkillData
