@@ -6,6 +6,7 @@
 - Check thief staff 3
 - Dragon Slash—Force name is: "Dragon Slashâ€”Force"
 - Mech F-skills do not show keybind
-- Add special rule for IsAnySkillFromBuild for Rifle 1 engi
-- Load correct dodge image, also filter not for rev but for vindi
+- Load correct dodge image
 - double skill removal does not wor kfor first occurence
+
+- Greyed out skills: add cast time and wait that to go to next (pop)
