@@ -1,13 +1,15 @@
-import asyncio
 import argparse
+import asyncio
 import json
 import logging
+from datetime import UTC
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import aiohttp
-from aiohttp import ClientSession, ClientTimeout
+from aiohttp import ClientSession
+from aiohttp import ClientTimeout
 
 
 class SkillSlot(Enum):
@@ -141,7 +143,7 @@ class GW2SkillFetcher:
         self.logger.debug(f"Unknown weapon type '{weapon_type}', defaulting to None")
         return WeaponType.NONE.value
 
-    def read_existing_skill_data(self) -> Dict[str, Dict[str, Any]]:
+    def read_existing_skill_data(self) -> dict[str, dict[str, Any]]:
         """Read existing skill data from the JSON file if it exists."""
         existing_file = self.output_dir / "gw2_skills_en.json"
 
@@ -150,7 +152,7 @@ class GW2SkillFetcher:
             return {}
 
         try:
-            with open(existing_file, "r", encoding="utf-8") as f:
+            with open(existing_file, encoding="utf-8") as f:
                 existing_data = json.load(f)
 
             self.logger.info(f"Loaded {len(existing_data)} existing skills from {existing_file}")
@@ -161,7 +163,7 @@ class GW2SkillFetcher:
             self.logger.info("Starting with empty skill data")
             return {}
 
-    async def get_all_skill_ids(self, session: ClientSession) -> List[int]:
+    async def get_all_skill_ids(self, session: ClientSession) -> list[int]:
         """Fetch all available skill IDs from the API."""
         self.logger.info("Fetching skill IDs from GW2 API...")
 
@@ -173,8 +175,10 @@ class GW2SkillFetcher:
         return skill_ids
 
     async def fetch_skill_chunk(
-        self, session: ClientSession, skill_ids: List[int]
-    ) -> List[Dict[str, Any]]:
+        self,
+        session: ClientSession,
+        skill_ids: list[int],
+    ) -> list[dict[str, Any]]:
         """Fetch a chunk of skill data."""
         ids_param = ",".join(map(str, skill_ids))
         url = f"{self.SKILLS_ENDPOINT}?ids={ids_param}&lang=en"
@@ -187,7 +191,7 @@ class GW2SkillFetcher:
 
         return skills_data
 
-    def filter_skill_data(self, skill: Dict[str, Any]) -> Dict[str, Any]:
+    def filter_skill_data(self, skill: dict[str, Any]) -> dict[str, Any]:
         """Filter skill data to only include required fields."""
         # Extract recharge and cast time values from facts
         recharge_value = None
@@ -195,17 +199,9 @@ class GW2SkillFetcher:
 
         if "facts" in skill and isinstance(skill["facts"], list):
             for fact in skill["facts"]:
-                if (
-                    fact.get("type") == "Recharge"
-                    and fact.get("text") == "Recharge"
-                    and "value" in fact
-                ):
+                if fact.get("type") == "Recharge" and fact.get("text") == "Recharge" and "value" in fact:
                     recharge_value = fact["value"]
-                elif (
-                    fact.get("type") == "Time"
-                    and fact.get("text") == "Cast Time"
-                    and "value" in fact
-                ):
+                elif fact.get("type") == "Time" and fact.get("text") == "Cast Time" and "value" in fact:
                     cast_time_value = fact["value"]
 
         # Extract weapon type, defaulting to 'None' if not present
@@ -255,13 +251,13 @@ class GW2SkillFetcher:
 
         # Add recharge and cast time, defaulting to 0 if not found
         filtered_skill["recharge"] = recharge_value if recharge_value is not None else 0
-        filtered_skill["cast_time"] = (
-            cast_time_value if cast_time_value is not None else 0.0
-        )
+        filtered_skill["cast_time"] = cast_time_value if cast_time_value is not None else 0.0
 
         return filtered_skill
 
-    async def fetch_all_skills(self, existing_skills: Dict[str, Dict[str, Any]] | None = None) -> tuple[Dict[str, Any], Dict[str, Any]]:
+    async def fetch_all_skills(
+        self, existing_skills: dict[str, dict[str, Any]] | None = None,
+    ) -> tuple[dict[str, Any], dict[str, Any]]:
         """Fetch all skill information from the GW2 API, preserving existing data for missing skills."""
         if existing_skills is None:
             existing_skills = {}
@@ -270,7 +266,8 @@ class GW2SkillFetcher:
         all_skills_filtered = existing_skills.copy()  # Start with existing data
 
         async with ClientSession(
-            timeout=self.timeout, connector=self.connector
+            timeout=self.timeout,
+            connector=self.connector,
         ) as session:
             try:
                 # Get all skill IDs
@@ -281,10 +278,7 @@ class GW2SkillFetcher:
                 api_fetch_count = 0
 
                 # Create chunks for batch requests
-                skill_chunks = [
-                    skill_ids[i : i + self.CHUNK_SIZE]
-                    for i in range(0, len(skill_ids), self.CHUNK_SIZE)
-                ]
+                skill_chunks = [skill_ids[i : i + self.CHUNK_SIZE] for i in range(0, len(skill_ids), self.CHUNK_SIZE)]
 
                 self.logger.info(f"Processing {len(skill_chunks)} chunks of skills...")
 
@@ -292,8 +286,8 @@ class GW2SkillFetcher:
                 semaphore = asyncio.Semaphore(3)  # Limit concurrent requests
 
                 async def fetch_with_semaphore(
-                    chunk: List[int],
-                ) -> List[Dict[str, Any]]:
+                    chunk: list[int],
+                ) -> list[dict[str, Any]]:
                     async with semaphore:
                         return await self.fetch_skill_chunk(session, chunk)
 
@@ -321,7 +315,7 @@ class GW2SkillFetcher:
                                 all_skills_filtered[str(skill_id)] = filtered_skill
                     else:
                         self.logger.warning(
-                            f"Unexpected result type for chunk {i}: {type(result)}"
+                            f"Unexpected result type for chunk {i}: {type(result)}",
                         )
 
                 # Check for skills that weren't fetched from API
@@ -340,14 +334,14 @@ class GW2SkillFetcher:
                             existing_skills[missing_id_str]["weapon_type"] = WeaponType.NONE.value
 
                 self.logger.info(
-                    f"Successfully fetched {api_fetch_count} skills from API"
+                    f"Successfully fetched {api_fetch_count} skills from API",
                 )
                 if preserved_count > 0:
                     self.logger.info(
-                        f"Preserved {preserved_count} existing skills that weren't available from API"
+                        f"Preserved {preserved_count} existing skills that weren't available from API",
                     )
                 self.logger.info(
-                    f"Total skills in dataset: {len(all_skills_filtered)}"
+                    f"Total skills in dataset: {len(all_skills_filtered)}",
                 )
 
             except Exception as e:
@@ -356,7 +350,7 @@ class GW2SkillFetcher:
 
         return all_skills_raw, all_skills_filtered
 
-    def _is_auto_attack(self, skill: Dict[str, Any]) -> bool:
+    def _is_auto_attack(self, skill: dict[str, Any]) -> bool:
         """Determine if a skill is an auto attack based on various criteria."""
         slot = skill.get("slot")
         if slot == "Weapon_1":
@@ -425,7 +419,7 @@ class GW2SkillFetcher:
 
         return slot_to_skill_type.get(slot, SkillSlot.NONE).value
 
-    def _is_necromancer_downed_skill(self, skill: Dict[str, Dict[str, Any]]) -> bool:
+    def _is_necromancer_downed_skill(self, skill: dict[str, dict[str, Any]]) -> bool:
         """Check if this is a Necromancer downed skill that should be treated as weapon skill."""
         slot: str = skill.get("slot", "")  # type: ignore
         professions = skill.get("professions", [])
@@ -435,7 +429,7 @@ class GW2SkillFetcher:
             return True
         return False
 
-    def save_raw_skills_to_file(self, skills_data: Dict[str, Any]) -> None:
+    def save_raw_skills_to_file(self, skills_data: dict[str, Any]) -> None:
         """Save all raw skill data to a JSON file without any filtering."""
         output_file = self.output_dir / "gw2_skills_raw.json"
 
@@ -446,14 +440,14 @@ class GW2SkillFetcher:
             self.logger.info(f"Raw skills data saved to: {output_file}")
             self.logger.info(f"Saved {len(skills_data)} raw skills")
             self.logger.info(
-                f"File size: {output_file.stat().st_size / 1024 / 1024:.2f} MB"
+                f"File size: {output_file.stat().st_size / 1024 / 1024:.2f} MB",
             )
 
         except Exception as e:
             self.logger.error(f"Error saving raw skills data: {e}")
             raise
 
-    def save_skills_to_file(self, skills_data: Dict[str, Dict[str, Any]]) -> None:
+    def save_skills_to_file(self, skills_data: dict[str, dict[str, Any]]) -> None:
         """Save skill data to a JSON file, filtering out uncategorized skills."""
         # Filter out skills that have all boolean flags set to false
         categorized_skills = {}
@@ -523,22 +517,26 @@ class GW2SkillFetcher:
         try:
             with open(output_file, "w", encoding="utf-8") as f:
                 json.dump(
-                    categorized_skills, f, indent=2, ensure_ascii=False, sort_keys=True
+                    categorized_skills,
+                    f,
+                    indent=2,
+                    ensure_ascii=False,
+                    sort_keys=True,
                 )
 
             self.logger.info(f"Skills data saved to: {output_file}")
             self.logger.info(
-                f"Saved {len(categorized_skills)} categorized skills out of {len(skills_data)} total skills"
+                f"Saved {len(categorized_skills)} categorized skills out of {len(skills_data)} total skills",
             )
             self.logger.info(
-                f"File size: {output_file.stat().st_size / 1024 / 1024:.2f} MB"
+                f"File size: {output_file.stat().st_size / 1024 / 1024:.2f} MB",
             )
 
         except Exception as e:
             self.logger.error(f"Error saving skills data: {e}")
             raise
 
-    def save_uncategorized_skills(self, skills_data: Dict[str, Dict[str, Any]]) -> None:
+    def save_uncategorized_skills(self, skills_data: dict[str, dict[str, Any]]) -> None:
         """Save skills that have all boolean flags set to false."""
         uncategorized_skills = {}
 
@@ -568,19 +566,19 @@ class GW2SkillFetcher:
 
             self.logger.info(f"Uncategorized skills data saved to: {output_file}")
             self.logger.info(
-                f"Found {len(uncategorized_skills)} uncategorized skills out of {len(skills_data)} total skills"
+                f"Found {len(uncategorized_skills)} uncategorized skills out of {len(skills_data)} total skills",
             )
             self.logger.info(
-                f"File size: {output_file.stat().st_size / 1024 / 1024:.2f} MB"
+                f"File size: {output_file.stat().st_size / 1024 / 1024:.2f} MB",
             )
 
         except Exception as e:
             self.logger.error(f"Error saving uncategorized skills data: {e}")
             raise
 
-    def create_metadata(self, skills_data: Dict[str, Dict[str, Any]]) -> Dict[str, Any]:
+    def create_metadata(self, skills_data: dict[str, dict[str, Any]]) -> dict[str, Any]:
         """Create metadata about the fetched skills."""
-        from datetime import datetime, timezone
+        from datetime import datetime
 
         # Analyze skill types and professions
         skill_types = set()
@@ -596,7 +594,7 @@ class GW2SkillFetcher:
                 categories.update(skill["categories"])
 
         metadata = {
-            "fetch_timestamp": datetime.now(timezone.utc).isoformat(),
+            "fetch_timestamp": datetime.now(UTC).isoformat(),
             "total_skills": len(skills_data),
             "api_version": "v2",
             "language": "en",
@@ -604,7 +602,7 @@ class GW2SkillFetcher:
 
         return metadata
 
-    def save_metadata(self, skills_data: Dict[str, Dict[str, Any]]) -> None:
+    def save_metadata(self, skills_data: dict[str, dict[str, Any]]) -> None:
         """Save metadata about the fetched skills."""
         metadata = self.create_metadata(skills_data)
         metadata_file = self.output_dir / "gw2_skills_metadata.json"
@@ -656,7 +654,7 @@ class GW2SkillFetcher:
 async def main() -> None:
     # Parse command line arguments
     parser = argparse.ArgumentParser(
-        description="Fetch skill data from the Guild Wars 2 API"
+        description="Fetch skill data from the Guild Wars 2 API",
     )
     parser.add_argument(
         "--save-raw",

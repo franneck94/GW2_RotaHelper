@@ -14,11 +14,12 @@ from pathlib import Path
 
 import requests
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
 
 SLEEP_DELAY = 1.5
 
@@ -40,8 +41,8 @@ class SnowCrowsScraper:
 
         self.session.headers.update(
             {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-            }
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            },
         )
 
         logging.basicConfig(
@@ -126,10 +127,8 @@ class SnowCrowsScraper:
         chrome_options.add_argument("--disable-gpu")
         chrome_options.add_argument("--window-size=1920,1080")
         chrome_options.add_argument(
-            (
-                "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-            )
+            "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         )
 
         try:
@@ -170,7 +169,7 @@ class SnowCrowsScraper:
         for url, benchmark_type in benchmark_urls:
             try:
                 self.logger.info(
-                    f"Fetching SnowCrows {benchmark_type.upper()} benchmarks page: {url}"
+                    f"Fetching SnowCrows {benchmark_type.upper()} benchmarks page: {url}",
                 )
                 response = self.session.get(url, timeout=30)
                 response.raise_for_status()
@@ -182,7 +181,7 @@ class SnowCrowsScraper:
 
                 build_urls: list[str] = build_url_pattern.findall(response.text)
                 self.logger.info(
-                    f"Found {len(build_urls)} {benchmark_type.upper()} build URLs"
+                    f"Found {len(build_urls)} {benchmark_type.upper()} build URLs",
                 )
 
                 for build_url in build_urls:
@@ -209,7 +208,7 @@ class SnowCrowsScraper:
 
             except Exception as e:
                 self.logger.error(
-                    f"Error fetching SnowCrows {benchmark_type} page: {e}"
+                    f"Error fetching SnowCrows {benchmark_type} page: {e}",
                 )
 
         # Remove duplicates based on URL and benchmark type
@@ -222,7 +221,7 @@ class SnowCrowsScraper:
                 unique_builds.append(build_info)
 
         self.logger.info(
-            f"Found {len(unique_builds)} total unique builds across all benchmark types"
+            f"Found {len(unique_builds)} total unique builds across all benchmark types",
         )
         return unique_builds
 
@@ -238,11 +237,11 @@ class SnowCrowsScraper:
             return []
 
         try:
-            with open(manual_file_path, "r", encoding="utf-8") as f:
+            with open(manual_file_path, encoding="utf-8") as f:
                 manual_logs: dict[str, str] = json.load(f)
 
             self.logger.info(
-                f"Loaded {len(manual_logs)} manual log entries from {manual_file_path}"
+                f"Loaded {len(manual_logs)} manual log entries from {manual_file_path}",
             )
 
             builds_info = []
@@ -262,7 +261,8 @@ class SnowCrowsScraper:
 
                 # Extract profession info from build name
                 profession, elite_spec = self._deduce_profession_from_build_name(
-                    build_name, build_name
+                    build_name,
+                    build_name,
                 )
 
                 build_info = {
@@ -282,7 +282,7 @@ class SnowCrowsScraper:
 
         except Exception as e:
             self.logger.error(
-                f"Error loading manual log list from {manual_file_path}: {e}"
+                f"Error loading manual log list from {manual_file_path}: {e}",
             )
             return []
 
@@ -299,7 +299,9 @@ class SnowCrowsScraper:
         return readable
 
     def _deduce_profession_from_build_name(
-        self, build_name: str, url_path: str
+        self,
+        build_name: str,
+        url_path: str,
     ) -> tuple[str, str]:
         """Deduce profession and elite spec from build name and URL"""
         build_name_lower = build_name.lower()
@@ -321,7 +323,8 @@ class SnowCrowsScraper:
         if len(url_parts) >= 1:
             build_name_from_url = url_parts[-1]  # Last part is the build name
             profession, elite_spec = self._deduce_profession_from_build_name(
-                build_name_from_url, build_url
+                build_name_from_url,
+                build_url,
             )
         else:
             profession, elite_spec = "Unknown", ""
@@ -379,7 +382,7 @@ class SnowCrowsScraper:
         processed_content = cache_url_pattern.sub(replace_cache_url, html_content)
 
         self.logger.info(
-            "Processed HTML content: replaced cache URLs with proper image URLs"
+            "Processed HTML content: replaced cache URLs with proper image URLs",
         )
         return processed_content
 
@@ -403,7 +406,7 @@ class SnowCrowsScraper:
 
                 self.driver.get(url)  # type: ignore
                 WebDriverWait(self.driver, 10).until(  # type: ignore
-                    EC.presence_of_element_located((By.TAG_NAME, "body"))
+                    EC.presence_of_element_located((By.TAG_NAME, "body")),
                 )
                 time.sleep(SLEEP_DELAY)
 
@@ -413,23 +416,23 @@ class SnowCrowsScraper:
                         # First try to find dps.report link
                         dps_report_link = WebDriverWait(self.driver, 10).until(  # type: ignore
                             EC.element_to_be_clickable(
-                                (By.XPATH, "//a[contains(@href, 'dps.report')]")
-                            )
+                                (By.XPATH, "//a[contains(@href, 'dps.report')]"),
+                            ),
                         )
                         dps_report_url = dps_report_link.get_attribute("href")
                         self.logger.info(f"Found DPS report URL: {dps_report_url}")
                     except TimeoutException:
                         # If dps.report not found, try wingman proxy as backup
                         self.logger.info(
-                            "DPS report link not found, trying wingman proxy..."
+                            "DPS report link not found, trying wingman proxy...",
                         )
                         dps_report_link = WebDriverWait(self.driver, 10).until(  # type: ignore
                             EC.element_to_be_clickable(
                                 (
                                     By.XPATH,
                                     "//a[contains(@href, 'gw2wingman.nevermindcreations.de')]",
-                                )
-                            )
+                                ),
+                            ),
                         )
                         dps_report_url = dps_report_link.get_attribute("href")
                         self.logger.info(f"Found wingman proxy URL: {dps_report_url}")
@@ -439,7 +442,7 @@ class SnowCrowsScraper:
 
                 except TimeoutException:
                     self.logger.warning(
-                        f"Could not find DPS report link on {url}, skipping..."
+                        f"Could not find DPS report link on {url}, skipping...",
                     )
                     return False
 
@@ -449,7 +452,7 @@ class SnowCrowsScraper:
 
             self.driver.get(dps_report_url)  # type: ignore
             WebDriverWait(self.driver, 10).until(  # type: ignore
-                EC.presence_of_element_located((By.TAG_NAME, "body"))
+                EC.presence_of_element_located((By.TAG_NAME, "body")),
             )
 
             try:
@@ -461,8 +464,8 @@ class SnowCrowsScraper:
                             (
                                 By.XPATH,
                                 "//a[contains(text(), 'Player Summary')]",
-                            )
-                        )
+                            ),
+                        ),
                     )
                     player_summary_link.click()
                     self.logger.info("Clicked Player Summary tab")
@@ -470,7 +473,7 @@ class SnowCrowsScraper:
                     # If we can't click it, try switching to iframe (wingman proxy case)
                     try:
                         self.logger.info(
-                            "Trying to switch to iframe for embedded dps.report content..."
+                            "Trying to switch to iframe for embedded dps.report content...",
                         )
                         iframe = self.driver.find_element(By.NAME, "mainContent")  # type: ignore
                         self.driver.switch_to.frame(iframe)  # type: ignore
@@ -482,23 +485,24 @@ class SnowCrowsScraper:
                                 (
                                     By.XPATH,
                                     "//a[contains(text(), 'Player Summary')]",
-                                )
-                            )
+                                ),
+                            ),
                         )
                         player_summary_link.click()
                         self.logger.info("Clicked Player Summary tab in iframe")
                     except TimeoutException:
                         # If still can't find it, just log and continue
                         player_summary_elements = self.driver.find_elements(  # type: ignore
-                            By.XPATH, "//a[contains(text(), 'Player Summary')]"
+                            By.XPATH,
+                            "//a[contains(text(), 'Player Summary')]",
                         )
                         if player_summary_elements:
                             self.logger.info(
-                                "Found Player Summary tab (may already be active)"
+                                "Found Player Summary tab (may already be active)",
                             )
                         else:
                             self.logger.warning(
-                                "Could not find Player Summary tab in iframe either"
+                                "Could not find Player Summary tab in iframe either",
                             )
                     except Exception as e:
                         self.logger.warning(f"Could not switch to iframe: {e}")
@@ -515,8 +519,8 @@ class SnowCrowsScraper:
                             (
                                 By.XPATH,
                                 "//a[@class='nav-link' and contains(., 'Simple') and contains(., 'Rotation')]",
-                            )
-                        )
+                            ),
+                        ),
                     )
                     rotation_link.click()
                     self.logger.info("Clicked Simple Rotation tab")
@@ -526,7 +530,7 @@ class SnowCrowsScraper:
                         # If we're not already in iframe, switch to it
                         if not hasattr(self, "_in_iframe") or not self._in_iframe:
                             self.logger.info(
-                                "Trying to switch to iframe for Simple Rotation tab..."
+                                "Trying to switch to iframe for Simple Rotation tab...",
                             )
                             iframe = self.driver.find_element(By.NAME, "mainContent")  # type: ignore
                             self.driver.switch_to.frame(iframe)  # type: ignore
@@ -537,8 +541,8 @@ class SnowCrowsScraper:
                                 (
                                     By.XPATH,
                                     "//a[contains(., 'Simple') and contains(., 'Rotation')]",
-                                )
-                            )
+                                ),
+                            ),
                         )
                         rotation_link.click()
                         self.logger.info("Clicked Simple Rotation tab in iframe")
@@ -550,22 +554,22 @@ class SnowCrowsScraper:
                         )
                         if active_rotation:
                             self.logger.info(
-                                "Simple Rotation tab is already active in iframe"
+                                "Simple Rotation tab is already active in iframe",
                             )
                         else:
                             self.logger.warning(
-                                "Could not find Simple Rotation tab in iframe either"
+                                "Could not find Simple Rotation tab in iframe either",
                             )
                     except Exception as e:
                         self.logger.warning(
-                            f"Could not access Simple Rotation tab in iframe: {e}"
+                            f"Could not access Simple Rotation tab in iframe: {e}",
                         )
 
                 time.sleep(SLEEP_DELAY)
 
             except TimeoutException:
                 self.logger.warning(
-                    f"Could not find navigation elements for {build_name}, saving current page content"
+                    f"Could not find navigation elements for {build_name}, saving current page content",
                 )
 
             html_content = self.driver.page_source  # type: ignore
@@ -588,13 +592,13 @@ class SnowCrowsScraper:
             build_info["html_file_path"] = str(file_path.relative_to(self.output_dir))
 
             self.logger.info(
-                f"Saved: {build_info['html_file_path']} ({build_info['profession']} - {build_info['elite_spec']})"
+                f"Saved: {build_info['html_file_path']} ({build_info['profession']} - {build_info['elite_spec']})",
             )
             return True
 
         except Exception as e:
             self.logger.error(
-                f"Error downloading {build_info['name']} from {build_info['url']}: {e}"
+                f"Error downloading {build_info['name']} from {build_info['url']}: {e}",
             )
             return False
 
@@ -611,7 +615,7 @@ class SnowCrowsScraper:
             benchmark_type = build_info["benchmark_type"]
 
             self.logger.info(
-                f"Processing {i}/{total_count}: {build_name} ({benchmark_type.upper()}) - {build_info['profession']}"
+                f"Processing {i}/{total_count}: {build_name} ({benchmark_type.upper()}) - {build_info['profession']}",
             )
 
             if self.download_snowcrows_build_with_metadata(build_info):
@@ -628,13 +632,11 @@ class SnowCrowsScraper:
         existing_builds = {}
         if metadata_file.exists():
             try:
-                with open(metadata_file, "r", encoding="utf-8") as f:
+                with open(metadata_file, encoding="utf-8") as f:
                     existing_data = json.load(f)
                     # Create lookup dict by URL for efficient merging
                     for build in existing_data:
-                        key = (
-                            build.get("url", "") + "|" + build.get("benchmark_type", "")
-                        )
+                        key = build.get("url", "") + "|" + build.get("benchmark_type", "")
                         existing_builds[key] = build
                 self.logger.info(f"Loaded {len(existing_data)} existing build entries")
             except Exception as e:
@@ -651,7 +653,7 @@ class SnowCrowsScraper:
             json.dump(merged_builds, f, indent=2, ensure_ascii=False)
 
         self.logger.info(
-            f"Saved merged build metadata to {metadata_file} (total: {len(merged_builds)} builds)"
+            f"Saved merged build metadata to {metadata_file} (total: {len(merged_builds)} builds)",
         )
         self.logger.info(f"Download complete: {success_count}/{total_count} successful")
 
@@ -677,7 +679,7 @@ class SnowCrowsScraper:
 def main():
     """Main function with CLI interface"""
     parser = argparse.ArgumentParser(
-        description="Download benchmark report HTML files from SnowCrows (DPS, Quick, Alac) or manual list"
+        description="Download benchmark report HTML files from SnowCrows (DPS, Quick, Alac) or manual list",
     )
     parser.add_argument(
         "--output",
@@ -722,7 +724,9 @@ def main():
         print(f"📋 Using manual log list: {args.manual}")
 
     scraper = SnowCrowsScraper(
-        output_dir=args.output, delay=args.delay, headless=not args.visible
+        output_dir=args.output,
+        delay=args.delay,
+        headless=not args.visible,
     )
 
     if args.list_only:
@@ -736,15 +740,15 @@ def main():
 
         if builds_and_links:
             print(
-                f"\n📋 Found {len(builds_and_links)} builds with benchmark report links:"
+                f"\n📋 Found {len(builds_and_links)} builds with benchmark report links:",
             )
             for i, build_info in enumerate(builds_and_links, 1):
                 filename = scraper._sanitize_build_name(build_info["url_name"])
                 print(
-                    f"{i:2d}. {build_info['name']} ({build_info['benchmark_type'].upper()}) -> {filename}"
+                    f"{i:2d}. {build_info['name']} ({build_info['benchmark_type'].upper()}) -> {filename}",
                 )
                 print(
-                    f"     Profession: {build_info['profession']} ({build_info['elite_spec']})"
+                    f"     Profession: {build_info['profession']} ({build_info['elite_spec']})",
                 )
                 print(f"     Type: {build_info['build_type']}")
                 if args.manual:

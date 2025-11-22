@@ -14,13 +14,13 @@ def sanitize_name(name: str) -> str:
     Convert skill name to a valid C++ enum identifier.
     """
     # Remove special characters and replace with underscores
-    sanitized = re.sub(r'[^a-zA-Z0-9_]', '_', name)
+    sanitized = re.sub(r"[^a-zA-Z0-9_]", "_", name)
 
     # Remove multiple consecutive underscores
-    sanitized = re.sub(r'_+', '_', sanitized)
+    sanitized = re.sub(r"_+", "_", sanitized)
 
     # Remove leading/trailing underscores
-    sanitized = sanitized.strip('_')
+    sanitized = sanitized.strip("_")
 
     # Ensure it doesn't start with a number
     if sanitized and sanitized[0].isdigit():
@@ -39,7 +39,7 @@ def sanitize_name(name: str) -> str:
 def load_skills_data(json_path: Path) -> dict:
     """Load the GW2 skills raw JSON data."""
     try:
-        with open(json_path, 'r', encoding='utf-8') as f:
+        with open(json_path, encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         print(f"Error loading JSON: {e}")
@@ -74,9 +74,9 @@ def generate_skill_enum(skills_data: dict, output_path: Path):
 
     for skill_id, skill_data in sorted_skills:
         try:
-            skill_name = skill_data.get('name', f'Unknown_{skill_id}')
+            skill_name = skill_data.get("name", f"Unknown_{skill_id}")
             if not skill_name:
-                skill_name = f'Unknown_{skill_id}'
+                skill_name = f"Unknown_{skill_id}"
 
             sanitized_name = sanitize_name(skill_name)
 
@@ -102,8 +102,8 @@ def generate_skill_enum(skills_data: dict, output_path: Path):
 
     # Write to file
     try:
-        with open(output_path, 'w', encoding='utf-8') as f:
-            f.write('\n'.join(enum_content))
+        with open(output_path, "w", encoding="utf-8") as f:
+            f.write("\n".join(enum_content))
 
         print(f"Generated skill enum with {valid_skills} skills")
         print(f"Output written to: {output_path}")
@@ -143,6 +143,7 @@ def main():
     except Exception as e:
         print(f"Error: {e}")
         import traceback
+
         traceback.print_exc()
 
 

@@ -12,7 +12,7 @@ import json
 import logging
 import re
 from pathlib import Path
-from typing import Dict, Any, Tuple
+from typing import Any
 
 
 def setup_logging():
@@ -42,7 +42,7 @@ class HTMLRotationExtractor:
         # Load build metadata
         self.build_metadata = self._load_build_metadata()
 
-    def _load_build_metadata(self) -> Dict[str, Dict[str, Any]]:
+    def _load_build_metadata(self) -> dict[str, dict[str, Any]]:
         """Load build metadata from build_metadata.json"""
         metadata_file = self.input_dir / "build_metadata.json"
 
@@ -51,7 +51,7 @@ class HTMLRotationExtractor:
             return {}
 
         try:
-            with open(metadata_file, "r", encoding="utf-8") as f:
+            with open(metadata_file, encoding="utf-8") as f:
                 metadata_list = json.load(f)
 
             # Create a lookup dictionary with multiple keys for quick access
@@ -80,7 +80,7 @@ class HTMLRotationExtractor:
                     metadata_dict[name_as_filename + ".html"] = build_info
 
             self.logger.info(
-                f"Loaded metadata for {len(metadata_list)} builds with {len(metadata_dict)} lookup keys"
+                f"Loaded metadata for {len(metadata_list)} builds with {len(metadata_dict)} lookup keys",
             )
 
             # Debug: show some sample keys
@@ -93,7 +93,7 @@ class HTMLRotationExtractor:
             self.logger.error(f"Error loading build metadata: {e}")
             return {}
 
-    def _get_build_metadata_for_file(self, html_file: Path) -> Dict[str, Any]:
+    def _get_build_metadata_for_file(self, html_file: Path) -> dict[str, Any]:
         """Get build metadata for a specific HTML file"""
         # Debug logging
         self.logger.debug(f"Looking for metadata for file: {html_file}")
@@ -106,7 +106,7 @@ class HTMLRotationExtractor:
             self.logger.debug(f"Trying relative path: {relative_path_str}")
             if relative_path_str in self.build_metadata:
                 self.logger.debug(
-                    f"Found metadata by relative path: {relative_path_str}"
+                    f"Found metadata by relative path: {relative_path_str}",
                 )
                 return self.build_metadata[relative_path_str]
         except ValueError:
@@ -135,14 +135,14 @@ class HTMLRotationExtractor:
 
         # Show available keys for debugging
         self.logger.debug(
-            f"Available metadata keys: {list(self.build_metadata.keys())[:5]}..."
+            f"Available metadata keys: {list(self.build_metadata.keys())[:5]}...",
         )
 
         # Return empty dict if no metadata found
         self.logger.debug(f"No metadata found for {html_file.name}")
         return {}
 
-    def _parse_skill_tooltip(self, tooltip: str) -> Tuple[str, float, float]:
+    def _parse_skill_tooltip(self, tooltip: str) -> tuple[str, float, float]:
         """Parse skill information from tooltip text"""
         try:
             # Decode HTML entities first
@@ -206,10 +206,7 @@ class HTMLRotationExtractor:
                         return int(hash_match.group(1))
 
                     # For weapon swap specifically, use a known ID
-                    if (
-                        "weapon_swap" in hash_part.lower()
-                        or "weaponswap" in hash_part.lower()
-                    ):
+                    if "weapon_swap" in hash_part.lower() or "weaponswap" in hash_part.lower():
                         return 9999  # Use a special ID for weapon swap
 
                     # Generate a hash-based ID for other special skills
@@ -231,12 +228,12 @@ class HTMLRotationExtractor:
             self.logger.warning(f"Error extracting skill ID from URL '{img_src}': {e}")
             return 0
 
-    def extract_rotation_from_html(self, html_file: Path) -> Dict[str, Any]:
+    def extract_rotation_from_html(self, html_file: Path) -> dict[str, Any]:
         """Extract rotation data from a single HTML file using regex"""
         try:
             self.logger.info(f"Processing HTML file: {html_file.name}")
 
-            with open(html_file, "r", encoding="utf-8") as f:
+            with open(html_file, encoding="utf-8") as f:
                 html_content = f.read()
 
             # Use regex to find all rotation skill images, capturing class attribute to filter out cancelled skills
@@ -250,7 +247,9 @@ class HTMLRotationExtractor:
                 matches = [
                     (src, title, class_attr)
                     for title, src, class_attr in re.findall(
-                        pattern2, html_content, re.DOTALL | re.IGNORECASE
+                        pattern2,
+                        html_content,
+                        re.DOTALL | re.IGNORECASE,
                     )
                 ]
 
@@ -260,7 +259,9 @@ class HTMLRotationExtractor:
                 matches = [
                     (src, title, class_attr)
                     for class_attr, src, title in re.findall(
-                        pattern3, html_content, re.DOTALL | re.IGNORECASE
+                        pattern3,
+                        html_content,
+                        re.DOTALL | re.IGNORECASE,
                     )
                 ]
 
@@ -287,11 +288,11 @@ class HTMLRotationExtractor:
                     if skill_name in self.cancellation_allowed_skills:
                         reason = self.cancellation_allowed_skills[skill_name]  # type: ignore
                         self.logger.debug(
-                            f"Including cancelled skill {skill_name} (ID: {icon_id}) - {reason}"
+                            f"Including cancelled skill {skill_name} (ID: {icon_id}) - {reason}",
                         )
                     else:
                         self.logger.debug(
-                            f"Skipping cancelled skill: {skill_name} (ID: {icon_id})"
+                            f"Skipping cancelled skill: {skill_name} (ID: {icon_id})",
                         )
 
                         continue
@@ -315,9 +316,7 @@ class HTMLRotationExtractor:
                     # We don't have all the info from HTML, so create minimal entry
                     skill_map[skill_key] = {
                         "name": skill_name,
-                        "icon": img_src
-                        if img_src.startswith("http")
-                        else f"https://dps.report{img_src}",
+                        "icon": img_src if img_src.startswith("http") else f"https://dps.report{img_src}",
                         "traitProc": False,  # Default values since we don't have this info
                         "gearProc": False,
                     }
@@ -364,7 +363,7 @@ class HTMLRotationExtractor:
                 profession_info += f" ({elite_spec})"
 
             self.logger.info(
-                f"Extracted {len(rotation_entries)} rotation entries from {html_file.name} - {profession_info}"
+                f"Extracted {len(rotation_entries)} rotation entries from {html_file.name} - {profession_info}",
             )
 
             return result
@@ -380,9 +379,9 @@ class HTMLRotationExtractor:
         # Check if file is in a subdirectory that indicates benchmark type
         if "dps" in path_parts:
             return "dps"
-        elif "quick" in path_parts:
+        if "quick" in path_parts:
             return "quick"
-        elif "alac" in path_parts:
+        if "alac" in path_parts:
             return "alac"
 
         # Default to dps if cannot determine
@@ -393,14 +392,14 @@ class HTMLRotationExtractor:
         # Check if file is in a subdirectory that indicates build type
         if "power" in str(html_file.parent):
             return "power"
-        elif "condition" in str(html_file.parent):
+        if "condition" in str(html_file.parent):
             return "condition"
 
         # Check filename for build type indicators
         filename = html_file.stem.lower()
         if filename.startswith("condition") or "condition" in filename:
             return "condition"
-        elif filename.startswith("power") or "power" in filename:
+        if filename.startswith("power") or "power" in filename:
             return "power"
 
         # Default to power if cannot determine
@@ -449,12 +448,12 @@ class HTMLRotationExtractor:
 
         if additional_files:
             self.logger.info(
-                f"Found {len(additional_files)} additional HTML files without metadata"
+                f"Found {len(additional_files)} additional HTML files without metadata",
             )
 
         if not html_files:
             self.logger.warning(
-                f"No HTML files found matching pattern '{pattern}' in {self.input_dir} or subdirectories"
+                f"No HTML files found matching pattern '{pattern}' in {self.input_dir} or subdirectories",
             )
             return
 
@@ -468,21 +467,21 @@ class HTMLRotationExtractor:
                 # Extract rotation data
                 extracted_data = self.extract_rotation_from_html(html_file)
 
-                if not extracted_data["rotation"][
-                    0
-                ]:  # Check if rotation array is empty
+                if not extracted_data["rotation"][0]:  # Check if rotation array is empty
                     self.logger.warning(
-                        f"No rotation data extracted from {html_file.name}"
+                        f"No rotation data extracted from {html_file.name}",
                     )
                     continue
 
                 # Use metadata for benchmark and build types if available, otherwise determine from path
                 build_metadata = extracted_data.get("buildMetadata", {})
                 benchmark_type = build_metadata.get(
-                    "benchmark_type", self._determine_benchmark_type(html_file)
+                    "benchmark_type",
+                    self._determine_benchmark_type(html_file),
                 )
                 build_type = build_metadata.get(
-                    "build_type", self._determine_build_type(html_file)
+                    "build_type",
+                    self._determine_build_type(html_file),
                 )
 
                 # Create appropriate output subdirectory
@@ -503,7 +502,7 @@ class HTMLRotationExtractor:
                     profession_info += f" ({elite_spec})"
 
                 self.logger.info(
-                    f"Saved: {benchmark_type}/{build_type}/{output_filename} - {profession_info}"
+                    f"Saved: {benchmark_type}/{build_type}/{output_filename} - {profession_info}",
                 )
                 success_count += 1
 
@@ -512,7 +511,7 @@ class HTMLRotationExtractor:
                 continue
 
         self.logger.info(
-            f"Processing complete: {success_count}/{total_count} successful"
+            f"Processing complete: {success_count}/{total_count} successful",
         )
 
     def process_single_file(self, filename: str) -> bool:
@@ -529,7 +528,7 @@ class HTMLRotationExtractor:
         for benchmark_type in benchmark_types:
             for build_type in build_types:
                 possible_paths.append(
-                    self.input_dir / benchmark_type / build_type / filename
+                    self.input_dir / benchmark_type / build_type / filename,
                 )
 
         for path in possible_paths:
@@ -539,7 +538,7 @@ class HTMLRotationExtractor:
 
         if html_file is None:
             self.logger.error(
-                f"File not found: {filename} (searched in input directory and subdirectories)"
+                f"File not found: {filename} (searched in input directory and subdirectories)",
             )
             return False
 
@@ -558,10 +557,12 @@ class HTMLRotationExtractor:
             # Use metadata for benchmark and build types if available, otherwise determine from path
             build_metadata = extracted_data.get("buildMetadata", {})
             benchmark_type = build_metadata.get(
-                "benchmark_type", self._determine_benchmark_type(html_file)
+                "benchmark_type",
+                self._determine_benchmark_type(html_file),
             )
             build_type = build_metadata.get(
-                "build_type", self._determine_build_type(html_file)
+                "build_type",
+                self._determine_build_type(html_file),
             )
 
             # Create appropriate output subdirectory
@@ -582,7 +583,7 @@ class HTMLRotationExtractor:
                 profession_info += f" ({elite_spec})"
 
             self.logger.info(
-                f"Saved: {benchmark_type}/{build_type}/{output_filename} - {profession_info}"
+                f"Saved: {benchmark_type}/{build_type}/{output_filename} - {profession_info}",
             )
             return True
 
@@ -594,7 +595,7 @@ class HTMLRotationExtractor:
 def main():
     """Main function with CLI interface"""
     parser = argparse.ArgumentParser(
-        description="Extract rotation data from benchmark report HTML files (DPS, Quick, Alac)"
+        description="Extract rotation data from benchmark report HTML files (DPS, Quick, Alac)",
     )
     parser.add_argument(
         "--input",
@@ -639,15 +640,13 @@ def main():
         if success:
             print("✅ File processed successfully!")
             return 0
-        else:
-            print("❌ Failed to process file!")
-            return 1
-    else:
-        # Process all files matching pattern
-        print(f"📄 Processing files matching pattern: {args.pattern}")
-        extractor.process_all_html_files(args.pattern)
-        print("✅ Processing completed!")
-        return 0
+        print("❌ Failed to process file!")
+        return 1
+    # Process all files matching pattern
+    print(f"📄 Processing files matching pattern: {args.pattern}")
+    extractor.process_all_html_files(args.pattern)
+    print("✅ Processing completed!")
+    return 0
 
 
 if __name__ == "__main__":

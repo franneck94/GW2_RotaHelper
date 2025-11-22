@@ -1,6 +1,7 @@
 import json
 
-with open("GW2EI/Content/SkillList.json", "r", encoding="utf-8") as f:
+
+with open("GW2EI/Content/SkillList.json", encoding="utf-8") as f:
     content = f.read()
 
 # Find all skills with Mesmer profession and Weapon_4 slot
@@ -21,7 +22,7 @@ for skill in skills:
                     "name": skill_name,
                     "id": skill.get("id"),
                     "weapon_type": skill.get("weapon_type", "unknown"),
-                }
+                },
             )
 
     # Berserker F1 skills (Primal Bursts)
@@ -34,7 +35,7 @@ for skill in skills:
                     "name": skill_name,
                     "id": skill.get("id"),
                     "weapon_type": skill.get("weapon_type", "unknown"),
-                }
+                },
             )
 
 print("Mesmer Weapon 4 Skills:")

@@ -41,15 +41,21 @@ def update_header_with_version_ranges(
 
         # Remove existing version range defines if they exist
         content = re.sub(
-            r'#define\s+LOWER_VERSION_RANGE\s+"[\d\.]+"\s*\n?', "", content
+            r'#define\s+LOWER_VERSION_RANGE\s+"[\d\.]+"\s*\n?',
+            "",
+            content,
         )
         content = re.sub(
-            r'#define\s+UPPER_VERSION_RANGE\s+"[\d\.]+"\s*\n?', "", content
+            r'#define\s+UPPER_VERSION_RANGE\s+"[\d\.]+"\s*\n?',
+            "",
+            content,
         )
 
         # Add the new version range defines after the VERSION_STRING define
         version_string_pattern = r"(#define VERSION_STRING[^\n]+\n)"
-        replacement = f'\\1\n#define LOWER_VERSION_RANGE "{lower_version}"\n#define UPPER_VERSION_RANGE "{upper_version}"\n'
+        replacement = (
+            f'\\1\n#define LOWER_VERSION_RANGE "{lower_version}"\n#define UPPER_VERSION_RANGE "{upper_version}"\n'
+        )
 
         content = re.sub(version_string_pattern, replacement, content)
 
