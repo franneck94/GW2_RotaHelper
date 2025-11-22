@@ -190,6 +190,14 @@ bool is_skill_in_set(std::string_view skill_name, const std::set<std::string_vie
     return false;
 }
 
+bool is_skill_in_set(SkillID skill_id, const std::set<SkillID> &set)
+{
+    if (set.find(skill_id) != set.end())
+        return true;
+
+    return false;
+}
+
 bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_rules)
 {
     const auto is_substr_drop_match = is_skill_in_set(skill_data.name, skill_rules.skills_substr_to_drop);
@@ -250,9 +258,7 @@ bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_r
 void get_rotation_info(const IntNode &node,
                        const LogSkillInfoMap &log_skill_info_map,
                        RotationSteps &all_rotation_steps,
-                       const SkillDataMap &skill_data_map,
-                       const SkillRules &skill_rules,
-                       const std::map<std::string_view, float> &skill_cast_time_map)
+                       const SkillDataMap &skill_data_map)
 {
     for (const auto &rotation_entry : node.children)
     {
@@ -343,14 +349,14 @@ void get_rotation_info(const IntNode &node,
                 skill_data.icon_id = -9999;
             }
 
-            const auto drop_skill = get_is_skill_dropped(skill_data, skill_rules);
+            const auto drop_skill = get_is_skill_dropped(skill_data, SkillRuleData::skill_rules);
 
             if (!drop_skill)
             {
-                const auto is_special_skill = get_is_special_skill(skill_data, skill_rules);
+                const auto is_special_skill = get_is_special_skill(skill_data, SkillRuleData::skill_rules);
 
                 const auto is_duplicate_skill =
-                    is_skill_in_set(skill_data.name, skill_rules.special_substr_to_remove_duplicates);
+                    is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.special_substr_to_remove_duplicates);
 
                 auto was_there_previous = false;
                 if (!all_rotation_steps.empty())
@@ -368,8 +374,8 @@ void get_rotation_info(const IntNode &node,
                 if (is_duplicate_skill && was_there_previous && !skill_data.is_auto_attack)
                     continue;
 
-                const auto cast_time_it = skill_cast_time_map.find(skill_data.name);
-                if (cast_time_it != skill_cast_time_map.end())
+                const auto cast_time_it = SkillRuleData::skill_cast_time_map.find(skill_data.skill_id);
+                if (cast_time_it != SkillRuleData::skill_cast_time_map.end())
                 {
                     skill_data.cast_time = cast_time_it->second;
                     skill_data.cast_time_with_quickness = skill_data.cast_time * 0.8f;
@@ -395,7 +401,7 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
     for (const auto &[skill_id_str, skill_obj] : j.items())
     {
         auto skill_id_int = std::stoi(skill_id_str);
-        auto skill_id = SafeConvertToSkillID(skill_id_int);
+        auto skill_id = static_cast<SkillID>(skill_id_int);
         auto skill_data = SkillData{};
         skill_data.skill_id = skill_id;
 
@@ -413,7 +419,7 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
             skill_data.recharge_time_with_alacrity = -1.0f;
         }
 
-        const auto cast_time_it = SkillRuleData::skill_cast_time_map.find(skill_data.name);
+        const auto cast_time_it = SkillRuleData::skill_cast_time_map.find(skill_data.skill_id);
         if (cast_time_it != SkillRuleData::skill_cast_time_map.end())
         {
             skill_data.cast_time = cast_time_it->second;
@@ -567,11 +573,8 @@ MetaData get_metadata(const nlohmann::json &j)
     return metadata;
 }
 
-std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
-    const std::filesystem::path &json_path,
-    const SkillDataMap &skill_data_map,
-    const SkillRules &skill_rules,
-    const std::map<std::string_view, float> &skill_cast_time_map)
+std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(const std::filesystem::path &json_path,
+                                                                        const SkillDataMap &skill_data_map)
 {
     auto json_rotation_log = nlohmann::json{};
     auto is_load_success = load_rotaion_json(json_path, json_rotation_log);
@@ -589,12 +592,7 @@ std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(
     auto log_skill_info_map = LogSkillInfoMap{};
     get_skill_info(kv_skill, log_skill_info_map);
     auto rotation_steps = RotationSteps{};
-    get_rotation_info(kv_rotation,
-                      log_skill_info_map,
-                      rotation_steps,
-                      skill_data_map,
-                      skill_rules,
-                      skill_cast_time_map);
+    get_rotation_info(kv_rotation, log_skill_info_map, rotation_steps, skill_data_map);
 
     auto metadata = get_metadata(json_rotation_log);
 
@@ -729,8 +727,7 @@ void RotationLogType::load_data(const std::filesystem::path &json_path, const st
         return;
     skill_data_map = get_skill_data_map(jsons_skill_data);
 
-    const auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] =
-        get_dpsreport_data(json_path, skill_data_map, SkillRuleData::skill_rules, SkillRuleData::skill_cast_time_map);
+    const auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] = get_dpsreport_data(json_path, skill_data_map);
 
     log_skill_info_map = _skill_info_map;
     all_rotation_steps = _bench_all_rotation_steps;

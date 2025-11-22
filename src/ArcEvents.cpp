@@ -40,30 +40,33 @@ bool IsValidCombatEvent(const EvCombatData &combat_data)
     return is_valid_self;
 }
 
-bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &combat_data)
+bool IsValidSkillID(const EvCombatDataPersistent &combat_data)
 {
     const auto &skill_data_map = Globals::RotationRun.skill_data_map;
     const auto found = skill_data_map.find(combat_data.SkillID) != skill_data_map.end();
     return found;
 }
 
-bool IsSkillFromBuild_NameBased(const EvCombatDataPersistent &combat_data)
+bool IsNoCondiTick(const EvCombatDataPersistent &combat_data)
 {
-    const auto &skill_data_map = Globals::RotationRun.skill_data_map;
-    for (const auto &kv : skill_data_map)
-    {
-        if (kv.second.name == combat_data.SkillName)
-            return true;
-    }
-    return false;
+    static const auto condi_names = std::set<std::string>{
+        "Bleeding",
+        "Burning",
+        "Torment",
+        "Confusion",
+        "Poisened",
+    };
+
+    const auto not_found = condi_names.find(combat_data.SkillName) == condi_names.end();
+    return not_found;
 }
 
 bool IsAnySkillFromBuild(const EvCombatDataPersistent &combat_data)
 {
-    if (SkillRuleData::skills_to_not_track.find(combat_data.SkillName) != SkillRuleData::skills_to_not_track.end())
+    if (SkillRuleData::skills_to_not_track.find(combat_data.SkillID) != SkillRuleData::skills_to_not_track.end())
         return false;
 
-    return IsSkillFromBuild_NameBased(combat_data) || IsSkillFromBuild_IdBased(combat_data);
+    return IsValidSkillID(combat_data) && IsNoCondiTick(combat_data);
 }
 
 std::chrono::steady_clock::time_point GetLastCastTime(const std::chrono::steady_clock::time_point &now,
@@ -86,20 +89,6 @@ bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvC
     if (skill_data_map_it == Globals::RotationRun.skill_data_map.end())
         return false;
 
-    auto current_profession = get_current_profession_name();
-    auto profession_lower = to_lowercase(current_profession);
-
-    auto is_mesmer_weapon_4 = false;
-    auto is_berserker_f1 = false;
-    auto is_reset_like_skill =
-        SkillRuleData::reset_like_skill.find(combat_data.SkillID) != SkillRuleData::reset_like_skill.end();
-    if (profession_lower == "mesmer")
-        is_mesmer_weapon_4 = SkillRuleData::mesmer_weapon_4_skills.find(combat_data.SkillID) !=
-                             SkillRuleData::mesmer_weapon_4_skills.end();
-    else if (profession_lower == "warrior")
-        is_berserker_f1 =
-            SkillRuleData::berserker_f1_skills.find(combat_data.SkillID) != SkillRuleData::berserker_f1_skills.end();
-
     const auto &skill_data = skill_data_map_it->second;
     const auto recharge_time_w_alac_s = skill_data.recharge_time_with_alacrity;
     const auto cast_time_w_quick_s = skill_data.cast_time_with_quickness;
@@ -112,7 +101,11 @@ bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvC
         recharge_time_w_alac_s > 0 ? cast_time_diff_s < recharge_time_w_alac_s * 0.90 : false;
     const auto is_same_quick_based = cast_time_w_quick_s > 0 ? cast_time_diff_s < cast_time_w_quick_s * 0.75 : false;
 
-    if (is_mesmer_weapon_4 || is_berserker_f1 || is_reset_like_skill)
+    const auto is_reset_like_skill =
+        SkillRuleData::reset_like_skill.find(combat_data.SkillID) != SkillRuleData::reset_like_skill.end();
+    const auto is_profession_reset_like_skill = SkillRuleData::IsProfessionResetLikeSKill(combat_data.SkillID);
+
+    if (is_profession_reset_like_skill || is_reset_like_skill)
     {
         if (is_same_quick_based)
         {
@@ -220,7 +213,7 @@ bool OnCombat(const char *channel,
         .EventID = combat_data.id,
     };
 
-    if (!IsAnySkillFromBuild(data))
+    if (data.SkillID == SkillID::UNKNOWN_SKILL || !IsAnySkillFromBuild(data))
         return false;
 
     Globals::LastArcEventSkillName = data.SkillName;
