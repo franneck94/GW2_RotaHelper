@@ -57,7 +57,7 @@ def generate_skill_enum(skills_data: dict, output_path: Path) -> None:
         # Fallback to string sorting
         sorted_skills = sorted(skills_data.items())
 
-    enum_content = []
+    enum_content: list[str] = []
     enum_content.extend(
         (
             "// Auto-generated skill enum from GW2 API data",

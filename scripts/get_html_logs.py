@@ -1,3 +1,4 @@
+# type: ignore
 """
 Web scraper to visit all benchmark report sites listed on SnowCrows pages.
 

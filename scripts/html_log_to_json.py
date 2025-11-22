@@ -349,8 +349,8 @@ class HTMLRotationExtractor:
                 }
 
             # Log extraction results with profession info
-            profession_info = result["buildMetadata"]["profession"]
-            elite_spec = result["buildMetadata"]["elite_spec"]
+            profession_info = result["buildMetadata"]["profession"]  # type: ignore
+            elite_spec = result["buildMetadata"]["elite_spec"]  # type: ignore
             if elite_spec:
                 profession_info += f" ({elite_spec})"
 
@@ -415,7 +415,7 @@ class HTMLRotationExtractor:
             self.logger.info(f"Found {len(html_files)} HTML files from metadata")
 
         # Then find any additional HTML files not in metadata
-        additional_files = []
+        additional_files: list[Path] = []
         benchmark_types = ["dps", "quick", "alac"]
         build_types = ["power", "condition"]
 

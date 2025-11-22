@@ -419,7 +419,7 @@ class GW2SkillFetcher:
     def _is_necromancer_downed_skill(self, skill: dict[str, dict[str, Any]]) -> bool:
         """Check if this is a Necromancer downed skill that should be treated as weapon skill."""
         slot: str = skill.get("slot", "")  # type: ignore
-        professions = skill.get("professions", [])
+        professions = skill.get("professions", [])  # type: ignore
 
         # Check if it's a Necromancer and has a Downed slot
         return bool("Necromancer" in professions and slot.startswith("Downed_"))
