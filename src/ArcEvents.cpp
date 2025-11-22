@@ -91,13 +91,14 @@ bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvC
 
     auto is_mesmer_weapon_4 = false;
     auto is_berserker_f1 = false;
-    auto is_reset_like_skill = SkillRuleData::reset_like_skill.count(combat_data.SkillID) > 0;
-
-    // TODO: For Chrono - CS reset
+    auto is_reset_like_skill =
+        SkillRuleData::reset_like_skill.find(combat_data.SkillID) != SkillRuleData::reset_like_skill.end();
     if (profession_lower == "mesmer")
-        is_mesmer_weapon_4 = SkillRuleData::mesmer_weapon_4_skills.count(combat_data.SkillID) > 0;
+        is_mesmer_weapon_4 = SkillRuleData::mesmer_weapon_4_skills.find(combat_data.SkillID) !=
+                             SkillRuleData::mesmer_weapon_4_skills.end();
     else if (profession_lower == "warrior")
-        is_berserker_f1 = SkillRuleData::berserker_f1_skills.count(combat_data.SkillID) > 0;
+        is_berserker_f1 =
+            SkillRuleData::berserker_f1_skills.find(combat_data.SkillID) != SkillRuleData::berserker_f1_skills.end();
 
     const auto &skill_data = skill_data_map_it->second;
     const auto recharge_time_w_alac_s = skill_data.recharge_time_with_alacrity;
