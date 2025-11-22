@@ -1664,21 +1664,6 @@
     "skill_type": "11",
     "weapon_type": 0
   },
-  "10586": {
-    "cast_time": 0.0,
-    "icon": "https://render.guildwars2.com/file/A9050BAB0847390C0112694321B0F6AEDF7AE1FB/102804.png",
-    "id": 10586,
-    "is_auto_attack": false,
-    "is_elite_skill": false,
-    "is_heal_skill": false,
-    "is_profession_skill": true,
-    "is_utility_skill": false,
-    "is_weapon_skill": false,
-    "name": "Locked",
-    "recharge": 0,
-    "skill_type": "11",
-    "weapon_type": 0
-  },
   "10588": {
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/6CAB0D17DF604E5C6330523A350EC4430409A309/103818.png",
@@ -25662,7 +25647,7 @@
     "name": "Sniper's Cover",
     "recharge": 0,
     "skill_type": "4",
-    "weapon_type": "Rifle"
+    "weapon_type": 4
   },
   "68646": {
     "cast_time": 0.0,
@@ -25677,7 +25662,7 @@
     "name": "Tome of Courage",
     "recharge": 0,
     "skill_type": "13",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "68647": {
     "cast_time": 0.0,
@@ -25692,7 +25677,7 @@
     "name": "Tome of Justice",
     "recharge": 0,
     "skill_type": "11",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "68648": {
     "cast_time": 0.0,
@@ -25707,7 +25692,7 @@
     "name": "Tome of Resolve",
     "recharge": 0,
     "skill_type": "12",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "68649": {
     "cast_time": 0.0,
@@ -25722,7 +25707,7 @@
     "name": "Tome of Resolve",
     "recharge": 0,
     "skill_type": "12",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "68650": {
     "cast_time": 0.0,
@@ -25737,7 +25722,7 @@
     "name": "Tome of Courage",
     "recharge": 0,
     "skill_type": "13",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "68666": {
     "cast_time": 0.0,
@@ -25752,7 +25737,7 @@
     "name": "Renewed Focus",
     "recharge": 90,
     "skill_type": "10",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "68670": {
     "cast_time": 0.0,
@@ -25767,7 +25752,7 @@
     "name": "\"Feel My Wrath!\"",
     "recharge": 30,
     "skill_type": "10",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "68676": {
     "cast_time": 0.0,
@@ -25782,7 +25767,7 @@
     "name": "Signet of Courage",
     "recharge": 60,
     "skill_type": "10",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "68686": {
     "cast_time": 0.0,
@@ -25797,7 +25782,7 @@
     "name": "Dragon's Maw",
     "recharge": 40,
     "skill_type": "10",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "69164": {
     "cast_time": 0.0,
@@ -25812,7 +25797,7 @@
     "name": "Dual Orbits: Fire and Earth",
     "recharge": 18,
     "skill_type": "3",
-    "weapon_type": "Hammer"
+    "weapon_type": 2
   },
   "69167": {
     "cast_time": 0.0,
@@ -25827,7 +25812,7 @@
     "name": "Wild Swing",
     "recharge": 7,
     "skill_type": "2",
-    "weapon_type": "Hammer"
+    "weapon_type": 2
   },
   "69173": {
     "cast_time": 0.0,
@@ -25842,7 +25827,7 @@
     "name": "Malicious Shadowsquall",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Scepter"
+    "weapon_type": 14
   },
   "69175": {
     "cast_time": 0.0,
@@ -25857,7 +25842,7 @@
     "name": "Solar Brilliance",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "69184": {
     "cast_time": 0.0,
@@ -25872,7 +25857,7 @@
     "name": "Dual Orbits: Fire and Water",
     "recharge": 18,
     "skill_type": "3",
-    "weapon_type": "Hammer"
+    "weapon_type": 2
   },
   "69203": {
     "cast_time": 0.0,
@@ -25887,7 +25872,7 @@
     "name": "Pounce",
     "recharge": 6,
     "skill_type": "2",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "69211": {
     "cast_time": 0.0,
@@ -25902,7 +25887,7 @@
     "name": "Dual Orbits: Water and Air",
     "recharge": 18,
     "skill_type": "3",
-    "weapon_type": "Hammer"
+    "weapon_type": 2
   },
   "69212": {
     "cast_time": 0.0,
@@ -25917,7 +25902,7 @@
     "name": "Thump",
     "recharge": 20,
     "skill_type": "5",
-    "weapon_type": "Hammer"
+    "weapon_type": 2
   },
   "69223": {
     "cast_time": 0.0,
@@ -25932,7 +25917,7 @@
     "name": "Neurotoxin Burst",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Dagger"
+    "weapon_type": 11
   },
   "69244": {
     "cast_time": 0.0,
@@ -25947,7 +25932,7 @@
     "name": "Water Spirit",
     "recharge": 20,
     "skill_type": "6",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "69245": {
     "cast_time": 0.0,
@@ -25962,7 +25947,7 @@
     "name": "Breaching Strike",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Dagger"
+    "weapon_type": 11
   },
   "69246": {
     "cast_time": 0.0,
@@ -25977,7 +25962,7 @@
     "name": "Dual Orbits: Air and Earth",
     "recharge": 18,
     "skill_type": "3",
-    "weapon_type": "Hammer"
+    "weapon_type": 2
   },
   "69250": {
     "cast_time": 0.0,
@@ -25992,7 +25977,7 @@
     "name": "Malicious Hook Strike",
     "recharge": 1,
     "skill_type": "1",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "69262": {
     "cast_time": 0.0,
@@ -26007,7 +25992,7 @@
     "name": "Overbearing Smash",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Hammer"
+    "weapon_type": 2
   },
   "69290": {
     "cast_time": 0.0,
@@ -26022,7 +26007,7 @@
     "name": "Slicing Maelstrom",
     "recharge": 5,
     "skill_type": "11",
-    "weapon_type": "Dagger"
+    "weapon_type": 11
   },
   "69297": {
     "cast_time": 0.0,
@@ -26037,7 +26022,7 @@
     "name": "Breaching Strike",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Dagger"
+    "weapon_type": 11
   },
   "69300": {
     "cast_time": 0.0,
@@ -26052,7 +26037,7 @@
     "name": "Spirit of Nature",
     "recharge": 90,
     "skill_type": "10",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "69302": {
     "cast_time": 0.0,
@@ -26067,7 +26052,7 @@
     "name": "Life Siphon",
     "recharge": 8,
     "skill_type": "2",
-    "weapon_type": "Dagger"
+    "weapon_type": 11
   },
   "69311": {
     "cast_time": 0.0,
@@ -26082,7 +26067,7 @@
     "name": "Bladecall",
     "recharge": 5,
     "skill_type": "2",
-    "weapon_type": "Dagger"
+    "weapon_type": 11
   },
   "69316": {
     "cast_time": 0.0,
@@ -26097,7 +26082,7 @@
     "name": "Death's Judgment",
     "recharge": 1,
     "skill_type": "1",
-    "weapon_type": "Rifle"
+    "weapon_type": 4
   },
   "69340": {
     "cast_time": 0.0,
@@ -26112,7 +26097,7 @@
     "name": "Savage Shock Wave",
     "recharge": 15,
     "skill_type": "4",
-    "weapon_type": "Hammer"
+    "weapon_type": 2
   },
   "69341": {
     "cast_time": 0.0,
@@ -26127,7 +26112,7 @@
     "name": "Dual Orbits: Fire and Air",
     "recharge": 18,
     "skill_type": "3",
-    "weapon_type": "Hammer"
+    "weapon_type": 2
   },
   "69344": {
     "cast_time": 0.0,
@@ -26142,7 +26127,7 @@
     "name": "Lingering Thoughts",
     "recharge": 0.25,
     "skill_type": "2",
-    "weapon_type": "Axe"
+    "weapon_type": 10
   },
   "69349": {
     "cast_time": 0.0,
@@ -26157,7 +26142,7 @@
     "name": "Sun Spirit",
     "recharge": 20,
     "skill_type": "7",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "69351": {
     "cast_time": 0.0,
@@ -26172,7 +26157,7 @@
     "name": "Storm Spirit",
     "recharge": 20,
     "skill_type": "7",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "69378": {
     "cast_time": 0.0,
@@ -26187,7 +26172,7 @@
     "name": "Stone Spirit",
     "recharge": 25,
     "skill_type": "7",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "69379": {
     "cast_time": 0.0,
@@ -26202,7 +26187,7 @@
     "name": "Frost Spirit",
     "recharge": 20,
     "skill_type": "7",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "69385": {
     "cast_time": 0.0,
@@ -26217,7 +26202,7 @@
     "name": "Axes of Symmetry",
     "recharge": 8,
     "skill_type": "3",
-    "weapon_type": "Axe"
+    "weapon_type": 10
   },
   "69389": {
     "cast_time": 0.0,
@@ -26232,7 +26217,7 @@
     "name": "Phantom Razor",
     "recharge": 1,
     "skill_type": "1",
-    "weapon_type": "Dagger"
+    "weapon_type": 11
   },
   "69392": {
     "cast_time": 0.0,
@@ -26247,7 +26232,7 @@
     "name": "Breaching Strike",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Dagger"
+    "weapon_type": 11
   },
   "69413": {
     "cast_time": 0.0,
@@ -26262,7 +26247,7 @@
     "name": "Dual Orbits: Water and Earth",
     "recharge": 18,
     "skill_type": "3",
-    "weapon_type": "Hammer"
+    "weapon_type": 2
   },
   "69433": {
     "cast_time": 0.0,
@@ -26277,7 +26262,7 @@
     "name": "Breaching Strike",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Dagger"
+    "weapon_type": 11
   },
   "69565": {
     "cast_time": 0.0,
@@ -26292,7 +26277,7 @@
     "name": "Radiant Arc",
     "recharge": 14,
     "skill_type": "3",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "69906": {
     "cast_time": 0.0,
@@ -26307,7 +26292,7 @@
     "name": "Sun Ripper",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "70514": {
     "cast_time": 0.0,
@@ -26322,7 +26307,7 @@
     "name": "Sun Edge",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "70771": {
     "cast_time": 0.0,
@@ -26337,7 +26322,7 @@
     "name": "Gleam Saber",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "70889": {
     "cast_time": 0.0,
@@ -26352,7 +26337,7 @@
     "name": "Ley-Line Vortex",
     "recharge": 20,
     "skill_type": "12",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "71121": {
     "cast_time": 0.0,
@@ -26367,7 +26352,7 @@
     "name": "Refraction Cutter",
     "recharge": 6,
     "skill_type": "2",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "71282": {
     "cast_time": 0.0,
@@ -26382,7 +26367,7 @@
     "name": "Lunge",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "71499": {
     "cast_time": 0.0,
@@ -26397,7 +26382,7 @@
     "name": "Electrocute",
     "recharge": 10,
     "skill_type": "11",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "71546": {
     "cast_time": 0.0,
@@ -26412,7 +26397,7 @@
     "name": "Spit Goop",
     "recharge": 15,
     "skill_type": "12",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "71791": {
     "cast_time": 0.0,
@@ -26427,7 +26412,7 @@
     "name": "Path of Gluttony",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "71792": {
     "cast_time": 0.0,
@@ -26442,7 +26427,7 @@
     "name": "Dimensional Aperture",
     "recharge": 0,
     "skill_type": "5",
-    "weapon_type": "Rifle"
+    "weapon_type": 4
   },
   "71796": {
     "cast_time": 0.0,
@@ -26457,7 +26442,7 @@
     "name": "Aerial Agility",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71799": {
     "cast_time": 0.0,
@@ -26472,7 +26457,7 @@
     "name": "Path of Gluttony",
     "recharge": 10,
     "skill_type": "3",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "71800": {
     "cast_time": 0.0,
@@ -26487,7 +26472,7 @@
     "name": "Effervescence",
     "recharge": 1,
     "skill_type": "1",
-    "weapon_type": "Rifle"
+    "weapon_type": 4
   },
   "71802": {
     "cast_time": 0.0,
@@ -26502,7 +26487,7 @@
     "name": "Helmet Breaker",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "71813": {
     "cast_time": 0.0,
@@ -26517,7 +26502,7 @@
     "name": "Hungering Maelstrom",
     "recharge": 16,
     "skill_type": "4",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "71816": {
     "cast_time": 0.0,
@@ -26532,7 +26517,7 @@
     "name": "Blossoming Aura",
     "recharge": 8,
     "skill_type": "2",
-    "weapon_type": "Scepter"
+    "weapon_type": 14
   },
   "71817": {
     "cast_time": 0.0,
@@ -26547,7 +26532,7 @@
     "name": "Jurisdiction",
     "recharge": 20,
     "skill_type": "5",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71827": {
     "cast_time": 0.0,
@@ -26562,7 +26547,7 @@
     "name": "Otherworldly Attraction",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Scepter"
+    "weapon_type": 14
   },
   "71828": {
     "cast_time": 0.0,
@@ -26577,7 +26562,7 @@
     "name": "Raging Ricochet",
     "recharge": 6,
     "skill_type": "2",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71835": {
     "cast_time": 0.0,
@@ -26592,7 +26577,7 @@
     "name": "Malicious Cunning Salvo",
     "recharge": 1,
     "skill_type": "1",
-    "weapon_type": "Axe"
+    "weapon_type": 10
   },
   "71841": {
     "cast_time": 0.0,
@@ -26607,7 +26592,7 @@
     "name": "Wild Strikes",
     "recharge": 20,
     "skill_type": "5",
-    "weapon_type": "Mace"
+    "weapon_type": 12
   },
   "71842": {
     "cast_time": 0.0,
@@ -26622,7 +26607,7 @@
     "name": "Boulder Blast",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71847": {
     "cast_time": 0.0,
@@ -26637,7 +26622,7 @@
     "name": "Aerial Agility",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71850": {
     "cast_time": 0.0,
@@ -26652,7 +26637,7 @@
     "name": "Enervation Echo",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "71852": {
     "cast_time": 0.0,
@@ -26667,7 +26652,7 @@
     "name": "Venomous Volley",
     "recharge": 0,
     "skill_type": "2",
-    "weapon_type": "Axe"
+    "weapon_type": 10
   },
   "71854": {
     "cast_time": 0.0,
@@ -26682,7 +26667,7 @@
     "name": "Spinning Axe",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Axe"
+    "weapon_type": 10
   },
   "71857": {
     "cast_time": 0.0,
@@ -26697,7 +26682,7 @@
     "name": "Aerial Agility",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71858": {
     "cast_time": 0.0,
@@ -26712,7 +26697,7 @@
     "name": "Deactivate Otherworldly Bond",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Scepter"
+    "weapon_type": 14
   },
   "71860": {
     "cast_time": 0.0,
@@ -26727,7 +26712,7 @@
     "name": "Line Breaker",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "71863": {
     "cast_time": 0.0,
@@ -26742,7 +26727,7 @@
     "name": "Frostfire Flurry",
     "recharge": 15,
     "skill_type": "3",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71864": {
     "cast_time": 0.0,
@@ -26757,7 +26742,7 @@
     "name": "Harrowing Storm",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Axe"
+    "weapon_type": 10
   },
   "71867": {
     "cast_time": 0.0,
@@ -26772,7 +26757,7 @@
     "name": "Path of Gluttony",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "71870": {
     "cast_time": 0.0,
@@ -26787,7 +26772,7 @@
     "name": "Essence of Liquid Wrath",
     "recharge": 20,
     "skill_type": "4",
-    "weapon_type": "Shortbow"
+    "weapon_type": 5
   },
   "71871": {
     "cast_time": 0.0,
@@ -26802,7 +26787,7 @@
     "name": "Gorge",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "71873": {
     "cast_time": 0.0,
@@ -26817,7 +26802,7 @@
     "name": "Arc Detonator",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Shortbow"
+    "weapon_type": 5
   },
   "71875": {
     "cast_time": 0.0,
@@ -26832,7 +26817,7 @@
     "name": "Rampart Splitter",
     "recharge": 5,
     "skill_type": "11",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "71880": {
     "cast_time": 0.0,
@@ -26847,7 +26832,7 @@
     "name": "Otherworldly Attraction",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Scepter"
+    "weapon_type": 14
   },
   "71882": {
     "cast_time": 0.0,
@@ -26862,7 +26847,7 @@
     "name": "Essence of Living Shadows",
     "recharge": 15,
     "skill_type": "3",
-    "weapon_type": "Shortbow"
+    "weapon_type": 5
   },
   "71883": {
     "cast_time": 0.0,
@@ -26877,7 +26862,7 @@
     "name": "Ravenous Wave",
     "recharge": 6,
     "skill_type": "2",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "71885": {
     "cast_time": 0.0,
@@ -26892,7 +26877,7 @@
     "name": "Cultivate",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Mace"
+    "weapon_type": 12
   },
   "71888": {
     "cast_time": 0.0,
@@ -26907,7 +26892,7 @@
     "name": "Essence of Borrowed Time",
     "recharge": 25,
     "skill_type": "5",
-    "weapon_type": "Shortbow"
+    "weapon_type": 5
   },
   "71889": {
     "cast_time": 0.0,
@@ -26922,7 +26907,7 @@
     "name": "Defiant Roar",
     "recharge": 0,
     "skill_type": "5",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "71892": {
     "cast_time": 0.0,
@@ -26937,7 +26922,7 @@
     "name": "Friendly Fire",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Rifle"
+    "weapon_type": 4
   },
   "71893": {
     "cast_time": 0.0,
@@ -26952,7 +26937,7 @@
     "name": "Piercing Pebble",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71895": {
     "cast_time": 0.0,
@@ -26967,7 +26952,7 @@
     "name": "Recall Axes",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Axe"
+    "weapon_type": 10
   },
   "71897": {
     "cast_time": 0.0,
@@ -26982,7 +26967,7 @@
     "name": "Journey",
     "recharge": 5,
     "skill_type": "2",
-    "weapon_type": "Rifle"
+    "weapon_type": 4
   },
   "71898": {
     "cast_time": 0.0,
@@ -26997,7 +26982,7 @@
     "name": "Purblinding Plasma",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71903": {
     "cast_time": 0.0,
@@ -27012,7 +26997,7 @@
     "name": "Thistleguard",
     "recharge": 12,
     "skill_type": "4",
-    "weapon_type": "Mace"
+    "weapon_type": 12
   },
   "71904": {
     "cast_time": 0.0,
@@ -27027,7 +27012,7 @@
     "name": "Electric Exposure",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71907": {
     "cast_time": 0.0,
@@ -27042,7 +27027,7 @@
     "name": "Elemental Explosion",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71914": {
     "cast_time": 0.0,
@@ -27057,7 +27042,7 @@
     "name": "Satiate",
     "recharge": 0,
     "skill_type": "2",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "71918": {
     "cast_time": 0.0,
@@ -27072,7 +27057,7 @@
     "name": "Hail of Justice",
     "recharge": 1,
     "skill_type": "4",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71922": {
     "cast_time": 0.0,
@@ -27087,7 +27072,7 @@
     "name": "Path to Victory",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "71926": {
     "cast_time": 0.0,
@@ -27102,7 +27087,7 @@
     "name": "Consume",
     "recharge": 0,
     "skill_type": "5",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "71929": {
     "cast_time": 0.0,
@@ -27117,7 +27102,7 @@
     "name": "Scorching Shot",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71930": {
     "cast_time": 0.0,
@@ -27132,7 +27117,7 @@
     "name": "Acerbic Cut",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Scepter"
+    "weapon_type": 14
   },
   "71932": {
     "cast_time": 0.0,
@@ -27147,7 +27132,7 @@
     "name": "Path to Victory",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "71933": {
     "cast_time": 0.0,
@@ -27162,7 +27147,7 @@
     "name": "Serene Slash",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Scepter"
+    "weapon_type": 14
   },
   "71935": {
     "cast_time": 0.0,
@@ -27177,7 +27162,7 @@
     "name": "Frozen Fusillade",
     "recharge": 15,
     "skill_type": "3",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71940": {
     "cast_time": 0.0,
@@ -27192,7 +27177,7 @@
     "name": "Searing Salvo",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71942": {
     "cast_time": 0.0,
@@ -27207,7 +27192,7 @@
     "name": "Motivating Whirl",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Scepter"
+    "weapon_type": 14
   },
   "71950": {
     "cast_time": 0.0,
@@ -27222,7 +27207,7 @@
     "name": "Path to Victory",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "71952": {
     "cast_time": 0.0,
@@ -27237,7 +27222,7 @@
     "name": "Otherworldly Bond",
     "recharge": 8,
     "skill_type": "3",
-    "weapon_type": "Scepter"
+    "weapon_type": 14
   },
   "71960": {
     "cast_time": 0.0,
@@ -27252,7 +27237,7 @@
     "name": "Flowing Finesse",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71963": {
     "cast_time": 0.0,
@@ -27267,7 +27252,7 @@
     "name": "Oaken Cudgel",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Mace"
+    "weapon_type": 12
   },
   "71965": {
     "cast_time": 0.0,
@@ -27282,7 +27267,7 @@
     "name": "Orchestrated Assault",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Axe"
+    "weapon_type": 10
   },
   "71966": {
     "cast_time": 0.0,
@@ -27297,7 +27282,7 @@
     "name": "Dazing Discharge",
     "recharge": 8,
     "skill_type": "2",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71967": {
     "cast_time": 0.0,
@@ -27312,7 +27297,7 @@
     "name": "Spinning Axe",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Axe"
+    "weapon_type": 10
   },
   "71968": {
     "cast_time": 0.0,
@@ -27327,7 +27312,7 @@
     "name": "Peacekeeper",
     "recharge": 6,
     "skill_type": "2",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71974": {
     "cast_time": 0.0,
@@ -27342,7 +27327,7 @@
     "name": "Path of Gluttony",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "71975": {
     "cast_time": 0.0,
@@ -27357,7 +27342,7 @@
     "name": "Bullet Catcher",
     "recharge": 20,
     "skill_type": "5",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "71986": {
     "cast_time": 0.0,
@@ -27372,7 +27357,7 @@
     "name": "Enervation Blade",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "71987": {
     "cast_time": 0.0,
@@ -27387,7 +27372,7 @@
     "name": "Symbol of Ignition",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71993": {
     "cast_time": 0.0,
@@ -27402,7 +27387,7 @@
     "name": "Molten Meteor",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "71998": {
     "cast_time": 0.0,
@@ -27417,7 +27402,7 @@
     "name": "Devouring Visage",
     "recharge": 20,
     "skill_type": "5",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "71999": {
     "cast_time": 0.0,
@@ -27432,7 +27417,7 @@
     "name": "Flourish",
     "recharge": 6,
     "skill_type": "2",
-    "weapon_type": "Mace"
+    "weapon_type": 12
   },
   "72001": {
     "cast_time": 0.0,
@@ -27447,7 +27432,7 @@
     "name": "Reverse Strike",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "72002": {
     "cast_time": 0.0,
@@ -27462,7 +27447,7 @@
     "name": "Valiant Leap",
     "recharge": 8,
     "skill_type": "2",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "72005": {
     "cast_time": 0.0,
@@ -27477,7 +27462,7 @@
     "name": "Inspiring Imagery",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Rifle"
+    "weapon_type": 4
   },
   "72007": {
     "cast_time": 0.0,
@@ -27492,7 +27477,7 @@
     "name": "Phantasmal Sharpshooter",
     "recharge": 1,
     "skill_type": "4",
-    "weapon_type": "Rifle"
+    "weapon_type": 4
   },
   "72008": {
     "cast_time": 0.0,
@@ -27507,7 +27492,7 @@
     "name": "Singularity Shot",
     "recharge": 20,
     "skill_type": "5",
-    "weapon_type": "Rifle"
+    "weapon_type": 4
   },
   "72023": {
     "cast_time": 0.0,
@@ -27522,7 +27507,7 @@
     "name": "Enervating Earth",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "72024": {
     "cast_time": 0.0,
@@ -27537,7 +27522,7 @@
     "name": "Balanced Strike",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "72026": {
     "cast_time": 0.0,
@@ -27552,7 +27537,7 @@
     "name": "Snap Pull",
     "recharge": 12,
     "skill_type": "4",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "72028": {
     "cast_time": 0.0,
@@ -27567,7 +27552,7 @@
     "name": "Frigid Flurry",
     "recharge": 5,
     "skill_type": "2",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "72029": {
     "cast_time": 0.0,
@@ -27582,7 +27567,7 @@
     "name": "Path to Victory",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "72031": {
     "cast_time": 0.0,
@@ -27597,7 +27582,7 @@
     "name": "Through the Heart",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "72032": {
     "cast_time": 0.0,
@@ -27612,7 +27597,7 @@
     "name": "Shattering Stone",
     "recharge": 6,
     "skill_type": "2",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "72033": {
     "cast_time": 0.0,
@@ -27627,7 +27612,7 @@
     "name": "Soothing Splash",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "72034": {
     "cast_time": 0.0,
@@ -27642,7 +27627,7 @@
     "name": "Cunning Salvo",
     "recharge": 1,
     "skill_type": "1",
-    "weapon_type": "Axe"
+    "weapon_type": 10
   },
   "72044": {
     "cast_time": 0.0,
@@ -27657,7 +27642,7 @@
     "name": "Burgeon",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Mace"
+    "weapon_type": 12
   },
   "72049": {
     "cast_time": 0.0,
@@ -27672,7 +27657,7 @@
     "name": "Inspiring Whirl",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "72051": {
     "cast_time": 0.0,
@@ -27687,7 +27672,7 @@
     "name": "Deathly Enervation",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "72052": {
     "cast_time": 0.0,
@@ -27702,7 +27687,7 @@
     "name": "Essence of Animated Sand",
     "recharge": 8,
     "skill_type": "2",
-    "weapon_type": "Shortbow"
+    "weapon_type": 5
   },
   "72058": {
     "cast_time": 0.0,
@@ -27717,7 +27702,7 @@
     "name": "Energy Meld",
     "recharge": 20,
     "skill_type": "12",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "72062": {
     "cast_time": 0.0,
@@ -27732,7 +27717,7 @@
     "name": "Echoing Erosion",
     "recharge": 15,
     "skill_type": "3",
-    "weapon_type": "Pistol"
+    "weapon_type": 13
   },
   "72068": {
     "cast_time": 0.0,
@@ -27747,7 +27732,7 @@
     "name": "Gormandize",
     "recharge": 0,
     "skill_type": "4",
-    "weapon_type": "Sword"
+    "weapon_type": 15
   },
   "72076": {
     "cast_time": 0.0,
@@ -27762,7 +27747,7 @@
     "name": "Abstraction",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Rifle"
+    "weapon_type": 4
   },
   "72079": {
     "cast_time": 0.0,
@@ -27777,7 +27762,7 @@
     "name": "Rampant Growth",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Mace"
+    "weapon_type": 12
   },
   "72088": {
     "cast_time": 0.0,
@@ -27792,7 +27777,7 @@
     "name": "Germinate",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Mace"
+    "weapon_type": 12
   },
   "72089": {
     "cast_time": 0.0,
@@ -27807,7 +27792,7 @@
     "name": "Path to Victory",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Staff"
+    "weapon_type": 6
   },
   "72103": {
     "cast_time": 0.0,
@@ -27822,7 +27807,7 @@
     "name": "Function Gyro",
     "recharge": 1,
     "skill_type": "15",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "72104": {
     "cast_time": 0.0,
@@ -27837,7 +27822,7 @@
     "name": "Zealot's Flame",
     "recharge": 1,
     "skill_type": "4",
-    "weapon_type": "Torch"
+    "weapon_type": 18
   },
   "72109": {
     "cast_time": 0.0,
@@ -27852,7 +27837,7 @@
     "name": "Detonate Blossoming Aura",
     "recharge": 0,
     "skill_type": "2",
-    "weapon_type": "Scepter"
+    "weapon_type": 14
   },
   "72114": {
     "cast_time": 0.0,
@@ -27867,7 +27852,7 @@
     "name": "Function Gyro",
     "recharge": 1,
     "skill_type": "15",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "72359": {
     "cast_time": 0.0,
@@ -27882,7 +27867,7 @@
     "name": "Icerazor's Ire",
     "recharge": 10,
     "skill_type": "7",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "72363": {
     "cast_time": 0.0,
@@ -27897,7 +27882,7 @@
     "name": "Razorclaw's Rage",
     "recharge": 15,
     "skill_type": "7",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "72366": {
     "cast_time": 0.0,
@@ -27912,7 +27897,7 @@
     "name": "Darkrazor's Daring",
     "recharge": 12,
     "skill_type": "7",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "72389": {
     "cast_time": 0.0,
@@ -27927,7 +27912,7 @@
     "name": "Breakrazor's Bastion",
     "recharge": 30,
     "skill_type": "6",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "72636": {
     "cast_time": 0.0,
@@ -27942,7 +27927,7 @@
     "name": "Tormenting Visions",
     "recharge": 15,
     "skill_type": "12",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "72851": {
     "cast_time": 0.0,
@@ -27957,7 +27942,7 @@
     "name": "Staring Void",
     "recharge": 12,
     "skill_type": "11",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "72896": {
     "cast_time": 0.0,
@@ -27972,7 +27957,7 @@
     "name": "Entangling Asp",
     "recharge": 0,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72897": {
     "cast_time": 0.0,
@@ -27987,7 +27972,7 @@
     "name": "Maiming Spear",
     "recharge": 5,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72900": {
     "cast_time": 0.0,
@@ -28002,7 +27987,7 @@
     "name": "Etching: Haboob",
     "recharge": 25,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72904": {
     "cast_time": 0.0,
@@ -28017,7 +28002,7 @@
     "name": "Shattering Assault",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72905": {
     "cast_time": 0.0,
@@ -28032,7 +28017,7 @@
     "name": "Earthen Spear",
     "recharge": 6,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72906": {
     "cast_time": 0.0,
@@ -28047,7 +28032,7 @@
     "name": "Shale Storm",
     "recharge": 18,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72910": {
     "cast_time": 0.0,
@@ -28062,7 +28047,7 @@
     "name": "Stone Strike",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72911": {
     "cast_time": 0.0,
@@ -28077,7 +28062,7 @@
     "name": "Harrier's Toss",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72913": {
     "cast_time": 0.0,
@@ -28092,7 +28077,7 @@
     "name": "Owl's Flight",
     "recharge": 7,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72914": {
     "cast_time": 0.0,
@@ -28107,7 +28092,7 @@
     "name": "Fiery Impact",
     "recharge": 15,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72915": {
     "cast_time": 0.0,
@@ -28122,7 +28107,7 @@
     "name": "Etching: Derecho",
     "recharge": 25,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72916": {
     "cast_time": 0.0,
@@ -28137,7 +28122,7 @@
     "name": "Frostfire Ward",
     "recharge": 15,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72920": {
     "cast_time": 0.0,
@@ -28152,7 +28137,7 @@
     "name": "Bee's Sting",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72922": {
     "cast_time": 0.0,
@@ -28167,7 +28152,7 @@
     "name": "Drake's Swipe",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72924": {
     "cast_time": 0.0,
@@ -28182,7 +28167,7 @@
     "name": "Malicious Ashen Assault",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72927": {
     "cast_time": 0.0,
@@ -28197,7 +28182,7 @@
     "name": "Distracting Throw",
     "recharge": 0,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72928": {
     "cast_time": 0.0,
@@ -28212,7 +28197,7 @@
     "name": "Falcon's Stoop",
     "recharge": 7,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72931": {
     "cast_time": 0.0,
@@ -28227,7 +28212,7 @@
     "name": "Abyssal Fire",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72932": {
     "cast_time": 0.0,
@@ -28242,7 +28227,7 @@
     "name": "Ravager's Abandon",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72935": {
     "cast_time": 0.0,
@@ -28257,7 +28242,7 @@
     "name": "Lesser Haboob",
     "recharge": 0,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72938": {
     "cast_time": 0.0,
@@ -28272,7 +28257,7 @@
     "name": "Abyssal Blitz",
     "recharge": 10,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72940": {
     "cast_time": 0.0,
@@ -28287,7 +28272,7 @@
     "name": "Helio Rush",
     "recharge": 2,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72944": {
     "cast_time": 0.0,
@@ -28302,7 +28287,7 @@
     "name": "Puncturing Jab",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72946": {
     "cast_time": 0.0,
@@ -28317,7 +28302,7 @@
     "name": "Phantasmal Lancer",
     "recharge": 12,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72954": {
     "cast_time": 0.0,
@@ -28332,7 +28317,7 @@
     "name": "Abyssal Blot",
     "recharge": 15,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72957": {
     "cast_time": 0.0,
@@ -28347,7 +28332,7 @@
     "name": "Mental Collapse",
     "recharge": 20,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72958": {
     "cast_time": 0.0,
@@ -28362,7 +28347,7 @@
     "name": "Mighty Throw",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72959": {
     "cast_time": 0.0,
@@ -28377,7 +28362,7 @@
     "name": "Disrupting Throw",
     "recharge": 10,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72966": {
     "cast_time": 0.0,
@@ -28392,7 +28377,7 @@
     "name": "Restorative Spear",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72967": {
     "cast_time": 0.0,
@@ -28407,7 +28392,7 @@
     "name": "Ripple",
     "recharge": 15,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72972": {
     "cast_time": 0.0,
@@ -28422,7 +28407,7 @@
     "name": "Abyssal Force",
     "recharge": 6,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72974": {
     "cast_time": 0.0,
@@ -28437,7 +28422,7 @@
     "name": "Devastator",
     "recharge": 20,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72977": {
     "cast_time": 0.0,
@@ -28452,7 +28437,7 @@
     "name": "Roiling Skies",
     "recharge": 15,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72978": {
     "cast_time": 0.0,
@@ -28467,7 +28452,7 @@
     "name": "Gleaming Disc",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72982": {
     "cast_time": 0.0,
@@ -28482,7 +28467,7 @@
     "name": "Etching: Jökulhlaup",
     "recharge": 25,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72986": {
     "cast_time": 0.0,
@@ -28497,7 +28482,7 @@
     "name": "Unsuspecting Strike",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72988": {
     "cast_time": 0.0,
@@ -28512,7 +28497,7 @@
     "name": "Meteor",
     "recharge": 20,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72991": {
     "cast_time": 0.0,
@@ -28527,7 +28512,7 @@
     "name": "Shadow Veil",
     "recharge": 0,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72992": {
     "cast_time": 0.0,
@@ -28542,7 +28527,7 @@
     "name": "Spearmarshal's Support",
     "recharge": 15,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72993": {
     "cast_time": 0.0,
@@ -28557,7 +28542,7 @@
     "name": "Spider's Web",
     "recharge": 20,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72995": {
     "cast_time": 0.0,
@@ -28572,7 +28557,7 @@
     "name": "Lesser Volcano",
     "recharge": 0,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "72998": {
     "cast_time": 0.0,
@@ -28587,7 +28572,7 @@
     "name": "Twister",
     "recharge": 20,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73001": {
     "cast_time": 0.0,
@@ -28602,7 +28587,7 @@
     "name": "Amplifying Slice",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73002": {
     "cast_time": 0.0,
@@ -28617,7 +28602,7 @@
     "name": "Lightning Rod",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73005": {
     "cast_time": 0.0,
@@ -28632,7 +28617,7 @@
     "name": "Ashen Assault",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73006": {
     "cast_time": 0.0,
@@ -28647,7 +28632,7 @@
     "name": "Harrier's Toss",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73007": {
     "cast_time": 0.0,
@@ -28662,7 +28647,7 @@
     "name": "Extirpate",
     "recharge": 20,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73008": {
     "cast_time": 0.0,
@@ -28677,7 +28662,7 @@
     "name": "Panther's Prowl",
     "recharge": 0.5,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73009": {
     "cast_time": 0.0,
@@ -28692,7 +28677,7 @@
     "name": "Spear Swipe",
     "recharge": 20,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73010": {
     "cast_time": 0.0,
@@ -28707,7 +28692,7 @@
     "name": "Fissure",
     "recharge": 20,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73012": {
     "cast_time": 0.0,
@@ -28722,7 +28707,7 @@
     "name": "Dark Slash",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73013": {
     "cast_time": 0.0,
@@ -28737,7 +28722,7 @@
     "name": "Addle",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73014": {
     "cast_time": 0.0,
@@ -28752,7 +28737,7 @@
     "name": "Harrier's Toss",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73015": {
     "cast_time": 0.0,
@@ -28767,7 +28752,7 @@
     "name": "Abyssal Strike",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73017": {
     "cast_time": 0.0,
@@ -28782,7 +28767,7 @@
     "name": "Haboob",
     "recharge": 0,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73019": {
     "cast_time": 0.0,
@@ -28797,7 +28782,7 @@
     "name": "Harden",
     "recharge": 15,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73020": {
     "cast_time": 0.0,
@@ -28812,7 +28797,7 @@
     "name": "Warclaw's Engage",
     "recharge": 12,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73024": {
     "cast_time": 0.0,
@@ -28827,7 +28812,7 @@
     "name": "Harrier's Toss",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73030": {
     "cast_time": 0.0,
@@ -28842,7 +28827,7 @@
     "name": "Wolf's Onslaught",
     "recharge": 5,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73037": {
     "cast_time": 0.0,
@@ -28857,7 +28842,7 @@
     "name": "Energize",
     "recharge": 15,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73040": {
     "cast_time": 0.0,
@@ -28872,7 +28857,7 @@
     "name": "Deadly Slice",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73041": {
     "cast_time": 0.0,
@@ -28887,7 +28872,7 @@
     "name": "Mantis Sting",
     "recharge": 0,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73042": {
     "cast_time": 0.0,
@@ -28902,7 +28887,7 @@
     "name": "Harrier's Toss",
     "recharge": 8,
     "skill_type": "11",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73044": {
     "cast_time": 0.0,
@@ -28917,7 +28902,7 @@
     "name": "Volcano",
     "recharge": 0,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73047": {
     "cast_time": 0.0,
@@ -28932,7 +28917,7 @@
     "name": "Sinister Stab",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73052": {
     "cast_time": 0.0,
@@ -28947,7 +28932,7 @@
     "name": "Elutriate",
     "recharge": 20,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73054": {
     "cast_time": 0.0,
@@ -28962,7 +28947,7 @@
     "name": "Etching: Volcano",
     "recharge": 25,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73055": {
     "cast_time": 0.0,
@@ -28977,7 +28962,7 @@
     "name": "Daybreaking Slash",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73059": {
     "cast_time": 0.0,
@@ -28992,7 +28977,7 @@
     "name": "Abyssal Raze",
     "recharge": 0.75,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73060": {
     "cast_time": 0.0,
@@ -29007,7 +28992,7 @@
     "name": "Lesser Derecho",
     "recharge": 0,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73061": {
     "cast_time": 0.0,
@@ -29022,7 +29007,7 @@
     "name": "Ice Beam",
     "recharge": 6,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73062": {
     "cast_time": 0.0,
@@ -29037,7 +29022,7 @@
     "name": "Soothing Burst",
     "recharge": 20,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73063": {
     "cast_time": 0.0,
@@ -29052,7 +29037,7 @@
     "name": "Vampiric Slash",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73064": {
     "cast_time": 0.0,
@@ -29067,7 +29052,7 @@
     "name": "Focused Devastation",
     "recharge": 0,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73066": {
     "cast_time": 0.0,
@@ -29082,7 +29067,7 @@
     "name": "Psystrike",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73067": {
     "cast_time": 0.0,
@@ -29097,7 +29082,7 @@
     "name": "Fractured Glass",
     "recharge": 1,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73068": {
     "cast_time": 0.0,
@@ -29112,7 +29097,7 @@
     "name": "Perforate",
     "recharge": 8,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73076": {
     "cast_time": 0.0,
@@ -29127,7 +29112,7 @@
     "name": "Falling Spider",
     "recharge": 0,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73080": {
     "cast_time": 0.0,
@@ -29142,7 +29127,7 @@
     "name": "Blazing Barrage",
     "recharge": 6,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73087": {
     "cast_time": 0.0,
@@ -29157,7 +29142,7 @@
     "name": "Cheetah's Strike",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73088": {
     "cast_time": 0.0,
@@ -29172,7 +29157,7 @@
     "name": "Flame Spear",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73091": {
     "cast_time": 0.0,
@@ -29187,7 +29172,7 @@
     "name": "Fulgor",
     "recharge": 6,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73092": {
     "cast_time": 0.0,
@@ -29202,7 +29187,7 @@
     "name": "Derecho",
     "recharge": 0,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73093": {
     "cast_time": 0.0,
@@ -29217,7 +29202,7 @@
     "name": "Mind the Gap",
     "recharge": 5,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73094": {
     "cast_time": 0.0,
@@ -29232,7 +29217,7 @@
     "name": "Solar Storm",
     "recharge": 15,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73095": {
     "cast_time": 0.0,
@@ -29247,7 +29232,7 @@
     "name": "Mind Pierce",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73103": {
     "cast_time": 0.0,
@@ -29262,7 +29247,7 @@
     "name": "Wild Throw",
     "recharge": 5,
     "skill_type": "11",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73104": {
     "cast_time": 0.0,
@@ -29277,7 +29262,7 @@
     "name": "Galvanize",
     "recharge": 12,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73105": {
     "cast_time": 0.0,
@@ -29292,7 +29277,7 @@
     "name": "Lesser Jökulhlaup",
     "recharge": 0,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73107": {
     "cast_time": 0.0,
@@ -29307,7 +29292,7 @@
     "name": "Isolate",
     "recharge": 18,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73108": {
     "cast_time": 0.0,
@@ -29322,7 +29307,7 @@
     "name": "Soul Shards",
     "recharge": 0,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73109": {
     "cast_time": 0.0,
@@ -29337,7 +29322,7 @@
     "name": "Rending Strike",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73110": {
     "cast_time": 0.0,
@@ -29352,7 +29337,7 @@
     "name": "Mongoose's Frenzy",
     "recharge": 5,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73112": {
     "cast_time": 0.0,
@@ -29367,7 +29352,7 @@
     "name": "Wyvern's Lash",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73116": {
     "cast_time": 0.0,
@@ -29382,7 +29367,7 @@
     "name": "Distress",
     "recharge": 0,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73122": {
     "cast_time": 0.0,
@@ -29397,7 +29382,7 @@
     "name": "Conduit Surge",
     "recharge": 5,
     "skill_type": "2",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73124": {
     "cast_time": 0.0,
@@ -29412,7 +29397,7 @@
     "name": "Lightning Javelin",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73132": {
     "cast_time": 0.0,
@@ -29427,7 +29412,7 @@
     "name": "Symbol of Luminance",
     "recharge": 20,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73137": {
     "cast_time": 0.0,
@@ -29442,7 +29427,7 @@
     "name": "Seethe",
     "recharge": 15,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73140": {
     "cast_time": 0.0,
@@ -29457,7 +29442,7 @@
     "name": "Jökulhlaup",
     "recharge": 0,
     "skill_type": "5",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73143": {
     "cast_time": 0.0,
@@ -29472,7 +29457,7 @@
     "name": "Electric Artillery",
     "recharge": 1,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73145": {
     "cast_time": 0.0,
@@ -29487,7 +29472,7 @@
     "name": "Barbed Spear",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73148": {
     "cast_time": 0.0,
@@ -29502,7 +29487,7 @@
     "name": "Undertow",
     "recharge": 20,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73149": {
     "cast_time": 0.0,
@@ -29517,7 +29502,7 @@
     "name": "Blitz Mines",
     "recharge": 0,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73150": {
     "cast_time": 0.0,
@@ -29532,7 +29517,7 @@
     "name": "Predator's Ambush",
     "recharge": 12,
     "skill_type": "4",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73152": {
     "cast_time": 0.0,
@@ -29547,7 +29532,7 @@
     "name": "Imaginary Inversion",
     "recharge": 10,
     "skill_type": "3",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73154": {
     "cast_time": 0.0,
@@ -29562,7 +29547,7 @@
     "name": "Psycut",
     "recharge": 0,
     "skill_type": "1",
-    "weapon_type": "Spear"
+    "weapon_type": 7
   },
   "73733": {
     "cast_time": 0.0,
@@ -29577,7 +29562,7 @@
     "name": "Battle Maul",
     "recharge": 10,
     "skill_type": "11",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "73938": {
     "cast_time": 0.0,
@@ -29592,7 +29577,7 @@
     "name": "Bop",
     "recharge": 14,
     "skill_type": "12",
-    "weapon_type": "None"
+    "weapon_type": 0
   },
   "75391": {
     "cast_time": 0.0,
@@ -29883,15 +29868,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/02727B1807CF0FEF31037FD9E307BABB2055AE3C/3680214.png",
     "id": 76582,
-    "is_auto_attack": true,
+    "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": false,
+    "is_profession_skill": true,
     "is_utility_skill": false,
-    "is_weapon_skill": true,
+    "is_weapon_skill": false,
     "name": "Metal Legion Guitar",
     "recharge": 0,
-    "skill_type": "1",
+    "skill_type": "12",
     "weapon_type": 0
   },
   "76583": {
@@ -30063,15 +30048,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/696501BA136CA660BD22D0D0A3B19741D4A77529/3680211.png",
     "id": 76633,
-    "is_auto_attack": true,
+    "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": false,
+    "is_profession_skill": true,
     "is_utility_skill": false,
-    "is_weapon_skill": true,
+    "is_weapon_skill": false,
     "name": "Forged Surfer Dash",
     "recharge": 0,
-    "skill_type": "1",
+    "skill_type": "12",
     "weapon_type": 0
   },
   "76634": {
@@ -30168,15 +30153,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/CEE6340604724A060D7C570709C4B05DFAD56617/3680212.png",
     "id": 76674,
-    "is_auto_attack": true,
+    "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": false,
+    "is_profession_skill": true,
     "is_utility_skill": false,
-    "is_weapon_skill": true,
+    "is_weapon_skill": false,
     "name": "Holo-Dancer Decoy",
     "recharge": 0,
-    "skill_type": "1",
+    "skill_type": "12",
     "weapon_type": 0
   },
   "76684": {
@@ -30228,15 +30213,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/57A193E75618661CE3F51DC44AC59F7BA72E6169/3680210.png",
     "id": 76702,
-    "is_auto_attack": true,
+    "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": false,
+    "is_profession_skill": true,
     "is_utility_skill": false,
-    "is_weapon_skill": true,
+    "is_weapon_skill": false,
     "name": "Exalted Hammer",
     "recharge": 0,
-    "skill_type": "1",
+    "skill_type": "12",
     "weapon_type": 0
   },
   "76703": {
@@ -30348,15 +30333,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/3C1B2075B7B164EB2ABE4F6650F553D40F689E53/3680218.png",
     "id": 76733,
-    "is_auto_attack": true,
+    "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": false,
+    "is_profession_skill": true,
     "is_utility_skill": false,
-    "is_weapon_skill": true,
+    "is_weapon_skill": false,
     "name": "Zephyrite Sun Crystal",
     "recharge": 1,
-    "skill_type": "1",
+    "skill_type": "12",
     "weapon_type": 0
   },
   "76738": {
@@ -30813,15 +30798,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/0FBFB6FA27C9BEBD1872DAACDB040AEA71A616A9/3680208.png",
     "id": 76909,
-    "is_auto_attack": true,
+    "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": false,
+    "is_profession_skill": true,
     "is_utility_skill": false,
-    "is_weapon_skill": true,
+    "is_weapon_skill": false,
     "name": "Unstable Skritt Bomb",
     "recharge": 0,
-    "skill_type": "1",
+    "skill_type": "12",
     "weapon_type": 0
   },
   "76910": {
@@ -31608,15 +31593,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/2DC92035E3A36CBCDB62C84E65BEF69BFA0BDD02/3680213.png",
     "id": 77192,
-    "is_auto_attack": false,
+    "is_auto_attack": true,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": true,
+    "is_profession_skill": false,
     "is_utility_skill": false,
-    "is_weapon_skill": false,
+    "is_weapon_skill": true,
     "name": "Summon Kryptis Turret",
     "recharge": 0,
-    "skill_type": "12",
+    "skill_type": "1",
     "weapon_type": 0
   },
   "77197": {
@@ -31848,15 +31833,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/4519AE3A9032E03F2F14AAA1B5EEE10F1AF1EEAE/3680215.png",
     "id": 77277,
-    "is_auto_attack": false,
+    "is_auto_attack": true,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": true,
+    "is_profession_skill": false,
     "is_utility_skill": false,
-    "is_weapon_skill": false,
+    "is_weapon_skill": true,
     "name": "Mistburn Mortar",
     "recharge": 0,
-    "skill_type": "12",
+    "skill_type": "1",
     "weapon_type": 0
   },
   "77282": {
@@ -32487,6 +32472,81 @@
     "name": "Zephyrite Sun Crystal",
     "recharge": 1,
     "skill_type": "12",
+    "weapon_type": 0
+  },
+  "79309": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/77FF6D547ED0B09DACB8F5CDDA9424980D4045AD/3680184.png",
+    "id": 79309,
+    "is_auto_attack": false,
+    "is_elite_skill": true,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Perfect Storm",
+    "recharge": 50,
+    "skill_type": "10",
+    "weapon_type": 0
+  },
+  "79314": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/BA45A84AF53AAC92301E586AAC76FA020306D96B/3729561.png",
+    "id": 79314,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": true,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Rejuvenate",
+    "recharge": 18,
+    "skill_type": "6",
+    "weapon_type": 0
+  },
+  "79315": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/FABE18EDE4BA360AC3AFE0A7CD04F6F10F03A5A7/3729560.png",
+    "id": 79315,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": true,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Rejuvenate",
+    "recharge": 18,
+    "skill_type": "6",
+    "weapon_type": 0
+  },
+  "79323": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/949C29AC4E910EC9017F9A92489E1131F976A95A/3729562.png",
+    "id": 79323,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": true,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Rejuvenate",
+    "recharge": 18,
+    "skill_type": "6",
+    "weapon_type": 0
+  },
+  "79324": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/10E31F10E7D84CABF0963FEA12B77EE0BD950E42/3680194.png",
+    "id": 79324,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": true,
+    "is_weapon_skill": false,
+    "name": "Mistral",
+    "recharge": 20,
+    "skill_type": "7",
     "weapon_type": 0
   },
   "9080": {
