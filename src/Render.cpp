@@ -303,14 +303,14 @@ EvCombatDataPersistent RenderType::get_current_skill()
     if (!key_press_event_in_this_frame)
     {
         auto skill_ev = EvCombatDataPersistent{};
-        skill_ev.SkillID = -10000;
+        skill_ev.SkillID = SkillID::FALLBACK;
         return skill_ev;
     }
 
-    if (curr_combat_data.SkillID == 0)
+    if (curr_combat_data.SkillID == SkillID::NONE)
     {
         auto skill_ev = EvCombatDataPersistent{};
-        skill_ev.SkillID = -10000;
+        skill_ev.SkillID = SkillID::FALLBACK;
         return skill_ev;
     }
 
@@ -329,7 +329,7 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
     if (Globals::RotationRun.missing_rotation_steps.empty())
         return;
 
-    if (skill_ev.SkillID == 0 || skill_ev.SkillID == -10000)
+    if (skill_ev.SkillID == SkillID::NONE || skill_ev.SkillID == SkillID::FALLBACK)
         return;
 
     const auto debug_msg = std::string{"Player Casted Skill: "} + skill_ev.SkillName;
