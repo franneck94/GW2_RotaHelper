@@ -5,27 +5,21 @@
             "label": "html_log_to_json",
             "type": "shell",
             "command": "python",
-            "args": [
-                "scripts/html_log_to_json.py",
-            ],
+            "args": ["scripts/html_log_to_json.py"],
             "problemMatcher": ["gcc"]
         },
         {
             "label": "get_html_logs",
             "type": "shell",
             "command": "python",
-            "args": [
-                "scripts/get_html_logs.py",
-            ],
+            "args": ["scripts/get_html_logs.py"],
             "problemMatcher": ["gcc"]
         },
         {
             "label": "fetch_gw2_skills",
             "type": "shell",
             "command": "python",
-            "args": [
-                "scripts/fetch_gw2_skills.py",
-            ],
+            "args": ["scripts/fetch_gw2_skills.py"],
             "problemMatcher": ["$python"]
         }
     ]

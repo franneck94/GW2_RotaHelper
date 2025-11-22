@@ -55,6 +55,6 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "justMyCode": false
-        },
+        }
     ]
 }
