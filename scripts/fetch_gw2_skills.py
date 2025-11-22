@@ -159,7 +159,7 @@ class GW2SkillFetcher:
             return existing_data
 
         except Exception as e:
-            self.logger.error(f"Error reading existing skill data: {e}")
+            self.logger.exception(f"Error reading existing skill data: {e}")
             self.logger.info("Starting with empty skill data")
             return {}
 
@@ -187,9 +187,7 @@ class GW2SkillFetcher:
 
         async with session.get(url) as response:
             response.raise_for_status()
-            skills_data = await response.json()
-
-        return skills_data
+            return await response.json()
 
     def filter_skill_data(self, skill: dict[str, Any]) -> dict[str, Any]:
         """Filter skill data to only include required fields."""
@@ -256,7 +254,8 @@ class GW2SkillFetcher:
         return filtered_skill
 
     async def fetch_all_skills(
-        self, existing_skills: dict[str, dict[str, Any]] | None = None,
+        self,
+        existing_skills: dict[str, dict[str, Any]] | None = None,
     ) -> tuple[dict[str, Any], dict[str, Any]]:
         """Fetch all skill information from the GW2 API, preserving existing data for missing skills."""
         if existing_skills is None:
@@ -345,7 +344,7 @@ class GW2SkillFetcher:
                 )
 
             except Exception as e:
-                self.logger.error(f"Error fetching skills: {e}")
+                self.logger.exception(f"Error fetching skills: {e}")
                 raise
 
         return all_skills_raw, all_skills_filtered
@@ -353,10 +352,7 @@ class GW2SkillFetcher:
     def _is_auto_attack(self, skill: dict[str, Any]) -> bool:
         """Determine if a skill is an auto attack based on various criteria."""
         slot = skill.get("slot")
-        if slot == "Weapon_1":
-            return True
-
-        return False
+        return slot == "Weapon_1"
 
     def _is_weapon_skill(self, slot: str) -> bool:
         """Determine if a skill is a weapon skill based on slot."""
@@ -425,9 +421,7 @@ class GW2SkillFetcher:
         professions = skill.get("professions", [])
 
         # Check if it's a Necromancer and has a Downed slot
-        if "Necromancer" in professions and slot.startswith("Downed_"):
-            return True
-        return False
+        return bool("Necromancer" in professions and slot.startswith("Downed_"))
 
     def save_raw_skills_to_file(self, skills_data: dict[str, Any]) -> None:
         """Save all raw skill data to a JSON file without any filtering."""
@@ -444,25 +438,24 @@ class GW2SkillFetcher:
             )
 
         except Exception as e:
-            self.logger.error(f"Error saving raw skills data: {e}")
+            self.logger.exception(f"Error saving raw skills data: {e}")
             raise
 
     def save_skills_to_file(self, skills_data: dict[str, dict[str, Any]]) -> None:
         """Save skill data to a JSON file, filtering out uncategorized skills."""
         # Filter out skills that have all boolean flags set to false
-        categorized_skills = {}
 
-        for skill_id, skill_data in skills_data.items():
-            # Keep skills that have at least one boolean flag set to true
-            if (
-                skill_data.get("is_auto_attack", False)
-                or skill_data.get("is_elite_skill", False)
-                or skill_data.get("is_heal_skill", False)
-                or skill_data.get("is_utility_skill", False)
-                or skill_data.get("is_weapon_skill", False)
-                or skill_data.get("is_profession_skill", False)
-            ):
-                categorized_skills[skill_id] = skill_data
+        # Keep skills that have at least one boolean flag set to true
+        categorized_skills = {
+            skill_id: skill_data
+            for skill_id, skill_data in skills_data.items()
+            if skill_data.get("is_auto_attack", False)
+            or skill_data.get("is_elite_skill", False)
+            or skill_data.get("is_heal_skill", False)
+            or skill_data.get("is_utility_skill", False)
+            or skill_data.get("is_weapon_skill", False)
+            or skill_data.get("is_profession_skill", False)
+        }
 
         categorized_skills["9999"] = {
             "icon": "",
@@ -533,24 +526,23 @@ class GW2SkillFetcher:
             )
 
         except Exception as e:
-            self.logger.error(f"Error saving skills data: {e}")
+            self.logger.exception(f"Error saving skills data: {e}")
             raise
 
     def save_uncategorized_skills(self, skills_data: dict[str, dict[str, Any]]) -> None:
         """Save skills that have all boolean flags set to false."""
-        uncategorized_skills = {}
 
-        for skill_id, skill_data in skills_data.items():
-            # Check if all boolean flags are false
-            if (
-                not skill_data.get("is_auto_attack", False)
-                and not skill_data.get("is_elite_skill", False)
-                and not skill_data.get("is_heal_skill", False)
-                and not skill_data.get("is_utility_skill", False)
-                and not skill_data.get("is_weapon_skill", False)
-                and not skill_data.get("is_profession_skill", False)
-            ):
-                uncategorized_skills[skill_id] = skill_data
+        # Check if all boolean flags are false
+        uncategorized_skills = {
+            skill_id: skill_data
+            for skill_id, skill_data in skills_data.items()
+            if not skill_data.get("is_auto_attack", False)
+            and not skill_data.get("is_elite_skill", False)
+            and not skill_data.get("is_heal_skill", False)
+            and not skill_data.get("is_utility_skill", False)
+            and not skill_data.get("is_weapon_skill", False)
+            and not skill_data.get("is_profession_skill", False)
+        }
 
         output_file = self.output_dir / "gw2_uncategorized_skills.json"
 
@@ -573,7 +565,7 @@ class GW2SkillFetcher:
             )
 
         except Exception as e:
-            self.logger.error(f"Error saving uncategorized skills data: {e}")
+            self.logger.exception(f"Error saving uncategorized skills data: {e}")
             raise
 
     def create_metadata(self, skills_data: dict[str, dict[str, Any]]) -> dict[str, Any]:
@@ -593,14 +585,12 @@ class GW2SkillFetcher:
             if "categories" in skill:
                 categories.update(skill["categories"])
 
-        metadata = {
+        return {
             "fetch_timestamp": datetime.now(UTC).isoformat(),
             "total_skills": len(skills_data),
             "api_version": "v2",
             "language": "en",
         }
-
-        return metadata
 
     def save_metadata(self, skills_data: dict[str, dict[str, Any]]) -> None:
         """Save metadata about the fetched skills."""
@@ -614,7 +604,7 @@ class GW2SkillFetcher:
             self.logger.info(f"Metadata saved to: {metadata_file}")
 
         except Exception as e:
-            self.logger.error(f"Error saving metadata: {e}")
+            self.logger.exception(f"Error saving metadata: {e}")
             raise
 
     async def run(self, save_raw: bool = False) -> None:
@@ -642,7 +632,7 @@ class GW2SkillFetcher:
             self.logger.info("Successfully completed skill data fetch!")
 
         except Exception as e:
-            self.logger.error(f"Failed to fetch skill data: {e}")
+            self.logger.exception(f"Failed to fetch skill data: {e}")
             raise
 
         finally:

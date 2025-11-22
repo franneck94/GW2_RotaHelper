@@ -8,21 +8,24 @@ outputting in v4 format.
 """
 
 import argparse
+import html
 import json
 import logging
+import operator
 import re
+import sys
 from pathlib import Path
 from typing import Any
 
 
-def setup_logging():
+def setup_logging() -> None:
     logging.basicConfig(level=logging.DEBUG, format="%(levelname)s: %(message)s")
 
 
 class HTMLRotationExtractor:
     """Extract rotation data from DPS report HTML files"""
 
-    def __init__(self, input_dir: Path, output_dir: Path):
+    def __init__(self, input_dir: Path, output_dir: Path) -> None:
         self.input_dir = input_dir
         self.output_dir = output_dir
 
@@ -90,7 +93,7 @@ class HTMLRotationExtractor:
             return metadata_dict
 
         except Exception as e:
-            self.logger.error(f"Error loading build metadata: {e}")
+            self.logger.exception(f"Error loading build metadata: {e}")
             return {}
 
     def _get_build_metadata_for_file(self, html_file: Path) -> dict[str, Any]:
@@ -145,12 +148,8 @@ class HTMLRotationExtractor:
     def _parse_skill_tooltip(self, tooltip: str) -> tuple[str, float, float]:
         """Parse skill information from tooltip text"""
         try:
-            # Decode HTML entities first
-            import html
-
             tooltip = html.unescape(tooltip)
 
-            # Example: "Weapon Swap at 0.725s<br>Weapon Swap cast 1 of 50<br>Skill cast 5 of 274"
             lines = tooltip.split("<br>")
             if not lines:
                 return "Unknown", 0.0, 0.0
@@ -158,10 +157,7 @@ class HTMLRotationExtractor:
             first_line = lines[0]
 
             # Extract skill name (everything before " at ")
-            if " at " in first_line:
-                skill_name = first_line.split(" at ")[0].strip()
-            else:
-                skill_name = "Unknown"
+            skill_name = first_line.split(" at ")[0].strip() if " at " in first_line else "Unknown"
 
             # Extract cast time (e.g., "0.725s")
             cast_time = 0.0
@@ -184,9 +180,6 @@ class HTMLRotationExtractor:
     def _extract_icon_id_from_url(self, img_src: str) -> int:
         """Extract skill ID from image URL"""
         try:
-            # New format: "https://render.guildwars2.com/file/hash/icon_id.png"
-            # Example: "https://render.guildwars2.com/file/c_ce_Weapon_Swap/Button.png"
-
             # For weapon swap and utility skills, try to extract from the path
             if "render.guildwars2.com/file/" in img_src:
                 # Split by '/' and get the last part (filename)
@@ -322,7 +315,7 @@ class HTMLRotationExtractor:
                     }
 
             # Sort rotation by cast time
-            rotation_entries.sort(key=lambda x: x[0])
+            rotation_entries.sort(key=operator.itemgetter(0))
 
             # Get build metadata for this file
             build_metadata = self._get_build_metadata_for_file(html_file)
@@ -369,7 +362,7 @@ class HTMLRotationExtractor:
             return result
 
         except Exception as e:
-            self.logger.error(f"Error processing {html_file.name}: {e}")
+            self.logger.exception(f"Error processing {html_file.name}: {e}")
             return {"rotation": [[]], "skillMap": {}}
 
     def _determine_benchmark_type(self, html_file: Path) -> str:
@@ -413,7 +406,7 @@ class HTMLRotationExtractor:
 
         if self.build_metadata:
             # Process files that have metadata first
-            for metadata_key, build_info in self.build_metadata.items():
+            for build_info in self.build_metadata.values():
                 if "html_file_path" in build_info:
                     html_path = self.input_dir / build_info["html_file_path"]
                     if html_path.exists() and html_path.suffix.lower() == ".html":
@@ -435,14 +428,16 @@ class HTMLRotationExtractor:
                 for build_type in build_types:
                     build_dir = benchmark_dir / build_type
                     if build_dir.exists():
-                        for file_path in build_dir.glob(pattern):
-                            if str(file_path) not in metadata_files_processed:
-                                additional_files.append(file_path)
+                        additional_files.extend(
+                            file_path
+                            for file_path in build_dir.glob(pattern)
+                            if str(file_path) not in metadata_files_processed
+                        )
 
         # Also check main directory for any standalone files
-        for file_path in self.input_dir.glob(pattern):
-            if str(file_path) not in metadata_files_processed:
-                additional_files.append(file_path)
+        additional_files.extend(
+            file_path for file_path in self.input_dir.glob(pattern) if str(file_path) not in metadata_files_processed
+        )
 
         html_files.extend(additional_files)
 
@@ -507,7 +502,7 @@ class HTMLRotationExtractor:
                 success_count += 1
 
             except Exception as e:
-                self.logger.error(f"Error processing {html_file.name}: {e}")
+                self.logger.exception(f"Error processing {html_file.name}: {e}")
                 continue
 
         self.logger.info(
@@ -526,10 +521,7 @@ class HTMLRotationExtractor:
 
         # Add all possible benchmark/build type combinations
         for benchmark_type in benchmark_types:
-            for build_type in build_types:
-                possible_paths.append(
-                    self.input_dir / benchmark_type / build_type / filename,
-                )
+            possible_paths.extend(self.input_dir / benchmark_type / build_type / filename for build_type in build_types)
 
         for path in possible_paths:
             if path.exists():
@@ -542,7 +534,7 @@ class HTMLRotationExtractor:
             )
             return False
 
-        if not html_file.suffix.lower() == ".html":
+        if html_file.suffix.lower() != ".html":
             self.logger.error(f"File is not an HTML file: {html_file}")
             return False
 
@@ -588,11 +580,11 @@ class HTMLRotationExtractor:
             return True
 
         except Exception as e:
-            self.logger.error(f"Error processing {html_file.name}: {e}")
+            self.logger.exception(f"Error processing {html_file.name}: {e}")
             return False
 
 
-def main():
+def main() -> int:
     """Main function with CLI interface"""
     parser = argparse.ArgumentParser(
         description="Extract rotation data from benchmark report HTML files (DPS, Quick, Alac)",
@@ -650,4 +642,4 @@ def main():
 
 
 if __name__ == "__main__":
-    exit(main())
+    sys.exit(main())

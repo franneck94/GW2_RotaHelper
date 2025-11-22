@@ -1,5 +1,6 @@
 import argparse
 import re
+import sys
 from pathlib import Path
 
 
@@ -7,7 +8,8 @@ def read_version_from_header(
     header_path: Path,
 ) -> str:
     if not header_path.exists():
-        raise FileNotFoundError(f"Version header file not found: {header_path}")
+        msg = f"Version header file not found: {header_path}"
+        raise FileNotFoundError(msg)
 
     content = header_path.read_text(encoding="utf-8")
 
@@ -18,7 +20,8 @@ def read_version_from_header(
     revision_match = re.search(r"#define\s+REVISION\s+(\d+)", content)
 
     if not all([major_match, minor_match, build_match, revision_match]):
-        raise ValueError("Could not parse version defines from Version.h")
+        msg = "Could not parse version defines from Version.h"
+        raise ValueError(msg)
 
     major = major_match.group(1)  # type: ignore
     minor = minor_match.group(1)  # type: ignore
@@ -34,7 +37,8 @@ def update_header_with_version_ranges(
     header_path: Path,
 ) -> None:
     if not header_path.exists():
-        raise FileNotFoundError(f"Header file not found: {header_path}")
+        msg = f"Header file not found: {header_path}"
+        raise FileNotFoundError(msg)
 
     try:
         content = header_path.read_text(encoding="utf-8")
@@ -116,7 +120,7 @@ def main() -> None:
         print("\n[WARNING] Operation cancelled by user")
     except Exception as e:
         print(f"[ERROR] Unexpected error: {e}")
-        exit(1)
+        sys.exit(1)
 
 
 if __name__ == "__main__":

@@ -7,6 +7,7 @@ dps.report links, then visits each one and downloads the HTML content.
 """
 
 import argparse
+import json
 import logging
 import re
 import time
@@ -32,7 +33,7 @@ class SnowCrowsScraper:
         output_dir: Path,
         delay: float = 1.0,
         headless: bool = True,
-    ):
+    ) -> None:
         self.output_dir = output_dir
         self.delay = delay  # Delay between requests to be respectful
         self.headless = headless
@@ -114,7 +115,7 @@ class SnowCrowsScraper:
             "conduit ": "revenant",
         }
 
-    def _setup_webdriver(self):
+    def _setup_webdriver(self) -> None:
         """Setup Chrome WebDriver with appropriate options"""
         if self.driver is not None:
             return
@@ -135,10 +136,10 @@ class SnowCrowsScraper:
             self.driver = webdriver.Chrome(options=chrome_options)
             self.logger.info("Chrome WebDriver initialized successfully")
         except Exception as e:
-            self.logger.error(f"Failed to initialize WebDriver: {e}")
+            self.logger.exception(f"Failed to initialize WebDriver: {e}")
             raise
 
-    def _cleanup_webdriver(self):
+    def _cleanup_webdriver(self) -> None:
         """Cleanup WebDriver resources"""
         if self.driver:
             self.driver.quit()
@@ -207,7 +208,7 @@ class SnowCrowsScraper:
                         builds_info.append(build_info)
 
             except Exception as e:
-                self.logger.error(
+                self.logger.exception(
                     f"Error fetching SnowCrows {benchmark_type} page: {e}",
                 )
 
@@ -230,8 +231,6 @@ class SnowCrowsScraper:
         manual_file_path: Path,
     ) -> list[dict]:
         """Extract build info from manual JSON file"""
-        import json
-
         if not manual_file_path.exists():
             self.logger.error(f"Manual log list file not found: {manual_file_path}")
             return []
@@ -281,7 +280,7 @@ class SnowCrowsScraper:
             return builds_info
 
         except Exception as e:
-            self.logger.error(
+            self.logger.exception(
                 f"Error loading manual log list from {manual_file_path}: {e}",
             )
             return []
@@ -294,9 +293,7 @@ class SnowCrowsScraper:
         readable = readable.replace("Ih", "IH")  # Infinite Horizon
         readable = readable.replace("Gs", "GS")  # Greatsword
         readable = readable.replace("Lb", "LB")  # Longbow
-        readable = readable.replace("Sb", "SB")  # Shortbow
-
-        return readable
+        return readable.replace("Sb", "SB")  # Shortbow
 
     def _deduce_profession_from_build_name(
         self,
@@ -374,7 +371,7 @@ class SnowCrowsScraper:
             re.IGNORECASE,
         )
 
-        def replace_cache_url(match):
+        def replace_cache_url(match: re.Match) -> str:
             cache_url = match.group(1)
             converted_url = self.convert_cache_url(cache_url)
             return f'src="{converted_url}"'
@@ -597,15 +594,13 @@ class SnowCrowsScraper:
             return True
 
         except Exception as e:
-            self.logger.error(
+            self.logger.exception(
                 f"Error downloading {build_info['name']} from {build_info['url']}: {e}",
             )
             return False
 
     def download_all_reports(self, builds_info: list[dict]) -> None:
         """Download all benchmark reports (DPS, Quick, Alac) with rate limiting and save metadata"""
-        import json
-
         success_count = 0
         total_count = len(builds_info)
         successful_builds = []
@@ -676,7 +671,7 @@ class SnowCrowsScraper:
             self._cleanup_webdriver()
 
 
-def main():
+def main() -> None:
     """Main function with CLI interface"""
     parser = argparse.ArgumentParser(
         description="Download benchmark report HTML files from SnowCrows (DPS, Quick, Alac) or manual list",

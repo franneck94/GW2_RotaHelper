@@ -6,6 +6,7 @@ Creates an enum where SKILL_NAME = ID is stored.
 
 import json
 import re
+import traceback
 from pathlib import Path
 
 
@@ -46,7 +47,7 @@ def load_skills_data(json_path: Path) -> dict:
         raise
 
 
-def generate_skill_enum(skills_data: dict, output_path: Path):
+def generate_skill_enum(skills_data: dict, output_path: Path) -> None:
     """Generate C++ enum class for skills."""
 
     # Sort skills by ID for consistent output
@@ -58,15 +59,19 @@ def generate_skill_enum(skills_data: dict, output_path: Path):
         sorted_skills = sorted(skills_data.items())
 
     enum_content = []
-    enum_content.append("// Auto-generated skill enum from GW2 API data")
-    enum_content.append("// DO NOT EDIT MANUALLY")
-    enum_content.append("")
-    enum_content.append("#pragma once")
-    enum_content.append("")
-    enum_content.append("#include <cstdint>")
-    enum_content.append("")
-    enum_content.append("enum class SkillID : uint32_t")
-    enum_content.append("{")
+    enum_content.extend(
+        (
+            "// Auto-generated skill enum from GW2 API data",
+            "// DO NOT EDIT MANUALLY",
+            "",
+            "#pragma once",
+            "",
+            "#include <cstdint>",
+            "",
+            "enum class SkillID : uint32_t",
+            "{",
+        ),
+    )
 
     # Track duplicate names to avoid enum conflicts
     used_names = set()
@@ -97,8 +102,7 @@ def generate_skill_enum(skills_data: dict, output_path: Path):
             print(f"Error processing skill {skill_id}: {e}")
             continue
 
-    enum_content.append("};")
-    enum_content.append("")
+    enum_content.extend(("};", ""))
 
     # Write to file
     try:
@@ -113,7 +117,7 @@ def generate_skill_enum(skills_data: dict, output_path: Path):
         raise
 
 
-def main():
+def main() -> None:
     """Main function to generate skill enum."""
     # Get project root directory
     script_dir = Path(__file__).parent
@@ -142,8 +146,6 @@ def main():
 
     except Exception as e:
         print(f"Error: {e}")
-        import traceback
-
         traceback.print_exc()
 
 
