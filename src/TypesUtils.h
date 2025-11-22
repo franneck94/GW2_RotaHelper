@@ -33,3 +33,5 @@ std::pair<Keys, Modifiers> get_keybind_for_skill_type(SkillSlot skill_type,
 std::string download_state_to_string(DownloadState state);
 
 std::string weapon_type_to_string(WeaponType weapon_type);
+
+SkillID SafeConvertToSkillID(uint64_t skill_id_raw);

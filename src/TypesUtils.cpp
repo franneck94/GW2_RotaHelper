@@ -8,6 +8,7 @@
 
 #include "FileUtils.h"
 #include "Types.h"
+#include "Shared.h"
 
 ProfessionID string_to_profession(const std::string &profession_name)
 {
@@ -656,4 +657,15 @@ std::string weapon_type_to_string(WeaponType weapon_type)
     default:
         return "Unknown";
     }
+}
+
+SkillID SafeConvertToSkillID(uint64_t skill_id_raw)
+{
+    auto skill_id = static_cast<SkillID>(skill_id_raw);
+
+    const auto &skill_data_map = Globals::RotationRun.skill_data_map;
+    if (skill_data_map.find(skill_id) == skill_data_map.end())
+        return SkillID::UNKNOWN_SKILL;
+
+    return skill_id;
 }

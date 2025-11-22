@@ -324,7 +324,7 @@ void get_rotation_info(const IntNode &node,
                             _skill_data.name.find("Sigil") != std::string::npos)
                             skip_skill = true;
 
-                        skill_data.skill_id = static_cast<SkillID>(_icon_id); // TODO : check if we need this if at all
+                        skill_data.skill_id = SafeConvertToSkillID(_icon_id); // TODO : check if we need this if at all
                         skill_data.name = _skill_data.name;
                         skill_data.icon_id = icon_id;
                         break;
@@ -395,7 +395,7 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
     for (const auto &[skill_id_str, skill_obj] : j.items())
     {
         auto skill_id_int = std::stoi(skill_id_str);
-        auto skill_id = static_cast<SkillID>(skill_id_int);
+        auto skill_id = SafeConvertToSkillID(skill_id_int);
         auto skill_data = SkillData{};
         skill_data.skill_id = skill_id;
 

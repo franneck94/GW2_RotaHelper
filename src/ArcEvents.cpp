@@ -19,6 +19,7 @@
 #include "Shared.h"
 #include "SkillData.h"
 #include "Types.h"
+#include "TypesUtils.h"
 
 namespace
 {
@@ -214,7 +215,7 @@ bool OnCombat(const char *channel,
         .SrcProfession = combat_data.src->Profession,
         .SrcSpecialization = combat_data.src->Specialization,
         .SkillName = std::string(combat_data.skillname),
-        .SkillID = static_cast<SkillID>(combat_data.ev->SkillID),
+        .SkillID = SafeConvertToSkillID(combat_data.ev->SkillID),
         .EventID = combat_data.id,
     };
 
