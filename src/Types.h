@@ -344,11 +344,35 @@ struct SkillRules
     const std::set<std::string_view> &easy_mode_drop_match;
 };
 
-enum class DownloadState
+enum class DownloadState : uint8_t
 {
     NOT_STARTED,
     STARTED,
     FINISHED,
     FAILED,
     NO_UPDATE_NEEDED,
+};
+
+// TODO: Add timers "time_of_last_*_check" to this struct
+struct RotaSkillWindow
+{
+    RotationStep curr_rota_skill;
+    RotationStep next_rota_skill;
+    bool check_for_next_skill;
+    RotationStep next_next_rota_skill;
+    bool check_for_next_next_skill;
+    RotationStep next_next_next_rota_skill;
+    bool check_for_next_next_next_skill;
+};
+
+struct SkillDetectionTimers
+{
+    std::chrono::steady_clock::time_point time_of_last_next_skill_check = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point time_of_last_next_next_skill_check = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point time_of_last_next_next_next_skill_check = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point time_of_last_aa_skip = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point time_of_last_pop = std::chrono::steady_clock::now();
+    bool is_first_check_for_next = true;
+    bool is_first_check_for_next_next = true;
+    bool is_first_check_for_next_next_next = true;
 };
