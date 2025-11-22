@@ -28,7 +28,7 @@ extern const std::set<std::string_view> easy_mode_drop_match;
 
 extern const SkillRules skill_rules;
 
-extern const std::set<std::string> skills_to_not_track;
+extern const std::set<SkillID> skills_to_not_track;
 
 extern const std::map<SkillID, SkillID> special_mapping_skills;
 
@@ -38,8 +38,12 @@ extern const std::set<SkillID> mesmer_weapon_4_skills;
 
 extern const std::set<SkillID> reset_like_skill;
 
-extern const std::map<std::string_view, float> skill_cast_time_map;
+extern const std::map<SkillID, float> skill_cast_time_map;
+
+extern const std::map<SkillID, float> grey_skill_cast_time_map;
 
 SkillData GetDataByID(const SkillID skill_id, const SkillDataMap &skill_data_map);
+
+bool IsProfessionResetLikeSKill(const SkillID skill_id);
 
 } // namespace SkillRuleData

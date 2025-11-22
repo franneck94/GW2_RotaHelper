@@ -3,6 +3,7 @@
 #include <string>
 #include <string_view>
 
+#include "MumbleUtils.h"
 #include "SkillData.h"
 
 #include "Types.h"
@@ -319,6 +320,7 @@ const std::set<std::string_view> special_substr_to_remove_duplicates = {
 };
 
 const std::set<std::string_view> easy_mode_drop_match = {
+    // ENGINEER
     "Sky Circus",
     "Spark Revolver",
     "Core Reactor Shot",
@@ -328,6 +330,8 @@ const std::set<std::string_view> easy_mode_drop_match = {
     "Barrier Burst",
     "Crisis Zone",
     "Power Spike",
+    "Discharge Array",
+    // REVENANT
     "Abyssal Strike",
     "Abyssal Fire",
 };
@@ -343,9 +347,9 @@ const SkillRules skill_rules = SkillRules{
     easy_mode_drop_match,
 };
 
-const std::set<std::string> skills_to_not_track = {
-    "Rifle Burst Grenade",
-    "Lightning Strike",
+const std::set<SkillID> skills_to_not_track = {
+    SkillID::RIFLE_BURST_GRENADE,
+    SkillID::LIGHTNING_STRIKE,
 };
 
 const std::map<SkillID, SkillID> special_mapping_skills = {
@@ -394,32 +398,44 @@ const std::set<SkillID> reset_like_skill = {
     SkillID::OVERLOAD_EARTH,
 };
 
-const std::map<std::string_view, float> skill_cast_time_map = {
-    {"Essence Blast", 0.75f},       // rit shroud aa
-    {"Life Rend", 0.5f},            // reaper shroud aa
-    {"Life Slash", 0.5f},           // reaper shroud aa
-    {"Life Reap", 0.5f},            // reaper shroud aa
-    {"Tainted Bolts", 0.5f},        // harbinger shroud aa
-    {"Hail of Justice", 1.25f},     // guard pistol 4
-    {"Cleansing Flame", 3.25f},     // guard torch 5
-    {"Rapid Fire", 2.25f},          // ranger lb 2
-    {"Barrage", 2.25f},             // ranger lb 5
-    {"Weakening Whirlwind", 0.75f}, // thief staff 3
-    {"Double Tap", 0.75f},          // thief rilfe 3
-    {"Three Round Burst", 1.0f},    // thief rilfe 3
-    {"Wild Throw", 3.25f},          // warrrior spear f1
-    {"Whirling Defense", 3.25f},    // ranger axe 5
-    {"Rifle Burst", 0.5f},          // engi rifle 1
-    {"Spatial Surge", 1.0f},        // mesmer gs 1
-    {"Flying Cutter", 0.5f},        // mesmer sw 1
-    {"Flaming Flurry", 3.25f},      // warrior sw f1
-    {"Scorched Earth", 3.25f},      // warrior lb f1
-    {"Overload Air", 4.0f},         // ele tempest f1 air
-    {"Overload Fire", 4.0f},        // ele tempest f1 fire
-    {"Flamestrike", 0.9f},          // ele scepter 1 fire
-    {"Scorching Shot", 0.5f},       // ele earth pistol 1
-    {"Piercing Pebble", 0.5f},      // ele fire pistol 1
-    {"Rift Slash", 0.5f},           // rev sword 1
+const std::map<SkillID, float> skill_cast_time_map = {
+    {SkillID::ESSENCE_BLAST, 0.75f},    // rit shroud aa
+    {SkillID::LIFE_REND, 0.5f},         // reaper shroud aa
+    {SkillID::LIFE_SLASH, 0.5f},        // reaper shroud aa
+    {SkillID::LIFE_REAP, 0.5f},         // reaper shroud aa
+    {SkillID::TAINTED_BOLTS, 0.5f},     // harbinger shroud aa
+    {SkillID::HAIL_OF_JUSTICE, 1.25f},  // guard pistol 4
+    {SkillID::CLEANSING_FLAME, 3.25f},  // guard torch 5
+    {SkillID::RAPID_FIRE, 2.25f},       // ranger lb 2
+    {SkillID::BARRAGE, 2.25f},          // ranger lb 5
+    {SkillID::WEAKENING_WHIRL, 0.75f},  // thief staff 3
+    {SkillID::DOUBLE_TAP, 0.75f},       // thief rifle 3
+    {SkillID::THREE_ROUND_BURST, 1.0f}, // thief rifle 3
+    {SkillID::WILD_THROW, 3.25f},       // warrior spear f1
+    {SkillID::WHIRLING_DEFENSE, 3.25f}, // ranger axe 5
+    {SkillID::RIFLE_BURST, 0.5f},       // engi rifle 1
+    {SkillID::SPATIAL_SURGE, 1.0f},     // mesmer gs 1
+    {SkillID::FLYING_CUTTER, 0.5f},     // mesmer sw 1
+    {SkillID::FLAMING_FLURRY, 3.25f},   // warrior sw f1
+    {SkillID::SCORCHED_EARTH, 3.25f},   // warrior lb f1
+    {SkillID::OVERLOAD_AIR, 4.0f},      // ele tempest f1 air
+    {SkillID::OVERLOAD_FIRE, 4.0f},     // ele tempest f1 fire
+    {SkillID::FLAMESTRIKE, 0.9f},       // ele scepter 1 fire
+    {SkillID::SCORCHING_SHOT, 0.5f},    // ele earth pistol 1
+    {SkillID::PIERCING_PEBBLE, 0.5f},   // ele fire pistol 1
+    {SkillID::RIFT_SLASH, 0.5f},        // rev sword 1
+};
+
+const std::map<SkillID, float> grey_skill_cast_time_map = {
+    // GUARDIAN
+    {SkillID::RUSHING_JUSTICE, 0.5f},
+    {SkillID::SYMBOL_OF_PUNISHMENT, 0.25f},
+    {SkillID::FLOWING_RESOLVE, 0.5f},
+    // ENGINEER
+    {SkillID::FLAME_BLAST, 0.10f}, // NOTE: lower than real
+    {SkillID::NAPALM, 2.0f},       // NOTE: lower than real
+    {SkillID::SUPERCONDUCTING_SIGNET, 0.75f},
+    {SkillID::DEVASTATOR, 0.3f}, // XXX: differs from real cast time, fix this when skill is not shown double anymore
 };
 
 SkillData GetDataByID(const SkillID skill_id, const SkillDataMap &skill_data_map)
@@ -430,6 +446,22 @@ SkillData GetDataByID(const SkillID skill_id, const SkillDataMap &skill_data_map
         return it->second;
 
     return {};
+}
+
+bool IsProfessionResetLikeSKill(const SkillID skill_id)
+{
+    auto current_profession = get_current_profession_name();
+    auto profession_lower = to_lowercase(current_profession);
+
+    auto is_mesmer_weapon_4 = false;
+    auto is_berserker_f1 = false;
+    if (profession_lower == "mesmer")
+        is_mesmer_weapon_4 =
+            SkillRuleData::mesmer_weapon_4_skills.find(skill_id) != SkillRuleData::mesmer_weapon_4_skills.end();
+    else if (profession_lower == "warrior")
+        is_berserker_f1 = SkillRuleData::berserker_f1_skills.find(skill_id) != SkillRuleData::berserker_f1_skills.end();
+
+    return is_mesmer_weapon_4 || is_berserker_f1;
 }
 
 } // namespace SkillRuleData
