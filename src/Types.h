@@ -21,7 +21,7 @@ struct EvCombatDataPersistent
     uint32_t SrcProfession;
     uint32_t SrcSpecialization;
     std::string SkillName;
-    uint64_t SkillID;
+    SkillID SkillID;
     uint64_t EventID;
     bool RepeatedSkill;
 };
@@ -133,7 +133,7 @@ enum class WeaponType
 struct SkillData
 {
     int icon_id;
-    int skill_id;
+    SkillID skill_id;
     std::string name;
     float recharge_time;
     float recharge_time_with_alacrity;
@@ -159,7 +159,7 @@ struct RotationStep
 
 using RotationSteps = std::vector<RotationStep>;
 using RotationStepsList = std::list<RotationStep>;
-using SkillDataMap = std::map<int, SkillData>;
+using SkillDataMap = std::map<SkillID, SkillData>;
 
 enum class ProfessionID : uint32_t
 {

@@ -313,18 +313,18 @@ void get_rotation_info(const IntNode &node,
             }
 
             // fallback to search icon id in _skill_info_map
-            if (skill_data.name == "" || skill_data.skill_id == 0)
+            if (skill_data.name == "" || skill_data.skill_id == SkillID::NONE)
             {
                 auto skip_skill = false;
-                for (const auto &[sid, _skill_data] : log_skill_info_map)
+                for (const auto &[_icon_id, _skill_data] : log_skill_info_map)
                 {
-                    if (sid == icon_id)
+                    if (_icon_id == icon_id)
                     {
                         if (_skill_data.name.find("Relic") != std::string::npos ||
                             _skill_data.name.find("Sigil") != std::string::npos)
                             skip_skill = true;
 
-                        skill_data.skill_id = sid;
+                        skill_data.skill_id = static_cast<SkillID>(_icon_id); // TODO : check if we need this if at all
                         skill_data.name = _skill_data.name;
                         skill_data.icon_id = icon_id;
                         break;
@@ -336,9 +336,9 @@ void get_rotation_info(const IntNode &node,
             }
 
             // TODO: is this always weapon swap?
-            if (skill_data.skill_id == 0)
+            if (skill_data.skill_id == SkillID::NONE)
             {
-                skill_data.skill_id = icon_id;
+                skill_data.skill_id = SkillID::UNKNOWN_SKILL; // TODO: Check if this works
                 skill_data.name = "Weapon Swap";
                 skill_data.icon_id = -9999;
             }
@@ -394,7 +394,8 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
 
     for (const auto &[skill_id_str, skill_obj] : j.items())
     {
-        auto skill_id = std::stoi(skill_id_str);
+        auto skill_id_int = std::stoi(skill_id_str);
+        auto skill_id = static_cast<SkillID>(skill_id_int);
         auto skill_data = SkillData{};
         skill_data.skill_id = skill_id;
 

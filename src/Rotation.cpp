@@ -12,7 +12,7 @@
 
 namespace
 {
-bool IsSkillAutoAttack(const uint64_t skill_id, const std::string &skill_name, const SkillDataMap &skill_data_map)
+bool IsSkillAutoAttack(const SkillID skill_id, const std::string &skill_name, const SkillDataMap &skill_data_map)
 {
     auto it = skill_data_map.find(static_cast<int>(skill_id));
 
@@ -55,19 +55,20 @@ bool IsOtherValidAutoAttack(const RotationStep &n_th_future_rota_skill,
 bool IsSpecialMappingSkill(const EvCombatDataPersistent &curr_actual_casted_skill,
                            const RotationStep &n_th_future_rota_skill)
 {
-    if (SkillRuleData::special_mapping_skills.find(curr_actual_casted_skill.SkillName) !=
+    if (SkillRuleData::special_mapping_skills.find(curr_actual_casted_skill.SkillID) !=
         SkillRuleData::special_mapping_skills.end())
     {
-        const auto mapped_name = SkillRuleData::special_mapping_skills.at(curr_actual_casted_skill.SkillName);
-        if (mapped_name == n_th_future_rota_skill.skill_data.name)
+        const auto maped_skill_id = SkillRuleData::special_mapping_skills.at(curr_actual_casted_skill.SkillID);
+        if (maped_skill_id == n_th_future_rota_skill.skill_data.skill_id)
             return true;
     }
 
-    if (SkillRuleData ::special_mapping_skills.find(n_th_future_rota_skill.skill_data.name) !=
+    if (SkillRuleData ::special_mapping_skills.find(n_th_future_rota_skill.skill_data.skill_id) !=
         SkillRuleData::special_mapping_skills.end())
     {
-        const auto mapped_name = SkillRuleData::special_mapping_skills.at(n_th_future_rota_skill.skill_data.name);
-        if (mapped_name == curr_actual_casted_skill.SkillName)
+        const auto maped_skill_id =
+            SkillRuleData::special_mapping_skills.at(n_th_future_rota_skill.skill_data.skill_id);
+        if (maped_skill_id == curr_actual_casted_skill.SkillID)
             return true;
     }
 

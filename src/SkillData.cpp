@@ -348,50 +348,50 @@ const std::set<std::string> skills_to_not_track = {
     "Lightning Strike",
 };
 
-const std::map<std::string, std::string> special_mapping_skills = {
-    {"Devastator", "Focused Devastation"},
-    {"Focused Devastation", "Devastator"},
-    {"Lightning Rod", "Electric Artillery"},
-    {"Electric Artillery", "Lightning Rod"},
+const std::map<SkillID, SkillID> special_mapping_skills = {
+    {SkillID::DEVASTATOR, SkillID::FOCUSED_DEVASTATION},
+    {SkillID::FOCUSED_DEVASTATION, SkillID::DEVASTATOR},
+    {SkillID::LIGHTNING_ROD, SkillID::ELECTRIC_ARTILLERY},
+    {SkillID::ELECTRIC_ARTILLERY, SkillID::LIGHTNING_ROD},
 };
 
-const std::set<uint64_t> berserker_f1_skills = {
-    static_cast<uint64_t>(SkillID::EVISCERATE),      // Eviscerate (Axe)
-    static_cast<uint64_t>(SkillID::EARTHSHAKER),     // Earthshaker (Hammer)
-    static_cast<uint64_t>(SkillID::ARC_DIVIDER),     // Arc Divider (Greatsword)
-    static_cast<uint64_t>(SkillID::FLAMING_FLURRY),  // Flaming Flurry (Sword)
-    static_cast<uint64_t>(SkillID::DECAPITATE),      // Decapitate (Axe)
-    static_cast<uint64_t>(SkillID::RUPTURING_SMASH), // Rupturing Smash (Hammer)
-    static_cast<uint64_t>(SkillID::WILD_THROW),      // Wild Throw (Spear)
-    static_cast<uint64_t>(SkillID::SCORCHED_EARTH),  // Scorched Earth (LB)
+const std::set<SkillID> berserker_f1_skills = {
+    SkillID::EVISCERATE,
+    SkillID::EARTHSHAKER,
+    SkillID::ARC_DIVIDER,
+    SkillID::FLAMING_FLURRY,
+    SkillID::DECAPITATE,
+    SkillID::RUPTURING_SMASH,
+    SkillID::WILD_THROW,
+    SkillID::SCORCHED_EARTH,
 };
 
-const std::set<uint64_t> mesmer_weapon_4_skills = {
-    static_cast<uint64_t>(SkillID::PHANTASMAL_DUELIST),      // Phantasmal Duelist (Pistol)
-    static_cast<uint64_t>(SkillID::TEMPORAL_CURTAIN),        // Temporal Curtain (Focus)
-    static_cast<uint64_t>(SkillID::PHANTASMAL_BERSERKER),    // Phantasmal Berserker (Greatsword)
-    static_cast<uint64_t>(SkillID::ILLUSIONARY_RIPOSTE),     // Illusionary Riposte (Sword)
-    static_cast<uint64_t>(SkillID::THE_PRESTIGE),            // The Prestige (Torch)
-    static_cast<uint64_t>(SkillID::SLIPSTREAM),              // Slipstream (Spear)
-    static_cast<uint64_t>(SkillID::PHANTASMAL_WHALER),       // Phantasmal Whaler (Trident)
-    static_cast<uint64_t>(SkillID::CHAOS_ARMOR),             // Chaos Armor (Staff)
-    static_cast<uint64_t>(SkillID::COUNTER_BLADE),           // Counter Blade (Sword)
-    static_cast<uint64_t>(SkillID::INTO_THE_VOID),           // Into the Void (Focus)
-    static_cast<uint64_t>(SkillID::DEJA_VU),                 // Deja Vu (Shield)
-    static_cast<uint64_t>(SkillID::ECHO_OF_MEMORY),          // Echo of Memory (Shield)
-    static_cast<uint64_t>(SkillID::PHANTASMAL_SHARPSHOOTER), // 72007 - Phantasmal Sharpshooter (Rifle)
-    static_cast<uint64_t>(SkillID::PHANTASMAL_LANCER)        // 72946 - Phantasmal Lancer (Spear)
+const std::set<SkillID> mesmer_weapon_4_skills = {
+    SkillID::PHANTASMAL_DUELIST,
+    SkillID::TEMPORAL_CURTAIN,
+    SkillID::PHANTASMAL_BERSERKER,
+    SkillID::ILLUSIONARY_RIPOSTE,
+    SkillID::THE_PRESTIGE,
+    SkillID::SLIPSTREAM,
+    SkillID::PHANTASMAL_WHALER,
+    SkillID::CHAOS_ARMOR,
+    SkillID::COUNTER_BLADE,
+    SkillID::INTO_THE_VOID,
+    SkillID::DEJA_VU,
+    SkillID::ECHO_OF_MEMORY,
+    SkillID::PHANTASMAL_SHARPSHOOTER,
+    SkillID::PHANTASMAL_LANCER,
 };
 
-const std::set<uint64_t> reset_like_skill = {
-    static_cast<uint64_t>(SkillID::CRUSHING_BLOW),
-    static_cast<uint64_t>(SkillID::REFRACTION_CUTTER),
-    static_cast<uint64_t>(SkillID::REFRACTION_CUTTER_1),
-    static_cast<uint64_t>(SkillID::MIND_THE_GAP),
-    static_cast<uint64_t>(SkillID::OVERLOAD_AIR),
-    static_cast<uint64_t>(SkillID::OVERLOAD_FIRE),
-    static_cast<uint64_t>(SkillID::OVERLOAD_WATER),
-    static_cast<uint64_t>(SkillID::OVERLOAD_EARTH),
+const std::set<SkillID> reset_like_skill = {
+    SkillID::CRUSHING_BLOW,
+    SkillID::REFRACTION_CUTTER,
+    SkillID::REFRACTION_CUTTER_1,
+    SkillID::MIND_THE_GAP,
+    SkillID::OVERLOAD_AIR,
+    SkillID::OVERLOAD_FIRE,
+    SkillID::OVERLOAD_WATER,
+    SkillID::OVERLOAD_EARTH,
 };
 
 const std::map<std::string_view, float> skill_cast_time_map = {
@@ -422,9 +422,9 @@ const std::map<std::string_view, float> skill_cast_time_map = {
     {"Rift Slash", 0.5f},           // rev sword 1
 };
 
-SkillData GetDataByID(const uint64_t skill_id, const SkillDataMap &skill_data_map)
+SkillData GetDataByID(const SkillID skill_id, const SkillDataMap &skill_data_map)
 {
-    auto it = skill_data_map.find(static_cast<int>(skill_id));
+    auto it = skill_data_map.find(skill_id);
 
     if (it != skill_data_map.end())
         return it->second;

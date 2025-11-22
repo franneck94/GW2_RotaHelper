@@ -34,6 +34,6 @@ bool ExtractedBenchData = false;
 Mumble::Identity Identity = {};
 
 bool IsSameCast = false;
-std::map<uint64_t, std::chrono::steady_clock::time_point> SkillLastTimeCast = {};
+std::map<SkillID, std::chrono::steady_clock::time_point> SkillLastTimeCast = {};
 std::string LastArcEventSkillName = "";
 }; // namespace Globals

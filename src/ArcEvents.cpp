@@ -41,11 +41,6 @@ bool IsValidCombatEvent(const EvCombatData &combat_data)
 
 bool IsSkillFromBuild_IdBased(const EvCombatDataPersistent &combat_data)
 {
-#ifdef _DEBUG
-    if (combat_data.SkillID == static_cast<uint64_t>(-1))
-        return true;
-#endif
-
     const auto &skill_data_map = Globals::RotationRun.skill_data_map;
     const auto found = skill_data_map.find(combat_data.SkillID) != skill_data_map.end();
     return found;
@@ -86,8 +81,7 @@ bool IsMultiHitSkill(const std::chrono::steady_clock::time_point &now, const EvC
 {
     auto last_cast_time = Globals::SkillLastTimeCast[combat_data.SkillID];
 
-    const auto skill_data_map_it = Globals::RotationRun.skill_data_map.find(static_cast<int>(combat_data.SkillID));
-
+    const auto skill_data_map_it = Globals::RotationRun.skill_data_map.find(combat_data.SkillID);
     if (skill_data_map_it == Globals::RotationRun.skill_data_map.end())
         return false;
 
@@ -220,7 +214,7 @@ bool OnCombat(const char *channel,
         .SrcProfession = combat_data.src->Profession,
         .SrcSpecialization = combat_data.src->Specialization,
         .SkillName = std::string(combat_data.skillname),
-        .SkillID = combat_data.ev->SkillID,
+        .SkillID = static_cast<SkillID>(combat_data.ev->SkillID),
         .EventID = combat_data.id,
     };
 

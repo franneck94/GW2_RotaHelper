@@ -7,7 +7,9 @@
 
 enum class SkillID : int32_t
 {
+    FALLBACK  = -10000,
     UNKNOWN_SKILL = -9999,
+    NONE = 0,
     THROW_GUNK = 1110,
     BRANCH_LEAP = 1115,
     THROW_CHAIN = 1118,

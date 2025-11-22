@@ -38,7 +38,7 @@ extern bool ExtractedBenchData;
 extern Mumble::Identity Identity;
 
 extern bool IsSameCast;
-extern std::map<uint64_t, std::chrono::steady_clock::time_point> SkillLastTimeCast;
+extern std::map<SkillID, std::chrono::steady_clock::time_point> SkillLastTimeCast;
 extern std::string LastArcEventSkillName;
 }; // namespace Globals
 
