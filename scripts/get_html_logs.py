@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Web scraper to visit all benchmark report sites listed on SnowCrows pages.
 
@@ -236,7 +235,7 @@ class SnowCrowsScraper:
             return []
 
         try:
-            with open(manual_file_path, encoding="utf-8") as f:
+            with manual_file_path.open(encoding="utf-8") as f:
                 manual_logs: dict[str, str] = json.load(f)
 
             self.logger.info(
@@ -582,7 +581,7 @@ class SnowCrowsScraper:
             file_path = build_subdir / filename
 
             # Save HTML content
-            with open(file_path, "w", encoding="utf-8") as f:
+            with file_path.open("w", encoding="utf-8") as f:
                 f.write(html_content)
 
             # Add file path to build info
@@ -627,7 +626,7 @@ class SnowCrowsScraper:
         existing_builds = {}
         if metadata_file.exists():
             try:
-                with open(metadata_file, encoding="utf-8") as f:
+                with metadata_file.open(encoding="utf-8") as f:
                     existing_data = json.load(f)
                     # Create lookup dict by URL for efficient merging
                     for build in existing_data:
@@ -644,7 +643,7 @@ class SnowCrowsScraper:
 
         # Convert back to list and save
         merged_builds = list(existing_builds.values())
-        with open(metadata_file, "w", encoding="utf-8") as f:
+        with metadata_file.open("w", encoding="utf-8") as f:
             json.dump(merged_builds, f, indent=2, ensure_ascii=False)
 
         self.logger.info(

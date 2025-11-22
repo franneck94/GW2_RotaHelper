@@ -1,8 +1,10 @@
 import json
+from pathlib import Path
 
 
 def main() -> None:
-    with open("GW2EI/Content/SkillList.json", encoding="utf-8") as f:
+    skill_file = Path("GW2EI/Content/SkillList.json")
+    with skill_file.open(encoding="utf-8") as f:
         content = f.read()
 
     # Find all skills with Mesmer profession and Weapon_4 slot

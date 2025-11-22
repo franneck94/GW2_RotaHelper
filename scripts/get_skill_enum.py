@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Script to generate C++ enum class for GW2 skills from the raw skills JSON data.
 Creates an enum where SKILL_NAME = ID is stored.
@@ -40,7 +39,7 @@ def sanitize_name(name: str) -> str:
 def load_skills_data(json_path: Path) -> dict:
     """Load the GW2 skills raw JSON data."""
     try:
-        with open(json_path, encoding="utf-8") as f:
+        with json_path.open(encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
         print(f"Error loading JSON: {e}")
@@ -106,7 +105,7 @@ def generate_skill_enum(skills_data: dict, output_path: Path) -> None:
 
     # Write to file
     try:
-        with open(output_path, "w", encoding="utf-8") as f:
+        with output_path.open("w", encoding="utf-8") as f:
             f.write("\n".join(enum_content))
 
         print(f"Generated skill enum with {valid_skills} skills")

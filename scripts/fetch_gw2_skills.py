@@ -3,6 +3,7 @@ import asyncio
 import json
 import logging
 from datetime import UTC
+from datetime import datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any
@@ -152,7 +153,7 @@ class GW2SkillFetcher:
             return {}
 
         try:
-            with open(existing_file, encoding="utf-8") as f:
+            with existing_file.open(encoding="utf-8") as f:
                 existing_data = json.load(f)
 
             self.logger.info(f"Loaded {len(existing_data)} existing skills from {existing_file}")
@@ -428,7 +429,7 @@ class GW2SkillFetcher:
         output_file = self.output_dir / "gw2_skills_raw.json"
 
         try:
-            with open(output_file, "w", encoding="utf-8") as f:
+            with output_file.open("w", encoding="utf-8") as f:
                 json.dump(skills_data, f, indent=2, ensure_ascii=False, sort_keys=True)
 
             self.logger.info(f"Raw skills data saved to: {output_file}")
@@ -508,7 +509,7 @@ class GW2SkillFetcher:
         output_file = self.output_dir / "gw2_skills_en.json"
 
         try:
-            with open(output_file, "w", encoding="utf-8") as f:
+            with output_file.open("w", encoding="utf-8") as f:
                 json.dump(
                     categorized_skills,
                     f,
@@ -547,7 +548,7 @@ class GW2SkillFetcher:
         output_file = self.output_dir / "gw2_uncategorized_skills.json"
 
         try:
-            with open(output_file, "w", encoding="utf-8") as f:
+            with output_file.open("w", encoding="utf-8") as f:
                 json.dump(
                     uncategorized_skills,
                     f,
@@ -570,8 +571,6 @@ class GW2SkillFetcher:
 
     def create_metadata(self, skills_data: dict[str, dict[str, Any]]) -> dict[str, Any]:
         """Create metadata about the fetched skills."""
-        from datetime import datetime
-
         # Analyze skill types and professions
         skill_types = set()
         professions = set()
@@ -598,7 +597,7 @@ class GW2SkillFetcher:
         metadata_file = self.output_dir / "gw2_skills_metadata.json"
 
         try:
-            with open(metadata_file, "w", encoding="utf-8") as f:
+            with metadata_file.open("w", encoding="utf-8") as f:
                 json.dump(metadata, f, indent=2, ensure_ascii=False)
 
             self.logger.info(f"Metadata saved to: {metadata_file}")

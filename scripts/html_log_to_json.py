@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 Extract rotation data from downloaded HTML files containing benchmark report data.
 
@@ -54,7 +53,7 @@ class HTMLRotationExtractor:
             return {}
 
         try:
-            with open(metadata_file, encoding="utf-8") as f:
+            with metadata_file.open(encoding="utf-8") as f:
                 metadata_list = json.load(f)
 
             # Create a lookup dictionary with multiple keys for quick access
@@ -226,7 +225,7 @@ class HTMLRotationExtractor:
         try:
             self.logger.info(f"Processing HTML file: {html_file.name}")
 
-            with open(html_file, encoding="utf-8") as f:
+            with html_file.open(encoding="utf-8") as f:
                 html_content = f.read()
 
             # Use regex to find all rotation skill images, capturing class attribute to filter out cancelled skills
@@ -488,7 +487,7 @@ class HTMLRotationExtractor:
                 output_path = output_subdir / output_filename
 
                 # Save extracted data
-                with open(output_path, "w", encoding="utf-8") as f:
+                with output_path.open("w", encoding="utf-8") as f:
                     json.dump(extracted_data, f, indent=2, ensure_ascii=False)
 
                 profession_info = build_metadata.get("profession", "Unknown")
@@ -566,7 +565,7 @@ class HTMLRotationExtractor:
             output_path = output_subdir / output_filename
 
             # Save extracted data
-            with open(output_path, "w", encoding="utf-8") as f:
+            with output_path.open("w", encoding="utf-8") as f:
                 json.dump(extracted_data, f, indent=2, ensure_ascii=False)
 
             profession_info = build_metadata.get("profession", "Unknown")
