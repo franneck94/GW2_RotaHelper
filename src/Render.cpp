@@ -292,7 +292,7 @@ void RenderType::skill_activation_callback(EvCombatDataPersistent combat_data)
     if (curr_combat_data.SkillID == combat_data.SkillID)
         combat_data.RepeatedSkill = true;
 
-    key_press_event_in_this_frame = true;
+    skill_event_in_this_frame = true;
     curr_combat_data = combat_data;
 
     append_to_played_rotation(combat_data);
@@ -300,7 +300,7 @@ void RenderType::skill_activation_callback(EvCombatDataPersistent combat_data)
 
 EvCombatDataPersistent RenderType::get_current_skill()
 {
-    if (!key_press_event_in_this_frame)
+    if (!skill_event_in_this_frame)
     {
         auto skill_ev = EvCombatDataPersistent{};
         skill_ev.SkillID = SkillID::FALLBACK;
@@ -324,8 +324,6 @@ void RenderType::set_show_window(const bool flag)
 
 void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
 {
-    static auto last_skill = EvCombatDataPersistent{};
-
     if (Globals::RotationRun.missing_rotation_steps.empty())
         return;
 
@@ -335,7 +333,7 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
     const auto debug_msg = std::string{"Player Casted Skill: "} + skill_ev.SkillName;
     (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", debug_msg.c_str());
 
-    SkillDetectionLogic(num_skills_wo_match, time_since_last_match, Globals::RotationRun, skill_ev, last_skill);
+    SkillDetectionLogic(num_skills_wo_match, time_since_last_match, Globals::RotationRun, skill_ev);
 }
 
 float RenderType::calculate_centered_position(const std::vector<std::string> &items) const
@@ -1447,10 +1445,10 @@ void RenderType::render(ID3D11Device *pd3dDevice)
     if (!Settings::ShowWindow)
         return;
 
-    if (key_press_event_in_this_frame)
+    if (skill_event_in_this_frame)
     {
         const auto skill_ev = get_current_skill();
-        key_press_event_in_this_frame = false;
+        skill_event_in_this_frame = false;
         CycleSkillsLogic(skill_ev);
     }
 

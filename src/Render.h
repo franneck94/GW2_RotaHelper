@@ -89,7 +89,7 @@ public:
 
     bool show_window;
 
-    bool key_press_event_in_this_frame;
+    bool skill_event_in_this_frame;
     EvCombatDataPersistent curr_combat_data{};
     std::vector<EvCombatDataPersistent> played_rotation{};
     std::mutex played_rotation_mutex;
