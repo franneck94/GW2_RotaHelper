@@ -282,9 +282,9 @@ std::string format_build_name(const std::string &raw_name)
         result = result.substr(start);
 
     if (result.starts_with("condition_"))
-        result = result.substr(10); // Remove "condition_"
+        result = "Condition " + result.substr(10); // Add "Condition " prefix
     else if (result.starts_with("power_"))
-        result = result.substr(6); // Remove "power_"
+        result = "Power " + result.substr(6); // Add "Power " prefix
 
     std::replace(result.begin(), result.end(), '_', ' ');
 
