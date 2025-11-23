@@ -380,6 +380,12 @@ void get_rotation_info(const IntNode &node,
                     skill_data.cast_time = cast_time_it->second;
                     skill_data.cast_time_with_quickness = skill_data.cast_time * 0.8f;
                 }
+                const auto cast_time_it2 = SkillRuleData::grey_skill_cast_time_map.find(skill_data.skill_id);
+                if (cast_time_it2 != SkillRuleData::grey_skill_cast_time_map.end())
+                {
+                    skill_data.cast_time = cast_time_it2->second;
+                    skill_data.cast_time_with_quickness = skill_data.cast_time * 0.8f;
+                }
 
                 all_rotation_steps.push_back(RotationStep{.time_of_cast = time_of_cast,
                                                           .duration_ms = duration_ms,

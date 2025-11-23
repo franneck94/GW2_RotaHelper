@@ -35,9 +35,9 @@ bool IsOtherValidAutoAttack(const RotationStep &n_th_future_rota_skill,
                             const RotationLogType &rotation_run)
 {
     const auto future_is_auto_attack = n_th_future_rota_skill.skill_data.is_auto_attack;
-    const auto is_not_special_cast_time_skill =
-        SkillRuleData::skill_cast_time_map.find(n_th_future_rota_skill.skill_data.skill_id) ==
-        SkillRuleData::skill_cast_time_map.end();
+    if (!future_is_auto_attack)
+        return false;
+
     const auto actual_casted_skill_is_auto_attack =
         IsSkillAutoAttack(current_casted_skill.SkillID, current_casted_skill.SkillName, rotation_run.skill_data_map);
 
@@ -47,27 +47,24 @@ bool IsOtherValidAutoAttack(const RotationStep &n_th_future_rota_skill,
     const auto actual_casted_skill_weapon_type = actual_skill_data.weapon_type;
     const auto same_weapon_type = n_th_future_skill_weapon_type == actual_casted_skill_weapon_type;
 
-    return future_is_auto_attack && is_not_special_cast_time_skill && actual_casted_skill_is_auto_attack &&
-           same_weapon_type;
+    return future_is_auto_attack && actual_casted_skill_is_auto_attack && same_weapon_type;
 }
 
 bool IsSpecialMappingSkill(const EvCombatDataPersistent &current_casted_skill,
                            const RotationStep &n_th_future_rota_skill)
 {
-    if (SkillRuleData::special_mapping_skills.find(current_casted_skill.SkillID) !=
-        SkillRuleData::special_mapping_skills.end())
-    {
-        const auto maped_skill_id = SkillRuleData::special_mapping_skills.at(current_casted_skill.SkillID);
-        if (maped_skill_id == n_th_future_rota_skill.skill_data.skill_id)
-            return true;
-    }
-
     if (SkillRuleData ::special_mapping_skills.find(n_th_future_rota_skill.skill_data.skill_id) !=
-        SkillRuleData::special_mapping_skills.end())
+            SkillRuleData::special_mapping_skills.end() &&
+        SkillRuleData::special_mapping_skills.find(current_casted_skill.SkillID) !=
+            SkillRuleData::special_mapping_skills.end())
     {
-        const auto maped_skill_id =
+        const auto maped_skill_id1 =
             SkillRuleData::special_mapping_skills.at(n_th_future_rota_skill.skill_data.skill_id);
-        if (maped_skill_id == current_casted_skill.SkillID)
+        if (maped_skill_id1 == current_casted_skill.SkillID)
+            return true;
+
+        const auto maped_skill_id2 = SkillRuleData::special_mapping_skills.at(current_casted_skill.SkillID);
+        if (maped_skill_id2 == n_th_future_rota_skill.skill_data.skill_id)
             return true;
     }
 
@@ -130,10 +127,9 @@ RotaSkillWindow _GetRotaWindowFromRotationSteps(RotationLogType &rotation_run, S
 
         const auto skill_id = rota_window.curr_rota_skill.skill_data.skill_id;
         auto cast_time_ms = 150.0F;
-        if (SkillRuleData::grey_skill_cast_time_map.find(skill_id) != SkillRuleData::grey_skill_cast_time_map.end())
+        if (rota_window.curr_rota_skill.skill_data.cast_time_with_quickness > 0)
         {
-            // wait for 75% of cast time of greyed out skill until next is "current"
-            cast_time_ms = max(cast_time_ms, SkillRuleData::grey_skill_cast_time_map.at(skill_id) * 1000.0f * 0.75f);
+            cast_time_ms = max(cast_time_ms, rota_window.curr_rota_skill.skill_data.cast_time_with_quickness * 1000.0f);
         }
 
         const auto can_pop = (time_since_last_pop_ms > cast_time_ms);
@@ -295,8 +291,8 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
             return;
         }
 
-        if (num_special_skills_in_window > 1 && rota_window.check_for_next_next_skill &&
-            CheckTheNextNskills(current_casted_skill, rota_window.next_next_rota_skill, 3, false, rotation_run))
+        if (num_special_skills_in_window >= 1 && rota_window.check_for_next_next_skill &&
+            CheckTheNextNskills(current_casted_skill, rota_window.next_next_rota_skill, 3, true, rotation_run))
         {
             ResetSkillDetectionData(timers, num_skills_wo_match);
 
@@ -304,8 +300,8 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
             return;
         }
 
-        if (num_special_skills_in_window > 2 && rota_window.check_for_next_next_next_skill &&
-            CheckTheNextNskills(current_casted_skill, rota_window.next_next_next_rota_skill, 4, false, rotation_run))
+        if (num_special_skills_in_window >= 2 && rota_window.check_for_next_next_next_skill &&
+            CheckTheNextNskills(current_casted_skill, rota_window.next_next_next_rota_skill, 4, true, rotation_run))
         {
             ResetSkillDetectionData(timers, num_skills_wo_match);
 

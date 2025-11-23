@@ -152,6 +152,7 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Rushing Justice",
     "Symbol of Punishment",
     "Flowing Resolve",
+    "Jurisdiction",
     // WARRIOR
     "Sheathe Gunsaber",
     "Unsheathe Gunsaber",
@@ -252,6 +253,8 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Continuum Split",
     "Continuum Shift",
     "Time Sink",
+    "Phantasmal Berserker",
+    "Phantasmal Lancer",
     // NECROMANCER
     "Plague Signet",
     "Elixir of Promise",
@@ -334,6 +337,8 @@ const std::set<std::string_view> easy_mode_drop_match = {
     // REVENANT
     "Abyssal Strike",
     "Abyssal Fire",
+    // MESMER
+    "Power Spike",
 };
 
 const SkillRules skill_rules = SkillRules{
@@ -424,6 +429,12 @@ const std::map<SkillID, float> skill_cast_time_map = {
     {SkillID::SCORCHING_SHOT, 0.5f},    // ele earth pistol 1
     {SkillID::PIERCING_PEBBLE, 0.5f},   // ele fire pistol 1
     {SkillID::RIFT_SLASH, 0.5f},        // rev sword 1
+    {SkillID::PUNCTURING_JAB, 0.5f},    // engi spear 1
+    {SkillID::RENDING_STRIKE, 0.5f},    // engi spear 1
+    {SkillID::AMPLIFYING_SLICE, 0.5f},  // engi spear 1
+    {SkillID::CONDUIT_SURGE, 0.5f},     // engi spear 2
+    {SkillID::LIGHTNING_ROD, 0.5f},     // engi spear 3
+    {SkillID::ORB_OF_WRATH, 0.5f},     //
 };
 
 const std::map<SkillID, float> grey_skill_cast_time_map = {
@@ -431,11 +442,15 @@ const std::map<SkillID, float> grey_skill_cast_time_map = {
     {SkillID::RUSHING_JUSTICE, 0.5f},
     {SkillID::SYMBOL_OF_PUNISHMENT, 0.25f},
     {SkillID::FLOWING_RESOLVE, 0.5f},
+    {SkillID::JURISDICTION, 0.75f},     //
+    // MESMER
+    {SkillID::PHANTASMAL_BERSERKER, 0.75f},
+    {SkillID::SIGNET_OF_THE_ETHER, 1.0f},
     // ENGINEER
     {SkillID::FLAME_BLAST, 0.10f}, // NOTE: lower than real
     {SkillID::NAPALM, 2.0f},       // NOTE: lower than real
     {SkillID::SUPERCONDUCTING_SIGNET, 0.75f},
-    {SkillID::DEVASTATOR, 0.3f}, // XXX: differs from real cast time, fix this when skill is not shown double anymore
+    {SkillID::DEVASTATOR, 1.0f}, // XXX: differs from real cast time, fix this when skill is not shown double anymore
 };
 
 SkillData GetDataByID(const SkillID skill_id, const SkillDataMap &skill_data_map)
