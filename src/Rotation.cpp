@@ -31,20 +31,19 @@ bool IsSkillAutoAttack(const SkillID skill_id, const std::string &skill_name, co
 }
 
 bool IsOtherValidAutoAttack(const RotationStep &n_th_future_rota_skill,
-                            const EvCombatDataPersistent &curr_actual_casted_skill,
+                            const EvCombatDataPersistent &current_casted_skill,
                             const RotationLogType &rotation_run)
 {
     const auto future_is_auto_attack = n_th_future_rota_skill.skill_data.is_auto_attack;
     const auto is_not_special_cast_time_skill =
         SkillRuleData::skill_cast_time_map.find(n_th_future_rota_skill.skill_data.skill_id) ==
         SkillRuleData::skill_cast_time_map.end();
-    const auto actual_casted_skill_is_auto_attack = IsSkillAutoAttack(curr_actual_casted_skill.SkillID,
-                                                                      curr_actual_casted_skill.SkillName,
-                                                                      rotation_run.skill_data_map);
+    const auto actual_casted_skill_is_auto_attack =
+        IsSkillAutoAttack(current_casted_skill.SkillID, current_casted_skill.SkillName, rotation_run.skill_data_map);
 
     const auto n_th_future_skill_weapon_type = n_th_future_rota_skill.skill_data.weapon_type;
     const auto actual_skill_data =
-        SkillRuleData::GetDataByID(curr_actual_casted_skill.SkillID, rotation_run.skill_data_map);
+        SkillRuleData::GetDataByID(current_casted_skill.SkillID, rotation_run.skill_data_map);
     const auto actual_casted_skill_weapon_type = actual_skill_data.weapon_type;
     const auto same_weapon_type = n_th_future_skill_weapon_type == actual_casted_skill_weapon_type;
 
@@ -52,13 +51,13 @@ bool IsOtherValidAutoAttack(const RotationStep &n_th_future_rota_skill,
            same_weapon_type;
 }
 
-bool IsSpecialMappingSkill(const EvCombatDataPersistent &curr_actual_casted_skill,
+bool IsSpecialMappingSkill(const EvCombatDataPersistent &current_casted_skill,
                            const RotationStep &n_th_future_rota_skill)
 {
-    if (SkillRuleData::special_mapping_skills.find(curr_actual_casted_skill.SkillID) !=
+    if (SkillRuleData::special_mapping_skills.find(current_casted_skill.SkillID) !=
         SkillRuleData::special_mapping_skills.end())
     {
-        const auto maped_skill_id = SkillRuleData::special_mapping_skills.at(curr_actual_casted_skill.SkillID);
+        const auto maped_skill_id = SkillRuleData::special_mapping_skills.at(current_casted_skill.SkillID);
         if (maped_skill_id == n_th_future_rota_skill.skill_data.skill_id)
             return true;
     }
@@ -68,25 +67,25 @@ bool IsSpecialMappingSkill(const EvCombatDataPersistent &curr_actual_casted_skil
     {
         const auto maped_skill_id =
             SkillRuleData::special_mapping_skills.at(n_th_future_rota_skill.skill_data.skill_id);
-        if (maped_skill_id == curr_actual_casted_skill.SkillID)
+        if (maped_skill_id == current_casted_skill.SkillID)
             return true;
     }
 
     return false;
 }
 
-bool CheckTheNextNskills(const EvCombatDataPersistent &curr_actual_casted_skill,
+bool CheckTheNextNskills(const EvCombatDataPersistent &current_casted_skill,
                          const RotationStep &n_th_future_rota_skill,
                          const uint32_t window_length,
                          RotationLogType &rotation_run)
 {
-    const auto is_special_mapping = IsSpecialMappingSkill(curr_actual_casted_skill, n_th_future_rota_skill);
+    const auto is_special_mapping = IsSpecialMappingSkill(current_casted_skill, n_th_future_rota_skill);
 
     const auto is_match =
-        (((n_th_future_rota_skill.skill_data.name == curr_actual_casted_skill.SkillName) || is_special_mapping));
+        (((n_th_future_rota_skill.skill_data.name == current_casted_skill.SkillName) || is_special_mapping));
 
     const auto is_any_other_auto_attack =
-        !is_match && IsOtherValidAutoAttack(n_th_future_rota_skill, curr_actual_casted_skill, rotation_run);
+        !is_match && IsOtherValidAutoAttack(n_th_future_rota_skill, current_casted_skill, rotation_run);
 
     if (is_match || is_any_other_auto_attack)
     {
@@ -135,7 +134,6 @@ RotaSkillWindow GetRotaSkillWindow(RotationLogType &rotation_run, SkillDetection
             cast_time_ms = max(cast_time_ms, SkillRuleData::grey_skill_cast_time_map.at(skill_id) * 1000.0f * 0.75f);
         }
 
-        // FIX: time_since_last_pop_ms makes only sense when there was already a pop, we should rather reset the timer when a valid skill (non gray) was executed
         const auto can_pop = (time_since_last_pop_ms > cast_time_ms);
         if (rota_window.curr_rota_skill.is_special_skill && can_pop)
         {
@@ -203,13 +201,13 @@ RotaSkillWindow GetRotaSkillWindow(RotationLogType &rotation_run, SkillDetection
 void SkillDetectionLogic(uint32_t &num_skills_wo_match,
                          std::chrono::steady_clock::time_point &time_since_last_match,
                          RotationLogType &rotation_run,
-                         const EvCombatDataPersistent &curr_actual_casted_skill)
+                         const EvCombatDataPersistent &current_casted_skill)
 {
     static auto timers = SkillDetectionTimers{};
 
     const auto duration_since_last_match = GetTimeSinceInSeconds(time_since_last_match);
-    const auto curr_casted_is_auto_attack = IsSkillAutoAttack(curr_actual_casted_skill.SkillID,
-                                                              curr_actual_casted_skill.SkillName,
+    const auto curr_casted_is_auto_attack = IsSkillAutoAttack(current_casted_skill.SkillID,
+                                                              current_casted_skill.SkillName,
                                                               Globals::RotationRun.skill_data_map);
 
     if (num_skills_wo_match == 0)
@@ -217,7 +215,7 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
 
     auto rota_window = GetRotaSkillWindow(rotation_run, timers);
 
-    if (CheckTheNextNskills(curr_actual_casted_skill, rota_window.curr_rota_skill, 1, rotation_run))
+    if (CheckTheNextNskills(current_casted_skill, rota_window.curr_rota_skill, 1, rotation_run))
     {
         ResetSkillDetectionData(timers, num_skills_wo_match);
 
@@ -231,14 +229,14 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
 
     if (still_look_into_in_strict_mode && !curr_casted_is_auto_attack)
     {
-        const auto curr_actual_casted_is_profession_reset_like_skill =
-            SkillRuleData::IsProfessionResetLikeSKill(curr_actual_casted_skill.SkillID);
+        const auto current_casted_is_profession_reset_like_skill =
+            SkillRuleData::IsProfessionResetLikeSKill(current_casted_skill.SkillID);
 
-        if (curr_actual_casted_is_profession_reset_like_skill)
+        if (current_casted_is_profession_reset_like_skill)
             return;
 
         if (rota_window.check_for_next_skill &&
-            CheckTheNextNskills(curr_actual_casted_skill, rota_window.next_rota_skill, 2, rotation_run))
+            CheckTheNextNskills(current_casted_skill, rota_window.next_rota_skill, 2, rotation_run))
         {
             ResetSkillDetectionData(timers, num_skills_wo_match);
 
@@ -251,7 +249,7 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
         }
 
         if (rota_window.check_for_next_next_skill &&
-            CheckTheNextNskills(curr_actual_casted_skill, rota_window.next_next_rota_skill, 3, rotation_run))
+            CheckTheNextNskills(current_casted_skill, rota_window.next_next_rota_skill, 3, rotation_run))
         {
             ResetSkillDetectionData(timers, num_skills_wo_match);
 
@@ -260,7 +258,7 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
         }
 
         if (rota_window.check_for_next_next_next_skill &&
-            CheckTheNextNskills(curr_actual_casted_skill, rota_window.next_next_next_rota_skill, 4, rotation_run))
+            CheckTheNextNskills(current_casted_skill, rota_window.next_next_next_rota_skill, 4, rotation_run))
         {
             ResetSkillDetectionData(timers, num_skills_wo_match);
 
@@ -284,10 +282,10 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
                 return;
 
             const auto rota_skill = *it;
-            const auto is_exact_match = (rota_skill.skill_data.name == curr_actual_casted_skill.SkillName);
+            const auto is_exact_match = (rota_skill.skill_data.name == current_casted_skill.SkillName);
             const auto is_auto_attack_match = !is_exact_match && (rota_skill.skill_data.is_auto_attack &&
-                                                                  IsSkillAutoAttack(curr_actual_casted_skill.SkillID,
-                                                                                    curr_actual_casted_skill.SkillName,
+                                                                  IsSkillAutoAttack(current_casted_skill.SkillID,
+                                                                                    current_casted_skill.SkillName,
                                                                                     rotation_run.skill_data_map));
 
             if (is_exact_match || is_auto_attack_match)
