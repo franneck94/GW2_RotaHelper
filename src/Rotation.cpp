@@ -77,6 +77,7 @@ bool IsSpecialMappingSkill(const EvCombatDataPersistent &current_casted_skill,
 bool CheckTheNextNskills(const EvCombatDataPersistent &current_casted_skill,
                          const RotationStep &n_th_future_rota_skill,
                          const uint32_t window_length,
+                         const bool accept_other_aa,
                          RotationLogType &rotation_run)
 {
     const auto is_special_mapping = IsSpecialMappingSkill(current_casted_skill, n_th_future_rota_skill);
@@ -85,7 +86,8 @@ bool CheckTheNextNskills(const EvCombatDataPersistent &current_casted_skill,
         (((n_th_future_rota_skill.skill_data.name == current_casted_skill.SkillName) || is_special_mapping));
 
     const auto is_any_other_auto_attack =
-        !is_match && IsOtherValidAutoAttack(n_th_future_rota_skill, current_casted_skill, rotation_run);
+        !is_match && accept_other_aa &&
+        IsOtherValidAutoAttack(n_th_future_rota_skill, current_casted_skill, rotation_run);
 
     if (is_match || is_any_other_auto_attack)
     {
@@ -113,15 +115,15 @@ float GetTimeSinceInSeconds(const std::chrono::steady_clock::time_point &t0)
     return static_cast<float>(time_ms) / 1000.0f;
 }
 
-RotaSkillWindow GetRotaSkillWindow(RotationLogType &rotation_run, SkillDetectionTimers &timers)
+RotaSkillWindow _GetRotaWindowFromRotationSteps(RotationLogType &rotation_run, SkillDetectionTimers &timers)
 {
+    auto rota_window = RotaSkillWindow{};
+
     const auto now = std::chrono::steady_clock::now();
     const auto time_since_last_pop_ms =
         std::chrono::duration_cast<std::chrono::milliseconds>(now - timers.time_of_last_pop).count();
 
     auto it = rotation_run.missing_rotation_steps.begin();
-    auto rota_window = RotaSkillWindow{};
-
     if (rotation_run.missing_rotation_steps.size() > 1)
     {
         rota_window.curr_rota_skill = *it;
@@ -163,41 +165,81 @@ RotaSkillWindow GetRotaSkillWindow(RotationLogType &rotation_run, SkillDetection
         ++it;
     }
 
+    return rota_window;
+}
+
+// t+1 future skill
+bool DoCheckForNextSkill(const RotaSkillWindow &rota_window, const SkillDetectionTimers &timers)
+{
     constexpr static auto min_time_for_next_s = 0.3f;
+    const auto time_since_aa_skip_s = GetTimeSinceInSeconds(timers.time_of_last_aa_skip);
+    const auto time_since_last_next_skill_check_s = GetTimeSinceInSeconds(timers.time_of_last_next_skill_check);
+
+    const auto is_valid_for_aa = (time_since_aa_skip_s > 3 || !rota_window.next_rota_skill.skill_data.is_auto_attack);
+    const auto is_valid_overall =
+        (time_since_last_next_skill_check_s > min_time_for_next_s || timers.is_first_check_for_next);
+    return is_valid_overall && is_valid_for_aa;
+}
+
+// t+2 future skill
+bool DoCheckForNextNextSkill(const RotaSkillWindow &rota_window, const SkillDetectionTimers &timers)
+{
     constexpr static auto min_time_for_next_next_s = 0.6f;
+    const auto time_since_last_next_next_skill_check_s =
+        GetTimeSinceInSeconds(timers.time_of_last_next_next_skill_check);
+
+    const auto is_valid_skill = (rota_window.next_next_rota_skill.is_special_skill ||
+                                 !rota_window.next_next_rota_skill.skill_data.is_auto_attack);
+    const auto is_timer_reached =
+        (time_since_last_next_next_skill_check_s > min_time_for_next_next_s || timers.is_first_check_for_next_next);
+    return is_valid_skill && is_timer_reached;
+}
+
+// t+3 future skill
+bool DoCheckForNextNextNextSkill(const RotaSkillWindow &rota_window, const SkillDetectionTimers &timers)
+{
     constexpr static auto min_time_for_next_next_next_s = 1.2f;
-
-    const auto time_since_last_next_skill_check = GetTimeSinceInSeconds(timers.time_of_last_next_skill_check);
-    const auto time_since_last_next_next_skill_check = GetTimeSinceInSeconds(timers.time_of_last_next_next_skill_check);
-    const auto time_since_last_next_next_next_skill_check =
+    const auto time_since_last_next_next_next_skill_check_s =
         GetTimeSinceInSeconds(timers.time_of_last_next_next_next_skill_check);
-    const auto time_since_aa_skip = GetTimeSinceInSeconds(timers.time_of_last_aa_skip);
 
-    rota_window.check_for_next_skill =
-        (time_since_aa_skip > 3 || !rota_window.next_rota_skill.skill_data.is_auto_attack) &&
-        (time_since_last_next_skill_check > min_time_for_next_s || timers.is_first_check_for_next);
+    const auto is_valid_skill = (rota_window.next_next_rota_skill.is_special_skill ||
+                                 !rota_window.next_next_next_rota_skill.skill_data.is_auto_attack);
+    const auto is_timer_reached = (time_since_last_next_next_next_skill_check_s > min_time_for_next_next_next_s ||
+                                   timers.is_first_check_for_next_next_next);
+    return (is_valid_skill && is_timer_reached);
+}
+
+RotaSkillWindow GetRotaSkillWindow(RotationLogType &rotation_run, SkillDetectionTimers &timers)
+{
+    auto rota_window = _GetRotaWindowFromRotationSteps(rotation_run, timers);
+
+    rota_window.check_for_next_skill = DoCheckForNextSkill(rota_window, timers);
 
     if (!rota_window.check_for_next_skill)
         return rota_window;
 
-    rota_window.check_for_next_next_skill =
-        ((rota_window.next_next_rota_skill.is_special_skill ||
-          !rota_window.next_next_rota_skill.skill_data.is_auto_attack) &&
-         (time_since_last_next_next_skill_check > min_time_for_next_next_s || timers.is_first_check_for_next_next));
+    rota_window.check_for_next_next_skill = DoCheckForNextNextSkill(rota_window, timers);
 
     if (!rota_window.check_for_next_next_skill)
         return rota_window;
 
-    rota_window.check_for_next_next_next_skill =
-        ((rota_window.next_next_rota_skill.is_special_skill ||
-          !rota_window.next_next_next_rota_skill.skill_data.is_auto_attack) &&
-         (time_since_last_next_next_next_skill_check > min_time_for_next_next_next_s ||
-          timers.is_first_check_for_next_next_next));
+    rota_window.check_for_next_next_next_skill = DoCheckForNextNextNextSkill(rota_window, timers);
 
     return rota_window;
 }
 } // namespace
 
+/**
+ * @brief This is the main logic for skill detection against the rotation steps.
+ *
+ * It checks if the currently casted skill from combat log matches the expected skill
+ * in the rotation steps. It uses a windowing approach to look ahead in the rotation
+ * steps to find matches, allowing for some flexibility in skill order.
+ * We look into the current and the 3 skills afterwards in the rotation steps.
+ *
+ * Auto attacks are only valid for current and next skill in the rotation steps, if the
+ * weapon type matches.
+ */
 void SkillDetectionLogic(uint32_t &num_skills_wo_match,
                          std::chrono::steady_clock::time_point &time_since_last_match,
                          RotationLogType &rotation_run,
@@ -214,8 +256,13 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
         time_since_last_match = std::chrono::steady_clock::now();
 
     auto rota_window = GetRotaSkillWindow(rotation_run, timers);
+    const auto num_special_skills_in_window = (rota_window.curr_rota_skill.is_special_skill ? 1 : 0) +
+                                              (rota_window.next_rota_skill.is_special_skill ? 1 : 0) +
+                                              (rota_window.next_next_rota_skill.is_special_skill ? 1 : 0) +
+                                              (rota_window.next_next_next_rota_skill.is_special_skill ? 1 : 0);
+    const auto too_many_special_skills_in_window = num_special_skills_in_window > 2;
 
-    if (CheckTheNextNskills(current_casted_skill, rota_window.curr_rota_skill, 1, rotation_run))
+    if (CheckTheNextNskills(current_casted_skill, rota_window.curr_rota_skill, 1, true, rotation_run))
     {
         ResetSkillDetectionData(timers, num_skills_wo_match);
 
@@ -236,7 +283,7 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
             return;
 
         if (rota_window.check_for_next_skill &&
-            CheckTheNextNskills(current_casted_skill, rota_window.next_rota_skill, 2, rotation_run))
+            CheckTheNextNskills(current_casted_skill, rota_window.next_rota_skill, 2, true, rotation_run))
         {
             ResetSkillDetectionData(timers, num_skills_wo_match);
 
@@ -248,8 +295,8 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
             return;
         }
 
-        if (rota_window.check_for_next_next_skill &&
-            CheckTheNextNskills(current_casted_skill, rota_window.next_next_rota_skill, 3, rotation_run))
+        if (num_special_skills_in_window > 1 && rota_window.check_for_next_next_skill &&
+            CheckTheNextNskills(current_casted_skill, rota_window.next_next_rota_skill, 3, false, rotation_run))
         {
             ResetSkillDetectionData(timers, num_skills_wo_match);
 
@@ -257,8 +304,8 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
             return;
         }
 
-        if (rota_window.check_for_next_next_next_skill &&
-            CheckTheNextNskills(current_casted_skill, rota_window.next_next_next_rota_skill, 4, rotation_run))
+        if (num_special_skills_in_window > 2 && rota_window.check_for_next_next_next_skill &&
+            CheckTheNextNskills(current_casted_skill, rota_window.next_next_next_rota_skill, 4, false, rotation_run))
         {
             ResetSkillDetectionData(timers, num_skills_wo_match);
 

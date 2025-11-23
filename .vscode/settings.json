@@ -1,7 +1,7 @@
 {
     "editor.tabSize": 4,
     "editor.rulers": [
-        80
+        120
     ],
     "editor.renderWhitespace": "trailing",
     "terminal.integrated.defaultProfile.windows": "Command Prompt",
