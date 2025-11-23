@@ -278,10 +278,15 @@ class HTMLRotationExtractor:
                 # Check if skill is cancelled and if cancellation is allowed for this skill
                 if "rot-cancelled" in class_attr:
                     if skill_name in self.cancellation_allowed_skills:
-                        reason = self.cancellation_allowed_skills[skill_name]  # type: ignore
                         self.logger.debug(
-                            f"Including cancelled skill {skill_name} (ID: {icon_id}) - {reason}",
+                            f"Including cancelled skill {skill_name} (ID: {icon_id})",
                         )
+                        if duration < 40.0:
+                            self.logger.debug(
+                                f"Skipping {skill_name} (ID: {icon_id}) - duration {duration}ms below 40ms threshold"
+                            )
+                            continue
+
                     else:
                         self.logger.debug(
                             f"Skipping cancelled skill: {skill_name} (ID: {icon_id})",
