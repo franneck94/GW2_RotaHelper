@@ -65,13 +65,6 @@
         1.0
       ],
       [
-        2.68,
-        103615,
-        46.0,
-        1,
-        1.0
-      ],
-      [
         2.726,
         103584,
         316.0,
@@ -842,13 +835,6 @@
         1.0
       ],
       [
-        56.558,
-        103615,
-        75.0,
-        1,
-        1.0
-      ],
-      [
         56.633,
         2479383,
         484.0,
@@ -1171,13 +1157,6 @@
         1.0
       ],
       [
-        77.679,
-        103615,
-        77.0,
-        1,
-        1.0
-      ],
-      [
         77.756,
         103584,
         320.0,
@@ -1216,13 +1195,6 @@
         80.871,
         103615,
         760.0,
-        1,
-        1.0
-      ],
-      [
-        81.631,
-        103615,
-        83.0,
         1,
         1.0
       ],
@@ -1286,13 +1258,6 @@
         85.951,
         103615,
         764.0,
-        1,
-        1.0
-      ],
-      [
-        86.715,
-        103615,
-        77.0,
         1,
         1.0
       ],
@@ -1403,12 +1368,6 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s103615": {
-      "name": "Spatial Surge",
-      "icon": "https://render.guildwars2.com/file/0F9E5C7DD5545290E3D41B5603FC0327EB9E6725/103615.png",
-      "traitProc": false,
-      "gearProc": false
-    },
     "s103584": {
       "name": "Mind Stab",
       "icon": "https://render.guildwars2.com/file/DA0126D7F32A973F4432E2070C0DB7252F561E90/103584.png",
@@ -1442,6 +1401,12 @@
     "s2479383": {
       "name": "Bladesong Sorrow",
       "icon": "https://render.guildwars2.com/file/EF9223543A66B8B5A8FD1C4BC4E7A218277C15C4/2479383.png",
+      "traitProc": false,
+      "gearProc": false
+    },
+    "s103615": {
+      "name": "Spatial Surge",
+      "icon": "https://render.guildwars2.com/file/0F9E5C7DD5545290E3D41B5603FC0327EB9E6725/103615.png",
       "traitProc": false,
       "gearProc": false
     },
