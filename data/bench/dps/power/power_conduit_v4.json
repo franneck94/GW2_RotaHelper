@@ -1519,11 +1519,11 @@
   },
   "buildMetadata": {
     "name": "Power Conduit",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "profession": "Revenant",
+    "elite_spec": "Revenant",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "manual:Power_Conduit",
+    "url": "https://snowcrows.com/builds/raids/revenant/power-conduit",
     "dps_report_url": "https://dps.report/nl9q-20251118-035108_golem"
   }
 }

@@ -22,6 +22,17 @@
     "html_file_path": "dps\\condition\\condition_antiquary_spear.html"
   },
   {
+    "name": "Inferno Evoker Specialized Elements",
+    "url": "https://snowcrows.com/builds/raids/elementalist/inferno-evoker-specialized-elements",
+    "benchmark_type": "dps",
+    "profession": "Elementalist",
+    "elite_spec": "Elementalist",
+    "build_type": "power",
+    "url_name": "inferno-evoker-specialized-elements",
+    "dps_report_url": "https://dps.report/Pt5x-20251118-143755_golem",
+    "html_file_path": "dps\\power\\inferno_evoker_specialized_elements.html"
+  },
+  {
     "name": "Condition Antiquary Scepter Dagger",
     "url": "https://snowcrows.com/builds/raids/thief/condition-antiquary-scepter-dagger",
     "benchmark_type": "dps",
@@ -51,7 +62,7 @@
     "elite_spec": "Revenant",
     "build_type": "condition",
     "url_name": "condition-conduit",
-    "dps_report_url": "https://dps.report/c1u8-20251108-235203_golem",
+    "dps_report_url": "https://dps.report/1puM-20251108-235203_golem",
     "html_file_path": "dps\\condition\\condition_conduit.html"
   },
   {
@@ -803,6 +814,17 @@
     "html_file_path": "dps\\power\\power_harbinger_greatsword_sword_sword.html"
   },
   {
+    "name": "Power Troubadour",
+    "url": "https://snowcrows.com/builds/raids/mesmer/power-troubadour",
+    "benchmark_type": "dps",
+    "profession": "Mesmer",
+    "elite_spec": "Mesmer",
+    "build_type": "power",
+    "url_name": "power-troubadour",
+    "dps_report_url": "https://dps.report/9Pfz-20251117-165436_golem",
+    "html_file_path": "dps\\power\\power_troubadour.html"
+  },
+  {
     "name": "Power Tempest",
     "url": "https://snowcrows.com/builds/raids/elementalist/power-tempest",
     "benchmark_type": "dps",
@@ -858,17 +880,6 @@
     "html_file_path": "dps\\power\\power_daredevil.html"
   },
   {
-    "name": "Power Troubadour",
-    "url": "https://snowcrows.com/builds/raids/mesmer/power-troubadour",
-    "benchmark_type": "dps",
-    "profession": "Mesmer",
-    "elite_spec": "Mesmer",
-    "build_type": "power",
-    "url_name": "power-troubadour",
-    "dps_report_url": "https://dps.report/j0er-20251101-002010_golem",
-    "html_file_path": "dps\\power\\power_troubadour.html"
-  },
-  {
     "name": "Power Reaper",
     "url": "https://snowcrows.com/builds/raids/necromancer/power-reaper",
     "benchmark_type": "dps",
@@ -900,6 +911,17 @@
     "url_name": "power-mechanist-sword",
     "dps_report_url": "https://dps.report/DX0r-20251119-223007_golem",
     "html_file_path": "dps\\power\\power_mechanist_sword.html"
+  },
+  {
+    "name": "Power Conduit Greatsword Sword Sword",
+    "url": "https://snowcrows.com/builds/raids/revenant/power-conduit-greatsword-sword-sword",
+    "benchmark_type": "dps",
+    "profession": "Revenant",
+    "elite_spec": "Revenant",
+    "build_type": "power",
+    "url_name": "power-conduit-greatsword-sword-sword",
+    "dps_report_url": "https://dps.report/29dK-20251121-173850_golem",
+    "html_file_path": "dps\\power\\power_conduit_greatsword_sword_sword.html"
   },
   {
     "name": "Condition Tempest Scepter",
@@ -1670,27 +1692,5 @@
     "url_name": "celestial-alacrity-scourge",
     "dps_report_url": "https://dps.report/xICN-20250628-071219_golem",
     "html_file_path": "alac\\power\\celestial_alacrity_scourge.html"
-  },
-  {
-    "name": "Condition Conduit",
-    "url": "manual:Condition_Conduit",
-    "benchmark_type": "dps",
-    "profession": "Unknown",
-    "elite_spec": "",
-    "build_type": "condition",
-    "url_name": "condition_conduit",
-    "dps_report_url": "https://dps.report/InK1-20251112-194936_golem",
-    "html_file_path": "dps\\condition\\condition_conduit.html"
-  },
-  {
-    "name": "Power Conduit",
-    "url": "manual:Power_Conduit",
-    "benchmark_type": "dps",
-    "profession": "Unknown",
-    "elite_spec": "",
-    "build_type": "power",
-    "url_name": "power_conduit",
-    "dps_report_url": "https://dps.report/nl9q-20251118-035108_golem",
-    "html_file_path": "dps\\power\\power_conduit.html"
   }
 ]
