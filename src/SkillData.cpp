@@ -237,7 +237,6 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Dragon's Tooth",
     "Fire Shield",
     "Sand Squall",
-    "Signet of Fire",
     "Signet of Earth",
     "Dust Storm",
     // MESMER
