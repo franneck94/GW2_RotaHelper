@@ -132,6 +132,7 @@ const std::set<std::string_view> special_substr_to_gray_out = {
     "Photon Forge",
     "Holoforge",
     "-Storm",
+    "Rifle Burst Grenade",
     // RANGER
     "Blood Moon",
     // THIEF
@@ -174,6 +175,8 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Flame Blast",
     "Air Blast",
     "Overcharged Shot",
+    "Mine Field",
+    "Reconstruction Field",
     "Superconducting Signet",
     "Overclock Signet",
     "Lightning Rod",
@@ -234,6 +237,9 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Dragon's Tooth",
     "Fire Shield",
     "Sand Squall",
+    "Signet of Fire",
+    "Signet of Earth",
+    "Dust Storm",
     // MESMER
     "Signet of Domination",
     "Signet of Midnight",
@@ -320,6 +326,7 @@ const std::set<std::string_view> special_substr_to_remove_duplicates = {
     "Twilight Combo",
     "Death Blossom",
     "Beguiling Haze",
+    "Overcharged Shot",
 };
 
 const std::set<std::string_view> easy_mode_drop_match = {
@@ -425,7 +432,7 @@ const std::map<SkillID, float> skill_cast_time_map = {
     {SkillID::SCORCHED_EARTH, 3.25f},   // warrior lb f1
     {SkillID::OVERLOAD_AIR, 4.0f},      // ele tempest f1 air
     {SkillID::OVERLOAD_FIRE, 4.0f},     // ele tempest f1 fire
-    {SkillID::FLAMESTRIKE, 0.9f},       // ele scepter 1 fire
+    {SkillID::FLAMESTRIKE, 0.75f},       // ele scepter 1 fire
     {SkillID::SCORCHING_SHOT, 0.5f},    // ele earth pistol 1
     {SkillID::PIERCING_PEBBLE, 0.5f},   // ele fire pistol 1
     {SkillID::RIFT_SLASH, 0.5f},        // rev sword 1
@@ -434,7 +441,7 @@ const std::map<SkillID, float> skill_cast_time_map = {
     {SkillID::AMPLIFYING_SLICE, 0.5f},  // engi spear 1
     {SkillID::CONDUIT_SURGE, 0.5f},     // engi spear 2
     {SkillID::LIGHTNING_ROD, 0.5f},     // engi spear 3
-    {SkillID::ORB_OF_WRATH, 0.5f},     //
+    {SkillID::ORB_OF_WRATH, 0.5f},     // gaurd scepter 1
 };
 
 const std::map<SkillID, float> grey_skill_cast_time_map = {

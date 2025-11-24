@@ -281,7 +281,7 @@ class HTMLRotationExtractor:
                         self.logger.debug(
                             f"Including cancelled skill {skill_name} (ID: {icon_id})",
                         )
-                        if skill_name == "Spatial Surge" and duration < 200.0:
+                        if skill_name == "Spatial Surge" and duration < 300.0:
                             self.logger.debug(
                                 f"Skipping {skill_name} (ID: {icon_id}) - duration {duration}ms below 40ms threshold"
                             )
