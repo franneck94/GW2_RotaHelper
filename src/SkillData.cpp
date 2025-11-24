@@ -237,7 +237,6 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Dragon's Tooth",
     "Fire Shield",
     "Sand Squall",
-    "Signet of Earth",
     "Dust Storm",
     // MESMER
     "Signet of Domination",
@@ -300,6 +299,22 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Orders from Above",
 };
 
+const std::map<std::string_view, std::set<std::string_view>> class_map_special_match_to_gray_out = {
+    {
+        "Power Tempest",
+        {
+            "Ride the Lightning",
+        },
+    },
+    {
+        "Condition Weaver Scepter",
+        {
+            "Signet of Earth",
+            "Signet of Fire",
+        },
+    },
+};
+
 const std::set<std::string_view> special_substr_to_remove_duplicates = {
     "Rushing Justice",
     "Devastator",
@@ -356,11 +371,11 @@ const SkillRules skill_rules = SkillRules{
     special_match_to_gray_out,
     special_substr_to_remove_duplicates,
     easy_mode_drop_match,
+    class_map_special_match_to_gray_out,
 };
 
 const std::set<SkillID> skills_to_not_track = {
     SkillID::RIFLE_BURST_GRENADE,
-    SkillID::LIGHTNING_STRIKE,
 };
 
 const std::map<SkillID, SkillID> special_mapping_skills = {
@@ -431,7 +446,7 @@ const std::map<SkillID, float> skill_cast_time_map = {
     {SkillID::SCORCHED_EARTH, 3.25f},   // warrior lb f1
     {SkillID::OVERLOAD_AIR, 4.0f},      // ele tempest f1 air
     {SkillID::OVERLOAD_FIRE, 4.0f},     // ele tempest f1 fire
-    {SkillID::FLAMESTRIKE, 0.75f},       // ele scepter 1 fire
+    {SkillID::FLAMESTRIKE, 0.75f},      // ele scepter 1 fire
     {SkillID::SCORCHING_SHOT, 0.5f},    // ele earth pistol 1
     {SkillID::PIERCING_PEBBLE, 0.5f},   // ele fire pistol 1
     {SkillID::RIFT_SLASH, 0.5f},        // rev sword 1
@@ -440,7 +455,7 @@ const std::map<SkillID, float> skill_cast_time_map = {
     {SkillID::AMPLIFYING_SLICE, 0.5f},  // engi spear 1
     {SkillID::CONDUIT_SURGE, 0.5f},     // engi spear 2
     {SkillID::LIGHTNING_ROD, 0.5f},     // engi spear 3
-    {SkillID::ORB_OF_WRATH, 0.5f},     // gaurd scepter 1
+    {SkillID::ORB_OF_WRATH, 0.5f},      // gaurd scepter 1
 };
 
 const std::map<SkillID, float> grey_skill_cast_time_map = {
@@ -448,7 +463,7 @@ const std::map<SkillID, float> grey_skill_cast_time_map = {
     {SkillID::RUSHING_JUSTICE, 0.5f},
     {SkillID::SYMBOL_OF_PUNISHMENT, 0.25f},
     {SkillID::FLOWING_RESOLVE, 0.5f},
-    {SkillID::JURISDICTION, 0.75f},     //
+    {SkillID::JURISDICTION, 0.75f}, //
     // MESMER
     {SkillID::PHANTASMAL_BERSERKER, 0.75f},
     {SkillID::SIGNET_OF_THE_ETHER, 1.0f},

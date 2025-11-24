@@ -103,7 +103,13 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "power_virtuoso_spear_greatsword",
     "power_virtuoso_dagger_sword_greatsword",
     "power_virtuoso",
+    "power_tempest",
+    "power_tempest_inferno_scepter_dagger",
+    "inferno_tempest_scepter_dagger",
+    "power_chronomancer",
+    "power_troubadour",
     // POWER BOON BUILDS
+    "power_alacrity_tempest_inferno_scepter_focus",
     "power_quickness_herald",
     "power_boon_chronomancer",
     "power_alacrity_tempest_hammer",
@@ -140,15 +146,11 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
 
 static const inline std::set<std::string_view> green_tick_builds = {
     // POWER BUILDS
-    "power_troubadour",
     "power_berserker",
     "power_warrior",
     "power_spellbreaker",
-    "power_chronomancer",
     "power_berserker_axe_axe_axe_mace",
     "power_scrapper",
-    "power_tempest_inferno_scepter_dagger",
-    "power_tempest",
     "power_berserker_greatsword",
     "power_reaper",
     "power_reaper_greatsword_sword_sword",
@@ -165,7 +167,6 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_spellbreaker_hammer",
     "power_berserker_hammer_axe_mace",
     // POWER BOON BUILDS
-    "power_alacrity_tempest_inferno_scepter_focus",
     "power_quickness_herald_sword",
     "power_quickness_berserker",
     "power_alacrity_mechanist_sword",
@@ -184,11 +185,6 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "condition_quickness_harbinger",
     "condition_alacrity_mechanist_1_kit",
     "condition_alacrity_mechanist",
-};
-
-static const inline std::set<std::string_view> starred_builds = {
-    // POWER BUILDS
-    // POWER BOON BUILDS
 };
 
 bool IsVersionIsRange(const std::string version,
@@ -1037,7 +1033,6 @@ void RenderType::render_selection()
 
                     auto base_formatted_name = std::string{};
                     auto formatted_name_item = std::string{};
-                    auto is_starred = false;
                     auto is_red_crossed = false;
                     auto is_green_ticked = false;
                     auto is_orange_crossed = false;
@@ -1067,10 +1062,8 @@ void RenderType::render_selection()
 
                         base_formatted_name = format_build_name(file_info->display_name);
 
-                        is_starred = IsInBuildCategory(file_info->display_name, starred_builds);
-                        is_red_crossed =
-                            !is_starred && (IsInBuildCategory(file_info->display_name, red_crossed_builds) ||
-                                            file_info->display_name.find("antiquary") != std::string::npos);
+                        is_red_crossed = (IsInBuildCategory(file_info->display_name, red_crossed_builds) ||
+                                          file_info->display_name.find("antiquary") != std::string::npos);
                         is_orange_crossed =
                             !is_red_crossed && (IsInBuildCategory(file_info->display_name, orange_crossed_builds) ||
                                                 file_info->display_name.find("daredevil") != std::string::npos ||
@@ -1080,17 +1073,13 @@ void RenderType::render_selection()
                         is_yellow_ticked =
                             !is_green_ticked && IsInBuildCategory(file_info->display_name, yellow_tick_builds);
 
-                        is_untested = !is_green_ticked && !is_green_ticked && !is_red_crossed && !is_starred &&
-                                      !is_orange_crossed && !is_yellow_ticked;
+                        is_untested = !is_green_ticked && !is_green_ticked && !is_red_crossed && !is_orange_crossed &&
+                                      !is_yellow_ticked;
 
                         formatted_name_item = base_formatted_name + "##" + build_type_postdic;
                     }
 
-                    if (is_starred)
-                    {
-                        render_star_and_text(is_selected, original_index, file_info, base_formatted_name);
-                    }
-                    else if (is_red_crossed)
+                    if (is_red_crossed)
                     {
                         render_red_cross_and_text(is_selected, original_index, file_info, base_formatted_name);
                     }

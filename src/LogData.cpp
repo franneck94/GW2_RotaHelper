@@ -246,6 +246,19 @@ bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_r
     const auto is_substr_gray_out = is_skill_in_set(skill_data.name, skill_rules.special_substr_to_gray_out);
     const auto is_match_gray_out = is_skill_in_set(skill_data.name, skill_rules.special_match_to_gray_out, true);
 
+    if (Globals::Render.formatted_name != "Select...")
+    {
+        const auto class_name = Globals::Render.formatted_name;
+        const auto class_it = skill_rules.class_map_special_match_to_gray_out.find(class_name);
+        if (class_it != skill_rules.class_map_special_match_to_gray_out.end())
+        {
+            const auto &class_special_set = class_it->second;
+            const auto is_class_special_gray_out = is_skill_in_set(skill_data.name, class_special_set, true);
+            if (is_class_special_gray_out)
+                return true;
+        }
+    }
+
     if (is_substr_gray_out || is_match_gray_out)
         return true;
 
