@@ -315,13 +315,13 @@ const std::set<SkillID> special_match_to_gray_out = {
 
 const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_gray_out = {
     {
-        "Power Tempest",
+        "power_tempest_v4",
         {
             SkillID::RIDE_THE_LIGHTNING,
         },
     },
     {
-        "Condition Weaver Scepter",
+        "condition_weaver_scepter_v4",
         {
             SkillID::SIGNET_OF_EARTH,
             SkillID::SIGNET_OF_FIRE,
@@ -331,7 +331,7 @@ const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_g
 
 const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_drop_match = {
     {
-        "Condition Weaver Scepter",
+        "condition_weaver_scepter_v4",
         {
             SkillID::FLAMESTRIKE,
         },
@@ -340,8 +340,6 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_drop_mat
 
 const std::set<std::string_view> special_substr_to_remove_duplicates_names = {
     "Offensive Protocol: Demolish",
-    "Legendary Entity Stance",
-    "Legendary Alliance Stance",
     "Dodge",
     "Wolf's Onslaught",
 };
