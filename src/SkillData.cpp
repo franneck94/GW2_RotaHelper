@@ -328,32 +328,41 @@ const std::set<std::string_view> special_substr_to_remove_duplicates_names = {
     "Offensive Protocol: Demolish",
     "Legendary Entity Stance",
     "Legendary Alliance Stance",
-    "Legendary Alliance",
-    "Legendary Renegade Stance",
-    "Legendary Demon Stance",
-    "Legendary Dwarf Stance",
-    "Legendary Centaur Stance",
-    "Legendary Assassin Stance",
-    "Legendary Dragon Stance",
     "Dodge",
     "Wolf's Onslaught",
 };
 
 const std::set<SkillID> special_substr_to_remove_duplicates = {
-    SkillID::RUSHING_JUSTICE,
-    SkillID::DEVASTATOR,
-    SkillID::SIGNET_OF_FURY,
+    // REVENANT
+    SkillID::LEGENDARY_ALLIANCE,
+    SkillID::LEGENDARY_ALLIANCE_STANCE,
+    SkillID::LEGENDARY_ASSASSIN_STANCE,
+    SkillID::LEGENDARY_CENTAUR_STANCE,
+    SkillID::LEGENDARY_DEMON_STANCE,
+    SkillID::LEGENDARY_DRAGON_STANCE,
+    SkillID::LEGENDARY_DWARF_STANCE,
+    SkillID::LEGENDARY_ENTITY_STANCE,
+    SkillID::LEGENDARY_RENEGADE_STANCE,
+    SkillID::LEGENDARY_RENEGADE_STANCE_1,
     SkillID::ABYSSAL_BLITZ,
-    SkillID::DEATHSTRIKE,
-    SkillID::WOLF_S_ONSLAUGHT,
-    SkillID::UNLEASHED_OVERBEARING_SMASH,
+    // GUARDIAN
+    SkillID::RUSHING_JUSTICE,
+    // ENGINEER
+    SkillID::DEVASTATOR,
+    SkillID::OVERCHARGED_SHOT,
+    // MESMER
     SkillID::JAUNT,
     SkillID::CRY_OF_FRUSTRATION,
+    // RANGER
+    SkillID::WOLF_S_ONSLAUGHT,
+    // NA
+    SkillID::SIGNET_OF_FURY,
+    SkillID::DEATHSTRIKE,
+    SkillID::UNLEASHED_OVERBEARING_SMASH,
     SkillID::ARCANE_BLAST,
     SkillID::TWILIGHT_COMBO,
     SkillID::DEATH_BLOSSOM,
     SkillID::BEGUILING_HAZE,
-    SkillID::OVERCHARGED_SHOT,
 };
 
 const std::set<std::string_view> easy_mode_drop_match_name = {
@@ -432,10 +441,14 @@ const std::set<SkillID> mesmer_weapon_4_skills = {
 };
 
 const std::set<SkillID> reset_like_skill = {
+    // WARRRIOR
     SkillID::CRUSHING_BLOW,
+    // ENGINEER
     SkillID::REFRACTION_CUTTER,
     SkillID::REFRACTION_CUTTER_1,
+    // MESMER
     SkillID::MIND_THE_GAP,
+    // ELEMENTALIST
     SkillID::OVERLOAD_AIR,
     SkillID::OVERLOAD_FIRE,
     SkillID::OVERLOAD_WATER,
@@ -489,7 +502,7 @@ const std::map<SkillID, float> grey_skill_cast_time_map = {
     {SkillID::FLAME_BLAST, 0.10f}, // NOTE: lower than real
     {SkillID::NAPALM, 2.0f},       // NOTE: lower than real
     {SkillID::SUPERCONDUCTING_SIGNET, 0.75f},
-    {SkillID::DEVASTATOR, 1.0f}, // XXX: differs from real cast time, fix this when skill is not shown double anymore
+    {SkillID::DEVASTATOR, 1.0f}, // XXX: Check if it works
 };
 
 SkillData GetDataByID(const SkillID skill_id, const SkillDataMap &skill_data_map)
