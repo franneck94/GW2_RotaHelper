@@ -343,6 +343,7 @@ struct SkillRules
     const std::set<std::string_view> &special_substr_to_remove_duplicates;
     const std::set<std::string_view> &easy_mode_drop_match;
     const std::map<std::string_view, std::set<std::string_view>> &class_map_special_match_to_gray_out;
+    const std::map<std::string_view, std::set<std::string_view>> &class_map_easy_mode_drop_match;
 };
 
 enum class DownloadState : uint8_t
@@ -354,7 +355,6 @@ enum class DownloadState : uint8_t
     NO_UPDATE_NEEDED,
 };
 
-// TODO: Add timers "time_of_last_*_check" to this struct
 struct RotaSkillWindow
 {
     RotationStep curr_rota_skill;

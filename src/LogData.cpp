@@ -229,8 +229,18 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
 
     if (Settings::EasySkillMode && !drop_skill)
     {
-        const auto is_exact_easy_mode_drop_match =
-            is_skill_in_set(skill_data.name, skill_rules.easy_mode_drop_match, true);
+        auto is_exact_easy_mode_drop_match = is_skill_in_set(skill_data.name, skill_rules.easy_mode_drop_match, true);
+
+        if (Globals::Render.formatted_name != "Select...")
+        {
+            const auto class_name = Globals::Render.formatted_name;
+            const auto class_it = skill_rules.class_map_easy_mode_drop_match.find(class_name);
+            if (class_it != skill_rules.class_map_easy_mode_drop_match.end())
+            {
+                const auto &class_special_set = class_it->second;
+                is_exact_easy_mode_drop_match = is_skill_in_set(skill_data.name, class_special_set, true);
+            }
+        }
 
         drop_skill = is_exact_easy_mode_drop_match;
     }

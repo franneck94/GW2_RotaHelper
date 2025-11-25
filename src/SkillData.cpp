@@ -315,6 +315,15 @@ const std::map<std::string_view, std::set<std::string_view>> class_map_special_m
     },
 };
 
+const std::map<std::string_view, std::set<std::string_view>> class_map_easy_mode_drop_match = {
+    {
+        "Condition Weaver Scepter",
+        {
+            "Flamestrike",
+        },
+    },
+};
+
 const std::set<std::string_view> special_substr_to_remove_duplicates = {
     "Rushing Justice",
     "Devastator",
@@ -372,6 +381,7 @@ const SkillRules skill_rules = SkillRules{
     special_substr_to_remove_duplicates,
     easy_mode_drop_match,
     class_map_special_match_to_gray_out,
+    class_map_easy_mode_drop_match,
 };
 
 const std::set<SkillID> skills_to_not_track = {
