@@ -238,7 +238,7 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
             if (class_it != skill_rules.class_map_easy_mode_drop_match.end())
             {
                 const auto &class_special_set = class_it->second;
-                is_exact_easy_mode_drop_match = is_skill_in_set(skill_data.name, class_special_set, true);
+                is_exact_easy_mode_drop_match = is_skill_in_set(skill_data.skill_id, class_special_set, true);
             }
         }
 
@@ -263,7 +263,7 @@ bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_r
         if (class_it != skill_rules.class_map_special_match_to_gray_out.end())
         {
             const auto &class_special_set = class_it->second;
-            const auto is_class_special_gray_out = is_skill_in_set(skill_data.name, class_special_set, true);
+            const auto is_class_special_gray_out = is_skill_in_set(skill_data.skill_id, class_special_set, true);
             if (is_class_special_gray_out)
                 return true;
         }

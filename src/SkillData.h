@@ -42,9 +42,9 @@ extern const std::map<SkillID, float> skill_cast_time_map;
 
 extern const std::map<SkillID, float> grey_skill_cast_time_map;
 
-extern const std::map<std::string_view, std::set<std::string_view>> class_map_special_match_to_gray_out;
+extern const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_gray_out;
 
-extern const std::map<std::string_view, std::set<std::string_view>> class_map_special_match_to_gray_out;
+extern const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_gray_out;
 
 SkillData GetDataByID(const SkillID skill_id, const SkillDataMap &skill_data_map);
 

@@ -299,27 +299,27 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Orders from Above",
 };
 
-const std::map<std::string_view, std::set<std::string_view>> class_map_special_match_to_gray_out = {
+const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_gray_out = {
     {
         "Power Tempest",
         {
-            "Ride the Lightning",
+            SkillID::RIDE_THE_LIGHTNING,
         },
     },
     {
         "Condition Weaver Scepter",
         {
-            "Signet of Earth",
-            "Signet of Fire",
+            SkillID::SIGNET_OF_EARTH,
+            SkillID::SIGNET_OF_FIRE,
         },
     },
 };
 
-const std::map<std::string_view, std::set<std::string_view>> class_map_easy_mode_drop_match = {
+const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_drop_match = {
     {
         "Condition Weaver Scepter",
         {
-            "Flamestrike",
+            SkillID::FLAMESTRIKE,
         },
     },
 };
@@ -362,7 +362,6 @@ const std::set<std::string_view> easy_mode_drop_match = {
     "Rolling Smash",
     "Barrier Burst",
     "Crisis Zone",
-    "Power Spike",
     "Discharge Array",
     // REVENANT
     "Abyssal Strike",
