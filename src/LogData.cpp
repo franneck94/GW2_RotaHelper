@@ -229,7 +229,8 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
 
     if (Settings::EasySkillMode && !drop_skill)
     {
-        auto is_exact_easy_mode_drop_match = is_skill_in_set(skill_data.name, skill_rules.easy_mode_drop_match, true);
+        auto is_exact_easy_mode_drop_match = is_skill_in_set(skill_data.name, skill_rules.easy_mode_drop_match_name, true) ||
+                                             is_skill_in_set(skill_data.skill_id, skill_rules.easy_mode_drop_match);
 
         if (Globals::Render.formatted_name != "Select...")
         {
@@ -238,7 +239,7 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
             if (class_it != skill_rules.class_map_easy_mode_drop_match.end())
             {
                 const auto &class_special_set = class_it->second;
-                is_exact_easy_mode_drop_match = is_skill_in_set(skill_data.skill_id, class_special_set, true);
+                is_exact_easy_mode_drop_match = is_skill_in_set(skill_data.skill_id, class_special_set);
             }
         }
 
@@ -263,7 +264,7 @@ bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_r
         if (class_it != skill_rules.class_map_special_match_to_gray_out.end())
         {
             const auto &class_special_set = class_it->second;
-            const auto is_class_special_gray_out = is_skill_in_set(skill_data.skill_id, class_special_set, true);
+            const auto is_class_special_gray_out = is_skill_in_set(skill_data.skill_id, class_special_set);
             if (is_class_special_gray_out)
                 return true;
         }

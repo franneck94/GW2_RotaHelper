@@ -352,7 +352,7 @@ const std::set<std::string_view> special_substr_to_remove_duplicates = {
     "Overcharged Shot",
 };
 
-const std::set<std::string_view> easy_mode_drop_match = {
+const std::set<std::string_view> easy_mode_drop_match_name = {
     // ENGINEER
     "Sky Circus",
     "Spark Revolver",
@@ -363,11 +363,14 @@ const std::set<std::string_view> easy_mode_drop_match = {
     "Barrier Burst",
     "Crisis Zone",
     "Discharge Array",
+};
+
+const std::set<SkillID> easy_mode_drop_match = {
     // REVENANT
-    "Abyssal Strike",
-    "Abyssal Fire",
+    SkillID::ABYSSAL_STRIKE,
+    SkillID::ABYSSAL_FIRE,
     // MESMER
-    "Power Spike",
+    SkillID::POWER_SPIKE,
 };
 
 const SkillRules skill_rules = SkillRules{
@@ -378,6 +381,7 @@ const SkillRules skill_rules = SkillRules{
     special_substr_to_gray_out,
     special_match_to_gray_out,
     special_substr_to_remove_duplicates,
+    easy_mode_drop_match_name,
     easy_mode_drop_match,
     class_map_special_match_to_gray_out,
     class_map_easy_mode_drop_match,
