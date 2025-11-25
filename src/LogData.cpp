@@ -256,7 +256,9 @@ bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_r
         return true;
 
     const auto is_substr_gray_out = is_skill_in_set(skill_data.name, skill_rules.special_substr_to_gray_out);
-    const auto is_match_gray_out = is_skill_in_set(skill_data.name, skill_rules.special_match_to_gray_out, true);
+    const auto is_match_gray_out =
+        is_skill_in_set(skill_data.name, skill_rules.special_match_to_gray_out_names, true) ||
+        is_skill_in_set(skill_data.skill_id, skill_rules.special_match_to_gray_out);
 
     if (Globals::Render.formatted_name != "Select...")
     {

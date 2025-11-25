@@ -20,7 +20,9 @@ extern const std::set<std::string_view> skills_match_to_drop;
 
 extern const std::set<std::string_view> special_substr_to_gray_out;
 
-extern const std::set<std::string_view> special_match_to_gray_out;
+extern const std::set<std::string_view> special_match_to_gray_out_names;
+
+extern const std::set<SkillID> special_match_to_gray_out;
 
 extern const std::set<std::string_view> special_substr_to_remove_duplicates_names;
 

@@ -36,6 +36,9 @@ const std::set<std::string_view> skills_match_weapon_swap_like = {
     // GUARDIAN
     // WARRIOR
     "Berserk",
+    "Sheathe Gunsaber",
+    "Unsheathe Gunsaber",
+    "Arcing Slice",
     // ENGINEER
     "Flamethrower",
     "Elixir Gun",
@@ -146,40 +149,18 @@ const std::set<std::string_view> special_substr_to_gray_out = {
     // REVENANT
 };
 
-const std::set<std::string_view> special_match_to_gray_out = {
+const std::set<std::string_view> special_match_to_gray_out_names = {
     "Dodge",
     // GUARDIAN
     "Zealot's Flame",
-    "Rushing Justice",
-    "Symbol of Punishment",
-    "Flowing Resolve",
-    "Jurisdiction",
     // WARRIOR
-    "Sheathe Gunsaber",
-    "Unsheathe Gunsaber",
-    "Dragon Trigger",
-    "Flow Stabilizer",
-    "Overcharged Cartridges",
-    "Tactical Reload",
-    "Arcing Slice",
-    "Blood Reckoning",
-    "Outrage",
     "Chant of Action",
-    "Signet of Fury",
-    "Signet of Might",
-    "Signet of Rage",
-    "Berserk",
     "Flames of War",
     // ENGINEER
-    "Devastator",
     "Flame Blast",
     "Air Blast",
-    "Overcharged Shot",
     "Mine Field",
     "Reconstruction Field",
-    "Superconducting Signet",
-    "Overclock Signet",
-    "Lightning Rod",
     "Spark Revolver",
     "Core Reactor Shot",
     "Jade Mortar",
@@ -187,12 +168,8 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Rolling Smash",
     "Discharge Array",
     "Sky Circus",
-    "Radiant Arc",
     "Barrier Burst",
     "Crisis Zone",
-    "Napalm",
-    "Glue Shot",
-    "Acid Bomb",
     "Offensive Protocol: Obliterate",
     "Offensive Protocol: Demolish",
     "Evolve",
@@ -207,13 +184,8 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Path of Scars",
     "Rending Vines",
     "Enveloping Haze",
-    "Flame Trap",
-    "Frost Trap",
     "Venomous Outburst",
     "\"Sic 'Em!\"",
-    "Sharpening Stone",
-    "Sun Spirit",
-    "Entangle",
     "Viper's Nest",
     "Seed of Life",
     "Lunar Impact",
@@ -230,21 +202,9 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Skritt Scuffle",
     "Harrowing Storm",
     // ELEMENTALIST
-    "Earthquake",
-    "Fire Shield",
-    "Signet of Restoration",
     "Flame Barrage",
     "Dragon's Tooth",
-    "Fire Shield",
-    "Sand Squall",
-    "Dust Storm",
     // MESMER
-    "Signet of Domination",
-    "Signet of Midnight",
-    "Signet of Inspiration",
-    "Signet of Illusions",
-    "Signet of the Ether",
-    "Jaunt",
     "Crystal Sands",
     "Bladesong Sorrow",
     "Phantasmal Warden",
@@ -257,8 +217,6 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Continuum Split",
     "Continuum Shift",
     "Time Sink",
-    "Phantasmal Berserker",
-    "Phantasmal Lancer",
     // NECROMANCER
     "Plague Signet",
     "Elixir of Promise",
@@ -272,7 +230,6 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Distress",
     "Death's Charge",
     "Perforate",
-    "Grasping Dark",
     "\"You Are All Weaklings!\"",
     "Haunt",
     "Plaguelands",
@@ -297,6 +254,63 @@ const std::set<std::string_view> special_match_to_gray_out = {
     "Facet of Strength",
     "Relinquish Power",
     "Orders from Above",
+};
+
+const std::set<SkillID> special_match_to_gray_out = {
+    // GUARDIAN
+    SkillID::ZEALOT_S_FLAME,
+    SkillID::RUSHING_JUSTICE,
+    SkillID::SYMBOL_OF_PUNISHMENT,
+    SkillID::FLOWING_RESOLVE,
+    SkillID::JURISDICTION,
+    // WARRIOR
+    SkillID::DRAGON_TRIGGER,
+    SkillID::FLOW_STABILIZER,
+    SkillID::TACTICAL_RELOAD,
+    SkillID::SIGNET_OF_FURY,
+    SkillID::SIGNET_OF_MIGHT,
+    SkillID::SIGNET_OF_RAGE,
+    SkillID::BERSERK,
+    SkillID::BLOOD_RECKONING,
+    SkillID::OUTRAGE,
+    SkillID::OVERCHARGED_CARTRIDGES,
+    SkillID::ARCING_SLICE,
+    // ENGINEER
+    SkillID::DEVASTATOR,
+    SkillID::FLAME_BLAST,
+    SkillID::AIR_BLAST,
+    SkillID::OVERCHARGED_SHOT,
+    SkillID::SUPERCONDUCTING_SIGNET,
+    SkillID::OVERCLOCK_SIGNET,
+    SkillID::LIGHTNING_ROD,
+    SkillID::RADIANT_ARC,
+    SkillID::NAPALM,
+    SkillID::GLUE_SHOT,
+    SkillID::ACID_BOMB,
+    // RANGER
+    SkillID::FLAME_TRAP,
+    SkillID::FROST_TRAP,
+    SkillID::SIC_EM,
+    SkillID::SHARPENING_STONE,
+    SkillID::SUN_SPIRIT,
+    SkillID::ENTANGLE,
+    // ELEMENTALIST
+    SkillID::EARTHQUAKE,
+    SkillID::FIRE_SHIELD,
+    SkillID::SIGNET_OF_RESTORATION,
+    SkillID::SAND_SQUALL,
+    SkillID::DUST_STORM,
+    // MESMER
+    SkillID::SIGNET_OF_DOMINATION,
+    SkillID::SIGNET_OF_MIDNIGHT,
+    SkillID::SIGNET_OF_INSPIRATION,
+    SkillID::SIGNET_OF_ILLUSIONS,
+    SkillID::SIGNET_OF_THE_ETHER,
+    SkillID::JAUNT,
+    SkillID::PHANTASMAL_BERSERKER,
+    SkillID::PHANTASMAL_LANCER,
+    // REVENANT
+    SkillID::ABYSSAL_BLITZ,
 };
 
 const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_gray_out = {
@@ -355,8 +369,9 @@ const std::set<SkillID> special_substr_to_remove_duplicates = {
     SkillID::CRY_OF_FRUSTRATION,
     // RANGER
     SkillID::WOLF_S_ONSLAUGHT,
-    // NA
+    // WARRIOR
     SkillID::SIGNET_OF_FURY,
+    // NA
     SkillID::DEATHSTRIKE,
     SkillID::UNLEASHED_OVERBEARING_SMASH,
     SkillID::ARCANE_BLAST,
@@ -392,6 +407,7 @@ const SkillRules skill_rules = SkillRules{
     skills_substr_to_drop,
     skills_match_to_drop,
     special_substr_to_gray_out,
+    special_match_to_gray_out_names,
     special_match_to_gray_out,
     special_substr_to_remove_duplicates_names,
     special_substr_to_remove_duplicates,
