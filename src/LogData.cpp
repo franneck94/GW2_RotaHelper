@@ -229,8 +229,9 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
 
     if (Settings::EasySkillMode && !drop_skill)
     {
-        auto is_exact_easy_mode_drop_match = is_skill_in_set(skill_data.name, skill_rules.easy_mode_drop_match_name, true) ||
-                                             is_skill_in_set(skill_data.skill_id, skill_rules.easy_mode_drop_match);
+        auto is_exact_easy_mode_drop_match =
+            is_skill_in_set(skill_data.name, skill_rules.easy_mode_drop_match_name, true) ||
+            is_skill_in_set(skill_data.skill_id, skill_rules.easy_mode_drop_match);
 
         if (Globals::Render.formatted_name != "Select...")
         {
@@ -380,7 +381,10 @@ void get_rotation_info(const IntNode &node,
                 const auto is_special_skill = get_is_special_skill(skill_data, SkillRuleData::skill_rules);
 
                 const auto is_duplicate_skill =
-                    is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.special_substr_to_remove_duplicates);
+                    is_skill_in_set(skill_data.name,
+                                    SkillRuleData::skill_rules.special_substr_to_remove_duplicates_names) ||
+                    is_skill_in_set(skill_data.skill_id,
+                                    SkillRuleData::skill_rules.special_substr_to_remove_duplicates);
 
                 auto was_there_previous = false;
                 if (!all_rotation_steps.empty())

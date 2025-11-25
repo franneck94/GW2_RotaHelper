@@ -324,12 +324,8 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_drop_mat
     },
 };
 
-const std::set<std::string_view> special_substr_to_remove_duplicates = {
-    "Rushing Justice",
-    "Devastator",
-    "Signet of Fury",
+const std::set<std::string_view> special_substr_to_remove_duplicates_names = {
     "Offensive Protocol: Demolish",
-    "Abyssal Blitz",
     "Legendary Entity Stance",
     "Legendary Alliance Stance",
     "Legendary Alliance",
@@ -339,17 +335,25 @@ const std::set<std::string_view> special_substr_to_remove_duplicates = {
     "Legendary Centaur Stance",
     "Legendary Assassin Stance",
     "Legendary Dragon Stance",
-    "Deathstrike",
     "Dodge",
     "Wolf's Onslaught",
-    "Unleashed Overbearing Smash",
-    "Jaunt",
-    "Cry of Frustration",
-    "Arcane Blast",
-    "Twilight Combo",
-    "Death Blossom",
-    "Beguiling Haze",
-    "Overcharged Shot",
+};
+
+const std::set<SkillID> special_substr_to_remove_duplicates = {
+    SkillID::RUSHING_JUSTICE,
+    SkillID::DEVASTATOR,
+    SkillID::SIGNET_OF_FURY,
+    SkillID::ABYSSAL_BLITZ,
+    SkillID::DEATHSTRIKE,
+    SkillID::WOLF_S_ONSLAUGHT,
+    SkillID::UNLEASHED_OVERBEARING_SMASH,
+    SkillID::JAUNT,
+    SkillID::CRY_OF_FRUSTRATION,
+    SkillID::ARCANE_BLAST,
+    SkillID::TWILIGHT_COMBO,
+    SkillID::DEATH_BLOSSOM,
+    SkillID::BEGUILING_HAZE,
+    SkillID::OVERCHARGED_SHOT,
 };
 
 const std::set<std::string_view> easy_mode_drop_match_name = {
@@ -380,6 +384,7 @@ const SkillRules skill_rules = SkillRules{
     skills_match_to_drop,
     special_substr_to_gray_out,
     special_match_to_gray_out,
+    special_substr_to_remove_duplicates_names,
     special_substr_to_remove_duplicates,
     easy_mode_drop_match_name,
     easy_mode_drop_match,
