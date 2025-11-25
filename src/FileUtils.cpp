@@ -546,6 +546,7 @@ bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem:
             return exitCode == 0;
         }
 
+        (void)Globals::APIDefs->Log(ELogLevel_CRITICAL, "GW2RotaHelper", "Create Process Failed.");
         return false;
     }
     catch (...)
