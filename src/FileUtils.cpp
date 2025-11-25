@@ -536,6 +536,7 @@ bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem:
                            &si,
                            &pi))
         {
+            (void)Globals::APIDefs->Log(ELogLevel_INFO, "GW2RotaHelper", "Started ZIP extraction.");
             WaitForSingleObject(pi.hProcess, 30000); // Wait max 30 seconds
             DWORD exitCode;
             GetExitCodeProcess(pi.hProcess, &exitCode);
@@ -565,6 +566,7 @@ void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath)
 
             auto temp_zip_path = addonPath / "temp_GW2RotaHelper.zip";
             auto extract_path = addonPath.parent_path(); // Extract one level above
+            (void)Globals::APIDefs->Log(ELogLevel_INFO, "GW2RotaHelper", "Started Download Thread.");
 
             if (DownloadFile(data_url, temp_zip_path))
             {
