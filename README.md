@@ -78,6 +78,12 @@ C:\Users\XXX\Documents\Guild Wars 2\InputBinds
    <img src="./media/user_keybinds.png" alt="Example Screenshot" />
 </div>
 
+When the Keybind option is activated also the number of an auto attack in aa-chain is shown:
+
+<div align="left" style="margin-left:50px;">
+   <img src="./media/aa_chain.png" alt="Example Screenshot" />
+</div>
+
 ##### Copy to Clipboard
 
 You can copy the following data to the clipboard:

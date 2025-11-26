@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Features
 
 - Added option to show number of auto attacks in a chain (of at least 2 aa')
+  - Active when keybind option is active
 
 ### Improvements
 
