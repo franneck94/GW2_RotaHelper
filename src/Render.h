@@ -43,10 +43,6 @@ public:
                                    const int original_index,
                                    const BenchFileInfo *const &file_info,
                                    const std::string base_formatted_name);
-    void render_star_and_text(bool &is_selected,
-                              const int original_index,
-                              const BenchFileInfo *const &file_info,
-                              const std::string base_formatted_name);
     void render_tick_and_text(bool &is_selected,
                               const int original_index,
                               const BenchFileInfo *const &file_info,
