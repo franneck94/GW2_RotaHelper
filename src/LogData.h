@@ -37,6 +37,7 @@ public:
     void pop_bench_rotation_queue();
     std::tuple<int, int, size_t> get_current_rotation_indices() const;
     RotationStep get_rotation_skill(const size_t idx) const;
+    void calculate_auto_attack_indices();
     void restart_rotation();
     void reset_rotation();
     bool is_current_run_done() const;
@@ -47,4 +48,5 @@ public:
     RotationStepsList missing_rotation_steps;
     SkillDataMap skill_data_map;
     MetaData meta_data;
+    std::vector<int> auto_attack_indices;
 };

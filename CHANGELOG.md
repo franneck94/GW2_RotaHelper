@@ -7,12 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 0.17.0
 
+### Features
+
+- Added option to show number of auto attacks in a chain (of at least 2 aa')
+
 ### Improvements
 
 - Build Selection is now a scrollable
-- Added option to show number of auto attacks in a chain
 - Improved for Evoker and Catalyst
 - Fixed skill duplicates (multi hit skills)
+
+### Notes
+
+- Dropped Vertical Layout
+- Dropped names and times option (is now activated on default since its only shown when hovered over skill icons)
 
 ## 0.16.2 - 2025-11-25
 

@@ -432,13 +432,14 @@ void get_rotation_info(const IntNode &node,
     });
 
     all_rotation_steps.erase(
-        std::remove_if(all_rotation_steps.begin(), all_rotation_steps.end(),
+        std::remove_if(all_rotation_steps.begin(),
+                       all_rotation_steps.end(),
                        [](const RotationStep &step) {
                            const auto is_duplicate_skill =
                                is_skill_in_set(step.skill_data.name,
-                                              SkillRuleData::skill_rules.special_substr_to_remove_duplicates_names) ||
+                                               SkillRuleData::skill_rules.special_substr_to_remove_duplicates_names) ||
                                is_skill_in_set(step.skill_data.skill_id,
-                                              SkillRuleData::skill_rules.special_substr_to_remove_duplicates);
+                                               SkillRuleData::skill_rules.special_substr_to_remove_duplicates);
 
                            return is_duplicate_skill && !step.skill_data.is_auto_attack;
                        }),
@@ -766,11 +767,44 @@ SkillState get_skill_state(const RotationLogType &rotation_run,
     };
 }
 
+void RotationLogType::calculate_auto_attack_indices()
+{
+    const auto &all_steps = all_rotation_steps;
+    auto &indices = auto_attack_indices;
+
+    indices.clear();
+    indices.resize(all_steps.size(), 0);
+
+    for (size_t i = 0; i < all_steps.size(); ++i)
+    {
+        if (!all_steps[i].skill_data.is_auto_attack)
+            continue;
+
+        auto sequence_start = i;
+        while (sequence_start > 0 && all_steps[sequence_start - 1].skill_data.is_auto_attack)
+            sequence_start--;
+
+        auto sequence_end = i;
+        while (sequence_end < all_steps.size() - 1 && all_steps[sequence_end + 1].skill_data.is_auto_attack)
+            sequence_end++;
+
+        auto sequence_length = sequence_end - sequence_start + 1;
+        if (sequence_length > 1)
+        {
+            for (size_t j = sequence_start; j <= sequence_end; ++j)
+            {
+                indices[j] = static_cast<int>(j - sequence_start + 1);
+            }
+        }
+    }
+}
+
 void RotationLogType::load_data(const std::filesystem::path &json_path, const std::filesystem::path &img_path)
 {
     skill_data_map.clear();
     log_skill_info_map.clear();
     all_rotation_steps.clear();
+    auto_attack_indices.clear();
 
     auto jsons_skill_data = nlohmann::json{};
     const auto load_success = load_skill_data_map(json_path, jsons_skill_data);
@@ -785,6 +819,9 @@ void RotationLogType::load_data(const std::filesystem::path &json_path, const st
     meta_data = _meta_data;
 
     restart_rotation();
+
+    if (!all_rotation_steps.empty())
+        calculate_auto_attack_indices();
 
     futures = StartDownloadAllSkillIcons(log_skill_info_map, img_path);
     (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Loaded Rotation");
@@ -843,5 +880,6 @@ void RotationLogType::reset_rotation()
     missing_rotation_steps.clear();
     skill_data_map.clear();
     meta_data = MetaData{};
+    auto_attack_indices.clear();
     (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Resetted Rotation");
 }

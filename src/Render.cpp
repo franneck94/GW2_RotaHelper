@@ -375,53 +375,6 @@ float RenderType::calculate_centered_position(const std::vector<std::string> &it
     return (window_width - total_width) * 0.5f;
 }
 
-std::vector<int> RenderType::calculate_auto_attack_indices(int32_t start, int32_t end) const
-{
-    std::vector<int> auto_attack_indices(end - start + 1, 0);
-
-    // First pass: identify auto attack sequences and assign indices
-    for (int32_t window_idx = start; window_idx <= end; ++window_idx)
-    {
-        if (window_idx < 0 || static_cast<size_t>(window_idx) >= Globals::RotationRun.all_rotation_steps.size())
-            continue;
-
-        const auto &rotation_step = Globals::RotationRun.get_rotation_skill(static_cast<size_t>(window_idx));
-        if (rotation_step.skill_data.is_auto_attack)
-        {
-            // Find the start of this auto attack sequence
-            int32_t sequence_start = window_idx;
-            while (sequence_start > start && sequence_start >= 0)
-            {
-                const auto &prev_step =
-                    Globals::RotationRun.get_rotation_skill(static_cast<size_t>(sequence_start - 1));
-                if (prev_step.skill_data.is_auto_attack)
-                    sequence_start--;
-                else
-                    break;
-            }
-
-            // Calculate index position in the sequence (1-based)
-            int index_in_sequence = window_idx - sequence_start + 1;
-
-            // Count total sequence length to determine if we should show numbers
-            int32_t sequence_end = window_idx;
-            while (sequence_end < end &&
-                   sequence_end < static_cast<int32_t>(Globals::RotationRun.all_rotation_steps.size()))
-            {
-                const auto &next_step = Globals::RotationRun.get_rotation_skill(static_cast<size_t>(sequence_end + 1));
-                if (next_step.skill_data.is_auto_attack)
-                    sequence_end++;
-                else
-                    break;
-            }
-
-            int sequence_length = sequence_end - sequence_start + 1;
-            auto_attack_indices[window_idx - start] = index_in_sequence;
-        }
-    }
-    return auto_attack_indices;
-}
-
 void RenderType::render_debug_data()
 {
     ImGui::Separator();
@@ -549,29 +502,6 @@ void RenderType::render_xml_selection()
 
 void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
 {
-    const auto first_row_items = std::vector<std::string>{"Names", "Times", "Horizontal"};
-    const auto centered_pos_row_1 = calculate_centered_position(first_row_items);
-    ImGui::SetCursorPosX(centered_pos_row_1);
-
-    if (ImGui::Checkbox("Names", &Settings::ShowSkillName))
-    {
-        Settings::Save(Globals::SettingsPath);
-    }
-
-    ImGui::SameLine();
-
-    if (ImGui::Checkbox("Times", &Settings::ShowSkillTime))
-    {
-        Settings::Save(Globals::SettingsPath);
-    }
-
-    ImGui::SameLine();
-
-    if (ImGui::Checkbox("Horizontal", &Settings::HorizontalSkillLayout))
-    {
-        Settings::Save(Globals::SettingsPath);
-    }
-
     const auto second_row_items = std::vector<std::string>{
         "Move Skill UI",
         "Show Weapon Swaps",
@@ -1284,79 +1214,16 @@ void RenderType::render_rotation_window(const bool is_not_ui_adjust_active, ID3D
         curr_flags_rota &= ~ImGuiWindowFlags_NoResize;
     }
 
-    if (!Settings::HorizontalSkillLayout)
+    if (ImGui::Begin("##GW2RotaHelper_Rota_Horizontal", &Settings::ShowWindow, curr_flags_rota))
     {
-        if (ImGui::Begin("##GW2RotaHelper_Rota_Details", &Settings::ShowWindow, curr_flags_rota))
-        {
-            const auto current_window_size = ImGui::GetWindowSize();
-            Globals::SkillIconSize = min(current_window_size.x * 0.15f, 80.0f);
-            Globals::SkillIconSize = max(Globals::SkillIconSize, 24.0f);
+        const auto current_window_size = ImGui::GetWindowSize();
+        Globals::SkillIconSize = min(current_window_size.y * 0.7f, 80.0f);
+        Globals::SkillIconSize = max(Globals::SkillIconSize, 24.0f);
 
-            render_rotation_details(pd3dDevice);
-        }
-    }
-    else
-    {
-        if (ImGui::Begin("##GW2RotaHelper_Rota_Horizontal", &Settings::ShowWindow, curr_flags_rota))
-        {
-            const auto current_window_size = ImGui::GetWindowSize();
-            Globals::SkillIconSize = min(current_window_size.y * 0.7f, 80.0f);
-            Globals::SkillIconSize = max(Globals::SkillIconSize, 24.0f);
-
-            render_rotation_horizontal(pd3dDevice);
-        }
+        render_rotation_horizontal(pd3dDevice);
     }
 
     ImGui::End();
-}
-
-void RenderType::render_rotation_details(ID3D11Device *pd3dDevice)
-{
-    ImGui::Spacing();
-    ImGui::Indent(10.0f);
-
-    const auto [start, end, current_idx] = Globals::RotationRun.get_current_rotation_indices();
-
-    const auto auto_attack_indices = calculate_auto_attack_indices(start, end);
-
-    for (int32_t window_idx = start; window_idx <= end; ++window_idx)
-    {
-        if (window_idx < 0 || static_cast<size_t>(window_idx) >= Globals::RotationRun.all_rotation_steps.size())
-            continue;
-
-        const auto &rotation_step = Globals::RotationRun.get_rotation_skill(static_cast<size_t>(window_idx));
-        const auto *texture = Globals::TextureMap[rotation_step.skill_data.icon_id];
-
-        const auto skill_state = get_skill_state(Globals::RotationRun,
-                                                 played_rotation,
-                                                 window_idx,
-                                                 current_idx,
-                                                 rotation_step.skill_data.is_auto_attack);
-
-        auto text = std::string{};
-        if ((!Settings::ShowSkillName && !Settings::ShowSkillTime))
-            text = "";
-        else
-            text = get_skill_text(rotation_step);
-
-        const int aa_index = auto_attack_indices[window_idx - start];
-        render_rotation_icons(skill_state, rotation_step, texture, text, pd3dDevice, aa_index);
-
-        if (!text.empty())
-            ImGui::SameLine();
-
-        if (!text.empty())
-        {
-            auto draw_list = ImGui::GetWindowDrawList();
-            auto text_pos = ImGui::GetCursorScreenPos();
-
-            draw_list->AddText(ImVec2(text_pos.x + 1, text_pos.y + 1), IM_COL32(0, 0, 0, 200), text.c_str());
-            draw_list->AddText(text_pos, ImGui::GetColorU32(ImGuiCol_Text), text.c_str());
-            ImGui::Dummy(ImGui::CalcTextSize(text.c_str()));
-        }
-    }
-
-    ImGui::Unindent(10.0f);
 }
 
 void RenderType::render_rotation_horizontal(ID3D11Device *pd3dDevice)
@@ -1365,9 +1232,6 @@ void RenderType::render_rotation_horizontal(ID3D11Device *pd3dDevice)
     ImGui::Indent(10.0f);
 
     const auto [start, end, current_idx] = Globals::RotationRun.get_current_rotation_indices();
-
-    // Count consecutive auto attacks for each position
-    const auto auto_attack_indices = calculate_auto_attack_indices(start, end);
 
     for (int32_t window_idx = start; window_idx <= end; ++window_idx)
     {
@@ -1384,7 +1248,10 @@ void RenderType::render_rotation_horizontal(ID3D11Device *pd3dDevice)
                                                  rotation_step.skill_data.is_auto_attack);
         const auto text = std::string{""};
 
-        const int aa_index = auto_attack_indices[window_idx - start];
+        // Get pre-calculated auto attack index
+        const int aa_index = (static_cast<size_t>(window_idx) < Globals::RotationRun.auto_attack_indices.size())
+                                 ? Globals::RotationRun.auto_attack_indices[window_idx]
+                                 : 0;
         render_rotation_icons(skill_state, rotation_step, texture, text, pd3dDevice, aa_index);
 
         ImGui::SameLine();
@@ -1457,12 +1324,9 @@ void RenderType::render_skill_texture(const RotationStep &rotation_step,
                  tint_color);
 
     if (Settings::ShowKeybind)
-    {
         render_keybind(rotation_step);
-    }
 
-    // Render auto attack index if part of a sequence with more than 3
-    if (rotation_step.skill_data.is_auto_attack && auto_attack_index > 0)
+    if (Settings::ShowKeybind && rotation_step.skill_data.is_auto_attack && auto_attack_index > 0)
     {
         auto *draw_list = ImGui::GetWindowDrawList();
         auto icon_pos = ImGui::GetItemRectMin();
