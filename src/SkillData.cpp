@@ -69,6 +69,7 @@ const std::set<std::string_view> skills_match_weapon_swap_like = {
 const std::set<std::string_view> skills_substr_to_drop = {
     "Bloodstone Fervor",
     "Relic of",
+    "Nourys's Hunger",
     "Relikt des ",
     "Mushroom King",
     "Superior Sigil",
@@ -280,6 +281,7 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::TIME_SINK,
     SkillID::TALE_OF_THE_AUGUST_QUEEN,
     // NECROMANCER
+    SkillID::MANIFEST_SAND_SHADE,
     SkillID::DEATH_S_CHARGE,
     SkillID::YOU_ARE_ALL_WEAKLINGS,
     SkillID::SOUL_SHARDS,
@@ -307,6 +309,8 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::INFUSING_TERROR,
     SkillID::SUMMON_SPIRITS,
     SkillID::SUMMON_SPIRITS_1,
+    SkillID::SPLINTER_WEAPON,
+    SkillID::NIGHTMARE_WEAPON,
     // REVENANT
     SkillID::ABYSSAL_BLITZ,
     SkillID::FACET_OF_CHAOS,
@@ -331,6 +335,12 @@ const std::set<SkillID> special_match_to_gray_out = {
 const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_gray_out = {
     {
         "power_tempest_v4",
+        {
+            SkillID::RIDE_THE_LIGHTNING,
+        },
+    },
+    {
+        "power_tempest_sword_v4",
         {
             SkillID::RIDE_THE_LIGHTNING,
         },
@@ -485,6 +495,9 @@ const std::set<SkillID> reset_like_skill = {
 
 const std::map<SkillID, float> skill_cast_time_map = {
     {SkillID::ESSENCE_BLAST, 0.75f},    // rit shroud aa
+    {SkillID::ISOLATE, 0.25f},          //
+    {SkillID::PERFORATE, 1.0f},         //
+    {SkillID::DISTRESS, 0.5f},          //
     {SkillID::LIFE_REND, 0.5f},         // reaper shroud aa
     {SkillID::LIFE_SLASH, 0.5f},        // reaper shroud aa
     {SkillID::LIFE_REAP, 0.5f},         // reaper shroud aa
