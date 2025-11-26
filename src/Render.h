@@ -75,6 +75,12 @@ public:
                                const std::string &text,
                                ID3D11Device *pd3dDevice,
                                const int auto_attack_index = 0);
+    void render_skill_texture(const RotationStep &rotation_step,
+                              const ID3D11ShaderResourceView *texture,
+                              const int auto_attack_index);
+    void render_dodge_placeholder();
+    void render_unknown_placeholder();
+    void render_empty_placeholder();
 
     /* HELPER */
     float calculate_centered_position(const std::vector<std::string> &items) const;

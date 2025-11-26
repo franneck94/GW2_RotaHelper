@@ -392,7 +392,8 @@ std::vector<int> RenderType::calculate_auto_attack_indices(int32_t start, int32_
             int32_t sequence_start = window_idx;
             while (sequence_start > start && sequence_start >= 0)
             {
-                const auto &prev_step = Globals::RotationRun.get_rotation_skill(static_cast<size_t>(sequence_start - 1));
+                const auto &prev_step =
+                    Globals::RotationRun.get_rotation_skill(static_cast<size_t>(sequence_start - 1));
                 if (prev_step.skill_data.is_auto_attack)
                     sequence_start--;
                 else
@@ -404,7 +405,8 @@ std::vector<int> RenderType::calculate_auto_attack_indices(int32_t start, int32_
 
             // Count total sequence length to determine if we should show numbers
             int32_t sequence_end = window_idx;
-            while (sequence_end < end && sequence_end < static_cast<int32_t>(Globals::RotationRun.all_rotation_steps.size()))
+            while (sequence_end < end &&
+                   sequence_end < static_cast<int32_t>(Globals::RotationRun.all_rotation_steps.size()))
             {
                 const auto &next_step = Globals::RotationRun.get_rotation_skill(static_cast<size_t>(sequence_end + 1));
                 if (next_step.skill_data.is_auto_attack)
@@ -414,12 +416,7 @@ std::vector<int> RenderType::calculate_auto_attack_indices(int32_t start, int32_
             }
 
             int sequence_length = sequence_end - sequence_start + 1;
-
-            // Only show index if sequence has more than 3 auto attacks
-            if (sequence_length > 3)
-            {
-                auto_attack_indices[window_idx - start] = index_in_sequence;
-            }
+            auto_attack_indices[window_idx - start] = index_in_sequence;
         }
     }
     return auto_attack_indices;
@@ -1446,6 +1443,97 @@ void RenderType::render_keybind(const RotationStep &rotation_step)
     }
 }
 
+void RenderType::render_skill_texture(const RotationStep &rotation_step,
+                                      const ID3D11ShaderResourceView *texture,
+                                      const int auto_attack_index)
+{
+    const auto is_special_skill = rotation_step.is_special_skill;
+    auto tint_color = is_special_skill ? ImVec4(0.5f, 0.5f, 0.5f, 1.0f) : ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+    ImGui::Image((ImTextureID)texture,
+                 ImVec2(Globals::SkillIconSize, Globals::SkillIconSize),
+                 ImVec2(0, 0),
+                 ImVec2(1, 1),
+                 tint_color);
+
+    if (Settings::ShowKeybind)
+    {
+        render_keybind(rotation_step);
+    }
+
+    // Render auto attack index if part of a sequence with more than 3
+    if (rotation_step.skill_data.is_auto_attack && auto_attack_index > 0)
+    {
+        auto *draw_list = ImGui::GetWindowDrawList();
+        auto icon_pos = ImGui::GetItemRectMin();
+        auto icon_size = ImGui::GetItemRectSize();
+
+        auto index_str = std::to_string(auto_attack_index);
+        auto text_size = ImGui::CalcTextSize(index_str.c_str());
+
+        // Position the index in the top-left corner
+        auto index_pos = ImVec2(icon_pos.x + 2, icon_pos.y + 2);
+
+        // Draw background circle for the number
+        auto circle_center = ImVec2(index_pos.x + text_size.x * 0.5f + 2, index_pos.y + text_size.y * 0.5f + 1);
+        auto circle_radius = (text_size.x > text_size.y ? text_size.x : text_size.y) * 0.6f;
+        draw_list->AddCircleFilled(circle_center, circle_radius, IM_COL32(255, 165, 0, 200));
+        draw_list->AddCircle(circle_center, circle_radius, IM_COL32(255, 255, 255, 255), 0, 1.5f);
+
+        // Draw the index number
+        draw_list->AddText(ImVec2(index_pos.x + 2, index_pos.y + 1), IM_COL32(255, 255, 255, 255), index_str.c_str());
+    }
+
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+
+        auto tooltip_text = get_skill_text(rotation_step);
+        ImGui::Text("%s", tooltip_text.c_str());
+
+        ImGui::EndTooltip();
+    }
+}
+
+void RenderType::render_dodge_placeholder()
+{
+    auto draw_list = ImGui::GetWindowDrawList();
+    auto cursor_pos = ImGui::GetCursorScreenPos();
+
+    draw_list->AddRectFilled(cursor_pos,
+                             ImVec2(cursor_pos.x + Globals::SkillIconSize, cursor_pos.y + Globals::SkillIconSize),
+                             IM_COL32(200, 200, 200, 255)); // Light gray background
+
+    auto text_size = ImGui::CalcTextSize("D");
+    auto text_pos = ImVec2(cursor_pos.x + (Globals::SkillIconSize - text_size.x) * 0.5f,
+                           cursor_pos.y + (Globals::SkillIconSize - text_size.y) * 0.5f);
+
+    draw_list->AddText(text_pos, IM_COL32(0, 0, 0, 255), "D");
+    ImGui::Dummy(ImVec2(Globals::SkillIconSize, Globals::SkillIconSize));
+}
+
+void RenderType::render_unknown_placeholder()
+{
+    auto draw_list = ImGui::GetWindowDrawList();
+    auto cursor_pos = ImGui::GetCursorScreenPos();
+
+    draw_list->AddRectFilled(cursor_pos,
+                             ImVec2(cursor_pos.x + Globals::SkillIconSize, cursor_pos.y + Globals::SkillIconSize),
+                             IM_COL32(200, 200, 200, 255)); // Light gray background
+
+    auto text_size = ImGui::CalcTextSize("D");
+    auto text_pos = ImVec2(cursor_pos.x + (Globals::SkillIconSize - text_size.x) * 0.1f,
+                           cursor_pos.y + (Globals::SkillIconSize - text_size.y) * 0.5f);
+
+    draw_list->AddText(text_pos, IM_COL32(0, 0, 0, 255), "Unknown");
+    ImGui::Dummy(ImVec2(Globals::SkillIconSize, Globals::SkillIconSize));
+}
+
+void RenderType::render_empty_placeholder()
+{
+    ImGui::Dummy(ImVec2(Globals::SkillIconSize, Globals::SkillIconSize));
+}
+
 void RenderType::render_rotation_icons(const SkillState &skill_state,
                                        const RotationStep &rotation_step,
                                        const ID3D11ShaderResourceView *texture,
@@ -1464,85 +1552,20 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
 
     if (texture && pd3dDevice)
     {
-        auto tint_color = is_special_skill ? ImVec4(0.5f, 0.5f, 0.5f, 1.0f) : ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
-        ImGui::Image((ImTextureID)texture,
-                     ImVec2(Globals::SkillIconSize, Globals::SkillIconSize),
-                     ImVec2(0, 0),
-                     ImVec2(1, 1),
-                     tint_color);
-
-        if (Settings::ShowKeybind)
-        {
-            render_keybind(rotation_step);
-        }
-
-        // Render auto attack index if part of a sequence with more than 3
-        if (rotation_step.skill_data.is_auto_attack && auto_attack_index > 0)
-        {
-            auto *draw_list = ImGui::GetWindowDrawList();
-            auto icon_pos = ImGui::GetItemRectMin();
-            auto icon_size = ImGui::GetItemRectSize();
-
-            auto index_str = std::to_string(auto_attack_index);
-            auto text_size = ImGui::CalcTextSize(index_str.c_str());
-
-            // Position the index in the top-left corner
-            auto index_pos = ImVec2(icon_pos.x + 2, icon_pos.y + 2);
-
-            // Draw background circle for the number
-            auto circle_center = ImVec2(index_pos.x + text_size.x * 0.5f + 2, index_pos.y + text_size.y * 0.5f + 1);
-            auto circle_radius = (text_size.x > text_size.y ? text_size.x : text_size.y) * 0.6f;
-            draw_list->AddCircleFilled(circle_center, circle_radius, IM_COL32(255, 165, 0, 200));
-            draw_list->AddCircle(circle_center, circle_radius, IM_COL32(255, 255, 255, 255), 0, 1.5f);
-
-            // Draw the index number
-            draw_list->AddText(ImVec2(index_pos.x + 2, index_pos.y + 1), IM_COL32(255, 255, 255, 255), index_str.c_str());
-        }
-
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::BeginTooltip();
-
-            auto tooltip_text = get_skill_text(rotation_step);
-            ImGui::Text("%s", tooltip_text.c_str());
-
-            ImGui::EndTooltip();
-        }
+        render_skill_texture(rotation_step, texture, auto_attack_index);
     }
     else if (rotation_step.skill_data.icon_id == 2)
     {
-        auto draw_list = ImGui::GetWindowDrawList();
-        auto cursor_pos = ImGui::GetCursorScreenPos();
-
-        draw_list->AddRectFilled(cursor_pos,
-                                 ImVec2(cursor_pos.x + Globals::SkillIconSize, cursor_pos.y + Globals::SkillIconSize),
-                                 IM_COL32(200, 200, 200, 255)); // Light gray background
-
-        auto text_size = ImGui::CalcTextSize("D");
-        auto text_pos = ImVec2(cursor_pos.x + (Globals::SkillIconSize - text_size.x) * 0.5f,
-                               cursor_pos.y + (Globals::SkillIconSize - text_size.y) * 0.5f);
-
-        draw_list->AddText(text_pos, IM_COL32(0, 0, 0, 255), "D");
-        ImGui::Dummy(ImVec2(Globals::SkillIconSize, Globals::SkillIconSize));
+        render_dodge_placeholder();
     }
     else if (rotation_step.skill_data.icon_id == 9)
     {
-        auto draw_list = ImGui::GetWindowDrawList();
-        auto cursor_pos = ImGui::GetCursorScreenPos();
-
-        draw_list->AddRectFilled(cursor_pos,
-                                 ImVec2(cursor_pos.x + Globals::SkillIconSize, cursor_pos.y + Globals::SkillIconSize),
-                                 IM_COL32(200, 200, 200, 255)); // Light gray background
-
-        auto text_size = ImGui::CalcTextSize("D");
-        auto text_pos = ImVec2(cursor_pos.x + (Globals::SkillIconSize - text_size.x) * 0.1f,
-                               cursor_pos.y + (Globals::SkillIconSize - text_size.y) * 0.5f);
-
-        draw_list->AddText(text_pos, IM_COL32(0, 0, 0, 255), "Unknown");
-        ImGui::Dummy(ImVec2(Globals::SkillIconSize, Globals::SkillIconSize));
+        render_unknown_placeholder();
     }
     else
-        ImGui::Dummy(ImVec2(Globals::SkillIconSize, Globals::SkillIconSize));
+    {
+        render_empty_placeholder();
+    }
 }
 
 void RenderType::render(ID3D11Device *pd3dDevice)
