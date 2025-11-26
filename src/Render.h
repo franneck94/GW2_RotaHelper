@@ -73,10 +73,12 @@ public:
                                const RotationStep &rotation_step,
                                const ID3D11ShaderResourceView *texture,
                                const std::string &text,
-                               ID3D11Device *pd3dDevice);
+                               ID3D11Device *pd3dDevice,
+                               const int auto_attack_index = 0);
 
     /* HELPER */
     float calculate_centered_position(const std::vector<std::string> &items) const;
+    std::vector<int> calculate_auto_attack_indices(int32_t start, int32_t end) const;
     void append_to_played_rotation(const EvCombatDataPersistent &combat_data);
     void skill_activation_callback(EvCombatDataPersistent combat_data);
     void set_show_window(const bool flag);

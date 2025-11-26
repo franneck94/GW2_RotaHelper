@@ -10,7 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Improvements
 
 - Build Selection is now a scrollable
+- Added option to show number of auto attacks in a chain
 - Improved for Evoker and Catalyst
+- Fixed skill duplicates (multi hit skills)
 
 ## 0.16.2 - 2025-11-25
 

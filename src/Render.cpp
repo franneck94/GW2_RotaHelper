@@ -46,6 +46,7 @@ namespace
 static const inline std::set<std::string_view> red_crossed_builds = {
     // CHECKED POWER BUILDS
     "power_amalgam",
+    "power_alacrity_amalgam",
     "power_bladesworn",
     "power_alacrity_bladesworn",
     "power_alacrity_bladesworn_overcharged",
@@ -112,6 +113,12 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "power_virtuoso_dagger_sword_greatsword",
     "power_virtuoso",
     "power_troubadour",
+    "inferno_tempest_scepter_dagger",
+    "power_herald",                         // maybe green
+    "power_conduit",                        // maybe green
+    "power_conduit_greatsword_sword_sword", // maybe green
+    "power_quickness_herald",               // maybe green
+    "power_quickness_herald_sword",         // maybe green
     // CHECKED POWER BOON BUILDS
     "power_quickness_ritualist",
     "power_quickness_catalyst_scepter_dagger",
@@ -120,6 +127,8 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "power_quickness_catalyst_scepter_dagger",
     "power_quickness_catalyst_scepter_dagger_pf",
     "power_inferno_quickness_catalyst_scepter_dagger_pf",
+    "power_alacrity_tempest",
+    "power_alacrity_tempest_inferno_scepter_focus",
     // CHECKED CONDITION BOON BUILDS
     "celestial_alacrity_scourge",
     "condition_alacrity_scourge",
@@ -129,21 +138,16 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "condition_weaver_scepter",
     "condition_weaver_pistol",
     "condition_evoker",
+    "condition_tempest_scepter",
 
     // UNCHECKED POWER BUILDS
     "power_untamed",
     "power_untamed_sword_axe",
-    "power_herald",
-    "power_conduit",
-    "inferno_tempest_scepter_dagger",
     "power_chronomancer",
     // UNCHECKED POWER BOON BUILDS
     "power_alacrity_tempest_inferno_scepter_focus",
-    "power_quickness_herald",
     "power_boon_chronomancer",
     "power_alacrity_tempest_hammer",
-    "power_alacrity_tempest",
-    "power_alacrity_tempest_inferno_scepter_focus",
     "power_alacrity_renegade",
     // UNCHECKED CONDITION BUILDS
     "condition_druid",
@@ -188,7 +192,6 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_spellbreaker_hammer",
     "power_berserker_hammer_axe_mace",
     // POWER BOON BUILDS
-    "power_quickness_herald_sword",
     "power_quickness_berserker",
     "power_alacrity_mechanist_sword",
     "power_quickness_berserker_greatsword",
@@ -197,7 +200,6 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_quickness_harbinger",
     "power_quickness_galeshot",
     // CONDITION BUILDS
-    "condition_tempest_scepter",
     "condition_harbinger",
     "condition_berserker",
     "condition_mechanist",
@@ -371,6 +373,56 @@ float RenderType::calculate_centered_position(const std::vector<std::string> &it
 
     const auto window_width = ImGui::GetWindowSize().x;
     return (window_width - total_width) * 0.5f;
+}
+
+std::vector<int> RenderType::calculate_auto_attack_indices(int32_t start, int32_t end) const
+{
+    std::vector<int> auto_attack_indices(end - start + 1, 0);
+
+    // First pass: identify auto attack sequences and assign indices
+    for (int32_t window_idx = start; window_idx <= end; ++window_idx)
+    {
+        if (window_idx < 0 || static_cast<size_t>(window_idx) >= Globals::RotationRun.all_rotation_steps.size())
+            continue;
+
+        const auto &rotation_step = Globals::RotationRun.get_rotation_skill(static_cast<size_t>(window_idx));
+        if (rotation_step.skill_data.is_auto_attack)
+        {
+            // Find the start of this auto attack sequence
+            int32_t sequence_start = window_idx;
+            while (sequence_start > start && sequence_start >= 0)
+            {
+                const auto &prev_step = Globals::RotationRun.get_rotation_skill(static_cast<size_t>(sequence_start - 1));
+                if (prev_step.skill_data.is_auto_attack)
+                    sequence_start--;
+                else
+                    break;
+            }
+
+            // Calculate index position in the sequence (1-based)
+            int index_in_sequence = window_idx - sequence_start + 1;
+
+            // Count total sequence length to determine if we should show numbers
+            int32_t sequence_end = window_idx;
+            while (sequence_end < end && sequence_end < static_cast<int32_t>(Globals::RotationRun.all_rotation_steps.size()))
+            {
+                const auto &next_step = Globals::RotationRun.get_rotation_skill(static_cast<size_t>(sequence_end + 1));
+                if (next_step.skill_data.is_auto_attack)
+                    sequence_end++;
+                else
+                    break;
+            }
+
+            int sequence_length = sequence_end - sequence_start + 1;
+
+            // Only show index if sequence has more than 3 auto attacks
+            if (sequence_length > 3)
+            {
+                auto_attack_indices[window_idx - start] = index_in_sequence;
+            }
+        }
+    }
+    return auto_attack_indices;
 }
 
 void RenderType::render_debug_data()
@@ -1268,6 +1320,8 @@ void RenderType::render_rotation_details(ID3D11Device *pd3dDevice)
 
     const auto [start, end, current_idx] = Globals::RotationRun.get_current_rotation_indices();
 
+    const auto auto_attack_indices = calculate_auto_attack_indices(start, end);
+
     for (int32_t window_idx = start; window_idx <= end; ++window_idx)
     {
         if (window_idx < 0 || static_cast<size_t>(window_idx) >= Globals::RotationRun.all_rotation_steps.size())
@@ -1288,7 +1342,8 @@ void RenderType::render_rotation_details(ID3D11Device *pd3dDevice)
         else
             text = get_skill_text(rotation_step);
 
-        render_rotation_icons(skill_state, rotation_step, texture, text, pd3dDevice);
+        const int aa_index = auto_attack_indices[window_idx - start];
+        render_rotation_icons(skill_state, rotation_step, texture, text, pd3dDevice, aa_index);
 
         if (!text.empty())
             ImGui::SameLine();
@@ -1314,6 +1369,9 @@ void RenderType::render_rotation_horizontal(ID3D11Device *pd3dDevice)
 
     const auto [start, end, current_idx] = Globals::RotationRun.get_current_rotation_indices();
 
+    // Count consecutive auto attacks for each position
+    const auto auto_attack_indices = calculate_auto_attack_indices(start, end);
+
     for (int32_t window_idx = start; window_idx <= end; ++window_idx)
     {
         if (window_idx < 0 || static_cast<size_t>(window_idx) >= Globals::RotationRun.all_rotation_steps.size())
@@ -1329,7 +1387,8 @@ void RenderType::render_rotation_horizontal(ID3D11Device *pd3dDevice)
                                                  rotation_step.skill_data.is_auto_attack);
         const auto text = std::string{""};
 
-        render_rotation_icons(skill_state, rotation_step, texture, text, pd3dDevice);
+        const int aa_index = auto_attack_indices[window_idx - start];
+        render_rotation_icons(skill_state, rotation_step, texture, text, pd3dDevice, aa_index);
 
         ImGui::SameLine();
     }
@@ -1391,7 +1450,8 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
                                        const RotationStep &rotation_step,
                                        const ID3D11ShaderResourceView *texture,
                                        const std::string &text,
-                                       ID3D11Device *pd3dDevice)
+                                       ID3D11Device *pd3dDevice,
+                                       const int auto_attack_index)
 {
     const auto is_special_skill = rotation_step.is_special_skill;
 
@@ -1414,6 +1474,29 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
         if (Settings::ShowKeybind)
         {
             render_keybind(rotation_step);
+        }
+
+        // Render auto attack index if part of a sequence with more than 3
+        if (rotation_step.skill_data.is_auto_attack && auto_attack_index > 0)
+        {
+            auto *draw_list = ImGui::GetWindowDrawList();
+            auto icon_pos = ImGui::GetItemRectMin();
+            auto icon_size = ImGui::GetItemRectSize();
+
+            auto index_str = std::to_string(auto_attack_index);
+            auto text_size = ImGui::CalcTextSize(index_str.c_str());
+
+            // Position the index in the top-left corner
+            auto index_pos = ImVec2(icon_pos.x + 2, icon_pos.y + 2);
+
+            // Draw background circle for the number
+            auto circle_center = ImVec2(index_pos.x + text_size.x * 0.5f + 2, index_pos.y + text_size.y * 0.5f + 1);
+            auto circle_radius = (text_size.x > text_size.y ? text_size.x : text_size.y) * 0.6f;
+            draw_list->AddCircleFilled(circle_center, circle_radius, IM_COL32(255, 165, 0, 200));
+            draw_list->AddCircle(circle_center, circle_radius, IM_COL32(255, 255, 255, 255), 0, 1.5f);
+
+            // Draw the index number
+            draw_list->AddText(ImVec2(index_pos.x + 2, index_pos.y + 1), IM_COL32(255, 255, 255, 255), index_str.c_str());
         }
 
         if (ImGui::IsItemHovered())
