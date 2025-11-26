@@ -254,6 +254,13 @@
         1.0
       ],
       [
+        11.482,
+        103003,
+        42.0,
+        1,
+        1.0
+      ],
+      [
         11.524,
         104119,
         277.0,
@@ -292,6 +299,13 @@
         12.524,
         9999,
         0.0,
+        1,
+        1.0
+      ],
+      [
+        12.56,
+        1770652,
+        47.0,
         1,
         1.0
       ],
@@ -772,6 +786,13 @@
         1.0
       ],
       [
+        33.964,
+        103003,
+        35.0,
+        1,
+        1.0
+      ],
+      [
         33.999,
         103000,
         362.0,
@@ -782,6 +803,13 @@
         34.36,
         9999,
         0.0,
+        1,
+        1.0
+      ],
+      [
+        34.402,
+        1770652,
+        42.0,
         1,
         1.0
       ],
@@ -1251,6 +1279,13 @@
         55.283,
         103005,
         362.0,
+        1,
+        1.0
+      ],
+      [
+        55.645,
+        103003,
+        41.0,
         1,
         1.0
       ],
@@ -2320,15 +2355,15 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s1770661": {
-      "name": "Breaching Strike",
-      "icon": "https://render.guildwars2.com/file/48B836AE01C6EC0D0A0A0680D23834960D556A7E/1770661.png",
-      "traitProc": false,
-      "gearProc": false
-    },
     "s1770652": {
       "name": "Precise Cut",
       "icon": "https://render.guildwars2.com/file/F6A025001C9107083B0671ECD05CB675B14C55CA/1770652.png",
+      "traitProc": false,
+      "gearProc": false
+    },
+    "s1770661": {
+      "name": "Breaching Strike",
+      "icon": "https://render.guildwars2.com/file/48B836AE01C6EC0D0A0A0680D23834960D556A7E/1770661.png",
       "traitProc": false,
       "gearProc": false
     },

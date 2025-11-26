@@ -72,6 +72,13 @@
         1.0
       ],
       [
+        4.188,
+        103123,
+        84.0,
+        1,
+        1.0
+      ],
+      [
         4.272,
         103903,
         438.0,
@@ -443,6 +450,13 @@
         1.0
       ],
       [
+        29.432,
+        103123,
+        118.0,
+        1,
+        1.0
+      ],
+      [
         29.55,
         103903,
         437.0,
@@ -803,6 +817,13 @@
         54.79,
         9999,
         0.0,
+        1,
+        1.0
+      ],
+      [
+        54.79,
+        103123,
+        80.0,
         1,
         1.0
       ],
@@ -1172,6 +1193,13 @@
       ],
       [
         80.23,
+        103123,
+        75.0,
+        1,
+        1.0
+      ],
+      [
+        80.23,
         3,
         0.0,
         1,
@@ -1345,6 +1373,12 @@
       "traitProc": false,
       "gearProc": false
     },
+    "s103123": {
+      "name": "Slash",
+      "icon": "https://render.guildwars2.com/file/905B29D0F09934F0FBD954675D1C0CBC37ECEFD8/103123.png",
+      "traitProc": false,
+      "gearProc": false
+    },
     "s103903": {
       "name": "Path of Scars",
       "icon": "https://render.guildwars2.com/file/B5B27723701C39327D2145DEE76579FB007F9344/103903.png",
@@ -1378,12 +1412,6 @@
     "s103147": {
       "name": "Whirling Defense",
       "icon": "https://render.guildwars2.com/file/3D24774AAFBEFF40016ED8B451A245D95A2D08E3/103147.png",
-      "traitProc": false,
-      "gearProc": false
-    },
-    "s103123": {
-      "name": "Slash",
-      "icon": "https://render.guildwars2.com/file/905B29D0F09934F0FBD954675D1C0CBC37ECEFD8/103123.png",
       "traitProc": false,
       "gearProc": false
     },

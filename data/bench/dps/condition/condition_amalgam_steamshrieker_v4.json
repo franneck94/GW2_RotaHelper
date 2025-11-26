@@ -429,6 +429,13 @@
         1.0
       ],
       [
+        16.922,
+        3379111,
+        36.0,
+        1,
+        1.0
+      ],
+      [
         16.959,
         3379116,
         523.0,
@@ -1276,6 +1283,13 @@
         1.0
       ],
       [
+        51.366,
+        3379111,
+        29.0,
+        1,
+        1.0
+      ],
+      [
         51.395,
         3379116,
         534.0,
@@ -1844,6 +1858,13 @@
       ],
       [
         73.969,
+        3379111,
+        30.0,
+        1,
+        1.0
+      ],
+      [
+        73.969,
         3441975,
         0.0,
         1,
@@ -2059,6 +2080,12 @@
     "s103291": {
       "name": "Air Blast",
       "icon": "https://render.guildwars2.com/file/92CE7EBBFA670CB00809F8267802A6FA459E2EC8/103291.png",
+      "traitProc": false,
+      "gearProc": false
+    },
+    "s3379111": {
+      "name": "Puncturing Jab",
+      "icon": "https://render.guildwars2.com/file/CFCB6F01A1F9404E39D966BFC54BD79038A04231/3379111.png",
       "traitProc": false,
       "gearProc": false
     },

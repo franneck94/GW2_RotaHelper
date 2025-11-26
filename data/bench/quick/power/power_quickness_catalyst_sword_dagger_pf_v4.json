@@ -37,6 +37,13 @@
         1.0
       ],
       [
+        0.755,
+        1770355,
+        38.0,
+        1,
+        1.0
+      ],
+      [
         0.793,
         1770371,
         680.0,
@@ -131,6 +138,13 @@
         5.435,
         102870,
         0.0,
+        1,
+        1.0
+      ],
+      [
+        5.555,
+        1770358,
+        41.0,
         1,
         1.0
       ],
@@ -268,6 +282,13 @@
         1.0
       ],
       [
+        12.237,
+        1770355,
+        42.0,
+        1,
+        1.0
+      ],
+      [
         12.279,
         1770367,
         436.0,
@@ -303,6 +324,13 @@
         1.0
       ],
       [
+        13.398,
+        1770361,
+        75.0,
+        1,
+        1.0
+      ],
+      [
         13.473,
         1770375,
         445.0,
@@ -327,6 +355,13 @@
         15.118,
         1770361,
         479.0,
+        1,
+        1.0
+      ],
+      [
+        15.597,
+        1770362,
+        37.0,
         1,
         1.0
       ],
@@ -404,6 +439,13 @@
         19.675,
         102870,
         0.0,
+        1,
+        1.0
+      ],
+      [
+        19.713,
+        1770358,
+        83.0,
         1,
         1.0
       ],
@@ -674,6 +716,13 @@
         1.0
       ],
       [
+        33.556,
+        1770358,
+        38.0,
+        1,
+        1.0
+      ],
+      [
         33.594,
         102975,
         683.0,
@@ -940,6 +989,13 @@
         1.0
       ],
       [
+        47.232,
+        1770358,
+        41.0,
+        1,
+        1.0
+      ],
+      [
         47.273,
         102975,
         683.0,
@@ -1202,6 +1258,13 @@
         60.836,
         102870,
         0.0,
+        1,
+        1.0
+      ],
+      [
+        60.836,
+        1770358,
+        118.0,
         1,
         1.0
       ],
@@ -2050,6 +2113,12 @@
       "traitProc": false,
       "gearProc": false
     },
+    "s1770355": {
+      "name": "Charged Strike",
+      "icon": "https://render.guildwars2.com/file/69521650FA42B136CCCBA3EC01EED74C3BF3A3DA/1770355.png",
+      "traitProc": false,
+      "gearProc": false
+    },
     "s1770371": {
       "name": "Quantum Strike",
       "icon": "https://render.guildwars2.com/file/0D4D42EF67E9EB0B4A0304CF39901661ED087BE5/1770371.png",
@@ -2110,12 +2179,6 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s1770355": {
-      "name": "Charged Strike",
-      "icon": "https://render.guildwars2.com/file/69521650FA42B136CCCBA3EC01EED74C3BF3A3DA/1770355.png",
-      "traitProc": false,
-      "gearProc": false
-    },
     "s1770356": {
       "name": "Polaric Slash",
       "icon": "https://render.guildwars2.com/file/CAB0C907C03A00540849085DE2ACAB54BF0156DE/1770356.png",
@@ -2131,6 +2194,12 @@
     "s102870": {
       "name": "Earth Attunement",
       "icon": "https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png",
+      "traitProc": false,
+      "gearProc": false
+    },
+    "s1770358": {
+      "name": "Crystal Slash",
+      "icon": "https://render.guildwars2.com/file/083CE8B4C86A115123440703072E0E453D1A0A27/1770358.png",
       "traitProc": false,
       "gearProc": false
     },
@@ -2173,6 +2242,12 @@
     "s1770361": {
       "name": "Fire Strike",
       "icon": "https://render.guildwars2.com/file/01BBF5AFE8D46FAE7F3ABE04A7EA2065E203A010/1770361.png",
+      "traitProc": false,
+      "gearProc": false
+    },
+    "s1770362": {
+      "name": "Fire Swipe",
+      "icon": "https://render.guildwars2.com/file/515620A36869D978A1E66FA135446D77A3C94F50/1770362.png",
       "traitProc": false,
       "gearProc": false
     },

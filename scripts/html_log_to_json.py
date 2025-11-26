@@ -278,21 +278,11 @@ class HTMLRotationExtractor:
                 # Check if skill is cancelled and if cancellation is allowed for this skill
                 if "rot-cancelled" in class_attr:
                     if skill_name in self.cancellation_allowed_skills:
-                        self.logger.debug(
-                            f"Including cancelled skill {skill_name} (ID: {icon_id})",
-                        )
                         if skill_name == "Spatial Surge" and duration < 300.0:
                             self.logger.debug(
                                 f"Skipping {skill_name} (ID: {icon_id}) - duration {duration}ms below 40ms threshold"
                             )
                             continue
-
-                    else:
-                        self.logger.debug(
-                            f"Skipping cancelled skill: {skill_name} (ID: {icon_id})",
-                        )
-
-                        continue
 
                 # Create rotation entry in v3 format: [castTime, icon_id, duration, status, quickness]
                 # We don't have status or quickness info from HTML, so use defaults
@@ -419,6 +409,8 @@ class HTMLRotationExtractor:
 
             self.logger.info(f"Found {len(html_files)} HTML files from metadata")
 
+        # unique lements in html_files
+        html_files = list({str(f): f for f in html_files}.values())
         # Then find any additional HTML files not in metadata
         additional_files: list[Path] = []
         benchmark_types = ["dps", "quick", "alac"]
@@ -470,6 +462,7 @@ class HTMLRotationExtractor:
                     self.logger.warning(
                         f"No rotation data extracted from {html_file.name}",
                     )
+                    print("Invalid Rotation Data for file:", html_file.name)
                     continue
 
                 # Use metadata for benchmark and build types if available, otherwise determine from path

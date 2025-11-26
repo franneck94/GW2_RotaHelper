@@ -23,6 +23,13 @@
         1.0
       ],
       [
+        0.194,
+        103282,
+        42.0,
+        1,
+        1.0
+      ],
+      [
         0.355,
         1770513,
         437.0,
@@ -135,6 +142,13 @@
         1.0
       ],
       [
+        5.874,
+        1770500,
+        83.0,
+        1,
+        1.0
+      ],
+      [
         5.957,
         1770504,
         995.0,
@@ -215,6 +229,13 @@
         9.599,
         1770505,
         0.0,
+        1,
+        1.0
+      ],
+      [
+        9.676,
+        1770501,
+        195.0,
         1,
         1.0
       ],
@@ -394,6 +415,13 @@
         1.0
       ],
       [
+        20.835,
+        103100,
+        236.0,
+        1,
+        1.0
+      ],
+      [
         21.071,
         103746,
         805.0,
@@ -446,6 +474,13 @@
         22.758,
         2,
         76.0,
+        1,
+        1.0
+      ],
+      [
+        22.875,
+        103282,
+        77.0,
         1,
         1.0
       ],
@@ -583,6 +618,13 @@
         1.0
       ],
       [
+        29.956,
+        1770500,
+        36.0,
+        1,
+        1.0
+      ],
+      [
         29.992,
         699528,
         925.0,
@@ -677,6 +719,13 @@
         35.272,
         9999,
         0.0,
+        1,
+        1.0
+      ],
+      [
+        35.315,
+        103100,
+        118.0,
         1,
         1.0
       ],
@@ -810,6 +859,13 @@
         44.872,
         1770510,
         724.0,
+        1,
+        1.0
+      ],
+      [
+        45.596,
+        103100,
+        118.0,
         1,
         1.0
       ],
@@ -989,6 +1045,13 @@
         1.0
       ],
       [
+        53.797,
+        1770500,
+        83.0,
+        1,
+        1.0
+      ],
+      [
         53.88,
         1770503,
         69.0,
@@ -1032,6 +1095,13 @@
       ],
       [
         55.192,
+        1770500,
+        45.0,
+        1,
+        1.0
+      ],
+      [
+        55.192,
         103732,
         0.0,
         1,
@@ -1055,6 +1125,13 @@
         56.153,
         1770513,
         521.0,
+        1,
+        1.0
+      ],
+      [
+        56.674,
+        1770500,
+        239.0,
         1,
         1.0
       ],
@@ -1118,6 +1195,13 @@
         60.391,
         103731,
         0.0,
+        1,
+        1.0
+      ],
+      [
+        60.676,
+        1770501,
+        35.0,
         1,
         1.0
       ],
@@ -1283,6 +1367,13 @@
         1.0
       ],
       [
+        71.196,
+        103100,
+        194.0,
+        1,
+        1.0
+      ],
+      [
         71.39,
         103746,
         721.0,
@@ -1320,6 +1411,13 @@
       [
         73.075,
         2,
+        77.0,
+        1,
+        1.0
+      ],
+      [
+        73.193,
+        103282,
         77.0,
         1,
         1.0
@@ -1423,6 +1521,13 @@
         1.0
       ],
       [
+        78.115,
+        1770500,
+        35.0,
+        1,
+        1.0
+      ],
+      [
         78.15,
         1770503,
         83.0,
@@ -1506,6 +1611,12 @@
       "traitProc": false,
       "gearProc": false
     },
+    "s103282": {
+      "name": "The Prestige",
+      "icon": "https://render.guildwars2.com/file/44F1C4034CB441FC110A00D551DE33ED5F95A704/103282.png",
+      "traitProc": false,
+      "gearProc": false
+    },
     "s1770513": {
       "name": "Imaginary Axes",
       "icon": "https://render.guildwars2.com/file/38ED6AA595AEF00C0F704D0565DB7DD24B623850/1770513.png",
@@ -1554,6 +1665,12 @@
       "traitProc": false,
       "gearProc": false
     },
+    "s1770500": {
+      "name": "Lacerating Chop",
+      "icon": "https://render.guildwars2.com/file/72D44CE94461AD01DA5CA6B7CBCB4E625B50993A/1770500.png",
+      "traitProc": false,
+      "gearProc": false
+    },
     "s1770504": {
       "name": "Axes of Symmetry",
       "icon": "https://render.guildwars2.com/file/516ED87B7FC703AC09DE924218CDB53D2FFF39C9/1770504.png",
@@ -1566,9 +1683,9 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s1770500": {
-      "name": "Lacerating Chop",
-      "icon": "https://render.guildwars2.com/file/72D44CE94461AD01DA5CA6B7CBCB4E625B50993A/1770500.png",
+    "s1770501": {
+      "name": "Ethereal Chop",
+      "icon": "https://render.guildwars2.com/file/257AE20DBC1F5BB232D8F37FED4443065ED10346/1770501.png",
       "traitProc": false,
       "gearProc": false
     },
@@ -1602,12 +1719,6 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s1770501": {
-      "name": "Ethereal Chop",
-      "icon": "https://render.guildwars2.com/file/257AE20DBC1F5BB232D8F37FED4443065ED10346/1770501.png",
-      "traitProc": false,
-      "gearProc": false
-    },
     "s1770502": {
       "name": "Mirror Strikes",
       "icon": "https://render.guildwars2.com/file/44E70008A846C1A03343996F1F10031966E41F0D/1770502.png",
@@ -1617,12 +1728,6 @@
     "s103284": {
       "name": "Distortion",
       "icon": "https://render.guildwars2.com/file/D0969802A76808ACD65A56A6D54F2A40E355F7C3/103284.png",
-      "traitProc": false,
-      "gearProc": false
-    },
-    "s103282": {
-      "name": "The Prestige",
-      "icon": "https://render.guildwars2.com/file/44F1C4034CB441FC110A00D551DE33ED5F95A704/103282.png",
       "traitProc": false,
       "gearProc": false
     }

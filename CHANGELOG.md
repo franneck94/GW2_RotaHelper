@@ -23,6 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Dropped Vertical Layout
 - Dropped names and times option (is now activated on default since its only shown when hovered over skill icons)
 
+## Known Issues
+
+- Power Guardian Builds Parsing Error for Logs
+
 ## 0.16.2 - 2025-11-25
 
 ### Improvements

@@ -142,6 +142,13 @@
         1.0
       ],
       [
+        4.598,
+        103309,
+        80.0,
+        1,
+        1.0
+      ],
+      [
         4.678,
         103289,
         400.0,
@@ -555,6 +562,13 @@
         1.0
       ],
       [
+        28.997,
+        103325,
+        79.0,
+        1,
+        1.0
+      ],
+      [
         29.076,
         103105,
         680.0,
@@ -663,6 +677,13 @@
         33.078,
         102820,
         0.0,
+        1,
+        1.0
+      ],
+      [
+        33.158,
+        103309,
+        39.0,
         1,
         1.0
       ],
@@ -800,9 +821,23 @@
         1.0
       ],
       [
+        41.556,
+        103325,
+        42.0,
+        1,
+        1.0
+      ],
+      [
         41.598,
         2491601,
         239.0,
+        1,
+        1.0
+      ],
+      [
+        41.837,
+        103325,
+        39.0,
         1,
         1.0
       ],
@@ -985,6 +1020,13 @@
         50.915,
         103289,
         402.0,
+        1,
+        1.0
+      ],
+      [
+        51.317,
+        103309,
+        160.0,
         1,
         1.0
       ],
@@ -1234,6 +1276,13 @@
         1.0
       ],
       [
+        64.435,
+        103309,
+        160.0,
+        1,
+        1.0
+      ],
+      [
         64.595,
         103289,
         400.0,
@@ -1342,6 +1391,13 @@
         70.88,
         102870,
         0.0,
+        1,
+        1.0
+      ],
+      [
+        70.957,
+        103158,
+        118.0,
         1,
         1.0
       ],
@@ -1458,9 +1514,23 @@
         1.0
       ],
       [
+        75.076,
+        103309,
+        80.0,
+        1,
+        1.0
+      ],
+      [
         75.156,
         2491601,
         237.0,
+        1,
+        1.0
+      ],
+      [
+        75.393,
+        103309,
+        43.0,
         1,
         1.0
       ],
@@ -1749,6 +1819,12 @@
       "traitProc": false,
       "gearProc": false
     },
+    "s103309": {
+      "name": "Ice Shards",
+      "icon": "https://render.guildwars2.com/file/5DAC69FFBE4850EE6F9FA2532616C128D7AEF957/103309.png",
+      "traitProc": false,
+      "gearProc": false
+    },
     "s103289": {
       "name": "Shatterstone",
       "icon": "https://render.guildwars2.com/file/801B94942A7411A4379E58C6BA363CA31D2AFCBB/103289.png",
@@ -1758,12 +1834,6 @@
     "s103081": {
       "name": "Water Trident",
       "icon": "https://render.guildwars2.com/file/43AF784618DAC97FFAB43518A9F7B204A32335FA/103081.png",
-      "traitProc": false,
-      "gearProc": false
-    },
-    "s103309": {
-      "name": "Ice Shards",
-      "icon": "https://render.guildwars2.com/file/5DAC69FFBE4850EE6F9FA2532616C128D7AEF957/103309.png",
       "traitProc": false,
       "gearProc": false
     },
@@ -1806,6 +1876,12 @@
     "s103128": {
       "name": "Arc Lightning",
       "icon": "https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png",
+      "traitProc": false,
+      "gearProc": false
+    },
+    "s103158": {
+      "name": "Stone Shards",
+      "icon": "https://render.guildwars2.com/file/66441BE066120A2590B5AF031D56E221189ADC68/103158.png",
       "traitProc": false,
       "gearProc": false
     },
