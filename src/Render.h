@@ -29,6 +29,7 @@ public:
 
     /* RENDER OPTIONS WINDOW */
     void render_debug_data();
+    void render_debug_window();
     void render_options_checkboxes(bool &is_not_ui_adjust_active);
     void render_options_window(bool &is_not_ui_adjust_active);
     void render_snowcrows_build_link();

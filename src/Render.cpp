@@ -44,27 +44,20 @@
 namespace
 {
 static const inline std::set<std::string_view> red_crossed_builds = {
-    // POWER BUILDS
+    // CHECKED POWER BUILDS
+    "power_amalgam",
     "power_bladesworn",
     "power_alacrity_bladesworn",
     "power_alacrity_bladesworn_overcharged",
-    "power_amalgam",
     "power_holosmith",
-    "power_evoker",
-    "power_evoker_scepter_dagger_pf",
     "power_deadeye_staff_and_dagger",
-    // CONDITION BUILDS
-    "condition_daredevil",
-    "condition_firebrand",
-    "condition_quickness_firebrand",
-    "condition_evoker",
-    "inferno_evoker_specialized_elements",
-    "condition_evoker_specialized_elements",
+    // CHECKED CONDITION BUILDS
     "condition_amalgam_steamshrieker",
     "condition_alacrity_amalgam_two_kits",
     "condition_holosmith_spear",
-    "condition_boon_chronomancer",
-    "condition_chronomancer",
+    "condition_daredevil",
+    "condition_firebrand",
+    "condition_quickness_firebrand",
     "condition_mirage_dagger",
     "condition_mirage_dune_cloak",
     "condition_mirage_ih_ether",
@@ -74,68 +67,96 @@ static const inline std::set<std::string_view> red_crossed_builds = {
 };
 
 static const inline std::set<std::string_view> orange_crossed_builds = {
+    // CHECKED POWER BUILDS
+    "power_tempest_hammer",
+    "inferno_quickness_evoker_specialized_elements",
+    "inferno_evoker_specialized_elements",
+    // CHECKED CONDITION BUILDS
+    "condition_catalyst",
+    "condition_quickness_catalyst",
+    "condition_evoker_specialized_elements",
+
     // POWER BUILDS
+    "condition_boon_chronomancer",
+    "condition_chronomancer",
     "power_vindicator",
     "power_quickness_untamed",
     "power_quickness_untamed_maces",
     "power_quickness_untamed_offhand_mace",
-    "power_catalyst_scepter_dagger_pf",
+    "power_quickness_catalyst_sword_dagger_pf",
     "power_catalyst_sword_dagger_pf",
-    "power_catalyst_scepter_dagger_inferno",
+    "power_luminary",
+    "power_evoker",
+    "power_evoker_scepter_dagger_pf",
+    "power_evoker_scepter_dagger",
+    "power_quickness_evoker",
+    "power_quickness_evoker_hare",
     // CONDI BUILDS
-    "condition_catalyst",
     "condition_virtuoso",
     "condition_quickness_scrapper",
     "condition_quickness_untamed",
-    "condition_alacrity_scourge",
+    "condition_quickness_catalyst_pistol_warhorn",
 };
 
 static const inline std::set<std::string_view> yellow_tick_builds = {
-    // POWER BUILDS
-    "power_untamed",
-    "power_untamed_sword_axe",
-    "power_tempest_sword",
-    "power_tempest_hammer",
-    "power_herald",
-    "power_luminary",
+    // CHECKED POWER BUILDS
     "power_ritualist",
-    "power_conduit",
+    "power_tempest_sword",
+    "power_tempest",
+    "power_tempest_inferno_scepter_dagger",
+    "inferno_catalyst_scepter_dagger",
+    "power_catalyst_scepter_dagger_inferno",
+    "power_catalyst_scepter_dagger",
+    "power_catalyst_scepter_dagger_pf",
     "power_virtuoso_spear_greatsword",
     "power_virtuoso_dagger_sword_greatsword",
     "power_virtuoso",
-    "power_tempest",
-    "power_tempest_inferno_scepter_dagger",
+    "power_troubadour",
+    // CHECKED POWER BOON BUILDS
+    "power_quickness_ritualist",
+    "power_quickness_catalyst_scepter_dagger",
+    "power_quickness_catalyst_scepter_dagger_inferno",
+    "inferno_quickness_catalyst_scepter_dagger",
+    "power_quickness_catalyst_scepter_dagger",
+    "power_quickness_catalyst_scepter_dagger_pf",
+    "power_inferno_quickness_catalyst_scepter_dagger_pf",
+    // CHECKED CONDITION BOON BUILDS
+    "celestial_alacrity_scourge",
+    "condition_alacrity_scourge",
+    // CHECKED CONDITION BUILDS
+    "condition_reaper",
+    "condition_scourge",
+    "condition_weaver_scepter",
+    "condition_weaver_pistol",
+    "condition_evoker",
+
+    // UNCHECKED POWER BUILDS
+    "power_untamed",
+    "power_untamed_sword_axe",
+    "power_herald",
+    "power_conduit",
     "inferno_tempest_scepter_dagger",
     "power_chronomancer",
-    "power_troubadour",
-    // POWER BOON BUILDS
+    // UNCHECKED POWER BOON BUILDS
     "power_alacrity_tempest_inferno_scepter_focus",
     "power_quickness_herald",
     "power_boon_chronomancer",
     "power_alacrity_tempest_hammer",
     "power_alacrity_tempest",
     "power_alacrity_tempest_inferno_scepter_focus",
-    "celestial_alacrity_scourge",
     "power_alacrity_renegade",
-    "power_quickness_ritualist",
-    // CONDITION BUILDS
+    // UNCHECKED CONDITION BUILDS
     "condition_druid",
     "condition_thief",
     "condition_thief_spear",
-    "condition_willbender",
-    "condition_willbender_scepter",
-    "condition_weaver_scepter",
-    "condition_weaver_pistol",
     "condition_tempest",
-    "condition_reaper",
-    "condition_scourge",
     "condition_conduit",
     "condition_renegade",
     "condition_mechanist_kitless",
     "condition_soulbeast",
     "condition_soulbeast_shortbow",
     "condition_soulbeast_quickdraw",
-    // CONDI BOON BUILDS
+    // UNCHECKED CONDI BOON BUILDS
     "condition_alacrity_tempest_scepter",
     "condition_alacrity_renegade",
     "condition_alacrity_tempest",
@@ -181,6 +202,8 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "condition_berserker",
     "condition_mechanist",
     "condition_mechanist_two_kits",
+    "condition_willbender_scepter",
+    "condition_willbender",
     // CONDI BOON BUILDS
     "condition_quickness_harbinger",
     "condition_alacrity_mechanist_1_kit",
@@ -413,6 +436,16 @@ void RenderType::render_debug_data()
     }
 }
 
+void RenderType::render_debug_window()
+{
+    static bool show_debug_window = true;
+
+    if (ImGui::Begin("Debug Data###GW2RotaHelper_Debug", &show_debug_window))
+        render_debug_data();
+
+    ImGui::End();
+}
+
 void RenderType::render_xml_selection()
 {
     if (!Settings::XmlSettingsPath.empty())
@@ -581,6 +614,23 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
 
 #ifdef _DEBUG
     render_xml_selection();
+
+    // Debug window toggle button
+    const auto debug_button_width = ImGui::GetWindowSize().x * 0.3f;
+    const auto centered_pos_debug = calculate_centered_position({"Debug Window"});
+    ImGui::SetCursorPosX(centered_pos_debug);
+
+    static bool show_debug_window = false;
+    if (ImGui::Button("Debug Window", ImVec2(debug_button_width, 0)))
+    {
+        show_debug_window = !show_debug_window;
+    }
+
+    // Render debug window if enabled
+    if (show_debug_window)
+    {
+        render_debug_window();
+    }
 #endif
 }
 
@@ -671,8 +721,7 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
 
 #ifdef _DEBUG
 #ifdef GW2_NEXUS_ADDON
-        if (ImGui::CollapsingHeader("Debug Data", ImGuiTreeNodeFlags_DefaultOpen))
-            render_debug_data();
+        // Debug data is now in separate window
 #endif
 #endif
     }
@@ -814,7 +863,6 @@ void RenderType::render_symbol_and_text(bool &is_selected,
     auto symbol_size = ImGui::GetTextLineHeight() * 0.8f;
     auto item_height = ImGui::GetTextLineHeightWithSpacing();
 
-    // Make the selectable area
     if (ImGui::Selectable((selectable_id + std::to_string(original_index)).c_str(),
                           is_selected,
                           0,
@@ -951,27 +999,6 @@ void RenderType::render_untested_and_text(bool &is_selected,
                            draw_question_mark);
 }
 
-void RenderType::render_star_and_text(bool &is_selected,
-                                      const int original_index,
-                                      const BenchFileInfo *const &file_info,
-                                      const std::string base_formatted_name)
-{
-    auto draw_star = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
-        ImVec2 star_points[10];
-        for (int i = 0; i < 10; i++)
-        {
-            const auto angle = i * std::numbers::pi / 5.0f - std::numbers::pi / 2.0f;
-            const auto star_radius = (i % 2 == 0) ? radius : radius * 0.4f;
-            star_points[i] = ImVec2(center.x + cos(angle) * star_radius, center.y + sin(angle) * star_radius);
-        }
-
-        draw_list->AddConvexPolyFilled(star_points, 10, IM_COL32(255, 215, 0, 255));
-        draw_list->AddPolyline(star_points, 10, IM_COL32(200, 150, 0, 255), true, 1.0f);
-    };
-
-    render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, "##starred_", draw_star);
-}
-
 void RenderType::render_tick_and_text(bool &is_selected,
                                       const int original_index,
                                       const BenchFileInfo *const &file_info,
@@ -1019,6 +1046,12 @@ void RenderType::render_selection()
         }
         else
         {
+            // Make the popup scrollable with a reasonable max height
+            ImGui::BeginChild("scrollable_bench_list",
+                              ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 15),
+                              false,
+                              ImGuiWindowFlags_AlwaysVerticalScrollbar);
+
             for (const auto &[original_index, file_info] : filtered_files)
             {
                 if (file_info->is_directory_header)
@@ -1127,6 +1160,8 @@ void RenderType::render_selection()
                         ImGui::SetItemDefaultFocus();
                 }
             }
+
+            ImGui::EndChild(); // End scrollable child window
         }
         ImGui::EndPopup();
     }

@@ -80,7 +80,7 @@ const std::set<std::string_view> skills_substr_to_drop = {
     // RANGER
     // THIEF
     // ELEMENTALIST
-    "Flame Explosion",
+    "Flame Expulsion",
     // MESMER
     // NECROMANCER
     // REVENANT
@@ -109,6 +109,7 @@ const std::set<std::string_view> skills_match_to_drop = {
     // ELEMENTALIST
     "Sunspot",
     "Earthen Blast",
+    "Flame Explosion",
     // MESMER
     "Mirage Cloak",
     "Syncopate",
@@ -146,6 +147,7 @@ const std::set<std::string_view> special_substr_to_gray_out = {
     // ELEMENTALIST
     "Deploy Jade Sphere",
     "Zap",
+    "Aerial Agility",
     // MESMER
     "Distortion",
     // NECROMANCER
@@ -257,6 +259,10 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::DUST_STORM,
     SkillID::DRAGON_S_TOOTH,
     SkillID::FLAME_BARRAGE,
+    SkillID::IGNITE,
+    SkillID::IGNITE_1,
+    SkillID::RELENTLESS_FIRE,
+    SkillID::CONFLAGRATION,
     // MESMER
     SkillID::SIGNET_OF_DOMINATION,
     SkillID::SIGNET_OF_MIDNIGHT,
@@ -539,11 +545,17 @@ const std::map<SkillID, float> grey_skill_cast_time_map = {
     // MESMER
     {SkillID::PHANTASMAL_BERSERKER, 0.75f},
     {SkillID::SIGNET_OF_THE_ETHER, 1.0f},
+    {SkillID::PHANTASMAL_DISENCHANTER, 1.0f}, //
     // ENGINEER
     {SkillID::FLAME_BLAST, 0.10f}, // NOTE: lower than real
     {SkillID::NAPALM, 2.0f},       // NOTE: lower than real
     {SkillID::SUPERCONDUCTING_SIGNET, 0.75f},
     {SkillID::DEVASTATOR, 1.0f}, // XXX: Check if it works
+    // ELEMENTALIST
+    {SkillID::DRAGON_S_TOOTH, 0.75f},  //
+    {SkillID::AERIAL_AGILITY, 0.5f},   //
+    {SkillID::AERIAL_AGILITY_1, 0.5f}, //
+    {SkillID::AERIAL_AGILITY_2, 0.5f}, //
 };
 
 SkillData GetDataByID(const SkillID skill_id, const SkillDataMap &skill_data_map)
