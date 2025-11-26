@@ -391,7 +391,7 @@ void get_rotation_info(const IntNode &node,
                                     SkillRuleData::skill_rules.special_substr_to_remove_duplicates);
 
                 auto was_there_previous = false;
-                if (!all_rotation_steps.empty())
+                if (is_duplicate_skill && !all_rotation_steps.empty())
                 {
                     // Check last skill
                     if (all_rotation_steps.back().skill_data.name == skill_data.name)
@@ -430,6 +430,19 @@ void get_rotation_info(const IntNode &node,
     std::sort(all_rotation_steps.begin(), all_rotation_steps.end(), [](const RotationStep &a, const RotationStep &b) {
         return a.time_of_cast < b.time_of_cast;
     });
+
+    all_rotation_steps.erase(
+        std::remove_if(all_rotation_steps.begin(), all_rotation_steps.end(),
+                       [](const RotationStep &step) {
+                           const auto is_duplicate_skill =
+                               is_skill_in_set(step.skill_data.name,
+                                              SkillRuleData::skill_rules.special_substr_to_remove_duplicates_names) ||
+                               is_skill_in_set(step.skill_data.skill_id,
+                                              SkillRuleData::skill_rules.special_substr_to_remove_duplicates);
+
+                           return is_duplicate_skill && !step.skill_data.is_auto_attack;
+                       }),
+        all_rotation_steps.end());
 }
 
 SkillDataMap get_skill_data_map(const nlohmann::json &j)
