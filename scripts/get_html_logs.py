@@ -204,6 +204,7 @@ class SnowCrowsScraper:
                             "elite_spec": class_info.get("elite_spec", ""),
                             "build_type": class_info.get("build_type", "power"),
                             "url_name": build_name,
+                            "overall_dps": None,  # Will be populated during download
                         }
                         builds_info.append(build_info)
 
@@ -273,6 +274,7 @@ class SnowCrowsScraper:
                     "build_type": build_type,
                     "url_name": build_name.lower().replace(" ", "_"),
                     "dps_report_url": dps_report_url,
+                    "overall_dps": None,  # Will be populated during download
                 }
                 builds_info.append(build_info)
 
@@ -383,6 +385,126 @@ class SnowCrowsScraper:
         )
         return processed_content
 
+    def _extract_overall_dps(self, html_content: str) -> float | None:
+        """Extract overall DPS value from HTML content"""
+        try:
+            # Debug: Log a snippet of the HTML to see the structure
+            if 'class="active"' in html_content:
+                active_row_start = html_content.find('class="active"')
+                if active_row_start != -1:
+                    snippet = html_content[active_row_start:active_row_start + 800]
+                    self.logger.debug(f"Found active row snippet: {snippet[:400]}...")
+            elif "data-original-title" in html_content and "damage" in html_content:
+                # Find first damage tooltip for debugging
+                damage_start = html_content.find("data-original-title")
+                if damage_start != -1:
+                    snippet = html_content[damage_start:damage_start + 300]
+                    self.logger.debug(f"Found damage tooltip snippet: {snippet}")
+
+            # Pattern to match td elements with data-original-title containing damage info
+            # Example: <td data-original-title="4023510 damage&lt;br&gt;100% of total&lt;br&gt;100% of group" class="sorted">62855</td>
+            # More flexible patterns to catch various formats
+            dps_patterns = [
+                # Pattern 1: Handle exact structure from user's HTML with class="sorted"
+                r'<td[^>]*data-original-title="([^"]*damage[^"]*)"[^>]*class="sorted"[^>]*>\s*(\d{1,6})\s*</td>',
+                # Pattern 2: Handle reversed attribute order (class before data-original-title)
+                r'<td[^>]*class="sorted"[^>]*data-original-title="([^"]*damage[^"]*)"[^>]*>\s*(\d{1,6})\s*</td>',
+                # Pattern 3: More liberal - any td with damage, handle multiline whitespace
+                r'<td[^>]*data-original-title="([^"]*damage[^"]*)"[^>]*>\s*(\d{1,6})\s*</td>',
+                # Pattern 4: Ultra flexible for cases with newlines between > and number
+                r'<td[^>]*data-original-title="([^"]*damage[^"]*)"[^>]*>.*?(\d{1,6}).*?</td>',
+            ]
+
+            for pattern in dps_patterns:
+                matches = re.findall(pattern, html_content, re.IGNORECASE | re.DOTALL)
+
+                if matches:
+                    dps_values = []
+                    for tooltip, dps_text in matches:
+                        try:
+                            dps_val = float(dps_text)
+                            # Filter reasonable DPS values (between 1000 and 100000)
+                            if 1000 <= dps_val <= 100000:
+                                # Additional validation: check if tooltip contains "100% of total"
+                                # This indicates it's the main player's total DPS
+                                if "100% of total" in tooltip:
+                                    self.logger.info(f"Found total DPS: {dps_val} (tooltip: {tooltip[:50]}...)")
+                                    return dps_val
+                                dps_values.append(dps_val)
+                        except ValueError:
+                            continue
+
+                    # If no "100% of total" found, return the highest DPS value
+                    if dps_values:
+                        overall_dps = max(dps_values)
+                        self.logger.info(f"Extracted overall DPS: {overall_dps}")
+                        return overall_dps
+
+            # Fallback: try to extract from WebDriver if available
+            if hasattr(self, "driver") and self.driver:
+                return self._extract_dps_from_webdriver()
+
+            self.logger.warning("Could not extract overall DPS from HTML content")
+            return None
+
+        except Exception as e:
+            self.logger.warning(f"Error extracting overall DPS: {e}")
+            return None
+
+    def _extract_dps_from_webdriver(self) -> float | None:
+        """Extract DPS value using WebDriver to find specific elements"""
+        try:
+            # Look for td elements with data-original-title containing "damage" and "100% of total"
+            # Target the specific structure from the user's HTML
+            dps_selectors = [
+                # Primary: match the exact structure with "sorted" class and "100% of total"
+                "//tr[@class='active']//td[@class='sorted' and contains(@data-original-title, 'damage') and contains(@data-original-title, '100% of total')]",
+                # Fallback 1: any td in active row with damage and "100% of total"
+                "//tr[@class='active']//td[contains(@data-original-title, 'damage') and contains(@data-original-title, '100% of total')]",
+                # Fallback 2: any td with "sorted" class and damage
+                "//td[@class='sorted' and contains(@data-original-title, 'damage')]",
+                # Fallback 3: first td with damage in any row
+                "//td[contains(@data-original-title, 'damage')]",
+                # Fallback 4: most liberal - any td with damage
+                "//td[contains(@data-original-title, 'damage')]",
+            ]
+
+            for selector in dps_selectors:
+                try:
+                    elements = self.driver.find_elements(By.XPATH, selector)  # type: ignore
+                    self.logger.debug(f"Found {len(elements)} elements with selector: {selector}")
+
+                    for i, element in enumerate(elements):
+                        text = element.text.strip()
+                        tooltip = element.get_attribute("data-original-title") or ""
+
+                        self.logger.debug(f"Element {i + 1}: text='{text}', tooltip='{tooltip[:100]}...'")
+
+                        # Extract numeric value from text
+                        dps_match = re.search(r"(\d{1,6})", text)
+                        if dps_match:
+                            dps_val = float(dps_match.group(1))
+                            if 1000 <= dps_val <= 10000000:
+                                # Prefer elements with "100% of total" in tooltip
+                                if "100% of total" in tooltip:
+                                    self.logger.info(f"Extracted total DPS from WebDriver: {dps_val}")
+                                    return dps_val
+                                # If this is the first element and no "100% of total" requirement met yet
+                                if i == 0:  # First element is often the main player DPS
+                                    self.logger.info(f"Extracted first element DPS from WebDriver: {dps_val}")
+                                    return dps_val
+                                self.logger.info(f"Extracted DPS from WebDriver: {dps_val}")
+                                return dps_val
+                except Exception as e:
+                    self.logger.debug(f"Error parsing element for DPS: {e}")
+                    continue
+
+            return None
+
+        except Exception as e:
+            self.logger.warning(f"Error extracting DPS from WebDriver: {e}")
+            return None
+
     def download_snowcrows_build_with_metadata(self, build_info: dict) -> bool:
         """Download HTML content and store with metadata"""
         try:
@@ -451,6 +573,15 @@ class SnowCrowsScraper:
             WebDriverWait(self.driver, 10).until(  # type: ignore
                 EC.presence_of_element_located((By.TAG_NAME, "body")),
             )
+
+            # Extract overall DPS from the initial page load (before tab navigation)
+            initial_html_content = self.driver.page_source  # type: ignore
+            overall_dps = self._extract_overall_dps(initial_html_content)
+            if overall_dps is not None:
+                build_info["overall_dps"] = overall_dps
+                self.logger.info(f"Found overall DPS: {overall_dps}")
+            else:
+                self.logger.warning("Could not extract overall DPS value")
 
             try:
                 self.logger.info("Looking for Player Summary tab...")
@@ -570,6 +701,15 @@ class SnowCrowsScraper:
                 )
 
             html_content = self.driver.page_source  # type: ignore
+
+            # Extract overall DPS before processing HTML content
+            overall_dps = self._extract_overall_dps(html_content)
+            if overall_dps is not None:
+                build_info["overall_dps"] = overall_dps
+                self.logger.info(f"Found overall DPS: {overall_dps}")
+            else:
+                self.logger.warning("Could not extract overall DPS value")
+
             html_content = self._process_html_content(html_content)
 
             # Create appropriate subdirectory structure
@@ -588,8 +728,9 @@ class SnowCrowsScraper:
             # Add file path to build info
             build_info["html_file_path"] = str(file_path.relative_to(self.output_dir))
 
+            dps_info = f" - DPS: {build_info.get('overall_dps', 'N/A')}" if build_info.get("overall_dps") else ""
             self.logger.info(
-                f"Saved: {build_info['html_file_path']} ({build_info['profession']} - {build_info['elite_spec']})",
+                f"Saved: {build_info['html_file_path']} ({build_info['profession']} - {build_info['elite_spec']}){dps_info}",
             )
             return True
 
@@ -739,8 +880,9 @@ def main() -> None:
             )
             for i, build_info in enumerate(builds_and_links, 1):
                 filename = scraper._sanitize_build_name(build_info["url_name"])
+                dps_info = f" (DPS: {build_info['overall_dps']})" if build_info.get("overall_dps") else ""
                 print(
-                    f"{i:2d}. {build_info['name']} ({build_info['benchmark_type'].upper()}) -> {filename}",
+                    f"{i:2d}. {build_info['name']} ({build_info['benchmark_type'].upper()}){dps_info} -> {filename}",
                 )
                 print(
                     f"     Profession: {build_info['profession']} ({build_info['elite_spec']})",
