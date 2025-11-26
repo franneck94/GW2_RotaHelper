@@ -755,6 +755,9 @@ void RenderType::render_snowcrows_build_link()
         copy_to_clipboard(Globals::RotationRun.meta_data.url);
     }
 
+    if (Globals::RotationRun.meta_data.overall_dps > 0.0)
+        ImGui::Text("Overall Dps: %f", Globals::RotationRun.meta_data.overall_dps);
+
     if (ImGui::IsItemHovered())
         ImGui::SetTooltip("Copy the Snow Crows build guide link to clipboard");
 

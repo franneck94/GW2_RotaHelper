@@ -619,6 +619,9 @@ MetaData get_metadata(const nlohmann::json &j)
     if (build_meta.contains("html_file_path") && build_meta["html_file_path"].is_string())
         metadata.html_file_path = build_meta["html_file_path"].get<std::string>();
 
+    if (build_meta.contains("overall_dps") && build_meta["overall_dps"].is_number_float())
+        metadata.overall_dps = build_meta["overall_dps"].get<double>();
+
     metadata.elite_spec_id = string_to_elite_spec(metadata.elite_spec);
     metadata.profession_id = string_to_profession(metadata.profession);
 

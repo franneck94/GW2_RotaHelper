@@ -237,6 +237,7 @@ enum class EliteSpecID : uint32_t
 
 struct MetaData
 {
+    double overall_dps;
     std::string name;
     std::string url;
     std::string benchmark_type;
