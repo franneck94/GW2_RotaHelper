@@ -63,7 +63,6 @@ add_library(first_party_libs STATIC
     "src/Settings.cpp"
     "src/Render.cpp"
     "src/LogData.cpp"
-    "src/resource.rc"
     "src/ArcEvents.cpp"
     "src/Textures.cpp"
     "src/Rotation.cpp"
@@ -72,7 +71,6 @@ add_library(first_party_libs STATIC
     "src/MumbleUtils.cpp"
     "src/SkillData.cpp"
 )
-set_source_files_properties("src/resource.rc" PROPERTIES LANGUAGE RC)
 target_include_directories(first_party_libs PUBLIC
     "src"
 )
@@ -80,10 +78,16 @@ target_link_libraries(first_party_libs PRIVATE
     third_party_libs
 )
 
+add_library(TEXTURE OBJECT
+    "src/resource.rc"
+    "src/resource.h"
+)
+set_source_files_properties("src/resource.rc" PROPERTIES LANGUAGE RC)
 add_library(GW2RotaHelper SHARED
     "src/entry.cpp"
 )
 target_link_libraries(GW2RotaHelper PRIVATE
+    TEXTURE
     third_party_libs
     first_party_libs
 )
