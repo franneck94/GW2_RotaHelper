@@ -2,8 +2,8 @@
 #define VERSION_H
 
 #define MAJOR 0
-#define MINOR 16
-#define BUILD 3
+#define MINOR 17
+#define BUILD 0
 #define REVISION 0
 
 #define STRINGIFY(x) #x
