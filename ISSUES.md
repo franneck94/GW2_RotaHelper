@@ -10,3 +10,4 @@
 - double skill removal does not wor kfor first occurence
 
 - Greyed out skills: add cast time and wait that to go to next (pop)
+    - Multi gray cast timt elogic does not work
