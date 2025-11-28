@@ -751,12 +751,7 @@ void RenderType::render_snowcrows_build_link()
 
     const auto button_text = "Copy SC Build Link";
     if (ImGui::Button(button_text, ImVec2(button_width, 0)))
-    {
         copy_to_clipboard(Globals::RotationRun.meta_data.url);
-    }
-
-    if (Globals::RotationRun.meta_data.overall_dps > 0.0)
-        ImGui::Text("Overall Dps: %f", Globals::RotationRun.meta_data.overall_dps);
 
     if (ImGui::IsItemHovered())
         ImGui::SetTooltip("Copy the Snow Crows build guide link to clipboard");
@@ -832,6 +827,12 @@ void RenderType::render_text_filter()
         combo_preview_slice = combo_preview.substr(0, combo_preview.size() - 8);
         formatted_name = format_build_name(combo_preview_slice);
         formatted_name = formatted_name.substr(4);
+        if (Globals::RotationRun.meta_data.overall_dps > 0.0)
+        {
+            char buf[64];
+            sprintf(buf, " (%.0f)", Globals::RotationRun.meta_data.overall_dps);
+            formatted_name += buf;
+        }
     }
 }
 
