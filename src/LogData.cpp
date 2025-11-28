@@ -143,6 +143,11 @@ void get_skill_info(const IntNode &node, LogSkillInfoMap &log_skill_info_map)
         "Unknown Skill",
         "local://-9999.png",
     };
+
+    log_skill_info_map[2] = {
+        "Dodge",
+        "https://wiki.guildwars2.com/images/b/b2/Dodge.png",
+    };
 }
 
 

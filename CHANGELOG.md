@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added working addon icon image (a park bench)
   - If you have any good idea come back to me
 
+### Improvements
+
+- Loads correct dodge image
+
 ## 0.17.0 - 2025-11-26
 
 ### Features

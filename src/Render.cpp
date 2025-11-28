@@ -43,6 +43,9 @@
 
 namespace
 {
+auto DODGE_ICON_ID = 2;
+auto UNK_SKILL_ICON_ID = 0;
+
 static const inline std::set<std::string_view> red_crossed_builds = {
     // CHECKED POWER BUILDS
     "power_amalgam",
@@ -1408,11 +1411,11 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
     {
         render_skill_texture(rotation_step, texture, auto_attack_index);
     }
-    else if (rotation_step.skill_data.icon_id == 2)
+    else if (rotation_step.skill_data.icon_id == DODGE_ICON_ID)
     {
         render_dodge_placeholder();
     }
-    else if (rotation_step.skill_data.icon_id == 9)
+    else if (rotation_step.skill_data.icon_id == UNK_SKILL_ICON_ID)
     {
         render_unknown_placeholder();
     }
