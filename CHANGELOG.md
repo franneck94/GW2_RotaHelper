@@ -5,23 +5,24 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.17.0
+## 0.17.0 - 2025-11-26
 
 ### Features
 
-- Added option to show number of auto attacks in a chain (of at least 2 aa')
+- Added option to show number of auto attacks in a chain (of at least 2 aa's)
   - Active when keybind option is active
+- Show the Overall DPS from the report on selected build
 
 ### Improvements
 
 - Build Selection is now a scrollable
 - Improved for Evoker and Catalyst
-- Fixed skill duplicates (multi hit skills)
+- Fixed skill duplicates
 
 ### Notes
 
 - Dropped Vertical Layout
-- Dropped names and times option (is now activated on default since its only shown when hovered over skill icons)
+- Dropped names and times option (is now activated by default, since its only shown when hovered over skill icons)
 
 ## Known Issues
 
