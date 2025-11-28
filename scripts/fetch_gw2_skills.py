@@ -255,16 +255,16 @@ class GW2SkillFetcher:
         # Post-process specific skills for correct skill_type mapping
         skill_id = skill.get("id")
         mechanist_skill_mapping = {
-                63188: SkillSlot.PROFESSION_1.value,  # Spark Revolver (F1)
-                63334: SkillSlot.PROFESSION_1.value,  # Rolling Smash (F1 alt)
-                63185: SkillSlot.PROFESSION_1.value,  # Rocket Punch (F1 alt)
-                63345: SkillSlot.PROFESSION_2.value,  # Core Rheactor Shot (F1 alt)
-                63367: SkillSlot.PROFESSION_2.value,  # Discharge Array (F1 alt)
-                63293: SkillSlot.PROFESSION_2.value,  # Crisis Zone (F1 alt)
-                63121: SkillSlot.PROFESSION_3.value,  # Jade Mortar (F1 alt)
-                63236: SkillSlot.PROFESSION_3.value,  # Sky Circus (F1 alt)
-                63141: SkillSlot.PROFESSION_3.value,  # Barrier Burst (F1 alt)
-            }
+            63188: SkillSlot.PROFESSION_1.value,  # Spark Revolver (F1)
+            63334: SkillSlot.PROFESSION_1.value,  # Rolling Smash (F1 alt)
+            63185: SkillSlot.PROFESSION_1.value,  # Rocket Punch (F1 alt)
+            63345: SkillSlot.PROFESSION_2.value,  # Core Rheactor Shot (F1 alt)
+            63367: SkillSlot.PROFESSION_2.value,  # Discharge Array (F1 alt)
+            63293: SkillSlot.PROFESSION_2.value,  # Crisis Zone (F1 alt)
+            63121: SkillSlot.PROFESSION_3.value,  # Jade Mortar (F1 alt)
+            63236: SkillSlot.PROFESSION_3.value,  # Sky Circus (F1 alt)
+            63141: SkillSlot.PROFESSION_3.value,  # Barrier Burst (F1 alt)
+        }
         if skill_id in mechanist_skill_mapping:  # Mechanist F skills
             filtered_skill["skill_type"] = str(mechanist_skill_mapping[skill_id])
             filtered_skill["is_profession_skill"] = True
@@ -473,6 +473,8 @@ class GW2SkillFetcher:
             or skill_data.get("is_utility_skill", False)
             or skill_data.get("is_weapon_skill", False)
             or skill_data.get("is_profession_skill", False)
+            or skill_data.get("weapon_type", 0) != 0
+            or skill_data.get("skill_type", "0") != "0"
         }
 
         categorized_skills["9999"] = {
@@ -560,6 +562,8 @@ class GW2SkillFetcher:
             and not skill_data.get("is_utility_skill", False)
             and not skill_data.get("is_weapon_skill", False)
             and not skill_data.get("is_profession_skill", False)
+            and skill_data.get("skill_type", "0") == "0"
+            and skill_data.get("weapon_type", 0) == 0
         }
 
         output_file = self.output_dir / "gw2_uncategorized_skills.json"

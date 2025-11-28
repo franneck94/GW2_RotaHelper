@@ -67,7 +67,7 @@ def generate_skill_enum(skills_data: dict, output_path: Path) -> None:
             "",
             "#include <cstdint>",
             "",
-            "enum class SkillID : uint32_t",
+            "enum class SkillID : int32_t",
             "{",
         ),
     )

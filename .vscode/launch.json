@@ -45,6 +45,15 @@
             "justMyCode": false
         },
         {
+            "name": "Debug: get_skill_enum",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/get_skill_enum.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false
+        },
+        {
             "name": "Debug: version script",
             "type": "debugpy",
             "request": "launch",
