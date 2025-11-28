@@ -2,8 +2,6 @@
 
 ## Planned
 
-- On larger icon size the white border looks weird
-- Mech F-skills do not show keybind
 - Multi gray cast timt logic does not work?
 - Power Guardian Builds Parsing Error for Logs
 
