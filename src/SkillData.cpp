@@ -371,7 +371,6 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_drop_mat
 
 const std::set<std::string_view> special_substr_to_remove_duplicates_names = {
     "Offensive Protocol: Demolish",
-    "Dodge",
 };
 
 const std::set<SkillID> special_substr_to_remove_duplicates = {
