@@ -561,12 +561,12 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
                 }
                 else
                 {
-                    skill_data.icon_id = 9999;
+                    skill_data.icon_id = (int)SkillID::UNKNOWN_SKILL;
                 }
             }
             else
             {
-                skill_data.icon_id = 9999;
+                skill_data.icon_id = (int)SkillID::UNKNOWN_SKILL;
             }
         }
 
@@ -576,12 +576,12 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
                 !skill_data.is_elite_skill && !skill_data.is_heal_skill && !skill_data.is_profession_skill)
             {
                 skill_data.name = "Weapon Swap";
-                skill_data.icon_id = 9999;
+                skill_data.icon_id = (int)SkillID::WEAPON_SWAP;
             }
             else
             {
                 skill_data.name = "Unknown";
-                skill_data.icon_id = -99999;
+                skill_data.icon_id = (int)SkillID::UNKNOWN_SKILL;
             }
         }
 

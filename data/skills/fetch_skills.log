@@ -471,3 +471,18 @@ KeyError: 62749
 2025-11-28 08:56:13,261 - __main__ - INFO - File size: 1.03 MB
 2025-11-28 08:56:13,262 - __main__ - INFO - Metadata saved to: C:\Users\schaf.JANPC\Documents\_LocalCoding\GW2_RotaHelper\data\skills\gw2_skills_metadata.json
 2025-11-28 08:56:13,262 - __main__ - INFO - Successfully completed skill data fetch!
+2025-11-28 09:01:55,312 - __main__ - INFO - Starting GW2 skill data fetch...
+2025-11-28 09:01:55,316 - __main__ - INFO - Loaded 2264 existing skills from C:\Users\schaf.JANPC\Documents\_LocalCoding\GW2_RotaHelper\data\skills\gw2_skills_en.json
+2025-11-28 09:01:55,316 - __main__ - INFO - Fetching skill IDs from GW2 API...
+2025-11-28 09:01:55,404 - __main__ - INFO - Found 4684 total skills
+2025-11-28 09:01:55,404 - __main__ - INFO - Processing 24 chunks of skills...
+2025-11-28 09:01:58,606 - __main__ - INFO - Successfully fetched 4684 skills from API
+2025-11-28 09:01:58,606 - __main__ - INFO - Total skills in dataset: 4690
+2025-11-28 09:01:58,627 - __main__ - INFO - Skills data saved to: C:\Users\schaf.JANPC\Documents\_LocalCoding\GW2_RotaHelper\data\skills\gw2_skills_en.json
+2025-11-28 09:01:58,627 - __main__ - INFO - Saved 2265 categorized skills out of 4690 total skills
+2025-11-28 09:01:58,627 - __main__ - INFO - File size: 0.97 MB
+2025-11-28 09:01:58,647 - __main__ - INFO - Uncategorized skills data saved to: C:\Users\schaf.JANPC\Documents\_LocalCoding\GW2_RotaHelper\data\skills\gw2_uncategorized_skills.json
+2025-11-28 09:01:58,647 - __main__ - INFO - Found 2428 uncategorized skills out of 4690 total skills
+2025-11-28 09:01:58,648 - __main__ - INFO - File size: 1.03 MB
+2025-11-28 09:01:58,648 - __main__ - INFO - Metadata saved to: C:\Users\schaf.JANPC\Documents\_LocalCoding\GW2_RotaHelper\data\skills\gw2_skills_metadata.json
+2025-11-28 09:01:58,648 - __main__ - INFO - Successfully completed skill data fetch!

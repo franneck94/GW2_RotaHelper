@@ -27269,21 +27269,6 @@
     "skill_type": "0",
     "weapon_type": 0
   },
-  "63185": {
-    "cast_time": 0.0,
-    "icon": "https://render.guildwars2.com/file/02DA2C9899B63DE522020824C67D05951F40CA4A/2503679.png",
-    "id": 63185,
-    "is_auto_attack": false,
-    "is_elite_skill": false,
-    "is_heal_skill": false,
-    "is_profession_skill": false,
-    "is_utility_skill": false,
-    "is_weapon_skill": false,
-    "name": "Rocket Punch",
-    "recharge": 5,
-    "skill_type": "0",
-    "weapon_type": 0
-  },
   "63365": {
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/02DA2C9899B63DE522020824C67D05951F40CA4A/2503679.png",

@@ -24521,7 +24521,7 @@
     "is_weapon_skill": false,
     "name": "Jade Mortar",
     "recharge": 20,
-    "skill_type": "11",
+    "skill_type": "13",
     "weapon_type": 0
   },
   "63128": {
@@ -24611,7 +24611,7 @@
     "is_weapon_skill": false,
     "name": "Barrier Burst",
     "recharge": 30,
-    "skill_type": "11",
+    "skill_type": "13",
     "weapon_type": 0
   },
   "63147": {
@@ -24763,6 +24763,21 @@
     "recharge": 0,
     "skill_type": "1",
     "weapon_type": 14
+  },
+  "63185": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/02DA2C9899B63DE522020824C67D05951F40CA4A/2503679.png",
+    "id": 63185,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": true,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Rocket Punch",
+    "recharge": 5,
+    "skill_type": "11",
+    "weapon_type": 0
   },
   "63186": {
     "cast_time": 0.0,
@@ -24971,7 +24986,7 @@
     "is_weapon_skill": false,
     "name": "Sky Circus",
     "recharge": 30,
-    "skill_type": "11",
+    "skill_type": "13",
     "weapon_type": 0
   },
   "63249": {
@@ -25151,7 +25166,7 @@
     "is_weapon_skill": false,
     "name": "Crisis Zone",
     "recharge": 30,
-    "skill_type": "11",
+    "skill_type": "12",
     "weapon_type": 0
   },
   "63294": {
@@ -25346,7 +25361,7 @@
     "is_weapon_skill": false,
     "name": "Core Reactor Shot",
     "recharge": 25,
-    "skill_type": "11",
+    "skill_type": "12",
     "weapon_type": 0
   },
   "63350": {
@@ -25421,7 +25436,7 @@
     "is_weapon_skill": false,
     "name": "Discharge Array",
     "recharge": 30,
-    "skill_type": "11",
+    "skill_type": "12",
     "weapon_type": 0
   },
   "63374": {
@@ -30228,15 +30243,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/696501BA136CA660BD22D0D0A3B19741D4A77529/3680211.png",
     "id": 76633,
-    "is_auto_attack": false,
+    "is_auto_attack": true,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": true,
+    "is_profession_skill": false,
     "is_utility_skill": false,
-    "is_weapon_skill": false,
+    "is_weapon_skill": true,
     "name": "Forged Surfer Dash",
     "recharge": 0,
-    "skill_type": "12",
+    "skill_type": "1",
     "weapon_type": 0
   },
   "76634": {
