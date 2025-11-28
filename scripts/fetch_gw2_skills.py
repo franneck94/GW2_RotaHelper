@@ -252,6 +252,23 @@ class GW2SkillFetcher:
         filtered_skill["recharge"] = recharge_value if recharge_value is not None else 0
         filtered_skill["cast_time"] = cast_time_value if cast_time_value is not None else 0.0
 
+        # Post-process specific skills for correct skill_type mapping
+        skill_id = skill.get("id")
+        mechanist_skill_mapping = {
+                63188: SkillSlot.PROFESSION_1.value,  # Spark Revolver (F1)
+                63334: SkillSlot.PROFESSION_1.value,  # Rolling Smash (F1 alt)
+                63185: SkillSlot.PROFESSION_1.value,  # Rocket Punch (F1 alt)
+                63345: SkillSlot.PROFESSION_2.value,  # Core Rheactor Shot (F1 alt)
+                63367: SkillSlot.PROFESSION_2.value,  # Discharge Array (F1 alt)
+                63293: SkillSlot.PROFESSION_2.value,  # Crisis Zone (F1 alt)
+                63121: SkillSlot.PROFESSION_3.value,  # Jade Mortar (F1 alt)
+                63236: SkillSlot.PROFESSION_3.value,  # Sky Circus (F1 alt)
+                63141: SkillSlot.PROFESSION_3.value,  # Barrier Burst (F1 alt)
+            }
+        if skill_id in mechanist_skill_mapping:  # Mechanist F skills
+            filtered_skill["skill_type"] = str(mechanist_skill_mapping[skill_id])
+            filtered_skill["is_profession_skill"] = True
+
         return filtered_skill
 
     async def fetch_all_skills(
@@ -505,133 +522,6 @@ class GW2SkillFetcher:
             "recharge": 0,
             "cast_time": 0.0,
         }
-
-        # Add Mechanist F skills (mech skills)
-        mechanist_f_skills = {
-            "62832": {  # Spark Revolver
-                "icon": "",
-                "id": 62832,
-                "name": "Spark Revolver",
-                "weapon_type": WeaponType.NONE.value,
-                "skill_type": str(SkillSlot.PROFESSION_1.value),
-                "is_auto_attack": True,  # F1 is typically auto attack
-                "is_weapon_skill": False,
-                "is_utility_skill": False,
-                "is_elite_skill": False,
-                "is_heal_skill": False,
-                "is_profession_skill": True,
-                "recharge": 20,
-                "cast_time": 0.0,
-            },
-            "62926": {  # Core Reactor Shot
-                "icon": "",
-                "id": 62926,
-                "name": "Core Reactor Shot",
-                "weapon_type": WeaponType.NONE.value,
-                "skill_type": str(SkillSlot.PROFESSION_1.value),
-                "is_auto_attack": False,
-                "is_weapon_skill": False,
-                "is_utility_skill": False,
-                "is_elite_skill": False,
-                "is_heal_skill": False,
-                "is_profession_skill": True,
-                "recharge": 25,
-                "cast_time": 0.0,
-            },
-            "62851": {  # Jade Mortar
-                "icon": "",
-                "id": 62851,
-                "name": "Jade Mortar",
-                "weapon_type": WeaponType.NONE.value,
-                "skill_type": str(SkillSlot.PROFESSION_1.value),
-                "is_auto_attack": False,
-                "is_weapon_skill": False,
-                "is_utility_skill": False,
-                "is_elite_skill": False,
-                "is_heal_skill": False,
-                "is_profession_skill": True,
-                "recharge": 20,
-                "cast_time": 0.0,
-            },
-            "62796": {  # Rolling Smash
-                "icon": "",
-                "id": 62796,
-                "name": "Rolling Smash",
-                "weapon_type": WeaponType.NONE.value,
-                "skill_type": str(SkillSlot.PROFESSION_1.value),
-                "is_auto_attack": False,
-                "is_weapon_skill": False,
-                "is_utility_skill": False,
-                "is_elite_skill": False,
-                "is_heal_skill": False,
-                "is_profession_skill": True,
-                "recharge": 20,
-                "cast_time": 0.0,
-            },
-            "62749": {  # Discharge Array
-                "icon": "",
-                "id": 62749,
-                "name": "Discharge Array",
-                "weapon_type": WeaponType.NONE.value,
-                "skill_type": str(SkillSlot.PROFESSION_1.value),
-                "is_auto_attack": False,
-                "is_weapon_skill": False,
-                "is_utility_skill": False,
-                "is_elite_skill": False,
-                "is_heal_skill": False,
-                "is_profession_skill": True,
-                "recharge": 30,
-                "cast_time": 0.0,
-            },
-            "62941": {  # Sky Circus
-                "icon": "",
-                "id": 62941,
-                "name": "Sky Circus",
-                "weapon_type": WeaponType.NONE.value,
-                "skill_type": str(SkillSlot.PROFESSION_1.value),
-                "is_auto_attack": False,
-                "is_weapon_skill": False,
-                "is_utility_skill": False,
-                "is_elite_skill": False,
-                "is_heal_skill": False,
-                "is_profession_skill": True,
-                "recharge": 0,
-                "cast_time": 0.0,
-            },
-            "63049": {  # Barrier Burst
-                "icon": "",
-                "id": 63049,
-                "name": "Barrier Burst",
-                "weapon_type": WeaponType.NONE.value,
-                "skill_type": str(SkillSlot.PROFESSION_1.value),
-                "is_auto_attack": False,
-                "is_weapon_skill": False,
-                "is_utility_skill": False,
-                "is_elite_skill": False,
-                "is_heal_skill": False,
-                "is_profession_skill": True,
-                "recharge": 30,
-                "cast_time": 0.0,
-            },
-            "62982": {  # Crisis Zone
-                "icon": "",
-                "id": 62982,
-                "name": "Crisis Zone",
-                "weapon_type": WeaponType.NONE.value,
-                "skill_type": str(SkillSlot.PROFESSION_1.value),
-                "is_auto_attack": False,
-                "is_weapon_skill": False,
-                "is_utility_skill": False,
-                "is_elite_skill": False,
-                "is_heal_skill": False,
-                "is_profession_skill": True,
-                "recharge": 30,
-                "cast_time": 0.0,
-            },
-        }
-
-        # Merge mechanist skills with categorized skills
-        categorized_skills.update(mechanist_f_skills)
 
         output_file = self.output_dir / "gw2_skills_en.json"
 

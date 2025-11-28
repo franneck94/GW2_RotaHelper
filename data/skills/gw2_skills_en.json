@@ -1664,6 +1664,21 @@
     "skill_type": "11",
     "weapon_type": 0
   },
+  "10586": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/A9050BAB0847390C0112694321B0F6AEDF7AE1FB/102804.png",
+    "id": 10586,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": false,
+    "is_utility_skill": false,
+    "is_weapon_skill": true,
+    "name": "Locked",
+    "recharge": 0,
+    "skill_type": "4",
+    "weapon_type": 0
+  },
   "10588": {
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/6CAB0D17DF604E5C6330523A350EC4430409A309/103818.png",
@@ -23759,6 +23774,21 @@
     "skill_type": "5",
     "weapon_type": 2
   },
+  "62851": {
+    "cast_time": 0.0,
+    "icon": "",
+    "id": 62851,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": true,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Jade Mortar",
+    "recharge": 20,
+    "skill_type": "11",
+    "weapon_type": 0
+  },
   "62857": {
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/7E57E419ADBB0D0FCD47FC99FDE43234232E0D06/1770647.png",
@@ -23954,6 +23984,21 @@
     "skill_type": "1",
     "weapon_type": 1
   },
+  "62915": {
+    "cast_time": 0.0,
+    "icon": "",
+    "id": 62915,
+    "is_auto_attack": true,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": true,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Rocket Punch",
+    "recharge": 0,
+    "skill_type": "11",
+    "weapon_type": 0
+  },
   "62921": {
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/4DC60B7DDD12C72BDAC25F18A064C2ABE54645ED/2491612.png",
@@ -23983,6 +24028,21 @@
     "recharge": 0,
     "skill_type": "1",
     "weapon_type": 2
+  },
+  "62926": {
+    "cast_time": 0.0,
+    "icon": "",
+    "id": 62926,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": true,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Core Reactor Shot",
+    "recharge": 25,
+    "skill_type": "11",
+    "weapon_type": 0
   },
   "62929": {
     "cast_time": 0.0,
@@ -24449,6 +24509,21 @@
     "skill_type": "1",
     "weapon_type": 2
   },
+  "63121": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/BB3491B513007BC7109250054CC003B408E46D01/2503684.png",
+    "id": 63121,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": true,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Jade Mortar",
+    "recharge": 20,
+    "skill_type": "11",
+    "weapon_type": 0
+  },
   "63128": {
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/15BE9504ACEED3C462F7173D63E44836BFA2F934/2503736.png",
@@ -24523,6 +24598,21 @@
     "recharge": 0,
     "skill_type": "1",
     "weapon_type": 14
+  },
+  "63141": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/BAF5BED745DABF5112014A7E2F5E29645FDBA6D3/2503685.png",
+    "id": 63141,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": true,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Barrier Burst",
+    "recharge": 30,
+    "skill_type": "11",
+    "weapon_type": 0
   },
   "63147": {
     "cast_time": 0.0,
@@ -24689,6 +24779,21 @@
     "skill_type": "1",
     "weapon_type": 12
   },
+  "63188": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/5F4E2699CF2750EA912E4D1303EB1EDF6AE30C3F/2503680.png",
+    "id": 63188,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": true,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Spark Revolver",
+    "recharge": 20,
+    "skill_type": "11",
+    "weapon_type": 0
+  },
   "63195": {
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/DEBBE571B2A3C879DBDF1270931A74D3CEB0263A/2503732.png",
@@ -24853,6 +24958,21 @@
     "recharge": 12,
     "skill_type": "3",
     "weapon_type": 12
+  },
+  "63236": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/F5B22BC2DCE815FD124A1B25646606633A68D1F5/2503686.png",
+    "id": 63236,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": true,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Sky Circus",
+    "recharge": 30,
+    "skill_type": "11",
+    "weapon_type": 0
   },
   "63249": {
     "cast_time": 0.0,
@@ -25019,6 +25139,21 @@
     "skill_type": "6",
     "weapon_type": 0
   },
+  "63293": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/157891E17AB0EC5703BC5AF19F7A0E0CA27105A1/2503675.png",
+    "id": 63293,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": true,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Crisis Zone",
+    "recharge": 30,
+    "skill_type": "11",
+    "weapon_type": 0
+  },
   "63294": {
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/347CEB77023C76989211D59EBFC6970EEA7354E1/2503756.png",
@@ -25124,6 +25259,21 @@
     "skill_type": "5",
     "weapon_type": 2
   },
+  "63334": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/043E0C37A34EB862D81B3902EC7660392FE9D922/2503678.png",
+    "id": 63334,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": true,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Rolling Smash",
+    "recharge": 20,
+    "skill_type": "11",
+    "weapon_type": 0
+  },
   "63335": {
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/7369B820749874C1F15A4B02AD2F18B94A6AB84C/2503717.png",
@@ -25182,6 +25332,21 @@
     "name": "Unleash Pet",
     "recharge": 1,
     "skill_type": "15",
+    "weapon_type": 0
+  },
+  "63345": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/7D28F26BB09378C256BAAE2F90DA1F3D6B5CCB71/2503683.png",
+    "id": 63345,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": true,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Core Reactor Shot",
+    "recharge": 25,
+    "skill_type": "11",
     "weapon_type": 0
   },
   "63350": {
@@ -25243,6 +25408,21 @@
     "recharge": 7,
     "skill_type": "2",
     "weapon_type": 2
+  },
+  "63367": {
+    "cast_time": 0.0,
+    "icon": "https://render.guildwars2.com/file/604109FCDFB65446F2274106E7C113F75B111345/2503681.png",
+    "id": 63367,
+    "is_auto_attack": false,
+    "is_elite_skill": false,
+    "is_heal_skill": false,
+    "is_profession_skill": true,
+    "is_utility_skill": false,
+    "is_weapon_skill": false,
+    "name": "Discharge Array",
+    "recharge": 30,
+    "skill_type": "11",
+    "weapon_type": 0
   },
   "63374": {
     "cast_time": 0.0,
@@ -29868,15 +30048,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/02727B1807CF0FEF31037FD9E307BABB2055AE3C/3680214.png",
     "id": 76582,
-    "is_auto_attack": false,
+    "is_auto_attack": true,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": true,
+    "is_profession_skill": false,
     "is_utility_skill": false,
-    "is_weapon_skill": false,
+    "is_weapon_skill": true,
     "name": "Metal Legion Guitar",
     "recharge": 0,
-    "skill_type": "12",
+    "skill_type": "1",
     "weapon_type": 0
   },
   "76583": {
@@ -30213,15 +30393,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/57A193E75618661CE3F51DC44AC59F7BA72E6169/3680210.png",
     "id": 76702,
-    "is_auto_attack": false,
+    "is_auto_attack": true,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": true,
+    "is_profession_skill": false,
     "is_utility_skill": false,
-    "is_weapon_skill": false,
+    "is_weapon_skill": true,
     "name": "Exalted Hammer",
     "recharge": 0,
-    "skill_type": "12",
+    "skill_type": "1",
     "weapon_type": 0
   },
   "76703": {
@@ -30648,15 +30828,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/4506224EB1921800602CAD52B6B209960FE51153/3680209.png",
     "id": 76816,
-    "is_auto_attack": true,
+    "is_auto_attack": false,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": false,
+    "is_profession_skill": true,
     "is_utility_skill": false,
-    "is_weapon_skill": true,
+    "is_weapon_skill": false,
     "name": "Chak Shield",
     "recharge": 0,
-    "skill_type": "1",
+    "skill_type": "12",
     "weapon_type": 0
   },
   "76841": {
@@ -30798,15 +30978,15 @@
     "cast_time": 0.0,
     "icon": "https://render.guildwars2.com/file/0FBFB6FA27C9BEBD1872DAACDB040AEA71A616A9/3680208.png",
     "id": 76909,
-    "is_auto_attack": false,
+    "is_auto_attack": true,
     "is_elite_skill": false,
     "is_heal_skill": false,
-    "is_profession_skill": true,
+    "is_profession_skill": false,
     "is_utility_skill": false,
-    "is_weapon_skill": false,
+    "is_weapon_skill": true,
     "name": "Unstable Skritt Bomb",
     "recharge": 0,
-    "skill_type": "12",
+    "skill_type": "1",
     "weapon_type": 0
   },
   "76910": {
