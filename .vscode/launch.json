@@ -62,8 +62,8 @@
             "request": "launch",
             "program": "${workspaceFolder}/scripts/img_to_c_array.py",
             "args": [
-                "src/resources/TEX_GW2RotaHelperNORMAL.png",
-                "src/resources/TEX_GW2RotaHelperHOVER.png",
+                "resources/TEX_GW2RotaHelperNORMAL.png",
+                "resources/TEX_GW2RotaHelperHOVER.png",
                 "--array-name1",
                 "ARR_GW2RotaHelperNORMAL",
                 "--array-name2",

@@ -169,3 +169,7 @@ NOTE: Since i have no clue about reverse engineering i cannot do the skill detec
 ## 💬 Support & Feedback
 
 Encountered an issue or have suggestions for improvement? Reach out via Discord or submit a detailed GitHub issue to help us enhance your experience.
+
+## Licenses
+
+Icon Image from https://www.flaticon.com/free-icon/bench_119312
