@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.20)
 project(GW2RotaHelper_Addon)
 
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_STANDARD_REQUIRED OFF)
+set(CMAKE_CXX_EXTENSIONS ON)
 
 include(FetchContent)
 FetchContent_Declare(
@@ -73,21 +74,16 @@ add_library(first_party_libs STATIC
 )
 target_include_directories(first_party_libs PUBLIC
     "src"
+    "resources"
 )
 target_link_libraries(first_party_libs PRIVATE
     third_party_libs
 )
 
-add_library(TEXTURE OBJECT
-    "src/resource.rc"
-    "src/resource.h"
-)
-set_source_files_properties("src/resource.rc" PROPERTIES LANGUAGE RC)
 add_library(GW2RotaHelper SHARED
     "src/entry.cpp"
 )
 target_link_libraries(GW2RotaHelper PRIVATE
-    TEXTURE
     third_party_libs
     first_party_libs
 )
@@ -96,7 +92,7 @@ set_target_properties(GW2RotaHelper PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/bin/release"
 )
 
-set(LOWER_VERSION "0.16.0.0")
+set(LOWER_VERSION "0.17.0.0")
 
 add_custom_command(TARGET GW2RotaHelper POST_BUILD
     COMMAND python "${CMAKE_SOURCE_DIR}/scripts/create_version_file.py" "--lower_version=${LOWER_VERSION}" "--header_path=${CMAKE_SOURCE_DIR}/src/Version.h"
