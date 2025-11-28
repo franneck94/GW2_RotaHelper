@@ -330,6 +330,7 @@ class HTMLRotationExtractor:
                     "benchmark_type": build_metadata.get("benchmark_type", "dps"),
                     "url": build_metadata.get("url", ""),
                     "dps_report_url": build_metadata.get("dps_report_url", ""),
+                    "overall_dps": build_metadata.get("overall_dps"),
                 }
             else:
                 # Fallback: determine from file path/name
@@ -341,6 +342,7 @@ class HTMLRotationExtractor:
                     "benchmark_type": self._determine_benchmark_type(html_file),
                     "url": "",
                     "dps_report_url": "",
+                    "overall_dps": None,
                 }
 
             # Log extraction results with profession info
