@@ -7,9 +7,6 @@
 
 const char *SHOW_WINDOW = "ShowWindow";
 const char *FILTER_BUFFER = "FilterBuffer";
-const char *SHOW_SKILL_NAME = "ShowSkillName";
-const char *SHOW_SKILL_TIME = "ShowSkillTime";
-const char *HORIZONTAL_SKILL_LAYOUT = "HorizontalSkillLayout";
 const char *SHOW_WEAPON_SWAP = "ShowWeaponSwap";
 const char *SHOW_KEYBIND = "ShowKeybind";
 const char *XML_SETTINGS_FILE = "XmlSettingsFile";
@@ -55,18 +52,6 @@ void Load(std::filesystem::path aPath)
         auto filter_str = Settings[FILTER_BUFFER].get<std::string>();
         strncpy_s(FilterBuffer, sizeof(FilterBuffer), filter_str.c_str(), _TRUNCATE);
     }
-    if (!Settings[SHOW_SKILL_NAME].is_null())
-    {
-        Settings[SHOW_SKILL_NAME].get_to<bool>(ShowSkillName);
-    }
-    if (!Settings[SHOW_SKILL_TIME].is_null())
-    {
-        Settings[SHOW_SKILL_TIME].get_to<bool>(ShowSkillTime);
-    }
-    if (!Settings[HORIZONTAL_SKILL_LAYOUT].is_null())
-    {
-        Settings[HORIZONTAL_SKILL_LAYOUT].get_to<bool>(HorizontalSkillLayout);
-    }
     if (!Settings[SHOW_WEAPON_SWAP].is_null())
     {
         Settings[SHOW_WEAPON_SWAP].get_to<bool>(ShowWeaponSwap);
@@ -101,9 +86,6 @@ void Save(std::filesystem::path aPath)
     {
         Settings[SHOW_WINDOW] = ShowWindow;
         Settings[FILTER_BUFFER] = std::string(FilterBuffer);
-        Settings[SHOW_SKILL_NAME] = ShowSkillName;
-        Settings[SHOW_SKILL_TIME] = ShowSkillTime;
-        Settings[HORIZONTAL_SKILL_LAYOUT] = HorizontalSkillLayout;
         Settings[SHOW_WEAPON_SWAP] = ShowWeaponSwap;
         Settings[SHOW_KEYBIND] = ShowKeybind;
         Settings[XML_SETTINGS_FILE] = XmlSettingsPath.string();
@@ -127,9 +109,6 @@ void ToggleShowWindow(std::filesystem::path SettingsPath)
 
 bool ShowWindow = true;
 char FilterBuffer[50] = "";
-bool ShowSkillName = true;
-bool ShowSkillTime = true;
-bool HorizontalSkillLayout = false;
 bool ShowWeaponSwap = false;
 bool ShowKeybind = false;
 bool StrictModeForSkillDetection = false;

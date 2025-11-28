@@ -14,9 +14,6 @@ using json = nlohmann::json;
 
 extern const char *SHOW_WINDOW;
 extern const char *FILTER_BUFFER;
-extern const char *SHOW_SKILL_NAME;
-extern const char *SHOW_SKILL_TIME;
-extern const char *HORIZONTAL_SKILL_LAYOUT;
 extern const char *SHOW_WEAPON_SWAP;
 extern const char *SHOW_KEYBIND;
 extern const char *XML_SETTINGS_FILE;
@@ -35,9 +32,6 @@ void ToggleShowWindow(std::filesystem::path SettingsPath);
 
 extern bool ShowWindow;
 extern char FilterBuffer[50];
-extern bool ShowSkillName;
-extern bool ShowSkillTime;
-extern bool HorizontalSkillLayout;
 extern bool ShowWeaponSwap;
 extern bool ShowKeybind;
 extern bool StrictModeForSkillDetection;

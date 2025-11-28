@@ -267,14 +267,11 @@ std::string get_skill_text(const RotationStep &rotation_step)
 {
     auto text = rotation_step.skill_data.name;
 
-    if (Settings::ShowSkillTime)
-    {
-        text += " (";
-        char time_buffer[32];
-        snprintf(time_buffer, sizeof(time_buffer), "%.2f", rotation_step.time_of_cast);
-        text += time_buffer;
-        text += ")";
-    }
+    text += " (";
+    char time_buffer[32];
+    snprintf(time_buffer, sizeof(time_buffer), "%.2f", rotation_step.time_of_cast);
+    text += time_buffer;
+    text += ")";
 
     return text;
 }
@@ -1190,20 +1187,9 @@ void RenderType::restart_rotation()
 
 void RenderType::render_rotation_window(const bool is_not_ui_adjust_active, ID3D11Device *pd3dDevice)
 {
-    float window_width = 0.0f;
-    float window_height = 0.0f;
+    float window_width = 600.0f;
+    float window_height = 100.0f;
     ImGuiIO &io = ImGui::GetIO();
-
-    if (!Settings::HorizontalSkillLayout)
-    {
-        window_width = 400.0f;
-        window_height = 400.0f;
-    }
-    else
-    {
-        window_width = 600.0f;
-        window_height = 100.0f;
-    }
 
     ImGui::SetNextWindowSize(ImVec2(window_width, window_height), ImGuiCond_FirstUseEver);
     float pos_x = (io.DisplaySize.x - window_width) * 0.5f;

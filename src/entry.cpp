@@ -164,11 +164,7 @@ void AddonLoad(AddonAPI *aApi)
 
     Settings::Load(Globals::SettingsPath);
 
-    if (Settings::HorizontalSkillLayout)
-        Globals::SkillIconSize = 64.0F;
-    else
-        Globals::SkillIconSize = 28.0F;
-
+    Globals::SkillIconSize = 64.0F;
     Globals::APIDefs->Textures.LoadFromMemory("TEX_GW2_RotaHelper_NORMAL", (void*)ARR_GW2RotaHelperNORMAL, ARR_GW2RotaHelperNORMAL_size, nullptr);
     Globals::APIDefs->Textures.LoadFromMemory("TEX_GW2_RotaHelper_HOVER", (void*)ARR_GW2RotaHelperHOVER, ARR_GW2RotaHelperHOVER_size, nullptr);
     RegisterQuickAccessShortcut();
