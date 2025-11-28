@@ -15,7 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Improvements
 
 - Loads correct dodge image
-- Mech F-skills do show correct keybind
+- Mech F-skills do show correct keybind#
+- Extended Skill Enum
 
 ## 0.17.0 - 2025-11-26
 

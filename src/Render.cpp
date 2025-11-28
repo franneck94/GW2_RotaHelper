@@ -1210,7 +1210,7 @@ void RenderType::render_rotation_window(const bool is_not_ui_adjust_active, ID3D
     if (ImGui::Begin("##GW2RotaHelper_Rota_Horizontal", &Settings::ShowWindow, curr_flags_rota))
     {
         const auto current_window_size = ImGui::GetWindowSize();
-        Globals::SkillIconSize = min(current_window_size.y * 0.7f, 80.0f);
+        Globals::SkillIconSize = min(current_window_size.y * 0.7f, 120.0f);
         Globals::SkillIconSize = max(Globals::SkillIconSize, 24.0f);
 
         render_rotation_horizontal(pd3dDevice);
