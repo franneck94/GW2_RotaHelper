@@ -1987,6 +1987,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/engineer/condition-mechanist",
-    "dps_report_url": "https://dps.report/yKQA-20250423-002229_golem"
+    "dps_report_url": "https://dps.report/yKQA-20250423-002229_golem",
+    "overall_dps": 43486.0
   }
 }

@@ -1669,6 +1669,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/mesmer/condition-mirage-ih-oasis",
-    "dps_report_url": "https://dps.report/5eVE-20250827-031559_golem"
+    "dps_report_url": "https://dps.report/5eVE-20250827-031559_golem",
+    "overall_dps": 50894.0
   }
 }

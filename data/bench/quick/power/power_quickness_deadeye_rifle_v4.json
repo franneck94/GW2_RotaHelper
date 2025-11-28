@@ -1423,6 +1423,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/thief/power-quickness-deadeye-rifle",
-    "dps_report_url": "https://dps.report/EooP-20250904-002822_golem"
+    "dps_report_url": "https://dps.report/EooP-20250904-002822_golem",
+    "overall_dps": 37218.0
   }
 }

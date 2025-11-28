@@ -1540,6 +1540,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/necromancer/power-harbinger-greatsword-dagger-sword",
-    "dps_report_url": "https://dps.report/bPSj-20240328-140358_golem"
+    "dps_report_url": "https://dps.report/bPSj-20240328-140358_golem",
+    "overall_dps": 43757.0
   }
 }

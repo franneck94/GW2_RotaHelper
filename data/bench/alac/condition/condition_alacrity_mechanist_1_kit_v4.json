@@ -2487,6 +2487,7 @@
     "build_type": "condition",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/engineer/condition-alacrity-mechanist-1-kit",
-    "dps_report_url": "https://dps.report/n4qX-20250423-160558_golem"
+    "dps_report_url": "https://dps.report/n4qX-20250423-160558_golem",
+    "overall_dps": 34003.0
   }
 }

@@ -2069,6 +2069,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/mesmer/condition-mirage-dune-cloak",
-    "dps_report_url": "https://dps.report/mndS-20250822-003804_golem"
+    "dps_report_url": "https://dps.report/mndS-20250822-003804_golem",
+    "overall_dps": 46181.0
   }
 }

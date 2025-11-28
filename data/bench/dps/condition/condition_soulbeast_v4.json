@@ -1727,6 +1727,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/ranger/condition-soulbeast",
-    "dps_report_url": "https://dps.report/wiqI-20250625-224908_golem"
+    "dps_report_url": "https://dps.report/wiqI-20250625-224908_golem",
+    "overall_dps": 37649.0
   }
 }

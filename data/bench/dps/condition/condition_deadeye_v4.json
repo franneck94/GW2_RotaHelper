@@ -1652,6 +1652,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/condition-deadeye",
-    "dps_report_url": "https://dps.report/4GTi-20240530-005615_golem"
+    "dps_report_url": "https://dps.report/4GTi-20240530-005615_golem",
+    "overall_dps": 40856.0
   }
 }

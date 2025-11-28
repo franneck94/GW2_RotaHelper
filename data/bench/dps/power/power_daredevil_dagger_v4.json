@@ -1670,6 +1670,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/power-daredevil-dagger",
-    "dps_report_url": "https://dps.report/SGy8-20240729-161641_golem"
+    "dps_report_url": "https://dps.report/SGy8-20240729-161641_golem",
+    "overall_dps": 43316.0
   }
 }

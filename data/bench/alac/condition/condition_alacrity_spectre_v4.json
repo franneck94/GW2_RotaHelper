@@ -2009,6 +2009,7 @@
     "build_type": "condition",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/thief/condition-alacrity-spectre",
-    "dps_report_url": "https://dps.report/e3gK-20250830-145722_golem"
+    "dps_report_url": "https://dps.report/e3gK-20250830-145722_golem",
+    "overall_dps": 34731.0
   }
 }

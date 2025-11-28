@@ -1152,6 +1152,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/inferno-tempest-scepter-dagger",
-    "dps_report_url": "https://dps.report/lpOL-20251006-093317_golem"
+    "dps_report_url": "https://dps.report/lpOL-20251006-093317_golem",
+    "overall_dps": 46642.0
   }
 }

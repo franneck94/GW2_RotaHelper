@@ -1431,6 +1431,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/warrior/power-berserker",
-    "dps_report_url": "https://dps.report/SlU1-20241011-200304_golem"
+    "dps_report_url": "https://dps.report/SlU1-20241011-200304_golem",
+    "overall_dps": 43532.0
   }
 }

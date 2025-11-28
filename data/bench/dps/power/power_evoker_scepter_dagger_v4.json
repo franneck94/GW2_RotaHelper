@@ -1979,6 +1979,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/power-evoker-scepter-dagger",
-    "dps_report_url": "https://dps.report/8KU7-20251118-161211_golem"
+    "dps_report_url": "https://dps.report/8KU7-20251118-161211_golem",
+    "overall_dps": 50287.0
   }
 }

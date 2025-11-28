@@ -2277,6 +2277,7 @@
     "build_type": "condition",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/elementalist/condition-quickness-catalyst-pistol-warhorn",
-    "dps_report_url": "https://dps.report/Y4GP-20250811-220229_golem"
+    "dps_report_url": "https://dps.report/Y4GP-20250811-220229_golem",
+    "overall_dps": 36237.0
   }
 }

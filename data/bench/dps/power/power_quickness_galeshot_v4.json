@@ -1600,6 +1600,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/ranger/power-quickness-galeshot",
-    "dps_report_url": "https://dps.report/E7tJ-20251102-210014_golem"
+    "dps_report_url": "https://dps.report/E7tJ-20251102-210014_golem",
+    "overall_dps": 41313.0
   }
 }

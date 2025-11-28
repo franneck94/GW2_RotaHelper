@@ -1955,6 +1955,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/power-catalyst-scepter-dagger",
-    "dps_report_url": "https://dps.report/KglF-20251119-115538_golem"
+    "dps_report_url": "https://dps.report/KglF-20251119-115538_golem",
+    "overall_dps": 45902.0
   }
 }

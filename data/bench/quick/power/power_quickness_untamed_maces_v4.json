@@ -1966,6 +1966,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/ranger/power-quickness-untamed-maces",
-    "dps_report_url": "https://dps.report/rCvQ-20250426-155517_golem"
+    "dps_report_url": "https://dps.report/rCvQ-20250426-155517_golem",
+    "overall_dps": 33906.0
   }
 }

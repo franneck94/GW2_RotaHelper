@@ -2071,6 +2071,7 @@
     "build_type": "condition",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/guardian/condition-quickness-firebrand",
-    "dps_report_url": "https://dps.report/PZz2-20250513-164740_golem"
+    "dps_report_url": "https://dps.report/PZz2-20250513-164740_golem",
+    "overall_dps": 36685.0
   }
 }

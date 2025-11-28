@@ -1494,6 +1494,7 @@
     "build_type": "power",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/elementalist/power-alacrity-tempest-inferno-scepter-focus",
-    "dps_report_url": "https://dps.report/0kW0-20251120-143549_golem"
+    "dps_report_url": "https://dps.report/0kW0-20251120-143549_golem",
+    "overall_dps": 38222.0
   }
 }

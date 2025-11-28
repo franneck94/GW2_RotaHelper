@@ -1492,6 +1492,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/ranger/power-untamed",
-    "dps_report_url": "https://gw2wingman.nevermindcreations.de/log/ab717-20250530-152646_StdGolem_kill"
+    "dps_report_url": "https://gw2wingman.nevermindcreations.de/log/ab717-20250530-152646_StdGolem_kill",
+    "overall_dps": null
   }
 }

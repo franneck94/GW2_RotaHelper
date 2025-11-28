@@ -1658,6 +1658,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/ranger/condition-druid",
-    "dps_report_url": "https://dps.report/704v-20250625-144721_golem"
+    "dps_report_url": "https://dps.report/704v-20250625-144721_golem",
+    "overall_dps": 48550.0
   }
 }

@@ -1331,6 +1331,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/guardian/condition-willbender-scepter",
-    "dps_report_url": "https://dps.report/RSLy-20250930-003329_golem"
+    "dps_report_url": "https://dps.report/RSLy-20250930-003329_golem",
+    "overall_dps": 46142.0
   }
 }

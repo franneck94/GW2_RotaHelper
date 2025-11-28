@@ -2265,6 +2265,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/elementalist/power-quickness-catalyst-sword-dagger-pf",
-    "dps_report_url": "https://dps.report/zfva-20250427-211749_golem"
+    "dps_report_url": "https://dps.report/zfva-20250427-211749_golem",
+    "overall_dps": 39100.0
   }
 }

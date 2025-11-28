@@ -1692,6 +1692,7 @@
     "build_type": "condition",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/elementalist/condition-alacrity-tempest",
-    "dps_report_url": "https://dps.report/ToYQ-20240320-030855_golem"
+    "dps_report_url": "https://dps.report/ToYQ-20240320-030855_golem",
+    "overall_dps": 34899.0
   }
 }

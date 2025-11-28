@@ -1550,6 +1550,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/mesmer/power-virtuoso",
-    "dps_report_url": "https://dps.report/AKGH-20250216-220953_golem"
+    "dps_report_url": "https://dps.report/AKGH-20250216-220953_golem",
+    "overall_dps": 43371.0
   }
 }

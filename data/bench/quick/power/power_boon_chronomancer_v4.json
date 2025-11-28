@@ -2045,6 +2045,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/mesmer/power-boon-chronomancer",
-    "dps_report_url": "https://dps.report/Vc4z-20251031-212055_golem"
+    "dps_report_url": "https://dps.report/Vc4z-20251031-212055_golem",
+    "overall_dps": 36025.0
   }
 }

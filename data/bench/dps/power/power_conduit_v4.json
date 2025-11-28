@@ -1629,6 +1629,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/revenant/power-conduit",
-    "dps_report_url": "https://dps.report/nl9q-20251118-035108_golem"
+    "dps_report_url": "https://dps.report/nl9q-20251118-035108_golem",
+    "overall_dps": 39372.0
   }
 }

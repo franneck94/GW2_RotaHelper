@@ -1808,6 +1808,7 @@
     "build_type": "power",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/elementalist/power-alacrity-tempest",
-    "dps_report_url": "https://dps.report/G5ap-20250211-205455_golem"
+    "dps_report_url": "https://dps.report/G5ap-20250211-205455_golem",
+    "overall_dps": 33823.0
   }
 }

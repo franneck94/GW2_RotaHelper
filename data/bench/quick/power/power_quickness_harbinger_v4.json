@@ -1778,6 +1778,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/necromancer/power-quickness-harbinger",
-    "dps_report_url": "https://dps.report/BCeZ-20240822-094804_golem"
+    "dps_report_url": "https://dps.report/BCeZ-20240822-094804_golem",
+    "overall_dps": 35212.0
   }
 }

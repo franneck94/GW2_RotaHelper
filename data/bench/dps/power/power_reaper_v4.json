@@ -1588,6 +1588,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/necromancer/power-reaper",
-    "dps_report_url": "https://dps.report/oU7B-20240321-155135_golem"
+    "dps_report_url": "https://dps.report/oU7B-20240321-155135_golem",
+    "overall_dps": 42141.0
   }
 }

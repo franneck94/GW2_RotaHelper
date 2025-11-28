@@ -2686,6 +2686,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/revenant/power-quickness-herald",
-    "dps_report_url": "https://dps.report/b5fG-20250214-121250_golem"
+    "dps_report_url": "https://dps.report/b5fG-20250214-121250_golem",
+    "overall_dps": 32073.0
   }
 }

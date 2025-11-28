@@ -1954,6 +1954,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/warrior/power-berserker-axe-axe-axe-mace",
-    "dps_report_url": "https://dps.report/uFlG-20250429-111410_golem"
+    "dps_report_url": "https://dps.report/uFlG-20250429-111410_golem",
+    "overall_dps": 44564.0
   }
 }

@@ -1486,6 +1486,7 @@
     "build_type": "condition",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/thief/condition-alacrity-antiquary",
-    "dps_report_url": "https://dps.report/yrBH-20251104-152158_golem"
+    "dps_report_url": "https://dps.report/yrBH-20251104-152158_golem",
+    "overall_dps": 46154.0
   }
 }

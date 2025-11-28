@@ -1917,6 +1917,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/ranger/power-quickness-untamed-offhand-mace",
-    "dps_report_url": "https://dps.report/RpVr-20250519-121123_golem"
+    "dps_report_url": "https://dps.report/RpVr-20250519-121123_golem",
+    "overall_dps": 35154.0
   }
 }

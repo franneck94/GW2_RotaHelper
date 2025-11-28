@@ -1294,6 +1294,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/warrior/power-bladesworn",
-    "dps_report_url": "https://b.dps.report/3QR7-20250821-063721_golem"
+    "dps_report_url": "https://b.dps.report/3QR7-20250821-063721_golem",
+    "overall_dps": 46751.0
   }
 }

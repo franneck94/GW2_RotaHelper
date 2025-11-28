@@ -1721,6 +1721,7 @@
     "build_type": "condition",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/thief/condition-quickness-deadeye-scepter",
-    "dps_report_url": "https://dps.report/nCym-20250711-230722_golem"
+    "dps_report_url": "https://dps.report/nCym-20250711-230722_golem",
+    "overall_dps": 32938.0
   }
 }

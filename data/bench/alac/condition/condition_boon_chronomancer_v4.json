@@ -1647,6 +1647,7 @@
     "build_type": "condition",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/mesmer/condition-boon-chronomancer",
-    "dps_report_url": "https://dps.report/Qv1n-20250510-031308_golem"
+    "dps_report_url": "https://dps.report/Qv1n-20250510-031308_golem",
+    "overall_dps": 35080.0
   }
 }

@@ -1802,6 +1802,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/power-catalyst-sword-dagger-pf",
-    "dps_report_url": "https://dps.report/VW8L-20250814-083156_golem"
+    "dps_report_url": "https://dps.report/VW8L-20250814-083156_golem",
+    "overall_dps": 44500.0
   }
 }

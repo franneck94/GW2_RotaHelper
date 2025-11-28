@@ -1705,6 +1705,7 @@
     "build_type": "condition",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/thief/condition-quickness-deadeye",
-    "dps_report_url": "https://dps.report/WwTh-20250712-001920_golem"
+    "dps_report_url": "https://dps.report/WwTh-20250712-001920_golem",
+    "overall_dps": 34607.0
   }
 }

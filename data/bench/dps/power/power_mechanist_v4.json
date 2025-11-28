@@ -2005,6 +2005,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/engineer/power-mechanist",
-    "dps_report_url": "https://dps.report/rDWx-20250422-165726_golem"
+    "dps_report_url": "https://dps.report/rDWx-20250422-165726_golem",
+    "overall_dps": 40668.0
   }
 }

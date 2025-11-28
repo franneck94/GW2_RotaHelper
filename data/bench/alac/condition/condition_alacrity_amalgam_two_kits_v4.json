@@ -2016,6 +2016,7 @@
     "build_type": "condition",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/engineer/condition-alacrity-amalgam-two-kits",
-    "dps_report_url": "https://dps.report/xMPq-20251103-163857_golem"
+    "dps_report_url": "https://dps.report/xMPq-20251103-163857_golem",
+    "overall_dps": 47155.0
   }
 }

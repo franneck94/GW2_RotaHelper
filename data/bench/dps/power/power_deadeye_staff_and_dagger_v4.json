@@ -1702,6 +1702,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/power-deadeye-staff-and-dagger",
-    "dps_report_url": "https://dps.report/KCY6-20250607-174654_golem"
+    "dps_report_url": "https://dps.report/KCY6-20250607-174654_golem",
+    "overall_dps": 43026.0
   }
 }

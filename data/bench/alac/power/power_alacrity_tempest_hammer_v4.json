@@ -1498,6 +1498,7 @@
     "build_type": "power",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/elementalist/power-alacrity-tempest-hammer",
-    "dps_report_url": "https://dps.report/L6zb-20250313-171138_golem"
+    "dps_report_url": "https://dps.report/L6zb-20250313-171138_golem",
+    "overall_dps": 34564.0
   }
 }

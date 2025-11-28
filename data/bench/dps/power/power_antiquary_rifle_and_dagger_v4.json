@@ -862,6 +862,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/power-antiquary-rifle-and-dagger",
-    "dps_report_url": "https://dps.report/YeHu-20251101-182603_golem"
+    "dps_report_url": "https://dps.report/YeHu-20251101-182603_golem",
+    "overall_dps": 59194.0
   }
 }

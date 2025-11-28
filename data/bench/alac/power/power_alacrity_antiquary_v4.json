@@ -1334,6 +1334,7 @@
     "build_type": "power",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/thief/power-alacrity-antiquary",
-    "dps_report_url": "https://dps.report/LJFa-20251029-025741_golem"
+    "dps_report_url": "https://dps.report/LJFa-20251029-025741_golem",
+    "overall_dps": 43666.0
   }
 }

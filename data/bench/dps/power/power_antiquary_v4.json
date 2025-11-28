@@ -1041,6 +1041,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/power-antiquary",
-    "dps_report_url": "https://dps.report/A2PV-20251102-124534_golem"
+    "dps_report_url": "https://dps.report/A2PV-20251102-124534_golem",
+    "overall_dps": 59507.0
   }
 }

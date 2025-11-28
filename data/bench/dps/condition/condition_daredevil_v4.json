@@ -920,6 +920,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/condition-daredevil",
-    "dps_report_url": "https://dps.report/x9oZ-20250629-021609_golem"
+    "dps_report_url": "https://dps.report/x9oZ-20250629-021609_golem",
+    "overall_dps": 41472.0
   }
 }

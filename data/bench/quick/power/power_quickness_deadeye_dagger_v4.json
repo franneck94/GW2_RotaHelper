@@ -1945,6 +1945,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/thief/power-quickness-deadeye-dagger",
-    "dps_report_url": "https://dps.report/Adnb-20250223-130211_golem"
+    "dps_report_url": "https://dps.report/Adnb-20250223-130211_golem",
+    "overall_dps": 38533.0
   }
 }

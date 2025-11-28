@@ -1848,6 +1848,7 @@
     "build_type": "condition",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/mesmer/condition-alacrity-mirage-staff",
-    "dps_report_url": "https://dps.report/F2vf-20250422-202359_golem"
+    "dps_report_url": "https://dps.report/F2vf-20250422-202359_golem",
+    "overall_dps": 37165.0
   }
 }

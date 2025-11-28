@@ -1483,6 +1483,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/ranger/power-untamed-sword-axe",
-    "dps_report_url": "https://dps.report/YH9W-20250508-132956_golem"
+    "dps_report_url": "https://dps.report/YH9W-20250508-132956_golem",
+    "overall_dps": 45186.0
   }
 }

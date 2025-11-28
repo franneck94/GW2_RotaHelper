@@ -2297,6 +2297,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/revenant/power-herald",
-    "dps_report_url": "https://dps.report/cEAa-20250211-232646_golem"
+    "dps_report_url": "https://dps.report/cEAa-20250211-232646_golem",
+    "overall_dps": 36837.0
   }
 }

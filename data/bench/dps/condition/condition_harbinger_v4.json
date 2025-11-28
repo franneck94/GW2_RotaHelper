@@ -1431,6 +1431,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/necromancer/condition-harbinger",
-    "dps_report_url": "https://dps.report/z87P-20250309-090545_golem"
+    "dps_report_url": "https://dps.report/z87P-20250309-090545_golem",
+    "overall_dps": 43979.0
   }
 }

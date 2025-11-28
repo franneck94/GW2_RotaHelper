@@ -1398,6 +1398,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/revenant/condition-conduit",
-    "dps_report_url": "https://dps.report/1puM-20251108-235203_golem"
+    "dps_report_url": "https://dps.report/1puM-20251108-235203_golem",
+    "overall_dps": 59326.0
   }
 }

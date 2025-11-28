@@ -1129,6 +1129,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/power-tempest-hammer",
-    "dps_report_url": "https://dps.report/0UFW-20250308-065004_golem"
+    "dps_report_url": "https://dps.report/0UFW-20250308-065004_golem",
+    "overall_dps": 45293.0
   }
 }

@@ -2211,6 +2211,7 @@
     "build_type": "condition",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/thief/condition-alacrity-spectre-spear",
-    "dps_report_url": "https://dps.report/YTx6-20250925-231711_golem"
+    "dps_report_url": "https://dps.report/YTx6-20250925-231711_golem",
+    "overall_dps": 35153.0
   }
 }

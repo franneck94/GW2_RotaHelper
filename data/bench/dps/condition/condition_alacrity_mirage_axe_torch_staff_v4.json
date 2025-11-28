@@ -1956,6 +1956,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/mesmer/condition-alacrity-mirage-axe-torch-staff",
-    "dps_report_url": "https://dps.report/CvZJ-20250902-013807_golem"
+    "dps_report_url": "https://dps.report/CvZJ-20250902-013807_golem",
+    "overall_dps": 44125.0
   }
 }

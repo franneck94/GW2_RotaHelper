@@ -2465,6 +2465,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/engineer/power-quickness-scrapper",
-    "dps_report_url": "https://dps.report/9Q4e-20251119-204454_golem"
+    "dps_report_url": "https://dps.report/9Q4e-20251119-204454_golem",
+    "overall_dps": 34665.0
   }
 }

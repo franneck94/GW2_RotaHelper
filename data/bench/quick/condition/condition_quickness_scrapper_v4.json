@@ -2796,6 +2796,7 @@
     "build_type": "condition",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/engineer/condition-quickness-scrapper",
-    "dps_report_url": "https://dps.report/sFjF-20251014-124731_golem"
+    "dps_report_url": "https://dps.report/sFjF-20251014-124731_golem",
+    "overall_dps": 43057.0
   }
 }

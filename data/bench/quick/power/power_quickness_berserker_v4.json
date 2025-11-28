@@ -1584,6 +1584,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/warrior/power-quickness-berserker",
-    "dps_report_url": "https://dps.report/dc0H-20250629-161758_golem"
+    "dps_report_url": "https://dps.report/dc0H-20250629-161758_golem",
+    "overall_dps": 39079.0
   }
 }

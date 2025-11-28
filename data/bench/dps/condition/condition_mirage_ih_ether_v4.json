@@ -1739,6 +1739,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/mesmer/condition-mirage-ih-ether",
-    "dps_report_url": "https://dps.report/6iDz-20250825-051630_golem"
+    "dps_report_url": "https://dps.report/6iDz-20250825-051630_golem",
+    "overall_dps": 50041.0
   }
 }

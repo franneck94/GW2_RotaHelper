@@ -1992,6 +1992,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/condition-spectre",
-    "dps_report_url": "https://dps.report/9dQH-20250924-173326_golem"
+    "dps_report_url": "https://dps.report/9dQH-20250924-173326_golem",
+    "overall_dps": 41113.0
   }
 }

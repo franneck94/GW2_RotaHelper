@@ -1664,6 +1664,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/mesmer/condition-virtuoso",
-    "dps_report_url": "https://dps.report/Jnxp-20250211-205106_golem"
+    "dps_report_url": "https://dps.report/Jnxp-20250211-205106_golem",
+    "overall_dps": 40119.0
   }
 }

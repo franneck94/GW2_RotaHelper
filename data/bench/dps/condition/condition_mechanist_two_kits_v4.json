@@ -2330,6 +2330,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/engineer/condition-mechanist-two-kits",
-    "dps_report_url": "https://dps.report/NlFH-20250705-173537_golem"
+    "dps_report_url": "https://dps.report/NlFH-20250705-173537_golem",
+    "overall_dps": 45880.0
   }
 }

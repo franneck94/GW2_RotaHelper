@@ -1433,6 +1433,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/necromancer/power-quickness-ritualist",
-    "dps_report_url": "https://dps.report/cJQW-20251110-162312_golem"
+    "dps_report_url": "https://dps.report/cJQW-20251110-162312_golem",
+    "overall_dps": 52185.0
   }
 }

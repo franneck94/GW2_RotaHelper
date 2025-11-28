@@ -2144,6 +2144,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/condition-spectre-scepter",
-    "dps_report_url": "https://dps.report/u8UV-20250302-134132_golem"
+    "dps_report_url": "https://dps.report/u8UV-20250302-134132_golem",
+    "overall_dps": 39403.0
   }
 }

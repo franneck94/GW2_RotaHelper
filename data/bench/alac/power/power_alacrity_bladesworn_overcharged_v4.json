@@ -1650,6 +1650,7 @@
     "build_type": "power",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/warrior/power-alacrity-bladesworn-overcharged",
-    "dps_report_url": "https://b.dps.report/JvTL-20250827-204709_golem"
+    "dps_report_url": "https://b.dps.report/JvTL-20250827-204709_golem",
+    "overall_dps": 39662.0
   }
 }

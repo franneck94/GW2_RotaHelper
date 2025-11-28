@@ -2041,6 +2041,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/revenant/condition-renegade",
-    "dps_report_url": "https://dps.report/BOMb-20250427-142254_golem"
+    "dps_report_url": "https://dps.report/BOMb-20250427-142254_golem",
+    "overall_dps": 42914.0
   }
 }

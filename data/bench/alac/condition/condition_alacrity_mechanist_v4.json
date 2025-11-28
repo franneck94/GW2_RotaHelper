@@ -2563,6 +2563,7 @@
     "build_type": "condition",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/engineer/condition-alacrity-mechanist",
-    "dps_report_url": "https://dps.report/blVV-20250802-142134_golem"
+    "dps_report_url": "https://dps.report/blVV-20250802-142134_golem",
+    "overall_dps": 39327.0
   }
 }

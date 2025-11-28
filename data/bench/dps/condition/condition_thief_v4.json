@@ -1479,6 +1479,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/condition-thief",
-    "dps_report_url": "https://dps.report/xHhO-20250422-062546_golem"
+    "dps_report_url": "https://dps.report/xHhO-20250422-062546_golem",
+    "overall_dps": 38690.0
   }
 }

@@ -1588,6 +1588,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/necromancer/power-reaper-greatsword-sword-sword",
-    "dps_report_url": "https://dps.report/Wb4b-20250816-083518_golem"
+    "dps_report_url": "https://dps.report/Wb4b-20250816-083518_golem",
+    "overall_dps": 41413.0
   }
 }

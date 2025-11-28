@@ -2146,6 +2146,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/warrior/power-spellbreaker",
-    "dps_report_url": "https://dps.report/QYqB-20250217-174213_golem"
+    "dps_report_url": "https://dps.report/QYqB-20250217-174213_golem",
+    "overall_dps": 44863.0
   }
 }

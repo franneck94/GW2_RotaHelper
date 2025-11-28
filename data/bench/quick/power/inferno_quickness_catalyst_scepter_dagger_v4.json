@@ -2241,6 +2241,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/elementalist/inferno-quickness-catalyst-scepter-dagger",
-    "dps_report_url": "https://dps.report/6dTi-20251124-124151_golem"
+    "dps_report_url": "https://dps.report/6dTi-20251124-124151_golem",
+    "overall_dps": 41117.0
   }
 }

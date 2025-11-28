@@ -1899,6 +1899,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/inferno-catalyst-scepter-dagger",
-    "dps_report_url": "https://dps.report/xxvM-20251119-100627_golem"
+    "dps_report_url": "https://dps.report/xxvM-20251119-100627_golem",
+    "overall_dps": 47051.0
   }
 }

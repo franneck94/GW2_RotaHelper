@@ -1450,6 +1450,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/condition-thief-spear",
-    "dps_report_url": "https://dps.report/utfh-20250421-151309_golem"
+    "dps_report_url": "https://dps.report/utfh-20250421-151309_golem",
+    "overall_dps": 34921.0
   }
 }

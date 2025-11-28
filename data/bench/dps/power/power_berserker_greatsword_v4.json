@@ -1313,6 +1313,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/warrior/power-berserker-greatsword",
-    "dps_report_url": "https://dps.report/aNUg-20250626-205602_golem"
+    "dps_report_url": "https://dps.report/aNUg-20250626-205602_golem",
+    "overall_dps": 43314.0
   }
 }

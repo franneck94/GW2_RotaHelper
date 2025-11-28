@@ -1372,6 +1372,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/inferno-evoker-specialized-elements",
-    "dps_report_url": "https://dps.report/Pt5x-20251118-143755_golem"
+    "dps_report_url": "https://dps.report/Pt5x-20251118-143755_golem",
+    "overall_dps": 62171.0
   }
 }

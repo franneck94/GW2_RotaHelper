@@ -2457,6 +2457,7 @@
     "build_type": "condition",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/ranger/condition-quickness-untamed",
-    "dps_report_url": "https://dps.report/9Au7-20250425-170634_golem"
+    "dps_report_url": "https://dps.report/9Au7-20250425-170634_golem",
+    "overall_dps": 35888.0
   }
 }

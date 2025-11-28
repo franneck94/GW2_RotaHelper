@@ -1622,6 +1622,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/necromancer/power-harbinger-greatsword-sword-sword",
-    "dps_report_url": "https://dps.report/7w2I-20240328-230229_golem"
+    "dps_report_url": "https://dps.report/7w2I-20240328-230229_golem",
+    "overall_dps": 42979.0
   }
 }

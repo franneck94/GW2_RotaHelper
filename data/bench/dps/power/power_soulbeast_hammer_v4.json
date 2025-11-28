@@ -297,7 +297,7 @@
       ],
       [
         20.591,
-        428706,
+        74184,
         721.0,
         1,
         1.0
@@ -654,7 +654,7 @@
       ],
       [
         46.153,
-        428706,
+        74184,
         718.0,
         1,
         1.0
@@ -1018,7 +1018,7 @@
       ],
       [
         72.071,
-        428706,
+        74184,
         719.0,
         1,
         1.0
@@ -1284,7 +1284,7 @@
       ],
       [
         91.55,
-        428706,
+        74184,
         1165.0,
         1,
         1.0
@@ -1406,7 +1406,7 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s428706": {
+    "s74184": {
       "name": "Unleashed Overbearing Smash (Leap)",
       "icon": "https://render.guildwars2.com/file/c_cd_Unleashed_Overbearing/Smash.png",
       "traitProc": false,
@@ -1432,6 +1432,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/ranger/power-soulbeast-hammer",
-    "dps_report_url": "https://dps.report/AQKD-20240813-195034_golem"
+    "dps_report_url": "https://dps.report/AQKD-20240813-195034_golem",
+    "overall_dps": 43256.0
   }
 }

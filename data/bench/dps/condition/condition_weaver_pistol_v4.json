@@ -1652,6 +1652,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/condition-weaver-pistol",
-    "dps_report_url": "https://dps.report/EkSh-20250626-121249_golem"
+    "dps_report_url": "https://dps.report/EkSh-20250626-121249_golem",
+    "overall_dps": 45957.0
   }
 }

@@ -2018,6 +2018,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/guardian/condition-firebrand",
-    "dps_report_url": "https://dps.report/Kcl1-20250507-011207_golem"
+    "dps_report_url": "https://dps.report/Kcl1-20250507-011207_golem",
+    "overall_dps": 41712.0
   }
 }

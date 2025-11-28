@@ -2143,6 +2143,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/engineer/condition-holosmith-spear",
-    "dps_report_url": "https://dps.report/FgwI-20250701-134540_golem"
+    "dps_report_url": "https://dps.report/FgwI-20250701-134540_golem",
+    "overall_dps": 45241.0
   }
 }

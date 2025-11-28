@@ -1700,6 +1700,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/engineer/condition-mechanist-kitless",
-    "dps_report_url": "https://dps.report/Ceo5-20250423-211218_golem"
+    "dps_report_url": "https://dps.report/Ceo5-20250423-211218_golem",
+    "overall_dps": 39433.0
   }
 }

@@ -1783,6 +1783,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/ranger/condition-soulbeast-quickdraw",
-    "dps_report_url": "https://dps.report/nk06-20250630-172617_golem"
+    "dps_report_url": "https://dps.report/nk06-20250630-172617_golem",
+    "overall_dps": 38587.0
   }
 }

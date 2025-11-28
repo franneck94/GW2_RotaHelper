@@ -1449,6 +1449,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/warrior/power-spellbreaker-hammer",
-    "dps_report_url": "https://dps.report/vdip-20250624-231442_golem"
+    "dps_report_url": "https://dps.report/vdip-20250624-231442_golem",
+    "overall_dps": 44255.0
   }
 }

@@ -1407,6 +1407,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/necromancer/power-ritualist",
-    "dps_report_url": "https://dps.report/HbSg-20251107-181658_golem"
+    "dps_report_url": "https://dps.report/HbSg-20251107-181658_golem",
+    "overall_dps": 52780.0
   }
 }

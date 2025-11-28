@@ -1632,6 +1632,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/engineer/power-amalgam",
-    "dps_report_url": "https://dps.report/YgbY-20251119-171958_golem"
+    "dps_report_url": "https://dps.report/YgbY-20251119-171958_golem",
+    "overall_dps": 46194.0
   }
 }

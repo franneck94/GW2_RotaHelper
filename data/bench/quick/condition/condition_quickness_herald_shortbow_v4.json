@@ -2587,6 +2587,7 @@
     "build_type": "condition",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/revenant/condition-quickness-herald-shortbow",
-    "dps_report_url": "https://dps.report/e0xk-20250216-203504_golem"
+    "dps_report_url": "https://dps.report/e0xk-20250216-203504_golem",
+    "overall_dps": 33341.0
   }
 }

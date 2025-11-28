@@ -2399,6 +2399,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/warrior/power-paragon",
-    "dps_report_url": "https://dps.report/YWMp-20251103-021915_golem"
+    "dps_report_url": "https://dps.report/YWMp-20251103-021915_golem",
+    "overall_dps": 39993.0
   }
 }

@@ -1912,6 +1912,7 @@
     "build_type": "power",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/warrior/power-alacrity-bladesworn",
-    "dps_report_url": "https://b.dps.report/Tm53-20250629-002028_golem"
+    "dps_report_url": "https://b.dps.report/Tm53-20250629-002028_golem",
+    "overall_dps": 37801.0
   }
 }

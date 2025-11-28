@@ -2060,6 +2060,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/condition-evoker",
-    "dps_report_url": "https://dps.report/HSym-20251104-082438_golem"
+    "dps_report_url": "https://dps.report/HSym-20251104-082438_golem",
+    "overall_dps": 53232.0
   }
 }

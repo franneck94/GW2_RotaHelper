@@ -1550,6 +1550,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/warrior/condition-berserker",
-    "dps_report_url": "https://dps.report/xPFw-20250217-171746_golem"
+    "dps_report_url": "https://dps.report/xPFw-20250217-171746_golem",
+    "overall_dps": 43197.0
   }
 }

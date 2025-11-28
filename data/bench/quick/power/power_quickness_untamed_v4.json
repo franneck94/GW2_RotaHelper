@@ -1826,6 +1826,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/ranger/power-quickness-untamed",
-    "dps_report_url": "https://dps.report/kIwI-20250519-113617_golem"
+    "dps_report_url": "https://dps.report/kIwI-20250519-113617_golem",
+    "overall_dps": 35126.0
   }
 }

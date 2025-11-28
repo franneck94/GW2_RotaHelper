@@ -860,6 +860,7 @@
     "build_type": "power",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/necromancer/celestial-alacrity-scourge",
-    "dps_report_url": "https://dps.report/xICN-20250628-071219_golem"
+    "dps_report_url": "https://dps.report/xICN-20250628-071219_golem",
+    "overall_dps": 22286.0
   }
 }

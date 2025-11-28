@@ -2103,6 +2103,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/engineer/condition-amalgam-steamshrieker",
-    "dps_report_url": "https://dps.report/2uqx-20251107-183356_golem"
+    "dps_report_url": "https://dps.report/2uqx-20251107-183356_golem",
+    "overall_dps": 53149.0
   }
 }

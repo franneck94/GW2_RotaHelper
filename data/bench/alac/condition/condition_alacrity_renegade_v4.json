@@ -2171,6 +2171,7 @@
     "build_type": "condition",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/revenant/condition-alacrity-renegade",
-    "dps_report_url": "https://dps.report/aZsY-20241029-155240_golem"
+    "dps_report_url": "https://dps.report/aZsY-20241029-155240_golem",
+    "overall_dps": 37143.0
   }
 }

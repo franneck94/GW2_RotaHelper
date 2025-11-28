@@ -1448,6 +1448,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/mesmer/power-virtuoso-dagger-sword-greatsword",
-    "dps_report_url": "https://dps.report/B3J7-20250903-042627_golem"
+    "dps_report_url": "https://dps.report/B3J7-20250903-042627_golem",
+    "overall_dps": 44070.0
   }
 }

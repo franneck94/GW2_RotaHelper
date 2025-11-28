@@ -1324,6 +1324,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/condition-tempest-scepter",
-    "dps_report_url": "https://dps.report/CdTT-20250218-221925_golem"
+    "dps_report_url": "https://dps.report/CdTT-20250218-221925_golem",
+    "overall_dps": 41675.0
   }
 }

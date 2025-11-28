@@ -1432,6 +1432,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/warrior/power-quickness-berserker-greatsword",
-    "dps_report_url": "https://dps.report/rVU2-20250626-220040_golem"
+    "dps_report_url": "https://dps.report/rVU2-20250626-220040_golem",
+    "overall_dps": 38617.0
   }
 }

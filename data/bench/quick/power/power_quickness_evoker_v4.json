@@ -2182,6 +2182,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/elementalist/power-quickness-evoker",
-    "dps_report_url": "https://dps.report/Y2PE-20251118-164617_golem"
+    "dps_report_url": "https://dps.report/Y2PE-20251118-164617_golem",
+    "overall_dps": 45519.0
   }
 }

@@ -1688,6 +1688,7 @@
     "build_type": "condition",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/necromancer/condition-quickness-harbinger",
-    "dps_report_url": "https://dps.report/9GSF-20231002-152522_golem"
+    "dps_report_url": "https://dps.report/9GSF-20231002-152522_golem",
+    "overall_dps": 34936.0
   }
 }

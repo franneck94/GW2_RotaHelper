@@ -991,6 +991,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/condition-antiquary-spear",
-    "dps_report_url": "https://dps.report/quH8-20251031-115310_golem"
+    "dps_report_url": "https://dps.report/quH8-20251031-115310_golem",
+    "overall_dps": 60728.0
   }
 }

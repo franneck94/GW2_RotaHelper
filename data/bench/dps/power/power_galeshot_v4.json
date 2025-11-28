@@ -1397,6 +1397,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/ranger/power-galeshot",
-    "dps_report_url": "http://dps.report/Y74I-20251104-212104_golem"
+    "dps_report_url": "http://dps.report/Y74I-20251104-212104_golem",
+    "overall_dps": 50509.0
   }
 }

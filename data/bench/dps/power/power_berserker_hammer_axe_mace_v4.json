@@ -1460,6 +1460,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/warrior/power-berserker-hammer-axe-mace",
-    "dps_report_url": "https://dps.report/ezhZ-20250625-221420_golem"
+    "dps_report_url": "https://dps.report/ezhZ-20250625-221420_golem",
+    "overall_dps": 45399.0
   }
 }

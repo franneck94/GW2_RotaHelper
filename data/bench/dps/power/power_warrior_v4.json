@@ -2485,6 +2485,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/warrior/power-warrior",
-    "dps_report_url": "https://dps.report/32sv-20250218-155359_golem"
+    "dps_report_url": "https://dps.report/32sv-20250218-155359_golem",
+    "overall_dps": 38906.0
   }
 }

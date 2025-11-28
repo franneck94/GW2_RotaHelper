@@ -1522,6 +1522,7 @@
     "build_type": "condition",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/elementalist/condition-alacrity-tempest-scepter",
-    "dps_report_url": "https://dps.report/Pl75-20250221-180332_golem"
+    "dps_report_url": "https://dps.report/Pl75-20250221-180332_golem",
+    "overall_dps": 34625.0
   }
 }

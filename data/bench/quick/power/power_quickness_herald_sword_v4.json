@@ -2752,6 +2752,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/revenant/power-quickness-herald-sword",
-    "dps_report_url": "https://dps.report/RBcU-20250211-234906_golem"
+    "dps_report_url": "https://dps.report/RBcU-20250211-234906_golem",
+    "overall_dps": 30089.0
   }
 }

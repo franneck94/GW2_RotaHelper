@@ -2228,6 +2228,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/elementalist/power-quickness-catalyst-scepter-dagger",
-    "dps_report_url": "https://dps.report/ZPUi-20251119-114928_golem"
+    "dps_report_url": "https://dps.report/ZPUi-20251119-114928_golem",
+    "overall_dps": 40263.0
   }
 }

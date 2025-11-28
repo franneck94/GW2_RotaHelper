@@ -2500,6 +2500,7 @@
     "build_type": "power",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/revenant/power-alacrity-renegade",
-    "dps_report_url": "https://dps.report/3hSA-20250215-132703_golem"
+    "dps_report_url": "https://dps.report/3hSA-20250215-132703_golem",
+    "overall_dps": 32531.0
   }
 }

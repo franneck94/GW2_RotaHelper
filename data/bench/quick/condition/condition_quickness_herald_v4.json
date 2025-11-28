@@ -2697,6 +2697,7 @@
     "build_type": "condition",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/revenant/condition-quickness-herald",
-    "dps_report_url": "https://dps.report/ErCv-20250216-134453_golem"
+    "dps_report_url": "https://dps.report/ErCv-20250216-134453_golem",
+    "overall_dps": 33948.0
   }
 }

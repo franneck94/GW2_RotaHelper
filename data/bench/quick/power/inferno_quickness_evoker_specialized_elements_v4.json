@@ -1470,6 +1470,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/elementalist/inferno-quickness-evoker-specialized-elements",
-    "dps_report_url": "https://dps.report/On4f-20251119-150939_golem"
+    "dps_report_url": "https://dps.report/On4f-20251119-150939_golem",
+    "overall_dps": 58739.0
   }
 }

@@ -1445,6 +1445,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/power-deadeye-spear",
-    "dps_report_url": "https://dps.report/Rvja-20250424-130425_golem"
+    "dps_report_url": "https://dps.report/Rvja-20250424-130425_golem",
+    "overall_dps": 43086.0
   }
 }

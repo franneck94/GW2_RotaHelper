@@ -1486,6 +1486,7 @@
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/thief/power-quickness-deadeye-axe",
-    "dps_report_url": "https://dps.report/fgLo-20240814-230123_golem"
+    "dps_report_url": "https://dps.report/fgLo-20240814-230123_golem",
+    "overall_dps": 42665.0
   }
 }

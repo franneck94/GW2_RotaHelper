@@ -738,6 +738,7 @@
     "build_type": "condition",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/thief/condition-alacrity-spectre-scepter",
-    "dps_report_url": "https://dps.report/YFvl-20250830-112530_golem"
+    "dps_report_url": "https://dps.report/YFvl-20250830-112530_golem",
+    "overall_dps": 35323.0
   }
 }

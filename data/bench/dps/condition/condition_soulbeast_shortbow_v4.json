@@ -1841,6 +1841,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/ranger/condition-soulbeast-shortbow",
-    "dps_report_url": "https://dps.report/B97C-20250625-230018_golem"
+    "dps_report_url": "https://dps.report/B97C-20250625-230018_golem",
+    "overall_dps": 39258.0
   }
 }

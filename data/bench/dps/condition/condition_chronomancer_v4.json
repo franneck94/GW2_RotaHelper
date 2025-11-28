@@ -1346,6 +1346,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/mesmer/condition-chronomancer",
-    "dps_report_url": "https://dps.report/sWjp-20250506-041500_golem"
+    "dps_report_url": "https://dps.report/sWjp-20250506-041500_golem",
+    "overall_dps": 43059.0
   }
 }

@@ -1845,6 +1845,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/engineer/power-holosmith",
-    "dps_report_url": "https://dps.report/DiOV-20250817-093201_golem"
+    "dps_report_url": "https://dps.report/DiOV-20250817-093201_golem",
+    "overall_dps": 44136.0
   }
 }

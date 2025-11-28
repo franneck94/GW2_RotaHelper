@@ -1498,6 +1498,7 @@
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/necromancer/power-harbinger",
-    "dps_report_url": "https://dps.report/UlTc-20240821-222344_golem"
+    "dps_report_url": "https://dps.report/UlTc-20240821-222344_golem",
+    "overall_dps": 43422.0
   }
 }

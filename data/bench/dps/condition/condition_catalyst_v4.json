@@ -2086,6 +2086,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/condition-catalyst",
-    "dps_report_url": "https://dps.report/E2AP-20250814-142102_golem"
+    "dps_report_url": "https://dps.report/E2AP-20250814-142102_golem",
+    "overall_dps": 45701.0
   }
 }

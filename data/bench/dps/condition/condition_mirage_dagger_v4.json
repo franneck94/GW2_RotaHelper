@@ -1875,6 +1875,7 @@
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/mesmer/condition-mirage-dagger",
-    "dps_report_url": "https://dps.report/TglW-20251019-044550_golem"
+    "dps_report_url": "https://dps.report/TglW-20251019-044550_golem",
+    "overall_dps": 48481.0
   }
 }
