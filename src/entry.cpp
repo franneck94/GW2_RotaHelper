@@ -24,7 +24,8 @@
 #include "Settings.h"
 #include "Shared.h"
 #include "Version.h"
-#include "resource.h"
+#include "TEX_GW2RotaHelperNORMAL_data.h"
+#include "TEX_GW2RotaHelperHOVER_data.h"
 
 namespace dx = DirectX;
 
@@ -58,10 +59,21 @@ void RegisterQuickAccessShortcut()
 void DeregisterQuickAccessShortcut()
 {
     Globals::APIDefs->QuickAccess.Remove("SHORTCUT_GW2_RotaHelper");
+    Globals::APIDefs->InputBinds.Deregister(KB_TOGGLE_GW2_RotaHelper);
 }
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID)
 {
+    switch (ul_reason_for_call)
+    {
+    case DLL_PROCESS_ATTACH:
+        hSelf = hModule;
+        break;
+    case DLL_THREAD_ATTACH:
+    case DLL_THREAD_DETACH:
+    case DLL_PROCESS_DETACH:
+        break;
+    }
     return TRUE;
 }
 
@@ -157,8 +169,8 @@ void AddonLoad(AddonAPI *aApi)
     else
         Globals::SkillIconSize = 28.0F;
 
-    Globals::APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_NORMAL", IDB_GW2_RotaHelper_NORMAL, hSelf, nullptr);
-    Globals::APIDefs->Textures.LoadFromResource("TEX_GW2_RotaHelper_HOVER", IDB_GW2_RotaHelper_HOVER, hSelf, nullptr);
+    Globals::APIDefs->Textures.LoadFromMemory("TEX_GW2_RotaHelper_NORMAL", (void*)ARR_GW2RotaHelperNORMAL, ARR_GW2RotaHelperNORMAL_size, nullptr);
+    Globals::APIDefs->Textures.LoadFromMemory("TEX_GW2_RotaHelper_HOVER", (void*)ARR_GW2RotaHelperHOVER, ARR_GW2RotaHelperHOVER_size, nullptr);
     RegisterQuickAccessShortcut();
 
     Globals::APIDefs->Events.Subscribe("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ArcEv::OnCombatLocal);
