@@ -128,11 +128,8 @@ const std::set<std::string_view> skills_match_to_drop = {
 
 const std::set<std::string_view> special_substr_to_gray_out = {
     // GUARDIAN
-    "Chapter 1:",
-    "Chapter 2:",
-    "Chapter 3:",
-    "Chapter 4:",
-    "Tome of ",
+    "Chapter ",
+    "Tome of ", // 10 different tomes
     " Radiant Forge",
     // WARRIOR
     "Dragon Slashâ€”",
@@ -144,11 +141,9 @@ const std::set<std::string_view> special_substr_to_gray_out = {
     // RANGER
     "Blood Moon",
     // THIEF
-    "Shadow Meld",
     // ELEMENTALIST
-    "Deploy Jade Sphere",
+    "Deploy Jade Sphere", // There are 20 different skills like this
     "Zap",
-    "Aerial Agility",
     // MESMER
     "Distortion",
     // NECROMANCER
@@ -264,6 +259,7 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::SIGNET_OF_MALICE,
     SkillID::SKRITT_SCUFFLE,
     SkillID::HARROWING_STORM,
+    SkillID::SHADOW_MELD,
     // ELEMENTALIST
     SkillID::EARTHQUAKE,
     SkillID::FIRE_SHIELD,
@@ -276,6 +272,9 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::IGNITE_1,
     SkillID::RELENTLESS_FIRE,
     SkillID::CONFLAGRATION,
+    SkillID::AERIAL_AGILITY,
+    SkillID::AERIAL_AGILITY_1,
+    SkillID::AERIAL_AGILITY_2,
     // MESMER
     SkillID::SIGNET_OF_DOMINATION,
     SkillID::SIGNET_OF_MIDNIGHT,
