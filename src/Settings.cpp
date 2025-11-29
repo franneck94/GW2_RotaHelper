@@ -22,9 +22,7 @@ json Settings = json::object();
 void Load(std::filesystem::path aPath)
 {
     if (!std::filesystem::exists(aPath))
-    {
         return;
-    }
 
     Settings::Mutex.lock();
     {
@@ -44,34 +42,22 @@ void Load(std::filesystem::path aPath)
 
     /* Widget */
     if (!Settings[SHOW_WINDOW].is_null())
-    {
         Settings[SHOW_WINDOW].get_to<bool>(ShowWindow);
-    }
     if (!Settings[FILTER_BUFFER].is_null())
     {
         auto filter_str = Settings[FILTER_BUFFER].get<std::string>();
         strncpy_s(FilterBuffer, sizeof(FilterBuffer), filter_str.c_str(), _TRUNCATE);
     }
     if (!Settings[SHOW_WEAPON_SWAP].is_null())
-    {
         Settings[SHOW_WEAPON_SWAP].get_to<bool>(ShowWeaponSwap);
-    }
     if (!Settings[SHOW_KEYBIND].is_null())
-    {
         Settings[SHOW_KEYBIND].get_to<bool>(ShowKeybind);
-    }
     if (!Settings[STRICT_MODE_FOR_SKILL_DETECTION].is_null())
-    {
         Settings[STRICT_MODE_FOR_SKILL_DETECTION].get_to<bool>(StrictModeForSkillDetection);
-    }
     if (!Settings[EASY_SKILL_MODE].is_null())
-    {
         Settings[EASY_SKILL_MODE].get_to<bool>(EasySkillMode);
-    }
     if (!Settings[VERSION_OF_LAST_BENCH_FILES_UPDATE].is_null())
-    {
         Settings[VERSION_OF_LAST_BENCH_FILES_UPDATE].get_to<std::string>(VersionOfLastBenchFilesUpdate);
-    }
     if (!Settings[XML_SETTINGS_FILE].is_null())
     {
         auto _XmlSettingsPath = std::string{};

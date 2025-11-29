@@ -137,6 +137,7 @@ const std::set<std::string_view> special_substr_to_gray_out = {
     "Detonate",
     "Photon Forge",
     "-Storm",
+    "Defensive Protocol: ",
     "Rifle Burst Grenade",
     // RANGER
     "Blood Moon",
@@ -159,13 +160,6 @@ const std::set<std::string_view> special_match_to_gray_out_names = {
     // ENGINEER
     "Mine Field",
     "Reconstruction Field",
-    "Defensive Protocol: Cleanse",
-    "Defensive Protocol: Protect",
-    "Defensive Protocol: Thorns",
-    "Offensive Protocol: Demolish",
-    "Offensive Protocol: Obliterate",
-    "Offensive Protocol: Pierce",
-    "Offensive Protocol: Shred",
 };
 
 const std::set<SkillID> special_match_to_gray_out = {
@@ -275,6 +269,8 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::AERIAL_AGILITY,
     SkillID::AERIAL_AGILITY_1,
     SkillID::AERIAL_AGILITY_2,
+    SkillID::OTTER_S_COMPASSION,
+    SkillID::OTTER_S_COMPASSION_1,
     // MESMER
     SkillID::SIGNET_OF_DOMINATION,
     SkillID::SIGNET_OF_MIDNIGHT,

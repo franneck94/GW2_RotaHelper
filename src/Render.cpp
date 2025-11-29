@@ -120,6 +120,7 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "power_conduit_greatsword_sword_sword", // maybe green
     "power_quickness_herald",               // maybe green
     "power_quickness_herald_sword",         // maybe green
+    "power_scrapper",
     // CHECKED POWER BOON BUILDS
     "power_quickness_ritualist",
     "power_quickness_catalyst_scepter_dagger",
@@ -130,6 +131,7 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "power_inferno_quickness_catalyst_scepter_dagger_pf",
     "power_alacrity_tempest",
     "power_alacrity_tempest_inferno_scepter_focus",
+    "power_quickness_scrapper",
     // CHECKED CONDITION BOON BUILDS
     "celestial_alacrity_scourge",
     "condition_alacrity_scourge",
@@ -177,7 +179,6 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_warrior",
     "power_spellbreaker",
     "power_berserker_axe_axe_axe_mace",
-    "power_scrapper",
     "power_berserker_greatsword",
     "power_reaper",
     "power_reaper_greatsword_sword_sword",
@@ -197,7 +198,6 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_quickness_berserker",
     "power_alacrity_mechanist_sword",
     "power_quickness_berserker_greatsword",
-    "power_quickness_scrapper",
     "power_alacrity_mechanist",
     "power_quickness_harbinger",
     "power_quickness_galeshot",
@@ -877,13 +877,11 @@ void RenderType::render_red_cross_and_text(bool &is_selected,
     auto draw_cross = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
         float line_thickness = 2.0f;
 
-        // Draw red cross (X shape)
         auto cross_top_left = ImVec2(center.x - radius * 0.7f, center.y - radius * 0.7f);
         auto cross_bottom_right = ImVec2(center.x + radius * 0.7f, center.y + radius * 0.7f);
         auto cross_top_right = ImVec2(center.x + radius * 0.7f, center.y - radius * 0.7f);
         auto cross_bottom_left = ImVec2(center.x - radius * 0.7f, center.y + radius * 0.7f);
 
-        // Draw the two lines of the X
         draw_list->AddLine(cross_top_left, cross_bottom_right, IM_COL32(220, 20, 60, 255), line_thickness);
         draw_list->AddLine(cross_top_right, cross_bottom_left, IM_COL32(220, 20, 60, 255), line_thickness);
     };
@@ -899,13 +897,11 @@ void RenderType::render_orange_cross_and_text(bool &is_selected,
     auto draw_cross = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
         float line_thickness = 2.0f;
 
-        // Draw orange cross (X shape)
         auto cross_top_left = ImVec2(center.x - radius * 0.7f, center.y - radius * 0.7f);
         auto cross_bottom_right = ImVec2(center.x + radius * 0.7f, center.y + radius * 0.7f);
         auto cross_top_right = ImVec2(center.x + radius * 0.7f, center.y - radius * 0.7f);
         auto cross_bottom_left = ImVec2(center.x - radius * 0.7f, center.y + radius * 0.7f);
 
-        // Draw the two lines of the X
         draw_list->AddLine(cross_top_left, cross_bottom_right, IM_COL32(255, 140, 0, 255), line_thickness);
         draw_list->AddLine(cross_top_right, cross_bottom_left, IM_COL32(255, 140, 0, 255), line_thickness);
     };
@@ -1001,7 +997,6 @@ void RenderType::render_selection()
         }
         else
         {
-            // Make the popup scrollable with a reasonable max height
             ImGui::BeginChild("scrollable_bench_list",
                               ImVec2(0, ImGui::GetTextLineHeightWithSpacing() * 15),
                               false,
@@ -1213,7 +1208,6 @@ void RenderType::render_rotation_horizontal(ID3D11Device *pd3dDevice)
                                                  rotation_step.skill_data.is_auto_attack);
         const auto text = std::string{""};
 
-        // Get pre-calculated auto attack index
         const int aa_index = (static_cast<size_t>(window_idx) < Globals::RotationRun.auto_attack_indices.size())
                                  ? Globals::RotationRun.auto_attack_indices[window_idx]
                                  : 0;
@@ -1254,23 +1248,19 @@ void RenderType::render_keybind(const RotationStep &rotation_step)
 
         if (keybind_str.length() <= 4)
         {
-            // Short text: bottom right corner
             text_pos = ImVec2(icon_pos.x + icon_size.x - text_size.x - padding,
                               icon_pos.y + icon_size.y - text_size.y - padding);
         }
         else
         {
-            // Long text: bottom center
             text_pos = ImVec2(icon_pos.x + (icon_size.x - text_size.x) * 0.5f,
                               icon_pos.y + icon_size.y - text_size.y - padding);
         }
 
-        // Draw background for readability
         draw_list->AddRectFilled(ImVec2(text_pos.x - 2, text_pos.y - 1),
                                  ImVec2(text_pos.x + text_size.x + 2, text_pos.y + text_size.y + 1),
                                  IM_COL32(0, 0, 0, 180),
                                  3.0f);
-        // Draw keybind_str text
         draw_list->AddText(text_pos, IM_COL32(255, 255, 255, 255), keybind_str.c_str());
     }
 }
@@ -1300,16 +1290,13 @@ void RenderType::render_skill_texture(const RotationStep &rotation_step,
         auto index_str = std::to_string(auto_attack_index);
         auto text_size = ImGui::CalcTextSize(index_str.c_str());
 
-        // Position the index in the top-left corner
         auto index_pos = ImVec2(icon_pos.x + 2, icon_pos.y + 2);
 
-        // Draw background circle for the number
         auto circle_center = ImVec2(index_pos.x + text_size.x * 0.5f + 2, index_pos.y + text_size.y * 0.5f + 1);
         auto circle_radius = (text_size.x > text_size.y ? text_size.x : text_size.y) * 0.6f;
         draw_list->AddCircleFilled(circle_center, circle_radius, IM_COL32(255, 165, 0, 200));
         draw_list->AddCircle(circle_center, circle_radius, IM_COL32(255, 255, 255, 255), 0, 1.5f);
 
-        // Draw the index number
         draw_list->AddText(ImVec2(index_pos.x + 2, index_pos.y + 1), IM_COL32(255, 255, 255, 255), index_str.c_str());
     }
 
@@ -1380,21 +1367,13 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
         DrawRect(rotation_step, text, IM_COL32(255, 165, 0, 255));
 
     if (texture && pd3dDevice)
-    {
         render_skill_texture(rotation_step, texture, auto_attack_index);
-    }
     else if (rotation_step.skill_data.icon_id == DODGE_ICON_ID)
-    {
         render_dodge_placeholder();
-    }
     else if (rotation_step.skill_data.icon_id == UNK_SKILL_ICON_ID)
-    {
         render_unknown_placeholder();
-    }
     else
-    {
         render_empty_placeholder();
-    }
 }
 
 void RenderType::render(ID3D11Device *pd3dDevice)

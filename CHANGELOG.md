@@ -20,9 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mech F-skills do show correct keybind
 - Extended Skill Enum
 
-- Started optimization for
+- Skill Logic Optimization for:
   - Cond Quick Scrapper
   - Cond Spear Holo
+  - Power Evoker
 
 ## 0.17.0 - 2025-11-26
 
