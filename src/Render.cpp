@@ -51,14 +51,12 @@ static const inline std::set<std::string_view> red_crossed_builds = {
     "power_amalgam",
     "power_alacrity_amalgam",
     "power_bladesworn",
-    "power_alacrity_bladesworn",
     "power_alacrity_bladesworn_overcharged",
     "power_holosmith",
     "power_deadeye_staff_and_dagger",
     // CHECKED CONDITION BUILDS
     "condition_amalgam_steamshrieker",
     "condition_alacrity_amalgam_two_kits",
-    "condition_holosmith_spear",
     "condition_daredevil",
     "condition_firebrand",
     "condition_quickness_firebrand",
@@ -75,6 +73,7 @@ static const inline std::set<std::string_view> orange_crossed_builds = {
     "power_tempest_hammer",
     "inferno_quickness_evoker_specialized_elements",
     "inferno_evoker_specialized_elements",
+    "power_alacrity_bladesworn",
     // CHECKED CONDITION BUILDS
     "condition_catalyst",
     "condition_quickness_catalyst",
@@ -97,7 +96,6 @@ static const inline std::set<std::string_view> orange_crossed_builds = {
     "power_quickness_evoker_hare",
     // CONDI BUILDS
     "condition_virtuoso",
-    "condition_quickness_scrapper",
     "condition_quickness_untamed",
     "condition_quickness_catalyst_pistol_warhorn",
 };
@@ -135,6 +133,8 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     // CHECKED CONDITION BOON BUILDS
     "celestial_alacrity_scourge",
     "condition_alacrity_scourge",
+    "condition_alacrity_renegade",
+    "condition_quickness_scrapper",
     // CHECKED CONDITION BUILDS
     "condition_reaper",
     "condition_scourge",
@@ -142,6 +142,9 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "condition_weaver_pistol",
     "condition_evoker",
     "condition_tempest_scepter",
+    "condition_holosmith_spear",
+    "condition_renegade",
+    "condition_mechanist_kitless",
 
     // UNCHECKED POWER BUILDS
     "power_untamed",
@@ -157,15 +160,11 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "condition_thief",
     "condition_thief_spear",
     "condition_tempest",
-    "condition_conduit",
-    "condition_renegade",
-    "condition_mechanist_kitless",
     "condition_soulbeast",
     "condition_soulbeast_shortbow",
     "condition_soulbeast_quickdraw",
     // UNCHECKED CONDI BOON BUILDS
     "condition_alacrity_tempest_scepter",
-    "condition_alacrity_renegade",
     "condition_alacrity_tempest",
     "condition_quickness_herald_shortbow",
     "condition_quickness_herald_spear",
@@ -209,6 +208,7 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "condition_mechanist_two_kits",
     "condition_willbender_scepter",
     "condition_willbender",
+    "condition_conduit",
     // CONDI BOON BUILDS
     "condition_quickness_harbinger",
     "condition_alacrity_mechanist_1_kit",
@@ -594,22 +594,16 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
 #ifdef _DEBUG
     render_xml_selection();
 
-    // Debug window toggle button
     const auto debug_button_width = ImGui::GetWindowSize().x * 0.3f;
     const auto centered_pos_debug = calculate_centered_position({"Debug Window"});
     ImGui::SetCursorPosX(centered_pos_debug);
 
     static bool show_debug_window = false;
     if (ImGui::Button("Debug Window", ImVec2(debug_button_width, 0)))
-    {
         show_debug_window = !show_debug_window;
-    }
 
-    // Render debug window if enabled
     if (show_debug_window)
-    {
         render_debug_window();
-    }
 #endif
 }
 
@@ -657,6 +651,7 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
             ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), missing_content_text_2);
         }
 
+#ifndef _DEBUG
         if (Globals::BenchFilesLowerVersionString != "" && Globals::BenchFilesUpperVersionString != "" &&
             Settings::VersionOfLastBenchFilesUpdate != "")
         {
@@ -693,22 +688,17 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
         }
         else if (Settings::VersionOfLastBenchFilesUpdate == "")
         {
-            Settings::VersionOfLastBenchFilesUpdate =
-                "0.1.0.0"; // init with oldest version to always update in next cycle
+            // init with oldest version to always update in next cycle
+            Settings::VersionOfLastBenchFilesUpdate = "0.1.0.0";
             Settings::Save(Globals::SettingsPath);
         }
-
-#ifdef _DEBUG
-#ifdef GW2_NEXUS_ADDON
-        // Debug data is now in separate window
-#endif
 #endif
     }
 
 #ifndef _DEBUG
     if (!IsValidMap())
     {
-        const auto warning_text = "NOTE: Rotation only shown in Training Area!";
+        const auto warning_text = "NOTE: Rotation only shown in Aerodome and Training Area!";
         const auto centered_pos = calculate_centered_position({warning_text});
         ImGui::SetCursorPosX(centered_pos);
 
@@ -720,25 +710,9 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
     ImGui::End();
 }
 
-static void copy_to_clipboard(const std::string &url)
+static void open_url_in_browser(const std::string &url)
 {
-    if (OpenClipboard(nullptr))
-    {
-        EmptyClipboard();
-        const auto size = (url.length() + 1) * sizeof(char);
-        HGLOBAL h_mem = GlobalAlloc(GMEM_MOVEABLE, size);
-        if (h_mem)
-        {
-            auto *buffer = static_cast<char *>(GlobalLock(h_mem));
-            if (buffer)
-            {
-                strcpy_s(buffer, size, url.c_str());
-                GlobalUnlock(h_mem);
-                SetClipboardData(CF_TEXT, h_mem);
-            }
-        }
-        CloseClipboard();
-    }
+    ShellExecuteA(nullptr, "open", url.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
 }
 
 void RenderType::render_snowcrows_build_link()
@@ -749,23 +723,21 @@ void RenderType::render_snowcrows_build_link()
 
     const auto button_width = ImGui::GetWindowSize().x * 0.5f - ImGui::GetStyle().ItemSpacing.x * 0.5f;
 
-    const auto button_text = "Copy SC Build Link";
+    const auto button_text = "Open SC Build Link";
     if (ImGui::Button(button_text, ImVec2(button_width, 0)))
-        copy_to_clipboard(Globals::RotationRun.meta_data.url);
+        open_url_in_browser(Globals::RotationRun.meta_data.url);
 
     if (ImGui::IsItemHovered())
-        ImGui::SetTooltip("Copy the Snow Crows build guide link to clipboard");
+        ImGui::SetTooltip("Open the Snow Crows build guide in your default browser");
 
     ImGui::SameLine();
 
-    const auto button_text2 = "Copy DPS Report Link";
+    const auto button_text2 = "Open DPS Report Link";
     if (ImGui::Button(button_text2, ImVec2(button_width, 0)))
-    {
-        copy_to_clipboard(Globals::RotationRun.meta_data.dps_report_url);
-    }
+        open_url_in_browser(Globals::RotationRun.meta_data.dps_report_url);
 
     if (ImGui::IsItemHovered())
-        ImGui::SetTooltip("Copy the Dps.Report link to clipboard");
+        ImGui::SetTooltip("Open the Dps.Report in your default browser");
 }
 
 void RenderType::render_select_bench()
@@ -830,7 +802,7 @@ void RenderType::render_text_filter()
         if (Globals::RotationRun.meta_data.overall_dps > 0.0)
         {
             char buf[64];
-            sprintf(buf, " (%.0f)", Globals::RotationRun.meta_data.overall_dps);
+            sprintf(buf, " (%.0f DPS)", Globals::RotationRun.meta_data.overall_dps);
             formatted_name += buf;
         }
     }
