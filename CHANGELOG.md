@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD024  -->
 # Changelog
 
 All notable changes to GW2 RotaHelper will be documented in this file.
@@ -5,7 +6,7 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.18.0 - 2025-11-28
+## 0.18.0 - 2025-11-29
 
 ### Features
 
@@ -14,9 +15,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Improvements
 
+- SC Link/Dps.Report Links are now opened in default browser
 - Loads correct dodge image
-- Mech F-skills do show correct keybind#
+- Mech F-skills do show correct keybind
 - Extended Skill Enum
+
+- Started optimization for
+  - Cond Quick Scrapper
+  - Cond Spear Holo
 
 ## 0.17.0 - 2025-11-26
 
