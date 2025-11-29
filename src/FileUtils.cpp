@@ -536,7 +536,7 @@ bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem:
                            &si,
                            &pi))
         {
-            (void)Globals::APIDefs->Log(ELogLevel_INFO, "GW2RotaHelper", "Started ZIP extraction.");
+            (void)Globals::APIDefs->Log(ELogLevel_INFO, "GW2RotaHelper", "Started ZIP extraction process.");
             WaitForSingleObject(pi.hProcess, 30000); // Wait max 30 seconds
             DWORD exitCode;
             GetExitCodeProcess(pi.hProcess, &exitCode);
