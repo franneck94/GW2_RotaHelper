@@ -1858,5 +1858,17 @@
     "overall_dps": 22286.0,
     "dps_report_url": "https://dps.report/xICN-20250628-071219_golem",
     "html_file_path": "alac\\power\\celestial_alacrity_scourge.html"
+  },
+  {
+    "name": "Power Ritualist",
+    "url": "manual:Power_Ritualist",
+    "benchmark_type": "dps",
+    "profession": "Necromancer",
+    "elite_spec": "Ritualist",
+    "build_type": "power",
+    "url_name": "power_ritualist",
+    "dps_report_url": "https://dps.report/G60X-20251110-213730_golem",
+    "overall_dps": 51607.0,
+    "html_file_path": "dps\\power\\power_ritualist.html"
   }
 ]
