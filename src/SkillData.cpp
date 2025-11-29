@@ -18,6 +18,7 @@ const std::set<std::string_view> skills_substr_weapon_swap_like = {
     // ENGINEER
     " Kit",
     "Photon Forge",
+    "Holoforge",
     // RANGER
     "Ranger Pet",
     "Celestial Avatar",
@@ -134,10 +135,10 @@ const std::set<std::string_view> special_substr_to_gray_out = {
     "Tome of ",
     " Radiant Forge",
     // WARRIOR
+    "Dragon Slashâ€”",
     // ENGINEER
     "Detonate",
     "Photon Forge",
-    "Holoforge",
     "-Storm",
     "Rifle Burst Grenade",
     // RANGER
@@ -157,6 +158,9 @@ const std::set<std::string_view> special_substr_to_gray_out = {
 
 const std::set<std::string_view> special_match_to_gray_out_names = {
     "Dodge",
+    // Warrior
+    "Cyclone Trigger",
+    "Steel Divide",
     // ENGINEER
     "Mine Field",
     "Reconstruction Field",
@@ -223,6 +227,7 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::CORONA_BURST,
     SkillID::PHOTON_BLITZ,
     SkillID::HOLO_LEAP,
+    SkillID::ELIXIR_SHELL,
     // RANGER
     SkillID::FLAME_TRAP,
     SkillID::FROST_TRAP,
@@ -379,6 +384,8 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_drop_mat
 
 const std::set<std::string_view> special_substr_to_remove_duplicates_names = {
     "Offensive Protocol: Demolish",
+    "Cyclone Trigger",
+    "Steel Divide",
 };
 
 const std::set<SkillID> special_substr_to_remove_duplicates = {
@@ -554,7 +561,8 @@ const std::map<SkillID, float> grey_skill_cast_time_map = {
     {SkillID::SIGNET_OF_THE_ETHER, 1.0f},
     {SkillID::PHANTASMAL_DISENCHANTER, 1.0f}, //
     // ENGINEER
-    {SkillID::FLAME_BLAST, 0.10f}, // NOTE: lower than real
+    {SkillID::FLAME_JET, 2.0f},    // NOTE: lower than real
+    {SkillID::FLAME_BLAST, 0.50f}, //
     {SkillID::NAPALM, 2.0f},       // NOTE: lower than real
     {SkillID::SUPERCONDUCTING_SIGNET, 0.75f},
     {SkillID::DEVASTATOR, 1.0f}, // XXX: Check if it works

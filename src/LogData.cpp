@@ -148,6 +148,14 @@ void get_skill_info(const IntNode &node, LogSkillInfoMap &log_skill_info_map)
         "Dodge",
         "https://wiki.guildwars2.com/images/b/b2/Dodge.png",
     };
+    log_skill_info_map[5] = {
+        "Dragon Slashâ€”Force",
+        "https://wiki.guildwars2.com/images/b/b5/Dragon_Slash%E2%80%94Force.png",
+    };
+    log_skill_info_map[3] = {
+        "Cyclone Trigger",
+        "https://wiki.guildwars2.com/images/b/b5/Dragon_Slash%E2%80%94Force.png",
+    };
 }
 
 
