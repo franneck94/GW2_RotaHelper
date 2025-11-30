@@ -570,11 +570,21 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
                 else
                 {
                     skill_data.icon_id = (int)SkillID::UNKNOWN_SKILL;
+
+                    const auto msg = "Failed to parse icon ID from URL: " + icon_url +
+                                     " for skill ID: " + std::to_string(skill_id_int) +
+                                     " and Skill Name: " + skill_data.name;
+                    (void)Globals::APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", msg.c_str());
                 }
             }
             else
             {
                 skill_data.icon_id = (int)SkillID::UNKNOWN_SKILL;
+
+                const auto msg = "Failed to parse icon ID from URL: " + icon_url +
+                                 " for skill ID: " + std::to_string(skill_id_int) +
+                                 " and Skill Name: " + skill_data.name;
+                (void)Globals::APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", msg.c_str());
             }
         }
 
@@ -590,6 +600,9 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
             {
                 skill_data.name = "Unknown";
                 skill_data.icon_id = (int)SkillID::UNKNOWN_SKILL;
+
+                const auto msg = "Failed to parse skill name: " + skill_data.name;
+                (void)Globals::APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", msg.c_str());
             }
         }
 
