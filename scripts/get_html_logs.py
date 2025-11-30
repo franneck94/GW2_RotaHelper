@@ -238,14 +238,28 @@ class SnowCrowsScraper:
 
         try:
             with manual_file_path.open(encoding="utf-8") as f:
-                manual_logs: dict[str, str] = json.load(f)
+                manual_logs: dict[str, dict[str, str]] = json.load(f)
 
             self.logger.info(
                 f"Loaded {len(manual_logs)} manual log entries from {manual_file_path}",
             )
 
             builds_info = []
-            for build_name, dps_report_url in manual_logs.items():
+            for build_name, build_data in manual_logs.items():
+                # Handle both old format (string) and new format (dict with Dps.Report and ScLink)
+                if isinstance(build_data, str):
+                    # Old format: build_data is directly the DPS report URL
+                    dps_report_url = build_data
+                    sc_link_url = None
+                else:
+                    # New format: build_data is a dict with "Dps.Report" and "ScLink"
+                    dps_report_url = build_data.get("Dps.Report", "")
+                    sc_link_url = build_data.get("ScLink", "")
+
+                if not dps_report_url:
+                    self.logger.warning(f"Skipping {build_name}: no DPS report URL found")
+                    continue
+
                 # Parse build name to extract info
                 build_name_lower = build_name.lower()
 
@@ -267,13 +281,14 @@ class SnowCrowsScraper:
 
                 build_info = {
                     "name": build_name.replace("_", " ").title(),
-                    "url": f"manual:{build_name}",  # Mark as manual entry
+                    "url": sc_link_url if sc_link_url else f"manual:{build_name}",  # Use SC link if available
                     "benchmark_type": benchmark_type,
                     "profession": profession,
                     "elite_spec": elite_spec,
                     "build_type": build_type,
                     "url_name": build_name.lower().replace(" ", "_"),
                     "dps_report_url": dps_report_url,
+                    "sc_link_url": sc_link_url,  # Store SC link separately for metadata
                     "overall_dps": None,  # Will be populated during download
                 }
                 builds_info.append(build_info)
@@ -514,12 +529,12 @@ class SnowCrowsScraper:
 
             self.logger.info(f"Processing {build_name}: {url}")
 
-            # Check if this is a manual entry (already has dps_report_url)
-            if url.startswith("manual:") and "dps_report_url" in build_info:
+            # Check if this is a manual entry or if we already have the dps_report_url
+            if "dps_report_url" in build_info and build_info["dps_report_url"]:
                 dps_report_url = build_info["dps_report_url"]
-                self.logger.info(f"Using manual DPS report URL: {dps_report_url}")
+                self.logger.info(f"Using existing DPS report URL: {dps_report_url}")
             else:
-                # Original SnowCrows processing
+                # Original SnowCrows processing - need to scrape the build page for DPS report link
                 if self.driver is None:
                     self._setup_webdriver()
 
@@ -890,6 +905,8 @@ def main() -> None:
                 print(f"     Type: {build_info['build_type']}")
                 if args.manual:
                     print(f"     DPS Report: {build_info['dps_report_url']}")
+                    if build_info.get("sc_link_url"):
+                        print(f"     SC Link: {build_info['sc_link_url']}")
                 else:
                     print(f"     URL: {build_info['url']}")
         else:
