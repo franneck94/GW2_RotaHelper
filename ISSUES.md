@@ -9,4 +9,3 @@
 ## Postponed
 
 - Check thief staff 3
-- Dragon Slash—Force name is: "Dragon Slashâ€”Force"

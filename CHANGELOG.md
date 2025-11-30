@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Updated python scripts to parse dps reports with multiple players
   - Fixed logs and started optimization for:
-    - Power Dragohunter
+    - Power Dragonhunter
     - Power Willbender
     - Power Luminary
     - Condition Daredevil

@@ -142,6 +142,7 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "condition_alacrity_renegade",
     "condition_quickness_scrapper",
     // CHECKED CONDITION BUILDS
+    "condition_berserker",
     "condition_reaper",
     "condition_scourge",
     "condition_weaver_scepter",
@@ -207,7 +208,6 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_quickness_galeshot",
     // CONDITION BUILDS
     "condition_harbinger",
-    "condition_berserker",
     "condition_mechanist",
     "condition_mechanist_two_kits",
     "condition_willbender_scepter",
