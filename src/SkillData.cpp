@@ -175,6 +175,14 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::JURISDICTION,
     SkillID::ZEALOT_S_FLAME,
     SkillID::ZEALOT_S_FLAME_1,
+    SkillID::SYMBOL_OF_RESOLUTION,
+    SkillID::SWORD_OF_JUSTICE,
+    SkillID::SWORD_OF_JUSTICE_1,
+    SkillID::SWORD_OF_JUSTICE_2,
+    SkillID::SWORD_OF_JUSTICE_3,
+    SkillID::SOLAR_STORM,
+    SkillID::PROCESSION_OF_BLADES,
+    SkillID::DRAGON_S_MAW,
     // WARRIOR
     SkillID::DRAGON_TRIGGER,
     SkillID::FLOW_STABILIZER,
@@ -531,6 +539,7 @@ const std::map<SkillID, float> skill_cast_time_map = {
     {SkillID::THREE_ROUND_BURST, 1.0f}, // thief rifle 3
     {SkillID::WILD_THROW, 3.25f},       // warrior spear f1
     {SkillID::WHIRLING_DEFENSE, 3.25f}, // ranger axe 5
+    {SkillID::WHIRLING_WRATH, 0.75f},   // gaurd
     {SkillID::RIFLE_BURST, 0.5f},       // engi rifle 1
     {SkillID::SPATIAL_SURGE, 1.0f},     // mesmer gs 1
     {SkillID::FLYING_CUTTER, 0.5f},     // mesmer sw 1
@@ -555,11 +564,11 @@ const std::map<SkillID, float> grey_skill_cast_time_map = {
     {SkillID::RUSHING_JUSTICE, 0.5f},
     {SkillID::SYMBOL_OF_PUNISHMENT, 0.25f},
     {SkillID::FLOWING_RESOLVE, 0.5f},
-    {SkillID::JURISDICTION, 0.75f}, //
+    {SkillID::JURISDICTION, 0.75f},
     // MESMER
     {SkillID::PHANTASMAL_BERSERKER, 0.75f},
     {SkillID::SIGNET_OF_THE_ETHER, 1.0f},
-    {SkillID::PHANTASMAL_DISENCHANTER, 1.0f}, //
+    {SkillID::PHANTASMAL_DISENCHANTER, 1.0f},
     // ENGINEER
     {SkillID::FLAME_JET, 2.0f},    // NOTE: lower than real
     {SkillID::FLAME_BLAST, 0.50f}, //
@@ -567,10 +576,26 @@ const std::map<SkillID, float> grey_skill_cast_time_map = {
     {SkillID::SUPERCONDUCTING_SIGNET, 0.75f},
     {SkillID::DEVASTATOR, 1.0f}, // XXX: Check if it works
     // ELEMENTALIST
-    {SkillID::DRAGON_S_TOOTH, 0.75f},  //
-    {SkillID::AERIAL_AGILITY, 0.5f},   //
-    {SkillID::AERIAL_AGILITY_1, 0.5f}, //
-    {SkillID::AERIAL_AGILITY_2, 0.5f}, //
+    {SkillID::DRAGON_S_TOOTH, 0.75f},
+    {SkillID::AERIAL_AGILITY, 0.5f},
+    {SkillID::AERIAL_AGILITY_1, 0.5f},
+    {SkillID::AERIAL_AGILITY_2, 0.5f},
+};
+
+const std::map<int, int> unk_skill_id_fix = {
+    {1, 73055}, // daybreaking slash
+    {72923, 73055}, // daybreaking slash
+    {7, 62668}, // rushing justice
+};
+
+// TODO: Check if can be moved to skill_data_unk_map
+const std::map<int, int> fix_skill_img_ids = {
+    {3332122, 3379164}, // Isolate
+    {3332077, 3379162}, // Perforate
+    {3332117, 3379165}, // Distress
+    {3332087, 3379166}, // Extirpate
+    {1, 3379124},       // daybreaking slash
+    {7, 2479367},       // rushing justice
 };
 
 SkillData GetDataByID(const SkillID skill_id, const SkillDataMap &skill_data_map)

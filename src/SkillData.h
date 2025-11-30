@@ -26,6 +26,10 @@ extern const std::map<SkillID, float> grey_skill_cast_time_map;
 
 extern const SkillRules skill_rules;
 
+extern const std::map<int, int> unk_skill_id_fix;
+
+extern const std::map<int, int> fix_skill_img_ids;
+
 SkillData GetDataByID(const SkillID skill_id, const SkillDataMap &skill_data_map);
 
 bool IsProfessionResetLikeSKill(const SkillID skill_id);

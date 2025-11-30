@@ -120,7 +120,11 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "power_conduit_greatsword_sword_sword", // maybe green
     "power_quickness_herald",               // maybe green
     "power_quickness_herald_sword",         // maybe green
-    "power_scrapper",
+    "power_scrapper",                       // optimize again to go green
+    "powwer_willbender",
+    "power_dragonhunter",
+    "power_dragonhunter_virtues_spear",
+    "power_dragonhunter_radiance_longbow",
     // CHECKED POWER BOON BUILDS
     "power_quickness_ritualist",
     "power_quickness_catalyst_scepter_dagger",

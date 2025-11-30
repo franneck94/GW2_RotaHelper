@@ -17,6 +17,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Power Luminary
     - Condition Daredevil
 
+### Notes
+
+- Manual Log List:
+  -  Optional: Added field for SnowCrows link to guide the user for equipment/traits
+
 ## 0.18.0 - 2025-11-29
 
 ### Features

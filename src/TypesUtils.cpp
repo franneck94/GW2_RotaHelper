@@ -7,8 +7,9 @@
 #include <vector>
 
 #include "FileUtils.h"
-#include "Types.h"
 #include "Shared.h"
+#include "SkillData.h"
+#include "Types.h"
 
 ProfessionID string_to_profession(const std::string &profession_name)
 {
@@ -665,7 +666,12 @@ SkillID SafeConvertToSkillID(uint64_t skill_id_raw)
 
     const auto &skill_data_map = Globals::RotationRun.skill_data_map;
     if (skill_data_map.find(skill_id) == skill_data_map.end())
+    {
+        if (SkillRuleData::unk_skill_id_fix.find(skill_id_raw) != SkillRuleData::unk_skill_id_fix.end())
+            return static_cast<SkillID>(SkillRuleData::unk_skill_id_fix.at(skill_id_raw));
+
         return SkillID::UNKNOWN_SKILL;
+    }
 
     return skill_id;
 }
