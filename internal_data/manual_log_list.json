@@ -2,5 +2,9 @@
     "Power_Ritualist": {
         "Dps.Report":  "https://dps.report/G60X-20251110-213730_golem",
         "ScLink": "https://snowcrows.com/builds/raids/necromancer/power-ritualist"
+    },
+    "Power_Dragonhunter": {
+        "Dps.Report":  "https://dps.report/M9tp-20250627-000730_golem",
+        "ScLink": "https://snowcrows.com/builds/raids/guardian/power-dragonhunter-radiance-longbow"
     }
 }

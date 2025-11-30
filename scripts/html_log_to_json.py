@@ -276,13 +276,11 @@ class HTMLRotationExtractor:
                     continue
 
                 # Check if skill is cancelled and if cancellation is allowed for this skill
-                if "rot-cancelled" in class_attr:
-                    if skill_name in self.cancellation_allowed_skills:
-                        if skill_name == "Spatial Surge" and duration < 300.0:
-                            self.logger.debug(
-                                f"Skipping {skill_name} (ID: {icon_id}) - duration {duration}ms below 40ms threshold"
-                            )
-                            continue
+                if "rot-cancelled" in class_attr and skill_name in self.cancellation_allowed_skills and skill_name == "Spatial Surge" and duration < 300.0:
+                    self.logger.debug(
+                        f"Skipping {skill_name} (ID: {icon_id}) - duration {duration}ms below 40ms threshold",
+                    )
+                    continue
 
                 # Create rotation entry in v3 format: [castTime, icon_id, duration, status, quickness]
                 # We don't have status or quickness info from HTML, so use defaults

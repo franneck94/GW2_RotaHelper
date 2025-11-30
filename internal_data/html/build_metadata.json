@@ -88,11 +88,12 @@
     "url": "https://snowcrows.com/builds/raids/necromancer/power-ritualist",
     "benchmark_type": "dps",
     "profession": "Necromancer",
-    "elite_spec": "Necromancer",
+    "elite_spec": "Ritualist",
     "build_type": "power",
-    "url_name": "power-ritualist",
-    "overall_dps": 52780.0,
-    "dps_report_url": "https://dps.report/HbSg-20251107-181658_golem",
+    "url_name": "power_ritualist",
+    "dps_report_url": "https://dps.report/G60X-20251110-213730_golem",
+    "sc_link_url": "https://snowcrows.com/builds/raids/necromancer/power-ritualist",
+    "overall_dps": 51607.0,
     "html_file_path": "dps\\power\\power_ritualist.html"
   },
   {
@@ -612,16 +613,17 @@
     "html_file_path": "dps\\power\\power_spellbreaker_hammer.html"
   },
   {
-    "name": "Power Dragonhunter Radiance Longbow",
+    "name": "Power Dragonhunter",
     "url": "https://snowcrows.com/builds/raids/guardian/power-dragonhunter-radiance-longbow",
     "benchmark_type": "dps",
     "profession": "Guardian",
     "elite_spec": "Dragonhunter",
     "build_type": "power",
-    "url_name": "power-dragonhunter-radiance-longbow",
-    "overall_dps": 44311.0,
-    "dps_report_url": "https://dps.report/ODYQ-20250625-032914_golem",
-    "html_file_path": "dps\\power\\power_dragonhunter_radiance_longbow.html"
+    "url_name": "power_dragonhunter",
+    "dps_report_url": "https://dps.report/M9tp-20250627-000730_golem",
+    "sc_link_url": "https://snowcrows.com/builds/raids/guardian/power-dragonhunter-radiance-longbow",
+    "overall_dps": 43589.0,
+    "html_file_path": "dps\\power\\power_dragonhunter.html"
   },
   {
     "name": "Condition Renegade",

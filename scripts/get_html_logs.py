@@ -18,6 +18,7 @@ from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -281,7 +282,7 @@ class SnowCrowsScraper:
 
                 build_info = {
                     "name": build_name.replace("_", " ").title(),
-                    "url": sc_link_url if sc_link_url else f"manual:{build_name}",  # Use SC link if available
+                    "url": sc_link_url or f"manual:{build_name}",  # Use SC link if available
                     "benchmark_type": benchmark_type,
                     "profession": profession,
                     "elite_spec": elite_spec,
@@ -321,7 +322,11 @@ class SnowCrowsScraper:
         build_name_lower = build_name.lower()
         url_path_lower = url_path.lower()
 
-        for elite_spec, profession in self.elite_spec_to_profession.items():
+        # Sort by length of elite spec name (longest first) to match most specific first
+        sorted_specs = sorted(self.elite_spec_to_profession.items(),
+                            key=lambda x: len(x[0]), reverse=True)
+
+        for elite_spec, profession in sorted_specs:
             if elite_spec in build_name_lower or elite_spec in url_path_lower:
                 return profession.title(), elite_spec.title()
 
@@ -520,6 +525,87 @@ class SnowCrowsScraper:
             self.logger.warning(f"Error extracting DPS from WebDriver: {e}")
             return None
 
+    def _select_correct_player(self, build_info: dict[str, str]) -> bool:
+        """Select the correct player in the DPS report that matches the build"""
+        try:
+            elite_spec = build_info.get("elite_spec", "").lower()
+            profession = build_info.get("profession", "").lower()
+
+            # Build possible class names to look for
+            possible_classes = []
+            if elite_spec and elite_spec != "unknown":
+                possible_classes.append(elite_spec)
+            if profession and profession != "unknown":
+                possible_classes.append(profession)
+
+            if not possible_classes:
+                self.logger.warning("No class information available to select correct player")
+                return False
+
+            self.logger.info(f"Looking for player with classes: {possible_classes}")
+
+            # Try each possible class name
+            for class_name in possible_classes:
+                if self._try_select_player_by_class(class_name):
+                    return True
+
+            self.logger.warning(f"Could not find a suitable player with classes {possible_classes}")
+            return False
+
+        except Exception as e:
+            self.logger.warning(f"Error in player selection: {e}")
+            return False
+
+    def _try_select_player_by_class(self, class_name: str) -> bool:
+        """Try to select a player by their class name"""
+        try:
+            # Find player cells with the matching class image/tooltip
+            player_cells = self.driver.find_elements(  # type: ignore
+                By.XPATH,
+                f"//div[contains(@class, 'player-cell')]//img[contains(@alt, '{class_name.title()}') or contains(@data-original-title, '{class_name.title()}')]",
+            )
+
+            if not player_cells:
+                return False
+
+            # Try each matching player
+            return any(self._try_select_player_element(img_element, class_name) for img_element in player_cells)
+
+        except Exception as e:
+            self.logger.debug(f"Error selecting player for class {class_name}: {e}")
+            return False
+
+    def _try_select_player_element(self, img_element: WebElement, class_name: str) -> bool:
+        """Try to select a specific player element and verify they have valid DPS"""
+        try:
+            player_cell = img_element.find_element(By.XPATH, "./ancestor::div[contains(@class, 'player-cell')]")
+
+            # Get player name
+            player_name_element = player_cell.find_element(By.XPATH, ".//span[contains(@class, 'player-cell-shorten')]")
+            player_name = player_name_element.text.strip()
+
+            # Click on this player to make them active
+            self.driver.execute_script("arguments[0].click();", player_cell)  # type: ignore
+            self.logger.info(f"Selected player: {player_name} ({class_name.title()})")
+
+            # Wait a moment for the selection to take effect
+            time.sleep(1)
+
+            # Verify that this player has non-zero DPS
+            html_content = self.driver.page_source  # type: ignore
+            test_dps = self._extract_overall_dps(html_content)
+
+            if test_dps and test_dps > 10_000:  # Valid DPS found
+                self.logger.info(f"Found valid DPS ({test_dps}) for {player_name}")
+                return True
+
+            self.logger.debug(f"Player {player_name} has low/zero DPS ({test_dps}), trying next...")
+            return False
+
+        except Exception as e:
+            self.logger.debug(f"Error selecting player element: {e}")
+            return False
+
     def download_snowcrows_build_with_metadata(self, build_info: dict) -> bool:
         """Download HTML content and store with metadata"""
         try:
@@ -530,7 +616,7 @@ class SnowCrowsScraper:
             self.logger.info(f"Processing {build_name}: {url}")
 
             # Check if this is a manual entry or if we already have the dps_report_url
-            if "dps_report_url" in build_info and build_info["dps_report_url"]:
+            if build_info.get("dps_report_url"):
                 dps_report_url = build_info["dps_report_url"]
                 self.logger.info(f"Using existing DPS report URL: {dps_report_url}")
             else:
@@ -584,10 +670,22 @@ class SnowCrowsScraper:
             if self.driver is None:
                 self._setup_webdriver()
 
+            self.logger.info(f"Loading DPS report page: {dps_report_url}")
             self.driver.get(dps_report_url)  # type: ignore
             WebDriverWait(self.driver, 10).until(  # type: ignore
                 EC.presence_of_element_located((By.TAG_NAME, "body")),
             )
+
+            # Wait a bit for the page to fully load
+            time.sleep(SLEEP_DELAY)
+
+            # Try to select the correct player that matches our build
+            self.logger.info("Attempting to select correct player...")
+            player_selected = self._select_correct_player(build_info)
+            if player_selected:
+                self.logger.info("Successfully selected matching player")
+            else:
+                self.logger.warning("Could not select matching player, using default active player")
 
             # Extract overall DPS from the initial page load (before tab navigation)
             initial_html_content = self.driver.page_source  # type: ignore
