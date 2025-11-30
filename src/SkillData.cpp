@@ -266,6 +266,12 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::SKRITT_SCUFFLE,
     SkillID::HARROWING_STORM,
     SkillID::SHADOW_MELD,
+    SkillID::THIEVES_GUILD,
+    SkillID::CALTROPS,
+    SkillID::FORGED_SURFER_DASH,
+    SkillID::FORGED_SURFER_DASH_1,
+    SkillID::SUMMON_KRYPTIS_TURRET,
+    SkillID::SUMMON_KRYPTIS_TURRET_1,
     // ELEMENTALIST
     SkillID::EARTHQUAKE,
     SkillID::FIRE_SHIELD,

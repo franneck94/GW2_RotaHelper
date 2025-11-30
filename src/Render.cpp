@@ -121,7 +121,7 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "power_quickness_herald",               // maybe green
     "power_quickness_herald_sword",         // maybe green
     "power_scrapper",                       // optimize again to go green
-    "powwer_willbender",
+    "power_willbender",
     "power_dragonhunter",
     "power_dragonhunter_virtues_spear",
     "power_dragonhunter_radiance_longbow",

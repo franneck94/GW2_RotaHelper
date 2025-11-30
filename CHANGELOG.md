@@ -11,16 +11,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Improvements
 
 - Updated python scripts to parse dps reports with multiple players
-  - Fixed logs for
+  - Fixed logs and started optimization for:
     - Power Dragohunter
     - Power Willbender
     - Power Luminary
     - Condition Daredevil
+    - Condition Antiquary
 
 ### Notes
 
 - Manual Log List:
-  -  Optional: Added field for SnowCrows link to guide the user for equipment/traits
+  - Optional: Added field for SnowCrows link to guide the user for equipment/traits
 
 ## 0.18.0 - 2025-11-29
 
