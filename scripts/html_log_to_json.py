@@ -320,13 +320,15 @@ class HTMLRotationExtractor:
 
             # Add build metadata if available
             if build_metadata:
+                # For manual logs, prefer sc_link_url over url if available
+                url_value = build_metadata.get("sc_link_url", "") or build_metadata.get("url", "")
                 result["buildMetadata"] = {
                     "name": build_metadata.get("name", "Unknown"),
                     "profession": build_metadata.get("profession", "Unknown"),
                     "elite_spec": build_metadata.get("elite_spec", ""),
                     "build_type": build_metadata.get("build_type", "power"),
                     "benchmark_type": build_metadata.get("benchmark_type", "dps"),
-                    "url": build_metadata.get("url", ""),
+                    "url": url_value,
                     "dps_report_url": build_metadata.get("dps_report_url", ""),
                     "overall_dps": build_metadata.get("overall_dps"),
                 }

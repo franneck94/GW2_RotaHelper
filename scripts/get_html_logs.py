@@ -882,17 +882,25 @@ class SnowCrowsScraper:
             try:
                 with metadata_file.open(encoding="utf-8") as f:
                     existing_data = json.load(f)
-                    # Create lookup dict by URL for efficient merging
                     for build in existing_data:
-                        key = build.get("url", "") + "|" + build.get("benchmark_type", "")
+                        name = build.get("name", "")
+                        benchmark_type = build.get("benchmark_type", "")
+                        key = f"{name}{benchmark_type}"
                         existing_builds[key] = build
+
                 self.logger.info(f"Loaded {len(existing_data)} existing build entries")
             except Exception as e:
                 self.logger.warning(f"Could not load existing metadata: {e}")
 
-        # Merge new builds with existing ones
+        # Merge new builds with existing ones (overwrite existing, append new)
         for build in successful_builds:
-            key = build.get("url", "") + "|" + build.get("benchmark_type", "")
+            name = build.get("name", "")
+            benchmark_type = build.get("benchmark_type", "")
+            key = f"{name}{benchmark_type}"
+            if key in existing_builds:
+                self.logger.info(f"Updating existing build: {key}")
+            else:
+                self.logger.info(f"Adding new build: {key}")
             existing_builds[key] = build  # This updates existing or adds new
 
         # Convert back to list and save

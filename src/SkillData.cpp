@@ -76,6 +76,7 @@ const std::set<std::string_view> skills_substr_to_drop = {
     "Superior Sigil",
     // GUARDIAN
     "Fire Jurisdiction",
+    "Rushing Justice (Hit)",
     // WARRIOR
     // ENGINEER
     // RANGER
