@@ -2,11 +2,4 @@
 /build
 __pycache__
 .mypy_cache
-*.html
-*.txt
-!requirements.txt
-addon_settings.json
-internal_data/html/alac
-internal_data/html/quick
-internal_data/html/dps
-!internal_data/html/build_metadata.json
+.ruff_cache

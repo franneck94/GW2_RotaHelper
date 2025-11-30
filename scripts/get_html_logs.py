@@ -323,11 +323,10 @@ class SnowCrowsScraper:
         url_path_lower = url_path.lower()
 
         # Sort by length of elite spec name (longest first) to match most specific first
-        sorted_specs = sorted(self.elite_spec_to_profession.items(),
-                            key=lambda x: len(x[0]), reverse=True)
+        sorted_specs = sorted(self.elite_spec_to_profession.items(), key=lambda x: len(x[0]), reverse=True)
 
         for elite_spec, profession in sorted_specs:
-            if elite_spec in build_name_lower or elite_spec in url_path_lower:
+            if elite_spec in build_name_lower or elite_spec in url_path_lower.split("/")[-1]:
                 return profession.title(), elite_spec.title()
 
         return "Unknown", ""
@@ -412,13 +411,13 @@ class SnowCrowsScraper:
             if 'class="active"' in html_content:
                 active_row_start = html_content.find('class="active"')
                 if active_row_start != -1:
-                    snippet = html_content[active_row_start:active_row_start + 800]
+                    snippet = html_content[active_row_start : active_row_start + 800]
                     self.logger.debug(f"Found active row snippet: {snippet[:400]}...")
             elif "data-original-title" in html_content and "damage" in html_content:
                 # Find first damage tooltip for debugging
                 damage_start = html_content.find("data-original-title")
                 if damage_start != -1:
-                    snippet = html_content[damage_start:damage_start + 300]
+                    snippet = html_content[damage_start : damage_start + 300]
                     self.logger.debug(f"Found damage tooltip snippet: {snippet}")
 
             # Pattern to match td elements with data-original-title containing damage info
