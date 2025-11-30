@@ -1975,7 +1975,7 @@
   "buildMetadata": {
     "name": "Power Evoker Scepter Dagger",
     "profession": "Elementalist",
-    "elite_spec": "Elementalist",
+    "elite_spec": "Evoker",
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/power-evoker-scepter-dagger",

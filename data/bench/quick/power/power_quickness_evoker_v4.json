@@ -2178,7 +2178,7 @@
   "buildMetadata": {
     "name": "Power Quickness Evoker",
     "profession": "Elementalist",
-    "elite_spec": "Elementalist",
+    "elite_spec": "Evoker",
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/elementalist/power-quickness-evoker",

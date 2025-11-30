@@ -1393,7 +1393,7 @@
   "buildMetadata": {
     "name": "Power Galeshot",
     "profession": "Ranger",
-    "elite_spec": "Ranger",
+    "elite_spec": "Galeshot",
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/ranger/power-galeshot",

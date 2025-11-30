@@ -1482,7 +1482,7 @@
   "buildMetadata": {
     "name": "Condition Alacrity Antiquary",
     "profession": "Thief",
-    "elite_spec": "Thief",
+    "elite_spec": "Antiquary",
     "build_type": "condition",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/thief/condition-alacrity-antiquary",

@@ -1624,8 +1624,8 @@
   },
   "buildMetadata": {
     "name": "Power Conduit",
-    "profession": "Revenant",
-    "elite_spec": "Revenant",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/revenant/power-conduit",

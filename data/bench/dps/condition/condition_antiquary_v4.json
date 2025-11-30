@@ -930,11 +930,11 @@
   "buildMetadata": {
     "name": "Condition Antiquary",
     "profession": "Thief",
-    "elite_spec": "Thief",
+    "elite_spec": "Antiquary",
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/condition-antiquary",
     "dps_report_url": "https://dps.report/lw5N-20251106-180429_golem",
-    "overall_dps": null
+    "overall_dps": 62855.0
   }
 }

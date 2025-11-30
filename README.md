@@ -1,3 +1,4 @@
+<!-- markdownlint-disable MD033  -->
 # GW2 Rotation Helper - Master Your Rotation at the Training Golem
 
 This tool shows in-game the rotation from the Snow Crows benchmark DPS reports.  
@@ -136,6 +137,7 @@ You can convert your own HTML logs from dps.report or other sources using the pr
 
 2. **Add manual Log List**
    - Add your dps.report http link to: internal_data/manual_log_list.json
+     - Optional: Add some SnowCrows guide that uses the same equipment/traits
 
 3. **Download HTML Logs**:
    - Run: `python scripts/get_html_logs.py --manual`

@@ -1368,7 +1368,7 @@
   "buildMetadata": {
     "name": "Inferno Evoker Specialized Elements",
     "profession": "Elementalist",
-    "elite_spec": "Elementalist",
+    "elite_spec": "Evoker",
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/inferno-evoker-specialized-elements",

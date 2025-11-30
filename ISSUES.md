@@ -4,7 +4,6 @@
 
 - Add manual pre stacking skills
 - Multi gray cast timt logic does not work?
-- Power Guardian Builds Parsing Error for Logs
 - Amalgam F Skills are not in the skill data json
 
 ## Postponed

@@ -1664,7 +1664,7 @@
   "buildMetadata": {
     "name": "Power Troubadour",
     "profession": "Mesmer",
-    "elite_spec": "Mesmer",
+    "elite_spec": "Troubadour",
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/mesmer/power-troubadour",

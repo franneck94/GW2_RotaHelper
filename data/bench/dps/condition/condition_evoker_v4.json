@@ -2056,7 +2056,7 @@
   "buildMetadata": {
     "name": "Condition Evoker",
     "profession": "Elementalist",
-    "elite_spec": "Elementalist",
+    "elite_spec": "Evoker",
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/elementalist/condition-evoker",

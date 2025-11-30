@@ -987,7 +987,7 @@
   "buildMetadata": {
     "name": "Condition Antiquary Spear",
     "profession": "Thief",
-    "elite_spec": "Thief",
+    "elite_spec": "Antiquary",
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/condition-antiquary-spear",

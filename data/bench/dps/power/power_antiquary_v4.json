@@ -1037,7 +1037,7 @@
   "buildMetadata": {
     "name": "Power Antiquary",
     "profession": "Thief",
-    "elite_spec": "Thief",
+    "elite_spec": "Antiquary",
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/thief/power-antiquary",

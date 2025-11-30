@@ -1429,7 +1429,7 @@
   "buildMetadata": {
     "name": "Power Quickness Ritualist",
     "profession": "Necromancer",
-    "elite_spec": "Necromancer",
+    "elite_spec": "Ritualist",
     "build_type": "power",
     "benchmark_type": "quick",
     "url": "https://snowcrows.com/builds/raids/necromancer/power-quickness-ritualist",

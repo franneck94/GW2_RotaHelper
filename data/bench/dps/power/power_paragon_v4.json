@@ -2395,7 +2395,7 @@
   "buildMetadata": {
     "name": "Power Paragon",
     "profession": "Warrior",
-    "elite_spec": "Warrior",
+    "elite_spec": "Paragon",
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/warrior/power-paragon",

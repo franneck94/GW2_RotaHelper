@@ -1330,7 +1330,7 @@
   "buildMetadata": {
     "name": "Power Alacrity Antiquary",
     "profession": "Thief",
-    "elite_spec": "Thief",
+    "elite_spec": "Antiquary",
     "build_type": "power",
     "benchmark_type": "alac",
     "url": "https://snowcrows.com/builds/raids/thief/power-alacrity-antiquary",
