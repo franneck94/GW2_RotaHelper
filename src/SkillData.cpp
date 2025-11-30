@@ -144,7 +144,6 @@ const std::set<std::string_view> special_substr_to_gray_out = {
     // THIEF
     // ELEMENTALIST
     "Deploy Jade Sphere", // There are 20 different skills like this
-    "Zap",
     // MESMER
     "Distortion",
     // NECROMANCER
@@ -157,6 +156,10 @@ const std::set<std::string_view> special_match_to_gray_out_names = {
     // Warrior
     "Cyclone Trigger",
     "Steel Divide",
+    // ELEMENTALIST
+    "Zap",
+    "Splash",
+    "Calcify",
     // ENGINEER
     "Mine Field",
     "Reconstruction Field",
@@ -271,6 +274,7 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::AERIAL_AGILITY_2,
     SkillID::OTTER_S_COMPASSION,
     SkillID::OTTER_S_COMPASSION_1,
+    SkillID::BUOYANT_DELUGE,
     // MESMER
     SkillID::SIGNET_OF_DOMINATION,
     SkillID::SIGNET_OF_MIDNIGHT,
