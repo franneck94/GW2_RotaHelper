@@ -634,6 +634,8 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
         if (Globals::BenchDataDownloadState == DownloadState::FAILED)
         {
             ImGui::Text("Failed Downloading/Extracting Bench Data. Please reach out to me.");
+            ImGui::Text("You can download it manually from GitHub see: ");
+            ImGui::Text("https://github.com/franneck94/GW2_RotaHelper?tab=readme-ov-file#benchmark-file-downloadextraction-fails");
             ImGui::End();
             return;
         }
