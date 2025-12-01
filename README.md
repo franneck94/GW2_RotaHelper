@@ -172,6 +172,13 @@ NOTE: Since i have no clue about reverse engineering i cannot do the skill detec
 
 Encountered an issue or have suggestions for improvement? Reach out via Discord or submit a detailed GitHub issue to help us enhance your experience.
 
+### Benchmark File Download/Extraction Fails
+
+1. Download the ZIP file from: https://github.com/franneck94/GW2_RotaHelper/releases/tag/0.19.0
+2. Extract it in GW2/addons/
+3. Open the settings.json located in GW2/addons/GW2RotaHelper with a text editor
+4. Modify the entry "VersionOfLastBenchFilesUpdate" to the latest version number
+
 ## Licenses
 
 Icon Image from https://www.flaticon.com/free-icon/bench_119312
