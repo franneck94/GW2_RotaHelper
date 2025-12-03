@@ -13,6 +13,8 @@ const char *XML_SETTINGS_FILE = "XmlSettingsFile";
 const char *STRICT_MODE_FOR_SKILL_DETECTION = "StrictModeForSkillDetection";
 const char *EASY_SKILL_MODE = "EasySkillMode";
 const char *VERSION_OF_LAST_BENCH_FILES_UPDATE = "VersionOfLastBenchFilesUpdate";
+const char *SKIP_BENCH_FILE_UPDATE = "SkipBenchFileUpdate";
+const char *BENCH_UPDATE_FAILED_BEFORE = "BenchUpdateFailedBefore";
 
 namespace Settings
 {
@@ -64,6 +66,10 @@ void Load(std::filesystem::path aPath)
         Settings[XML_SETTINGS_FILE].get_to<std::string>(_XmlSettingsPath);
         XmlSettingsPath = std::filesystem::path{_XmlSettingsPath};
     }
+    if (!Settings[SKIP_BENCH_FILE_UPDATE].is_null())
+        Settings[SKIP_BENCH_FILE_UPDATE].get_to<bool>(SkipBenchFileUpdate);
+    if (!Settings[BENCH_UPDATE_FAILED_BEFORE].is_null())
+        Settings[BENCH_UPDATE_FAILED_BEFORE].get_to<bool>(BenchUpdateFailedBefore);
 }
 
 void Save(std::filesystem::path aPath)
@@ -78,6 +84,8 @@ void Save(std::filesystem::path aPath)
         Settings[STRICT_MODE_FOR_SKILL_DETECTION] = StrictModeForSkillDetection;
         Settings[EASY_SKILL_MODE] = EasySkillMode;
         Settings[VERSION_OF_LAST_BENCH_FILES_UPDATE] = VersionOfLastBenchFilesUpdate;
+        Settings[SKIP_BENCH_FILE_UPDATE] = SkipBenchFileUpdate;
+        Settings[BENCH_UPDATE_FAILED_BEFORE] = BenchUpdateFailedBefore;
 
         std::ofstream file(aPath);
         file << Settings.dump(1, '\t') << std::endl;
@@ -101,4 +109,6 @@ bool StrictModeForSkillDetection = false;
 bool EasySkillMode = false;
 std::filesystem::path XmlSettingsPath;
 std::string VersionOfLastBenchFilesUpdate = "0.1.0.0";
+bool SkipBenchFileUpdate = false;
+bool BenchUpdateFailedBefore = false;
 } // namespace Settings
