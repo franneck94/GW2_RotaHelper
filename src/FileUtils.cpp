@@ -588,6 +588,7 @@ void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath)
                     Globals::ExtractedBenchData = true;
 
                     Settings::VersionOfLastBenchFilesUpdate = Globals::VersionString;
+                    Settings::BenchUpdateFailedBefore = false;
                     Settings::Save(Globals::SettingsPath);
                 }
                 else
