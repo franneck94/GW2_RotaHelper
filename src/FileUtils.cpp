@@ -543,10 +543,18 @@ bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem:
             CloseHandle(pi.hProcess);
             CloseHandle(pi.hThread);
 
+            if (exitCode != 0)
+            {
+                auto errorMsg = "ZIP extraction failed with exit code: " + std::to_string(exitCode);
+                (void)Globals::APIDefs->Log(ELogLevel_CRITICAL, "GW2RotaHelper", errorMsg.c_str());
+            }
+
             return exitCode == 0;
         }
 
-        (void)Globals::APIDefs->Log(ELogLevel_CRITICAL, "GW2RotaHelper", "Create Process Failed.");
+        DWORD createProcessError = GetLastError();
+        auto errorMsg = "Create Process Failed with error code: " + std::to_string(createProcessError);
+        (void)Globals::APIDefs->Log(ELogLevel_CRITICAL, "GW2RotaHelper", errorMsg.c_str());
         return false;
     }
     catch (...)
