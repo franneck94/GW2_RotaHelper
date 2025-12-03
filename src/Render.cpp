@@ -506,6 +506,25 @@ void RenderType::render_xml_selection()
 
 void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
 {
+    if (Settings::BenchUpdateFailedBefore)
+    {
+        const auto items = std::vector<std::string>{
+            "Skip Update",
+        };
+        const auto centered_pos = calculate_centered_position(items);
+        ImGui::SetCursorPosX(centered_pos);
+        if (ImGui::Checkbox("Skip Update", &Settings::SkipBenchFileUpdate))
+        {
+            Settings::Save(Globals::SettingsPath);
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::BeginTooltip();
+            ImGui::Text("When enabled, the addon will skip checking for benchmark file updates on startup.");
+            ImGui::EndTooltip();
+        }
+    }
+
     const auto second_row_items = std::vector<std::string>{
         "Move Skill UI",
         "Show Weapon Swaps",
@@ -515,6 +534,12 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
 
     if (ImGui::Checkbox("Move Skill UI", &is_not_ui_adjust_active))
     {
+    }
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        ImGui::Text("When enabled, you can move the skill rotation UI by dragging it.");
+        ImGui::EndTooltip();
     }
 
     ImGui::SameLine();
@@ -633,10 +658,13 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
 
         if (Globals::BenchDataDownloadState == DownloadState::FAILED)
         {
+            Settings::BenchUpdateFailedBefore = true;
+            Settings::Save(Globals::SettingsPath);
+
             ImGui::Text("Failed Downloading/Extracting Bench Data.");
             ImGui::Text("Please send me a screenshot of the log messages.");
             ImGui::Text("For now, you can download it manually from GitHub see: ");
-            ImGui::Text("https://github.com/franneck94/GW2_RotaHelper?tab=readme-ov-file#benchmark-file-downloadextraction-fails");
+            ImGui::Text("https://github.com/franneck94/GW2_RotaHelper");
             ImGui::End();
             return;
         }
@@ -658,9 +686,9 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
             ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), missing_content_text_2);
         }
 
-#ifndef _DEBUG
-        if (Globals::BenchFilesLowerVersionString != "" && Globals::BenchFilesUpperVersionString != "" &&
-            Settings::VersionOfLastBenchFilesUpdate != "")
+        // #ifndef _DEBUG
+        if (!Settings::SkipBenchFileUpdate && Globals::BenchFilesLowerVersionString != "" &&
+            Globals::BenchFilesUpperVersionString != "" && Settings::VersionOfLastBenchFilesUpdate != "")
         {
             if (!IsVersionIsRange(Settings::VersionOfLastBenchFilesUpdate,
                                   Globals::BenchFilesLowerVersionString,
@@ -699,7 +727,7 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
             Settings::VersionOfLastBenchFilesUpdate = "0.1.0.0";
             Settings::Save(Globals::SettingsPath);
         }
-#endif
+        // #endif
     }
 
 #ifndef _DEBUG
