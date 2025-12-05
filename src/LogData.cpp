@@ -397,28 +397,6 @@ void get_rotation_info(const IntNode &node,
             {
                 const auto is_special_skill = get_is_special_skill(skill_data, SkillRuleData::skill_rules);
 
-                const auto is_duplicate_skill =
-                    is_skill_in_set(skill_data.name,
-                                    SkillRuleData::skill_rules.special_substr_to_remove_duplicates_names) ||
-                    is_skill_in_set(skill_data.skill_id,
-                                    SkillRuleData::skill_rules.special_substr_to_remove_duplicates);
-
-                auto was_there_previous = false;
-                if (is_duplicate_skill && !all_rotation_steps.empty())
-                {
-                    // Check last skill
-                    if (all_rotation_steps.back().skill_data.name == skill_data.name)
-                        was_there_previous = true;
-
-                    // Check second-to-last skill
-                    if (all_rotation_steps.size() >= 2 &&
-                        all_rotation_steps[all_rotation_steps.size() - 2].skill_data.name == skill_data.name)
-                        was_there_previous = true;
-                }
-
-                if (is_duplicate_skill && was_there_previous && !skill_data.is_auto_attack)
-                    continue;
-
                 const auto cast_time_it = SkillRuleData::skill_cast_time_map.find(skill_data.skill_id);
                 if (cast_time_it != SkillRuleData::skill_cast_time_map.end())
                 {
@@ -444,19 +422,34 @@ void get_rotation_info(const IntNode &node,
         return a.time_of_cast < b.time_of_cast;
     });
 
-    all_rotation_steps.erase(
-        std::remove_if(all_rotation_steps.begin(),
-                       all_rotation_steps.end(),
-                       [](const RotationStep &step) {
-                           const auto is_duplicate_skill =
-                               is_skill_in_set(step.skill_data.name,
-                                               SkillRuleData::skill_rules.special_substr_to_remove_duplicates_names) ||
-                               is_skill_in_set(step.skill_data.skill_id,
-                                               SkillRuleData::skill_rules.special_substr_to_remove_duplicates);
+    for (auto it = all_rotation_steps.begin(); it != all_rotation_steps.end();)
+    {
+        const auto is_duplicate_skill =
+            is_skill_in_set(it->skill_data.name,
+                            SkillRuleData::skill_rules.special_substr_to_remove_duplicates_names) ||
+            is_skill_in_set(it->skill_data.skill_id, SkillRuleData::skill_rules.special_substr_to_remove_duplicates);
 
-                           return is_duplicate_skill && !step.skill_data.is_auto_attack;
-                       }),
-        all_rotation_steps.end());
+        bool should_remove = false;
+        if (is_duplicate_skill && !it->skill_data.is_auto_attack) // && it->skill_data.skill_id != SkillID::DEVASTATOR)
+        {
+            if (it != all_rotation_steps.begin())
+            {
+                auto prev_it = std::prev(it);
+                should_remove = (prev_it->skill_data.skill_id == it->skill_data.skill_id);
+
+                if (!should_remove && prev_it != all_rotation_steps.begin())
+                {
+                    auto prev_it2 = std::prev(prev_it);
+                    should_remove = (prev_it2->skill_data.skill_id == it->skill_data.skill_id);
+                }
+            }
+        }
+
+        if (should_remove)
+            it = all_rotation_steps.erase(it);
+        else
+            ++it;
+    }
 }
 
 SkillDataMap get_skill_data_map(const nlohmann::json &j)
