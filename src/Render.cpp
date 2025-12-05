@@ -650,6 +650,10 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
     {
         if (Globals::ExtractedBenchData)
         {
+            Settings::VersionOfLastBenchFilesUpdate = Globals::VersionString;
+            Settings::BenchUpdateFailedBefore = false;
+            Settings::Save(Globals::SettingsPath);
+
             ImGui::Text("Successfully Downloaded and Extracted Bench Data.");
             ImGui::Text("Please restart the game or the addon.");
             ImGui::End();
@@ -708,6 +712,15 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
                 {
                     if (ImGui::Button(btn_text))
                     {
+                        char buffer[128] = {'\0'};
+                        sprintf(buffer,
+                                "Started download since: %s (%s) is not in range [%s, %s]",
+                                Globals::VersionString.c_str(),
+                                Settings::VersionOfLastBenchFilesUpdate.c_str(),
+                                Globals::BenchFilesLowerVersionString.c_str(),
+                                Globals::BenchFilesUpperVersionString.c_str());
+                        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", buffer);
+
                         started_download = true;
 
                         const auto AddonPath = Globals::APIDefs->Paths_GetAddonDirectory("GW2RotaHelper");
@@ -720,12 +733,6 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
                     ImGui::Text(btn_text);
                 }
             }
-        }
-        else if (Settings::VersionOfLastBenchFilesUpdate == "")
-        {
-            // init with oldest version to always update in next cycle
-            Settings::VersionOfLastBenchFilesUpdate = "0.1.0.0";
-            Settings::Save(Globals::SettingsPath);
         }
         // #endif
     }
