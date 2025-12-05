@@ -3,6 +3,9 @@
 #include <string>
 
 #include "arcdps/ArcDPS.h"
+#include "nexus/Nexus.h"
+#include "rtapi/RTAPI.hpp"
+#include "mumble/Mumble.h"
 
 #include "Render.h"
 #include "Shared.h"
@@ -11,8 +14,8 @@
 
 namespace Globals
 {
-AddonAPI *APIDefs = nullptr;
-NexusLinkData *NexusLink = nullptr;
+AddonAPI_t *APIDefs = nullptr;
+NexusLinkData_t *NexusLink = nullptr;
 RTAPI::RealTimeData *RTAPIData = nullptr;
 Mumble::Data *MumbleData = nullptr;
 std::string AccountName;

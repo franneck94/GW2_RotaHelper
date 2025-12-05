@@ -15,8 +15,8 @@
 
 namespace Globals
 {
-extern AddonAPI *APIDefs;
-extern NexusLinkData *NexusLink;
+extern AddonAPI_t *APIDefs;
+extern NexusLinkData_t *NexusLink;
 extern RTAPI::RealTimeData *RTAPIData;
 extern std::string AccountName;
 extern Mumble::Data *MumbleData;

@@ -574,7 +574,7 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
                     const auto msg = "Failed to parse icon ID from URL: " + icon_url +
                                      " for skill ID: " + std::to_string(skill_id_int) +
                                      " and Skill Name: " + skill_data.name;
-                    (void)Globals::APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", msg.c_str());
+                    (void)Globals::APIDefs->Log(LOGL_WARNING, "GW2RotaHelper", msg.c_str());
                 }
             }
             else
@@ -584,7 +584,7 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
                 const auto msg = "Failed to parse icon ID from URL: " + icon_url +
                                  " for skill ID: " + std::to_string(skill_id_int) +
                                  " and Skill Name: " + skill_data.name;
-                (void)Globals::APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", msg.c_str());
+                (void)Globals::APIDefs->Log(LOGL_WARNING, "GW2RotaHelper", msg.c_str());
             }
         }
 
@@ -602,7 +602,7 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
                 skill_data.icon_id = (int)SkillID::UNKNOWN_SKILL;
 
                 const auto msg = "Failed to parse skill name: " + skill_data.name;
-                (void)Globals::APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", msg.c_str());
+                (void)Globals::APIDefs->Log(LOGL_WARNING, "GW2RotaHelper", msg.c_str());
             }
         }
 
@@ -853,7 +853,7 @@ void RotationLogType::load_data(const std::filesystem::path &json_path, const st
         calculate_auto_attack_indices();
 
     futures = StartDownloadAllSkillIcons(log_skill_info_map, img_path);
-    (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Loaded Rotation");
+    (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Loaded Rotation");
 }
 
 void RotationLogType::pop_bench_rotation_queue()
@@ -910,5 +910,5 @@ void RotationLogType::reset_rotation()
     skill_data_map.clear();
     meta_data = MetaData{};
     auto_attack_indices.clear();
-    (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Resetted Rotation");
+    (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Resetted Rotation");
 }

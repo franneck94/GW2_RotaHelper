@@ -357,7 +357,7 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
         return;
 
     const auto debug_msg = std::string{"Player Casted Skill: "} + skill_ev.SkillName;
-    (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", debug_msg.c_str());
+    (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", debug_msg.c_str());
 
     SkillDetectionLogic(num_skills_wo_match, time_since_last_match, Globals::RotationRun, skill_ev);
 }
@@ -488,7 +488,7 @@ void RenderType::render_xml_selection()
             Settings::Save(Globals::SettingsPath);
 
             keybinds_loaded = false;
-            (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Loaded XML InputBinds File.");
+            (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Loaded XML InputBinds File.");
         }
     }
 
@@ -710,7 +710,7 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
                     {
                         started_download = true;
 
-                        const auto AddonPath = Globals::APIDefs->Paths.GetAddonDirectory("GW2RotaHelper");
+                        const auto AddonPath = Globals::APIDefs->Paths_GetAddonDirectory("GW2RotaHelper");
                         Globals::BenchDataDownloadState = DownloadState::STARTED;
                         DownloadAndExtractDataAsync(AddonPath);
                     }

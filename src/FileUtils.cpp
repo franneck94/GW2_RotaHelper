@@ -489,7 +489,7 @@ std::map<std::string, KeybindInfo> parse_xml_keybinds(const std::filesystem::pat
     }
     catch (const std::exception &e)
     {
-        (void)Globals::APIDefs->Log(ELogLevel_WARNING, "GW2RotaHelper", "Error parsing XML keybinds");
+        (void)Globals::APIDefs->Log(LOGL_WARNING, "GW2RotaHelper", "Error parsing XML keybinds");
     }
 
     return keybinds;
@@ -499,14 +499,14 @@ bool DownloadFile(const std::string &url, const std::filesystem::path &outputPat
 {
     try
     {
-        (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Started ZIP Downloading");
+        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Started ZIP Downloading");
 
         const auto hr = URLDownloadToFileA(nullptr, url.c_str(), outputPath.string().c_str(), 0, nullptr);
         return SUCCEEDED(hr);
     }
     catch (...)
     {
-        (void)Globals::APIDefs->Log(ELogLevel_CRITICAL, "GW2RotaHelper", "ZIP downloading failed.");
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "ZIP downloading failed.");
         return false;
     }
 }
@@ -515,7 +515,7 @@ bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem:
 {
     try
     {
-        (void)Globals::APIDefs->Log(ELogLevel_DEBUG, "GW2RotaHelper", "Started ZIP Extracting");
+        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Started ZIP Extracting");
 
         const auto psCommand = "powershell.exe -Command \"Expand-Archive -Path '" + zipPath.string() +
                                "' -DestinationPath '" + extractPath.string() + "' -Force\"";
@@ -536,7 +536,7 @@ bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem:
                            &si,
                            &pi))
         {
-            (void)Globals::APIDefs->Log(ELogLevel_INFO, "GW2RotaHelper", "Started ZIP extraction process.");
+            (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", "Started ZIP extraction process.");
             WaitForSingleObject(pi.hProcess, 30000); // Wait max 30 seconds
             DWORD exitCode;
             GetExitCodeProcess(pi.hProcess, &exitCode);
@@ -546,7 +546,7 @@ bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem:
             if (exitCode != 0)
             {
                 auto errorMsg = "ZIP extraction failed with exit code: " + std::to_string(exitCode);
-                (void)Globals::APIDefs->Log(ELogLevel_CRITICAL, "GW2RotaHelper", errorMsg.c_str());
+                (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", errorMsg.c_str());
             }
 
             return exitCode == 0;
@@ -554,13 +554,13 @@ bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem:
 
         DWORD createProcessError = GetLastError();
         auto errorMsg = "Create Process Failed with error code: " + std::to_string(createProcessError);
-        (void)Globals::APIDefs->Log(ELogLevel_CRITICAL, "GW2RotaHelper", errorMsg.c_str());
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", errorMsg.c_str());
         return false;
     }
     catch (...)
     {
         Globals::BenchDataDownloadState = DownloadState::FAILED;
-        (void)Globals::APIDefs->Log(ELogLevel_CRITICAL, "GW2RotaHelper", "ZIP extraction failed.");
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "ZIP extraction failed.");
         return false;
     }
 }
@@ -575,7 +575,7 @@ void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath)
 
             auto temp_zip_path = addonPath / "temp_GW2RotaHelper.zip";
             auto extract_path = addonPath.parent_path(); // Extract one level above
-            (void)Globals::APIDefs->Log(ELogLevel_INFO, "GW2RotaHelper", "Started Download Thread.");
+            (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", "Started Download Thread.");
 
             if (DownloadFile(data_url, temp_zip_path))
             {
@@ -605,7 +605,7 @@ void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath)
         catch (...)
         {
             Globals::BenchDataDownloadState = DownloadState::FAILED;
-            (void)Globals::APIDefs->Log(ELogLevel_CRITICAL, "GW2RotaHelper", "DownloadAndExtractDataAsync failed.");
+            (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "DownloadAndExtractDataAsync failed.");
         }
     }).detach();
 }
