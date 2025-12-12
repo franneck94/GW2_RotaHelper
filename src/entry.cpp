@@ -49,6 +49,10 @@ void ToggleShowWindowGW2_RotaHelper(const char *, bool isKeyDown)
     {
         Settings::ToggleShowWindow(Globals::SettingsPath);
     }
+    if (!isKeyDown && !wasKeyPressed)
+    {
+        Settings::ToggleShowWindow(Globals::SettingsPath);
+    }
 
     wasKeyPressed = isKeyDown;
 }
