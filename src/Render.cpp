@@ -52,6 +52,7 @@ static const inline std::set<std::string_view> red_crossed_builds = {
     "power_alacrity_amalgam",
     "power_bladesworn",
     "power_alacrity_bladesworn_overcharged",
+    "power_alacrity_bladesworn",
     "power_holosmith",
     "power_deadeye_staff_and_dagger",
     // CHECKED CONDITION BUILDS
@@ -73,7 +74,6 @@ static const inline std::set<std::string_view> orange_crossed_builds = {
     "power_tempest_hammer",
     "inferno_quickness_evoker_specialized_elements",
     "inferno_evoker_specialized_elements",
-    "power_alacrity_bladesworn",
     // CHECKED CONDITION BUILDS
     "condition_catalyst",
     "condition_quickness_catalyst",
