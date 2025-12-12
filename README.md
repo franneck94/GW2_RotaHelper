@@ -133,7 +133,7 @@ You can convert your own HTML logs from dps.report or other sources using the pr
 
 1. **Setup Python Environment** (if not already installed):
    - Install Python 3.10+ from [python.org](https://python.org)
-   - Install required dependencies: `pip install -r scripts/requirements.txt`
+   - Install required dependencies: `pip install -r requirements.txt`
 
 2. **Add manual Log List**
    - Add your dps.report http link to: internal_data/manual_log_list.json
