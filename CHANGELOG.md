@@ -6,6 +6,23 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.20.1 - 2025-12-12
+
+## Notes
+
+- Updated bench data
+
+## 0.20.0 - 2025-12-05
+
+### Improvements
+
+- Fixed addon shortcut (ctrl+q)
+- Fixed bug for multi hit skill filtering
+
+## Notes
+
+- Updated to newest commits for mumble/rtapi/nexus
+
 ## 0.19.1 - 2025-12-05
 
 ### Improvements
