@@ -207,6 +207,11 @@ class SnowCrowsScraper:
                             "url_name": build_name,
                             "overall_dps": None,  # Will be populated during download
                         }
+                        # Extract skill slot information from the build page before navigating to DPS report
+                        skill_slots = self._extract_skill_slots(full_url)
+                        if skill_slots:
+                            build_info["skill_slots"] = skill_slots
+                            self.logger.info(f"Extracted skill slots: {list(skill_slots.keys())}")
                         builds_info.append(build_info)
 
             except Exception as e:
@@ -527,6 +532,9 @@ class SnowCrowsScraper:
     def _extract_skill_slots(self, url: str) -> dict[str, str]:
         """Extract skill slot information from SnowCrows build page"""
         try:
+            if self.driver is None:
+                self._setup_webdriver()
+
             if "snowcrows.com" not in url or self.driver is None:
                 return {}
 
@@ -729,12 +737,6 @@ class SnowCrowsScraper:
                     EC.presence_of_element_located((By.TAG_NAME, "body")),
                 )
                 time.sleep(SLEEP_DELAY)
-
-                # Extract skill slot information from the build page before navigating to DPS report
-                skill_slots = self._extract_skill_slots(url)
-                if skill_slots:
-                    build_info["skill_slots"] = skill_slots
-                    self.logger.info(f"Extracted skill slots: {list(skill_slots.keys())}")
 
                 try:
                     self.logger.info("Looking for DPS report link...")
