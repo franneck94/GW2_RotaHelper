@@ -524,6 +524,107 @@ class SnowCrowsScraper:
             self.logger.warning(f"Error extracting DPS from WebDriver: {e}")
             return None
 
+    def _extract_skill_slots(self, url: str) -> dict[str, str]:
+        """Extract skill slot information from SnowCrows build page"""
+        try:
+            if "snowcrows.com" not in url or self.driver is None:
+                return {}
+
+            self.logger.info("Extracting skill slot information from SnowCrows build page...")
+
+            # Make sure we're on the build page
+            current_url = self.driver.current_url
+            if url != current_url:
+                self.driver.get(url)
+                WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located((By.TAG_NAME, "body")),
+                )
+                time.sleep(SLEEP_DELAY)
+
+            # Look for the Skills section - find div with "Skills" text
+            skills_sections = self.driver.find_elements(
+                By.XPATH,
+                "//div[contains(@class, 'text-right') and contains(@class, 'flex-grow') and contains(@class, 'text-2xl') and contains(text(), 'Skills')]"
+            )
+
+            if not skills_sections:
+                self.logger.warning("Could not find Skills section on build page")
+                return {}
+
+            self.logger.info(f"Found {len(skills_sections)} Skills section(s)")
+
+            # Get the parent container that has the skill icons
+            skills_container = skills_sections[0].find_element(By.XPATH, "./ancestor::div[contains(@class, 'relative')]")
+
+            # Find all skill icon divs within this container
+            skill_divs = skills_container.find_elements(
+                By.XPATH,
+                ".//div[contains(@class, 'gw2a--Wvchy') and contains(@class, 'gw2a--s2qls') and contains(@class, 'gw2a--376lb') and contains(@class, 'gw2a--3u_DO')]"
+            )
+
+            if not skill_divs:
+                self.logger.warning("Could not find skill icon divs in Skills section")
+                return {}
+
+            self.logger.info(f"Found {len(skill_divs)} skill icons")
+
+            # Extract skill URLs and map them to slot numbers
+            skill_slots = {}
+
+            # Standard GW2 skill slot mapping for utilities:
+            # Index 0 = Heal skill (slot 5)
+            # Index 1-3 = Utility skills (slots 6, 7, 8)
+            # Index 4 = Elite skill (slot 9)
+            slot_mapping = {
+                0: "5",  # Heal
+                1: "6",  # Utility 1
+                2: "7",  # Utility 2
+                3: "8",  # Utility 3
+                4: "9",  # Elite
+            }
+
+            for i, skill_div in enumerate(skill_divs):
+                try:
+                    # Extract background-image URL from style attribute
+                    style = skill_div.get_attribute("style") or ""
+
+                    # Parse background-image URL using regex
+                    bg_match = re.search(r'background-image:\s*url\(&quot;([^&]+)&quot;\)', style)
+                    if not bg_match:
+                        # Try alternative format without &quot;
+                        bg_match = re.search(r'background-image:\s*url\(["\']([^"\']+)["\'\))]', style)
+
+                    if bg_match:
+                        skill_url = bg_match.group(1)
+                        skill_icon_id = skill_url.split("/")[-1].split(".")[0]
+
+                        # Map to skill slot if we have a mapping
+                        if i in slot_mapping:
+                            slot_number = slot_mapping[i]
+                            skill_slots[f"slot_{slot_number}"] = skill_icon_id
+                            self.logger.debug(f"Skill slot {slot_number}: {skill_icon_id}")
+                        else:
+                            # For additional skills beyond the standard 5, use sequential numbering
+                            slot_number = str(10 + i - 5)  # Start from slot 10 for extra skills
+                            skill_slots[f"slot_{slot_number}"] = skill_icon_id
+                            self.logger.debug(f"Extra skill slot {slot_number}: {skill_icon_id}")
+                    else:
+                        self.logger.warning(f"Could not extract background-image URL from skill div {i}")
+
+                except Exception as e:
+                    self.logger.warning(f"Error processing skill div {i}: {e}")
+                    continue
+
+            if skill_slots:
+                self.logger.info(f"Successfully extracted {len(skill_slots)} skill slots")
+                return skill_slots
+            self.logger.warning("No skill slots were extracted")
+            return {}
+
+        except Exception as e:
+            self.logger.warning(f"Error extracting skill slots: {e}")
+            return {}
+
     def _select_correct_player(self, build_info: dict[str, str]) -> bool:
         """Select the correct player in the DPS report that matches the build"""
         try:
@@ -628,6 +729,12 @@ class SnowCrowsScraper:
                     EC.presence_of_element_located((By.TAG_NAME, "body")),
                 )
                 time.sleep(SLEEP_DELAY)
+
+                # Extract skill slot information from the build page before navigating to DPS report
+                skill_slots = self._extract_skill_slots(url)
+                if skill_slots:
+                    build_info["skill_slots"] = skill_slots
+                    self.logger.info(f"Extracted skill slots: {list(skill_slots.keys())}")
 
                 try:
                     self.logger.info("Looking for DPS report link...")
