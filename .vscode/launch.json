@@ -26,10 +26,10 @@
             "justMyCode": false
         },
         {
-            "name": "Debug: get_sc_metadata",
+            "name": "Debug: get_skill_mapping",
             "type": "debugpy",
             "request": "launch",
-            "program": "${workspaceFolder}/scripts/get_sc_metadata.py",
+            "program": "${workspaceFolder}/scripts/get_skill_mapping.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "justMyCode": false
@@ -39,6 +39,16 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/scripts/get_html_logs.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false
+        },
+        {
+            "name": "Debug: get_html_logs (skip)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/get_html_logs.py",
+            "args": ["--skip_metadata"],
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "justMyCode": false
