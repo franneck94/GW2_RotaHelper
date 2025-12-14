@@ -2,27 +2,26 @@
     <head>
         <meta charset="utf-8" />
         <link
+            crossorigin="anonymous"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.1/slate/bootstrap.min.css"
             id="theme"
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.1/slate/bootstrap.min.css"
-            crossorigin="anonymous"
         />
         <link
+            href="/ei/EliteInsights-3.4.0.css?version=0"
             rel="stylesheet"
             type="text/css"
-            href="/ei/EliteInsights-3.4.0.css?version=0"
         />
         <link href="/css/opensans.css" rel="stylesheet" />
         <script
-            src="/cache/https_code.jquery.com_jquery-3.7.0.min.js"
             crossorigin="anonymous"
+            src="/cache/https_code.jquery.com_jquery-3.7.0.min.js"
         ></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
         <script src="/cache/https_cdn.plot.ly_plotly-3.0.0.min.js"></script>
         <style id="plotly.js-style-global"></style>
         <script src="/cache/https_cdn.jsdelivr.net_npm_bootstrap_4.1.1_dist_js_bootstrap.min.js"></script>
         <script src="/cache/https_cdn.jsdelivr.net_npm_vue_2.7.14_dist_vue.min.js"></script>
-
         <script>
             function initTheme() {
                 window.theme = "slate";
@@ -48790,18 +48789,14 @@
         </script>
         <script src="/ei/EliteInsights-3.4.0.js?version=0"></script>
         <script src="/ei/EliteInsights-CR-3.4.0.js?version=0"></script>
-
         <script src="/ei/EliteInsights-HealingExt-3.4.0.js?version=0"></script>
-
         <title>Standard Kitty Golem</title>
     </head>
-
     <body class="theme-slate">
         <script>
             $("body").addClass("theme-" + window.theme);
         </script>
-
-        <div id="content" class="ei-container-small">
+        <div class="ei-container-small" id="content">
             <div
                 class="d-flex flex-row justify-content-center align-items-center mt-2"
             >
@@ -48809,9 +48804,9 @@
                     class="d-flex flex-column justify-content-center align-items-center"
                 >
                     <img
-                        src="https://i.imgur.com/k3tdKEQ.png"
-                        data-original-title="As of arcdps 20210923, animated cast events' durations are broken, as such, any feature having a dependency on it are to be taken with a grain of salt. Impacted features are: <br>- Rotations <br>- Time spent in animation statistics <br>- Mechanics <br>- Phases <br>- Combat Replay Decorations"
                         class="mb-1 icon"
+                        data-original-title="As of arcdps 20210923, animated cast events' durations are broken, as such, any feature having a dependency on it are to be taken with a grain of salt. Impacted features are: &lt;br&gt;- Rotations &lt;br&gt;- Time spent in animation statistics &lt;br&gt;- Mechanics &lt;br&gt;- Phases &lt;br&gt;- Combat Replay Decorations"
+                        src="https://i.imgur.com/k3tdKEQ.png"
                     />
                 </div>
                 <div class="card fight-summary" style="min-width: 350px">
@@ -48825,11 +48820,11 @@
                             <div
                                 class="d-flex flex-column mr-3 justify-content-center"
                             >
-                                <!---->
+                                <!-- -->
                                 <img
-                                    src="https://assets.gw2dat.com//1203237.png"
                                     alt="Standard Kitty Golem"
                                     class="encounter-icon"
+                                    src="https://assets.gw2dat.com//1203237.png"
                                 />
                             </div>
                             <div
@@ -48863,15 +48858,15 @@
                                                 border-radius: 5px;
                                             "
                                         ></div>
-                                        <!---->
-                                        <!---->
+                                        <!-- -->
+                                        <!-- -->
                                     </div>
                                 </div>
                                 <div class="mb-2 text text-success">
                                     Result: Success
                                 </div>
                                 <div class="mb-2">Duration: 01m 27s 751ms</div>
-                                <!---->
+                                <!-- -->
                             </div>
                         </div>
                     </div>
@@ -48884,10 +48879,10 @@
                     >
                         <ul class="nav nav-pills" style="pointer-events: auto">
                             <li class="nav-item">
-                                <a class="nav-link">Light Theme</a>
+                                <a class="nav-link"> Light Theme </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active">Dark Theme</a>
+                                <a class="nav-link active"> Dark Theme </a>
                             </li>
                         </ul>
                     </div>
@@ -48896,13 +48891,13 @@
                     >
                         <ul class="nav nav-pills">
                             <li class="nav-item mb-1">
-                                <a class="nav-link active">Statistics</a>
+                                <a class="nav-link active"> Statistics </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link">Combat Replay</a>
+                                <a class="nav-link"> Combat Replay </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link">Healing Statistics</a>
+                                <a class="nav-link"> Healing Statistics </a>
                             </li>
                         </ul>
                     </div>
@@ -48911,80 +48906,82 @@
             <div>
                 <div>
                     <div
-                        id="phase-nav"
                         class="d-flex flex-row justify-content-center mt-1"
+                        id="phase-nav"
                     >
                         <div>
                             <ul
                                 class="nav nav-pills d-flex flex-row justify-content-center"
                             >
                                 <li
+                                    class="nav-item"
                                     data-original-title="87.751 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link active">Final Number</a>
+                                    <a class="nav-link active">
+                                        Final Number
+                                    </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="69.679 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">Fourth Number</a>
+                                    <a class="nav-link"> Fourth Number </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="52.278 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">Third Number</a>
+                                    <a class="nav-link"> Third Number </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="35.179 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">Second Number</a>
+                                    <a class="nav-link"> Second Number </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="15.979 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">First Number</a>
+                                    <a class="nav-link"> First Number </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="15.979 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">100% - 80%</a>
+                                    <a class="nav-link"> 100% - 80% </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="19.2 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">80% - 60%</a>
+                                    <a class="nav-link"> 80% - 60% </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="17.099 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">60% - 40%</a>
+                                    <a class="nav-link"> 60% - 40% </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="17.401 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">40% - 20%</a>
+                                    <a class="nav-link"> 40% - 20% </a>
                                 </li>
                                 <li
-                                    data-original-title="18.072 seconds"
                                     class="nav-item"
+                                    data-original-title="18.072 seconds"
                                 >
-                                    <a class="nav-link">20% -0%</a>
+                                    <a class="nav-link"> 20% -0% </a>
                                 </li>
                             </ul>
-                            <!---->
+                            <!-- -->
                         </div>
                     </div>
                     <div
-                        id="actors"
                         class="d-flex flex-row justify-content-center mb-2 mt-2"
+                        id="actors"
                     >
                         <div
                             class="flex-row justify-content-center align-items-center flex-wrap mr-5 d-flex"
@@ -48999,38 +48996,38 @@
                                 >
                                     <div>
                                         <img
-                                            src="/cache/https_i.imgur.com_TCSo8TI.png"
                                             alt="Standard Kitty Golem"
-                                            data-original-title="Standard Kitty Golem"
                                             class="icon-lg mr-2 ml-2 target-cell active"
+                                            data-original-title="Standard Kitty Golem"
+                                            src="/cache/https_i.imgur.com_TCSo8TI.png"
                                         />
                                         <div
                                             class="d-flex flex-row justify-content-center align-items-center mb-2"
                                         >
                                             <img
-                                                src="https://wiki.guildwars2.com/images/b/be/Vitality.png"
                                                 alt="Health"
+                                                class="icon"
                                                 data-original-title="Health: 4000000"
-                                                class="icon"
+                                                src="https://wiki.guildwars2.com/images/b/be/Vitality.png"
                                             />
                                             <img
-                                                src="https://wiki.guildwars2.com/images/1/12/Toughness.png"
                                                 alt="Toughness"
-                                                hbheight=""
+                                                class="icon"
                                                 data-original-title="Toughness: 1374"
-                                                class="icon"
+                                                hbheight=""
+                                                src="https://wiki.guildwars2.com/images/1/12/Toughness.png"
                                             />
                                             <img
-                                                src="https://i.imgur.com/QSI79aT.png"
                                                 alt="Hitbox Width"
-                                                data-original-title="Hitbox Width: 140"
                                                 class="icon"
+                                                data-original-title="Hitbox Width: 140"
+                                                src="https://i.imgur.com/QSI79aT.png"
                                             />
                                             <img
-                                                src="https://i.imgur.com/41lsf0q.png"
                                                 alt="Hitbox Half-Height"
-                                                data-original-title="Hitbox Half-Height: 200"
                                                 class="icon"
+                                                data-original-title="Hitbox Half-Height: 200"
+                                                src="https://i.imgur.com/41lsf0q.png"
                                             />
                                         </div>
                                     </div>
@@ -49044,13 +49041,13 @@
                         <div class="ml-5">
                             <div class="d-flex flex-row">
                                 <img
-                                    src="https://i.imgur.com/nSYuby8.png"
-                                    data-original-title="
-                        <span style='text-align:left;display: block;'>
-                        A player has a stat score if they are above 60% of the maximum stat present in the squad. For example if the maximum healing power stat inside the squad is 1000, anybody with a healing power stat above 600 will be flagged as with healing power.
-                        </span>
-                    "
                                     class="icon mr-1"
+                                    data-original-title="
+                        &lt;span style='text-align:left;display: block;'&gt;
+                        A player has a stat score if they are above 60% of the maximum stat present in the squad. For example if the maximum healing power stat inside the squad is 1000, anybody with a healing power stat above 600 will be flagged as with healing power.
+                        &lt;/span&gt;
+                    "
+                                    src="https://i.imgur.com/nSYuby8.png"
                                 />
                                 <div
                                     class="d-flex flex-column"
@@ -49062,44 +49059,44 @@
                                         >
                                             <div>
                                                 <img
-                                                    src="/cache/https_github.com_baaron4_GW2-Elite-Insights-Parser_blob_master_GW2EICustomAssets_GW2WikiTango_Tempest_tango_icon_20px.png_raw_true"
                                                     alt="Tempest"
+                                                    class="icon"
                                                     data-original-title="Tempest"
-                                                    class="icon"
+                                                    src="/cache/https_github.com_baaron4_GW2-Elite-Insights-Parser_blob_master_GW2EICustomAssets_GW2WikiTango_Tempest_tango_icon_20px.png_raw_true"
                                                 />
-                                                <!---->
-                                                <!---->
+                                                <!-- -->
+                                                <!-- -->
                                                 <img
-                                                    src="https://wiki.guildwars2.com/images/4/44/Boon_Duration.png"
                                                     alt="Concentration"
-                                                    data-original-title="Concentration"
                                                     class="icon"
+                                                    data-original-title="Concentration"
+                                                    src="https://wiki.guildwars2.com/images/4/44/Boon_Duration.png"
                                                 />
-                                                <!---->
-                                                <!---->
+                                                <!-- -->
+                                                <!-- -->
                                             </div>
                                             <div>
                                                 <img
-                                                    src="https://render.guildwars2.com/file/A3455EC1C59AC001E12C65740DE32DA12645EFA5/631576.png"
-                                                    data-original-title="Hammer"
                                                     class="icon"
+                                                    data-original-title="Hammer"
+                                                    src="https://render.guildwars2.com/file/A3455EC1C59AC001E12C65740DE32DA12645EFA5/631576.png"
                                                 />
-                                                <!---->
+                                                <!-- -->
                                             </div>
-                                            <!---->
+                                            <!-- -->
                                             <div
                                                 class="d-flex align-items-center justify-content-center"
                                             >
                                                 <img
-                                                    src="https://assets.gw2dat.com/156954.png"
                                                     alt="Extensions"
-                                                    data-original-title="Player is running: <br>- Healing Stats Extension"
                                                     class="icon"
+                                                    data-original-title="Player is running: &lt;br&gt;- Healing Stats Extension"
+                                                    src="https://assets.gw2dat.com/156954.png"
                                                 />
-                                                <!---->
+                                                <!-- -->
                                                 <span
-                                                    data-original-title="Lightning Hamster - Blackkarmy.6452"
                                                     class="player-cell-shorten"
+                                                    data-original-title="Lightning Hamster - Blackkarmy.6452"
                                                 >
                                                     Lightning Hamster
                                                 </span>
@@ -49112,33 +49109,58 @@
                     </div>
                     <h2 class="text-center">Final Number Summary</h2>
                     <ul class="nav nav-tabs">
-                        <li><a class="nav-link">General Stats</a></li>
-                        <li><a class="nav-link">Buffs</a></li>
-                        <li><a class="nav-link">Damage Modifiers</a></li>
-                        <!---->
-                        <li><a class="nav-link">Graph</a></li>
-                        <!---->
-                        <li><a class="nav-link">Targets Summary</a></li>
-                        <li><a class="nav-link active">Player Summary</a></li>
+                        <li>
+                            <a class="nav-link"> General Stats </a>
+                        </li>
+                        <li>
+                            <a class="nav-link"> Buffs </a>
+                        </li>
+                        <li>
+                            <a class="nav-link"> Damage Modifiers </a>
+                        </li>
+                        <!-- -->
+                        <li>
+                            <a class="nav-link"> Graph </a>
+                        </li>
+                        <!-- -->
+                        <li>
+                            <a class="nav-link"> Targets Summary </a>
+                        </li>
+                        <li>
+                            <a class="nav-link active"> Player Summary </a>
+                        </li>
                     </ul>
                     <div>
                         <h3 class="text-center mt-2">
                             <img
                                 alt="Tempest"
-                                src="/cache/https_github.com_baaron4_GW2-Elite-Insights-Parser_blob_master_GW2EICustomAssets_GW2WikiTango_Tempest_tango_icon_20px.png_raw_true"
                                 class="icon"
-                            />Lightning Hamster
+                                src="/cache/https_github.com_baaron4_GW2-Elite-Insights-Parser_blob_master_GW2EICustomAssets_GW2WikiTango_Tempest_tango_icon_20px.png_raw_true"
+                            />
+                            Lightning Hamster
                         </h3>
                         <ul class="nav nav-tabs">
-                            <li><a class="nav-link"> Outgoing Damage </a></li>
-                            <li><a class="nav-link"> Incoming Damage </a></li>
-                            <li><a class="nav-link">Graph</a></li>
-                            <li><a class="nav-link"> Boon Status </a></li>
+                            <li>
+                                <a class="nav-link"> Outgoing Damage </a>
+                            </li>
+                            <li>
+                                <a class="nav-link"> Incoming Damage </a>
+                            </li>
+                            <li>
+                                <a class="nav-link"> Graph </a>
+                            </li>
+                            <li>
+                                <a class="nav-link"> Boon Status </a>
+                            </li>
                             <li>
                                 <a class="nav-link active"> Simple Rotation </a>
                             </li>
-                            <li><a class="nav-link"> Advanced Rotation </a></li>
-                            <li><a class="nav-link"> Consumables </a></li>
+                            <li>
+                                <a class="nav-link"> Advanced Rotation </a>
+                            </li>
+                            <li>
+                                <a class="nav-link"> Consumables </a>
+                            </li>
                             <li>
                                 <a class="nav-link" style="display: none">
                                     Death Recap
@@ -49152,52 +49174,53 @@
                                 >
                                     <ul class="nav nav-pills mr-1 scale85">
                                         <li class="nav-item">
-                                            <a class="nav-link active"
-                                                >Show auto attacks</a
-                                            >
+                                            <a class="nav-link active">
+                                                Show auto attacks
+                                            </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link"
-                                                >Hide interrupted auto
-                                                attacks</a
-                                            >
+                                            <a class="nav-link">
+                                                Hide interrupted auto attacks
+                                            </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active"
-                                                >Hide &lt; 10ms</a
-                                            >
+                                            <a class="nav-link active">
+                                                Hide &lt; 10ms
+                                            </a>
                                         </li>
                                     </ul>
                                     <ul class="nav nav-pills ml-1 mr-1 scale85">
                                         <li class="nav-item">
-                                            <a class="nav-link"
-                                                >Hide all instant cast</a
-                                            >
+                                            <a class="nav-link">
+                                                Hide all instant cast
+                                            </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link"
-                                                >Hide instant cast skills</a
-                                            >
+                                            <a class="nav-link">
+                                                Hide instant cast skills
+                                            </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link"
-                                                >Hide gear procs</a
-                                            >
+                                            <a class="nav-link">
+                                                Hide gear procs
+                                            </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link"
-                                                >Hide trait procs</a
-                                            >
+                                            <a class="nav-link">
+                                                Hide trait procs
+                                            </a>
                                         </li>
                                     </ul>
                                     <ul class="nav nav-pills ml-1 scale85">
                                         <li class="nav-item">
-                                            <a class="nav-link">Small icons</a>
+                                            <a class="nav-link">
+                                                Small icons
+                                            </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active"
-                                                >Small auto attack icons</a
-                                            >
+                                            <a class="nav-link active">
+                                                Small auto attack icons
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
@@ -49207,44 +49230,49 @@
                                     <ul class="nav nav-pills mr-1 ml-1 scale85">
                                         <li class="nav-item rot-animfull">
                                             <a
-                                                data-original-title="Toggle full after cast border"
                                                 class="nav-link active"
-                                                >Full After Cast</a
+                                                data-original-title="Toggle full after cast border"
                                             >
+                                                Full After Cast
+                                            </a>
                                         </li>
                                         <li class="nav-item rot-cancelled">
                                             <a
-                                                data-original-title="Toggle interrupted cast border"
                                                 class="nav-link active"
-                                                >Interrupted</a
+                                                data-original-title="Toggle interrupted cast border"
                                             >
+                                                Interrupted
+                                            </a>
                                         </li>
                                         <li class="nav-item rot-instant">
                                             <a
-                                                data-original-title="Toggle instant cast border"
                                                 class="nav-link active"
-                                                >Instant</a
+                                                data-original-title="Toggle instant cast border"
                                             >
+                                                Instant
+                                            </a>
                                         </li>
                                         <li class="nav-item rot-unknown">
                                             <a
-                                                data-original-title="Toggle unknown cast border"
                                                 class="nav-link active"
-                                                >Unknown</a
+                                                data-original-title="Toggle unknown cast border"
                                             >
+                                                Unknown
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="mb-4 mt-2" style="z-index: 1">
                                     <a
-                                        href="#"
-                                        data-toggle="dropdown"
-                                        title="Filter Skills"
                                         class="dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        href="#"
                                         style="font-size: 1.1em"
+                                        title="Filter Skills"
                                     >
-                                        Skills <span class="caret"></span
-                                    ></a>
+                                        Skills
+                                        <span class="caret"> </span>
+                                    </a>
                                     <ul
                                         class="dropdown-menu p-2 font-weight-normal scrollabledropdown"
                                         style="
@@ -49254,24 +49282,24 @@
                                     >
                                         <li>
                                             <button
-                                                type="button"
                                                 class="btn btn-primary btn-sm"
                                                 style="
                                                     width: 130px;
                                                     padding: 0.4rem;
                                                 "
+                                                type="button"
                                             >
                                                 Select all
                                             </button>
                                         </li>
                                         <li class="mb-1">
                                             <button
-                                                type="button"
                                                 class="btn btn-primary btn-sm"
                                                 style="
                                                     width: 130px;
                                                     padding: 0.4rem;
                                                 "
+                                                type="button"
                                             >
                                                 Deselect all
                                             </button>
@@ -49293,9 +49321,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
                                                 />
                                                 "Feel the Burn!"
                                             </label>
@@ -49317,9 +49346,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
                                                 />
                                                 Arcane Blast
                                             </label>
@@ -49341,9 +49371,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/A1154443E7FB75409FC77711E50D186D449670CF/2491579.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/A1154443E7FB75409FC77711E50D186D449670CF/2491579.png"
                                                 />
                                                 Crescent Wind
                                             </label>
@@ -49365,9 +49396,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
                                                 />
                                                 Flame Barrage
                                             </label>
@@ -49389,9 +49421,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/0EEEDE3EC37F7A6E1BC9BE20B69E3B2C09F5072F/2491582.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/0EEEDE3EC37F7A6E1BC9BE20B69E3B2C09F5072F/2491582.png"
                                                 />
                                                 Flame Wheel
                                             </label>
@@ -49413,9 +49446,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/41D40EDB66D0CC0A73F405630803D2D600CABCCE/2491580.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/41D40EDB66D0CC0A73F405630803D2D600CABCCE/2491580.png"
                                                 />
                                                 Grand Finale
                                             </label>
@@ -49437,9 +49471,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
                                                 />
                                                 Hurricane of Pain
                                             </label>
@@ -49461,9 +49496,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/4CEE16E97EF99A6C4DEF356CE8650DB73B062A04/2491583.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/4CEE16E97EF99A6C4DEF356CE8650DB73B062A04/2491583.png"
                                                 />
                                                 Icy Coil
                                             </label>
@@ -49485,9 +49521,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/D0D5D40C079304DB0FFF10051C79A5629EE60501/1424238.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/D0D5D40C079304DB0FFF10051C79A5629EE60501/1424238.png"
                                                 />
                                                 Lightning Storm
                                             </label>
@@ -49509,9 +49546,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/B4EB30B7559BAEB905DC2E45979A9F46EF9F6167/2491590.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/B4EB30B7559BAEB905DC2E45979A9F46EF9F6167/2491590.png"
                                                 />
                                                 Molten End
                                             </label>
@@ -49533,9 +49571,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
                                                 />
                                                 Overload Air
                                             </label>
@@ -49557,9 +49596,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/6_6c_Relic_of/Fireworks.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/6_6c_Relic_of/Fireworks.png"
                                                 />
                                                 Relic of Fireworks
                                             </label>
@@ -49581,9 +49621,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/CF074C005D9E2B231B9260140C05201EDAFCB66D/2491581.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/CF074C005D9E2B231B9260140C05201EDAFCB66D/2491581.png"
                                                 />
                                                 Rocky Loop
                                             </label>
@@ -49605,9 +49646,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/BA43003E3BB4F469C25F407FAC9A04AC1D589E46/2491588.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/BA43003E3BB4F469C25F407FAC9A04AC1D589E46/2491588.png"
                                                 />
                                                 Shock Blast
                                             </label>
@@ -49629,9 +49671,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/00BEB69094655BD530E92C5805D22E954EA82934/2491574.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/00BEB69094655BD530E92C5805D22E954EA82934/2491574.png"
                                                 />
                                                 Singeing Strike
                                             </label>
@@ -49653,9 +49696,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/934D05DE73D0ECFF931C394B7CFA67686B0F639D/2491573.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/934D05DE73D0ECFF931C394B7CFA67686B0F639D/2491573.png"
                                                 />
                                                 Stonestrike
                                             </label>
@@ -49677,9 +49721,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
                                                 />
                                                 Sunspot
                                             </label>
@@ -49701,9 +49746,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/16CA6B0D615A0B439EA3F85DFCAF1C2BC63D6FD9/2491586.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/16CA6B0D615A0B439EA3F85DFCAF1C2BC63D6FD9/2491586.png"
                                                 />
                                                 Triple Sear
                                             </label>
@@ -49725,9 +49771,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/AC997D78FFB009EF66423A2D0591FB6E604357E8/2491576.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/AC997D78FFB009EF66423A2D0591FB6E604357E8/2491576.png"
                                                 />
                                                 Whirling Stones
                                             </label>
@@ -49749,714 +49796,992 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
                                                 />
                                                 Wind Slam
                                             </label>
                                         </li>
                                     </ul>
                                 </div>
-                                <span class="rot-skill"
-                                    ><img
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at -3.129s for 3198ms&lt;br&gt;Overload Air cast 1 of 13&lt;br&gt;Skill cast 1 of 139"
                                         src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at -3.129s for 3198ms<br>Overload Air cast 1 of 13<br>Skill cast 1 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/6_6c_Relic_of/Fireworks.png"
-                                        data-original-title="Relic of Fireworks at 0s<br>Relic of Fireworks cast 1 of 1<br>Skill cast 2 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/BA43003E3BB4F469C25F407FAC9A04AC1D589E46/2491588.png"
-                                        data-original-title="Shock Blast at 0.069s for 279ms<br>Shock Blast cast 1 of 5<br>Skill cast 3 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
-                                        data-original-title="Fire Attunement at 0.113s<br>Fire Attunement cast 1 of 5<br>Skill cast 4 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/16CA6B0D615A0B439EA3F85DFCAF1C2BC63D6FD9/2491586.png"
-                                        data-original-title="Triple Sear at 0.348s for 562ms<br>Triple Sear cast 1 of 5<br>Skill cast 5 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 0.555s<br>Air Attunement cast 1 of 13<br>Skill cast 6 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
-                                        data-original-title='"Feel the Burn!" at 0.83s<br>"Feel the Burn!" cast 1 of 5<br>Skill cast 7 of 139'
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/D0D5D40C079304DB0FFF10051C79A5629EE60501/1424238.png"
-                                        data-original-title="Lightning Storm at 0.91s for 1123ms<br>Lightning Storm cast 1 of 2<br>Skill cast 8 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
-                                        data-original-title="Hurricane of Pain at 2.033s for 2162ms<br>Hurricane of Pain cast 1 of 9<br>Skill cast 9 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
-                                        data-original-title="Arcane Blast at 2.109s<br>Arcane Blast cast 1 of 8<br>Skill cast 10 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
-                                        data-original-title="Arcane Blast at 3.07s<br>Arcane Blast cast 2 of 8<br>Skill cast 11 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 4.195s for 3196ms<br>Overload Air cast 2 of 13<br>Skill cast 12 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
-                                        data-original-title="Arcane Blast at 4.831s<br>Arcane Blast cast 3 of 8<br>Skill cast 13 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
-                                        data-original-title="Earth Attunement at 7.315s<br>Earth Attunement cast 1 of 4<br>Skill cast 14 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/AC997D78FFB009EF66423A2D0591FB6E604357E8/2491576.png"
-                                        data-original-title="Whirling Stones at 7.391s for 1480ms<br>Whirling Stones cast 1 of 4<br>Skill cast 15 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/CF074C005D9E2B231B9260140C05201EDAFCB66D/2491581.png"
-                                        data-original-title="Rocky Loop at 7.435s<br>Rocky Loop cast 1 of 4<br>Skill cast 16 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 7.594s<br>Air Attunement cast 2 of 13<br>Skill cast 17 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 8.907s for 682ms<br>Wind Slam cast 1 of 23<br>Skill cast 18 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 9.589s for 688ms<br>Wind Slam cast 2 of 23<br>Skill cast 19 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 10.277s for 637ms<br>Wind Slam cast 3 of 23<br>Skill cast 20 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 10.949s for 3202ms<br>Overload Air cast 3 of 13<br>Skill cast 21 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 11.35s<br>Flame Barrage cast 1 of 7<br>Skill cast 22 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
-                                        data-original-title="Hurricane of Pain at 14.151s for 2321ms<br>Hurricane of Pain cast 2 of 9<br>Skill cast 23 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/737E1B9F7855B9F5D3DE1C990CD42118EF3D1C92/102820.png"
-                                        data-original-title="Water Attunement at 14.234s<br>Water Attunement cast 1 of 4<br>Skill cast 24 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4CEE16E97EF99A6C4DEF356CE8650DB73B062A04/2491583.png"
-                                        data-original-title="Icy Coil at 14.35s<br>Icy Coil cast 1 of 4<br>Skill cast 25 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 14.433s<br>Air Attunement cast 3 of 13<br>Skill cast 26 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/BA43003E3BB4F469C25F407FAC9A04AC1D589E46/2491588.png"
-                                        data-original-title="Shock Blast at 16.514s for 278ms<br>Shock Blast cast 2 of 5<br>Skill cast 27 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 16.792s for 519ms<br>Wind Slam cast 4 of 23<br>Skill cast 28 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/41D40EDB66D0CC0A73F405630803D2D600CABCCE/2491580.png"
-                                        data-original-title="Grand Finale at 17.311s for 679ms<br>Grand Finale cast 1 of 4<br>Skill cast 29 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 17.99s for 3199ms<br>Overload Air cast 4 of 13<br>Skill cast 30 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
-                                        data-original-title="Arcane Blast at 18.353s<br>Arcane Blast cast 4 of 8<br>Skill cast 31 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/A1154443E7FB75409FC77711E50D186D449670CF/2491579.png"
-                                        data-original-title="Crescent Wind at 19.152s<br>Crescent Wind cast 1 of 4<br>Skill cast 32 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
-                                        data-original-title="Fire Attunement at 21.116s<br>Fire Attunement cast 2 of 5<br>Skill cast 33 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
-                                        data-original-title="Sunspot at 21.116s<br>Sunspot cast 1 of 4<br>Skill cast 34 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/16CA6B0D615A0B439EA3F85DFCAF1C2BC63D6FD9/2491586.png"
-                                        data-original-title="Triple Sear at 21.189s for 563ms<br>Triple Sear cast 2 of 5<br>Skill cast 35 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0EEEDE3EC37F7A6E1BC9BE20B69E3B2C09F5072F/2491582.png"
-                                        data-original-title="Flame Wheel at 21.432s<br>Flame Wheel cast 1 of 4<br>Skill cast 36 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/B4EB30B7559BAEB905DC2E45979A9F46EF9F6167/2491590.png"
-                                        data-original-title="Molten End at 21.752s for 757ms<br>Molten End cast 1 of 4<br>Skill cast 37 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 21.993s<br>Air Attunement cast 4 of 13<br>Skill cast 38 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
-                                        data-original-title='"Feel the Burn!" at 22.192s<br>"Feel the Burn!" cast 2 of 5<br>Skill cast 39 of 139'
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 22.509s for 560ms<br>Wind Slam cast 5 of 23<br>Skill cast 40 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
-                                        data-original-title="Hurricane of Pain at 23.148s for 2123ms<br>Hurricane of Pain cast 3 of 9<br>Skill cast 41 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 23.467s<br>Flame Barrage cast 2 of 7<br>Skill cast 42 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 25.271s for 3201ms<br>Overload Air cast 5 of 13<br>Skill cast 43 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
-                                        data-original-title="Earth Attunement at 28.432s<br>Earth Attunement cast 2 of 4<br>Skill cast 44 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/AC997D78FFB009EF66423A2D0591FB6E604357E8/2491576.png"
-                                        data-original-title="Whirling Stones at 28.472s for 1481ms<br>Whirling Stones cast 2 of 4<br>Skill cast 45 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/CF074C005D9E2B231B9260140C05201EDAFCB66D/2491581.png"
-                                        data-original-title="Rocky Loop at 28.59s<br>Rocky Loop cast 2 of 4<br>Skill cast 46 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 28.993s<br>Air Attunement cast 5 of 13<br>Skill cast 47 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 29.994s for 677ms<br>Wind Slam cast 6 of 23<br>Skill cast 48 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 30.671s for 682ms<br>Wind Slam cast 7 of 23<br>Skill cast 49 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 31.353s for 678ms<br>Wind Slam cast 8 of 23<br>Skill cast 50 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 32.031s for 241ms<br>Wind Slam cast 9 of 23<br>Skill cast 51 of 139"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 32.272s for 3199ms<br>Overload Air cast 6 of 13<br>Skill cast 52 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
-                                        data-original-title="Arcane Blast at 34.191s<br>Arcane Blast cast 5 of 8<br>Skill cast 53 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
-                                        data-original-title="Hurricane of Pain at 35.471s for 2122ms<br>Hurricane of Pain cast 4 of 9<br>Skill cast 54 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/737E1B9F7855B9F5D3DE1C990CD42118EF3D1C92/102820.png"
-                                        data-original-title="Water Attunement at 35.591s<br>Water Attunement cast 2 of 4<br>Skill cast 55 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4CEE16E97EF99A6C4DEF356CE8650DB73B062A04/2491583.png"
-                                        data-original-title="Icy Coil at 35.714s<br>Icy Coil cast 2 of 4<br>Skill cast 56 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 35.873s<br>Air Attunement cast 6 of 13<br>Skill cast 57 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 36.113s<br>Flame Barrage cast 3 of 7<br>Skill cast 58 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/BA43003E3BB4F469C25F407FAC9A04AC1D589E46/2491588.png"
-                                        data-original-title="Shock Blast at 37.593s for 281ms<br>Shock Blast cast 3 of 5<br>Skill cast 59 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 37.874s for 594ms<br>Wind Slam cast 10 of 23<br>Skill cast 60 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/41D40EDB66D0CC0A73F405630803D2D600CABCCE/2491580.png"
-                                        data-original-title="Grand Finale at 38.468s for 681ms<br>Grand Finale cast 2 of 4<br>Skill cast 61 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 39.149s for 44ms<br>Wind Slam cast 11 of 23<br>Skill cast 62 of 139"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 39.193s for 3195ms<br>Overload Air cast 7 of 13<br>Skill cast 63 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/A1154443E7FB75409FC77711E50D186D449670CF/2491579.png"
-                                        data-original-title="Crescent Wind at 40.388s<br>Crescent Wind cast 2 of 4<br>Skill cast 64 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
-                                        data-original-title="Fire Attunement at 42.316s<br>Fire Attunement cast 3 of 5<br>Skill cast 65 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
-                                        data-original-title="Sunspot at 42.317s<br>Sunspot cast 2 of 4<br>Skill cast 66 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/16CA6B0D615A0B439EA3F85DFCAF1C2BC63D6FD9/2491586.png"
-                                        data-original-title="Triple Sear at 42.388s for 563ms<br>Triple Sear cast 3 of 5<br>Skill cast 67 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0EEEDE3EC37F7A6E1BC9BE20B69E3B2C09F5072F/2491582.png"
-                                        data-original-title="Flame Wheel at 42.674s<br>Flame Wheel cast 2 of 4<br>Skill cast 68 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/B4EB30B7559BAEB905DC2E45979A9F46EF9F6167/2491590.png"
-                                        data-original-title="Molten End at 42.951s for 758ms<br>Molten End cast 2 of 4<br>Skill cast 69 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 43.194s<br>Air Attunement cast 7 of 13<br>Skill cast 70 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
-                                        data-original-title='"Feel the Burn!" at 43.434s<br>"Feel the Burn!" cast 3 of 5<br>Skill cast 71 of 139'
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 43.709s for 563ms<br>Wind Slam cast 12 of 23<br>Skill cast 72 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
-                                        data-original-title="Hurricane of Pain at 44.351s for 2158ms<br>Hurricane of Pain cast 5 of 9<br>Skill cast 73 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 46.509s for 3200ms<br>Overload Air cast 8 of 13<br>Skill cast 74 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 48.667s<br>Flame Barrage cast 4 of 7<br>Skill cast 75 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
-                                        data-original-title="Earth Attunement at 49.67s<br>Earth Attunement cast 3 of 4<br>Skill cast 76 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/934D05DE73D0ECFF931C394B7CFA67686B0F639D/2491573.png"
-                                        data-original-title="Stonestrike at 49.709s for 43ms<br>Stonestrike cast 1 of 1<br>Skill cast 77 of 139"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/AC997D78FFB009EF66423A2D0591FB6E604357E8/2491576.png"
-                                        data-original-title="Whirling Stones at 49.752s for 1522ms<br>Whirling Stones cast 3 of 4<br>Skill cast 78 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/CF074C005D9E2B231B9260140C05201EDAFCB66D/2491581.png"
-                                        data-original-title="Rocky Loop at 49.83s<br>Rocky Loop cast 3 of 4<br>Skill cast 79 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 50.23s<br>Air Attunement cast 8 of 13<br>Skill cast 80 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/D0D5D40C079304DB0FFF10051C79A5629EE60501/1424238.png"
-                                        data-original-title="Lightning Storm at 51.309s for 1118ms<br>Lightning Storm cast 2 of 2<br>Skill cast 81 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
-                                        data-original-title="Arcane Blast at 51.309s<br>Arcane Blast cast 6 of 8<br>Skill cast 82 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 52.427s for 684ms<br>Wind Slam cast 13 of 23<br>Skill cast 83 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 53.111s for 558ms<br>Wind Slam cast 14 of 23<br>Skill cast 84 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 53.749s for 3209ms<br>Overload Air cast 9 of 13<br>Skill cast 85 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
-                                        data-original-title="Hurricane of Pain at 56.958s for 2111ms<br>Hurricane of Pain cast 6 of 9<br>Skill cast 86 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/737E1B9F7855B9F5D3DE1C990CD42118EF3D1C92/102820.png"
-                                        data-original-title="Water Attunement at 57.069s<br>Water Attunement cast 3 of 4<br>Skill cast 87 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4CEE16E97EF99A6C4DEF356CE8650DB73B062A04/2491583.png"
-                                        data-original-title="Icy Coil at 57.23s<br>Icy Coil cast 3 of 4<br>Skill cast 88 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 57.355s<br>Air Attunement cast 9 of 13<br>Skill cast 89 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/BA43003E3BB4F469C25F407FAC9A04AC1D589E46/2491588.png"
-                                        data-original-title="Shock Blast at 59.069s for 281ms<br>Shock Blast cast 4 of 5<br>Skill cast 90 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 59.35s for 601ms<br>Wind Slam cast 15 of 23<br>Skill cast 91 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/41D40EDB66D0CC0A73F405630803D2D600CABCCE/2491580.png"
-                                        data-original-title="Grand Finale at 59.951s for 681ms<br>Grand Finale cast 3 of 4<br>Skill cast 92 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 60.632s for 76ms<br>Wind Slam cast 16 of 23<br>Skill cast 93 of 139"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 60.708s for 3203ms<br>Overload Air cast 10 of 13<br>Skill cast 94 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 61.026s<br>Flame Barrage cast 5 of 7<br>Skill cast 95 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/A1154443E7FB75409FC77711E50D186D449670CF/2491579.png"
-                                        data-original-title="Crescent Wind at 61.788s<br>Crescent Wind cast 3 of 4<br>Skill cast 96 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
-                                        data-original-title="Fire Attunement at 63.911s<br>Fire Attunement cast 4 of 5<br>Skill cast 97 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/00BEB69094655BD530E92C5805D22E954EA82934/2491574.png"
-                                        data-original-title="Singeing Strike at 63.911s for 156ms<br>Singeing Strike cast 1 of 2<br>Skill cast 98 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
-                                        data-original-title="Sunspot at 63.911s<br>Sunspot cast 3 of 4<br>Skill cast 99 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/16CA6B0D615A0B439EA3F85DFCAF1C2BC63D6FD9/2491586.png"
-                                        data-original-title="Triple Sear at 64.067s for 560ms<br>Triple Sear cast 4 of 5<br>Skill cast 100 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0EEEDE3EC37F7A6E1BC9BE20B69E3B2C09F5072F/2491582.png"
-                                        data-original-title="Flame Wheel at 64.27s<br>Flame Wheel cast 3 of 4<br>Skill cast 101 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/B4EB30B7559BAEB905DC2E45979A9F46EF9F6167/2491590.png"
-                                        data-original-title="Molten End at 64.627s for 764ms<br>Molten End cast 3 of 4<br>Skill cast 102 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 64.831s<br>Air Attunement cast 10 of 13<br>Skill cast 103 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
-                                        data-original-title='"Feel the Burn!" at 65.069s<br>"Feel the Burn!" cast 4 of 5<br>Skill cast 104 of 139'
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 65.391s for 558ms<br>Wind Slam cast 17 of 23<br>Skill cast 105 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
-                                        data-original-title="Hurricane of Pain at 66.028s for 2081ms<br>Hurricane of Pain cast 7 of 9<br>Skill cast 106 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
-                                        data-original-title="Arcane Blast at 66.388s<br>Arcane Blast cast 7 of 8<br>Skill cast 107 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 68.109s for 3201ms<br>Overload Air cast 11 of 13<br>Skill cast 108 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
-                                        data-original-title="Earth Attunement at 71.229s<br>Earth Attunement cast 4 of 4<br>Skill cast 109 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/AC997D78FFB009EF66423A2D0591FB6E604357E8/2491576.png"
-                                        data-original-title="Whirling Stones at 71.31s for 1438ms<br>Whirling Stones cast 4 of 4<br>Skill cast 110 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/CF074C005D9E2B231B9260140C05201EDAFCB66D/2491581.png"
-                                        data-original-title="Rocky Loop at 71.433s<br>Rocky Loop cast 4 of 4<br>Skill cast 111 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 71.832s<br>Air Attunement cast 11 of 13<br>Skill cast 112 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 72.748s for 684ms<br>Wind Slam cast 18 of 23<br>Skill cast 113 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 73.19s<br>Flame Barrage cast 6 of 7<br>Skill cast 114 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 73.432s for 674ms<br>Wind Slam cast 19 of 23<br>Skill cast 115 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 74.106s for 684ms<br>Wind Slam cast 20 of 23<br>Skill cast 116 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 74.79s for 317ms<br>Wind Slam cast 21 of 23<br>Skill cast 117 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 75.107s for 3201ms<br>Overload Air cast 12 of 13<br>Skill cast 118 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
-                                        data-original-title="Hurricane of Pain at 78.308s for 2123ms<br>Hurricane of Pain cast 8 of 9<br>Skill cast 119 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/737E1B9F7855B9F5D3DE1C990CD42118EF3D1C92/102820.png"
-                                        data-original-title="Water Attunement at 78.352s<br>Water Attunement cast 4 of 4<br>Skill cast 120 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4CEE16E97EF99A6C4DEF356CE8650DB73B062A04/2491583.png"
-                                        data-original-title="Icy Coil at 78.471s<br>Icy Coil cast 4 of 4<br>Skill cast 121 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 78.63s<br>Air Attunement cast 12 of 13<br>Skill cast 122 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/BA43003E3BB4F469C25F407FAC9A04AC1D589E46/2491588.png"
-                                        data-original-title="Shock Blast at 80.431s for 282ms<br>Shock Blast cast 5 of 5<br>Skill cast 123 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 80.713s for 556ms<br>Wind Slam cast 22 of 23<br>Skill cast 124 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/41D40EDB66D0CC0A73F405630803D2D600CABCCE/2491580.png"
-                                        data-original-title="Grand Finale at 81.353s for 675ms<br>Grand Finale cast 4 of 4<br>Skill cast 125 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 82.028s for 3205ms<br>Overload Air cast 13 of 13<br>Skill cast 126 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
-                                        data-original-title="Arcane Blast at 82.387s<br>Arcane Blast cast 8 of 8<br>Skill cast 127 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/A1154443E7FB75409FC77711E50D186D449670CF/2491579.png"
-                                        data-original-title="Crescent Wind at 83.231s<br>Crescent Wind cast 4 of 4<br>Skill cast 128 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
-                                        data-original-title="Fire Attunement at 85.191s<br>Fire Attunement cast 5 of 5<br>Skill cast 129 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
-                                        data-original-title="Sunspot at 85.192s<br>Sunspot cast 4 of 4<br>Skill cast 130 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/00BEB69094655BD530E92C5805D22E954EA82934/2491574.png"
-                                        data-original-title="Singeing Strike at 85.233s for 116ms<br>Singeing Strike cast 2 of 2<br>Skill cast 131 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/16CA6B0D615A0B439EA3F85DFCAF1C2BC63D6FD9/2491586.png"
-                                        data-original-title="Triple Sear at 85.349s for 561ms<br>Triple Sear cast 5 of 5<br>Skill cast 132 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0EEEDE3EC37F7A6E1BC9BE20B69E3B2C09F5072F/2491582.png"
-                                        data-original-title="Flame Wheel at 85.596s<br>Flame Wheel cast 4 of 4<br>Skill cast 133 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/B4EB30B7559BAEB905DC2E45979A9F46EF9F6167/2491590.png"
-                                        data-original-title="Molten End at 85.91s for 761ms<br>Molten End cast 4 of 4<br>Skill cast 134 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 86.154s<br>Air Attunement cast 13 of 13<br>Skill cast 135 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 86.35s<br>Flame Barrage cast 7 of 7<br>Skill cast 136 of 139"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
-                                        data-original-title="Wind Slam at 86.671s for 400ms<br>Wind Slam cast 23 of 23<br>Skill cast 137 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
-                                        data-original-title="Hurricane of Pain at 87.071s for 1319ms<br>Hurricane of Pain cast 9 of 9<br>Skill cast 138 of 139"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
-                                        data-original-title='"Feel the Burn!" at 87.394s<br>"Feel the Burn!" cast 5 of 5<br>Skill cast 139 of 139'
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
                                         class="rot-icon rot-instant"
-                                /></span>
+                                        data-original-title="Relic of Fireworks at 0s&lt;br&gt;Relic of Fireworks cast 1 of 1&lt;br&gt;Skill cast 2 of 139"
+                                        src="https://render.guildwars2.com/file/6_6c_Relic_of/Fireworks.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Shock Blast at 0.069s for 279ms&lt;br&gt;Shock Blast cast 1 of 5&lt;br&gt;Skill cast 3 of 139"
+                                        src="https://render.guildwars2.com/file/BA43003E3BB4F469C25F407FAC9A04AC1D589E46/2491588.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Fire Attunement at 0.113s&lt;br&gt;Fire Attunement cast 1 of 5&lt;br&gt;Skill cast 4 of 139"
+                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Triple Sear at 0.348s for 562ms&lt;br&gt;Triple Sear cast 1 of 5&lt;br&gt;Skill cast 5 of 139"
+                                        src="https://render.guildwars2.com/file/16CA6B0D615A0B439EA3F85DFCAF1C2BC63D6FD9/2491586.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 0.555s&lt;br&gt;Air Attunement cast 1 of 13&lt;br&gt;Skill cast 6 of 139"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title='"Feel the Burn!" at 0.83s&lt;br&gt;"Feel the Burn!" cast 1 of 5&lt;br&gt;Skill cast 7 of 139'
+                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Lightning Storm at 0.91s for 1123ms&lt;br&gt;Lightning Storm cast 1 of 2&lt;br&gt;Skill cast 8 of 139"
+                                        src="https://render.guildwars2.com/file/D0D5D40C079304DB0FFF10051C79A5629EE60501/1424238.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Hurricane of Pain at 2.033s for 2162ms&lt;br&gt;Hurricane of Pain cast 1 of 9&lt;br&gt;Skill cast 9 of 139"
+                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Arcane Blast at 2.109s&lt;br&gt;Arcane Blast cast 1 of 8&lt;br&gt;Skill cast 10 of 139"
+                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Arcane Blast at 3.07s&lt;br&gt;Arcane Blast cast 2 of 8&lt;br&gt;Skill cast 11 of 139"
+                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 4.195s for 3196ms&lt;br&gt;Overload Air cast 2 of 13&lt;br&gt;Skill cast 12 of 139"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Arcane Blast at 4.831s&lt;br&gt;Arcane Blast cast 3 of 8&lt;br&gt;Skill cast 13 of 139"
+                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Earth Attunement at 7.315s&lt;br&gt;Earth Attunement cast 1 of 4&lt;br&gt;Skill cast 14 of 139"
+                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Whirling Stones at 7.391s for 1480ms&lt;br&gt;Whirling Stones cast 1 of 4&lt;br&gt;Skill cast 15 of 139"
+                                        src="https://render.guildwars2.com/file/AC997D78FFB009EF66423A2D0591FB6E604357E8/2491576.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Rocky Loop at 7.435s&lt;br&gt;Rocky Loop cast 1 of 4&lt;br&gt;Skill cast 16 of 139"
+                                        src="https://render.guildwars2.com/file/CF074C005D9E2B231B9260140C05201EDAFCB66D/2491581.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 7.594s&lt;br&gt;Air Attunement cast 2 of 13&lt;br&gt;Skill cast 17 of 139"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 8.907s for 682ms&lt;br&gt;Wind Slam cast 1 of 23&lt;br&gt;Skill cast 18 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 9.589s for 688ms&lt;br&gt;Wind Slam cast 2 of 23&lt;br&gt;Skill cast 19 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 10.277s for 637ms&lt;br&gt;Wind Slam cast 3 of 23&lt;br&gt;Skill cast 20 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 10.949s for 3202ms&lt;br&gt;Overload Air cast 3 of 13&lt;br&gt;Skill cast 21 of 139"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 11.35s&lt;br&gt;Flame Barrage cast 1 of 7&lt;br&gt;Skill cast 22 of 139"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Hurricane of Pain at 14.151s for 2321ms&lt;br&gt;Hurricane of Pain cast 2 of 9&lt;br&gt;Skill cast 23 of 139"
+                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Water Attunement at 14.234s&lt;br&gt;Water Attunement cast 1 of 4&lt;br&gt;Skill cast 24 of 139"
+                                        src="https://render.guildwars2.com/file/737E1B9F7855B9F5D3DE1C990CD42118EF3D1C92/102820.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Icy Coil at 14.35s&lt;br&gt;Icy Coil cast 1 of 4&lt;br&gt;Skill cast 25 of 139"
+                                        src="https://render.guildwars2.com/file/4CEE16E97EF99A6C4DEF356CE8650DB73B062A04/2491583.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 14.433s&lt;br&gt;Air Attunement cast 3 of 13&lt;br&gt;Skill cast 26 of 139"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Shock Blast at 16.514s for 278ms&lt;br&gt;Shock Blast cast 2 of 5&lt;br&gt;Skill cast 27 of 139"
+                                        src="https://render.guildwars2.com/file/BA43003E3BB4F469C25F407FAC9A04AC1D589E46/2491588.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 16.792s for 519ms&lt;br&gt;Wind Slam cast 4 of 23&lt;br&gt;Skill cast 28 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Grand Finale at 17.311s for 679ms&lt;br&gt;Grand Finale cast 1 of 4&lt;br&gt;Skill cast 29 of 139"
+                                        src="https://render.guildwars2.com/file/41D40EDB66D0CC0A73F405630803D2D600CABCCE/2491580.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 17.99s for 3199ms&lt;br&gt;Overload Air cast 4 of 13&lt;br&gt;Skill cast 30 of 139"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Arcane Blast at 18.353s&lt;br&gt;Arcane Blast cast 4 of 8&lt;br&gt;Skill cast 31 of 139"
+                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Crescent Wind at 19.152s&lt;br&gt;Crescent Wind cast 1 of 4&lt;br&gt;Skill cast 32 of 139"
+                                        src="https://render.guildwars2.com/file/A1154443E7FB75409FC77711E50D186D449670CF/2491579.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Fire Attunement at 21.116s&lt;br&gt;Fire Attunement cast 2 of 5&lt;br&gt;Skill cast 33 of 139"
+                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Sunspot at 21.116s&lt;br&gt;Sunspot cast 1 of 4&lt;br&gt;Skill cast 34 of 139"
+                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Triple Sear at 21.189s for 563ms&lt;br&gt;Triple Sear cast 2 of 5&lt;br&gt;Skill cast 35 of 139"
+                                        src="https://render.guildwars2.com/file/16CA6B0D615A0B439EA3F85DFCAF1C2BC63D6FD9/2491586.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Wheel at 21.432s&lt;br&gt;Flame Wheel cast 1 of 4&lt;br&gt;Skill cast 36 of 139"
+                                        src="https://render.guildwars2.com/file/0EEEDE3EC37F7A6E1BC9BE20B69E3B2C09F5072F/2491582.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Molten End at 21.752s for 757ms&lt;br&gt;Molten End cast 1 of 4&lt;br&gt;Skill cast 37 of 139"
+                                        src="https://render.guildwars2.com/file/B4EB30B7559BAEB905DC2E45979A9F46EF9F6167/2491590.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 21.993s&lt;br&gt;Air Attunement cast 4 of 13&lt;br&gt;Skill cast 38 of 139"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title='"Feel the Burn!" at 22.192s&lt;br&gt;"Feel the Burn!" cast 2 of 5&lt;br&gt;Skill cast 39 of 139'
+                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 22.509s for 560ms&lt;br&gt;Wind Slam cast 5 of 23&lt;br&gt;Skill cast 40 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Hurricane of Pain at 23.148s for 2123ms&lt;br&gt;Hurricane of Pain cast 3 of 9&lt;br&gt;Skill cast 41 of 139"
+                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 23.467s&lt;br&gt;Flame Barrage cast 2 of 7&lt;br&gt;Skill cast 42 of 139"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 25.271s for 3201ms&lt;br&gt;Overload Air cast 5 of 13&lt;br&gt;Skill cast 43 of 139"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Earth Attunement at 28.432s&lt;br&gt;Earth Attunement cast 2 of 4&lt;br&gt;Skill cast 44 of 139"
+                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Whirling Stones at 28.472s for 1481ms&lt;br&gt;Whirling Stones cast 2 of 4&lt;br&gt;Skill cast 45 of 139"
+                                        src="https://render.guildwars2.com/file/AC997D78FFB009EF66423A2D0591FB6E604357E8/2491576.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Rocky Loop at 28.59s&lt;br&gt;Rocky Loop cast 2 of 4&lt;br&gt;Skill cast 46 of 139"
+                                        src="https://render.guildwars2.com/file/CF074C005D9E2B231B9260140C05201EDAFCB66D/2491581.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 28.993s&lt;br&gt;Air Attunement cast 5 of 13&lt;br&gt;Skill cast 47 of 139"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 29.994s for 677ms&lt;br&gt;Wind Slam cast 6 of 23&lt;br&gt;Skill cast 48 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 30.671s for 682ms&lt;br&gt;Wind Slam cast 7 of 23&lt;br&gt;Skill cast 49 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 31.353s for 678ms&lt;br&gt;Wind Slam cast 8 of 23&lt;br&gt;Skill cast 50 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Wind Slam at 32.031s for 241ms&lt;br&gt;Wind Slam cast 9 of 23&lt;br&gt;Skill cast 51 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 32.272s for 3199ms&lt;br&gt;Overload Air cast 6 of 13&lt;br&gt;Skill cast 52 of 139"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Arcane Blast at 34.191s&lt;br&gt;Arcane Blast cast 5 of 8&lt;br&gt;Skill cast 53 of 139"
+                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Hurricane of Pain at 35.471s for 2122ms&lt;br&gt;Hurricane of Pain cast 4 of 9&lt;br&gt;Skill cast 54 of 139"
+                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Water Attunement at 35.591s&lt;br&gt;Water Attunement cast 2 of 4&lt;br&gt;Skill cast 55 of 139"
+                                        src="https://render.guildwars2.com/file/737E1B9F7855B9F5D3DE1C990CD42118EF3D1C92/102820.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Icy Coil at 35.714s&lt;br&gt;Icy Coil cast 2 of 4&lt;br&gt;Skill cast 56 of 139"
+                                        src="https://render.guildwars2.com/file/4CEE16E97EF99A6C4DEF356CE8650DB73B062A04/2491583.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 35.873s&lt;br&gt;Air Attunement cast 6 of 13&lt;br&gt;Skill cast 57 of 139"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 36.113s&lt;br&gt;Flame Barrage cast 3 of 7&lt;br&gt;Skill cast 58 of 139"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Shock Blast at 37.593s for 281ms&lt;br&gt;Shock Blast cast 3 of 5&lt;br&gt;Skill cast 59 of 139"
+                                        src="https://render.guildwars2.com/file/BA43003E3BB4F469C25F407FAC9A04AC1D589E46/2491588.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 37.874s for 594ms&lt;br&gt;Wind Slam cast 10 of 23&lt;br&gt;Skill cast 60 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Grand Finale at 38.468s for 681ms&lt;br&gt;Grand Finale cast 2 of 4&lt;br&gt;Skill cast 61 of 139"
+                                        src="https://render.guildwars2.com/file/41D40EDB66D0CC0A73F405630803D2D600CABCCE/2491580.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Wind Slam at 39.149s for 44ms&lt;br&gt;Wind Slam cast 11 of 23&lt;br&gt;Skill cast 62 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 39.193s for 3195ms&lt;br&gt;Overload Air cast 7 of 13&lt;br&gt;Skill cast 63 of 139"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Crescent Wind at 40.388s&lt;br&gt;Crescent Wind cast 2 of 4&lt;br&gt;Skill cast 64 of 139"
+                                        src="https://render.guildwars2.com/file/A1154443E7FB75409FC77711E50D186D449670CF/2491579.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Fire Attunement at 42.316s&lt;br&gt;Fire Attunement cast 3 of 5&lt;br&gt;Skill cast 65 of 139"
+                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Sunspot at 42.317s&lt;br&gt;Sunspot cast 2 of 4&lt;br&gt;Skill cast 66 of 139"
+                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Triple Sear at 42.388s for 563ms&lt;br&gt;Triple Sear cast 3 of 5&lt;br&gt;Skill cast 67 of 139"
+                                        src="https://render.guildwars2.com/file/16CA6B0D615A0B439EA3F85DFCAF1C2BC63D6FD9/2491586.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Wheel at 42.674s&lt;br&gt;Flame Wheel cast 2 of 4&lt;br&gt;Skill cast 68 of 139"
+                                        src="https://render.guildwars2.com/file/0EEEDE3EC37F7A6E1BC9BE20B69E3B2C09F5072F/2491582.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Molten End at 42.951s for 758ms&lt;br&gt;Molten End cast 2 of 4&lt;br&gt;Skill cast 69 of 139"
+                                        src="https://render.guildwars2.com/file/B4EB30B7559BAEB905DC2E45979A9F46EF9F6167/2491590.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 43.194s&lt;br&gt;Air Attunement cast 7 of 13&lt;br&gt;Skill cast 70 of 139"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title='"Feel the Burn!" at 43.434s&lt;br&gt;"Feel the Burn!" cast 3 of 5&lt;br&gt;Skill cast 71 of 139'
+                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 43.709s for 563ms&lt;br&gt;Wind Slam cast 12 of 23&lt;br&gt;Skill cast 72 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Hurricane of Pain at 44.351s for 2158ms&lt;br&gt;Hurricane of Pain cast 5 of 9&lt;br&gt;Skill cast 73 of 139"
+                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 46.509s for 3200ms&lt;br&gt;Overload Air cast 8 of 13&lt;br&gt;Skill cast 74 of 139"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 48.667s&lt;br&gt;Flame Barrage cast 4 of 7&lt;br&gt;Skill cast 75 of 139"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Earth Attunement at 49.67s&lt;br&gt;Earth Attunement cast 3 of 4&lt;br&gt;Skill cast 76 of 139"
+                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Stonestrike at 49.709s for 43ms&lt;br&gt;Stonestrike cast 1 of 1&lt;br&gt;Skill cast 77 of 139"
+                                        src="https://render.guildwars2.com/file/934D05DE73D0ECFF931C394B7CFA67686B0F639D/2491573.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Whirling Stones at 49.752s for 1522ms&lt;br&gt;Whirling Stones cast 3 of 4&lt;br&gt;Skill cast 78 of 139"
+                                        src="https://render.guildwars2.com/file/AC997D78FFB009EF66423A2D0591FB6E604357E8/2491576.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Rocky Loop at 49.83s&lt;br&gt;Rocky Loop cast 3 of 4&lt;br&gt;Skill cast 79 of 139"
+                                        src="https://render.guildwars2.com/file/CF074C005D9E2B231B9260140C05201EDAFCB66D/2491581.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 50.23s&lt;br&gt;Air Attunement cast 8 of 13&lt;br&gt;Skill cast 80 of 139"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Lightning Storm at 51.309s for 1118ms&lt;br&gt;Lightning Storm cast 2 of 2&lt;br&gt;Skill cast 81 of 139"
+                                        src="https://render.guildwars2.com/file/D0D5D40C079304DB0FFF10051C79A5629EE60501/1424238.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Arcane Blast at 51.309s&lt;br&gt;Arcane Blast cast 6 of 8&lt;br&gt;Skill cast 82 of 139"
+                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 52.427s for 684ms&lt;br&gt;Wind Slam cast 13 of 23&lt;br&gt;Skill cast 83 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 53.111s for 558ms&lt;br&gt;Wind Slam cast 14 of 23&lt;br&gt;Skill cast 84 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 53.749s for 3209ms&lt;br&gt;Overload Air cast 9 of 13&lt;br&gt;Skill cast 85 of 139"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Hurricane of Pain at 56.958s for 2111ms&lt;br&gt;Hurricane of Pain cast 6 of 9&lt;br&gt;Skill cast 86 of 139"
+                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Water Attunement at 57.069s&lt;br&gt;Water Attunement cast 3 of 4&lt;br&gt;Skill cast 87 of 139"
+                                        src="https://render.guildwars2.com/file/737E1B9F7855B9F5D3DE1C990CD42118EF3D1C92/102820.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Icy Coil at 57.23s&lt;br&gt;Icy Coil cast 3 of 4&lt;br&gt;Skill cast 88 of 139"
+                                        src="https://render.guildwars2.com/file/4CEE16E97EF99A6C4DEF356CE8650DB73B062A04/2491583.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 57.355s&lt;br&gt;Air Attunement cast 9 of 13&lt;br&gt;Skill cast 89 of 139"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Shock Blast at 59.069s for 281ms&lt;br&gt;Shock Blast cast 4 of 5&lt;br&gt;Skill cast 90 of 139"
+                                        src="https://render.guildwars2.com/file/BA43003E3BB4F469C25F407FAC9A04AC1D589E46/2491588.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 59.35s for 601ms&lt;br&gt;Wind Slam cast 15 of 23&lt;br&gt;Skill cast 91 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Grand Finale at 59.951s for 681ms&lt;br&gt;Grand Finale cast 3 of 4&lt;br&gt;Skill cast 92 of 139"
+                                        src="https://render.guildwars2.com/file/41D40EDB66D0CC0A73F405630803D2D600CABCCE/2491580.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Wind Slam at 60.632s for 76ms&lt;br&gt;Wind Slam cast 16 of 23&lt;br&gt;Skill cast 93 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 60.708s for 3203ms&lt;br&gt;Overload Air cast 10 of 13&lt;br&gt;Skill cast 94 of 139"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 61.026s&lt;br&gt;Flame Barrage cast 5 of 7&lt;br&gt;Skill cast 95 of 139"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Crescent Wind at 61.788s&lt;br&gt;Crescent Wind cast 3 of 4&lt;br&gt;Skill cast 96 of 139"
+                                        src="https://render.guildwars2.com/file/A1154443E7FB75409FC77711E50D186D449670CF/2491579.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Fire Attunement at 63.911s&lt;br&gt;Fire Attunement cast 4 of 5&lt;br&gt;Skill cast 97 of 139"
+                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Singeing Strike at 63.911s for 156ms&lt;br&gt;Singeing Strike cast 1 of 2&lt;br&gt;Skill cast 98 of 139"
+                                        src="https://render.guildwars2.com/file/00BEB69094655BD530E92C5805D22E954EA82934/2491574.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Sunspot at 63.911s&lt;br&gt;Sunspot cast 3 of 4&lt;br&gt;Skill cast 99 of 139"
+                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Triple Sear at 64.067s for 560ms&lt;br&gt;Triple Sear cast 4 of 5&lt;br&gt;Skill cast 100 of 139"
+                                        src="https://render.guildwars2.com/file/16CA6B0D615A0B439EA3F85DFCAF1C2BC63D6FD9/2491586.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Wheel at 64.27s&lt;br&gt;Flame Wheel cast 3 of 4&lt;br&gt;Skill cast 101 of 139"
+                                        src="https://render.guildwars2.com/file/0EEEDE3EC37F7A6E1BC9BE20B69E3B2C09F5072F/2491582.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Molten End at 64.627s for 764ms&lt;br&gt;Molten End cast 3 of 4&lt;br&gt;Skill cast 102 of 139"
+                                        src="https://render.guildwars2.com/file/B4EB30B7559BAEB905DC2E45979A9F46EF9F6167/2491590.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 64.831s&lt;br&gt;Air Attunement cast 10 of 13&lt;br&gt;Skill cast 103 of 139"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title='"Feel the Burn!" at 65.069s&lt;br&gt;"Feel the Burn!" cast 4 of 5&lt;br&gt;Skill cast 104 of 139'
+                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 65.391s for 558ms&lt;br&gt;Wind Slam cast 17 of 23&lt;br&gt;Skill cast 105 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Hurricane of Pain at 66.028s for 2081ms&lt;br&gt;Hurricane of Pain cast 7 of 9&lt;br&gt;Skill cast 106 of 139"
+                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Arcane Blast at 66.388s&lt;br&gt;Arcane Blast cast 7 of 8&lt;br&gt;Skill cast 107 of 139"
+                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 68.109s for 3201ms&lt;br&gt;Overload Air cast 11 of 13&lt;br&gt;Skill cast 108 of 139"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Earth Attunement at 71.229s&lt;br&gt;Earth Attunement cast 4 of 4&lt;br&gt;Skill cast 109 of 139"
+                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Whirling Stones at 71.31s for 1438ms&lt;br&gt;Whirling Stones cast 4 of 4&lt;br&gt;Skill cast 110 of 139"
+                                        src="https://render.guildwars2.com/file/AC997D78FFB009EF66423A2D0591FB6E604357E8/2491576.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Rocky Loop at 71.433s&lt;br&gt;Rocky Loop cast 4 of 4&lt;br&gt;Skill cast 111 of 139"
+                                        src="https://render.guildwars2.com/file/CF074C005D9E2B231B9260140C05201EDAFCB66D/2491581.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 71.832s&lt;br&gt;Air Attunement cast 11 of 13&lt;br&gt;Skill cast 112 of 139"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 72.748s for 684ms&lt;br&gt;Wind Slam cast 18 of 23&lt;br&gt;Skill cast 113 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 73.19s&lt;br&gt;Flame Barrage cast 6 of 7&lt;br&gt;Skill cast 114 of 139"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 73.432s for 674ms&lt;br&gt;Wind Slam cast 19 of 23&lt;br&gt;Skill cast 115 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 74.106s for 684ms&lt;br&gt;Wind Slam cast 20 of 23&lt;br&gt;Skill cast 116 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 74.79s for 317ms&lt;br&gt;Wind Slam cast 21 of 23&lt;br&gt;Skill cast 117 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 75.107s for 3201ms&lt;br&gt;Overload Air cast 12 of 13&lt;br&gt;Skill cast 118 of 139"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Hurricane of Pain at 78.308s for 2123ms&lt;br&gt;Hurricane of Pain cast 8 of 9&lt;br&gt;Skill cast 119 of 139"
+                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Water Attunement at 78.352s&lt;br&gt;Water Attunement cast 4 of 4&lt;br&gt;Skill cast 120 of 139"
+                                        src="https://render.guildwars2.com/file/737E1B9F7855B9F5D3DE1C990CD42118EF3D1C92/102820.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Icy Coil at 78.471s&lt;br&gt;Icy Coil cast 4 of 4&lt;br&gt;Skill cast 121 of 139"
+                                        src="https://render.guildwars2.com/file/4CEE16E97EF99A6C4DEF356CE8650DB73B062A04/2491583.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 78.63s&lt;br&gt;Air Attunement cast 12 of 13&lt;br&gt;Skill cast 122 of 139"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Shock Blast at 80.431s for 282ms&lt;br&gt;Shock Blast cast 5 of 5&lt;br&gt;Skill cast 123 of 139"
+                                        src="https://render.guildwars2.com/file/BA43003E3BB4F469C25F407FAC9A04AC1D589E46/2491588.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 80.713s for 556ms&lt;br&gt;Wind Slam cast 22 of 23&lt;br&gt;Skill cast 124 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Grand Finale at 81.353s for 675ms&lt;br&gt;Grand Finale cast 4 of 4&lt;br&gt;Skill cast 125 of 139"
+                                        src="https://render.guildwars2.com/file/41D40EDB66D0CC0A73F405630803D2D600CABCCE/2491580.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 82.028s for 3205ms&lt;br&gt;Overload Air cast 13 of 13&lt;br&gt;Skill cast 126 of 139"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Arcane Blast at 82.387s&lt;br&gt;Arcane Blast cast 8 of 8&lt;br&gt;Skill cast 127 of 139"
+                                        src="https://render.guildwars2.com/file/BCEB22C05BD13F226612C81339AF9A7647F7B454/103229.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Crescent Wind at 83.231s&lt;br&gt;Crescent Wind cast 4 of 4&lt;br&gt;Skill cast 128 of 139"
+                                        src="https://render.guildwars2.com/file/A1154443E7FB75409FC77711E50D186D449670CF/2491579.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Fire Attunement at 85.191s&lt;br&gt;Fire Attunement cast 5 of 5&lt;br&gt;Skill cast 129 of 139"
+                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Sunspot at 85.192s&lt;br&gt;Sunspot cast 4 of 4&lt;br&gt;Skill cast 130 of 139"
+                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Singeing Strike at 85.233s for 116ms&lt;br&gt;Singeing Strike cast 2 of 2&lt;br&gt;Skill cast 131 of 139"
+                                        src="https://render.guildwars2.com/file/00BEB69094655BD530E92C5805D22E954EA82934/2491574.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Triple Sear at 85.349s for 561ms&lt;br&gt;Triple Sear cast 5 of 5&lt;br&gt;Skill cast 132 of 139"
+                                        src="https://render.guildwars2.com/file/16CA6B0D615A0B439EA3F85DFCAF1C2BC63D6FD9/2491586.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Wheel at 85.596s&lt;br&gt;Flame Wheel cast 4 of 4&lt;br&gt;Skill cast 133 of 139"
+                                        src="https://render.guildwars2.com/file/0EEEDE3EC37F7A6E1BC9BE20B69E3B2C09F5072F/2491582.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Molten End at 85.91s for 761ms&lt;br&gt;Molten End cast 4 of 4&lt;br&gt;Skill cast 134 of 139"
+                                        src="https://render.guildwars2.com/file/B4EB30B7559BAEB905DC2E45979A9F46EF9F6167/2491590.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 86.154s&lt;br&gt;Air Attunement cast 13 of 13&lt;br&gt;Skill cast 135 of 139"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 86.35s&lt;br&gt;Flame Barrage cast 7 of 7&lt;br&gt;Skill cast 136 of 139"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Wind Slam at 86.671s for 400ms&lt;br&gt;Wind Slam cast 23 of 23&lt;br&gt;Skill cast 137 of 139"
+                                        src="https://render.guildwars2.com/file/F6B968A25DCB611A00580215DF0E276B04CEFFE7/2491569.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Hurricane of Pain at 87.071s for 1319ms&lt;br&gt;Hurricane of Pain cast 9 of 9&lt;br&gt;Skill cast 138 of 139"
+                                        src="https://render.guildwars2.com/file/E8D673F59599BCF155D4FE4503476C666B935075/2491575.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title='"Feel the Burn!" at 87.394s&lt;br&gt;"Feel the Burn!" cast 5 of 5&lt;br&gt;Skill cast 139 of 139'
+                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
+                                    />
+                                </span>
                             </div>
                         </div>
-                        <!---->
+                        <!-- -->
                     </div>
                 </div>
                 <div class="mt-3 mb-3" style="display: none">
@@ -50464,8 +50789,9 @@
                         The
                         <a
                             href="https://github.com/Krappa322/arcdps_healing_stats/releases"
-                            >healing stats addon</a
                         >
+                            healing stats addon
+                        </a>
                         is now officially supported by Elite Insights. Make sure
                         to download and enable its logging features.
                     </h2>
@@ -50484,18 +50810,21 @@
                     ARC: EVTC20250101.143228 | GW2 Build: 175396 | Trigger ID:
                     16199 | Encounter ID: 524550 | Elite Insights 3.4.0.0
                 </div>
-                <!---->
+                <!-- -->
                 <div>
-                    <span>Used Extensions: </span>
-                    <span>Healing Stats - 2.10rc1</span>
+                    <span> Used Extensions: </span>
+                    <span> Healing Stats - 2.10rc1 </span>
                 </div>
                 <div class="mb-2">
                     File recorded by: Lightning Hamster - Blackkarmy.6452
                 </div>
                 Generated with
-                <a href="https://github.com/baaron4/GW2-Elite-Insights-Parser"
-                    >Elite Insights</a
-                >.<br /><a href="https://dps.report/">dps.report</a>
+                <a href="https://github.com/baaron4/GW2-Elite-Insights-Parser">
+                    Elite Insights
+                </a>
+                .
+                <br />
+                <a href="https://dps.report/"> dps.report </a>
             </div>
         </div>
     </body>

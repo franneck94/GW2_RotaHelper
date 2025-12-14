@@ -2,27 +2,26 @@
     <head>
         <meta charset="utf-8" />
         <link
+            crossorigin="anonymous"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.1/slate/bootstrap.min.css"
             id="theme"
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/4.1.1/slate/bootstrap.min.css"
-            crossorigin="anonymous"
         />
         <link
+            href="/ei/EliteInsights-3.3.0.css?version=1"
             rel="stylesheet"
             type="text/css"
-            href="/ei/EliteInsights-3.3.0.css?version=1"
         />
         <link href="/css/opensans.css" rel="stylesheet" />
         <script
-            src="/cache/https_code.jquery.com_jquery-3.7.0.min.js"
             crossorigin="anonymous"
+            src="/cache/https_code.jquery.com_jquery-3.7.0.min.js"
         ></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
         <script src="/cache/https_cdn.plot.ly_plotly-2.24.2.min.js"></script>
         <style id="plotly.js-style-global"></style>
         <script src="/cache/https_cdn.jsdelivr.net_npm_bootstrap_4.1.1_dist_js_bootstrap.min.js"></script>
         <script src="/cache/https_cdn.jsdelivr.net_npm_vue_2.7.14_dist_vue.min.js"></script>
-
         <script>
             function initTheme() {
                 window.theme = "slate";
@@ -45271,18 +45270,14 @@
         </script>
         <script src="/ei/EliteInsights-3.3.0.js?version=1"></script>
         <script src="/ei/EliteInsights-CR-3.3.0.js?version=1"></script>
-
         <script src="/ei/EliteInsights-HealingExt-3.3.0.js?version=1"></script>
-
         <title>Standard Kitty Golem</title>
     </head>
-
     <body class="theme-slate">
         <script>
             $("body").addClass("theme-" + window.theme);
         </script>
-
-        <div id="content" class="ei-container-small">
+        <div class="ei-container-small" id="content">
             <div
                 class="d-flex flex-row justify-content-center align-items-center mt-2"
             >
@@ -45290,9 +45285,9 @@
                     class="d-flex flex-column justify-content-center align-items-center"
                 >
                     <img
-                        src="https://i.imgur.com/k3tdKEQ.png"
-                        data-original-title="As of arcdps 20210923, animated cast events' durations are broken, as such, any feature having a dependency on it are to be taken with a grain of salt. Impacted features are: <br>- Rotations <br>- Time spent in animation statistics <br>- Mechanics <br>- Phases <br>- Combat Replay Decorations"
                         class="mb-1 icon"
+                        data-original-title="As of arcdps 20210923, animated cast events' durations are broken, as such, any feature having a dependency on it are to be taken with a grain of salt. Impacted features are: &lt;br&gt;- Rotations &lt;br&gt;- Time spent in animation statistics &lt;br&gt;- Mechanics &lt;br&gt;- Phases &lt;br&gt;- Combat Replay Decorations"
+                        src="https://i.imgur.com/k3tdKEQ.png"
                     />
                 </div>
                 <div class="card fight-summary" style="min-width: 350px">
@@ -45306,11 +45301,11 @@
                             <div
                                 class="d-flex flex-column mr-3 justify-content-center"
                             >
-                                <!---->
+                                <!-- -->
                                 <img
-                                    src="https://assets.gw2dat.com//1203237.png"
                                     alt="Standard Kitty Golem"
                                     class="encounter-icon"
+                                    src="https://assets.gw2dat.com//1203237.png"
                                 />
                             </div>
                             <div
@@ -45344,15 +45339,15 @@
                                                 border-radius: 5px;
                                             "
                                         ></div>
-                                        <!---->
-                                        <!---->
+                                        <!-- -->
+                                        <!-- -->
                                     </div>
                                 </div>
                                 <div class="mb-2 text text-success">
                                     Result: Success
                                 </div>
                                 <div class="mb-2">Duration: 01m 32s 240ms</div>
-                                <!---->
+                                <!-- -->
                             </div>
                         </div>
                     </div>
@@ -45365,10 +45360,10 @@
                     >
                         <ul class="nav nav-pills" style="pointer-events: auto">
                             <li class="nav-item">
-                                <a class="nav-link">Light Theme</a>
+                                <a class="nav-link"> Light Theme </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active">Dark Theme</a>
+                                <a class="nav-link active"> Dark Theme </a>
                             </li>
                         </ul>
                     </div>
@@ -45377,13 +45372,13 @@
                     >
                         <ul class="nav nav-pills">
                             <li class="nav-item mb-1">
-                                <a class="nav-link active">Statistics</a>
+                                <a class="nav-link active"> Statistics </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link">Combat Replay</a>
+                                <a class="nav-link"> Combat Replay </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link">Healing Statistics</a>
+                                <a class="nav-link"> Healing Statistics </a>
                             </li>
                         </ul>
                     </div>
@@ -45392,80 +45387,82 @@
             <div>
                 <div>
                     <div
-                        id="phase-nav"
                         class="d-flex flex-row justify-content-center mt-1"
+                        id="phase-nav"
                     >
                         <div>
                             <ul
                                 class="nav nav-pills d-flex flex-row justify-content-center"
                             >
                                 <li
+                                    class="nav-item"
                                     data-original-title="92.24 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link active">Final Number</a>
+                                    <a class="nav-link active">
+                                        Final Number
+                                    </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="74.726 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">Fourth Number</a>
+                                    <a class="nav-link"> Fourth Number </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="55.225 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">Third Number</a>
+                                    <a class="nav-link"> Third Number </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="36.026 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">Second Number</a>
+                                    <a class="nav-link"> Second Number </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="16.525 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">First Number</a>
+                                    <a class="nav-link"> First Number </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="16.525 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">100% - 80%</a>
+                                    <a class="nav-link"> 100% - 80% </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="19.501 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">80% - 60%</a>
+                                    <a class="nav-link"> 80% - 60% </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="19.199 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">60% - 40%</a>
+                                    <a class="nav-link"> 60% - 40% </a>
                                 </li>
                                 <li
+                                    class="nav-item"
                                     data-original-title="19.501 seconds"
-                                    class="nav-item"
                                 >
-                                    <a class="nav-link">40% - 20%</a>
+                                    <a class="nav-link"> 40% - 20% </a>
                                 </li>
                                 <li
-                                    data-original-title="17.514 seconds"
                                     class="nav-item"
+                                    data-original-title="17.514 seconds"
                                 >
-                                    <a class="nav-link">20% -0%</a>
+                                    <a class="nav-link"> 20% -0% </a>
                                 </li>
                             </ul>
-                            <!---->
+                            <!-- -->
                         </div>
                     </div>
                     <div
-                        id="actors"
                         class="d-flex flex-row justify-content-center mb-2 mt-2"
+                        id="actors"
                     >
                         <div
                             class="flex-row justify-content-center align-items-center flex-wrap mr-5 d-flex"
@@ -45480,38 +45477,38 @@
                                 >
                                     <div>
                                         <img
-                                            src="/cache/https_i.imgur.com_TCSo8TI.png"
                                             alt="Standard Kitty Golem"
-                                            data-original-title="Standard Kitty Golem"
                                             class="icon-lg mr-2 ml-2 target-cell active"
+                                            data-original-title="Standard Kitty Golem"
+                                            src="/cache/https_i.imgur.com_TCSo8TI.png"
                                         />
                                         <div
                                             class="d-flex flex-row justify-content-center align-items-center mb-2"
                                         >
                                             <img
-                                                src="https://wiki.guildwars2.com/images/b/be/Vitality.png"
                                                 alt="Health"
+                                                class="icon"
                                                 data-original-title="Health: 4000000"
-                                                class="icon"
+                                                src="https://wiki.guildwars2.com/images/b/be/Vitality.png"
                                             />
                                             <img
-                                                src="https://wiki.guildwars2.com/images/1/12/Toughness.png"
                                                 alt="Toughness"
-                                                hbheight=""
+                                                class="icon"
                                                 data-original-title="Toughness: 1374"
-                                                class="icon"
+                                                hbheight=""
+                                                src="https://wiki.guildwars2.com/images/1/12/Toughness.png"
                                             />
                                             <img
-                                                src="https://i.imgur.com/QSI79aT.png"
                                                 alt="Hitbox Width"
-                                                data-original-title="Hitbox Width: 140"
                                                 class="icon"
+                                                data-original-title="Hitbox Width: 140"
+                                                src="https://i.imgur.com/QSI79aT.png"
                                             />
                                             <img
-                                                src="https://i.imgur.com/41lsf0q.png"
                                                 alt="Hitbox Half-Height"
-                                                data-original-title="Hitbox Half-Height: 200"
                                                 class="icon"
+                                                data-original-title="Hitbox Half-Height: 200"
+                                                src="https://i.imgur.com/41lsf0q.png"
                                             />
                                         </div>
                                     </div>
@@ -45525,13 +45522,13 @@
                         <div class="ml-5">
                             <div class="d-flex flex-row">
                                 <img
-                                    src="https://i.imgur.com/nSYuby8.png"
-                                    data-original-title="
-                        <span style='text-align:left;display: block;'>
-                        A player has a stat score if they are above 60% of the maximum stat present in the squad. For example if the maximum healing power stat inside the squad is 1000, anybody with a healing power stat above 600 will be flagged as with healing power.
-                        </span>
-                    "
                                     class="icon mr-1"
+                                    data-original-title="
+                        &lt;span style='text-align:left;display: block;'&gt;
+                        A player has a stat score if they are above 60% of the maximum stat present in the squad. For example if the maximum healing power stat inside the squad is 1000, anybody with a healing power stat above 600 will be flagged as with healing power.
+                        &lt;/span&gt;
+                    "
+                                    src="https://i.imgur.com/nSYuby8.png"
                                 />
                                 <div
                                     class="d-flex flex-column"
@@ -45543,48 +45540,49 @@
                                         >
                                             <div>
                                                 <img
-                                                    src="https://render.guildwars2.com/file/4_4a_Tempest_tango_icon/20px.png"
                                                     alt="Tempest"
+                                                    class="icon"
                                                     data-original-title="Tempest"
-                                                    class="icon"
+                                                    src="https://render.guildwars2.com/file/4_4a_Tempest_tango_icon/20px.png"
                                                 />
-                                                <!---->
-                                                <!---->
+                                                <!-- -->
+                                                <!-- -->
                                                 <img
-                                                    src="https://wiki.guildwars2.com/images/4/44/Boon_Duration.png"
                                                     alt="Concentration"
-                                                    data-original-title="Concentration"
                                                     class="icon"
+                                                    data-original-title="Concentration"
+                                                    src="https://wiki.guildwars2.com/images/4/44/Boon_Duration.png"
                                                 />
-                                                <!---->
-                                                <!---->
+                                                <!-- -->
+                                                <!-- -->
                                             </div>
                                             <div>
                                                 <img
-                                                    src="https://render.guildwars2.com/file/3832066C1A5B45F1C40930C703573C65CB53D73B/631624.png"
+                                                    class="icon"
                                                     data-original-title="Scepter"
-                                                    class="icon"
-                                                /><img
-                                                    src="https://render.guildwars2.com/file/2F94A543C87EAEE701BE28B26564C7B3D19C0977/631546.png"
-                                                    data-original-title="Dagger"
-                                                    class="icon"
+                                                    src="https://render.guildwars2.com/file/3832066C1A5B45F1C40930C703573C65CB53D73B/631624.png"
                                                 />
-                                                <!---->
+                                                <img
+                                                    class="icon"
+                                                    data-original-title="Dagger"
+                                                    src="https://render.guildwars2.com/file/2F94A543C87EAEE701BE28B26564C7B3D19C0977/631546.png"
+                                                />
+                                                <!-- -->
                                             </div>
-                                            <!---->
+                                            <!-- -->
                                             <div
                                                 class="d-flex align-items-center justify-content-center"
                                             >
                                                 <img
-                                                    src="https://wiki.guildwars2.com/images/f/f0/Event_flag_green.png"
                                                     alt="Extensions"
-                                                    data-original-title="Player is running: <br>- Healing Stats Extension"
                                                     class="icon"
+                                                    data-original-title="Player is running: &lt;br&gt;- Healing Stats Extension"
+                                                    src="https://wiki.guildwars2.com/images/f/f0/Event_flag_green.png"
                                                 />
-                                                <!---->
+                                                <!-- -->
                                                 <span
-                                                    data-original-title="Lightning Hamster - Blackkarmy.6452"
                                                     class="player-cell-shorten"
+                                                    data-original-title="Lightning Hamster - Blackkarmy.6452"
                                                 >
                                                     Lightning Hamster
                                                 </span>
@@ -45597,33 +45595,58 @@
                     </div>
                     <h2 class="text-center">Final Number Summary</h2>
                     <ul class="nav nav-tabs">
-                        <li><a class="nav-link">General Stats</a></li>
-                        <li><a class="nav-link">Buffs</a></li>
-                        <li><a class="nav-link">Damage Modifiers</a></li>
-                        <!---->
-                        <li><a class="nav-link">Graph</a></li>
-                        <!---->
-                        <li><a class="nav-link">Targets Summary</a></li>
-                        <li><a class="nav-link active">Player Summary</a></li>
+                        <li>
+                            <a class="nav-link"> General Stats </a>
+                        </li>
+                        <li>
+                            <a class="nav-link"> Buffs </a>
+                        </li>
+                        <li>
+                            <a class="nav-link"> Damage Modifiers </a>
+                        </li>
+                        <!-- -->
+                        <li>
+                            <a class="nav-link"> Graph </a>
+                        </li>
+                        <!-- -->
+                        <li>
+                            <a class="nav-link"> Targets Summary </a>
+                        </li>
+                        <li>
+                            <a class="nav-link active"> Player Summary </a>
+                        </li>
                     </ul>
                     <div>
                         <h3 class="text-center mt-2">
                             <img
                                 alt="Tempest"
-                                src="https://render.guildwars2.com/file/4_4a_Tempest_tango_icon/20px.png"
                                 class="icon"
-                            />Lightning Hamster
+                                src="https://render.guildwars2.com/file/4_4a_Tempest_tango_icon/20px.png"
+                            />
+                            Lightning Hamster
                         </h3>
                         <ul class="nav nav-tabs">
-                            <li><a class="nav-link"> Outgoing Damage </a></li>
-                            <li><a class="nav-link"> Incoming Damage </a></li>
-                            <li><a class="nav-link">Graph</a></li>
-                            <li><a class="nav-link"> Boon Status </a></li>
+                            <li>
+                                <a class="nav-link"> Outgoing Damage </a>
+                            </li>
+                            <li>
+                                <a class="nav-link"> Incoming Damage </a>
+                            </li>
+                            <li>
+                                <a class="nav-link"> Graph </a>
+                            </li>
+                            <li>
+                                <a class="nav-link"> Boon Status </a>
+                            </li>
                             <li>
                                 <a class="nav-link active"> Simple Rotation </a>
                             </li>
-                            <li><a class="nav-link"> Advanced Rotation </a></li>
-                            <li><a class="nav-link"> Consumables </a></li>
+                            <li>
+                                <a class="nav-link"> Advanced Rotation </a>
+                            </li>
+                            <li>
+                                <a class="nav-link"> Consumables </a>
+                            </li>
                             <li>
                                 <a class="nav-link" style="display: none">
                                     Death Recap
@@ -45637,65 +45660,67 @@
                                 >
                                     <ul class="nav nav-pills mr-1 scale85">
                                         <li class="nav-item">
-                                            <a class="nav-link active"
-                                                >Show auto attacks</a
-                                            >
+                                            <a class="nav-link active">
+                                                Show auto attacks
+                                            </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link"
-                                                >Hide interrupted auto
-                                                attacks</a
-                                            >
+                                            <a class="nav-link">
+                                                Hide interrupted auto attacks
+                                            </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active"
-                                                >Hide &lt; 10ms</a
-                                            >
+                                            <a class="nav-link active">
+                                                Hide &lt; 10ms
+                                            </a>
                                         </li>
                                     </ul>
                                     <ul class="nav nav-pills ml-1 mr-1 scale85">
                                         <li class="nav-item">
-                                            <a class="nav-link"
-                                                >Hide all instant cast</a
-                                            >
+                                            <a class="nav-link">
+                                                Hide all instant cast
+                                            </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link"
-                                                >Hide instant cast skills</a
-                                            >
+                                            <a class="nav-link">
+                                                Hide instant cast skills
+                                            </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link"
-                                                >Hide gear procs</a
-                                            >
+                                            <a class="nav-link">
+                                                Hide gear procs
+                                            </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link"
-                                                >Hide trait procs</a
-                                            >
+                                            <a class="nav-link">
+                                                Hide trait procs
+                                            </a>
                                         </li>
                                     </ul>
                                     <ul class="nav nav-pills ml-1 scale85">
                                         <li class="nav-item">
-                                            <a class="nav-link">Small icons</a>
+                                            <a class="nav-link">
+                                                Small icons
+                                            </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link active"
-                                                >Small auto attack icons</a
-                                            >
+                                            <a class="nav-link active">
+                                                Small auto attack icons
+                                            </a>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="mb-4 mt-2" style="z-index: 1">
                                     <a
-                                        href="#"
-                                        data-toggle="dropdown"
-                                        title="Filter Skills"
                                         class="dropdown-toggle"
+                                        data-toggle="dropdown"
+                                        href="#"
                                         style="font-size: 1.1em"
+                                        title="Filter Skills"
                                     >
-                                        Skills <span class="caret"></span
-                                    ></a>
+                                        Skills
+                                        <span class="caret"> </span>
+                                    </a>
                                     <ul
                                         class="dropdown-menu p-2 font-weight-normal scrollabledropdown"
                                         style="
@@ -45712,24 +45737,24 @@
                                         >
                                             <li>
                                                 <button
-                                                    type="button"
                                                     class="btn btn-primary btn-sm"
                                                     style="
                                                         width: 130px;
                                                         padding: 0.4rem;
                                                     "
+                                                    type="button"
                                                 >
                                                     Select all
                                                 </button>
                                             </li>
                                             <li class="mb-1">
                                                 <button
-                                                    type="button"
                                                     class="btn btn-primary btn-sm"
                                                     style="
                                                         width: 130px;
                                                         padding: 0.4rem;
                                                     "
+                                                    type="button"
                                                 >
                                                     Deselect all
                                                 </button>
@@ -45752,9 +45777,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
                                                 />
                                                 "Feel the Burn!"
                                             </label>
@@ -45776,9 +45802,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
                                                 />
                                                 Arc Lightning
                                             </label>
@@ -45800,9 +45827,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/4B3D497E0F070BEE66642AF6293A77B891CEA95C/102976.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/4B3D497E0F070BEE66642AF6293A77B891CEA95C/102976.png"
                                                 />
                                                 Churning Earth
                                             </label>
@@ -45824,9 +45852,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/139899C1026E93EE0EDC44030B11E310E27D9807/103105.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/139899C1026E93EE0EDC44030B11E310E27D9807/103105.png"
                                                 />
                                                 Dragon's Tooth
                                             </label>
@@ -45848,9 +45877,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/EA6A082902800CC552393F24E03240A7A7D9C511/103080.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/EA6A082902800CC552393F24E03240A7A7D9C511/103080.png"
                                                 />
                                                 Dust Devil
                                             </label>
@@ -45872,9 +45902,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
                                                 />
                                                 Earthquake
                                             </label>
@@ -45896,9 +45927,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
                                                 />
                                                 Fire Grab
                                             </label>
@@ -45920,9 +45952,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
                                                 />
                                                 Flame Barrage
                                             </label>
@@ -45944,9 +45977,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/F3FBE8FF4D405637C7D61CB552A6451BB5F2D33F/103325.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/F3FBE8FF4D405637C7D61CB552A6451BB5F2D33F/103325.png"
                                                 />
                                                 Flamestrike
                                             </label>
@@ -45968,9 +46002,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/D0D5D40C079304DB0FFF10051C79A5629EE60501/1424238.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/D0D5D40C079304DB0FFF10051C79A5629EE60501/1424238.png"
                                                 />
                                                 Lightning Storm
                                             </label>
@@ -45992,9 +46027,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
                                                 />
                                                 Lightning Strike
                                             </label>
@@ -46016,9 +46052,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
                                                 />
                                                 Overload Air
                                             </label>
@@ -46040,9 +46077,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
                                                 />
                                                 Phoenix
                                             </label>
@@ -46064,9 +46102,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/6_6c_Relic_of/Fireworks.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/6_6c_Relic_of/Fireworks.png"
                                                 />
                                                 Relic of Fireworks
                                             </label>
@@ -46088,9 +46127,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
                                                 />
                                                 Ride the Lightning
                                             </label>
@@ -46112,9 +46152,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
                                                 />
                                                 Ring of Fire
                                             </label>
@@ -46136,9 +46177,10 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/66441BE066120A2590B5AF031D56E221189ADC68/103158.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/66441BE066120A2590B5AF031D56E221189ADC68/103158.png"
                                                 />
                                                 Stone Shards
                                             </label>
@@ -46160,824 +46202,1148 @@
                                                     margin-left: 5px;
                                                     position: absolute;
                                                 "
-                                                ><img
-                                                    src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
+                                            >
+                                                <img
                                                     class="icon"
+                                                    src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
                                                 />
                                                 Sunspot
                                             </label>
                                         </li>
                                     </ul>
                                 </div>
-                                <span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at -3.123s for 3200ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/6_6c_Relic_of/Fireworks.png"
-                                        data-original-title="Relic of Fireworks at 0s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
-                                        data-original-title="Phoenix at 0.077s for 478ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
-                                        data-original-title="Ring of Fire at 0.555s for 479ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
-                                        data-original-title="Fire Grab at 1.034s for 565ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 1.119s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 1.235s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
-                                        data-original-title="Ride the Lightning at 1.599s for 119ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 1.718s for 2717ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
-                                        data-original-title='"Feel the Burn!" at 1.755s'
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 4.435s for 3200ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 4.556s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
-                                        data-original-title="Earth Attunement at 7.595s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/66441BE066120A2590B5AF031D56E221189ADC68/103158.png"
-                                        data-original-title="Stone Shards at 7.635s for 81ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
-                                        data-original-title="Earthquake at 7.716s for 678ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4B3D497E0F070BEE66642AF6293A77B891CEA95C/102976.png"
-                                        data-original-title="Churning Earth at 8.394s for 962ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 8.474s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 8.637s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
-                                        data-original-title="Ride the Lightning at 9.356s for 118ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 9.474s for 78ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/D0D5D40C079304DB0FFF10051C79A5629EE60501/1424238.png"
-                                        data-original-title="Lightning Storm at 9.553s for 1125ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 10.678s for 1079ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 11.435s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 11.757s for 3200ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 12.076s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
-                                        data-original-title="Fire Attunement at 14.88s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
-                                        data-original-title="Sunspot at 14.881s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
-                                        data-original-title="Phoenix at 14.957s for 482ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
-                                        data-original-title="Ring of Fire at 15.439s for 474ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
-                                        data-original-title="Fire Grab at 15.913s for 564ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 16.036s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 16.154s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 16.477s for 120ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
-                                        data-original-title="Ride the Lightning at 16.597s for 120ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 16.717s for 2598ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 19.315s for 3202ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 19.513s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
-                                        data-original-title="Earth Attunement at 22.436s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/EA6A082902800CC552393F24E03240A7A7D9C511/103080.png"
-                                        data-original-title="Dust Devil at 22.517s for 316ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
-                                        data-original-title="Earthquake at 22.878s for 675ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 23.076s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 23.197s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
-                                        data-original-title="Ride the Lightning at 23.553s for 120ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 23.673s for 2686ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 24.035s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
-                                        data-original-title='"Feel the Burn!" at 24.276s'
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 26.359s for 3194ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 26.477s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
-                                        data-original-title="Fire Attunement at 29.517s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
-                                        data-original-title="Sunspot at 29.517s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F3FBE8FF4D405637C7D61CB552A6451BB5F2D33F/103325.png"
-                                        data-original-title="Flamestrike at 29.553s for 40ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
-                                        data-original-title="Phoenix at 29.593s for 482ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
-                                        data-original-title="Ring of Fire at 30.075s for 479ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/139899C1026E93EE0EDC44030B11E310E27D9807/103105.png"
-                                        data-original-title="Dragon's Tooth at 30.554s for 683ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
-                                        data-original-title="Fire Grab at 31.237s for 561ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 31.438s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 31.594s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 31.798s for 79ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
-                                        data-original-title="Ride the Lightning at 31.877s for 114ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 31.991s for 2723ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 34.714s for 3201ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 34.878s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
-                                        data-original-title="Earth Attunement at 37.84s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/66441BE066120A2590B5AF031D56E221189ADC68/103158.png"
-                                        data-original-title="Stone Shards at 37.915s for 78ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
-                                        data-original-title="Earthquake at 37.993s for 684ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4B3D497E0F070BEE66642AF6293A77B891CEA95C/102976.png"
-                                        data-original-title="Churning Earth at 38.677s for 966ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 38.799s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 39.035s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 39.272s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
-                                        data-original-title="Ride the Lightning at 39.643s for 110ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 39.753s for 2404ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 42.157s for 3195ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 42.553s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
-                                        data-original-title="Fire Attunement at 45.316s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
-                                        data-original-title="Sunspot at 45.316s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F3FBE8FF4D405637C7D61CB552A6451BB5F2D33F/103325.png"
-                                        data-original-title="Flamestrike at 45.352s for 42ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
-                                        data-original-title="Phoenix at 45.394s for 484ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
-                                        data-original-title="Ring of Fire at 45.878s for 478ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
-                                        data-original-title="Fire Grab at 46.356s for 557ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 46.518s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 46.635s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
-                                        data-original-title="Ride the Lightning at 46.913s for 124ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 47.037s for 2759ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
-                                        data-original-title='"Feel the Burn!" at 47.076s'
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 49.796s for 3197ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 49.911s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 51.235s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
-                                        data-original-title="Earth Attunement at 52.993s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/66441BE066120A2590B5AF031D56E221189ADC68/103158.png"
-                                        data-original-title="Stone Shards at 52.993s for 118ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/EA6A082902800CC552393F24E03240A7A7D9C511/103080.png"
-                                        data-original-title="Dust Devil at 53.111s for 324ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
-                                        data-original-title="Earthquake at 53.474s for 682ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 53.757s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 53.876s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
-                                        data-original-title="Ride the Lightning at 54.156s for 117ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 54.273s for 2845ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 57.155s for 3199ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 57.193s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
-                                        data-original-title="Fire Attunement at 60.32s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
-                                        data-original-title="Sunspot at 60.321s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F3FBE8FF4D405637C7D61CB552A6451BB5F2D33F/103325.png"
-                                        data-original-title="Flamestrike at 60.354s for 43ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
-                                        data-original-title="Phoenix at 60.397s for 480ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
-                                        data-original-title="Ring of Fire at 60.878s for 476ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
-                                        data-original-title="Fire Grab at 61.354s for 560ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 61.473s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 61.636s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 61.914s for 41ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
-                                        data-original-title="Ride the Lightning at 61.955s for 119ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 62.074s for 44ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/D0D5D40C079304DB0FFF10051C79A5629EE60501/1424238.png"
-                                        data-original-title="Lightning Storm at 62.118s for 1114ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 63.232s for 1560ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 63.434s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 64.792s for 3204ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 65.037s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
-                                        data-original-title="Earth Attunement at 67.954s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/66441BE066120A2590B5AF031D56E221189ADC68/103158.png"
-                                        data-original-title="Stone Shards at 67.996s for 83ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
-                                        data-original-title="Earthquake at 68.079s for 676ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4B3D497E0F070BEE66642AF6293A77B891CEA95C/102976.png"
-                                        data-original-title="Churning Earth at 68.755s for 960ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 68.879s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
-                                        data-original-title='"Feel the Burn!" at 69.516s'
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 69.632s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
-                                        data-original-title="Ride the Lightning at 69.715s for 116ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 69.831s for 2362ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 72.193s for 3204ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 72.955s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
-                                        data-original-title="Fire Attunement at 75.354s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
-                                        data-original-title="Sunspot at 75.355s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F3FBE8FF4D405637C7D61CB552A6451BB5F2D33F/103325.png"
-                                        data-original-title="Flamestrike at 75.397s for 40ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
-                                        data-original-title="Phoenix at 75.437s for 480ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
-                                        data-original-title="Ring of Fire at 75.917s for 475ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
-                                        data-original-title="Fire Grab at 76.392s for 562ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 76.515s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 76.675s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 76.954s for 40ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
-                                        data-original-title="Ride the Lightning at 76.994s for 119ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 77.113s for 2680ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 77.275s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 79.793s for 3202ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 80.076s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
-                                        data-original-title="Earth Attunement at 82.957s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/66441BE066120A2590B5AF031D56E221189ADC68/103158.png"
-                                        data-original-title="Stone Shards at 82.995s for 161ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/EA6A082902800CC552393F24E03240A7A7D9C511/103080.png"
-                                        data-original-title="Dust Devil at 83.156s for 278ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
-                                        data-original-title="Earthquake at 83.483s for 670ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 83.755s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 83.872s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
-                                        data-original-title="Ride the Lightning at 84.153s for 122ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 84.275s for 2762ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
-                                        data-original-title="Overload Air at 87.037s for 3197ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 87.155s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
-                                        data-original-title="Flame Barrage at 89.556s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
-                                        data-original-title="Fire Attunement at 90.196s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
-                                        data-original-title="Sunspot at 90.197s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/F3FBE8FF4D405637C7D61CB552A6451BB5F2D33F/103325.png"
-                                        data-original-title="Flamestrike at 90.234s for 42ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
-                                        data-original-title="Phoenix at 90.276s for 481ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
-                                        data-original-title="Ring of Fire at 90.757s for 480ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
-                                        data-original-title="Fire Grab at 91.237s for 559ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-swap mb-1"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
-                                        data-original-title="Air Attunement at 91.358s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
-                                        data-original-title="Lightning Strike at 91.434s"
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 91.796s for 118ms"
-                                        class="rot-icon rot-cancelled" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
-                                        data-original-title='"Feel the Burn!" at 91.796s'
-                                        class="rot-icon rot-instant" /></span
-                                ><span class="rot-skill"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
-                                        data-original-title="Ride the Lightning at 91.914s for 120ms"
-                                        class="rot-icon" /></span
-                                ><span class="rot-skill rot-small"
-                                    ><img
-                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
-                                        data-original-title="Arc Lightning at 92.034s for 1679ms"
+                                <span class="rot-skill">
+                                    <img
                                         class="rot-icon"
-                                /></span>
+                                        data-original-title="Overload Air at -3.123s for 3200ms"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Relic of Fireworks at 0s"
+                                        src="https://render.guildwars2.com/file/6_6c_Relic_of/Fireworks.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Phoenix at 0.077s for 478ms"
+                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ring of Fire at 0.555s for 479ms"
+                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Fire Grab at 1.034s for 565ms"
+                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 1.119s"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 1.235s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ride the Lightning at 1.599s for 119ms"
+                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Arc Lightning at 1.718s for 2717ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title='"Feel the Burn!" at 1.755s'
+                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 4.435s for 3200ms"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 4.556s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Earth Attunement at 7.595s"
+                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Stone Shards at 7.635s for 81ms"
+                                        src="https://render.guildwars2.com/file/66441BE066120A2590B5AF031D56E221189ADC68/103158.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Earthquake at 7.716s for 678ms"
+                                        src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Churning Earth at 8.394s for 962ms"
+                                        src="https://render.guildwars2.com/file/4B3D497E0F070BEE66642AF6293A77B891CEA95C/102976.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 8.474s"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 8.637s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ride the Lightning at 9.356s for 118ms"
+                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Arc Lightning at 9.474s for 78ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Lightning Storm at 9.553s for 1125ms"
+                                        src="https://render.guildwars2.com/file/D0D5D40C079304DB0FFF10051C79A5629EE60501/1424238.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Arc Lightning at 10.678s for 1079ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 11.435s"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 11.757s for 3200ms"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 12.076s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Fire Attunement at 14.88s"
+                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Sunspot at 14.881s"
+                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Phoenix at 14.957s for 482ms"
+                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ring of Fire at 15.439s for 474ms"
+                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Fire Grab at 15.913s for 564ms"
+                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 16.036s"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 16.154s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Arc Lightning at 16.477s for 120ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ride the Lightning at 16.597s for 120ms"
+                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Arc Lightning at 16.717s for 2598ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 19.315s for 3202ms"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 19.513s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Earth Attunement at 22.436s"
+                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Dust Devil at 22.517s for 316ms"
+                                        src="https://render.guildwars2.com/file/EA6A082902800CC552393F24E03240A7A7D9C511/103080.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Earthquake at 22.878s for 675ms"
+                                        src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 23.076s"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 23.197s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ride the Lightning at 23.553s for 120ms"
+                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Arc Lightning at 23.673s for 2686ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 24.035s"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title='"Feel the Burn!" at 24.276s'
+                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 26.359s for 3194ms"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 26.477s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Fire Attunement at 29.517s"
+                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Sunspot at 29.517s"
+                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Flamestrike at 29.553s for 40ms"
+                                        src="https://render.guildwars2.com/file/F3FBE8FF4D405637C7D61CB552A6451BB5F2D33F/103325.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Phoenix at 29.593s for 482ms"
+                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ring of Fire at 30.075s for 479ms"
+                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Dragon's Tooth at 30.554s for 683ms"
+                                        src="https://render.guildwars2.com/file/139899C1026E93EE0EDC44030B11E310E27D9807/103105.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Fire Grab at 31.237s for 561ms"
+                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 31.438s"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 31.594s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Arc Lightning at 31.798s for 79ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ride the Lightning at 31.877s for 114ms"
+                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Arc Lightning at 31.991s for 2723ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 34.714s for 3201ms"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 34.878s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Earth Attunement at 37.84s"
+                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Stone Shards at 37.915s for 78ms"
+                                        src="https://render.guildwars2.com/file/66441BE066120A2590B5AF031D56E221189ADC68/103158.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Earthquake at 37.993s for 684ms"
+                                        src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Churning Earth at 38.677s for 966ms"
+                                        src="https://render.guildwars2.com/file/4B3D497E0F070BEE66642AF6293A77B891CEA95C/102976.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 38.799s"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 39.035s"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 39.272s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ride the Lightning at 39.643s for 110ms"
+                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Arc Lightning at 39.753s for 2404ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 42.157s for 3195ms"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 42.553s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Fire Attunement at 45.316s"
+                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Sunspot at 45.316s"
+                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Flamestrike at 45.352s for 42ms"
+                                        src="https://render.guildwars2.com/file/F3FBE8FF4D405637C7D61CB552A6451BB5F2D33F/103325.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Phoenix at 45.394s for 484ms"
+                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ring of Fire at 45.878s for 478ms"
+                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Fire Grab at 46.356s for 557ms"
+                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 46.518s"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 46.635s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ride the Lightning at 46.913s for 124ms"
+                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Arc Lightning at 47.037s for 2759ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title='"Feel the Burn!" at 47.076s'
+                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 49.796s for 3197ms"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 49.911s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 51.235s"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Earth Attunement at 52.993s"
+                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Stone Shards at 52.993s for 118ms"
+                                        src="https://render.guildwars2.com/file/66441BE066120A2590B5AF031D56E221189ADC68/103158.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Dust Devil at 53.111s for 324ms"
+                                        src="https://render.guildwars2.com/file/EA6A082902800CC552393F24E03240A7A7D9C511/103080.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Earthquake at 53.474s for 682ms"
+                                        src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 53.757s"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 53.876s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ride the Lightning at 54.156s for 117ms"
+                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Arc Lightning at 54.273s for 2845ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 57.155s for 3199ms"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 57.193s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Fire Attunement at 60.32s"
+                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Sunspot at 60.321s"
+                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Flamestrike at 60.354s for 43ms"
+                                        src="https://render.guildwars2.com/file/F3FBE8FF4D405637C7D61CB552A6451BB5F2D33F/103325.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Phoenix at 60.397s for 480ms"
+                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ring of Fire at 60.878s for 476ms"
+                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Fire Grab at 61.354s for 560ms"
+                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 61.473s"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 61.636s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Arc Lightning at 61.914s for 41ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ride the Lightning at 61.955s for 119ms"
+                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Arc Lightning at 62.074s for 44ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Lightning Storm at 62.118s for 1114ms"
+                                        src="https://render.guildwars2.com/file/D0D5D40C079304DB0FFF10051C79A5629EE60501/1424238.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Arc Lightning at 63.232s for 1560ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 63.434s"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 64.792s for 3204ms"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 65.037s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Earth Attunement at 67.954s"
+                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Stone Shards at 67.996s for 83ms"
+                                        src="https://render.guildwars2.com/file/66441BE066120A2590B5AF031D56E221189ADC68/103158.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Earthquake at 68.079s for 676ms"
+                                        src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Churning Earth at 68.755s for 960ms"
+                                        src="https://render.guildwars2.com/file/4B3D497E0F070BEE66642AF6293A77B891CEA95C/102976.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 68.879s"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title='"Feel the Burn!" at 69.516s'
+                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 69.632s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ride the Lightning at 69.715s for 116ms"
+                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Arc Lightning at 69.831s for 2362ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 72.193s for 3204ms"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 72.955s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Fire Attunement at 75.354s"
+                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Sunspot at 75.355s"
+                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Flamestrike at 75.397s for 40ms"
+                                        src="https://render.guildwars2.com/file/F3FBE8FF4D405637C7D61CB552A6451BB5F2D33F/103325.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Phoenix at 75.437s for 480ms"
+                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ring of Fire at 75.917s for 475ms"
+                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Fire Grab at 76.392s for 562ms"
+                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 76.515s"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 76.675s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Arc Lightning at 76.954s for 40ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ride the Lightning at 76.994s for 119ms"
+                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Arc Lightning at 77.113s for 2680ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 77.275s"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 79.793s for 3202ms"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 80.076s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Earth Attunement at 82.957s"
+                                        src="https://render.guildwars2.com/file/4B8056D9BD080DC8E74AE6A57B2B383A2D4265C9/102870.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Stone Shards at 82.995s for 161ms"
+                                        src="https://render.guildwars2.com/file/66441BE066120A2590B5AF031D56E221189ADC68/103158.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Dust Devil at 83.156s for 278ms"
+                                        src="https://render.guildwars2.com/file/EA6A082902800CC552393F24E03240A7A7D9C511/103080.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Earthquake at 83.483s for 670ms"
+                                        src="https://render.guildwars2.com/file/01F24427AF4C18476A657647C39CB2F2374BDA57/102975.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 83.755s"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 83.872s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ride the Lightning at 84.153s for 122ms"
+                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Arc Lightning at 84.275s for 2762ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Overload Air at 87.037s for 3197ms"
+                                        src="https://render.guildwars2.com/file/592CC2A120322000BC7234B8522BBE7BAF2F4A57/1029987.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 87.155s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Flame Barrage at 89.556s"
+                                        src="https://render.guildwars2.com/file/64A5054179704B60614F90964DE1FB3D39AEC972/867446.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Fire Attunement at 90.196s"
+                                        src="https://render.guildwars2.com/file/1C91E9C799469ACC6EAF1ACD4B0AD8ACAB0C69A2/103035.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Sunspot at 90.197s"
+                                        src="https://render.guildwars2.com/file/1405047ED70DE30F80B1F6304A787B215BB50878/1012316.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Flamestrike at 90.234s for 42ms"
+                                        src="https://render.guildwars2.com/file/F3FBE8FF4D405637C7D61CB552A6451BB5F2D33F/103325.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Phoenix at 90.276s for 481ms"
+                                        src="https://render.guildwars2.com/file/000E1F53624D2F9B222E17D02A5A5ED40417CAB7/103039.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ring of Fire at 90.757s for 480ms"
+                                        src="https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Fire Grab at 91.237s for 559ms"
+                                        src="https://render.guildwars2.com/file/ED2422E6051855A76214FA9F292525C1359F0B59/103296.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-swap mb-1">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Air Attunement at 91.358s"
+                                        src="https://render.guildwars2.com/file/4857F59020DE3B0950B9C91F3D234A1C1932984A/103048.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title="Lightning Strike at 91.434s"
+                                        src="https://render.guildwars2.com/file/9C090BF7E893030BABD5DC4BA4020262AD91CE2C/103134.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon rot-cancelled"
+                                        data-original-title="Arc Lightning at 91.796s for 118ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon rot-instant"
+                                        data-original-title='"Feel the Burn!" at 91.796s'
+                                        src="https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png"
+                                    />
+                                </span>
+                                <span class="rot-skill">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Ride the Lightning at 91.914s for 120ms"
+                                        src="https://render.guildwars2.com/file/23066340DF3C6E4F06A1B105479809E1647FF5D6/103332.png"
+                                    />
+                                </span>
+                                <span class="rot-skill rot-small">
+                                    <img
+                                        class="rot-icon"
+                                        data-original-title="Arc Lightning at 92.034s for 1679ms"
+                                        src="https://render.guildwars2.com/file/0A436FC2FC1CFAB8610ECFF93ACFF31B0FB29733/103128.png"
+                                    />
+                                </span>
                                 <div class="card mt-2">
                                     <div class="card-body container">
-                                        <p><u>Outline</u></p>
+                                        <p>
+                                            <u> Outline </u>
+                                        </p>
                                         <span
                                             class="mr-1"
                                             style="
@@ -47050,7 +47416,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!---->
+                        <!-- -->
                     </div>
                 </div>
                 <div class="mt-3 mb-3" style="display: none">
@@ -47058,8 +47424,9 @@
                         The
                         <a
                             href="https://github.com/Krappa322/arcdps_healing_stats/releases"
-                            >healing stats addon</a
                         >
+                            healing stats addon
+                        </a>
                         is now officially supported by Elite Insights. Make sure
                         to download and enable its logging features.
                     </h2>
@@ -47078,18 +47445,21 @@
                     ARC: EVTC20250101.143228 | GW2 Build: 175155 | Trigger ID:
                     16199 | Encounter ID: 524550 | Elite Insights 3.3.0.1
                 </div>
-                <!---->
+                <!-- -->
                 <div>
-                    <span>Used Extensions: </span>
-                    <span>Healing Stats - 2.10rc1</span>
+                    <span> Used Extensions: </span>
+                    <span> Healing Stats - 2.10rc1 </span>
                 </div>
                 <div class="mb-2">
                     File recorded by: Lightning Hamster - Blackkarmy.6452
                 </div>
                 Generated with
-                <a href="https://github.com/baaron4/GW2-Elite-Insights-Parser"
-                    >Elite Insights</a
-                >.<br /><a href="https://dps.report/">dps.report</a>
+                <a href="https://github.com/baaron4/GW2-Elite-Insights-Parser">
+                    Elite Insights
+                </a>
+                .
+                <br />
+                <a href="https://dps.report/"> dps.report </a>
             </div>
         </div>
     </body>
