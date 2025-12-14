@@ -440,6 +440,75 @@ void RenderType::render_debug_data()
             count++;
         }
     }
+
+    get_rotation_text();
+
+    if (ImGui::Button("Copy Rotation Key Events to Clipboard"))
+    {
+        render_rotation_keybinds();
+    }
+}
+
+void RenderType::get_rotation_text()
+{
+    std::stringstream ss;
+
+    for (const auto &rotation_step : Globals::RotationRun.all_rotation_steps)
+    {
+        const auto skill_data =
+            SkillRuleData::GetDataByID(rotation_step.skill_data.skill_id, Globals::RotationRun.skill_data_map);
+
+        std::string keybind_str;
+        if (Settings::XmlSettingsPath.empty())
+        {
+            keybind_str = skillslot_to_string(skill_data.skill_type);
+        }
+        else
+        {
+            const auto [keybind, modifier] = get_keybind_for_skill_type(skill_data.skill_type, keybinds);
+            if (keybind == Keys::NONE)
+            {
+                keybind_str = skillslot_to_string(skill_data.skill_type);
+            }
+            else
+            {
+                keybind_str = custom_keys_to_string(keybind);
+                if (modifier != Modifiers::NONE)
+                {
+                    keybind_str = modifiers_to_string(modifier) + " + " + keybind_str;
+                }
+            }
+        }
+
+        ss << keybind_str << "  ";
+
+        if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_substr_weapon_swap_like) ||
+            is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_match_weapon_swap_like))
+        {
+            ss << "\n";
+            rotation_text.push_back(ss.str());
+            ss = {};
+        }
+    }
+
+    if (ss.str() != "")
+    {
+        rotation_text.push_back(ss.str());
+    }
+}
+
+void RenderType::render_rotation_keybinds()
+{
+    if (!rotation_text.empty())
+    {
+        if (ImGui::Begin("rotation_clipboard"))
+        {
+            for (const auto &text : rotation_text)
+                ImGui::TextWrapped("%s", text.c_str());
+        }
+
+        ImGui::End();
+    }
 }
 
 void RenderType::render_debug_window()
@@ -619,6 +688,8 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
         ImGui::Text("For example on Mechanist the F skills are not shown to have a better overview as a beginner.");
         ImGui::EndTooltip();
     }
+
+    render_rotation_keybinds();
 
 #ifdef _DEBUG
     render_xml_selection();

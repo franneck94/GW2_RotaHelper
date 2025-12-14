@@ -157,52 +157,6 @@ bool remove_skill_if(const RotationStep &current, const RotationStep &previous)
             (current.time_of_cast - previous.time_of_cast) < 250);
 }
 
-bool is_skill_in_set(const std::string &skill_name, const std::set<std::string> &set, const bool exact_match = false)
-{
-    for (const auto &filter_string : set)
-    {
-        if (exact_match)
-        {
-            if (skill_name == filter_string)
-                return true;
-        }
-        else
-        {
-            if (skill_name.find(filter_string) != std::string::npos)
-                return true;
-        }
-    }
-
-    return false;
-}
-
-bool is_skill_in_set(std::string_view skill_name, const std::set<std::string_view> &set, const bool exact_match = false)
-{
-    for (const auto &filter_string : set)
-    {
-        if (exact_match)
-        {
-            if (skill_name == filter_string)
-                return true;
-        }
-        else
-        {
-            if (skill_name.find(filter_string) != std::string::npos)
-                return true;
-        }
-    }
-
-    return false;
-}
-
-bool is_skill_in_set(SkillID skill_id, const std::set<SkillID> &set)
-{
-    if (set.find(skill_id) != set.end())
-        return true;
-
-    return false;
-}
-
 bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_rules)
 {
     const auto is_substr_drop_match = is_skill_in_set(skill_data.name, skill_rules.skills_substr_to_drop);
@@ -764,6 +718,52 @@ std::list<std::future<void>> StartDownloadAllSkillIcons(const LogSkillInfoMap &l
     return futures;
 }
 } // namespace
+
+bool is_skill_in_set(const std::string &skill_name, const std::set<std::string> &set, const bool exact_match)
+{
+    for (const auto &filter_string : set)
+    {
+        if (exact_match)
+        {
+            if (skill_name == filter_string)
+                return true;
+        }
+        else
+        {
+            if (skill_name.find(filter_string) != std::string::npos)
+                return true;
+        }
+    }
+
+    return false;
+}
+
+bool is_skill_in_set(std::string_view skill_name, const std::set<std::string_view> &set, const bool exact_match)
+{
+    for (const auto &filter_string : set)
+    {
+        if (exact_match)
+        {
+            if (skill_name == filter_string)
+                return true;
+        }
+        else
+        {
+            if (skill_name.find(filter_string) != std::string::npos)
+                return true;
+        }
+    }
+
+    return false;
+}
+
+bool is_skill_in_set(SkillID skill_id, const std::set<SkillID> &set)
+{
+    if (set.find(skill_id) != set.end())
+        return true;
+
+    return false;
+}
 
 SkillState get_skill_state(const RotationLogType &rotation_run,
                            const std::vector<EvCombatDataPersistent> &played_rotation,

@@ -29,6 +29,12 @@ SkillState get_skill_state(const RotationLogType &rotation_run,
                            const size_t current_idx,
                            const bool is_auto_attack);
 
+bool is_skill_in_set(const std::string &skill_name, const std::set<std::string> &set, const bool exact_match = false);
+
+bool is_skill_in_set(std::string_view skill_name, const std::set<std::string_view> &set, const bool exact_match = false);
+
+bool is_skill_in_set(SkillID skill_id, const std::set<SkillID> &set);
+
 class RotationLogType
 {
 public:

@@ -65,6 +65,9 @@ public:
     void restart_rotation();
     void render_load_buttons();
 
+    void get_rotation_text();
+    void render_rotation_keybinds();
+
     /* RENDER ROTATION WINDOW */
     void render_rotation_window(const bool is_not_ui_adjust_active, ID3D11Device *pd3dDevice);
     void render_rotation_horizontal(ID3D11Device *pd3dDevice);
@@ -116,6 +119,8 @@ public:
 
     std::map<std::string, KeybindInfo> keybinds{};
     bool keybinds_loaded = false;
+
+    std::vector<std::string> rotation_text;
 
     ImGuiWindowFlags flags_rota = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
                                   ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
