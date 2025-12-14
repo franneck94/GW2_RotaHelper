@@ -441,10 +441,10 @@ void RenderType::render_debug_data()
         }
     }
 
-    get_rotation_text();
 
     if (ImGui::Button("Copy Rotation Key Events to Clipboard"))
     {
+        get_rotation_text();
         render_rotation_keybinds();
     }
 }
