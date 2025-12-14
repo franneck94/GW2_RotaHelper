@@ -14,6 +14,7 @@ import time
 from pathlib import Path
 
 import requests
+from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
@@ -159,79 +160,8 @@ class SnowCrowsScraper:
         return filename
 
     def get_snowcrows_builds_and_links(self) -> list[dict]:
-        """Extract build info including class/profession from SnowCrows build pages"""
-
-        benchmark_urls = [
-            ("https://snowcrows.com/benchmarks/?filter=dps", "dps"),
-            ("https://snowcrows.com/benchmarks/?filter=quickness", "quick"),
-            ("https://snowcrows.com/benchmarks/?filter=alacrity", "alac"),
-        ]
-        builds_info = []
-
-        for url, benchmark_type in benchmark_urls:
-            try:
-                self.logger.info(
-                    f"Fetching SnowCrows {benchmark_type.upper()} benchmarks page: {url}",
-                )
-                response = self.session.get(url, timeout=30)
-                response.raise_for_status()
-
-                build_url_pattern = re.compile(
-                    r'<a\s+href="(/builds/raids/[^"]+)"[^>]*class="[^"]*flex\s+items-center[^"]*"',
-                    re.IGNORECASE,
-                )
-
-                build_urls: list[str] = build_url_pattern.findall(response.text)
-                self.logger.info(
-                    f"Found {len(build_urls)} {benchmark_type.upper()} build URLs",
-                )
-
-                for build_url in build_urls:
-                    url_parts = build_url.strip("/").split("/")
-                    if len(url_parts) >= 4:
-                        build_name = url_parts[-1]  # Last part is the build name
-
-                        readable_name = self._url_to_readable_name(build_name)
-                        full_url = f"https://snowcrows.com{build_url}"
-
-                        # Extract class/specialization info from build page
-                        class_info = self._extract_class_info(full_url)
-
-                        build_info = {
-                            "name": readable_name,
-                            "url": full_url,
-                            "benchmark_type": benchmark_type,
-                            "profession": class_info.get("profession", "Unknown"),
-                            "elite_spec": class_info.get("elite_spec", ""),
-                            "build_type": class_info.get("build_type", "power"),
-                            "url_name": build_name,
-                            "overall_dps": None,  # Will be populated during download
-                        }
-                        # Extract skill slot information from the build page before navigating to DPS report
-                        skill_slots = self._extract_skill_slots(full_url)
-                        if skill_slots:
-                            build_info["skill_slots"] = skill_slots
-                            self.logger.info(f"Extracted skill slots: {list(skill_slots.keys())}")
-                        builds_info.append(build_info)
-
-            except Exception as e:
-                self.logger.exception(
-                    f"Error fetching SnowCrows {benchmark_type} page: {e}",
-                )
-
-        # Remove duplicates based on URL and benchmark type
-        seen = set()
-        unique_builds = []
-        for build_info in builds_info:
-            key = (build_info["url"], build_info["benchmark_type"])
-            if key not in seen:
-                seen.add(key)
-                unique_builds.append(build_info)
-
-        self.logger.info(
-            f"Found {len(unique_builds)} total unique builds across all benchmark types",
-        )
-        return unique_builds
+        with (self.output_dir / "build_metadata.json").open("r", encoding="utf-8") as f:
+            return json.load(f)
 
     def get_manual_builds_and_links(
         self,
@@ -308,16 +238,6 @@ class SnowCrowsScraper:
             )
             return []
 
-    def _url_to_readable_name(self, url_name: str) -> str:
-        """Convert URL format build name to readable format"""
-        readable = url_name.replace("-", " ").title()
-
-        # Handle special cases
-        readable = readable.replace("Ih", "IH")  # Infinite Horizon
-        readable = readable.replace("Gs", "GS")  # Greatsword
-        readable = readable.replace("Lb", "LB")  # Longbow
-        return readable.replace("Sb", "SB")  # Shortbow
-
     def _deduce_profession_from_build_name(
         self,
         build_name: str,
@@ -335,28 +255,6 @@ class SnowCrowsScraper:
                 return profession.title(), elite_spec.title()
 
         return "Unknown", ""
-
-    def _extract_class_info(self, build_url: str) -> dict:
-        """Extract class/profession information from build name and URL"""
-        # Determine build type from URL
-        build_type = "condition" if "condition" in build_url.lower() else "power"
-
-        # Extract build name from URL for analysis
-        url_parts = build_url.strip("/").split("/")
-        if len(url_parts) >= 1:
-            build_name_from_url = url_parts[-1]  # Last part is the build name
-            profession, elite_spec = self._deduce_profession_from_build_name(
-                build_name_from_url,
-                build_url,
-            )
-        else:
-            profession, elite_spec = "Unknown", ""
-
-        return {
-            "profession": profession,
-            "elite_spec": elite_spec,
-            "build_type": build_type,
-        }
 
     def _get_cache_remainder(self, cache_url: str, cache_prefix: str) -> str:
         """Helper method to get remainder after cache prefix"""
@@ -528,110 +426,6 @@ class SnowCrowsScraper:
         except Exception as e:
             self.logger.warning(f"Error extracting DPS from WebDriver: {e}")
             return None
-
-    def _extract_skill_slots(self, url: str) -> dict[str, str]:
-        """Extract skill slot information from SnowCrows build page"""
-        try:
-            if self.driver is None:
-                self._setup_webdriver()
-
-            if "snowcrows.com" not in url or self.driver is None:
-                return {}
-
-            self.logger.info("Extracting skill slot information from SnowCrows build page...")
-
-            # Make sure we're on the build page
-            current_url = self.driver.current_url
-            if url != current_url:
-                self.driver.get(url)
-                WebDriverWait(self.driver, 10).until(
-                    EC.presence_of_element_located((By.TAG_NAME, "body")),
-                )
-                time.sleep(SLEEP_DELAY)
-
-            # Look for the Skills section - find div with "Skills" text
-            skills_sections = self.driver.find_elements(
-                By.XPATH,
-                "//div[contains(@class, 'text-right') and contains(@class, 'flex-grow') and contains(@class, 'text-2xl') and contains(text(), 'Skills')]"
-            )
-
-            if not skills_sections:
-                self.logger.warning("Could not find Skills section on build page")
-                return {}
-
-            self.logger.info(f"Found {len(skills_sections)} Skills section(s)")
-
-            # Get the parent container that has the skill icons
-            skills_container = skills_sections[0].find_element(By.XPATH, "./ancestor::div[contains(@class, 'relative')]")
-
-            # Find all skill icon divs within this container
-            skill_divs = skills_container.find_elements(
-                By.XPATH,
-                ".//div[contains(@class, 'gw2a--Wvchy') and contains(@class, 'gw2a--s2qls') and contains(@class, 'gw2a--376lb') and contains(@class, 'gw2a--3u_DO')]"
-            )
-
-            if not skill_divs:
-                self.logger.warning("Could not find skill icon divs in Skills section")
-                return {}
-
-            self.logger.info(f"Found {len(skill_divs)} skill icons")
-
-            # Extract skill URLs and map them to slot numbers
-            skill_slots = {}
-
-            # Standard GW2 skill slot mapping for utilities:
-            # Index 0 = Heal skill (slot 5)
-            # Index 1-3 = Utility skills (slots 6, 7, 8)
-            # Index 4 = Elite skill (slot 9)
-            slot_mapping = {
-                0: "5",  # Heal
-                1: "6",  # Utility 1
-                2: "7",  # Utility 2
-                3: "8",  # Utility 3
-                4: "9",  # Elite
-            }
-
-            for i, skill_div in enumerate(skill_divs):
-                try:
-                    # Extract background-image URL from style attribute
-                    style = skill_div.get_attribute("style") or ""
-
-                    # Parse background-image URL using regex
-                    bg_match = re.search(r'background-image:\s*url\(&quot;([^&]+)&quot;\)', style)
-                    if not bg_match:
-                        # Try alternative format without &quot;
-                        bg_match = re.search(r'background-image:\s*url\(["\']([^"\']+)["\'\))]', style)
-
-                    if bg_match:
-                        skill_url = bg_match.group(1)
-                        skill_icon_id = skill_url.split("/")[-1].split(".")[0]
-
-                        # Map to skill slot if we have a mapping
-                        if i in slot_mapping:
-                            slot_number = slot_mapping[i]
-                            skill_slots[f"slot_{slot_number}"] = skill_icon_id
-                            self.logger.debug(f"Skill slot {slot_number}: {skill_icon_id}")
-                        else:
-                            # For additional skills beyond the standard 5, use sequential numbering
-                            slot_number = str(10 + i - 5)  # Start from slot 10 for extra skills
-                            skill_slots[f"slot_{slot_number}"] = skill_icon_id
-                            self.logger.debug(f"Extra skill slot {slot_number}: {skill_icon_id}")
-                    else:
-                        self.logger.warning(f"Could not extract background-image URL from skill div {i}")
-
-                except Exception as e:
-                    self.logger.warning(f"Error processing skill div {i}: {e}")
-                    continue
-
-            if skill_slots:
-                self.logger.info(f"Successfully extracted {len(skill_slots)} skill slots")
-                return skill_slots
-            self.logger.warning("No skill slots were extracted")
-            return {}
-
-        except Exception as e:
-            self.logger.warning(f"Error extracting skill slots: {e}")
-            return {}
 
     def _select_correct_player(self, build_info: dict[str, str]) -> bool:
         """Select the correct player in the DPS report that matches the build"""
@@ -942,9 +736,21 @@ class SnowCrowsScraper:
             filename = self._sanitize_build_name(url_name_with_underscores)
             file_path = build_subdir / filename
 
-            # Save HTML content
-            with file_path.open("w", encoding="utf-8") as f:
-                f.write(html_content)
+            # Save HTML content with formatting
+            try:
+                # Parse and format HTML for better readability
+                soup = BeautifulSoup(html_content, 'html.parser')
+                formatted_html = soup.prettify()
+
+                with file_path.open("w", encoding="utf-8") as f:
+                    f.write(formatted_html)
+
+                self.logger.info(f"Saved formatted HTML to: {file_path.relative_to(self.output_dir)}")
+            except Exception as format_error:
+                # Fallback to raw HTML if formatting fails
+                self.logger.warning(f"Could not format HTML: {format_error}, saving raw content")
+                with file_path.open("w", encoding="utf-8") as f:
+                    f.write(html_content)
 
             # Add file path to build info
             build_info["html_file_path"] = str(file_path.relative_to(self.output_dir))

@@ -276,7 +276,12 @@ class HTMLRotationExtractor:
                     continue
 
                 # Check if skill is cancelled and if cancellation is allowed for this skill
-                if "rot-cancelled" in class_attr and skill_name in self.cancellation_allowed_skills and skill_name == "Spatial Surge" and duration < 300.0:
+                if (
+                    "rot-cancelled" in class_attr
+                    and skill_name in self.cancellation_allowed_skills
+                    and skill_name == "Spatial Surge"
+                    and duration < 300.0
+                ):
                     self.logger.debug(
                         f"Skipping {skill_name} (ID: {icon_id}) - duration {duration}ms below 40ms threshold",
                     )
@@ -322,6 +327,10 @@ class HTMLRotationExtractor:
             if build_metadata:
                 # For manual logs, prefer sc_link_url over url if available
                 url_value = build_metadata.get("sc_link_url", "") or build_metadata.get("url", "")
+                skill_slots = build_metadata.get("skill_slots", {})
+                if len(skill_slots) != 5:
+                    skill_slots = {}
+
                 result["buildMetadata"] = {
                     "name": build_metadata.get("name", "Unknown"),
                     "profession": build_metadata.get("profession", "Unknown"),
@@ -331,19 +340,10 @@ class HTMLRotationExtractor:
                     "url": url_value,
                     "dps_report_url": build_metadata.get("dps_report_url", ""),
                     "overall_dps": build_metadata.get("overall_dps"),
+                    "skill_slots": skill_slots,
                 }
             else:
-                # Fallback: determine from file path/name
-                result["buildMetadata"] = {
-                    "name": html_file.stem,
-                    "profession": "Unknown",
-                    "elite_spec": "",
-                    "build_type": self._determine_build_type(html_file),
-                    "benchmark_type": self._determine_benchmark_type(html_file),
-                    "url": "",
-                    "dps_report_url": "",
-                    "overall_dps": None,
-                }
+                raise ValueError(f"No build metadata found for file: {html_file.name}")
 
             # Log extraction results with profession info
             profession_info = result["buildMetadata"]["profession"]  # type: ignore
