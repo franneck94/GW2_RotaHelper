@@ -14,7 +14,6 @@ import time
 from pathlib import Path
 
 import requests
-from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
@@ -160,8 +159,74 @@ class SnowCrowsScraper:
         return filename
 
     def get_snowcrows_builds_and_links(self) -> list[dict]:
-        with (self.output_dir / "build_metadata.json").open("r", encoding="utf-8") as f:
-            return json.load(f)
+        """Extract build info including class/profession from SnowCrows build pages"""
+
+        benchmark_urls = [
+            ("https://snowcrows.com/benchmarks/?filter=dps", "dps"),
+            ("https://snowcrows.com/benchmarks/?filter=quickness", "quick"),
+            ("https://snowcrows.com/benchmarks/?filter=alacrity", "alac"),
+        ]
+        builds_info = []
+
+        for url, benchmark_type in benchmark_urls:
+            try:
+                self.logger.info(
+                    f"Fetching SnowCrows {benchmark_type.upper()} benchmarks page: {url}",
+                )
+                response = self.session.get(url, timeout=30)
+                response.raise_for_status()
+
+                build_url_pattern = re.compile(
+                    r'<a\s+href="(/builds/raids/[^"]+)"[^>]*class="[^"]*flex\s+items-center[^"]*"',
+                    re.IGNORECASE,
+                )
+
+                build_urls: list[str] = build_url_pattern.findall(response.text)
+                self.logger.info(
+                    f"Found {len(build_urls)} {benchmark_type.upper()} build URLs",
+                )
+
+                for build_url in build_urls:
+                    url_parts = build_url.strip("/").split("/")
+                    if len(url_parts) >= 4:
+                        build_name = url_parts[-1]  # Last part is the build name
+
+                        readable_name = self._url_to_readable_name(build_name)
+                        full_url = f"https://snowcrows.com{build_url}"
+
+                        # Extract class/specialization info from build page
+                        class_info = self._extract_class_info(full_url)
+
+                        build_info = {
+                            "name": readable_name,
+                            "url": full_url,
+                            "benchmark_type": benchmark_type,
+                            "profession": class_info.get("profession", "Unknown"),
+                            "elite_spec": class_info.get("elite_spec", ""),
+                            "build_type": class_info.get("build_type", "power"),
+                            "url_name": build_name,
+                            "overall_dps": None,  # Will be populated during download
+                        }
+                        builds_info.append(build_info)
+
+            except Exception as e:
+                self.logger.exception(
+                    f"Error fetching SnowCrows {benchmark_type} page: {e}",
+                )
+
+        # Remove duplicates based on URL and benchmark type
+        seen = set()
+        unique_builds = []
+        for build_info in builds_info:
+            key = (build_info["url"], build_info["benchmark_type"])
+            if key not in seen:
+                seen.add(key)
+                unique_builds.append(build_info)
+
+        self.logger.info(
+            f"Found {len(unique_builds)} total unique builds across all benchmark types",
+        )
+        return unique_builds
 
     def get_manual_builds_and_links(
         self,
@@ -238,6 +303,16 @@ class SnowCrowsScraper:
             )
             return []
 
+    def _url_to_readable_name(self, url_name: str) -> str:
+        """Convert URL format build name to readable format"""
+        readable = url_name.replace("-", " ").title()
+
+        # Handle special cases
+        readable = readable.replace("Ih", "IH")  # Infinite Horizon
+        readable = readable.replace("Gs", "GS")  # Greatsword
+        readable = readable.replace("Lb", "LB")  # Longbow
+        return readable.replace("Sb", "SB")  # Shortbow
+
     def _deduce_profession_from_build_name(
         self,
         build_name: str,
@@ -255,6 +330,28 @@ class SnowCrowsScraper:
                 return profession.title(), elite_spec.title()
 
         return "Unknown", ""
+
+    def _extract_class_info(self, build_url: str) -> dict:
+        """Extract class/profession information from build name and URL"""
+        # Determine build type from URL
+        build_type = "condition" if "condition" in build_url.lower() else "power"
+
+        # Extract build name from URL for analysis
+        url_parts = build_url.strip("/").split("/")
+        if len(url_parts) >= 1:
+            build_name_from_url = url_parts[-1]  # Last part is the build name
+            profession, elite_spec = self._deduce_profession_from_build_name(
+                build_name_from_url,
+                build_url,
+            )
+        else:
+            profession, elite_spec = "Unknown", ""
+
+        return {
+            "profession": profession,
+            "elite_spec": elite_spec,
+            "build_type": build_type,
+        }
 
     def _get_cache_remainder(self, cache_url: str, cache_prefix: str) -> str:
         """Helper method to get remainder after cache prefix"""
@@ -736,21 +833,9 @@ class SnowCrowsScraper:
             filename = self._sanitize_build_name(url_name_with_underscores)
             file_path = build_subdir / filename
 
-            # Save HTML content with formatting
-            try:
-                # Parse and format HTML for better readability
-                soup = BeautifulSoup(html_content, 'html.parser')
-                formatted_html = soup.prettify()
-
-                with file_path.open("w", encoding="utf-8") as f:
-                    f.write(formatted_html)
-
-                self.logger.info(f"Saved formatted HTML to: {file_path.relative_to(self.output_dir)}")
-            except Exception as format_error:
-                # Fallback to raw HTML if formatting fails
-                self.logger.warning(f"Could not format HTML: {format_error}, saving raw content")
-                with file_path.open("w", encoding="utf-8") as f:
-                    f.write(html_content)
+            # Save HTML content
+            with file_path.open("w", encoding="utf-8") as f:
+                f.write(html_content)
 
             # Add file path to build info
             build_info["html_file_path"] = str(file_path.relative_to(self.output_dir))
