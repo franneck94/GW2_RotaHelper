@@ -1476,7 +1476,10 @@
   },
   "SkillKeyMapping": {
     "slot_5": 3680200,
-    "slot_6": 961413
+    "slot_6": 961413,
+    "slot_7": -1,
+    "slot_8": -1,
+    "slot_9": -1
   },
   "buildMetadata": {
     "name": "Condition Conduit",

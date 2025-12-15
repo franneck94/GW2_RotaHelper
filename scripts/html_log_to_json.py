@@ -102,22 +102,27 @@ class HTMLRotationExtractor:
 
         html_file_name_str = str(html_file.name)
         base_type = html_file.parent.parent.name
-        html_file_name_transformed = base_type + "-" + html_file_name_str[:html_file_name_str.rfind(".html")].lower().replace("_", "-")
+        html_file_name_transformed = (
+            base_type + "-" + html_file_name_str[: html_file_name_str.rfind(".html")].lower().replace("_", "-")
+        )
         skill_mapping_file = self.input_dir / "skill_mappings.json"
         with skill_mapping_file.open(encoding="utf-8") as f:
             skill_mappings = json.load(f)
 
-        if html_file_name_transformed in skill_mappings:
-            self.logger.debug(f"Found skill mapping for: {html_file_name_transformed}")
-            return {key: int(val) for key, val in skill_mappings[html_file_name_transformed].items()}
-
-        return {
+        default_dct = {
             "slot_5": -1,
             "slot_6": -1,
             "slot_7": -1,
             "slot_8": -1,
             "slot_9": -1,
         }
+
+        if html_file_name_transformed in skill_mappings:
+            self.logger.debug(f"Found skill mapping for: {html_file_name_transformed}")
+            for key, val in skill_mappings[html_file_name_transformed].items():
+                default_dct[key] = int(val)
+
+        return default_dct
 
     def _get_build_metadata_for_file(self, html_file: Path) -> dict[str, Any]:
         """Get build metadata for a specific HTML file"""

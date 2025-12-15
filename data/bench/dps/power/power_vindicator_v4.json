@@ -1756,7 +1756,10 @@
   },
   "SkillKeyMapping": {
     "slot_5": 2491626,
-    "slot_6": 1030005
+    "slot_6": 1030005,
+    "slot_7": -1,
+    "slot_8": -1,
+    "slot_9": -1
   },
   "buildMetadata": {
     "name": "Power Vindicator",
