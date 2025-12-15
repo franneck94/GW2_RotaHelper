@@ -54,5 +54,6 @@ public:
     RotationStepsList missing_rotation_steps;
     SkillDataMap skill_data_map;
     MetaData meta_data;
+    SkillKeyMapping skill_key_mapping;
     std::vector<int> auto_attack_indices;
 };

@@ -2,8 +2,8 @@
 #define VERSION_H
 
 #define MAJOR 0
-#define MINOR 20
-#define BUILD 1
+#define MINOR 21
+#define BUILD 0
 #define REVISION 0
 
 #define STRINGIFY(x) #x
@@ -11,7 +11,7 @@
 
 #define VERSION_STRING TOSTRING(MAJOR) "." TOSTRING(MINOR) "." TOSTRING(BUILD) "." TOSTRING(REVISION)
 
-#define LOWER_VERSION_RANGE "0.20.1.0"
-#define UPPER_VERSION_RANGE "0.20.1.0"
+#define LOWER_VERSION_RANGE "0.21.0.0"
+#define UPPER_VERSION_RANGE "0.21.0.0"
 
 #endif // VERSION_H

@@ -551,6 +551,30 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
     return skill_data_map;
 }
 
+SkillKeyMapping get_skill_key_mapping(const nlohmann::json &j)
+{
+    auto skill_key_mapping = SkillKeyMapping{};
+
+    const auto &build_meta = j["SkillKeyMapping"];
+
+    if (build_meta.contains("slot_5") && build_meta["slot_5"].is_number_integer())
+        skill_key_mapping.skill_5 = build_meta["slot_5"].get<int>();
+
+    if (build_meta.contains("slot_6") && build_meta["slot_6"].is_number_integer())
+        skill_key_mapping.skill_6 = build_meta["slot_6"].get<int>();
+
+    if (build_meta.contains("slot_7") && build_meta["slot_7"].is_number_integer())
+        skill_key_mapping.skill_7 = build_meta["slot_7"].get<int>();
+
+    if (build_meta.contains("slot_8") && build_meta["slot_8"].is_number_integer())
+        skill_key_mapping.skill_8 = build_meta["slot_8"].get<int>();
+
+    if (build_meta.contains("slot_9") && build_meta["slot_9"].is_number_integer())
+        skill_key_mapping.skill_9 = build_meta["slot_9"].get<int>();
+
+    return skill_key_mapping;
+}
+
 MetaData get_metadata(const nlohmann::json &j)
 {
     auto metadata = MetaData{};
@@ -593,13 +617,14 @@ MetaData get_metadata(const nlohmann::json &j)
     return metadata;
 }
 
-std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(const std::filesystem::path &json_path,
-                                                                        const SkillDataMap &skill_data_map)
+std::tuple<LogSkillInfoMap, RotationSteps, MetaData, SkillKeyMapping> get_dpsreport_data(
+    const std::filesystem::path &json_path,
+    const SkillDataMap &skill_data_map)
 {
     auto json_rotation_log = nlohmann::json{};
     auto is_load_success = load_rotaion_json(json_path, json_rotation_log);
     if (!is_load_success)
-        return std::make_tuple(LogSkillInfoMap{}, RotationSteps{}, MetaData{});
+        return std::make_tuple(LogSkillInfoMap{}, RotationSteps{}, MetaData{}, SkillKeyMapping{});
 
     const auto rotation_data = json_rotation_log["rotation"];
     const auto skill_data = json_rotation_log["skillMap"];
@@ -615,8 +640,9 @@ std::tuple<LogSkillInfoMap, RotationSteps, MetaData> get_dpsreport_data(const st
     get_rotation_info(kv_rotation, log_skill_info_map, rotation_steps, skill_data_map);
 
     auto metadata = get_metadata(json_rotation_log);
+    auto skill_key_mapping = get_skill_key_mapping(json_rotation_log);
 
-    return std::make_tuple(log_skill_info_map, rotation_steps, metadata);
+    return std::make_tuple(log_skill_info_map, rotation_steps, metadata, skill_key_mapping);
 }
 
 bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &out_path)
@@ -826,11 +852,13 @@ void RotationLogType::load_data(const std::filesystem::path &json_path, const st
         return;
     skill_data_map = get_skill_data_map(jsons_skill_data);
 
-    const auto [_skill_info_map, _bench_all_rotation_steps, _meta_data] = get_dpsreport_data(json_path, skill_data_map);
+    const auto [_skill_info_map, _bench_all_rotation_steps, _meta_data, _skill_key_mapping] =
+        get_dpsreport_data(json_path, skill_data_map);
 
     log_skill_info_map = _skill_info_map;
     all_rotation_steps = _bench_all_rotation_steps;
     meta_data = _meta_data;
+    skill_key_mapping = _skill_key_mapping;
 
     restart_rotation();
 
