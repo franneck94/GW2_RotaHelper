@@ -1795,6 +1795,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 103321,
+    "slot_6": 103393,
+    "slot_7": 2491601,
+    "slot_8": 103229,
+    "slot_9": 2491568
+  },
   "buildMetadata": {
     "name": "Power Catalyst Sword Dagger Pf",
     "profession": "Elementalist",

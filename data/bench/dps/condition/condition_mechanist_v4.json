@@ -1980,6 +1980,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 2503669,
+    "slot_6": 103396,
+    "slot_7": 2503691,
+    "slot_8": 2503689,
+    "slot_9": 2503668
+  },
   "buildMetadata": {
     "name": "Condition Mechanist",
     "profession": "Engineer",

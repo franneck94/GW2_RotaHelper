@@ -1985,6 +1985,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 2503753,
+    "slot_6": 2503755,
+    "slot_7": 103513,
+    "slot_8": 2175070,
+    "slot_9": 104093
+  },
   "buildMetadata": {
     "name": "Condition Spectre",
     "profession": "Thief",

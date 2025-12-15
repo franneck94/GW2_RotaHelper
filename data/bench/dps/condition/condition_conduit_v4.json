@@ -1474,10 +1474,14 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 3680200,
+    "slot_6": 961413
+  },
   "buildMetadata": {
     "name": "Condition Conduit",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "profession": "Revenant",
+    "elite_spec": "Conduit",
     "build_type": "condition",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/revenant/condition-conduit",

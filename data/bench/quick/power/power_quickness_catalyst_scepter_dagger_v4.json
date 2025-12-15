@@ -2221,6 +2221,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 699524,
+    "slot_6": 2491601,
+    "slot_7": 103393,
+    "slot_8": 103340,
+    "slot_9": 867437
+  },
   "buildMetadata": {
     "name": "Power Quickness Catalyst Scepter Dagger",
     "profession": "Elementalist",

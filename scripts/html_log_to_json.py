@@ -95,6 +95,30 @@ class HTMLRotationExtractor:
             self.logger.exception(f"Error loading build metadata: {e}")
             return {}
 
+    def _get_skill_key_mapping_for_file(self, html_file: Path) -> dict[str, Any]:
+        """Get build metadata for a specific HTML file"""
+        # Debug logging
+        self.logger.debug(f"Looking for metadata for file: {html_file}")
+
+        html_file_name_str = str(html_file.name)
+        base_type = html_file.parent.parent.name
+        html_file_name_transformed = base_type + "-" + html_file_name_str[:html_file_name_str.rfind(".html")].lower().replace("_", "-")
+        skill_mapping_file = self.input_dir / "skill_mappings.json"
+        with skill_mapping_file.open(encoding="utf-8") as f:
+            skill_mappings = json.load(f)
+
+        if html_file_name_transformed in skill_mappings:
+            self.logger.debug(f"Found skill mapping for: {html_file_name_transformed}")
+            return {key: int(val) for key, val in skill_mappings[html_file_name_transformed].items()}
+
+        return {
+            "slot_5": -1,
+            "slot_6": -1,
+            "slot_7": -1,
+            "slot_8": -1,
+            "slot_9": -1,
+        }
+
     def _get_build_metadata_for_file(self, html_file: Path) -> dict[str, Any]:
         """Get build metadata for a specific HTML file"""
         # Debug logging
@@ -276,7 +300,12 @@ class HTMLRotationExtractor:
                     continue
 
                 # Check if skill is cancelled and if cancellation is allowed for this skill
-                if "rot-cancelled" in class_attr and skill_name in self.cancellation_allowed_skills and skill_name == "Spatial Surge" and duration < 300.0:
+                if (
+                    "rot-cancelled" in class_attr
+                    and skill_name in self.cancellation_allowed_skills
+                    and skill_name == "Spatial Surge"
+                    and duration < 300.0
+                ):
                     self.logger.debug(
                         f"Skipping {skill_name} (ID: {icon_id}) - duration {duration}ms below 40ms threshold",
                     )
@@ -311,11 +340,13 @@ class HTMLRotationExtractor:
 
             # Get build metadata for this file
             build_metadata = self._get_build_metadata_for_file(html_file)
+            skill_key_mapping = self._get_skill_key_mapping_for_file(html_file)
 
             # Create the output structure with build metadata
             result = {
                 "rotation": [rotation_entries],  # Wrapped in array for v3 format
                 "skillMap": skill_map,
+                "SkillKeyMapping": skill_key_mapping,
             }
 
             # Add build metadata if available

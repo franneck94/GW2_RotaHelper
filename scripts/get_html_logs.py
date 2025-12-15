@@ -166,7 +166,15 @@ class SnowCrowsScraper:
             ("https://snowcrows.com/benchmarks/?filter=quickness", "quick"),
             ("https://snowcrows.com/benchmarks/?filter=alacrity", "alac"),
         ]
-        builds_info = []
+
+        metadata_file = self.output_dir / "build_metadata.json"
+        if not metadata_file.exists():
+            self.logger.error(f"Build metadata file not found: {metadata_file}")
+            self.logger.error("Please run get_sc_metadata.py first to generate the metadata file")
+            builds_info = []
+        else:
+            with metadata_file.open(encoding="utf-8") as f:
+                builds_info = json.load(f)
 
         for url, benchmark_type in benchmark_urls:
             try:
@@ -197,36 +205,22 @@ class SnowCrowsScraper:
                         # Extract class/specialization info from build page
                         class_info = self._extract_class_info(full_url)
 
-                        build_info = {
-                            "name": readable_name,
-                            "url": full_url,
-                            "benchmark_type": benchmark_type,
-                            "profession": class_info.get("profession", "Unknown"),
-                            "elite_spec": class_info.get("elite_spec", ""),
-                            "build_type": class_info.get("build_type", "power"),
-                            "url_name": build_name,
-                            "overall_dps": None,  # Will be populated during download
-                        }
-                        builds_info.append(build_info)
-
+                        if readable_name not in {b["name"] for b in builds_info}:
+                            build_info = {
+                                "name": readable_name,
+                                "url": full_url,
+                                "benchmark_type": benchmark_type,
+                                "profession": class_info.get("profession", "Unknown"),
+                                "elite_spec": class_info.get("elite_spec", ""),
+                                "build_type": class_info.get("build_type", "power"),
+                                "url_name": build_name,
+                                "overall_dps": None,  # Will be populated during download
+                            }
+                            builds_info.append(build_info)
             except Exception as e:
-                self.logger.exception(
-                    f"Error fetching SnowCrows {benchmark_type} page: {e}",
-                )
-
-        # Remove duplicates based on URL and benchmark type
-        seen = set()
-        unique_builds = []
-        for build_info in builds_info:
-            key = (build_info["url"], build_info["benchmark_type"])
-            if key not in seen:
-                seen.add(key)
-                unique_builds.append(build_info)
-
-        self.logger.info(
-            f"Found {len(unique_builds)} total unique builds across all benchmark types",
-        )
-        return unique_builds
+                self.logger.exception(f"Error loading build metadata from {metadata_file}: {e}")
+                return []
+        return builds_info
 
     def get_manual_builds_and_links(
         self,

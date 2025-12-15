@@ -1034,14 +1034,21 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": -1,
+    "slot_6": -1,
+    "slot_7": -1,
+    "slot_8": -1,
+    "slot_9": -1
+  },
   "buildMetadata": {
-    "name": "Power Antiquary",
-    "profession": "Thief",
-    "elite_spec": "Antiquary",
+    "name": "power_antiquary",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/thief/power-antiquary",
-    "dps_report_url": "https://dps.report/A2PV-20251102-124534_golem",
-    "overall_dps": 59507.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

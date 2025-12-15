@@ -1495,6 +1495,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 1770611,
+    "slot_6": 104076,
+    "slot_7": 1770635,
+    "slot_8": 1770636,
+    "slot_9": 1770610
+  },
   "buildMetadata": {
     "name": "Power Quickness Deadeye",
     "profession": "Thief",

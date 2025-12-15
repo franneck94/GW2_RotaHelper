@@ -2478,6 +2478,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 102866,
+    "slot_6": 104140,
+    "slot_7": 103798,
+    "slot_8": 104119,
+    "slot_9": 104113
+  },
   "buildMetadata": {
     "name": "Power Warrior",
     "profession": "Warrior",

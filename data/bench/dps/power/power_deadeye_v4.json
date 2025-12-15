@@ -1264,6 +1264,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 104070,
+    "slot_6": 104076,
+    "slot_7": 1770637,
+    "slot_8": 1770635,
+    "slot_9": 1770610
+  },
   "buildMetadata": {
     "name": "Power Deadeye",
     "profession": "Thief",

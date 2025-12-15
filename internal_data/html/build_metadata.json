@@ -3,16 +3,12 @@
     "name": "Condition Conduit",
     "url": "https://snowcrows.com/builds/raids/revenant/condition-conduit",
     "benchmark_type": "dps",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "profession": "Revenant",
+    "elite_spec": "Conduit",
     "build_type": "condition",
     "url_name": "condition-conduit",
-    "dps_report_url": "https://dps.report/Iac9-20251210-122341_golem",
-    "skill_slots": {
-      "slot_5": "3680200",
-      "slot_6": "961413"
-    },
     "overall_dps": 57943.0,
+    "dps_report_url": "https://dps.report/Iac9-20251210-122341_golem",
     "html_file_path": "dps\\condition\\condition_conduit.html"
   },
   {
@@ -23,15 +19,8 @@
     "elite_spec": "Mirage",
     "build_type": "condition",
     "url_name": "condition-mirage-ih-oasis",
-    "dps_report_url": "https://dps.report/5eVE-20250827-031559_golem",
-    "skill_slots": {
-      "slot_5": "1770506",
-      "slot_6": "57900",
-      "slot_7": "103612",
-      "slot_8": "1770514",
-      "slot_9": "1770505"
-    },
     "overall_dps": 50894.0,
+    "dps_report_url": "https://dps.report/5eVE-20250827-031559_golem",
     "html_file_path": "dps\\condition\\condition_mirage_ih_oasis.html"
   },
   {
@@ -42,15 +31,8 @@
     "elite_spec": "Mirage",
     "build_type": "condition",
     "url_name": "condition-mirage-ih-ether",
-    "dps_report_url": "https://dps.report/6iDz-20250825-051630_golem",
-    "skill_slots": {
-      "slot_5": "699528",
-      "slot_6": "57900",
-      "slot_7": "103612",
-      "slot_8": "1770514",
-      "slot_9": "1770505"
-    },
     "overall_dps": 50041.0,
+    "dps_report_url": "https://dps.report/6iDz-20250825-051630_golem",
     "html_file_path": "dps\\condition\\condition_mirage_ih_ether.html"
   },
   {
@@ -61,15 +43,8 @@
     "elite_spec": "Mirage",
     "build_type": "condition",
     "url_name": "condition-mirage-dagger",
-    "dps_report_url": "https://dps.report/TglW-20251019-044550_golem",
-    "skill_slots": {
-      "slot_5": "1770506",
-      "slot_6": "57900",
-      "slot_7": "103612",
-      "slot_8": "1770514",
-      "slot_9": "1770505"
-    },
     "overall_dps": 48481.0,
+    "dps_report_url": "https://dps.report/TglW-20251019-044550_golem",
     "html_file_path": "dps\\condition\\condition_mirage_dagger.html"
   },
   {
@@ -80,15 +55,8 @@
     "elite_spec": "Druid",
     "build_type": "condition",
     "url_name": "condition-druid",
-    "dps_report_url": "https://dps.report/704v-20250625-144721_golem",
-    "skill_slots": {
-      "slot_5": "103175",
-      "slot_6": "103197",
-      "slot_7": "103944",
-      "slot_8": "104004",
-      "slot_9": "103101"
-    },
     "overall_dps": 48550.0,
+    "dps_report_url": "https://dps.report/704v-20250625-144721_golem",
     "html_file_path": "dps\\condition\\condition_druid.html"
   },
   {
@@ -99,15 +67,8 @@
     "elite_spec": "Catalyst",
     "build_type": "power",
     "url_name": "inferno-catalyst-scepter-dagger",
-    "dps_report_url": "https://dps.report/xxvM-20251119-100627_golem",
-    "skill_slots": {
-      "slot_5": "699524",
-      "slot_6": "103340",
-      "slot_7": "103393",
-      "slot_8": "2491601",
-      "slot_9": "867437"
-    },
     "overall_dps": 47051.0,
+    "dps_report_url": "https://dps.report/xxvM-20251119-100627_golem",
     "html_file_path": "dps\\power\\inferno_catalyst_scepter_dagger.html"
   },
   {
@@ -118,15 +79,8 @@
     "elite_spec": "Willbender",
     "build_type": "condition",
     "url_name": "condition-willbender",
-    "dps_report_url": "https://dps.report/5vTW-20250918-002656_golem",
-    "skill_slots": {
-      "slot_5": "699527",
-      "slot_6": "103675",
-      "slot_7": "2479377",
-      "slot_8": "103643",
-      "slot_9": "2479365"
-    },
     "overall_dps": 46833.0,
+    "dps_report_url": "https://dps.report/5vTW-20250918-002656_golem",
     "html_file_path": "dps\\condition\\condition_willbender.html"
   },
   {
@@ -137,15 +91,8 @@
     "elite_spec": "Bladesworn",
     "build_type": "power",
     "url_name": "power-bladesworn",
-    "dps_report_url": "https://b.dps.report/3QR7-20250821-063721_golem",
-    "skill_slots": {
-      "slot_5": "103295",
-      "slot_6": "2491654",
-      "slot_7": "2491651",
-      "slot_8": "2491652",
-      "slot_9": "2491632"
-    },
     "overall_dps": 46751.0,
+    "dps_report_url": "https://b.dps.report/3QR7-20250821-063721_golem",
     "html_file_path": "dps\\power\\power_bladesworn.html"
   },
   {
@@ -156,15 +103,8 @@
     "elite_spec": "Tempest",
     "build_type": "power",
     "url_name": "inferno-tempest-scepter-dagger",
-    "dps_report_url": "https://dps.report/lpOL-20251006-093317_golem",
-    "skill_slots": {
-      "slot_5": "1029989",
-      "slot_6": "1029992",
-      "slot_7": "103393",
-      "slot_8": "103340",
-      "slot_9": "103380"
-    },
     "overall_dps": 46642.0,
+    "dps_report_url": "https://dps.report/lpOL-20251006-093317_golem",
     "html_file_path": "dps\\power\\inferno_tempest_scepter_dagger.html"
   },
   {
@@ -175,15 +115,8 @@
     "elite_spec": "Mirage",
     "build_type": "condition",
     "url_name": "condition-mirage-dune-cloak",
-    "dps_report_url": "https://dps.report/mndS-20250822-003804_golem",
-    "skill_slots": {
-      "slot_5": "699528",
-      "slot_6": "57900",
-      "slot_7": "103612",
-      "slot_8": "1770514",
-      "slot_9": "1770505"
-    },
     "overall_dps": 46181.0,
+    "dps_report_url": "https://dps.report/mndS-20250822-003804_golem",
     "html_file_path": "dps\\condition\\condition_mirage_dune_cloak.html"
   },
   {
@@ -194,9 +127,8 @@
     "elite_spec": "Willbender",
     "build_type": "condition",
     "url_name": "condition-willbender-scepter",
-    "dps_report_url": "https://dps.report/RSLy-20250930-003329_golem",
-    "skill_slots": {},
     "overall_dps": 46142.0,
+    "dps_report_url": "https://dps.report/RSLy-20250930-003329_golem",
     "html_file_path": "dps\\condition\\condition_willbender_scepter.html"
   },
   {
@@ -207,15 +139,8 @@
     "elite_spec": "Daredevil",
     "build_type": "condition",
     "url_name": "condition-daredevil-spear",
-    "dps_report_url": "https://dps.report/iZUY-20250724-111709_golem",
-    "skill_slots": {
-      "slot_5": "1058620",
-      "slot_6": "103073",
-      "slot_7": "103513",
-      "slot_8": "2175070",
-      "slot_9": "104093"
-    },
     "overall_dps": 42232.0,
+    "dps_report_url": "https://dps.report/iZUY-20250724-111709_golem",
     "html_file_path": "dps\\condition\\condition_daredevil_spear.html"
   },
   {
@@ -226,15 +151,8 @@
     "elite_spec": "Spectre",
     "build_type": "condition",
     "url_name": "condition-spectre",
-    "dps_report_url": "https://dps.report/9dQH-20250924-173326_golem",
-    "skill_slots": {
-      "slot_5": "2503753",
-      "slot_6": "2503755",
-      "slot_7": "103513",
-      "slot_8": "2175070",
-      "slot_9": "104093"
-    },
     "overall_dps": 41113.0,
+    "dps_report_url": "https://dps.report/9dQH-20250924-173326_golem",
     "html_file_path": "dps\\condition\\condition_spectre.html"
   },
   {
@@ -258,15 +176,8 @@
     "elite_spec": "Evoker",
     "build_type": "power",
     "url_name": "power-evoker-scepter-dagger",
-    "dps_report_url": "https://dps.report/v6GX-20251210-163059_golem",
-    "skill_slots": {
-      "slot_5": "3680112",
-      "slot_6": "103340",
-      "slot_7": "103393",
-      "slot_8": "3680121",
-      "slot_9": "3680111"
-    },
     "overall_dps": 46012.0,
+    "dps_report_url": "https://dps.report/v6GX-20251210-163059_golem",
     "html_file_path": "dps\\power\\power_evoker_scepter_dagger.html"
   },
   {
@@ -277,15 +188,8 @@
     "elite_spec": "Daredevil",
     "build_type": "condition",
     "url_name": "condition-daredevil",
-    "dps_report_url": "https://dps.report/x9oZ-20250629-021609_golem",
-    "skill_slots": {
-      "slot_5": "1058620",
-      "slot_6": "103073",
-      "slot_7": "103513",
-      "slot_8": "2175070",
-      "slot_9": "104093"
-    },
     "overall_dps": 41472.0,
+    "dps_report_url": "https://dps.report/x9oZ-20250629-021609_golem",
     "html_file_path": "dps\\condition\\condition_daredevil.html"
   },
   {
@@ -296,15 +200,8 @@
     "elite_spec": "Mechanist",
     "build_type": "condition",
     "url_name": "condition-mechanist-two-kits",
-    "dps_report_url": "https://dps.report/NlFH-20250705-173537_golem",
-    "skill_slots": {
-      "slot_5": "699525",
-      "slot_6": "103396",
-      "slot_7": "2503689",
-      "slot_8": "103435",
-      "slot_9": "2503668"
-    },
     "overall_dps": 45880.0,
+    "dps_report_url": "https://dps.report/NlFH-20250705-173537_golem",
     "html_file_path": "dps\\condition\\condition_mechanist_two_kits.html"
   },
   {
@@ -315,15 +212,8 @@
     "elite_spec": "Catalyst",
     "build_type": "power",
     "url_name": "power-catalyst-scepter-dagger",
-    "dps_report_url": "https://dps.report/KglF-20251119-115538_golem",
-    "skill_slots": {
-      "slot_5": "699524",
-      "slot_6": "2491601",
-      "slot_7": "103393",
-      "slot_8": "103229",
-      "slot_9": "867437"
-    },
     "overall_dps": 45902.0,
+    "dps_report_url": "https://dps.report/KglF-20251119-115538_golem",
     "html_file_path": "dps\\power\\power_catalyst_scepter_dagger.html"
   },
   {
@@ -334,15 +224,8 @@
     "elite_spec": "Weaver",
     "build_type": "condition",
     "url_name": "condition-weaver-pistol",
-    "dps_report_url": "https://dps.report/EkSh-20250626-121249_golem",
-    "skill_slots": {
-      "slot_5": "103321",
-      "slot_6": "103352",
-      "slot_7": "103340",
-      "slot_8": "1770332",
-      "slot_9": "1770326"
-    },
     "overall_dps": 45957.0,
+    "dps_report_url": "https://dps.report/EkSh-20250626-121249_golem",
     "html_file_path": "dps\\condition\\condition_weaver_pistol.html"
   },
   {
@@ -353,15 +236,8 @@
     "elite_spec": "Untamed",
     "build_type": "power",
     "url_name": "power-untamed",
-    "dps_report_url": "https://gw2wingman.nevermindcreations.de/log/ab717-20250530-152646_StdGolem_kill",
-    "skill_slots": {
-      "slot_5": "103175",
-      "slot_6": "103074",
-      "slot_7": "103865",
-      "slot_8": "103542",
-      "slot_9": "2503712"
-    },
     "overall_dps": null,
+    "dps_report_url": "https://gw2wingman.nevermindcreations.de/log/ab717-20250530-152646_StdGolem_kill",
     "html_file_path": "dps\\power\\power_untamed.html"
   },
   {
@@ -372,15 +248,8 @@
     "elite_spec": "Deadeye",
     "build_type": "power",
     "url_name": "power-deadeye-maleficent-seven-spear-and-dagger-dagger",
-    "dps_report_url": "https://dps.report/pu7G-20251017-193006_golem",
-    "skill_slots": {
-      "slot_5": "1770611",
-      "slot_6": "104076",
-      "slot_7": "1770635",
-      "slot_8": "1770636",
-      "slot_9": "1770610"
-    },
     "overall_dps": 44682.0,
+    "dps_report_url": "https://dps.report/pu7G-20251017-193006_golem",
     "html_file_path": "dps\\power\\power_deadeye_maleficent_seven_spear_and_dagger_dagger.html"
   },
   {
@@ -391,9 +260,8 @@
     "elite_spec": "Berserker",
     "build_type": "power",
     "url_name": "power-berserker-hammer-axe-mace",
-    "dps_report_url": "https://dps.report/ezhZ-20250625-221420_golem",
-    "skill_slots": {},
     "overall_dps": 45399.0,
+    "dps_report_url": "https://dps.report/ezhZ-20250625-221420_golem",
     "html_file_path": "dps\\power\\power_berserker_hammer_axe_mace.html"
   },
   {
@@ -404,15 +272,8 @@
     "elite_spec": "Dragonhunter",
     "build_type": "power",
     "url_name": "power-dragonhunter-virtues-spear",
-    "dps_report_url": "https://dps.report/geOw-20250626-225051_golem",
-    "skill_slots": {
-      "slot_5": "699527",
-      "slot_6": "1012878",
-      "slot_7": "103669",
-      "slot_8": "103638",
-      "slot_9": "1024103"
-    },
     "overall_dps": 45520.0,
+    "dps_report_url": "https://dps.report/geOw-20250626-225051_golem",
     "html_file_path": "dps\\power\\power_dragonhunter_virtues_spear.html"
   },
   {
@@ -423,15 +284,8 @@
     "elite_spec": "Untamed",
     "build_type": "power",
     "url_name": "power-untamed-sword-axe",
-    "dps_report_url": "https://dps.report/YH9W-20250508-132956_golem",
-    "skill_slots": {
-      "slot_5": "103175",
-      "slot_6": "103074",
-      "slot_7": "103865",
-      "slot_8": "103542",
-      "slot_9": "2503712"
-    },
     "overall_dps": 45186.0,
+    "dps_report_url": "https://dps.report/YH9W-20250508-132956_golem",
     "html_file_path": "dps\\power\\power_untamed_sword_axe.html"
   },
   {
@@ -442,9 +296,8 @@
     "elite_spec": "Tempest",
     "build_type": "power",
     "url_name": "power-tempest-hammer",
-    "dps_report_url": "https://dps.report/0UFW-20250308-065004_golem",
-    "skill_slots": {},
     "overall_dps": 45293.0,
+    "dps_report_url": "https://dps.report/0UFW-20250308-065004_golem",
     "html_file_path": "dps\\power\\power_tempest_hammer.html"
   },
   {
@@ -455,15 +308,8 @@
     "elite_spec": "Holosmith",
     "build_type": "condition",
     "url_name": "condition-holosmith-spear",
-    "dps_report_url": "https://dps.report/FgwI-20250701-134540_golem",
-    "skill_slots": {
-      "slot_5": "699525",
-      "slot_6": "103396",
-      "slot_7": "103399",
-      "slot_8": "103435",
-      "slot_9": "1770387"
-    },
     "overall_dps": 45241.0,
+    "dps_report_url": "https://dps.report/FgwI-20250701-134540_golem",
     "html_file_path": "dps\\condition\\condition_holosmith_spear.html"
   },
   {
@@ -474,9 +320,8 @@
     "elite_spec": "Weaver",
     "build_type": "condition",
     "url_name": "condition-weaver-scepter",
-    "dps_report_url": "https://dps.report/0ix2-20250630-030645_golem",
-    "skill_slots": {},
     "overall_dps": 45217.0,
+    "dps_report_url": "https://dps.report/0ix2-20250630-030645_golem",
     "html_file_path": "dps\\condition\\condition_weaver_scepter.html"
   },
   {
@@ -487,9 +332,8 @@
     "elite_spec": "Willbender",
     "build_type": "power",
     "url_name": "power-willbender",
-    "dps_report_url": "https://dps.report/Z3Rm-20241012-234216_golem",
-    "skill_slots": {},
     "overall_dps": 45045.0,
+    "dps_report_url": "https://dps.report/Z3Rm-20241012-234216_golem",
     "html_file_path": "dps\\power\\power_willbender.html"
   },
   {
@@ -500,15 +344,8 @@
     "elite_spec": "Deadeye",
     "build_type": "power",
     "url_name": "power-deadeye",
-    "dps_report_url": "https://dps.report/FyD0-20240322-133853_golem",
-    "skill_slots": {
-      "slot_5": "104070",
-      "slot_6": "104076",
-      "slot_7": "1770637",
-      "slot_8": "1770635",
-      "slot_9": "1770610"
-    },
     "overall_dps": 45055.0,
+    "dps_report_url": "https://dps.report/FyD0-20240322-133853_golem",
     "html_file_path": "dps\\power\\power_deadeye.html"
   },
   {
@@ -519,15 +356,8 @@
     "elite_spec": "Weaver",
     "build_type": "power",
     "url_name": "power-weaver",
-    "dps_report_url": "https://dps.report/njox-20250420-101229_golem",
-    "skill_slots": {
-      "slot_5": "103321",
-      "slot_6": "103229",
-      "slot_7": "103393",
-      "slot_8": "1770332",
-      "slot_9": "1770326"
-    },
     "overall_dps": 44854.0,
+    "dps_report_url": "https://dps.report/njox-20250420-101229_golem",
     "html_file_path": "dps\\power\\power_weaver.html"
   },
   {
@@ -538,15 +368,8 @@
     "elite_spec": "Harbinger",
     "build_type": "power",
     "url_name": "power-harbinger",
-    "dps_report_url": "https://dps.report/UlTc-20240821-222344_golem",
-    "skill_slots": {
-      "slot_5": "2479398",
-      "slot_6": "103566",
-      "slot_7": "103570",
-      "slot_8": "58459",
-      "slot_9": "2479394"
-    },
     "overall_dps": 43422.0,
+    "dps_report_url": "https://dps.report/UlTc-20240821-222344_golem",
     "html_file_path": "dps\\power\\power_harbinger.html"
   },
   {
@@ -557,15 +380,8 @@
     "elite_spec": "Spellbreaker",
     "build_type": "power",
     "url_name": "power-spellbreaker",
-    "dps_report_url": "https://dps.report/QYqB-20250217-174213_golem",
-    "skill_slots": {
-      "slot_5": "102866",
-      "slot_6": "103001",
-      "slot_7": "104119",
-      "slot_8": "103798",
-      "slot_9": "104113"
-    },
     "overall_dps": 44863.0,
+    "dps_report_url": "https://dps.report/QYqB-20250217-174213_golem",
     "html_file_path": "dps\\power\\power_spellbreaker.html"
   },
   {
@@ -576,15 +392,8 @@
     "elite_spec": "Deadeye",
     "build_type": "condition",
     "url_name": "condition-deadeye",
-    "dps_report_url": "https://dps.report/4GTi-20240530-005615_golem",
-    "skill_slots": {
-      "slot_5": "1770611",
-      "slot_6": "103513",
-      "slot_7": "104097",
-      "slot_8": "1770635",
-      "slot_9": "1770610"
-    },
     "overall_dps": 40856.0,
+    "dps_report_url": "https://dps.report/4GTi-20240530-005615_golem",
     "html_file_path": "dps\\condition\\condition_deadeye.html"
   },
   {
@@ -595,15 +404,8 @@
     "elite_spec": "Catalyst",
     "build_type": "condition",
     "url_name": "condition-catalyst",
-    "dps_report_url": "https://dps.report/E2AP-20250814-142102_golem",
-    "skill_slots": {
-      "slot_5": "699524",
-      "slot_6": "103393",
-      "slot_7": "103352",
-      "slot_8": "103340",
-      "slot_9": "103380"
-    },
     "overall_dps": 45701.0,
+    "dps_report_url": "https://dps.report/E2AP-20250814-142102_golem",
     "html_file_path": "dps\\condition\\condition_catalyst.html"
   },
   {
@@ -614,15 +416,8 @@
     "elite_spec": "Scrapper",
     "build_type": "power",
     "url_name": "power-scrapper",
-    "dps_report_url": "https://dps.report/F6CE-20251123-145402_golem",
-    "skill_slots": {
-      "slot_5": "1128587",
-      "slot_6": "103396",
-      "slot_7": "103177",
-      "slot_8": "103399",
-      "slot_9": "103443"
-    },
     "overall_dps": 44598.0,
+    "dps_report_url": "https://dps.report/F6CE-20251123-145402_golem",
     "html_file_path": "dps\\power\\power_scrapper.html"
   },
   {
@@ -633,9 +428,8 @@
     "elite_spec": "Berserker",
     "build_type": "power",
     "url_name": "power-berserker-axe-axe-axe-mace",
-    "dps_report_url": "https://dps.report/uFlG-20250429-111410_golem",
-    "skill_slots": {},
     "overall_dps": 44564.0,
+    "dps_report_url": "https://dps.report/uFlG-20250429-111410_golem",
     "html_file_path": "dps\\power\\power_berserker_axe_axe_axe_mace.html"
   },
   {
@@ -646,15 +440,8 @@
     "elite_spec": "Firebrand",
     "build_type": "condition",
     "url_name": "condition-firebrand",
-    "dps_report_url": "https://dps.report/Kcl1-20250507-011207_golem",
-    "skill_slots": {
-      "slot_5": "1770463",
-      "slot_6": "103675",
-      "slot_7": "1770484",
-      "slot_8": "103643",
-      "slot_9": "1770460"
-    },
     "overall_dps": 41712.0,
+    "dps_report_url": "https://dps.report/Kcl1-20250507-011207_golem",
     "html_file_path": "dps\\condition\\condition_firebrand.html"
   },
   {
@@ -665,15 +452,8 @@
     "elite_spec": "Catalyst",
     "build_type": "power",
     "url_name": "power-catalyst-sword-dagger-pf",
-    "dps_report_url": "https://dps.report/VW8L-20250814-083156_golem",
-    "skill_slots": {
-      "slot_5": "103321",
-      "slot_6": "103393",
-      "slot_7": "2491601",
-      "slot_8": "103229",
-      "slot_9": "2491568"
-    },
     "overall_dps": 44500.0,
+    "dps_report_url": "https://dps.report/VW8L-20250814-083156_golem",
     "html_file_path": "dps\\power\\power_catalyst_sword_dagger_pf.html"
   },
   {
@@ -684,15 +464,8 @@
     "elite_spec": "Virtuoso",
     "build_type": "power",
     "url_name": "power-virtuoso-spear-greatsword",
-    "dps_report_url": "https://dps.report/EekI-20250429-021335_golem",
-    "skill_slots": {
-      "slot_5": "699528",
-      "slot_6": "103764",
-      "slot_7": "2479387",
-      "slot_8": "103742",
-      "slot_9": "2479389"
-    },
     "overall_dps": 46390.0,
+    "dps_report_url": "https://dps.report/EekI-20250429-021335_golem",
     "html_file_path": "dps\\power\\power_virtuoso_spear_greatsword.html"
   },
   {
@@ -703,15 +476,8 @@
     "elite_spec": "Deadeye",
     "build_type": "power",
     "url_name": "power-deadeye-spear",
-    "dps_report_url": "https://dps.report/Rvja-20250424-130425_golem",
-    "skill_slots": {
-      "slot_5": "1770611",
-      "slot_6": "104076",
-      "slot_7": "1770635",
-      "slot_8": "1770636",
-      "slot_9": "104093"
-    },
     "overall_dps": 43086.0,
+    "dps_report_url": "https://dps.report/Rvja-20250424-130425_golem",
     "html_file_path": "dps\\power\\power_deadeye_spear.html"
   },
   {
@@ -722,15 +488,8 @@
     "elite_spec": "Spellbreaker",
     "build_type": "power",
     "url_name": "power-spellbreaker-hammer",
-    "dps_report_url": "https://dps.report/vdip-20250624-231442_golem",
-    "skill_slots": {
-      "slot_5": "104117",
-      "slot_6": "104140",
-      "slot_7": "104119",
-      "slot_8": "103798",
-      "slot_9": "1770659"
-    },
     "overall_dps": 44255.0,
+    "dps_report_url": "https://dps.report/vdip-20250624-231442_golem",
     "html_file_path": "dps\\power\\power_spellbreaker_hammer.html"
   },
   {
@@ -741,15 +500,8 @@
     "elite_spec": "Dragonhunter",
     "build_type": "power",
     "url_name": "power-dragonhunter-radiance-longbow",
-    "dps_report_url": "https://dps.report/ODYQ-20250625-032914_golem",
-    "skill_slots": {
-      "slot_5": "1012868",
-      "slot_6": "1012878",
-      "slot_7": "103669",
-      "slot_8": "103638",
-      "slot_9": "1024103"
-    },
     "overall_dps": 44311.0,
+    "dps_report_url": "https://dps.report/ODYQ-20250625-032914_golem",
     "html_file_path": "dps\\power\\power_dragonhunter_radiance_longbow.html"
   },
   {
@@ -760,12 +512,8 @@
     "elite_spec": "Renegade",
     "build_type": "condition",
     "url_name": "condition-renegade",
-    "dps_report_url": "https://dps.report/BOMb-20250427-142254_golem",
-    "skill_slots": {
-      "slot_5": "1770592",
-      "slot_6": "961413"
-    },
     "overall_dps": 42914.0,
+    "dps_report_url": "https://dps.report/BOMb-20250427-142254_golem",
     "html_file_path": "dps\\condition\\condition_renegade.html"
   },
   {
@@ -776,9 +524,8 @@
     "elite_spec": "Holosmith",
     "build_type": "power",
     "url_name": "power-holosmith",
-    "dps_report_url": "https://dps.report/DiOV-20250817-093201_golem",
-    "skill_slots": {},
     "overall_dps": 44136.0,
+    "dps_report_url": "https://dps.report/DiOV-20250817-093201_golem",
     "html_file_path": "dps\\power\\power_holosmith.html"
   },
   {
@@ -789,15 +536,8 @@
     "elite_spec": "Soulbeast",
     "build_type": "condition",
     "url_name": "condition-soulbeast-shortbow",
-    "dps_report_url": "https://dps.report/B97C-20250625-230018_golem",
-    "skill_slots": {
-      "slot_5": "103175",
-      "slot_6": "104004",
-      "slot_7": "103197",
-      "slot_8": "1770571",
-      "slot_9": "1770558"
-    },
     "overall_dps": 39258.0,
+    "dps_report_url": "https://dps.report/B97C-20250625-230018_golem",
     "html_file_path": "dps\\condition\\condition_soulbeast_shortbow.html"
   },
   {
@@ -808,15 +548,8 @@
     "elite_spec": "Berserker",
     "build_type": "condition",
     "url_name": "condition-berserker",
-    "dps_report_url": "https://dps.report/xPFw-20250217-171746_golem",
-    "skill_slots": {
-      "slot_5": "1058642",
-      "slot_6": "1058650",
-      "slot_7": "1058652",
-      "slot_8": "1058651",
-      "slot_9": "1058637"
-    },
     "overall_dps": 43197.0,
+    "dps_report_url": "https://dps.report/xPFw-20250217-171746_golem",
     "html_file_path": "dps\\condition\\condition_berserker.html"
   },
   {
@@ -827,15 +560,8 @@
     "elite_spec": "Tempest",
     "build_type": "power",
     "url_name": "power-tempest-sword",
-    "dps_report_url": "https://dps.report/bB8v-20250211-193538_golem",
-    "skill_slots": {
-      "slot_5": "1029989",
-      "slot_6": "1029992",
-      "slot_7": "103393",
-      "slot_8": "103340",
-      "slot_9": "103380"
-    },
     "overall_dps": 44016.0,
+    "dps_report_url": "https://dps.report/bB8v-20250211-193538_golem",
     "html_file_path": "dps\\power\\power_tempest_sword.html"
   },
   {
@@ -846,12 +572,8 @@
     "elite_spec": "Vindicator",
     "build_type": "power",
     "url_name": "power-vindicator",
-    "dps_report_url": "https://dps.report/V0Qd-20250425-161817_golem",
-    "skill_slots": {
-      "slot_5": "2491626",
-      "slot_6": "1030005"
-    },
     "overall_dps": 43910.0,
+    "dps_report_url": "https://dps.report/V0Qd-20250425-161817_golem",
     "html_file_path": "dps\\power\\power_vindicator.html"
   },
   {
@@ -862,15 +584,8 @@
     "elite_spec": "Spectre",
     "build_type": "condition",
     "url_name": "condition-spectre-scepter",
-    "dps_report_url": "https://dps.report/u8UV-20250302-134132_golem",
-    "skill_slots": {
-      "slot_5": "2503753",
-      "slot_6": "103513",
-      "slot_7": "2503755",
-      "slot_8": "2175070",
-      "slot_9": "104093"
-    },
     "overall_dps": 39403.0,
+    "dps_report_url": "https://dps.report/u8UV-20250302-134132_golem",
     "html_file_path": "dps\\condition\\condition_spectre_scepter.html"
   },
   {
@@ -881,15 +596,8 @@
     "elite_spec": "Chronomancer",
     "build_type": "power",
     "url_name": "power-chronomancer",
-    "dps_report_url": "https://dps.report/oRIi-20250627-124455_golem",
-    "skill_slots": {
-      "slot_5": "699528",
-      "slot_6": "1012902",
-      "slot_7": "103742",
-      "slot_8": "103764",
-      "slot_9": "1012881"
-    },
     "overall_dps": 43989.0,
+    "dps_report_url": "https://dps.report/oRIi-20250627-124455_golem",
     "html_file_path": "dps\\power\\power_chronomancer.html"
   },
   {
@@ -900,9 +608,8 @@
     "elite_spec": "Tempest",
     "build_type": "condition",
     "url_name": "condition-tempest",
-    "dps_report_url": "https://dps.report/c6Pe-20240320-004729_golem",
-    "skill_slots": {},
     "overall_dps": 43927.0,
+    "dps_report_url": "https://dps.report/c6Pe-20240320-004729_golem",
     "html_file_path": "dps\\condition\\condition_tempest.html"
   },
   {
@@ -913,9 +620,8 @@
     "elite_spec": "Harbinger",
     "build_type": "condition",
     "url_name": "condition-harbinger",
-    "dps_report_url": "https://dps.report/z87P-20250309-090545_golem",
-    "skill_slots": {},
     "overall_dps": 43979.0,
+    "dps_report_url": "https://dps.report/z87P-20250309-090545_golem",
     "html_file_path": "dps\\condition\\condition_harbinger.html"
   },
   {
@@ -926,9 +632,8 @@
     "elite_spec": "Reaper",
     "build_type": "condition",
     "url_name": "condition-reaper",
-    "dps_report_url": "https://dps.report/HZw6-20240829-121726_golem",
-    "skill_slots": {},
     "overall_dps": 44209.0,
+    "dps_report_url": "https://dps.report/HZw6-20240829-121726_golem",
     "html_file_path": "dps\\condition\\condition_reaper.html"
   },
   {
@@ -939,15 +644,8 @@
     "elite_spec": "Harbinger",
     "build_type": "power",
     "url_name": "power-harbinger-greatsword-dagger-sword",
-    "dps_report_url": "https://dps.report/bPSj-20240328-140358_golem",
-    "skill_slots": {
-      "slot_5": "2479398",
-      "slot_6": "103566",
-      "slot_7": "103570",
-      "slot_8": "58459",
-      "slot_9": "2479394"
-    },
     "overall_dps": 43757.0,
+    "dps_report_url": "https://dps.report/bPSj-20240328-140358_golem",
     "html_file_path": "dps\\power\\power_harbinger_greatsword_dagger_sword.html"
   },
   {
@@ -958,15 +656,8 @@
     "elite_spec": "Soulbeast",
     "build_type": "condition",
     "url_name": "condition-soulbeast-quickdraw",
-    "dps_report_url": "https://dps.report/nk06-20250630-172617_golem",
-    "skill_slots": {
-      "slot_5": "103175",
-      "slot_6": "104004",
-      "slot_7": "103283",
-      "slot_8": "1770571",
-      "slot_9": "1770558"
-    },
     "overall_dps": 38587.0,
+    "dps_report_url": "https://dps.report/nk06-20250630-172617_golem",
     "html_file_path": "dps\\condition\\condition_soulbeast_quickdraw.html"
   },
   {
@@ -977,15 +668,8 @@
     "elite_spec": "Dragonhunter",
     "build_type": "power",
     "url_name": "power-dragonhunter",
-    "dps_report_url": "https://dps.report/M9tp-20250627-000730_golem",
-    "skill_slots": {
-      "slot_5": "1012868",
-      "slot_6": "1012878",
-      "slot_7": "103669",
-      "slot_8": "103638",
-      "slot_9": "1024103"
-    },
     "overall_dps": 43589.0,
+    "dps_report_url": "https://dps.report/M9tp-20250627-000730_golem",
     "html_file_path": "dps\\power\\power_dragonhunter.html"
   },
   {
@@ -996,15 +680,8 @@
     "elite_spec": "Berserker",
     "build_type": "power",
     "url_name": "power-berserker",
-    "dps_report_url": "https://dps.report/SlU1-20241011-200304_golem",
-    "skill_slots": {
-      "slot_5": "1058642",
-      "slot_6": "104119",
-      "slot_7": "103798",
-      "slot_8": "1058652",
-      "slot_9": "1058637"
-    },
     "overall_dps": 43532.0,
+    "dps_report_url": "https://dps.report/SlU1-20241011-200304_golem",
     "html_file_path": "dps\\power\\power_berserker.html"
   },
   {
@@ -1015,15 +692,8 @@
     "elite_spec": "Soulbeast",
     "build_type": "power",
     "url_name": "power-soulbeast-hammer",
-    "dps_report_url": "https://dps.report/AQKD-20240813-195034_golem",
-    "skill_slots": {
-      "slot_5": "103175",
-      "slot_6": "104025",
-      "slot_7": "103074",
-      "slot_8": "103542",
-      "slot_9": "1770558"
-    },
     "overall_dps": 43256.0,
+    "dps_report_url": "https://dps.report/AQKD-20240813-195034_golem",
     "html_file_path": "dps\\power\\power_soulbeast_hammer.html"
   },
   {
@@ -1034,15 +704,8 @@
     "elite_spec": "Virtuoso",
     "build_type": "power",
     "url_name": "power-virtuoso",
-    "dps_report_url": "https://dps.report/AKGH-20250216-220953_golem",
-    "skill_slots": {
-      "slot_5": "699528",
-      "slot_6": "103764",
-      "slot_7": "2479387",
-      "slot_8": "103742",
-      "slot_9": "2479389"
-    },
     "overall_dps": 43371.0,
+    "dps_report_url": "https://dps.report/AKGH-20250216-220953_golem",
     "html_file_path": "dps\\power\\power_virtuoso.html"
   },
   {
@@ -1053,15 +716,8 @@
     "elite_spec": "Daredevil",
     "build_type": "power",
     "url_name": "power-daredevil-dagger",
-    "dps_report_url": "https://dps.report/SGy8-20240729-161641_golem",
-    "skill_slots": {
-      "slot_5": "104070",
-      "slot_6": "1058631",
-      "slot_7": "104076",
-      "slot_8": "103712",
-      "slot_9": "104093"
-    },
     "overall_dps": 43316.0,
+    "dps_report_url": "https://dps.report/SGy8-20240729-161641_golem",
     "html_file_path": "dps\\power\\power_daredevil_dagger.html"
   },
   {
@@ -1072,28 +728,20 @@
     "elite_spec": "Mechanist",
     "build_type": "condition",
     "url_name": "condition-mechanist",
-    "dps_report_url": "https://dps.report/yKQA-20250423-002229_golem",
-    "skill_slots": {
-      "slot_5": "2503669",
-      "slot_6": "103396",
-      "slot_7": "2503691",
-      "slot_8": "2503689",
-      "slot_9": "2503668"
-    },
     "overall_dps": 43486.0,
+    "dps_report_url": "https://dps.report/yKQA-20250423-002229_golem",
     "html_file_path": "dps\\condition\\condition_mechanist.html"
   },
   {
     "name": "Power Conduit",
     "url": "https://snowcrows.com/builds/raids/revenant/power-conduit",
     "benchmark_type": "dps",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "profession": "Revenant",
+    "elite_spec": "Conduit",
     "build_type": "power",
     "url_name": "power-conduit",
-    "dps_report_url": "https://dps.report/BWYo-20251211-175030_golem",
-    "skill_slots": {},
     "overall_dps": 42420.0,
+    "dps_report_url": "https://dps.report/BWYo-20251211-175030_golem",
     "html_file_path": "dps\\power\\power_conduit.html"
   },
   {
@@ -1104,15 +752,8 @@
     "elite_spec": "Chronomancer",
     "build_type": "condition",
     "url_name": "condition-chronomancer",
-    "dps_report_url": "https://dps.report/sWjp-20250506-041500_golem",
-    "skill_slots": {
-      "slot_5": "699528",
-      "slot_6": "103612",
-      "slot_7": "57900",
-      "slot_8": "103736",
-      "slot_9": "1012893"
-    },
     "overall_dps": 43059.0,
+    "dps_report_url": "https://dps.report/sWjp-20250506-041500_golem",
     "html_file_path": "dps\\condition\\condition_chronomancer.html"
   },
   {
@@ -1123,15 +764,8 @@
     "elite_spec": "Berserker",
     "build_type": "power",
     "url_name": "power-berserker-greatsword",
-    "dps_report_url": "https://dps.report/aNUg-20250626-205602_golem",
-    "skill_slots": {
-      "slot_5": "1058642",
-      "slot_6": "103798",
-      "slot_7": "1058652",
-      "slot_8": "104119",
-      "slot_9": "1058637"
-    },
     "overall_dps": 43314.0,
+    "dps_report_url": "https://dps.report/aNUg-20250626-205602_golem",
     "html_file_path": "dps\\power\\power_berserker_greatsword.html"
   },
   {
@@ -1142,9 +776,8 @@
     "elite_spec": "Harbinger",
     "build_type": "power",
     "url_name": "power-harbinger-greatsword-sword-sword",
-    "dps_report_url": "https://dps.report/7w2I-20240328-230229_golem",
-    "skill_slots": {},
     "overall_dps": 42979.0,
+    "dps_report_url": "https://dps.report/7w2I-20240328-230229_golem",
     "html_file_path": "dps\\power\\power_harbinger_greatsword_sword_sword.html"
   },
   {
@@ -1155,9 +788,8 @@
     "elite_spec": "Troubadour",
     "build_type": "power",
     "url_name": "power-troubadour",
-    "dps_report_url": "https://dps.report/9Pfz-20251117-165436_golem",
-    "skill_slots": {},
     "overall_dps": 43148.0,
+    "dps_report_url": "https://dps.report/9Pfz-20251117-165436_golem",
     "html_file_path": "dps\\power\\power_troubadour.html"
   },
   {
@@ -1168,15 +800,8 @@
     "elite_spec": "Tempest",
     "build_type": "power",
     "url_name": "power-tempest",
-    "dps_report_url": "https://dps.report/QqEZ-20250212-064300_golem",
-    "skill_slots": {
-      "slot_5": "1029989",
-      "slot_6": "1029992",
-      "slot_7": "103393",
-      "slot_8": "103340",
-      "slot_9": "103380"
-    },
     "overall_dps": 43063.0,
+    "dps_report_url": "https://dps.report/QqEZ-20250212-064300_golem",
     "html_file_path": "dps\\power\\power_tempest.html"
   },
   {
@@ -1187,15 +812,8 @@
     "elite_spec": "Deadeye",
     "build_type": "power",
     "url_name": "power-deadeye-staff-and-dagger",
-    "dps_report_url": "https://dps.report/KCY6-20250607-174654_golem",
-    "skill_slots": {
-      "slot_5": "1770611",
-      "slot_6": "104076",
-      "slot_7": "1770635",
-      "slot_8": "1770636",
-      "slot_9": "104093"
-    },
     "overall_dps": 43026.0,
+    "dps_report_url": "https://dps.report/KCY6-20250607-174654_golem",
     "html_file_path": "dps\\power\\power_deadeye_staff_and_dagger.html"
   },
   {
@@ -1206,15 +824,8 @@
     "elite_spec": "Reaper",
     "build_type": "power",
     "url_name": "power-reaper-spear",
-    "dps_report_url": "https://dps.report/zu2s-20240827-214523_golem",
-    "skill_slots": {
-      "slot_5": "1012929",
-      "slot_6": "103566",
-      "slot_7": "103570",
-      "slot_8": "1012951",
-      "slot_9": "103840"
-    },
     "overall_dps": 43150.0,
+    "dps_report_url": "https://dps.report/zu2s-20240827-214523_golem",
     "html_file_path": "dps\\power\\power_reaper_spear.html"
   },
   {
@@ -1225,15 +836,8 @@
     "elite_spec": "Thief",
     "build_type": "condition",
     "url_name": "condition-thief",
-    "dps_report_url": "https://dps.report/xHhO-20250422-062546_golem",
-    "skill_slots": {
-      "slot_5": "104070",
-      "slot_6": "2175070",
-      "slot_7": "103073",
-      "slot_8": "103513",
-      "slot_9": "104109"
-    },
     "overall_dps": 38690.0,
+    "dps_report_url": "https://dps.report/xHhO-20250422-062546_golem",
     "html_file_path": "dps\\condition\\condition_thief.html"
   },
   {
@@ -1244,15 +848,8 @@
     "elite_spec": "Daredevil",
     "build_type": "power",
     "url_name": "power-daredevil",
-    "dps_report_url": "https://www.dps.report/7Qij-20250624-165156_golem",
-    "skill_slots": {
-      "slot_5": "104070",
-      "slot_6": "1058631",
-      "slot_7": "104076",
-      "slot_8": "1058635",
-      "slot_9": "104093"
-    },
     "overall_dps": 42714.0,
+    "dps_report_url": "https://www.dps.report/7Qij-20250624-165156_golem",
     "html_file_path": "dps\\power\\power_daredevil.html"
   },
   {
@@ -1263,15 +860,8 @@
     "elite_spec": "Reaper",
     "build_type": "power",
     "url_name": "power-reaper",
-    "dps_report_url": "https://dps.report/oU7B-20240321-155135_golem",
-    "skill_slots": {
-      "slot_5": "1012929",
-      "slot_6": "103566",
-      "slot_7": "103570",
-      "slot_8": "1012951",
-      "slot_9": "103840"
-    },
     "overall_dps": 42141.0,
+    "dps_report_url": "https://dps.report/oU7B-20240321-155135_golem",
     "html_file_path": "dps\\power\\power_reaper.html"
   },
   {
@@ -1282,15 +872,8 @@
     "elite_spec": "Virtuoso",
     "build_type": "power",
     "url_name": "power-virtuoso-dagger-sword-greatsword",
-    "dps_report_url": "https://dps.report/B3J7-20250903-042627_golem",
-    "skill_slots": {
-      "slot_5": "699528",
-      "slot_6": "103764",
-      "slot_7": "2479387",
-      "slot_8": "103742",
-      "slot_9": "2479389"
-    },
     "overall_dps": 44070.0,
+    "dps_report_url": "https://dps.report/B3J7-20250903-042627_golem",
     "html_file_path": "dps\\power\\power_virtuoso_dagger_sword_greatsword.html"
   },
   {
@@ -1301,15 +884,8 @@
     "elite_spec": "Mechanist",
     "build_type": "power",
     "url_name": "power-mechanist-sword",
-    "dps_report_url": "https://dps.report/DX0r-20251119-223007_golem",
-    "skill_slots": {
-      "slot_5": "2503669",
-      "slot_6": "103399",
-      "slot_7": "2503690",
-      "slot_8": "2503689",
-      "slot_9": "2503668"
-    },
     "overall_dps": 41955.0,
+    "dps_report_url": "https://dps.report/DX0r-20251119-223007_golem",
     "html_file_path": "dps\\power\\power_mechanist_sword.html"
   },
   {
@@ -1320,9 +896,8 @@
     "elite_spec": "Tempest",
     "build_type": "condition",
     "url_name": "condition-tempest-scepter",
-    "dps_report_url": "https://dps.report/CdTT-20250218-221925_golem",
-    "skill_slots": {},
     "overall_dps": 41675.0,
+    "dps_report_url": "https://dps.report/CdTT-20250218-221925_golem",
     "html_file_path": "dps\\condition\\condition_tempest_scepter.html"
   },
   {
@@ -1333,15 +908,8 @@
     "elite_spec": "Soulbeast",
     "build_type": "condition",
     "url_name": "condition-soulbeast",
-    "dps_report_url": "https://dps.report/wiqI-20250625-224908_golem",
-    "skill_slots": {
-      "slot_5": "103175",
-      "slot_6": "104004",
-      "slot_7": "104025",
-      "slot_8": "1770571",
-      "slot_9": "1770558"
-    },
     "overall_dps": 37649.0,
+    "dps_report_url": "https://dps.report/wiqI-20250625-224908_golem",
     "html_file_path": "dps\\condition\\condition_soulbeast.html"
   },
   {
@@ -1352,15 +920,8 @@
     "elite_spec": "Reaper",
     "build_type": "power",
     "url_name": "power-reaper-greatsword-sword-sword",
-    "dps_report_url": "https://dps.report/Wb4b-20250816-083518_golem",
-    "skill_slots": {
-      "slot_5": "1012929",
-      "slot_6": "103566",
-      "slot_7": "103570",
-      "slot_8": "1012951",
-      "slot_9": "103840"
-    },
     "overall_dps": 41413.0,
+    "dps_report_url": "https://dps.report/Wb4b-20250816-083518_golem",
     "html_file_path": "dps\\power\\power_reaper_greatsword_sword_sword.html"
   },
   {
@@ -1371,9 +932,8 @@
     "elite_spec": "Paragon",
     "build_type": "condition",
     "url_name": "condition-paragon",
-    "dps_report_url": "https://gw2wingman.nevermindcreations.de/log/22264-20251210-190114_StdGolem_kill",
-    "skill_slots": {},
     "overall_dps": null,
+    "dps_report_url": "https://gw2wingman.nevermindcreations.de/log/22264-20251210-190114_StdGolem_kill",
     "html_file_path": "dps\\condition\\condition_paragon.html"
   },
   {
@@ -1384,15 +944,8 @@
     "elite_spec": "Mechanist",
     "build_type": "power",
     "url_name": "power-mechanist",
-    "dps_report_url": "https://dps.report/rDWx-20250422-165726_golem",
-    "skill_slots": {
-      "slot_5": "2503669",
-      "slot_6": "103396",
-      "slot_7": "2503690",
-      "slot_8": "2503689",
-      "slot_9": "2503668"
-    },
     "overall_dps": 40668.0,
+    "dps_report_url": "https://dps.report/rDWx-20250422-165726_golem",
     "html_file_path": "dps\\power\\power_mechanist.html"
   },
   {
@@ -1403,15 +956,8 @@
     "elite_spec": "Thief",
     "build_type": "condition",
     "url_name": "condition-thief-spear",
-    "dps_report_url": "https://dps.report/utfh-20250421-151309_golem",
-    "skill_slots": {
-      "slot_5": "104070",
-      "slot_6": "2175070",
-      "slot_7": "104097",
-      "slot_8": "103513",
-      "slot_9": "104093"
-    },
     "overall_dps": 34921.0,
+    "dps_report_url": "https://dps.report/utfh-20250421-151309_golem",
     "html_file_path": "dps\\condition\\condition_thief_spear.html"
   },
   {
@@ -1422,15 +968,8 @@
     "elite_spec": "Virtuoso",
     "build_type": "condition",
     "url_name": "condition-virtuoso",
-    "dps_report_url": "https://dps.report/Jnxp-20250211-205106_golem",
-    "skill_slots": {
-      "slot_5": "699528",
-      "slot_6": "103756",
-      "slot_7": "103612",
-      "slot_8": "57900",
-      "slot_9": "2479389"
-    },
     "overall_dps": 40119.0,
+    "dps_report_url": "https://dps.report/Jnxp-20250211-205106_golem",
     "html_file_path": "dps\\condition\\condition_virtuoso.html"
   },
   {
@@ -1441,15 +980,8 @@
     "elite_spec": "Scourge",
     "build_type": "condition",
     "url_name": "condition-scourge",
-    "dps_report_url": "https://dps.report/LzVj-20231003-151324_golem",
-    "skill_slots": {
-      "slot_5": "1770534",
-      "slot_6": "103795",
-      "slot_7": "102804",
-      "slot_8": "102804",
-      "slot_9": "103312"
-    },
     "overall_dps": 39802.0,
+    "dps_report_url": "https://dps.report/LzVj-20231003-151324_golem",
     "html_file_path": "dps\\condition\\condition_scourge.html"
   },
   {
@@ -1460,15 +992,8 @@
     "elite_spec": "Mechanist",
     "build_type": "condition",
     "url_name": "condition-mechanist-kitless",
-    "dps_report_url": "https://dps.report/Ceo5-20250423-211218_golem",
-    "skill_slots": {
-      "slot_5": "2503669",
-      "slot_6": "2503690",
-      "slot_7": "2503691",
-      "slot_8": "2503689",
-      "slot_9": "2503668"
-    },
     "overall_dps": 39433.0,
+    "dps_report_url": "https://dps.report/Ceo5-20250423-211218_golem",
     "html_file_path": "dps\\condition\\condition_mechanist_kitless.html"
   },
   {
@@ -1479,15 +1004,8 @@
     "elite_spec": "Warrior",
     "build_type": "power",
     "url_name": "power-warrior",
-    "dps_report_url": "https://dps.report/32sv-20250218-155359_golem",
-    "skill_slots": {
-      "slot_5": "102866",
-      "slot_6": "104140",
-      "slot_7": "103798",
-      "slot_8": "104119",
-      "slot_9": "104113"
-    },
     "overall_dps": 38906.0,
+    "dps_report_url": "https://dps.report/32sv-20250218-155359_golem",
     "html_file_path": "dps\\power\\power_warrior.html"
   },
   {
@@ -1498,9 +1016,8 @@
     "elite_spec": "Herald",
     "build_type": "power",
     "url_name": "power-herald",
-    "dps_report_url": "https://dps.report/cEAa-20250211-232646_golem",
-    "skill_slots": {},
     "overall_dps": 36837.0,
+    "dps_report_url": "https://dps.report/cEAa-20250211-232646_golem",
     "html_file_path": "dps\\power\\power_herald.html"
   },
   {
@@ -1511,15 +1028,8 @@
     "elite_spec": "Scrapper",
     "build_type": "condition",
     "url_name": "condition-quickness-scrapper",
-    "dps_report_url": "https://dps.report/sFjF-20251014-124731_golem",
-    "skill_slots": {
-      "slot_5": "1128587",
-      "slot_6": "103396",
-      "slot_7": "103399",
-      "slot_8": "103435",
-      "slot_9": "103443"
-    },
     "overall_dps": 43057.0,
+    "dps_report_url": "https://dps.report/sFjF-20251014-124731_golem",
     "html_file_path": "quick\\condition\\condition_quickness_scrapper.html"
   },
   {
@@ -1530,9 +1040,8 @@
     "elite_spec": "Deadeye",
     "build_type": "power",
     "url_name": "power-quickness-deadeye-axe",
-    "dps_report_url": "https://dps.report/fgLo-20240814-230123_golem",
-    "skill_slots": {},
     "overall_dps": 42665.0,
+    "dps_report_url": "https://dps.report/fgLo-20240814-230123_golem",
     "html_file_path": "quick\\power\\power_quickness_deadeye_axe.html"
   },
   {
@@ -1543,9 +1052,8 @@
     "elite_spec": "Evoker",
     "build_type": "power",
     "url_name": "power-quickness-evoker",
-    "dps_report_url": "https://dps.report/nBcs-20251209-141932_golem",
-    "skill_slots": {},
     "overall_dps": 42370.0,
+    "dps_report_url": "https://dps.report/nBcs-20251209-141932_golem",
     "html_file_path": "quick\\power\\power_quickness_evoker.html"
   },
   {
@@ -1556,15 +1064,8 @@
     "elite_spec": "Ritualist",
     "build_type": "power",
     "url_name": "power-quickness-ritualist",
-    "dps_report_url": "https://dps.report/cJQW-20251110-162312_golem",
-    "skill_slots": {
-      "slot_5": "3680169",
-      "slot_6": "58459",
-      "slot_7": "3680180",
-      "slot_8": "3680182",
-      "slot_9": "103840"
-    },
-    "overall_dps": 52185.0,
+    "overall_dps": 41191.0,
+    "dps_report_url": "https://dps.report/PCX9-20251213-182531_golem",
     "html_file_path": "quick\\power\\power_quickness_ritualist.html"
   },
   {
@@ -1575,15 +1076,8 @@
     "elite_spec": "Catalyst",
     "build_type": "power",
     "url_name": "inferno-quickness-catalyst-scepter-dagger",
-    "dps_report_url": "https://dps.report/6dTi-20251124-124151_golem",
-    "skill_slots": {
-      "slot_5": "699524",
-      "slot_6": "103340",
-      "slot_7": "103393",
-      "slot_8": "2491601",
-      "slot_9": "867437"
-    },
     "overall_dps": 41117.0,
+    "dps_report_url": "https://dps.report/6dTi-20251124-124151_golem",
     "html_file_path": "quick\\power\\inferno_quickness_catalyst_scepter_dagger.html"
   },
   {
@@ -1594,15 +1088,8 @@
     "elite_spec": "Deadeye",
     "build_type": "power",
     "url_name": "power-quickness-deadeye",
-    "dps_report_url": "https://dps.report/nW89-20250426-162330_golem",
-    "skill_slots": {
-      "slot_5": "1770611",
-      "slot_6": "104076",
-      "slot_7": "1770635",
-      "slot_8": "1770636",
-      "slot_9": "1770610"
-    },
     "overall_dps": 39322.0,
+    "dps_report_url": "https://dps.report/nW89-20250426-162330_golem",
     "html_file_path": "quick\\power\\power_quickness_deadeye.html"
   },
   {
@@ -1613,15 +1100,8 @@
     "elite_spec": "Catalyst",
     "build_type": "power",
     "url_name": "power-quickness-catalyst-scepter-dagger",
-    "dps_report_url": "https://dps.report/ZPUi-20251119-114928_golem",
-    "skill_slots": {
-      "slot_5": "699524",
-      "slot_6": "2491601",
-      "slot_7": "103393",
-      "slot_8": "103340",
-      "slot_9": "867437"
-    },
     "overall_dps": 40263.0,
+    "dps_report_url": "https://dps.report/ZPUi-20251119-114928_golem",
     "html_file_path": "quick\\power\\power_quickness_catalyst_scepter_dagger.html"
   },
   {
@@ -1632,9 +1112,8 @@
     "elite_spec": "Catalyst",
     "build_type": "condition",
     "url_name": "condition-quickness-catalyst",
-    "dps_report_url": "https://dps.report/5hQt-20250717-212648_golem",
-    "skill_slots": {},
     "overall_dps": 39933.0,
+    "dps_report_url": "https://dps.report/5hQt-20250717-212648_golem",
     "html_file_path": "quick\\condition\\condition_quickness_catalyst.html"
   },
   {
@@ -1645,9 +1124,8 @@
     "elite_spec": "Firebrand",
     "build_type": "condition",
     "url_name": "condition-quickness-firebrand",
-    "dps_report_url": "https://dps.report/PZz2-20250513-164740_golem",
-    "skill_slots": {},
     "overall_dps": 36685.0,
+    "dps_report_url": "https://dps.report/PZz2-20250513-164740_golem",
     "html_file_path": "quick\\condition\\condition_quickness_firebrand.html"
   },
   {
@@ -1658,15 +1136,8 @@
     "elite_spec": "Catalyst",
     "build_type": "power",
     "url_name": "power-quickness-catalyst-sword-dagger-pf",
-    "dps_report_url": "https://dps.report/zfva-20250427-211749_golem",
-    "skill_slots": {
-      "slot_5": "2491592",
-      "slot_6": "2491601",
-      "slot_7": "103393",
-      "slot_8": "103340",
-      "slot_9": "867437"
-    },
     "overall_dps": 39100.0,
+    "dps_report_url": "https://dps.report/zfva-20250427-211749_golem",
     "html_file_path": "quick\\power\\power_quickness_catalyst_sword_dagger_pf.html"
   },
   {
@@ -1677,15 +1148,8 @@
     "elite_spec": "Berserker",
     "build_type": "power",
     "url_name": "power-quickness-berserker",
-    "dps_report_url": "https://dps.report/dc0H-20250629-161758_golem",
-    "skill_slots": {
-      "slot_5": "1058642",
-      "slot_6": "104119",
-      "slot_7": "103798",
-      "slot_8": "1058652",
-      "slot_9": "1058637"
-    },
     "overall_dps": 39079.0,
+    "dps_report_url": "https://dps.report/dc0H-20250629-161758_golem",
     "html_file_path": "quick\\power\\power_quickness_berserker.html"
   },
   {
@@ -1696,15 +1160,8 @@
     "elite_spec": "Berserker",
     "build_type": "power",
     "url_name": "power-quickness-berserker-greatsword",
-    "dps_report_url": "https://dps.report/rVU2-20250626-220040_golem",
-    "skill_slots": {
-      "slot_5": "1058642",
-      "slot_6": "103798",
-      "slot_7": "1058652",
-      "slot_8": "104119",
-      "slot_9": "1058637"
-    },
     "overall_dps": 38617.0,
+    "dps_report_url": "https://dps.report/rVU2-20250626-220040_golem",
     "html_file_path": "quick\\power\\power_quickness_berserker_greatsword.html"
   },
   {
@@ -1715,15 +1172,8 @@
     "elite_spec": "Deadeye",
     "build_type": "power",
     "url_name": "power-quickness-deadeye-dagger",
-    "dps_report_url": "https://dps.report/Adnb-20250223-130211_golem",
-    "skill_slots": {
-      "slot_5": "1770611",
-      "slot_6": "104076",
-      "slot_7": "1770635",
-      "slot_8": "1770636",
-      "slot_9": "1770610"
-    },
     "overall_dps": 38533.0,
+    "dps_report_url": "https://dps.report/Adnb-20250223-130211_golem",
     "html_file_path": "quick\\power\\power_quickness_deadeye_dagger.html"
   },
   {
@@ -1734,15 +1184,8 @@
     "elite_spec": "Deadeye",
     "build_type": "condition",
     "url_name": "condition-quickness-deadeye",
-    "dps_report_url": "https://dps.report/WwTh-20250712-001920_golem",
-    "skill_slots": {
-      "slot_5": "1770611",
-      "slot_6": "103513",
-      "slot_7": "2175070",
-      "slot_8": "1770635",
-      "slot_9": "1770610"
-    },
     "overall_dps": 34607.0,
+    "dps_report_url": "https://dps.report/WwTh-20250712-001920_golem",
     "html_file_path": "quick\\condition\\condition_quickness_deadeye.html"
   },
   {
@@ -1753,9 +1196,8 @@
     "elite_spec": "Deadeye",
     "build_type": "power",
     "url_name": "power-quickness-deadeye-rifle",
-    "dps_report_url": "https://dps.report/EooP-20250904-002822_golem",
-    "skill_slots": {},
     "overall_dps": 37218.0,
+    "dps_report_url": "https://dps.report/EooP-20250904-002822_golem",
     "html_file_path": "quick\\power\\power_quickness_deadeye_rifle.html"
   },
   {
@@ -1766,9 +1208,8 @@
     "elite_spec": "Harbinger",
     "build_type": "power",
     "url_name": "power-quickness-harbinger",
-    "dps_report_url": "https://dps.report/BCeZ-20240822-094804_golem",
-    "skill_slots": {},
     "overall_dps": 35212.0,
+    "dps_report_url": "https://dps.report/BCeZ-20240822-094804_golem",
     "html_file_path": "quick\\power\\power_quickness_harbinger.html"
   },
   {
@@ -1779,9 +1220,8 @@
     "elite_spec": "Untamed",
     "build_type": "condition",
     "url_name": "condition-quickness-untamed",
-    "dps_report_url": "https://dps.report/9Au7-20250425-170634_golem",
-    "skill_slots": {},
     "overall_dps": 35888.0,
+    "dps_report_url": "https://dps.report/9Au7-20250425-170634_golem",
     "html_file_path": "quick\\condition\\condition_quickness_untamed.html"
   },
   {
@@ -1792,9 +1232,8 @@
     "elite_spec": "Chronomancer",
     "build_type": "power",
     "url_name": "power-boon-chronomancer",
-    "dps_report_url": "https://dps.report/Vc4z-20251031-212055_golem",
-    "skill_slots": {},
     "overall_dps": 36025.0,
+    "dps_report_url": "https://dps.report/Vc4z-20251031-212055_golem",
     "html_file_path": "quick\\power\\power_boon_chronomancer.html"
   },
   {
@@ -1805,9 +1244,8 @@
     "elite_spec": "Catalyst",
     "build_type": "condition",
     "url_name": "condition-quickness-catalyst-pistol-warhorn",
-    "dps_report_url": "https://dps.report/Y4GP-20250811-220229_golem",
-    "skill_slots": {},
     "overall_dps": 36237.0,
+    "dps_report_url": "https://dps.report/Y4GP-20250811-220229_golem",
     "html_file_path": "quick\\condition\\condition_quickness_catalyst_pistol_warhorn.html"
   },
   {
@@ -1818,9 +1256,8 @@
     "elite_spec": "Untamed",
     "build_type": "power",
     "url_name": "power-quickness-untamed-offhand-mace",
-    "dps_report_url": "https://dps.report/RpVr-20250519-121123_golem",
-    "skill_slots": {},
     "overall_dps": 35154.0,
+    "dps_report_url": "https://dps.report/RpVr-20250519-121123_golem",
     "html_file_path": "quick\\power\\power_quickness_untamed_offhand_mace.html"
   },
   {
@@ -1831,9 +1268,8 @@
     "elite_spec": "Untamed",
     "build_type": "power",
     "url_name": "power-quickness-untamed",
-    "dps_report_url": "https://dps.report/kIwI-20250519-113617_golem",
-    "skill_slots": {},
     "overall_dps": 35126.0,
+    "dps_report_url": "https://dps.report/kIwI-20250519-113617_golem",
     "html_file_path": "quick\\power\\power_quickness_untamed.html"
   },
   {
@@ -1844,9 +1280,8 @@
     "elite_spec": "Harbinger",
     "build_type": "condition",
     "url_name": "condition-quickness-harbinger",
-    "dps_report_url": "https://dps.report/9GSF-20231002-152522_golem",
-    "skill_slots": {},
     "overall_dps": 34936.0,
+    "dps_report_url": "https://dps.report/9GSF-20231002-152522_golem",
     "html_file_path": "quick\\condition\\condition_quickness_harbinger.html"
   },
   {
@@ -1857,9 +1292,8 @@
     "elite_spec": "Deadeye",
     "build_type": "condition",
     "url_name": "condition-quickness-deadeye-scepter",
-    "dps_report_url": "https://dps.report/nCym-20250711-230722_golem",
-    "skill_slots": {},
     "overall_dps": 32938.0,
+    "dps_report_url": "https://dps.report/nCym-20250711-230722_golem",
     "html_file_path": "quick\\condition\\condition_quickness_deadeye_scepter.html"
   },
   {
@@ -1870,9 +1304,8 @@
     "elite_spec": "Chronomancer",
     "build_type": "condition",
     "url_name": "condition-boon-chronomancer",
-    "dps_report_url": "https://dps.report/Qv1n-20250510-031308_golem",
-    "skill_slots": {},
     "overall_dps": 35080.0,
+    "dps_report_url": "https://dps.report/Qv1n-20250510-031308_golem",
     "html_file_path": "quick\\condition\\condition_boon_chronomancer.html"
   },
   {
@@ -1883,9 +1316,8 @@
     "elite_spec": "Scrapper",
     "build_type": "power",
     "url_name": "power-quickness-scrapper",
-    "dps_report_url": "https://dps.report/9Q4e-20251119-204454_golem",
-    "skill_slots": {},
     "overall_dps": 34665.0,
+    "dps_report_url": "https://dps.report/9Q4e-20251119-204454_golem",
     "html_file_path": "quick\\power\\power_quickness_scrapper.html"
   },
   {
@@ -1896,9 +1328,8 @@
     "elite_spec": "Untamed",
     "build_type": "power",
     "url_name": "power-quickness-untamed-maces",
-    "dps_report_url": "https://dps.report/rCvQ-20250426-155517_golem",
-    "skill_slots": {},
     "overall_dps": 33906.0,
+    "dps_report_url": "https://dps.report/rCvQ-20250426-155517_golem",
     "html_file_path": "quick\\power\\power_quickness_untamed_maces.html"
   },
   {
@@ -1909,9 +1340,8 @@
     "elite_spec": "Herald",
     "build_type": "condition",
     "url_name": "condition-quickness-herald",
-    "dps_report_url": "https://dps.report/ErCv-20250216-134453_golem",
-    "skill_slots": {},
     "overall_dps": 33948.0,
+    "dps_report_url": "https://dps.report/ErCv-20250216-134453_golem",
     "html_file_path": "quick\\condition\\condition_quickness_herald.html"
   },
   {
@@ -1922,9 +1352,8 @@
     "elite_spec": "Herald",
     "build_type": "condition",
     "url_name": "condition-quickness-herald-shortbow",
-    "dps_report_url": "https://dps.report/e0xk-20250216-203504_golem",
-    "skill_slots": {},
     "overall_dps": 33341.0,
+    "dps_report_url": "https://dps.report/e0xk-20250216-203504_golem",
     "html_file_path": "quick\\condition\\condition_quickness_herald_shortbow.html"
   },
   {
@@ -1935,9 +1364,8 @@
     "elite_spec": "Herald",
     "build_type": "condition",
     "url_name": "condition-quickness-herald-spear",
-    "dps_report_url": "https://dps.report/DJD7-20250212-150821_golem",
-    "skill_slots": {},
     "overall_dps": 33070.0,
+    "dps_report_url": "https://dps.report/DJD7-20250212-150821_golem",
     "html_file_path": "quick\\condition\\condition_quickness_herald_spear.html"
   },
   {
@@ -1948,9 +1376,8 @@
     "elite_spec": "Herald",
     "build_type": "power",
     "url_name": "power-quickness-herald",
-    "dps_report_url": "https://dps.report/b5fG-20250214-121250_golem",
-    "skill_slots": {},
     "overall_dps": 32073.0,
+    "dps_report_url": "https://dps.report/b5fG-20250214-121250_golem",
     "html_file_path": "quick\\power\\power_quickness_herald.html"
   },
   {
@@ -1961,9 +1388,356 @@
     "elite_spec": "Herald",
     "build_type": "power",
     "url_name": "power-quickness-herald-sword",
-    "dps_report_url": "https://dps.report/RBcU-20250211-234906_golem",
-    "skill_slots": {},
     "overall_dps": 30089.0,
+    "dps_report_url": "https://dps.report/RBcU-20250211-234906_golem",
     "html_file_path": "quick\\power\\power_quickness_herald_sword.html"
+  },
+  {
+    "name": "Power Alacrity Antiquary",
+    "url": "https://snowcrows.com/builds/raids/thief/power-alacrity-antiquary",
+    "benchmark_type": "alac",
+    "profession": "Thief",
+    "elite_spec": "Antiquary",
+    "build_type": "power",
+    "url_name": "power-alacrity-antiquary",
+    "overall_dps": 46541.0,
+    "dps_report_url": "https://dps.report/dIE0-20251211-204328_golem",
+    "html_file_path": "alac\\power\\power_alacrity_antiquary.html"
+  },
+  {
+    "name": "Condition Alacrity Mirage Axe Torch Staff",
+    "url": "https://snowcrows.com/builds/raids/mesmer/condition-alacrity-mirage-axe-torch-staff",
+    "benchmark_type": "alac",
+    "profession": "Mesmer",
+    "elite_spec": "Mirage",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-mirage-axe-torch-staff",
+    "overall_dps": 44125.0,
+    "dps_report_url": "https://dps.report/CvZJ-20250902-013807_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_mirage_axe_torch_staff.html"
+  },
+  {
+    "name": "Power Alacrity Bladesworn Overcharged",
+    "url": "https://snowcrows.com/builds/raids/warrior/power-alacrity-bladesworn-overcharged",
+    "benchmark_type": "alac",
+    "profession": "Warrior",
+    "elite_spec": "Bladesworn",
+    "build_type": "power",
+    "url_name": "power-alacrity-bladesworn-overcharged",
+    "overall_dps": 39662.0,
+    "dps_report_url": "https://b.dps.report/JvTL-20250827-204709_golem",
+    "html_file_path": "alac\\power\\power_alacrity_bladesworn_overcharged.html"
+  },
+  {
+    "name": "Condition Alacrity Mechanist",
+    "url": "https://snowcrows.com/builds/raids/engineer/condition-alacrity-mechanist",
+    "benchmark_type": "alac",
+    "profession": "Engineer",
+    "elite_spec": "Mechanist",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-mechanist",
+    "overall_dps": 39327.0,
+    "dps_report_url": "https://dps.report/blVV-20250802-142134_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_mechanist.html"
+  },
+  {
+    "name": "Condition Alacrity Spectre Spear",
+    "url": "https://snowcrows.com/builds/raids/thief/condition-alacrity-spectre-spear",
+    "benchmark_type": "alac",
+    "profession": "Thief",
+    "elite_spec": "Spectre",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-spectre-spear",
+    "overall_dps": 35153.0,
+    "dps_report_url": "https://dps.report/YTx6-20250925-231711_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_spectre_spear.html"
+  },
+  {
+    "name": "Power Alacrity Amalgam",
+    "url": "https://snowcrows.com/builds/raids/engineer/power-alacrity-amalgam",
+    "benchmark_type": "alac",
+    "profession": "Engineer",
+    "elite_spec": "Amalgam",
+    "build_type": "power",
+    "url_name": "power-alacrity-amalgam",
+    "overall_dps": 38827.0,
+    "dps_report_url": "https://dps.report/BMF2-20251209-140418_golem",
+    "html_file_path": "alac\\power\\power_alacrity_amalgam.html"
+  },
+  {
+    "name": "Condition Alacrity Renegade",
+    "url": "https://snowcrows.com/builds/raids/revenant/condition-alacrity-renegade",
+    "benchmark_type": "alac",
+    "profession": "Revenant",
+    "elite_spec": "Renegade",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-renegade",
+    "overall_dps": 37143.0,
+    "dps_report_url": "https://dps.report/aZsY-20241029-155240_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_renegade.html"
+  },
+  {
+    "name": "Inferno Alacrity Tempest Scepter Focus",
+    "url": "https://snowcrows.com/builds/raids/elementalist/inferno-alacrity-tempest-scepter-focus",
+    "benchmark_type": "alac",
+    "profession": "Elementalist",
+    "elite_spec": "Tempest",
+    "build_type": "power",
+    "url_name": "inferno-alacrity-tempest-scepter-focus",
+    "overall_dps": 38222.0,
+    "dps_report_url": "https://dps.report/0kW0-20251120-143549_golem",
+    "html_file_path": "alac\\power\\inferno_alacrity_tempest_scepter_focus.html"
+  },
+  {
+    "name": "Condition Alacrity Spectre",
+    "url": "https://snowcrows.com/builds/raids/thief/condition-alacrity-spectre",
+    "benchmark_type": "alac",
+    "profession": "Thief",
+    "elite_spec": "Spectre",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-spectre",
+    "overall_dps": 34731.0,
+    "dps_report_url": "https://dps.report/e3gK-20250830-145722_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_spectre.html"
+  },
+  {
+    "name": "Power Alacrity Bladesworn",
+    "url": "https://snowcrows.com/builds/raids/warrior/power-alacrity-bladesworn",
+    "benchmark_type": "alac",
+    "profession": "Warrior",
+    "elite_spec": "Bladesworn",
+    "build_type": "power",
+    "url_name": "power-alacrity-bladesworn",
+    "overall_dps": 37801.0,
+    "dps_report_url": "https://b.dps.report/Tm53-20250629-002028_golem",
+    "html_file_path": "alac\\power\\power_alacrity_bladesworn.html"
+  },
+  {
+    "name": "Condition Alacrity Spectre Scepter",
+    "url": "https://snowcrows.com/builds/raids/thief/condition-alacrity-spectre-scepter",
+    "benchmark_type": "alac",
+    "profession": "Thief",
+    "elite_spec": "Spectre",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-spectre-scepter",
+    "overall_dps": 35323.0,
+    "dps_report_url": "https://dps.report/YFvl-20250830-112530_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_spectre_scepter.html"
+  },
+  {
+    "name": "Power Alacrity Evoker Scepter Dagger",
+    "url": "https://snowcrows.com/builds/raids/elementalist/power-alacrity-evoker-scepter-dagger",
+    "benchmark_type": "alac",
+    "profession": "Elementalist",
+    "elite_spec": "Evoker",
+    "build_type": "power",
+    "url_name": "power-alacrity-evoker-scepter-dagger",
+    "overall_dps": 36169.0,
+    "dps_report_url": "https://dps.report/wPC7-20251210-105904_golem",
+    "html_file_path": "alac\\power\\power_alacrity_evoker_scepter_dagger.html"
+  },
+  {
+    "name": "Power Boon Chronomancer",
+    "url": "https://snowcrows.com/builds/raids/mesmer/power-boon-chronomancer",
+    "benchmark_type": "alac",
+    "profession": "Mesmer",
+    "elite_spec": "Chronomancer",
+    "build_type": "power",
+    "url_name": "power-boon-chronomancer",
+    "overall_dps": 36025.0,
+    "dps_report_url": "https://dps.report/Vc4z-20251031-212055_golem",
+    "html_file_path": "alac\\power\\power_boon_chronomancer.html"
+  },
+  {
+    "name": "Condition Alacrity Mirage Staff",
+    "url": "https://snowcrows.com/builds/raids/mesmer/condition-alacrity-mirage-staff",
+    "benchmark_type": "alac",
+    "profession": "Mesmer",
+    "elite_spec": "Mirage",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-mirage-staff",
+    "overall_dps": 37165.0,
+    "dps_report_url": "https://dps.report/F2vf-20250422-202359_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_mirage_staff.html"
+  },
+  {
+    "name": "Condition Boon Chronomancer",
+    "url": "https://snowcrows.com/builds/raids/mesmer/condition-boon-chronomancer",
+    "benchmark_type": "alac",
+    "profession": "Mesmer",
+    "elite_spec": "Chronomancer",
+    "build_type": "condition",
+    "url_name": "condition-boon-chronomancer",
+    "overall_dps": 35080.0,
+    "dps_report_url": "https://dps.report/Qv1n-20250510-031308_golem",
+    "html_file_path": "alac\\condition\\condition_boon_chronomancer.html"
+  },
+  {
+    "name": "Condition Alacrity Tempest",
+    "url": "https://snowcrows.com/builds/raids/elementalist/condition-alacrity-tempest",
+    "benchmark_type": "alac",
+    "profession": "Elementalist",
+    "elite_spec": "Tempest",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-tempest",
+    "overall_dps": 34899.0,
+    "dps_report_url": "https://dps.report/ToYQ-20240320-030855_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_tempest.html"
+  },
+  {
+    "name": "Condition Alacrity Tempest Scepter",
+    "url": "https://snowcrows.com/builds/raids/elementalist/condition-alacrity-tempest-scepter",
+    "benchmark_type": "alac",
+    "profession": "Elementalist",
+    "elite_spec": "Tempest",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-tempest-scepter",
+    "overall_dps": 34625.0,
+    "dps_report_url": "https://dps.report/Pl75-20250221-180332_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_tempest_scepter.html"
+  },
+  {
+    "name": "Power Alacrity Tempest Hammer",
+    "url": "https://snowcrows.com/builds/raids/elementalist/power-alacrity-tempest-hammer",
+    "benchmark_type": "alac",
+    "profession": "Elementalist",
+    "elite_spec": "Tempest",
+    "build_type": "power",
+    "url_name": "power-alacrity-tempest-hammer",
+    "overall_dps": 34564.0,
+    "dps_report_url": "https://dps.report/L6zb-20250313-171138_golem",
+    "html_file_path": "alac\\power\\power_alacrity_tempest_hammer.html"
+  },
+  {
+    "name": "Power Alacrity Mechanist Sword",
+    "url": "https://snowcrows.com/builds/raids/engineer/power-alacrity-mechanist-sword",
+    "benchmark_type": "alac",
+    "profession": "Engineer",
+    "elite_spec": "Mechanist",
+    "build_type": "power",
+    "url_name": "power-alacrity-mechanist-sword",
+    "overall_dps": 34416.0,
+    "dps_report_url": "https://dps.report/LqfX-20250422-192815_golem",
+    "html_file_path": "alac\\power\\power_alacrity_mechanist_sword.html"
+  },
+  {
+    "name": "Condition Alacrity Mechanist 1 Kit",
+    "url": "https://snowcrows.com/builds/raids/engineer/condition-alacrity-mechanist-1-kit",
+    "benchmark_type": "alac",
+    "profession": "Engineer",
+    "elite_spec": "Mechanist",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-mechanist-1-kit",
+    "overall_dps": 34003.0,
+    "dps_report_url": "https://dps.report/n4qX-20250423-160558_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_mechanist_1_kit.html"
+  },
+  {
+    "name": "Power Alacrity Mechanist",
+    "url": "https://snowcrows.com/builds/raids/engineer/power-alacrity-mechanist",
+    "benchmark_type": "alac",
+    "profession": "Engineer",
+    "elite_spec": "Mechanist",
+    "build_type": "power",
+    "url_name": "power-alacrity-mechanist",
+    "overall_dps": 33829.0,
+    "dps_report_url": "https://dps.report/2wD3-20250422-190557_golem",
+    "html_file_path": "alac\\power\\power_alacrity_mechanist.html"
+  },
+  {
+    "name": "Power Alacrity Tempest",
+    "url": "https://snowcrows.com/builds/raids/elementalist/power-alacrity-tempest",
+    "benchmark_type": "alac",
+    "profession": "Elementalist",
+    "elite_spec": "Tempest",
+    "build_type": "power",
+    "url_name": "power-alacrity-tempest",
+    "overall_dps": 33823.0,
+    "dps_report_url": "https://dps.report/G5ap-20250211-205455_golem",
+    "html_file_path": "alac\\power\\power_alacrity_tempest.html"
+  },
+  {
+    "name": "Power Alacrity Renegade",
+    "url": "https://snowcrows.com/builds/raids/revenant/power-alacrity-renegade",
+    "benchmark_type": "alac",
+    "profession": "Revenant",
+    "elite_spec": "Renegade",
+    "build_type": "power",
+    "url_name": "power-alacrity-renegade",
+    "overall_dps": 32531.0,
+    "dps_report_url": "https://dps.report/3hSA-20250215-132703_golem",
+    "html_file_path": "alac\\power\\power_alacrity_renegade.html"
+  },
+  {
+    "name": "Condition Alacrity Scourge",
+    "url": "https://snowcrows.com/builds/raids/necromancer/condition-alacrity-scourge",
+    "benchmark_type": "alac",
+    "profession": "Necromancer",
+    "elite_spec": "Scourge",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-scourge",
+    "overall_dps": 32382.0,
+    "dps_report_url": "https://dps.report/2bvf-20231014-100953_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_scourge.html"
+  },
+  {
+    "name": "Celestial Alacrity Scourge",
+    "url": "https://snowcrows.com/builds/raids/necromancer/celestial-alacrity-scourge",
+    "benchmark_type": "alac",
+    "profession": "Necromancer",
+    "elite_spec": "Scourge",
+    "build_type": "power",
+    "url_name": "celestial-alacrity-scourge",
+    "overall_dps": 22286.0,
+    "dps_report_url": "https://dps.report/xICN-20250628-071219_golem",
+    "html_file_path": "alac\\power\\celestial_alacrity_scourge.html"
+  },
+  {
+    "name": "Condition Antiquary Spear",
+    "url": "https://snowcrows.com/builds/raids/thief/condition-antiquary-spear",
+    "benchmark_type": "dps",
+    "profession": "Thief",
+    "elite_spec": "Antiquary",
+    "build_type": "condition",
+    "url_name": "condition-antiquary-spear",
+    "overall_dps": 55580.0,
+    "dps_report_url": "https://dps.report/3MAR-20251214-150318_golem",
+    "html_file_path": "dps\\condition\\condition_antiquary_spear.html"
+  },
+  {
+    "name": "Power Galeshot",
+    "url": "https://snowcrows.com/builds/raids/ranger/power-galeshot",
+    "benchmark_type": "dps",
+    "profession": "Ranger",
+    "elite_spec": "Galeshot",
+    "build_type": "power",
+    "url_name": "power-galeshot",
+    "overall_dps": 45027.0,
+    "dps_report_url": "https://dps.report/HFtG-20251213-094351_golem",
+    "html_file_path": "dps\\power\\power_galeshot.html"
+  },
+  {
+    "name": "Inferno Evoker Specialized Elements",
+    "url": "https://snowcrows.com/builds/raids/elementalist/inferno-evoker-specialized-elements",
+    "benchmark_type": "dps",
+    "profession": "Elementalist",
+    "elite_spec": "Evoker",
+    "build_type": "power",
+    "url_name": "inferno-evoker-specialized-elements",
+    "overall_dps": 45090.0,
+    "dps_report_url": "https://dps.report/CIOq-20251215-004054_golem",
+    "html_file_path": "dps\\power\\inferno_evoker_specialized_elements.html"
+  },
+  {
+    "name": "Inferno Quickness Evoker Specialized Elements",
+    "url": "https://snowcrows.com/builds/raids/elementalist/inferno-quickness-evoker-specialized-elements",
+    "benchmark_type": "quick",
+    "profession": "Elementalist",
+    "elite_spec": "Evoker",
+    "build_type": "power",
+    "url_name": "inferno-quickness-evoker-specialized-elements",
+    "overall_dps": 42194.0,
+    "dps_report_url": "https://dps.report/Djr2-20251213-155657_golem",
+    "html_file_path": "quick\\power\\inferno_quickness_evoker_specialized_elements.html"
   }
 ]

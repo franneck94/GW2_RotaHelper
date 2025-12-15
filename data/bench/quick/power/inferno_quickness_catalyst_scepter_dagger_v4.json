@@ -2234,6 +2234,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 699524,
+    "slot_6": 103340,
+    "slot_7": 103393,
+    "slot_8": 2491601,
+    "slot_9": 867437
+  },
   "buildMetadata": {
     "name": "Inferno Quickness Catalyst Scepter Dagger",
     "profession": "Elementalist",

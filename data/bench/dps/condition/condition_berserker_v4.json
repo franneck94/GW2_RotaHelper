@@ -1543,6 +1543,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 1058642,
+    "slot_6": 1058650,
+    "slot_7": 1058652,
+    "slot_8": 1058651,
+    "slot_9": 1058637
+  },
   "buildMetadata": {
     "name": "Condition Berserker",
     "profession": "Warrior",

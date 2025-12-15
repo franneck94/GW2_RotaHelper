@@ -1335,6 +1335,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 1029989,
+    "slot_6": 1029992,
+    "slot_7": 103393,
+    "slot_8": 103340,
+    "slot_9": 103380
+  },
   "buildMetadata": {
     "name": "Power Tempest Sword",
     "profession": "Elementalist",

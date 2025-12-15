@@ -1263,6 +1263,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 699527,
+    "slot_6": 103675,
+    "slot_7": 2479377,
+    "slot_8": 103643,
+    "slot_9": 2479365
+  },
   "buildMetadata": {
     "name": "Condition Willbender",
     "profession": "Guardian",

@@ -1577,6 +1577,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 1058642,
+    "slot_6": 104119,
+    "slot_7": 103798,
+    "slot_8": 1058652,
+    "slot_9": 1058637
+  },
   "buildMetadata": {
     "name": "Power Quickness Berserker",
     "profession": "Warrior",

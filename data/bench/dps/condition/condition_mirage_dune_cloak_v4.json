@@ -2062,6 +2062,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 699528,
+    "slot_6": 57900,
+    "slot_7": 103612,
+    "slot_8": 1770514,
+    "slot_9": 1770505
+  },
   "buildMetadata": {
     "name": "Condition Mirage Dune Cloak",
     "profession": "Mesmer",

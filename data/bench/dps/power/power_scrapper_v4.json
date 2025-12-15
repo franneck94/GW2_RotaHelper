@@ -2066,6 +2066,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 1128587,
+    "slot_6": 103396,
+    "slot_7": 103177,
+    "slot_8": 103399,
+    "slot_9": 103443
+  },
   "buildMetadata": {
     "name": "Power Scrapper",
     "profession": "Engineer",

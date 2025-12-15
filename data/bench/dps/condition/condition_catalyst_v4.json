@@ -2079,6 +2079,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 699524,
+    "slot_6": 103393,
+    "slot_7": 103352,
+    "slot_8": 103340,
+    "slot_9": 103380
+  },
   "buildMetadata": {
     "name": "Condition Catalyst",
     "profession": "Elementalist",

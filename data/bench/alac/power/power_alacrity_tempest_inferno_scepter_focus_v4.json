@@ -16,13 +16,6 @@
         1.0
       ],
       [
-        0.125,
-        1029992,
-        0.0,
-        1,
-        1.0
-      ],
-      [
         0.159,
         103158,
         447.0,
@@ -264,13 +257,6 @@
         20.083,
         103105,
         681.0,
-        1,
-        1.0
-      ],
-      [
-        20.446,
-        1029992,
-        0.0,
         1,
         1.0
       ],
@@ -534,13 +520,6 @@
         1.0
       ],
       [
-        40.883,
-        1029992,
-        0.0,
-        1,
-        1.0
-      ],
-      [
         41.281,
         103325,
         605.0,
@@ -796,13 +775,6 @@
         61.079,
         103325,
         523.0,
-        1,
-        1.0
-      ],
-      [
-        61.162,
-        1029992,
-        0.0,
         1,
         1.0
       ],
@@ -1073,13 +1045,6 @@
         1.0
       ],
       [
-        81.323,
-        1029992,
-        0.0,
-        1,
-        1.0
-      ],
-      [
         81.481,
         103325,
         244.0,
@@ -1339,13 +1304,6 @@
         1.0
       ],
       [
-        101.603,
-        1029992,
-        0.0,
-        1,
-        1.0
-      ],
-      [
         101.761,
         103325,
         285.0,
@@ -1399,12 +1357,6 @@
     "s102974": {
       "name": "Hurl",
       "icon": "https://render.guildwars2.com/file/BB59A576C805054EB94C66D8190490F273C7BBED/102974.png",
-      "traitProc": false,
-      "gearProc": false
-    },
-    "s1029992": {
-      "name": "\"Feel the Burn!\"",
-      "icon": "https://render.guildwars2.com/file/2963BBB55948D8C0C96CCB96B5100D2999C7DF09/1029992.png",
       "traitProc": false,
       "gearProc": false
     },
@@ -1487,14 +1439,21 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": -1,
+    "slot_6": -1,
+    "slot_7": -1,
+    "slot_8": -1,
+    "slot_9": -1
+  },
   "buildMetadata": {
-    "name": "Power Alacrity Tempest Inferno Scepter Focus",
-    "profession": "Elementalist",
-    "elite_spec": "Tempest",
+    "name": "power_alacrity_tempest_inferno_scepter_focus",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "power",
     "benchmark_type": "alac",
-    "url": "https://snowcrows.com/builds/raids/elementalist/power-alacrity-tempest-inferno-scepter-focus",
-    "dps_report_url": "https://dps.report/0kW0-20251120-143549_golem",
-    "overall_dps": 38222.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

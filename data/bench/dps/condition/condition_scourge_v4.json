@@ -1688,6 +1688,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 1770534,
+    "slot_6": 103795,
+    "slot_7": 102804,
+    "slot_8": 102804,
+    "slot_9": 103312
+  },
   "buildMetadata": {
     "name": "Condition Scourge",
     "profession": "Necromancer",

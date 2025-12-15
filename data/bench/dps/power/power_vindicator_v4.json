@@ -1754,6 +1754,10 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 2491626,
+    "slot_6": 1030005
+  },
   "buildMetadata": {
     "name": "Power Vindicator",
     "profession": "Revenant",

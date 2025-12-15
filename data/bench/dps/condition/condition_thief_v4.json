@@ -1472,6 +1472,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 104070,
+    "slot_6": 2175070,
+    "slot_7": 103073,
+    "slot_8": 103513,
+    "slot_9": 104109
+  },
   "buildMetadata": {
     "name": "Condition Thief",
     "profession": "Thief",

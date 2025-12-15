@@ -1306,6 +1306,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 1058642,
+    "slot_6": 103798,
+    "slot_7": 1058652,
+    "slot_8": 104119,
+    "slot_9": 1058637
+  },
   "buildMetadata": {
     "name": "Power Berserker Greatsword",
     "profession": "Warrior",

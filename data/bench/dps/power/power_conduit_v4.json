@@ -1885,10 +1885,17 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": -1,
+    "slot_6": -1,
+    "slot_7": -1,
+    "slot_8": -1,
+    "slot_9": -1
+  },
   "buildMetadata": {
     "name": "Power Conduit",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "profession": "Revenant",
+    "elite_spec": "Conduit",
     "build_type": "power",
     "benchmark_type": "dps",
     "url": "https://snowcrows.com/builds/raids/revenant/power-conduit",

@@ -1380,6 +1380,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 1012868,
+    "slot_6": 1012878,
+    "slot_7": 103669,
+    "slot_8": 103638,
+    "slot_9": 1024103
+  },
   "buildMetadata": {
     "name": "Power Dragonhunter",
     "profession": "Guardian",

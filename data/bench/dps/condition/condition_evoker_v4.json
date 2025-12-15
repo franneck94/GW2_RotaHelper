@@ -2053,14 +2053,21 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": -1,
+    "slot_6": -1,
+    "slot_7": -1,
+    "slot_8": -1,
+    "slot_9": -1
+  },
   "buildMetadata": {
-    "name": "Condition Evoker",
-    "profession": "Elementalist",
-    "elite_spec": "Evoker",
+    "name": "condition_evoker",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/elementalist/condition-evoker",
-    "dps_report_url": "https://dps.report/HSym-20251104-082438_golem",
-    "overall_dps": 53232.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

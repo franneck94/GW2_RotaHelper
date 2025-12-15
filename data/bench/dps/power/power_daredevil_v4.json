@@ -1202,6 +1202,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 104070,
+    "slot_6": 1058631,
+    "slot_7": 104076,
+    "slot_8": 1058635,
+    "slot_9": 104093
+  },
   "buildMetadata": {
     "name": "Power Daredevil",
     "profession": "Thief",

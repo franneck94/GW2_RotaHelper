@@ -2034,6 +2034,10 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 1770592,
+    "slot_6": 961413
+  },
   "buildMetadata": {
     "name": "Condition Renegade",
     "profession": "Revenant",

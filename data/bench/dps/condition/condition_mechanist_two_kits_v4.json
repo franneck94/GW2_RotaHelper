@@ -2323,6 +2323,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 699525,
+    "slot_6": 103396,
+    "slot_7": 2503689,
+    "slot_8": 103435,
+    "slot_9": 2503668
+  },
   "buildMetadata": {
     "name": "Condition Mechanist Two Kits",
     "profession": "Engineer",

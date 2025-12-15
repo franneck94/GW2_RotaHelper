@@ -1572,6 +1572,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 699528,
+    "slot_6": 1012902,
+    "slot_7": 103742,
+    "slot_8": 103764,
+    "slot_9": 1012881
+  },
   "buildMetadata": {
     "name": "Power Chronomancer",
     "profession": "Mesmer",

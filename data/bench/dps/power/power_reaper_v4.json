@@ -1581,6 +1581,13 @@
       "gearProc": false
     }
   },
+  "SkillKeyMapping": {
+    "slot_5": 1012929,
+    "slot_6": 103566,
+    "slot_7": 103570,
+    "slot_8": 1012951,
+    "slot_9": 103840
+  },
   "buildMetadata": {
     "name": "Power Reaper",
     "profession": "Necromancer",
