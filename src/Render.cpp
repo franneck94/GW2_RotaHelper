@@ -447,6 +447,8 @@ void RenderType::get_rotation_text()
     std::stringstream ss;
     rotation_text.clear();
 
+    bool first_in_line = true;
+
     for (const auto &rotation_step : Globals::RotationRun.all_rotation_steps)
     {
         const auto skill_data =
@@ -471,22 +473,22 @@ void RenderType::get_rotation_text()
                 ? log_skill_info_map.find(skill_key_mapping.skill_8)->second.name
                 : "";
 
+        std::string keybind_str;
 
         if (rotation_step.skill_data.name == skill_name_for_slot6)
         {
-            ss << "6";
+            keybind_str = "6";
         }
         else if (rotation_step.skill_data.name == skill_name_for_slot7)
         {
-            ss << "7";
+            keybind_str = "7";
         }
         else if (rotation_step.skill_data.name == skill_name_for_slot8)
         {
-            ss << "8";
+            keybind_str = "8";
         }
         else
         {
-            std::string keybind_str;
             if (Settings::XmlSettingsPath.empty())
             {
                 keybind_str = default_skillslot_to_string(skill_data.skill_type);
@@ -503,13 +505,10 @@ void RenderType::get_rotation_text()
                     keybind_str = custom_keys_to_string(keybind);
                     if (modifier != Modifiers::NONE)
                     {
-                        keybind_str = modifiers_to_string(modifier) + " + " + keybind_str;
+                        keybind_str = "(" + modifiers_to_string(modifier) + " + " + keybind_str + ")";
                     }
                 }
             }
-
-            if (keybind_str != "")
-                ss << keybind_str;
         }
 
         if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_substr_weapon_swap_like) ||
@@ -518,10 +517,19 @@ void RenderType::get_rotation_text()
             ss << "\n";
             rotation_text.push_back(ss.str());
             ss = {};
+            first_in_line = true;
         }
         else
         {
-            ss << " -  ";
+            if (!first_in_line)
+            {
+                ss << " - ";
+            }
+
+            if (keybind_str != "")
+                ss << keybind_str;
+
+            first_in_line = false;
         }
     }
 
@@ -607,11 +615,7 @@ void RenderType::render_xml_selection()
         keybinds.clear();
     }
 
-    const auto forth_row_items = std::vector<std::string>{"Show Rotation Keybinds"};
-    const auto centered_pos_row_4 = calculate_centered_position(forth_row_items);
-    ImGui::SetCursorPosX(centered_pos_row_4);
-
-    if (ImGui::Button("Show Rotation Keybinds"))
+    if (ImGui::Button("Show Rotation Keybinds", ImVec2(-1, 0)))
     {
         Settings::ShowWeaponSwap = true;
         Settings::Save(Globals::SettingsPath);

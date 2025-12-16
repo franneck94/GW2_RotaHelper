@@ -85,6 +85,15 @@ When the Keybind option is activated also the number of an auto attack in aa-cha
    <img src="./media/aa_chain.png" alt="Example Screenshot" />
 </div>
 
+##### Rotation Skill Mappings List
+
+Show all keybinds (skills) in a condensed overview.  
+A newline indicates a weapon swap.
+
+<div align="left" style="margin-left:50px;">
+   <img src="./media/rotation_keybinds.png" alt="Example Screenshot" />
+</div>
+
 ##### Copy to Clipboard
 
 You can copy the following data to the clipboard:
