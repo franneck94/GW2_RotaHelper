@@ -305,7 +305,7 @@ std::vector<std::string> get_elite_specs_for_profession(ProfessionID profession)
     return elite_specs;
 }
 
-std::string skillslot_to_string(SkillSlot skill_type)
+std::string default_skillslot_to_string(SkillSlot skill_type)
 {
     switch (skill_type)
     {
@@ -322,11 +322,11 @@ std::string skillslot_to_string(SkillSlot skill_type)
     case SkillSlot::HEAL:
         return "6";
     case SkillSlot::UTILITY_1:
-        return "Util"; // XXX: n/a about skill slot
+        return "Util";
     case SkillSlot::UTILITY_2:
-        return "Util"; // XXX n/a about skill slot
+        return "Util";
     case SkillSlot::UTILITY_3:
-        return "Util"; // XXX n/a about skill slot
+        return "Util";
     case SkillSlot::ELITE:
         return "0";
     case SkillSlot::PROFESSION_1:
@@ -348,7 +348,7 @@ std::string skillslot_to_string(SkillSlot skill_type)
     }
 }
 
-SkillSlot str_to_skillslot(const std::string keybind_str)
+SkillSlot str_to_default_skillslot(const std::string keybind_str)
 {
     if (keybind_str == "Weapon_1")
         return SkillSlot::WEAPON_1;

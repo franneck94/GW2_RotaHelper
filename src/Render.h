@@ -62,11 +62,11 @@ public:
     void render_xml_selection();
     void render_select_bench();
     void render_keybind(const RotationStep &rotation_step);
-    void restart_rotation();
+    void restart_rotation(const bool not_ooc_triggered);
     void render_load_buttons();
 
     void get_rotation_text();
-    void render_rotation_keybinds();
+    void render_rotation_keybinds(bool &show_rotation_keybinds);
 
     /* RENDER ROTATION WINDOW */
     void render_rotation_window(const bool is_not_ui_adjust_active, ID3D11Device *pd3dDevice);
@@ -119,6 +119,7 @@ public:
 
     std::map<std::string, KeybindInfo> keybinds{};
     bool keybinds_loaded = false;
+    bool show_rotation_keybinds = false;
 
     std::vector<std::string> rotation_text;
 

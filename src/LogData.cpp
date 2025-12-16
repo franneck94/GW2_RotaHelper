@@ -555,6 +555,9 @@ SkillKeyMapping get_skill_key_mapping(const nlohmann::json &j)
 {
     auto skill_key_mapping = SkillKeyMapping{};
 
+    if (!j.contains("SkillKeyMapping"))
+        return skill_key_mapping;
+
     const auto &build_meta = j["SkillKeyMapping"];
 
     if (build_meta.contains("slot_5") && build_meta["slot_5"].is_number_integer())
@@ -578,6 +581,9 @@ SkillKeyMapping get_skill_key_mapping(const nlohmann::json &j)
 MetaData get_metadata(const nlohmann::json &j)
 {
     auto metadata = MetaData{};
+
+    if (!j.contains("buildMetadata"))
+        return metadata;
 
     const auto &build_meta = j["buildMetadata"];
 

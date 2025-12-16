@@ -440,47 +440,77 @@ void RenderType::render_debug_data()
             count++;
         }
     }
-
-
-    if (ImGui::Button("Copy Rotation Key Events to Clipboard"))
-    {
-        get_rotation_text();
-        render_rotation_keybinds();
-    }
 }
 
 void RenderType::get_rotation_text()
 {
     std::stringstream ss;
+    rotation_text.clear();
 
     for (const auto &rotation_step : Globals::RotationRun.all_rotation_steps)
     {
         const auto skill_data =
             SkillRuleData::GetDataByID(rotation_step.skill_data.skill_id, Globals::RotationRun.skill_data_map);
 
-        std::string keybind_str;
-        if (Settings::XmlSettingsPath.empty())
+        const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
+        const auto &log_skill_info_map = Globals::RotationRun.log_skill_info_map;
+
+        const auto skill_name_for_slot6 =
+            skill_key_mapping.skill_6 != -1 &&
+                    log_skill_info_map.find(skill_key_mapping.skill_6) != log_skill_info_map.end()
+                ? log_skill_info_map.find(skill_key_mapping.skill_6)->second.name
+                : "";
+        const auto skill_name_for_slot7 =
+            skill_key_mapping.skill_7 != -1 &&
+                    log_skill_info_map.find(skill_key_mapping.skill_7) != log_skill_info_map.end()
+                ? log_skill_info_map.find(skill_key_mapping.skill_7)->second.name
+                : "";
+        const auto skill_name_for_slot8 =
+            skill_key_mapping.skill_8 != -1 &&
+                    log_skill_info_map.find(skill_key_mapping.skill_8) != log_skill_info_map.end()
+                ? log_skill_info_map.find(skill_key_mapping.skill_8)->second.name
+                : "";
+
+
+        if (rotation_step.skill_data.name == skill_name_for_slot6)
         {
-            keybind_str = skillslot_to_string(skill_data.skill_type);
+            ss << "6";
+        }
+        else if (rotation_step.skill_data.name == skill_name_for_slot7)
+        {
+            ss << "7";
+        }
+        else if (rotation_step.skill_data.name == skill_name_for_slot8)
+        {
+            ss << "8";
         }
         else
         {
-            const auto [keybind, modifier] = get_keybind_for_skill_type(skill_data.skill_type, keybinds);
-            if (keybind == Keys::NONE)
+            std::string keybind_str;
+            if (Settings::XmlSettingsPath.empty())
             {
-                keybind_str = skillslot_to_string(skill_data.skill_type);
+                keybind_str = default_skillslot_to_string(skill_data.skill_type);
             }
             else
             {
-                keybind_str = custom_keys_to_string(keybind);
-                if (modifier != Modifiers::NONE)
+                const auto [keybind, modifier] = get_keybind_for_skill_type(skill_data.skill_type, keybinds);
+                if (keybind == Keys::NONE)
                 {
-                    keybind_str = modifiers_to_string(modifier) + " + " + keybind_str;
+                    keybind_str = default_skillslot_to_string(skill_data.skill_type);
+                }
+                else
+                {
+                    keybind_str = custom_keys_to_string(keybind);
+                    if (modifier != Modifiers::NONE)
+                    {
+                        keybind_str = modifiers_to_string(modifier) + " + " + keybind_str;
+                    }
                 }
             }
-        }
 
-        ss << keybind_str << "  ";
+            if (keybind_str != "")
+                ss << keybind_str;
+        }
 
         if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_substr_weapon_swap_like) ||
             is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_match_weapon_swap_like))
@@ -488,6 +518,10 @@ void RenderType::get_rotation_text()
             ss << "\n";
             rotation_text.push_back(ss.str());
             ss = {};
+        }
+        else
+        {
+            ss << " -  ";
         }
     }
 
@@ -497,18 +531,19 @@ void RenderType::get_rotation_text()
     }
 }
 
-void RenderType::render_rotation_keybinds()
+void RenderType::render_rotation_keybinds(bool &show_rotation_keybinds)
 {
-    if (!rotation_text.empty())
-    {
-        if (ImGui::Begin("rotation_clipboard"))
-        {
-            for (const auto &text : rotation_text)
-                ImGui::TextWrapped("%s", text.c_str());
-        }
+    if (!show_rotation_keybinds)
+        return;
 
-        ImGui::End();
+    ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Once);
+    if (ImGui::Begin("Rotation Keybinds", &show_rotation_keybinds))
+    {
+        for (const auto &text : rotation_text)
+            ImGui::TextWrapped("%s", text.c_str());
     }
+
+    ImGui::End();
 }
 
 void RenderType::render_debug_window()
@@ -571,6 +606,27 @@ void RenderType::render_xml_selection()
         keybinds_loaded = false;
         keybinds.clear();
     }
+
+    const auto forth_row_items = std::vector<std::string>{"Show Rotation Keybinds"};
+    const auto centered_pos_row_4 = calculate_centered_position(forth_row_items);
+    ImGui::SetCursorPosX(centered_pos_row_4);
+
+    if (ImGui::Button("Show Rotation Keybinds"))
+    {
+        Settings::ShowWeaponSwap = true;
+        Settings::Save(Globals::SettingsPath);
+
+        get_rotation_text();
+        show_rotation_keybinds = !show_rotation_keybinds;
+    }
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        ImGui::Text("Will Enable Show Weapon Swaps for this feature.");
+        ImGui::EndTooltip();
+    }
+
+    render_rotation_keybinds(show_rotation_keybinds);
 }
 
 void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
@@ -688,8 +744,6 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
         ImGui::Text("For example on Mechanist the F skills are not shown to have a better overview as a beginner.");
         ImGui::EndTooltip();
     }
-
-    render_rotation_keybinds();
 
 #ifdef _DEBUG
     render_xml_selection();
@@ -938,6 +992,8 @@ void RenderType::render_symbol_and_text(bool &is_selected,
     {
         selected_bench_index = original_index;
         selected_file_path = file_info->full_path;
+
+        show_rotation_keybinds = false;
 
         ReleaseTextureMap(Globals::TextureMap);
         Globals::RotationRun.load_data(selected_file_path, img_path);
@@ -1239,20 +1295,20 @@ void RenderType::render_load_buttons()
         if (ImGui::Button("Reload", ImVec2(button_width, 0)))
         {
             if (!selected_file_path.empty())
-                restart_rotation();
+                restart_rotation(true);
         }
 
         ImGui::SameLine();
 
         if (ImGui::Button("Unload", ImVec2(button_width, 0)))
         {
-            restart_rotation();
+            restart_rotation(true);
             Globals::RotationRun.reset_rotation();
         }
     }
 }
 
-void RenderType::restart_rotation()
+void RenderType::restart_rotation(const bool not_ooc_triggered)
 {
     Globals::RotationRun.restart_rotation();
     ReleaseTextureMap(Globals::TextureMap);
@@ -1266,6 +1322,9 @@ void RenderType::restart_rotation()
     last_time_aa_did_skip = std::chrono::steady_clock::now();
     ArcEv::ResetSkillCastTracking();
     Globals::SkillLastTimeCast.clear();
+
+    if (not_ooc_triggered)
+        show_rotation_keybinds = false;
 }
 
 void RenderType::render_rotation_window(const bool is_not_ui_adjust_active, ID3D11Device *pd3dDevice)
@@ -1341,12 +1400,12 @@ void RenderType::render_keybind(const RotationStep &rotation_step)
 
     auto keybind_str = std::string{};
     if (Settings::XmlSettingsPath.empty())
-        keybind_str = skillslot_to_string(skill_type);
+        keybind_str = default_skillslot_to_string(skill_type);
     else
     {
         const auto &[keybind, modifier] = get_keybind_for_skill_type(skill_type, keybinds);
         if (keybind == Keys::NONE)
-            keybind_str = skillslot_to_string(skill_type);
+            keybind_str = default_skillslot_to_string(skill_type);
         else
             keybind_str = custom_keys_to_string(keybind);
 
@@ -1513,7 +1572,7 @@ void RenderType::render(ID3D11Device *pd3dDevice)
 
         if (time_since_went_ooc_ms > 1000)
         {
-            restart_rotation();
+            restart_rotation(false);
             time_went_ooc = std::chrono::steady_clock::now();
         }
     }
