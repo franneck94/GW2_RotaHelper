@@ -784,7 +784,7 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
             Settings::Save(Globals::SettingsPath);
 
             ImGui::Text("Successfully Downloaded and Extracted Bench Data.");
-            ImGui::Text("Please restart the game or the addon.");
+            ImGui::Text("Please disable and re-enable the addon within Nexus.");
             ImGui::End();
             return;
         }
@@ -812,11 +812,6 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
             const auto centered_pos_missing = calculate_centered_position({missing_content_text});
             ImGui::SetCursorPosX(centered_pos_missing);
             ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), missing_content_text);
-
-            const auto missing_content_text_2 = "Please download and extract the ZIP from GitHub.";
-            const auto centered_pos_missing_2 = calculate_centered_position({missing_content_text_2});
-            ImGui::SetCursorPosX(centered_pos_missing_2);
-            ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), missing_content_text_2);
         }
 
         // #ifndef _DEBUG
