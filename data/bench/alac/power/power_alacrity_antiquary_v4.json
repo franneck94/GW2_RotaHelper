@@ -1396,11 +1396,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1
+    "slot_5": 104077,
+    "slot_6": 3680219,
+    "slot_7": 104076,
+    "slot_8": 3680220,
+    "slot_9": 3680206
   },
   "buildMetadata": {
     "name": "Power Alacrity Antiquary",

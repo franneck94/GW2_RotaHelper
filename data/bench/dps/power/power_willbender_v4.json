@@ -1413,11 +1413,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1
+    "slot_5": 699527,
+    "slot_6": 2479373,
+    "slot_7": 103669,
+    "slot_8": 103638,
+    "slot_9": 2479365
   },
   "buildMetadata": {
     "name": "Power Willbender",

@@ -1839,11 +1839,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1
+    "slot_5": 699525,
+    "slot_6": 103396,
+    "slot_7": 1770412,
+    "slot_8": 1770411,
+    "slot_9": 1770387
   },
   "buildMetadata": {
     "name": "Power Holosmith",

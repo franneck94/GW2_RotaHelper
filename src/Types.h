@@ -253,11 +253,9 @@ struct MetaData
 
 struct SkillKeyMapping
 {
-    int skill_5;
     int skill_6;
     int skill_7;
     int skill_8;
-    int skill_9;
 };
 
 enum class Keys

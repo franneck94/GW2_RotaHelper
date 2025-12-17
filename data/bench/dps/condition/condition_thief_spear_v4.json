@@ -1444,11 +1444,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 104070,
-    "slot_6": 2175070,
-    "slot_7": 104097,
-    "slot_8": 103513,
-    "slot_9": 104093
+    "slot_5": -1,
+    "slot_6": -1,
+    "slot_7": -1,
+    "slot_8": -1,
+    "slot_9": -1
   },
   "buildMetadata": {
     "name": "Condition Thief Spear",

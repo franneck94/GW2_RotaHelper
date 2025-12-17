@@ -2080,11 +2080,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 699524,
-    "slot_6": 103393,
-    "slot_7": 103352,
-    "slot_8": 103340,
-    "slot_9": 103380
+    "slot_5": -1,
+    "slot_6": -1,
+    "slot_7": -1,
+    "slot_8": -1,
+    "slot_9": -1
   },
   "buildMetadata": {
     "name": "Condition Catalyst",

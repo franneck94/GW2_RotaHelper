@@ -2205,11 +2205,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1
+    "slot_5": 2503753,
+    "slot_6": 103513,
+    "slot_7": 2503755,
+    "slot_8": 2175070,
+    "slot_9": 104109
   },
   "buildMetadata": {
     "name": "Condition Alacrity Spectre Spear",

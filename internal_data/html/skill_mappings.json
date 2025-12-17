@@ -1,7 +1,10 @@
 {
-  "dps-condition-conduit": {
-    "slot_5": "3680200",
-    "slot_6": "961413"
+  "dps-condition-antiquary-spear": {
+    "slot_5": "104077",
+    "slot_6": "103513",
+    "slot_7": "2175070",
+    "slot_8": "3680219",
+    "slot_9": "3680206"
   },
   "dps-condition-mirage-ih-oasis": {
     "slot_5": "1770506",
@@ -66,6 +69,13 @@
     "slot_8": "1770514",
     "slot_9": "1770505"
   },
+  "dps-condition-willbender-scepter": {
+    "slot_5": "699527",
+    "slot_6": "103675",
+    "slot_7": "2479377",
+    "slot_8": "103643",
+    "slot_9": "2479365"
+  },
   "dps-condition-daredevil-spear": {
     "slot_5": "1058620",
     "slot_6": "103073",
@@ -79,6 +89,13 @@
     "slot_7": "103513",
     "slot_8": "2175070",
     "slot_9": "104093"
+  },
+  "dps-power-ritualist": {
+    "slot_5": "3680169",
+    "slot_6": "58459",
+    "slot_7": "3680180",
+    "slot_8": "3680182",
+    "slot_9": "103840"
   },
   "dps-power-evoker-scepter-dagger": {
     "slot_5": "3680112",
@@ -115,19 +132,12 @@
     "slot_8": "1770332",
     "slot_9": "1770326"
   },
-  "dps-power-untamed": {
-    "slot_5": "103175",
-    "slot_6": "103074",
-    "slot_7": "103865",
-    "slot_8": "103542",
-    "slot_9": "2503712"
-  },
-  "dps-power-deadeye-maleficent-seven-spear-and-dagger-dagger": {
-    "slot_5": "1770611",
-    "slot_6": "104076",
-    "slot_7": "1770635",
-    "slot_8": "1770636",
-    "slot_9": "1770610"
+  "dps-power-berserker-hammer-axe-mace": {
+    "slot_5": "1058642",
+    "slot_6": "1058653",
+    "slot_7": "103798",
+    "slot_8": "1058652",
+    "slot_9": "1058637"
   },
   "dps-power-dragonhunter-virtues-spear": {
     "slot_5": "699527",
@@ -143,6 +153,13 @@
     "slot_8": "103542",
     "slot_9": "2503712"
   },
+  "dps-power-tempest-hammer": {
+    "slot_5": "1029989",
+    "slot_6": "1029992",
+    "slot_7": "103393",
+    "slot_8": "103229",
+    "slot_9": "103380"
+  },
   "dps-condition-holosmith-spear": {
     "slot_5": "699525",
     "slot_6": "103396",
@@ -150,12 +167,19 @@
     "slot_8": "103435",
     "slot_9": "1770387"
   },
-  "dps-power-deadeye": {
-    "slot_5": "104070",
-    "slot_6": "104076",
-    "slot_7": "1770637",
-    "slot_8": "1770635",
-    "slot_9": "1770610"
+  "dps-condition-weaver-scepter": {
+    "slot_5": "103321",
+    "slot_6": "103340",
+    "slot_7": "103352",
+    "slot_8": "1770332",
+    "slot_9": "1770326"
+  },
+  "dps-power-willbender": {
+    "slot_5": "699527",
+    "slot_6": "2479373",
+    "slot_7": "103669",
+    "slot_8": "103638",
+    "slot_9": "2479365"
   },
   "dps-power-weaver": {
     "slot_5": "103321",
@@ -163,6 +187,13 @@
     "slot_7": "103393",
     "slot_8": "1770332",
     "slot_9": "1770326"
+  },
+  "dps-power-galeshot": {
+    "slot_5": "103175",
+    "slot_6": "3680194",
+    "slot_7": "103542",
+    "slot_8": "3680195",
+    "slot_9": "3680184"
   },
   "dps-power-harbinger": {
     "slot_5": "2479398",
@@ -185,19 +216,12 @@
     "slot_8": "1770635",
     "slot_9": "1770610"
   },
-  "dps-condition-catalyst": {
-    "slot_5": "699524",
-    "slot_6": "103393",
-    "slot_7": "103352",
-    "slot_8": "103340",
-    "slot_9": "103380"
-  },
-  "dps-power-scrapper": {
-    "slot_5": "1128587",
-    "slot_6": "103396",
-    "slot_7": "103177",
-    "slot_8": "103399",
-    "slot_9": "103443"
+  "dps-power-berserker-axe-axe-axe-mace": {
+    "slot_5": "1058642",
+    "slot_6": "1058652",
+    "slot_7": "103798",
+    "slot_8": "104119",
+    "slot_9": "104113"
   },
   "dps-condition-firebrand": {
     "slot_5": "1770463",
@@ -241,9 +265,12 @@
     "slot_8": "103638",
     "slot_9": "1024103"
   },
-  "dps-condition-renegade": {
-    "slot_5": "1770592",
-    "slot_6": "961413"
+  "dps-power-holosmith": {
+    "slot_5": "699525",
+    "slot_6": "103396",
+    "slot_7": "1770412",
+    "slot_8": "1770411",
+    "slot_9": "1770387"
   },
   "dps-condition-soulbeast-shortbow": {
     "slot_5": "103175",
@@ -266,10 +293,6 @@
     "slot_8": "103340",
     "slot_9": "103380"
   },
-  "dps-power-vindicator": {
-    "slot_5": "2491626",
-    "slot_6": "1030005"
-  },
   "dps-condition-spectre-scepter": {
     "slot_5": "2503753",
     "slot_6": "103513",
@@ -283,6 +306,20 @@
     "slot_7": "103742",
     "slot_8": "103764",
     "slot_9": "1012881"
+  },
+  "dps-condition-tempest": {
+    "slot_5": "1029989",
+    "slot_6": "103324",
+    "slot_7": "103393",
+    "slot_8": "103340",
+    "slot_9": "103380"
+  },
+  "dps-condition-reaper": {
+    "slot_5": "1012929",
+    "slot_6": "103566",
+    "slot_7": "103795",
+    "slot_8": "1012950",
+    "slot_9": "103312"
   },
   "dps-power-harbinger-greatsword-dagger-sword": {
     "slot_5": "2479398",
@@ -354,6 +391,20 @@
     "slot_8": "104119",
     "slot_9": "1058637"
   },
+  "dps-power-harbinger-greatsword-sword-sword": {
+    "slot_5": "2479398",
+    "slot_6": "103566",
+    "slot_7": "103570",
+    "slot_8": "58459",
+    "slot_9": "2479394"
+  },
+  "dps-power-troubadour": {
+    "slot_5": "699528",
+    "slot_6": "3680167",
+    "slot_7": "103756",
+    "slot_8": "103742",
+    "slot_9": "1012893"
+  },
   "dps-power-tempest": {
     "slot_5": "1029989",
     "slot_6": "1029992",
@@ -382,13 +433,6 @@
     "slot_8": "103513",
     "slot_9": "104109"
   },
-  "dps-power-daredevil": {
-    "slot_5": "104070",
-    "slot_6": "1058631",
-    "slot_7": "104076",
-    "slot_8": "1058635",
-    "slot_9": "104093"
-  },
   "dps-power-reaper": {
     "slot_5": "1012929",
     "slot_6": "103566",
@@ -410,6 +454,20 @@
     "slot_8": "2503689",
     "slot_9": "2503668"
   },
+  "dps-condition-paragon": {
+    "slot_5": "102866",
+    "slot_6": "104128",
+    "slot_7": "104119",
+    "slot_8": "103798",
+    "slot_9": "104113"
+  },
+  "dps-condition-tempest-scepter": {
+    "slot_5": "1029989",
+    "slot_6": "103324",
+    "slot_7": "103352",
+    "slot_8": "103340",
+    "slot_9": "103380"
+  },
   "dps-condition-soulbeast": {
     "slot_5": "103175",
     "slot_6": "104004",
@@ -430,13 +488,6 @@
     "slot_7": "2503690",
     "slot_8": "2503689",
     "slot_9": "2503668"
-  },
-  "dps-condition-thief-spear": {
-    "slot_5": "104070",
-    "slot_6": "2175070",
-    "slot_7": "104097",
-    "slot_8": "103513",
-    "slot_9": "104093"
   },
   "dps-condition-virtuoso": {
     "slot_5": "699528",
@@ -473,19 +524,33 @@
     "slot_8": "103435",
     "slot_9": "103443"
   },
+  "quick-power-quickness-deadeye-axe": {
+    "slot_5": "1770611",
+    "slot_6": "104076",
+    "slot_7": "1770635",
+    "slot_8": "1770636",
+    "slot_9": "1770610"
+  },
+  "quick-inferno-quickness-evoker-specialized-elements": {
+    "slot_5": "3680112",
+    "slot_6": "3680121",
+    "slot_7": "1424240",
+    "slot_8": "103340",
+    "slot_9": "867437"
+  },
+  "quick-power-quickness-evoker": {
+    "slot_5": "3680112",
+    "slot_6": "103340",
+    "slot_7": "103393",
+    "slot_8": "3680121",
+    "slot_9": "3680111"
+  },
   "quick-power-quickness-ritualist": {
     "slot_5": "3680169",
     "slot_6": "58459",
     "slot_7": "3680180",
     "slot_8": "3680182",
     "slot_9": "103840"
-  },
-  "quick-inferno-quickness-catalyst-scepter-dagger": {
-    "slot_5": "699524",
-    "slot_6": "103340",
-    "slot_7": "103393",
-    "slot_8": "2491601",
-    "slot_9": "867437"
   },
   "quick-power-quickness-deadeye": {
     "slot_5": "1770611",
@@ -500,6 +565,20 @@
     "slot_7": "103393",
     "slot_8": "103340",
     "slot_9": "867437"
+  },
+  "quick-condition-quickness-catalyst": {
+    "slot_5": "699524",
+    "slot_6": "103393",
+    "slot_7": "103352",
+    "slot_8": "103340",
+    "slot_9": "103380"
+  },
+  "quick-condition-quickness-firebrand": {
+    "slot_5": "1770463",
+    "slot_6": "103675",
+    "slot_7": "1770490",
+    "slot_8": "1770484",
+    "slot_9": "103702"
   },
   "quick-power-quickness-catalyst-sword-dagger-pf": {
     "slot_5": "2491592",
@@ -529,11 +608,221 @@
     "slot_8": "1770636",
     "slot_9": "1770610"
   },
-  "quick-condition-quickness-deadeye": {
+  "quick-power-quickness-deadeye-rifle": {
+    "slot_5": "1770611",
+    "slot_6": "104076",
+    "slot_7": "1770635",
+    "slot_8": "1770636",
+    "slot_9": "1770610"
+  },
+  "quick-condition-quickness-untamed": {
+    "slot_5": "103175",
+    "slot_6": "104004",
+    "slot_7": "103944",
+    "slot_8": "103197",
+    "slot_9": "103101"
+  },
+  "quick-condition-quickness-catalyst-pistol-warhorn": {
+    "slot_5": "699524",
+    "slot_6": "103393",
+    "slot_7": "103352",
+    "slot_8": "103340",
+    "slot_9": "103380"
+  },
+  "quick-power-quickness-untamed-offhand-mace": {
+    "slot_5": "2503724",
+    "slot_6": "103993",
+    "slot_7": "104025",
+    "slot_8": "103542",
+    "slot_9": "2503712"
+  },
+  "quick-power-quickness-untamed": {
+    "slot_5": "2503724",
+    "slot_6": "103993",
+    "slot_7": "104025",
+    "slot_8": "103542",
+    "slot_9": "2503712"
+  },
+  "quick-condition-quickness-harbinger": {
+    "slot_5": "2479398",
+    "slot_6": "103795",
+    "slot_7": "2479395",
+    "slot_8": "58459",
+    "slot_9": "2479394"
+  },
+  "quick-condition-quickness-deadeye-scepter": {
     "slot_5": "1770611",
     "slot_6": "103513",
     "slot_7": "2175070",
     "slot_8": "1770635",
     "slot_9": "1770610"
+  },
+  "quick-condition-boon-chronomancer": {
+    "slot_5": "699528",
+    "slot_6": "103612",
+    "slot_7": "57900",
+    "slot_8": "103736",
+    "slot_9": "1012893"
+  },
+  "quick-power-quickness-scrapper": {
+    "slot_5": "699525",
+    "slot_6": "103396",
+    "slot_7": "103399",
+    "slot_8": "103177",
+    "slot_9": "103443"
+  },
+  "quick-power-quickness-untamed-maces": {
+    "slot_5": "2503724",
+    "slot_6": "103993",
+    "slot_7": "104025",
+    "slot_8": "103542",
+    "slot_9": "2503712"
+  },
+  "alac-power-alacrity-antiquary": {
+    "slot_5": "104077",
+    "slot_6": "3680219",
+    "slot_7": "104076",
+    "slot_8": "3680220",
+    "slot_9": "3680206"
+  },
+  "alac-condition-alacrity-mirage-axe-torch-staff": {
+    "slot_5": "1770506",
+    "slot_6": "57900",
+    "slot_7": "103612",
+    "slot_8": "1770514",
+    "slot_9": "1770505"
+  },
+  "alac-power-alacrity-bladesworn-overcharged": {
+    "slot_5": "104117",
+    "slot_6": "2491651",
+    "slot_7": "2491652",
+    "slot_8": "2491654",
+    "slot_9": "2491632"
+  },
+  "alac-condition-alacrity-mechanist": {
+    "slot_5": "2503669",
+    "slot_6": "103396",
+    "slot_7": "103435",
+    "slot_8": "2503691",
+    "slot_9": "2503668"
+  },
+  "alac-condition-alacrity-spectre-spear": {
+    "slot_5": "2503753",
+    "slot_6": "103513",
+    "slot_7": "2503755",
+    "slot_8": "2175070",
+    "slot_9": "104109"
+  },
+  "alac-power-alacrity-amalgam": {
+    "slot_5": "699525",
+    "slot_6": "103396",
+    "slot_7": "103399",
+    "slot_8": "103177",
+    "slot_9": "3680125"
+  },
+  "alac-inferno-alacrity-tempest-scepter-focus": {
+    "slot_5": "1029989",
+    "slot_6": "1029992",
+    "slot_7": "103393",
+    "slot_8": "103340",
+    "slot_9": "103380"
+  },
+  "alac-condition-alacrity-spectre": {
+    "slot_5": "2503753",
+    "slot_6": "2503755",
+    "slot_7": "103073",
+    "slot_8": "2175070",
+    "slot_9": "104109"
+  },
+  "alac-condition-alacrity-spectre-scepter": {
+    "slot_5": "2503753",
+    "slot_6": "103513",
+    "slot_7": "2503755",
+    "slot_8": "2175070",
+    "slot_9": "104109"
+  },
+  "alac-power-alacrity-evoker-scepter-dagger": {
+    "slot_5": "3680112",
+    "slot_6": "3680121",
+    "slot_7": "103393",
+    "slot_8": "103340",
+    "slot_9": "3680111"
+  },
+  "alac-power-boon-chronomancer": {
+    "slot_5": "699528",
+    "slot_6": "1012903",
+    "slot_7": "1012905",
+    "slot_8": "103742",
+    "slot_9": "1012881"
+  },
+  "alac-condition-alacrity-mirage-staff": {
+    "slot_5": "1770506",
+    "slot_6": "1770514",
+    "slot_7": "103612",
+    "slot_8": "57900",
+    "slot_9": "1770505"
+  },
+  "alac-condition-boon-chronomancer": {
+    "slot_5": "699528",
+    "slot_6": "103612",
+    "slot_7": "57900",
+    "slot_8": "103736",
+    "slot_9": "1012893"
+  },
+  "alac-condition-alacrity-tempest": {
+    "slot_5": "1029989",
+    "slot_6": "103324",
+    "slot_7": "103352",
+    "slot_8": "103340",
+    "slot_9": "103380"
+  },
+  "alac-condition-alacrity-tempest-scepter": {
+    "slot_5": "1029989",
+    "slot_6": "103324",
+    "slot_7": "103352",
+    "slot_8": "103340",
+    "slot_9": "103380"
+  },
+  "alac-power-alacrity-tempest-hammer": {
+    "slot_5": "1029989",
+    "slot_6": "1029992",
+    "slot_7": "103393",
+    "slot_8": "103229",
+    "slot_9": "103380"
+  },
+  "alac-power-alacrity-mechanist-sword": {
+    "slot_5": "2503669",
+    "slot_6": "103437",
+    "slot_7": "2503690",
+    "slot_8": "2503689",
+    "slot_9": "2503668"
+  },
+  "alac-condition-alacrity-mechanist-1-kit": {
+    "slot_5": "2503669",
+    "slot_6": "103396",
+    "slot_7": "2503689",
+    "slot_8": "2503691",
+    "slot_9": "2503668"
+  },
+  "alac-power-alacrity-tempest": {
+    "slot_5": "1029989",
+    "slot_6": "1029992",
+    "slot_7": "103393",
+    "slot_8": "103340",
+    "slot_9": "103380"
+  },
+  "alac-condition-alacrity-scourge": {
+    "slot_5": "1770534",
+    "slot_6": "103795",
+    "slot_7": "102804",
+    "slot_8": "102804",
+    "slot_9": "103312"
+  },
+  "alac-celestial-alacrity-scourge": {
+    "slot_5": "103097",
+    "slot_6": "103795",
+    "slot_7": "1770542",
+    "slot_8": "102804",
+    "slot_9": "103312"
   }
 }

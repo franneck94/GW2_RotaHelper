@@ -1434,11 +1434,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1
+    "slot_5": 3680169,
+    "slot_6": 58459,
+    "slot_7": 3680180,
+    "slot_8": 3680182,
+    "slot_9": 103840
   },
   "buildMetadata": {
     "name": "Power Ritualist",

@@ -1715,11 +1715,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1
+    "slot_5": 1770611,
+    "slot_6": 103513,
+    "slot_7": 2175070,
+    "slot_8": 1770635,
+    "slot_9": 1770610
   },
   "buildMetadata": {
     "name": "Condition Quickness Deadeye Scepter",

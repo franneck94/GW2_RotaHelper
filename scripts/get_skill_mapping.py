@@ -200,7 +200,6 @@ class SnowCrowsSkillExtractor:
                 self.logger.info(f"Fetching {benchmark_type.upper()} benchmarks page: {url}")
 
                 # Use requests to get the page since we only need basic HTML parsing
-                import requests
                 session = requests.Session()
                 session.headers.update({
                     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
@@ -227,7 +226,6 @@ class SnowCrowsSkillExtractor:
                     if skill_slots:
                         skill_mappings[f"{benchmark_type}-{build_name}"] = skill_slots
                         self.logger.info(f"Extracted {len(skill_slots)} skill slots for {build_name}")
-                        return skill_mappings
 
                     # Add delay between requests
                     time.sleep(self.delay)
@@ -241,13 +239,42 @@ class SnowCrowsSkillExtractor:
 
 
     def save_skill_mappings(self, skill_mappings: dict[str, dict[str, str]]) -> None:
-        """Save skill mappings to JSON file"""
+        """Save skill mappings to JSON file, merging with existing data"""
 
         skill_mappings_file = self.output_dir / "skill_mappings.json"
-        with skill_mappings_file.open("w", encoding="utf-8") as f:
-            json.dump(skill_mappings, f, indent=2, ensure_ascii=False)
 
-        self.logger.info(f"Saved skill mappings to {skill_mappings_file} ({len(skill_mappings)} builds)")
+        # Load existing data if file exists
+        existing_data = {}
+        if skill_mappings_file.exists():
+            try:
+                with skill_mappings_file.open("r", encoding="utf-8") as f:
+                    existing_data = json.load(f)
+                self.logger.info(f"Loaded existing skill mappings: {len(existing_data)} builds")
+            except Exception as e:
+                self.logger.warning(f"Could not load existing skill mappings: {e}")
+
+        # Filter new data to only include builds with all 5 skill slots
+        required_slots = {"slot_5", "slot_6", "slot_7", "slot_8", "slot_9"}
+        complete_builds = {}
+
+        for build_name, skills in skill_mappings.items():
+            if required_slots.issubset(skills.keys()):
+                complete_builds[build_name] = skills
+                self.logger.debug(f"Build {build_name} has complete skill data")
+            else:
+                missing_slots = required_slots - skills.keys()
+                self.logger.warning(f"Build {build_name} missing slots: {missing_slots}")
+
+        # Merge existing data with new complete builds
+        merged_data = existing_data.copy()
+        merged_data.update(complete_builds)
+
+        with skill_mappings_file.open("w", encoding="utf-8") as f:
+            json.dump(merged_data, f, indent=2, ensure_ascii=False)
+
+        self.logger.info(f"Saved skill mappings to {skill_mappings_file}")
+        self.logger.info(f"Complete builds from current run: {len(complete_builds)}")
+        self.logger.info(f"Total builds in file: {len(merged_data)}")
 
     def run(self) -> None:
         """Main execution method"""

@@ -1763,11 +1763,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1
+    "slot_5": 3680112,
+    "slot_6": 3680121,
+    "slot_7": 1424240,
+    "slot_8": 103340,
+    "slot_9": 867437
   },
   "buildMetadata": {
     "name": "Inferno Quickness Evoker Specialized Elements",

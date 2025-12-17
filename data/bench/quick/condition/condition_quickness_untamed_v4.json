@@ -2451,11 +2451,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1
+    "slot_5": 103175,
+    "slot_6": 104004,
+    "slot_7": 103944,
+    "slot_8": 103197,
+    "slot_9": 103101
   },
   "buildMetadata": {
     "name": "Condition Quickness Untamed",

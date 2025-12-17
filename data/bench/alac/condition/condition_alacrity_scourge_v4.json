@@ -2038,11 +2038,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1
+    "slot_5": 1770534,
+    "slot_6": 103795,
+    "slot_7": 102804,
+    "slot_8": 102804,
+    "slot_9": 103312
   },
   "buildMetadata": {
     "name": "Condition Alacrity Scourge",

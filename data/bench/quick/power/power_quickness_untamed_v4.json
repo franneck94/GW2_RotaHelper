@@ -1820,11 +1820,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1
+    "slot_5": 2503724,
+    "slot_6": 103993,
+    "slot_7": 104025,
+    "slot_8": 103542,
+    "slot_9": 2503712
   },
   "buildMetadata": {
     "name": "Power Quickness Untamed",
