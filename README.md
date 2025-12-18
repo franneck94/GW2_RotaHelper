@@ -94,9 +94,9 @@ A newline indicates a weapon swap.
    <img src="./media/rotation_keybinds.png" alt="Example Screenshot" />
 </div>
 
-##### Copy to Clipboard
+##### SC Build Info
 
-You can copy the following data to the clipboard:
+You can copy the following with your default browser:
 
 - Link to the SC Build Guide
 - Link to the Dps.Report
