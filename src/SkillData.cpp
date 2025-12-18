@@ -138,6 +138,7 @@ const std::set<std::string_view> special_substr_to_gray_out = {
     "Detonate",
     "Photon Forge",
     "-Storm",
+    "Offensive Protocol: ",
     "Defensive Protocol: ",
     "Rifle Burst Grenade",
     // RANGER
