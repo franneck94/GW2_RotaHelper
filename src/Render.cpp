@@ -451,11 +451,6 @@ std::string RenderType::get_keybind_str(const RotationStep &rotation_step)
 
     std::string keybind_str;
 
-    const auto skill_name_for_slot6 =
-        skill_key_mapping.skill_6 != -1 &&
-                log_skill_info_map.find(skill_key_mapping.skill_6) != log_skill_info_map.end()
-            ? log_skill_info_map.find(skill_key_mapping.skill_6)->second.name
-            : "";
     const auto skill_name_for_slot7 =
         skill_key_mapping.skill_7 != -1 &&
                 log_skill_info_map.find(skill_key_mapping.skill_7) != log_skill_info_map.end()
@@ -466,18 +461,23 @@ std::string RenderType::get_keybind_str(const RotationStep &rotation_step)
                 log_skill_info_map.find(skill_key_mapping.skill_8) != log_skill_info_map.end()
             ? log_skill_info_map.find(skill_key_mapping.skill_8)->second.name
             : "";
+    const auto skill_name_for_slot9 =
+        skill_key_mapping.skill_9 != -1 &&
+                log_skill_info_map.find(skill_key_mapping.skill_9) != log_skill_info_map.end()
+            ? log_skill_info_map.find(skill_key_mapping.skill_9)->second.name
+            : "";
 
-    if (rotation_step.skill_data.name == skill_name_for_slot6)
-    {
-        keybind_str = "6";
-    }
-    else if (rotation_step.skill_data.name == skill_name_for_slot7)
+    if (rotation_step.skill_data.name == skill_name_for_slot7)
     {
         keybind_str = "7";
     }
     else if (rotation_step.skill_data.name == skill_name_for_slot8)
     {
         keybind_str = "8";
+    }
+    else if (rotation_step.skill_data.name == skill_name_for_slot9)
+    {
+        keybind_str = "9";
     }
     else
     {
@@ -713,7 +713,6 @@ void RenderType::render_xml_selection()
 
     if (ImGui::Button("Rotation Overview (Keys)", ImVec2(button_width, 0)))
     {
-        Settings::ShowWeaponSwap = true;
         Settings::Save(Globals::SettingsPath);
 
         get_rotation_text();
@@ -730,7 +729,6 @@ void RenderType::render_xml_selection()
 
     if (ImGui::Button("Rotation Overview (Icons)", ImVec2(button_width, 0)))
     {
-        Settings::ShowWeaponSwap = true;
         Settings::Save(Globals::SettingsPath);
 
         get_rotation_icons();
@@ -1510,9 +1508,12 @@ void RenderType::render_rotation_horizontal()
 void RenderType::render_keybind(const RotationStep &rotation_step)
 {
     auto *draw_list = ImGui::GetWindowDrawList();
-    auto icon_pos = ImGui::GetItemRectMin();
-    auto icon_size = ImGui::GetItemRectSize();
+    const auto icon_pos = ImGui::GetItemRectMin();
+    const auto icon_size = ImGui::GetItemRectSize();
+
+    const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
     const auto skill_type = rotation_step.skill_data.skill_type;
+    const auto icon_id = rotation_step.skill_data.icon_id;
 
     auto keybind_str = std::string{};
     if (Settings::XmlSettingsPath.empty())
@@ -1521,7 +1522,16 @@ void RenderType::render_keybind(const RotationStep &rotation_step)
     {
         const auto &[keybind, modifier] = get_keybind_for_skill_type(skill_type, keybinds);
         if (keybind == Keys::NONE)
-            keybind_str = default_skillslot_to_string(skill_type);
+        {
+            if (skill_key_mapping.skill_7 == icon_id)
+                keybind_str = "7";
+            else if (skill_key_mapping.skill_8 == icon_id)
+                keybind_str = "8";
+            else if (skill_key_mapping.skill_9 == icon_id)
+                keybind_str = "9";
+            else
+                keybind_str = default_skillslot_to_string(skill_type);
+        }
         else
             keybind_str = custom_keys_to_string(keybind);
 

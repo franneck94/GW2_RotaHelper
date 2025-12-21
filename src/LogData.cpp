@@ -586,14 +586,14 @@ SkillKeyMapping get_skill_key_mapping(const nlohmann::json &j)
 
     const auto &build_meta = j["SkillKeyMapping"];
 
-    if (build_meta.contains("slot_6") && build_meta["slot_6"].is_number_integer())
-        skill_key_mapping.skill_6 = build_meta["slot_6"].get<int>();
-
     if (build_meta.contains("slot_7") && build_meta["slot_7"].is_number_integer())
         skill_key_mapping.skill_7 = build_meta["slot_7"].get<int>();
 
     if (build_meta.contains("slot_8") && build_meta["slot_8"].is_number_integer())
         skill_key_mapping.skill_8 = build_meta["slot_8"].get<int>();
+
+    if (build_meta.contains("slot_9") && build_meta["slot_9"].is_number_integer())
+        skill_key_mapping.skill_9 = build_meta["slot_9"].get<int>();
 
     return skill_key_mapping;
 }

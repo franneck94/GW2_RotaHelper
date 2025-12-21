@@ -254,7 +254,7 @@ class SnowCrowsSkillExtractor:
                 self.logger.warning(f"Could not load existing skill mappings: {e}")
 
         # Filter new data to only include builds with all 5 skill slots
-        required_slots = {"slot_5", "slot_6", "slot_7", "slot_8", "slot_9"}
+        required_slots = {"slot_6", "slot_7", "slot_8", "slot_9", "slot_0"}
         complete_builds = {}
 
         for build_name, skills in skill_mappings.items():
