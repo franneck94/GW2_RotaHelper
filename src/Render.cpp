@@ -613,6 +613,8 @@ void RenderType::render_rotation_keybinds(bool &show_rotation_keybinds)
 
 void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overview)
 {
+    constexpr static auto icon_size = 32;
+
     if (!show_rotation_icons_overview)
         return;
 
@@ -635,17 +637,13 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
 
                 first_in_line = false;
 
-                ImGui::Image((ImTextureID)icon,
-                             ImVec2(32, 32),
-                             ImVec2(0, 0),
-                             ImVec2(1, 1),
-                             ImVec4(1.0f, 1.0f, 1.0f, 1.0f));
+                ImGui::Image((ImTextureID)icon, ImVec2(icon_size, icon_size));
 
                 ++num_icons;
             }
 
             if (num_icons > 0)
-                ImGui::NewLine(); // Start new line after each icon line
+                ImGui::Dummy(ImVec2(0, 4));
         }
     }
 
@@ -1109,6 +1107,7 @@ void RenderType::render_symbol_and_text(bool &is_selected,
         selected_file_path = file_info->full_path;
 
         show_rotation_keybinds = false;
+        show_rotation_icons_overview = false;
 
         ReleaseTextureMap(Globals::TextureMap);
         Globals::RotationRun.load_data(selected_file_path, img_path);
@@ -1438,7 +1437,10 @@ void RenderType::restart_rotation(const bool not_ooc_triggered)
     Globals::SkillLastTimeCast.clear();
 
     if (not_ooc_triggered)
+    {
         show_rotation_keybinds = false;
+        show_rotation_icons_overview = false;
+    }
 }
 
 void RenderType::render_rotation_window(const bool is_not_ui_adjust_active)
