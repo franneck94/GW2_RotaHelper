@@ -1727,5 +1727,65 @@
     "overall_dps": 22286.0,
     "dps_report_url": "https://dps.report/xICN-20250628-071219_golem",
     "html_file_path": "alac\\power\\celestial_alacrity_scourge.html"
+  },
+  {
+    "name": "Power Luminary",
+    "url": "https://snowcrows.com/builds/raids/guardian/power-luminary",
+    "benchmark_type": "dps",
+    "profession": "Guardian",
+    "elite_spec": "Luminary",
+    "build_type": "power",
+    "url_name": "power-luminary",
+    "overall_dps": 48218.0,
+    "dps_report_url": "https://dps.report/1ymp-20251211-210829_golem",
+    "html_file_path": "dps\\power\\power_luminary.html"
+  },
+  {
+    "name": "Power Amalgam",
+    "url": "https://snowcrows.com/builds/raids/engineer/power-amalgam",
+    "benchmark_type": "dps",
+    "profession": "Engineer",
+    "elite_spec": "Amalgam",
+    "build_type": "power",
+    "url_name": "power-amalgam",
+    "overall_dps": 43997.0,
+    "dps_report_url": "https://dps.report/3XaA-20251217-174612_golem",
+    "html_file_path": "dps\\power\\power_amalgam.html"
+  },
+  {
+    "name": "Power Paragon",
+    "url": "https://snowcrows.com/builds/raids/warrior/power-paragon",
+    "benchmark_type": "dps",
+    "profession": "Warrior",
+    "elite_spec": "Paragon",
+    "build_type": "power",
+    "url_name": "power-paragon",
+    "overall_dps": 41298.0,
+    "dps_report_url": "https://dps.report/2ktI-20251216-234232_golem",
+    "html_file_path": "dps\\power\\power_paragon.html"
+  },
+  {
+    "name": "Condition Alacrity Amalgam Two Kits",
+    "url": "https://snowcrows.com/builds/raids/engineer/condition-alacrity-amalgam-two-kits",
+    "benchmark_type": "alac",
+    "profession": "Engineer",
+    "elite_spec": "Amalgam",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-amalgam-two-kits",
+    "overall_dps": 43170.0,
+    "dps_report_url": "https://dps.report/aUmU-20251215-143447_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_amalgam_two_kits.html"
+  },
+  {
+    "name": "Power Alacrity Luminary",
+    "url": "https://snowcrows.com/builds/raids/guardian/power-alacrity-luminary",
+    "benchmark_type": "alac",
+    "profession": "Guardian",
+    "elite_spec": "Luminary",
+    "build_type": "power",
+    "url_name": "power-alacrity-luminary",
+    "overall_dps": 38952.0,
+    "dps_report_url": "https://dps.report/b9Jm-20251215-195108_golem",
+    "html_file_path": "alac\\power\\power_alacrity_luminary.html"
   }
 ]

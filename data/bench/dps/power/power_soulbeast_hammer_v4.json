@@ -297,7 +297,7 @@
       ],
       [
         20.591,
-        987852,
+        215732,
         721.0,
         1,
         1.0
@@ -654,7 +654,7 @@
       ],
       [
         46.153,
-        987852,
+        215732,
         718.0,
         1,
         1.0
@@ -1018,7 +1018,7 @@
       ],
       [
         72.071,
-        987852,
+        215732,
         719.0,
         1,
         1.0
@@ -1284,7 +1284,7 @@
       ],
       [
         91.55,
-        987852,
+        215732,
         1165.0,
         1,
         1.0
@@ -1406,7 +1406,7 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s987852": {
+    "s215732": {
       "name": "Unleashed Overbearing Smash (Leap)",
       "icon": "https://render.guildwars2.com/file/c_cd_Unleashed_Overbearing/Smash.png",
       "traitProc": false,
