@@ -65,17 +65,19 @@ public:
     void restart_rotation(const bool not_ooc_triggered);
     void render_load_buttons();
 
+    std::string get_keybind_str(const RotationStep &rotation_step);
+    void get_rotation_icons();
     void get_rotation_text();
     void render_rotation_keybinds(bool &show_rotation_keybinds);
+    void render_rotation_icons_overview(bool &show_rotation_icons_overview);
 
     /* RENDER ROTATION WINDOW */
-    void render_rotation_window(const bool is_not_ui_adjust_active, ID3D11Device *pd3dDevice);
-    void render_rotation_horizontal(ID3D11Device *pd3dDevice);
+    void render_rotation_window(const bool is_not_ui_adjust_active);
+    void render_rotation_horizontal();
     void render_rotation_icons(const SkillState &skill_state,
                                const RotationStep &rotation_step,
                                const ID3D11ShaderResourceView *texture,
                                const std::string &text,
-                               ID3D11Device *pd3dDevice,
                                const int auto_attack_index = 0);
     void render_skill_texture(const RotationStep &rotation_step,
                               const ID3D11ShaderResourceView *texture,
@@ -120,8 +122,12 @@ public:
     std::map<std::string, KeybindInfo> keybinds{};
     bool keybinds_loaded = false;
     bool show_rotation_keybinds = false;
+    bool show_rotation_icons_overview = false;
+
+    ID3D11Device *pd3dDevice = nullptr;
 
     std::vector<std::string> rotation_text;
+    std::vector<std::vector<ID3D11ShaderResourceView *>> rotation_icon_lines;
 
     ImGuiWindowFlags flags_rota = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
                                   ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
