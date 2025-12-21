@@ -157,13 +157,17 @@ bool remove_skill_if(const RotationStep &current, const RotationStep &previous)
             (current.time_of_cast - previous.time_of_cast) < 250);
 }
 
-bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_rules)
+bool get_is_skill_dropped(const SkillData &skill_data,
+                          const SkillRules &skill_rules,
+                          const bool is_strict_mode,
+                          const bool show_weapon_swap,
+                          const bool is_easy_skill_mode)
 {
     const auto is_substr_drop_match = is_skill_in_set(skill_data.name, skill_rules.skills_substr_to_drop);
     const auto is_exact_drop_match = is_skill_in_set(skill_data.name, skill_rules.skills_match_to_drop, true);
 
     auto drop_skill = is_substr_drop_match || is_exact_drop_match;
-    if (!Settings::ShowWeaponSwap || Settings::StrictModeForSkillDetection)
+    if (!show_weapon_swap || is_strict_mode)
     {
         const auto drop_substr_swap = is_skill_in_set(skill_data.name, skill_rules.skills_substr_weapon_swap_like);
         const auto drop_match_swap = is_skill_in_set(skill_data.name, skill_rules.skills_match_weapon_swap_like, true);
@@ -186,7 +190,7 @@ bool get_is_skill_dropped(const SkillData &skill_data, const SkillRules &skill_r
                      is_unknownm || drop_skill;
     }
 
-    if (Settings::EasySkillMode && !drop_skill)
+    if (is_easy_skill_mode && !drop_skill)
     {
         auto is_exact_easy_mode_drop_match =
             is_skill_in_set(skill_data.name, skill_rules.easy_mode_drop_match_name, true) ||
@@ -246,7 +250,10 @@ bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_r
 void get_rotation_info(const IntNode &node,
                        const LogSkillInfoMap &log_skill_info_map,
                        RotationSteps &all_rotation_steps,
-                       const SkillDataMap &skill_data_map)
+                       const SkillDataMap &skill_data_map,
+                       const bool is_strict_mode,
+                       const bool show_weapon_swap,
+                       const bool is_easy_skill_mode)
 {
     for (const auto &rotation_entry : node.children)
     {
@@ -321,6 +328,21 @@ void get_rotation_info(const IntNode &node,
                         skill_data.skill_id = SafeConvertToSkillID(_icon_id); // TODO : check if we need this if at all
                         skill_data.name = _skill_data.name;
                         skill_data.icon_id = icon_id;
+
+                        if (_skill_data.name.find("Dual") != std::string::npos && _skill_data.name.find("Attunement") != std::string::npos)
+                        {
+                            if (_skill_data.name.find("Fire") != std::string::npos)
+                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
+                            else if (_skill_data.name.find("Air") != std::string::npos)
+                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
+                            else if (_skill_data.name.find("Earth") != std::string::npos)
+                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
+                            else if (_skill_data.name.find("Water") != std::string::npos)
+                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
+                            skill_data.name = "Weapon Swap";
+                            skill_data.icon_id = (int)SkillID::WEAPON_SWAP;
+                        }
+
                         break;
                     }
                 }
@@ -337,7 +359,11 @@ void get_rotation_info(const IntNode &node,
                 skill_data.icon_id = -9999;
             }
 
-            const auto drop_skill = get_is_skill_dropped(skill_data, SkillRuleData::skill_rules);
+            const auto drop_skill = get_is_skill_dropped(skill_data,
+                                                         SkillRuleData::skill_rules,
+                                                         is_strict_mode,
+                                                         show_weapon_swap,
+                                                         is_easy_skill_mode);
 
             if (!drop_skill)
             {
@@ -617,14 +643,14 @@ MetaData get_metadata(const nlohmann::json &j)
     return metadata;
 }
 
-std::tuple<LogSkillInfoMap, RotationSteps, MetaData, SkillKeyMapping> get_dpsreport_data(
+std::tuple<LogSkillInfoMap, RotationSteps, RotationSteps, MetaData, SkillKeyMapping> get_dpsreport_data(
     const std::filesystem::path &json_path,
     const SkillDataMap &skill_data_map)
 {
     auto json_rotation_log = nlohmann::json{};
     auto is_load_success = load_rotaion_json(json_path, json_rotation_log);
     if (!is_load_success)
-        return std::make_tuple(LogSkillInfoMap{}, RotationSteps{}, MetaData{}, SkillKeyMapping{});
+        return std::make_tuple(LogSkillInfoMap{}, RotationSteps{}, RotationSteps{}, MetaData{}, SkillKeyMapping{});
 
     const auto rotation_data = json_rotation_log["rotation"];
     const auto skill_data = json_rotation_log["skillMap"];
@@ -637,12 +663,26 @@ std::tuple<LogSkillInfoMap, RotationSteps, MetaData, SkillKeyMapping> get_dpsrep
     auto log_skill_info_map = LogSkillInfoMap{};
     get_skill_info(kv_skill, log_skill_info_map);
     auto rotation_steps = RotationSteps{};
-    get_rotation_info(kv_rotation, log_skill_info_map, rotation_steps, skill_data_map);
+    get_rotation_info(kv_rotation,
+                      log_skill_info_map,
+                      rotation_steps,
+                      skill_data_map,
+                      Settings::StrictModeForSkillDetection,
+                      Settings::ShowWeaponSwap,
+                      Settings::EasySkillMode);
+    auto rotation_steps_w_swap = RotationSteps{};
+    get_rotation_info(kv_rotation,
+                      log_skill_info_map,
+                      rotation_steps_w_swap,
+                      skill_data_map,
+                      Settings::StrictModeForSkillDetection,
+                      true,
+                      Settings::EasySkillMode);
 
     auto metadata = get_metadata(json_rotation_log);
     auto skill_key_mapping = get_skill_key_mapping(json_rotation_log);
 
-    return std::make_tuple(log_skill_info_map, rotation_steps, metadata, skill_key_mapping);
+    return std::make_tuple(log_skill_info_map, rotation_steps, rotation_steps_w_swap, metadata, skill_key_mapping);
 }
 
 bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &out_path)
@@ -852,11 +892,15 @@ void RotationLogType::load_data(const std::filesystem::path &json_path, const st
         return;
     skill_data_map = get_skill_data_map(jsons_skill_data);
 
-    const auto [_skill_info_map, _bench_all_rotation_steps, _meta_data, _skill_key_mapping] =
-        get_dpsreport_data(json_path, skill_data_map);
+    const auto [_skill_info_map,
+                _bench_all_rotation_steps,
+                _bench_all_rotation_steps_w_swap,
+                _meta_data,
+                _skill_key_mapping] = get_dpsreport_data(json_path, skill_data_map);
 
     log_skill_info_map = _skill_info_map;
     all_rotation_steps = _bench_all_rotation_steps;
+    all_rotation_steps_w_swap = _bench_all_rotation_steps_w_swap;
     meta_data = _meta_data;
     skill_key_mapping = _skill_key_mapping;
 

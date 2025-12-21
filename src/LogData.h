@@ -51,6 +51,7 @@ public:
     std::list<std::future<void>> futures;
     LogSkillInfoMap log_skill_info_map;
     RotationSteps all_rotation_steps;
+    RotationSteps all_rotation_steps_w_swap;
     RotationStepsList missing_rotation_steps;
     SkillDataMap skill_data_map;
     MetaData meta_data;
