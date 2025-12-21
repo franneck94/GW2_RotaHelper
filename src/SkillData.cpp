@@ -86,6 +86,7 @@ const std::set<std::string_view> skills_substr_to_drop = {
     // MESMER
     // NECROMANCER
     // REVENANT
+    "Form of the ",
 };
 
 /* In Genreal Traits/Effects that are in the log */
@@ -384,6 +385,15 @@ const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_g
         {
             SkillID::SIGNET_OF_EARTH,
             SkillID::SIGNET_OF_FIRE,
+            SkillID::PRIMORDIAL_STANCE,
+        },
+    },
+    {
+        "power_weaver_v4",
+        {
+            SkillID::RIDE_THE_LIGHTNING,
+            SkillID::PRIMORDIAL_STANCE,
+            SkillID::ARCANE_BLAST,
         },
     },
 };
