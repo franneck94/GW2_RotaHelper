@@ -94,6 +94,13 @@ A newline indicates a weapon swap.
    <img src="./media/rotation_keybinds.png" alt="Example Screenshot" />
 </div>
 
+Show all skill icons in a condensed overview.  
+A newline indicates a weapon swap.
+
+<div align="left" style="margin-left:50px;">
+   <img src="./media/icon_overview.png" alt="Example Screenshot" />
+</div>
+
 ##### SC Build Info
 
 You can copy the following with your default browser:
