@@ -134,7 +134,7 @@ class SnowCrowsSkillExtractor:
                 0: "6",  # Heal
                 1: "7",  # Utility 1
                 2: "8",  # Utility 2
-                3: "0",  # Utility 3
+                3: "9",  # Utility 3
                 4: "0",  # Elite
             }
 
@@ -240,7 +240,6 @@ class SnowCrowsSkillExtractor:
 
         skill_mappings_file = self.output_dir / "skill_mappings.json"
 
-        # Load existing data if file exists
         existing_data = {}
         if skill_mappings_file.exists():
             try:
@@ -250,7 +249,6 @@ class SnowCrowsSkillExtractor:
             except Exception as e:
                 self.logger.warning(f"Could not load existing skill mappings: {e}")
 
-        # Filter new data to only include builds with all 5 skill slots
         required_slots = {"slot_6", "slot_7", "slot_8", "slot_9", "slot_0"}
         complete_builds = {}
         incomplete_builds = {}
@@ -264,7 +262,6 @@ class SnowCrowsSkillExtractor:
                 incomplete_builds[build_name] = skills
                 self.logger.warning(f"Build {build_name} missing slots: {missing_slots}")
 
-        # Merge existing data with new complete builds
         merged_data = existing_data.copy()
         merged_data.update(complete_builds)
 
