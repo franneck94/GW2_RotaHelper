@@ -1646,11 +1646,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 1770611,
-    "slot_6": 103513,
-    "slot_7": 104097,
-    "slot_8": 1770635,
-    "slot_9": 1770610
+    "slot_6": 1770611,
+    "slot_7": 103513,
+    "slot_8": 104097,
+    "slot_9": 1770635,
+    "slot_0": 1770610
   },
   "buildMetadata": {
     "name": "Condition Deadeye",

@@ -2137,11 +2137,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 699525,
-    "slot_6": 103396,
-    "slot_7": 103399,
-    "slot_8": 103435,
-    "slot_9": 1770387
+    "slot_6": -1,
+    "slot_7": 103396,
+    "slot_8": 103399,
+    "slot_9": 103435,
+    "slot_0": 1770387
   },
   "buildMetadata": {
     "name": "Condition Holosmith Spear",

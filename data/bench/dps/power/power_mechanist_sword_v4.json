@@ -1888,11 +1888,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 2503669,
-    "slot_6": 103399,
-    "slot_7": 2503690,
-    "slot_8": 2503689,
-    "slot_9": 2503668
+    "slot_6": -1,
+    "slot_7": 103399,
+    "slot_8": -1,
+    "slot_9": -1,
+    "slot_0": 2503668
   },
   "buildMetadata": {
     "name": "Power Mechanist Sword",

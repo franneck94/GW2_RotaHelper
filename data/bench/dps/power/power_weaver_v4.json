@@ -1741,11 +1741,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 103321,
-    "slot_6": 103229,
-    "slot_7": 103393,
-    "slot_8": 1770332,
-    "slot_9": 1770326
+    "slot_6": -1,
+    "slot_7": 103229,
+    "slot_8": -1,
+    "slot_9": 1770332,
+    "slot_0": 1770326
   },
   "buildMetadata": {
     "name": "Power Weaver",

@@ -1662,11 +1662,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 699528,
-    "slot_6": 3680167,
-    "slot_7": 103756,
-    "slot_8": 103742,
-    "slot_9": 1012893
+    "slot_6": -1,
+    "slot_7": 3680167,
+    "slot_8": 103756,
+    "slot_9": -1,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Power Troubadour",

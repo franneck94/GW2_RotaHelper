@@ -1477,11 +1477,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 103175,
-    "slot_6": 103074,
-    "slot_7": 103865,
-    "slot_8": 103542,
-    "slot_9": 2503712
+    "slot_6": 103175,
+    "slot_7": 103074,
+    "slot_8": 103865,
+    "slot_9": -1,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Power Untamed Sword Axe",

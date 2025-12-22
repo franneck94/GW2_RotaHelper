@@ -1425,11 +1425,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1
+    "slot_6": 2479398,
+    "slot_7": 103795,
+    "slot_8": 58459,
+    "slot_9": 103812,
+    "slot_0": 2479394
   },
   "buildMetadata": {
     "name": "Condition Harbinger",

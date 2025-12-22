@@ -1790,11 +1790,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 1012929,
-    "slot_6": 103566,
-    "slot_7": 103795,
-    "slot_8": 1012950,
-    "slot_9": 103312
+    "slot_6": -1,
+    "slot_7": 103566,
+    "slot_8": 103795,
+    "slot_9": 1012950,
+    "slot_0": 103312
   },
   "buildMetadata": {
     "name": "Condition Reaper",

@@ -2235,11 +2235,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
     "slot_6": -1,
-    "slot_7": -1,
+    "slot_7": 103340,
     "slot_8": -1,
-    "slot_9": -1
+    "slot_9": 2491601,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Inferno Quickness Catalyst Scepter Dagger",

@@ -1443,11 +1443,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 104117,
-    "slot_6": 104140,
-    "slot_7": 104119,
-    "slot_8": 103798,
-    "slot_9": 1770659
+    "slot_6": -1,
+    "slot_7": 104140,
+    "slot_8": -1,
+    "slot_9": -1,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Power Spellbreaker Hammer",

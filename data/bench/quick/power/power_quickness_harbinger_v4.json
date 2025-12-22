@@ -1772,11 +1772,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
     "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1
+    "slot_7": 103566,
+    "slot_8": 103570,
+    "slot_9": 2479395,
+    "slot_0": 2479394
   },
   "buildMetadata": {
     "name": "Power Quickness Harbinger",

@@ -2324,11 +2324,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 699525,
-    "slot_6": 103396,
-    "slot_7": 2503689,
-    "slot_8": 103435,
-    "slot_9": 2503668
+    "slot_6": -1,
+    "slot_7": 103396,
+    "slot_8": -1,
+    "slot_9": 103435,
+    "slot_0": 2503668
   },
   "buildMetadata": {
     "name": "Condition Mechanist Two Kits",

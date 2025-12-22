@@ -1796,11 +1796,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 103321,
-    "slot_6": 103393,
-    "slot_7": 2491601,
-    "slot_8": 103229,
-    "slot_9": 2491568
+    "slot_6": -1,
+    "slot_7": -1,
+    "slot_8": 2491601,
+    "slot_9": 103229,
+    "slot_0": 2491568
   },
   "buildMetadata": {
     "name": "Power Catalyst Sword Dagger Pf",

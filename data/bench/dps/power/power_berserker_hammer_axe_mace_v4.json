@@ -1219,11 +1219,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 1058642,
-    "slot_6": 1058653,
-    "slot_7": 103798,
-    "slot_8": 1058652,
-    "slot_9": 1058637
+    "slot_6": 1058642,
+    "slot_7": 1058653,
+    "slot_8": -1,
+    "slot_9": 1058652,
+    "slot_0": 1058637
   },
   "buildMetadata": {
     "name": "Power Berserker Hammer Axe Mace",

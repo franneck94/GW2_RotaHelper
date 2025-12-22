@@ -1970,11 +1970,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 102866,
-    "slot_6": 104128,
-    "slot_7": 104119,
-    "slot_8": 103798,
-    "slot_9": 104113
+    "slot_6": -1,
+    "slot_7": 104128,
+    "slot_8": -1,
+    "slot_9": 103798,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Condition Paragon",

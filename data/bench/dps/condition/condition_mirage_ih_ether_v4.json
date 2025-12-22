@@ -1733,11 +1733,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 699528,
-    "slot_6": 57900,
-    "slot_7": 103612,
-    "slot_8": 1770514,
-    "slot_9": 1770505
+    "slot_6": 699528,
+    "slot_7": -1,
+    "slot_8": -1,
+    "slot_9": 1770514,
+    "slot_0": 1770505
   },
   "buildMetadata": {
     "name": "Condition Mirage IH Ether",

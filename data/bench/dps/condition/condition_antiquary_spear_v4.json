@@ -1144,11 +1144,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 104077,
-    "slot_6": 103513,
-    "slot_7": 2175070,
-    "slot_8": 3680219,
-    "slot_9": 3680206
+    "slot_6": -1,
+    "slot_7": 103513,
+    "slot_8": 2175070,
+    "slot_9": 3680219,
+    "slot_0": 3680206
   },
   "buildMetadata": {
     "name": "Condition Antiquary Spear",

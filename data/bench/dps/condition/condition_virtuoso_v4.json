@@ -1658,11 +1658,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 699528,
-    "slot_6": 103756,
-    "slot_7": 103612,
-    "slot_8": 57900,
-    "slot_9": 2479389
+    "slot_6": 699528,
+    "slot_7": 103756,
+    "slot_8": -1,
+    "slot_9": -1,
+    "slot_0": 2479389
   },
   "buildMetadata": {
     "name": "Condition Virtuoso",

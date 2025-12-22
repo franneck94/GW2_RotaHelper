@@ -1582,11 +1582,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 1012929,
-    "slot_6": 103566,
-    "slot_7": 103570,
-    "slot_8": 1012951,
-    "slot_9": 103840
+    "slot_6": -1,
+    "slot_7": 103566,
+    "slot_8": 103570,
+    "slot_9": 1012951,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Power Reaper",

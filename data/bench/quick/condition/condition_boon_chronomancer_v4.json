@@ -1641,11 +1641,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 699528,
-    "slot_6": 103612,
-    "slot_7": 57900,
-    "slot_8": 103736,
-    "slot_9": 1012893
+    "slot_6": 699528,
+    "slot_7": -1,
+    "slot_8": -1,
+    "slot_9": -1,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Condition Boon Chronomancer",

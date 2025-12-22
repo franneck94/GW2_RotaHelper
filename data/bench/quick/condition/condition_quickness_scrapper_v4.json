@@ -2790,11 +2790,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 1128587,
-    "slot_6": 103396,
-    "slot_7": 103399,
-    "slot_8": 103435,
-    "slot_9": 103443
+    "slot_6": 1128587,
+    "slot_7": 103396,
+    "slot_8": 103399,
+    "slot_9": 103435,
+    "slot_0": 103443
   },
   "buildMetadata": {
     "name": "Condition Quickness Scrapper",

@@ -2746,11 +2746,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
-    "slot_6": -1,
-    "slot_7": -1,
+    "slot_6": 1058605,
+    "slot_7": 1030005,
     "slot_8": -1,
-    "slot_9": -1
+    "slot_9": -1,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Power Quickness Herald Sword",

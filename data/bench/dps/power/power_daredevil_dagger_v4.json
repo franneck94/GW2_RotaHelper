@@ -1664,11 +1664,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 104070,
-    "slot_6": 1058631,
-    "slot_7": 104076,
-    "slot_8": 103712,
-    "slot_9": 104093
+    "slot_6": -1,
+    "slot_7": 1058631,
+    "slot_8": 104076,
+    "slot_9": -1,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Power Daredevil Dagger",

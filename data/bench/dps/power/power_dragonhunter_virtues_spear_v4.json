@@ -1289,11 +1289,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 699527,
-    "slot_6": 1012878,
-    "slot_7": 103669,
-    "slot_8": 103638,
-    "slot_9": 1024103
+    "slot_6": -1,
+    "slot_7": 1012878,
+    "slot_8": 103669,
+    "slot_9": -1,
+    "slot_0": 1024103
   },
   "buildMetadata": {
     "name": "Power Dragonhunter Virtues Spear",

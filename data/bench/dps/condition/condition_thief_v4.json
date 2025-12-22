@@ -1473,11 +1473,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 104070,
-    "slot_6": 2175070,
-    "slot_7": 103073,
-    "slot_8": 103513,
-    "slot_9": 104109
+    "slot_6": 104070,
+    "slot_7": 2175070,
+    "slot_8": 103073,
+    "slot_9": 103513,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Condition Thief",

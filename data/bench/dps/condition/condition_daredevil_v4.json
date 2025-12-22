@@ -1518,11 +1518,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 1058620,
-    "slot_6": 103073,
-    "slot_7": 103513,
-    "slot_8": 2175070,
-    "slot_9": 104093
+    "slot_6": 1058620,
+    "slot_7": 103073,
+    "slot_8": 103513,
+    "slot_9": 2175070,
+    "slot_0": 104093
   },
   "buildMetadata": {
     "name": "Condition Daredevil",

@@ -1986,11 +1986,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 2503753,
-    "slot_6": 2503755,
-    "slot_7": 103513,
-    "slot_8": 2175070,
-    "slot_9": 104093
+    "slot_6": -1,
+    "slot_7": 2503755,
+    "slot_8": 103513,
+    "slot_9": 2175070,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Condition Spectre",

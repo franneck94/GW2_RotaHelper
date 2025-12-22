@@ -1705,11 +1705,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 103321,
-    "slot_6": 103340,
-    "slot_7": 103352,
-    "slot_8": 1770332,
-    "slot_9": 1770326
+    "slot_6": -1,
+    "slot_7": 103340,
+    "slot_8": 103352,
+    "slot_9": 1770332,
+    "slot_0": 1770326
   },
   "buildMetadata": {
     "name": "Condition Weaver Scepter",

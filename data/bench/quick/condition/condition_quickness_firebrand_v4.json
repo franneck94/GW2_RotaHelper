@@ -2065,11 +2065,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 1770463,
-    "slot_6": 103675,
-    "slot_7": 1770490,
-    "slot_8": 1770484,
-    "slot_9": 103702
+    "slot_6": -1,
+    "slot_7": 103675,
+    "slot_8": -1,
+    "slot_9": -1,
+    "slot_0": 103702
   },
   "buildMetadata": {
     "name": "Condition Quickness Firebrand",

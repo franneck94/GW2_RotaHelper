@@ -1948,11 +1948,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 1058642,
-    "slot_6": 1058652,
-    "slot_7": 103798,
-    "slot_8": 104119,
-    "slot_9": 104113
+    "slot_6": 1058642,
+    "slot_7": 1058652,
+    "slot_8": 103798,
+    "slot_9": 104119,
+    "slot_0": 104113
   },
   "buildMetadata": {
     "name": "Power Berserker Axe Axe Axe Mace",

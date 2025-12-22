@@ -1652,11 +1652,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 103175,
-    "slot_6": 103197,
-    "slot_7": 103944,
-    "slot_8": 104004,
-    "slot_9": 103101
+    "slot_6": -1,
+    "slot_7": 103197,
+    "slot_8": 103944,
+    "slot_9": 104004,
+    "slot_0": 103101
   },
   "buildMetadata": {
     "name": "Condition Druid",

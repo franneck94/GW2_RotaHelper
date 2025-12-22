@@ -1644,11 +1644,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 104117,
-    "slot_6": 2491651,
-    "slot_7": 2491652,
-    "slot_8": 2491654,
-    "slot_9": 2491632
+    "slot_6": 104117,
+    "slot_7": 2491651,
+    "slot_8": 2491652,
+    "slot_9": 2491654,
+    "slot_0": 2491632
   },
   "buildMetadata": {
     "name": "Power Alacrity Bladesworn Overcharged",

@@ -1835,11 +1835,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 103175,
-    "slot_6": 104004,
-    "slot_7": 103197,
-    "slot_8": 1770571,
-    "slot_9": 1770558
+    "slot_6": -1,
+    "slot_7": 104004,
+    "slot_8": 103197,
+    "slot_9": 1770571,
+    "slot_0": 1770558
   },
   "buildMetadata": {
     "name": "Condition Soulbeast Shortbow",

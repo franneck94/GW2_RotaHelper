@@ -95,7 +95,7 @@ class HTMLRotationExtractor:
             self.logger.exception(f"Error loading build metadata: {e}")
             return {}
 
-    def _get_skill_key_mapping_for_file(self, html_file: Path) -> dict[str, Any]:
+    def _get_skill_key_mapping_for_file(self, html_file: Path, skill_map: dict[str, Any]) -> dict[str, Any]:
         """Get build metadata for a specific HTML file"""
         # Debug logging
         self.logger.debug(f"Looking for metadata for file: {html_file}")
@@ -110,17 +110,20 @@ class HTMLRotationExtractor:
             skill_mappings = json.load(f)
 
         default_dct = {
-            "slot_5": -1,
             "slot_6": -1,
             "slot_7": -1,
             "slot_8": -1,
             "slot_9": -1,
+            "slot_0": -1,
         }
 
         if html_file_name_transformed in skill_mappings:
             self.logger.debug(f"Found skill mapping for: {html_file_name_transformed}")
-            for key, val in skill_mappings[html_file_name_transformed].items():
-                default_dct[key] = int(val)
+            for name, icon_id in skill_mappings[html_file_name_transformed].items():
+                if f"s{icon_id}" in skill_map:
+                    default_dct[name] = int(icon_id)
+                else:
+                    default_dct[name] = -1
 
         return default_dct
 
@@ -345,7 +348,7 @@ class HTMLRotationExtractor:
 
             # Get build metadata for this file
             build_metadata = self._get_build_metadata_for_file(html_file)
-            skill_key_mapping = self._get_skill_key_mapping_for_file(html_file)
+            skill_key_mapping = self._get_skill_key_mapping_for_file(html_file, skill_map)
 
             # Create the output structure with build metadata
             result = {

@@ -2039,11 +2039,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": -1,
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1
+    "slot_6": 699528,
+    "slot_7": 1012903,
+    "slot_8": 1012905,
+    "slot_9": -1,
+    "slot_0": 1012881
   },
   "buildMetadata": {
     "name": "Power Boon Chronomancer",

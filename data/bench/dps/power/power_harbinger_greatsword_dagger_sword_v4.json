@@ -1534,11 +1534,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 2479398,
-    "slot_6": 103566,
-    "slot_7": 103570,
-    "slot_8": 58459,
-    "slot_9": 2479394
+    "slot_6": -1,
+    "slot_7": 103566,
+    "slot_8": 103570,
+    "slot_9": -1,
+    "slot_0": 2479394
   },
   "buildMetadata": {
     "name": "Power Harbinger Greatsword Dagger Sword",

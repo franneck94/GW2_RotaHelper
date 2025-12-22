@@ -1325,11 +1325,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 699527,
-    "slot_6": 103675,
-    "slot_7": 2479377,
-    "slot_8": 103643,
-    "slot_9": 2479365
+    "slot_6": -1,
+    "slot_7": 103675,
+    "slot_8": 2479377,
+    "slot_9": -1,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Condition Willbender Scepter",

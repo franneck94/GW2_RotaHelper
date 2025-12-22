@@ -2140,11 +2140,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 102866,
-    "slot_6": 103001,
-    "slot_7": 104119,
-    "slot_8": 103798,
-    "slot_9": 104113
+    "slot_6": -1,
+    "slot_7": 103001,
+    "slot_8": 104119,
+    "slot_9": 103798,
+    "slot_0": 104113
   },
   "buildMetadata": {
     "name": "Power Spellbreaker",

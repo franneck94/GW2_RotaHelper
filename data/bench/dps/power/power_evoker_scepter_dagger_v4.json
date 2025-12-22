@@ -2134,11 +2134,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 3680112,
-    "slot_6": 103340,
-    "slot_7": 103393,
-    "slot_8": 3680121,
-    "slot_9": 3680111
+    "slot_6": -1,
+    "slot_7": -1,
+    "slot_8": -1,
+    "slot_9": 3680121,
+    "slot_0": 3680111
   },
   "buildMetadata": {
     "name": "Power Evoker Scepter Dagger",

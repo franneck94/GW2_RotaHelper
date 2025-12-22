@@ -854,11 +854,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 103097,
-    "slot_6": 103795,
-    "slot_7": 1770542,
-    "slot_8": 102804,
-    "slot_9": 103312
+    "slot_6": -1,
+    "slot_7": 103795,
+    "slot_8": 1770542,
+    "slot_9": -1,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Celestial Alacrity Scourge",

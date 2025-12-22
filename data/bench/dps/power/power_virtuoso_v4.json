@@ -1544,11 +1544,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 699528,
-    "slot_6": 103764,
-    "slot_7": 2479387,
-    "slot_8": 103742,
-    "slot_9": 2479389
+    "slot_6": 699528,
+    "slot_7": 103764,
+    "slot_8": 2479387,
+    "slot_9": -1,
+    "slot_0": 2479389
   },
   "buildMetadata": {
     "name": "Power Virtuoso",

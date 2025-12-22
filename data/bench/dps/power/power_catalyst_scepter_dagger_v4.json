@@ -1949,11 +1949,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_5": 699524,
-    "slot_6": 2491601,
-    "slot_7": 103393,
-    "slot_8": 103229,
-    "slot_9": 867437
+    "slot_6": -1,
+    "slot_7": 2491601,
+    "slot_8": -1,
+    "slot_9": 103229,
+    "slot_0": -1
   },
   "buildMetadata": {
     "name": "Power Catalyst Scepter Dagger",
