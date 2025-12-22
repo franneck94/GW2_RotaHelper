@@ -77,8 +77,6 @@ static const inline std::set<std::string_view> orange_crossed_builds = {
     // CHECKED CONDITION BUILDS
     "condition_catalyst",
     "condition_quickness_catalyst",
-    "condition_evoker_specialized_elements",
-
     // POWER BUILDS
     "condition_boon_chronomancer",
     "condition_chronomancer",
@@ -89,11 +87,8 @@ static const inline std::set<std::string_view> orange_crossed_builds = {
     "power_quickness_catalyst_sword_dagger_pf",
     "power_catalyst_sword_dagger_pf",
     "power_luminary",
-    "power_evoker",
-    "power_evoker_scepter_dagger_pf",
-    "power_evoker_scepter_dagger",
+    "power_alacrity_luminary",
     "power_quickness_evoker",
-    "power_quickness_evoker_hare",
     // CONDI BUILDS
     "condition_virtuoso",
     "condition_quickness_untamed",
@@ -136,6 +131,7 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "power_alacrity_tempest",
     "power_alacrity_tempest_inferno_scepter_focus",
     "power_quickness_scrapper",
+    "power_weaver",
     // CHECKED CONDITION BOON BUILDS
     "celestial_alacrity_scourge",
     "condition_alacrity_scourge",
@@ -152,16 +148,18 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "condition_holosmith_spear",
     "condition_renegade",
     "condition_mechanist_kitless",
-
     // UNCHECKED POWER BUILDS
     "power_untamed",
     "power_untamed_sword_axe",
     "power_chronomancer",
+    "power_evoker_scepter_dagger",
+    "power_alacrity_evoker_scepter_dagger",
     // UNCHECKED POWER BOON BUILDS
     "power_alacrity_tempest_inferno_scepter_focus",
     "power_boon_chronomancer",
     "power_alacrity_tempest_hammer",
     "power_alacrity_renegade",
+    "condition_paragon",
     // UNCHECKED CONDITION BUILDS
     "condition_druid",
     "condition_thief",
@@ -189,7 +187,6 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_reaper_greatsword_sword_sword",
     "power_harbinger_greatsword_dagger_sword",
     "power_harbinger_greatsword_sword_sword",
-    "power_weaver",
     "power_mechanist",
     "power_mechanist_sword",
     "power_harbinger",
