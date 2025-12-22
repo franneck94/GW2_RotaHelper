@@ -15,14 +15,13 @@ from pathlib import Path
 
 import requests
 from selenium import webdriver
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-SLEEP_DELAY = 1.5
+SLEEP_DELAY = 10.5
 
 
 class SnowCrowsSkillExtractor:
@@ -78,8 +77,6 @@ class SnowCrowsSkillExtractor:
             self.driver = None
             self.logger.info("WebDriver cleaned up")
 
-
-
     def _extract_skill_slots(self, url: str) -> dict[str, str]:
         """Extract skill slot information from SnowCrows build page"""
         try:
@@ -103,7 +100,7 @@ class SnowCrowsSkillExtractor:
             # Look for the Skills section - find div with "Skills" text
             skills_sections = self.driver.find_elements(
                 By.XPATH,
-                "//div[contains(@class, 'text-right') and contains(@class, 'flex-grow') and contains(@class, 'text-2xl') and contains(text(), 'Skills')]"
+                "//div[contains(@class, 'text-right') and contains(@class, 'flex-grow') and contains(@class, 'text-2xl') and contains(text(), 'Skills')]",
             )
 
             if not skills_sections:
@@ -113,12 +110,14 @@ class SnowCrowsSkillExtractor:
             self.logger.info(f"Found {len(skills_sections)} Skills section(s)")
 
             # Get the parent container that has the skill icons
-            skills_container = skills_sections[0].find_element(By.XPATH, "./ancestor::div[contains(@class, 'relative')]")
+            skills_container = skills_sections[0].find_element(
+                By.XPATH, "./ancestor::div[contains(@class, 'relative')]"
+            )
 
             # Find all skill icon divs within this container
             skill_divs = skills_container.find_elements(
                 By.XPATH,
-                ".//div[contains(@class, 'gw2a--Wvchy') and contains(@class, 'gw2a--s2qls') and contains(@class, 'gw2a--376lb') and contains(@class, 'gw2a--3u_DO')]"
+                ".//div[contains(@class, 'gw2a--Wvchy') and contains(@class, 'gw2a--s2qls') and contains(@class, 'gw2a--376lb') and contains(@class, 'gw2a--3u_DO')]",
             )
 
             if not skill_divs:
@@ -131,15 +130,12 @@ class SnowCrowsSkillExtractor:
             skill_slots = {}
 
             # Standard GW2 skill slot mapping for utilities:
-            # Index 0 = Heal skill (slot 5)
-            # Index 1-3 = Utility skills (slots 6, 7, 8)
-            # Index 4 = Elite skill (slot 9)
             slot_mapping = {
-                0: "5",  # Heal
-                1: "6",  # Utility 1
-                2: "7",  # Utility 2
-                3: "8",  # Utility 3
-                4: "9",  # Elite
+                0: "6",  # Heal
+                1: "7",  # Utility 1
+                2: "8",  # Utility 2
+                3: "0",  # Utility 3
+                4: "0",  # Elite
             }
 
             for i, skill_div in enumerate(skill_divs):
@@ -148,7 +144,7 @@ class SnowCrowsSkillExtractor:
                     style = skill_div.get_attribute("style") or ""
 
                     # Parse background-image URL using regex
-                    bg_match = re.search(r'background-image:\s*url\(&quot;([^&]+)&quot;\)', style)
+                    bg_match = re.search(r"background-image:\s*url\(&quot;([^&]+)&quot;\)", style)
                     if not bg_match:
                         # Try alternative format without &quot;
                         bg_match = re.search(r'background-image:\s*url\(["\']([^"\']+)["\'\))]', style)
@@ -201,9 +197,11 @@ class SnowCrowsSkillExtractor:
 
                 # Use requests to get the page since we only need basic HTML parsing
                 session = requests.Session()
-                session.headers.update({
-                    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-                })
+                session.headers.update(
+                    {
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+                    },
+                )
 
                 response = session.get(url, timeout=30)
                 response.raise_for_status()
@@ -219,6 +217,7 @@ class SnowCrowsSkillExtractor:
 
                 for build_url in build_urls:
                     full_url = f"https://snowcrows.com{build_url}"
+                    self.logger.info(f"Fetching for: {full_url}")
                     build_name = build_url.split("/")[-1]
 
                     # Extract skill slots for this build
@@ -235,8 +234,6 @@ class SnowCrowsSkillExtractor:
 
         self.logger.info(f"Extracted skill mappings for {len(skill_mappings)} builds")
         return skill_mappings
-
-
 
     def save_skill_mappings(self, skill_mappings: dict[str, dict[str, str]]) -> None:
         """Save skill mappings to JSON file, merging with existing data"""
@@ -256,6 +253,7 @@ class SnowCrowsSkillExtractor:
         # Filter new data to only include builds with all 5 skill slots
         required_slots = {"slot_6", "slot_7", "slot_8", "slot_9", "slot_0"}
         complete_builds = {}
+        incomplete_builds = {}
 
         for build_name, skills in skill_mappings.items():
             if required_slots.issubset(skills.keys()):
@@ -263,11 +261,23 @@ class SnowCrowsSkillExtractor:
                 self.logger.debug(f"Build {build_name} has complete skill data")
             else:
                 missing_slots = required_slots - skills.keys()
+                incomplete_builds[build_name] = skills
                 self.logger.warning(f"Build {build_name} missing slots: {missing_slots}")
 
         # Merge existing data with new complete builds
         merged_data = existing_data.copy()
         merged_data.update(complete_builds)
+
+        for build_name, keybind_dct in incomplete_builds.items():
+            if build_name not in merged_data:
+                merged_data[build_name] = keybind_dct
+            else:
+                for slot, skill_id in keybind_dct.items():
+                    if (
+                        slot not in merged_data[build_name]
+                        or merged_data[build_name][slot] == "-1"
+                    ):
+                        merged_data[build_name][slot] = skill_id
 
         with skill_mappings_file.open("w", encoding="utf-8") as f:
             json.dump(merged_data, f, indent=2, ensure_ascii=False)
