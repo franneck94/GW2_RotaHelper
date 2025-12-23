@@ -517,8 +517,7 @@ void RenderType::get_rotation_icons()
 
         const auto icon_it = Globals::TextureMap.find(skill_data.icon_id);
 
-        if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_substr_weapon_swap_like) ||
-            is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_match_weapon_swap_like))
+        if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_match_weapon_swap_like))
         {
             rotation_icon_lines.push_back(rotation_line);
             rotation_line = {};
@@ -559,8 +558,7 @@ void RenderType::get_rotation_text()
 
         const auto keybind_str = get_keybind_str(rotation_step);
 
-        if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_substr_weapon_swap_like) ||
-            is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_match_weapon_swap_like))
+        if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_match_weapon_swap_like))
         {
             ss << "\n";
             rotation_text.push_back(ss.str());
@@ -617,8 +615,16 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
 
     auto num_icons = 0;
 
+    auto curr_flags_rota = flags_rota;
+    if (is_not_ui_adjust_active)
+    {
+        curr_flags_rota &= ~ImGuiWindowFlags_NoBackground;
+        curr_flags_rota &= ~ImGuiWindowFlags_NoMove;
+        curr_flags_rota &= ~ImGuiWindowFlags_NoResize;
+    }
+
     ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Once);
-    if (ImGui::Begin("Rotation Icons Overview", &show_rotation_icons_overview))
+    if (ImGui::Begin("Rotation Icons Overview", &show_rotation_icons_overview, curr_flags_rota))
     {
         bool should_break = false;
         for (const auto &icon_lines : rotation_icon_lines)
@@ -635,7 +641,13 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
                 first_in_line = false;
 
                 ImGui::Image((ImTextureID)icon, ImVec2(icon_size, icon_size));
-
+                if (ImGui::IsItemHovered())
+                {
+                    const auto skill_nanme = std::string{"Dodge"};
+                    ImGui::BeginTooltip();
+                    ImGui::Text("%s", skill_nanme.c_str());
+                    ImGui::EndTooltip();
+                }
                 ++num_icons;
             }
 
@@ -742,7 +754,7 @@ void RenderType::render_xml_selection()
     render_rotation_icons_overview(show_rotation_icons_overview);
 }
 
-void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
+void RenderType::render_options_checkboxes()
 {
     if (Settings::BenchUpdateFailedBefore)
     {
@@ -764,13 +776,13 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
     }
 
     const auto second_row_items = std::vector<std::string>{
-        "Move Skill UI",
+        "Move UI",
         "Show Weapon Swaps",
     };
     const auto centered_pos_row_2 = calculate_centered_position(second_row_items);
     ImGui::SetCursorPosX(centered_pos_row_2);
 
-    if (ImGui::Checkbox("Move Skill UI", &is_not_ui_adjust_active))
+    if (ImGui::Checkbox("Move UI", &is_not_ui_adjust_active))
     {
     }
     if (ImGui::IsItemHovered())
@@ -874,7 +886,7 @@ void RenderType::render_options_checkboxes(bool &is_not_ui_adjust_active)
 #endif
 }
 
-void RenderType::render_options_window(bool &is_not_ui_adjust_active)
+void RenderType::render_options_window()
 {
 #ifdef _DEBUG
     const auto version_string = std::string("BETA v") + Globals::VersionString;
@@ -913,7 +925,7 @@ void RenderType::render_options_window(bool &is_not_ui_adjust_active)
 
         render_select_bench();
         render_snowcrows_build_link();
-        render_options_checkboxes(is_not_ui_adjust_active);
+        render_options_checkboxes();
 
         if (benches_files.empty())
         {
@@ -1438,7 +1450,7 @@ void RenderType::restart_rotation(const bool not_ooc_triggered)
     }
 }
 
-void RenderType::render_rotation_window(const bool is_not_ui_adjust_active)
+void RenderType::render_rotation_window()
 {
     float window_width = 600.0f;
     float window_height = 100.0f;
@@ -1514,7 +1526,16 @@ void RenderType::render_keybind(const RotationStep &rotation_step)
 
     auto keybind_str = std::string{};
     if (Settings::XmlSettingsPath.empty())
-        keybind_str = default_skillslot_to_string(skill_type);
+    {
+        if (skill_key_mapping.skill_7 == icon_id)
+            keybind_str = "7";
+        else if (skill_key_mapping.skill_8 == icon_id)
+            keybind_str = "8";
+        else if (skill_key_mapping.skill_9 == icon_id)
+            keybind_str = "9";
+        else
+            keybind_str = default_skillslot_to_string(skill_type);
+    }
     else
     {
         const auto &[keybind, modifier] = get_keybind_for_skill_type(skill_type, keybinds);
@@ -1672,7 +1693,6 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
 
 void RenderType::render(ID3D11Device *pd3dDevice)
 {
-    static auto is_not_ui_adjust_active = false;
     static auto time_went_ooc = std::chrono::steady_clock::now();
 
     this->pd3dDevice = pd3dDevice;
@@ -1708,7 +1728,7 @@ void RenderType::render(ID3D11Device *pd3dDevice)
     if (benches_files.size() == 0)
         benches_files = get_bench_files(bench_path);
 
-    render_options_window(is_not_ui_adjust_active);
+    render_options_window();
 
     if (Globals::RotationRun.futures.size() != 0)
     {
@@ -1734,5 +1754,5 @@ void RenderType::render(ID3D11Device *pd3dDevice)
         return;
 #endif
 
-    render_rotation_window(is_not_ui_adjust_active);
+    render_rotation_window();
 }
