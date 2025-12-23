@@ -11,17 +11,32 @@
 namespace SkillRuleData
 {
 
-const std::set<std::string_view> skills_substr_weapon_swap_like = {
+const std::set<std::string_view> skills_match_weapon_swap_like = {
     "Weapon Swap",
+};
+
+const std::set<std::string_view>  skills_substr_weapon_swap_like = {
     // GUARDIAN
     // WARRIOR
+    "Berserk",
+    "Sheathe Gunsaber",
+    "Unsheathe Gunsaber",
+    "Arcing Slice",
     // ENGINEER
     " Kit",
     "Photon Forge",
     "Holoforge",
+    "Flamethrower",
+    "Elixir Gun",
+    "Bomb Kit",
+    "Grenade Kit",
     // RANGER
     "Ranger Pet",
     "Celestial Avatar",
+    "Summon Cyclone Bow",
+    "Dismiss Cyclone Bow",
+    "Unleash Ranger",
+    "Unleash Pet",
     // THIEF
     // ELEMENTALIST
     "Attunement",
@@ -30,30 +45,6 @@ const std::set<std::string_view> skills_substr_weapon_swap_like = {
     "Harbinger Shroud",
     "Reaper's Shroud",
     "Ritualist's Shroud",
-    // REVENANT
-};
-
-const std::set<std::string_view> skills_match_weapon_swap_like = {
-    // GUARDIAN
-    // WARRIOR
-    "Berserk",
-    "Sheathe Gunsaber",
-    "Unsheathe Gunsaber",
-    "Arcing Slice",
-    // ENGINEER
-    "Flamethrower",
-    "Elixir Gun",
-    "Bomb Kit",
-    "Grenade Kit",
-    // RANGER
-    "Summon Cyclone Bow",
-    "Dismiss Cyclone Bow",
-    "Unleash Ranger",
-    "Unleash Pet",
-    // THIEF
-    // ELEMENTALIST
-    // MESMER
-    // NECROMANCER
     // REVENANT
     "Legendary Entity Stance",
     "Legendary Alliance Stance",
@@ -600,9 +591,9 @@ const std::map<SkillID, float> grey_skill_cast_time_map = {
 };
 
 const std::map<int, int> unk_skill_id_fix = {
-    {1, 73055}, // daybreaking slash
+    {1, 73055},     // daybreaking slash
     {72923, 73055}, // daybreaking slash
-    {7, 62668}, // rushing justice
+    {7, 62668},     // rushing justice
 };
 
 // TODO: Check if can be moved to skill_data_unk_map
