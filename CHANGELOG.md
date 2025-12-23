@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Show all skill icons in a condensed overview.  
   - A newline indicates a weapon swap.
 
+## Notes
+
+- Fixed incorrect utility skill -> key mapping
+
 ## 0.21.0 - 2025-12-12
 
 ### Features
