@@ -506,7 +506,7 @@ std::string RenderType::get_keybind_str(const RotationStep &rotation_step)
 void RenderType::get_rotation_icons()
 {
     rotation_icon_lines.clear();
-    auto rotation_line = std::vector<ID3D11ShaderResourceView *>{};
+    auto rotation_line = std::vector<std::pair<ID3D11ShaderResourceView *, std::string>>{};
 
     const auto &rotation = Globals::RotationRun.all_rotation_steps_w_swap;
 
@@ -528,7 +528,7 @@ void RenderType::get_rotation_icons()
         {
             if (!icon_it->second)
                 continue;
-            rotation_line.push_back(icon_it->second);
+            rotation_line.push_back(std::make_pair(icon_it->second, skill_data.name));
         }
         else
         {
@@ -630,9 +630,9 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
         for (const auto &icon_lines : rotation_icon_lines)
         {
             bool first_in_line = true;
-            for (const auto icon : icon_lines)
+            for (const auto &line_data : icon_lines)
             {
-                if (!icon || !pd3dDevice)
+                if (!line_data.first || !pd3dDevice)
                     continue;
 
                 if (!first_in_line)
@@ -640,10 +640,10 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
 
                 first_in_line = false;
 
-                ImGui::Image((ImTextureID)icon, ImVec2(icon_size, icon_size));
+                ImGui::Image((ImTextureID)line_data.first, ImVec2(icon_size, icon_size));
                 if (ImGui::IsItemHovered())
                 {
-                    const auto skill_nanme = std::string{"Dodge"};
+                    const auto skill_nanme = line_data.second;
                     ImGui::BeginTooltip();
                     ImGui::Text("%s", skill_nanme.c_str());
                     ImGui::EndTooltip();

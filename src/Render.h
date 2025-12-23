@@ -128,7 +128,7 @@ public:
     ID3D11Device *pd3dDevice = nullptr;
 
     std::vector<std::string> rotation_text;
-    std::vector<std::vector<ID3D11ShaderResourceView *>> rotation_icon_lines;
+    std::vector<std::vector<std::pair<ID3D11ShaderResourceView *, std::string>>> rotation_icon_lines;
 
     ImGuiWindowFlags flags_rota = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
                                   ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
