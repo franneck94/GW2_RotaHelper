@@ -30,8 +30,8 @@ public:
     /* RENDER OPTIONS WINDOW */
     void render_debug_data();
     void render_debug_window();
-    void render_options_checkboxes(bool &is_not_ui_adjust_active);
-    void render_options_window(bool &is_not_ui_adjust_active);
+    void render_options_checkboxes();
+    void render_options_window();
     void render_snowcrows_build_link();
     void render_text_filter();
     void render_symbol_and_text(bool &is_selected,
@@ -72,7 +72,7 @@ public:
     void render_rotation_icons_overview(bool &show_rotation_icons_overview);
 
     /* RENDER ROTATION WINDOW */
-    void render_rotation_window(const bool is_not_ui_adjust_active);
+    void render_rotation_window();
     void render_rotation_horizontal();
     void render_rotation_icons(const SkillState &skill_state,
                                const RotationStep &rotation_step,
@@ -123,6 +123,7 @@ public:
     bool keybinds_loaded = false;
     bool show_rotation_keybinds = false;
     bool show_rotation_icons_overview = false;
+    bool is_not_ui_adjust_active = false;
 
     ID3D11Device *pd3dDevice = nullptr;
 
