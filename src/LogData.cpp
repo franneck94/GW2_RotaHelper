@@ -333,26 +333,13 @@ void get_rotation_info(const IntNode &node,
                             _skill_data.name.find("Attunement") != std::string::npos)
                         {
                             if (_skill_data.name.find("Fire") != std::string::npos)
-                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
+                                skill_data.skill_id = SkillID::WEAPON_SWAP;
                             else if (_skill_data.name.find("Air") != std::string::npos)
-                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
+                                skill_data.skill_id = SkillID::WEAPON_SWAP;
                             else if (_skill_data.name.find("Earth") != std::string::npos)
-                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
+                                skill_data.skill_id = SkillID::WEAPON_SWAP;
                             else if (_skill_data.name.find("Water") != std::string::npos)
-                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
-                            skill_data.name = "Weapon Swap";
-                            skill_data.icon_id = (int)SkillID::WEAPON_SWAP;
-                        }
-                        else if (_skill_data.name.find("Attunement") != std::string::npos)
-                        {
-                            if (_skill_data.name.find("Fire") != std::string::npos)
-                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
-                            else if (_skill_data.name.find("Air") != std::string::npos)
-                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
-                            else if (_skill_data.name.find("Earth") != std::string::npos)
-                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
-                            else if (_skill_data.name.find("Water") != std::string::npos)
-                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
+                                skill_data.skill_id = SkillID::WEAPON_SWAP;
                             skill_data.name = "Weapon Swap";
                             skill_data.icon_id = (int)SkillID::WEAPON_SWAP;
                         }
