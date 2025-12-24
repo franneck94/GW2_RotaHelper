@@ -1004,6 +1004,7 @@ void RenderType::render_options_window()
         // #endif
     }
 
+#ifndef _DEBUG
     if (!IsValidMap())
     {
         const auto warning_text = "NOTE: Rotation only shown in Aerodome and Training Area!";
