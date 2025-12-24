@@ -149,23 +149,23 @@ You can convert your own HTML logs from dps.report or other sources using the pr
 
 1. **Setup Python Environment** (if not already installed):
    - Install Python 3.10+ from [python.org](https://python.org)
-   - Install required dependencies: `pip install -r requirements.txt`
+   - Install required dependencies in the CMD: `pip install -r requirements.txt`
 
 2. **Add manual Log List**
    - Add your dps.report http link to: internal_data/manual_log_list.json
      - Optional: Add some SnowCrows guide that uses the same equipment/traits
 
 3. **Download HTML Logs**:
-   - Run: `python scripts/get_html_logs.py --manual`
+   - Run in CMD: `python scripts/get_html_logs.py --manual`
    - This will download HTML logs and save them in the `internal_data/html/` directory.
 
 4. **Convert to JSON Format**:
-   - Run: `python scripts/html_log_to_json.py`
+   - Run in CMD: `python scripts/html_log_to_json.py`
    - This converts the HTML logs to the JSON format used by the addon.
-   - Converted files are saved in the `data/bench/` directory.
+   - Generated JSON files are saved locally in the `./data/bench/` directory.
 
 5. **Install Your Custom Rotations**:
-   - Copy the generated JSON files to your addon's bench folder.
+   - Copy the generated JSON files to your addon's bench folder `GW2/addons/GW2RotaHelper/bench/...`.
 
 ## ⚠️ Known Limitations
 
