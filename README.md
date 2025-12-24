@@ -175,10 +175,6 @@ Full list of issues: [here](ISSUES.md)
 
 There are a few skills that either do no direct damage to the golem or only delayed damage, which means they don't trigger through the ArcDPS combat event system. These skills appear greyed out in the rotation helper to indicate they won't advance the rotation automatically.
 
-1. **Cast it** - The skill is part of the optimal rotation but won't be properly detected by ArcDPS
-2. **Don't wait** - Continue with the next skill in sequence immediately after casting
-3. **Visual indicator only** - The grey tint helps you identify this kind of skill
-
 This limitation is inherent to the ArcDPS public API, which only forwards combat events that deal damage to enemies. Support skills, buffs, and defensive abilities don't generate these events.
 A list of such skills can be found [here](https://github.com/franneck94/GW2_RotaHelper/blob/main/src/SkillData.cpp#L147)
 
