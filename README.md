@@ -147,9 +147,13 @@ In general, you can see in-game the state of a build.
 
 You can convert your own HTML logs from dps.report or other sources using the provided Python scripts:
 
-1. **Setup Python Environment** (if not already installed):
+0. **Setup Python Environment** (if not already installed):
    - Install Python 3.10+ from [python.org](https://python.org)
    - Install required dependencies in the CMD: `pip install -r requirements.txt`
+
+1. **Clone/Download this Repository**
+   1. Run in CMD: `git clone https://github.com/franneck94/GW2_RotaHelper`
+   2. Change into this directory for the next steps: `cd GW2_RotaHelper`
 
 2. **Add manual Log List**
    - Add your dps.report http link to: `./internal_data/manual_log_list.json`
