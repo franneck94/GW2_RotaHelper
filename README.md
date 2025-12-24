@@ -152,12 +152,12 @@ You can convert your own HTML logs from dps.report or other sources using the pr
    - Install required dependencies in the CMD: `pip install -r requirements.txt`
 
 2. **Add manual Log List**
-   - Add your dps.report http link to: internal_data/manual_log_list.json
+   - Add your dps.report http link to: `./internal_data/manual_log_list.json`
      - Optional: Add some SnowCrows guide that uses the same equipment/traits
 
 3. **Download HTML Logs**:
    - Run in CMD: `python scripts/get_html_logs.py --manual`
-   - This will download HTML logs and save them in the `internal_data/html/` directory.
+   - This will download HTML logs and save them in the `./internal_data/html/` directory.
 
 4. **Convert to JSON Format**:
    - Run in CMD: `python scripts/html_log_to_json.py`
