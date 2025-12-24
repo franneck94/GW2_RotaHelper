@@ -13,6 +13,19 @@ namespace SkillRuleData
 
 const std::set<std::string_view> skills_match_weapon_swap_like = {
     "Weapon Swap",
+    // ENGINEER
+    "Photon Forge",
+    "Holoforge",
+    "Flamethrower",
+    "Elixir Gun",
+    "Bomb Kit",
+    "Grenade Kit",
+    // RANGER
+    "Celestial Avatar",
+    "Summon Cyclone Bow",
+    "Dismiss Cyclone Bow",
+    "Unleash Ranger",
+    "Unleash Pet",
     // ELEMENTALIST
     "Fire Attunement",
     "Earth Attunement",
@@ -43,19 +56,8 @@ const std::set<std::string_view> skills_substr_weapon_swap_like = {
     "Arcing Slice",
     // ENGINEER
     " Kit",
-    "Photon Forge",
-    "Holoforge",
-    "Flamethrower",
-    "Elixir Gun",
-    "Bomb Kit",
-    "Grenade Kit",
     // RANGER
     "Ranger Pet",
-    "Celestial Avatar",
-    "Summon Cyclone Bow",
-    "Dismiss Cyclone Bow",
-    "Unleash Ranger",
-    "Unleash Pet",
     // THIEF
     // ELEMENTALIST
     // MESMER
