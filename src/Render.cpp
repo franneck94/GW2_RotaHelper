@@ -617,6 +617,8 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
         return;
 
     auto num_icons = 0;
+    auto curr_rota_index =
+        Globals::RotationRun.all_rotation_steps.size() - Globals::RotationRun.missing_rotation_steps.size();
 
     auto curr_flags_rota = flags_rota;
     if (is_not_ui_adjust_active)
@@ -629,7 +631,9 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
     ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Once);
     if (ImGui::Begin("Rotation Icons Overview", &show_rotation_icons_overview, curr_flags_rota))
     {
-        bool should_break = false;
+        auto should_break = false;
+        auto icons_in_line = 0;
+
         for (const auto &icon_lines : rotation_icon_lines)
         {
             bool first_in_line = true;
@@ -639,43 +643,44 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
                     continue;
 
                 if (!first_in_line)
-                    ImGui::SameLine();
+                {
+                    icons_in_line++;
+
+                    if ((icons_in_line > 0 && (icons_in_line % 15) != 0))
+                        ImGui::SameLine();
+                    else
+                    {
+                        icons_in_line = 0;
+                        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 2);
+                    }
+                }
+                else
+                    ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 8);
 
                 first_in_line = false;
 
-                auto window_idx = 0;
-                auto current_idx = 0;
-                auto is_auto_attack = false;
-                auto auto_attack_index = 0;
                 auto texture = line_data.first;
-                auto rotation_step = RotationStep{
-                    .time_of_cast = 0.0f,
-                    .duration_ms = 0,
-                    .skill_data = {},
-                    .is_special_skill = false,
-                };
+                auto rotation_step = RotationStep{};
                 rotation_step.skill_data.name = line_data.second;
                 const auto skill_state = SkillState{
-                    .is_current = false,
+                    .is_current = num_icons == curr_rota_index,
                     .is_last = false,
                     .is_auto_attack = false,
                 };
                 const int aa_index = 0;
 
                 if (skill_state.is_current && !skill_state.is_last)
-                    DrawRect(rotation_step, "", IM_COL32(255, 255, 255, 255), 7.0F, icon_size);
-                render_skill_texture(rotation_step, texture, auto_attack_index, icon_size, false);
+                    DrawRect(rotation_step, "", IM_COL32(255, 255, 255, 255), 2.0F, icon_size);
+                render_skill_texture(rotation_step, texture, 0, icon_size, false);
 
                 if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
-                {
                     is_not_ui_adjust_active = !is_not_ui_adjust_active;
-                }
 
                 ++num_icons;
             }
 
             if (num_icons > 0)
-                ImGui::Dummy(ImVec2(0, 4));
+                ImGui::Dummy(ImVec2(0, 2));
         }
     }
 
