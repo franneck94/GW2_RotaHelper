@@ -82,7 +82,8 @@ public:
     void render_skill_texture(const RotationStep &rotation_step,
                               const ID3D11ShaderResourceView *texture,
                               const int auto_attack_index,
-                              const float icon_size);
+                              const float icon_size,
+                              const bool show_keybind);
     void render_dodge_placeholder();
     void render_unknown_placeholder();
     void render_empty_placeholder();

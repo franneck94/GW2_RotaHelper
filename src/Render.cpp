@@ -271,11 +271,14 @@ std::string get_skill_text(const RotationStep &rotation_step)
 {
     auto text = rotation_step.skill_data.name;
 
-    text += " (";
-    char time_buffer[32];
-    snprintf(time_buffer, sizeof(time_buffer), "%.2f", rotation_step.time_of_cast);
-    text += time_buffer;
-    text += ")";
+    if (rotation_step.time_of_cast != 0.0f)
+    {
+        text += " (";
+        char time_buffer[32];
+        snprintf(time_buffer, sizeof(time_buffer), "%.2f", rotation_step.time_of_cast);
+        text += time_buffer;
+        text += ")";
+    }
 
     return text;
 }
@@ -651,6 +654,7 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
                     .skill_data = {},
                     .is_special_skill = false,
                 };
+                rotation_step.skill_data.name = line_data.second;
                 const auto skill_state = SkillState{
                     .is_current = false,
                     .is_last = false,
@@ -660,7 +664,12 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
 
                 if (skill_state.is_current && !skill_state.is_last)
                     DrawRect(rotation_step, "", IM_COL32(255, 255, 255, 255), 7.0F, icon_size);
-                render_skill_texture(rotation_step, texture, auto_attack_index, icon_size);
+                render_skill_texture(rotation_step, texture, auto_attack_index, icon_size, false);
+
+                if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+                {
+                    is_not_ui_adjust_active = !is_not_ui_adjust_active;
+                }
 
                 ++num_icons;
             }
@@ -1597,17 +1606,18 @@ void RenderType::render_keybind(const RotationStep &rotation_step)
 void RenderType::render_skill_texture(const RotationStep &rotation_step,
                                       const ID3D11ShaderResourceView *texture,
                                       const int auto_attack_index,
-                                      const float icon_size)
+                                      const float icon_size,
+                                      const bool show_keybind)
 {
     const auto is_special_skill = rotation_step.is_special_skill;
     auto tint_color = is_special_skill ? ImVec4(0.5f, 0.5f, 0.5f, 1.0f) : ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
     ImGui::Image((ImTextureID)texture, ImVec2(icon_size, icon_size), ImVec2(0, 0), ImVec2(1, 1), tint_color);
 
-    if (Settings::ShowKeybind)
+    if (show_keybind)
         render_keybind(rotation_step);
 
-    if (Settings::ShowKeybind && rotation_step.skill_data.is_auto_attack && auto_attack_index > 0)
+    if (show_keybind && rotation_step.skill_data.is_auto_attack && auto_attack_index > 0)
     {
         auto *draw_list = ImGui::GetWindowDrawList();
         auto icon_pos = ImGui::GetItemRectMin();
@@ -1692,13 +1702,18 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
         DrawRect(rotation_step, text, IM_COL32(255, 165, 0, 255), 2.0F);
 
     if (texture && pd3dDevice)
-        render_skill_texture(rotation_step, texture, auto_attack_index, Globals::SkillIconSize);
+        render_skill_texture(rotation_step, texture, auto_attack_index, Globals::SkillIconSize, Settings::ShowKeybind);
     else if (rotation_step.skill_data.icon_id == DODGE_ICON_ID)
         render_dodge_placeholder();
     else if (rotation_step.skill_data.icon_id == UNK_SKILL_ICON_ID)
         render_unknown_placeholder();
     else
         render_empty_placeholder();
+
+    if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+    {
+        is_not_ui_adjust_active = !is_not_ui_adjust_active;
+    }
 }
 
 void RenderType::render(ID3D11Device *pd3dDevice)
