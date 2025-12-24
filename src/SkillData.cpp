@@ -13,9 +13,28 @@ namespace SkillRuleData
 
 const std::set<std::string_view> skills_match_weapon_swap_like = {
     "Weapon Swap",
+    // ELEMENTALIST
+    "Fire Attunement",
+    "Earth Attunement",
+    "Air Attunement",
+    "Water Attunement",
+    // NECROMANCER
+    "Harbinger Shroud",
+    "Reaper's Shroud",
+    "Ritualist's Shroud",
+    // REVENANT
+    "Legendary Entity Stance",
+    "Legendary Alliance Stance",
+    "Legendary Alliance",
+    "Legendary Renegade Stance",
+    "Legendary Demon Stance",
+    "Legendary Dwarf Stance",
+    "Legendary Centaur Stance",
+    "Legendary Assassin Stance",
+    "Legendary Dragon Stance",
 };
 
-const std::set<std::string_view>  skills_substr_weapon_swap_like = {
+const std::set<std::string_view> skills_substr_weapon_swap_like = {
     // GUARDIAN
     // WARRIOR
     "Berserk",
@@ -39,22 +58,9 @@ const std::set<std::string_view>  skills_substr_weapon_swap_like = {
     "Unleash Pet",
     // THIEF
     // ELEMENTALIST
-    "Attunement",
     // MESMER
     // NECROMANCER
-    "Harbinger Shroud",
-    "Reaper's Shroud",
-    "Ritualist's Shroud",
     // REVENANT
-    "Legendary Entity Stance",
-    "Legendary Alliance Stance",
-    "Legendary Alliance",
-    "Legendary Renegade Stance",
-    "Legendary Demon Stance",
-    "Legendary Dwarf Stance",
-    "Legendary Centaur Stance",
-    "Legendary Assassin Stance",
-    "Legendary Dragon Stance",
 };
 
 /* In Genreal Traits/Effects that are in the log */

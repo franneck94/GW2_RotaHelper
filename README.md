@@ -28,7 +28,6 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
    <img src="./media/selection.png" alt="Example Screenshot" />
 </div>
 
-- There's a vertical and a horizontal layout depending on your needs.
 - Skill names and cast times from the bench log can be turned on.
 
 <div align="left" style="margin-left:50px;">

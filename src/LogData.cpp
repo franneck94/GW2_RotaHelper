@@ -329,7 +329,21 @@ void get_rotation_info(const IntNode &node,
                         skill_data.name = _skill_data.name;
                         skill_data.icon_id = icon_id;
 
-                        if (_skill_data.name.find("Dual") != std::string::npos && _skill_data.name.find("Attunement") != std::string::npos)
+                        if (_skill_data.name.find("Dual") != std::string::npos &&
+                            _skill_data.name.find("Attunement") != std::string::npos)
+                        {
+                            if (_skill_data.name.find("Fire") != std::string::npos)
+                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
+                            else if (_skill_data.name.find("Air") != std::string::npos)
+                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
+                            else if (_skill_data.name.find("Earth") != std::string::npos)
+                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
+                            else if (_skill_data.name.find("Water") != std::string::npos)
+                                skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
+                            skill_data.name = "Weapon Swap";
+                            skill_data.icon_id = (int)SkillID::WEAPON_SWAP;
+                        }
+                        else if (_skill_data.name.find("Attunement") != std::string::npos)
                         {
                             if (_skill_data.name.find("Fire") != std::string::npos)
                                 skill_data.skill_id = SkillID::DUAL_ORBITS_FIRE_AND_AIR;
@@ -352,7 +366,7 @@ void get_rotation_info(const IntNode &node,
             }
 
             // TODO: is this always weapon swap?
-            if (skill_data.skill_id == SkillID::NONE)
+            if (skill_data.skill_id == SkillID::NONE || skill_data.name == "")
             {
                 skill_data.skill_id = SkillID::UNKNOWN_SKILL; // TODO: Check if this works
                 skill_data.name = "Weapon Swap";
