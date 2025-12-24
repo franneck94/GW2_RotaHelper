@@ -34,7 +34,6 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
    <img src="./media/NameAndTime.png" alt="Example Screenshot" />
 </div>
 
-
 #### Important Notes
 
 - The addon is only active in the Aerodrome and in the training area.
@@ -60,6 +59,11 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
 </div>
 
 Note: Most features and settings have a detailed tooltip if you hover over it in-game.
+
+#### Move UI
+
+When enabled you can move and resize the ui elements of the rotation icons.  
+Or you can double click these elements to turn this on.
 
 ##### Keybinds
 
