@@ -3,7 +3,7 @@
 
 #define MAJOR 0
 #define MINOR 23
-#define BUILD 0
+#define BUILD 1
 #define REVISION 0
 
 #define STRINGIFY(x) #x

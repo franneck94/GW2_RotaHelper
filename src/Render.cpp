@@ -893,9 +893,9 @@ void RenderType::render_options_checkboxes()
         ImGui::EndTooltip();
     }
 
-#ifdef _DEBUG
     render_xml_selection();
 
+#ifdef _DEBUG
     const auto debug_button_width = ImGui::GetWindowSize().x * 0.3f;
     const auto centered_pos_debug = calculate_centered_position({"Debug Window"});
     ImGui::SetCursorPosX(centered_pos_debug);
@@ -958,7 +958,6 @@ void RenderType::render_options_window()
             ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), missing_content_text);
         }
 
-        // #ifndef _DEBUG
         if (!Settings::SkipBenchFileUpdate && Globals::BenchFilesLowerVersionString != "" &&
             Globals::BenchFilesUpperVersionString != "" && Settings::VersionOfLastBenchFilesUpdate != "")
         {
@@ -1005,7 +1004,6 @@ void RenderType::render_options_window()
         // #endif
     }
 
-#ifndef _DEBUG
     if (!IsValidMap())
     {
         const auto warning_text = "NOTE: Rotation only shown in Aerodome and Training Area!";
