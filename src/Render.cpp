@@ -233,7 +233,8 @@ static auto last_time_aa_did_skip = std::chrono::steady_clock::time_point{};
 void DrawRect(const RotationStep &rotation_step,
               const std::string &text,
               const ImU32 color,
-              const float border_thickness = 2.0f)
+              const float border_thickness = 2.0f,
+              const float icon_size = Globals::SkillIconSize)
 {
     auto draw_list = ImGui::GetWindowDrawList();
     auto cursor_pos = ImGui::GetCursorScreenPos();
@@ -251,9 +252,8 @@ void DrawRect(const RotationStep &rotation_step,
         text_size = ImVec2(0, 0);
     }
 
-    auto total_width = text_size.x > 0 ? Globals::SkillIconSize + ImGui::GetStyle().ItemSpacing.x + text_size.x
-                                       : Globals::SkillIconSize;
-    auto total_height = (Globals::SkillIconSize > text_size.y) ? Globals::SkillIconSize : text_size.y;
+    auto total_width = text_size.x > 0 ? icon_size + ImGui::GetStyle().ItemSpacing.x + text_size.x : icon_size;
+    auto total_height = (icon_size > text_size.y) ? icon_size : text_size.y;
 
     // Draw thick border by drawing outer filled rect and inner transparent rect
     draw_list->AddRectFilled(
@@ -640,14 +640,28 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
 
                 first_in_line = false;
 
-                ImGui::Image((ImTextureID)line_data.first, ImVec2(icon_size, icon_size));
-                if (ImGui::IsItemHovered())
-                {
-                    const auto skill_nanme = line_data.second;
-                    ImGui::BeginTooltip();
-                    ImGui::Text("%s", skill_nanme.c_str());
-                    ImGui::EndTooltip();
-                }
+                auto window_idx = 0;
+                auto current_idx = 0;
+                auto is_auto_attack = false;
+                auto auto_attack_index = 0;
+                auto texture = line_data.first;
+                auto rotation_step = RotationStep{
+                    .time_of_cast = 0.0f,
+                    .duration_ms = 0,
+                    .skill_data = {},
+                    .is_special_skill = false,
+                };
+                const auto skill_state = SkillState{
+                    .is_current = false,
+                    .is_last = false,
+                    .is_auto_attack = false,
+                };
+                const int aa_index = 0;
+
+                if (skill_state.is_current && !skill_state.is_last)
+                    DrawRect(rotation_step, "", IM_COL32(255, 255, 255, 255), 7.0F, icon_size);
+                render_skill_texture(rotation_step, texture, auto_attack_index, icon_size);
+
                 ++num_icons;
             }
 
@@ -1502,7 +1516,6 @@ void RenderType::render_rotation_horizontal()
                                                  current_idx,
                                                  rotation_step.skill_data.is_auto_attack);
         const auto text = std::string{""};
-
         const int aa_index = (static_cast<size_t>(window_idx) < Globals::RotationRun.auto_attack_indices.size())
                                  ? Globals::RotationRun.auto_attack_indices[window_idx]
                                  : 0;
@@ -1583,16 +1596,13 @@ void RenderType::render_keybind(const RotationStep &rotation_step)
 
 void RenderType::render_skill_texture(const RotationStep &rotation_step,
                                       const ID3D11ShaderResourceView *texture,
-                                      const int auto_attack_index)
+                                      const int auto_attack_index,
+                                      const float icon_size)
 {
     const auto is_special_skill = rotation_step.is_special_skill;
     auto tint_color = is_special_skill ? ImVec4(0.5f, 0.5f, 0.5f, 1.0f) : ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-    ImGui::Image((ImTextureID)texture,
-                 ImVec2(Globals::SkillIconSize, Globals::SkillIconSize),
-                 ImVec2(0, 0),
-                 ImVec2(1, 1),
-                 tint_color);
+    ImGui::Image((ImTextureID)texture, ImVec2(icon_size, icon_size), ImVec2(0, 0), ImVec2(1, 1), tint_color);
 
     if (Settings::ShowKeybind)
         render_keybind(rotation_step);
@@ -1677,12 +1687,12 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
     if (skill_state.is_current && !skill_state.is_last) // white
         DrawRect(rotation_step, text, IM_COL32(255, 255, 255, 255), 7.0F);
     else if (skill_state.is_last) // pruple
-        DrawRect(rotation_step, text, IM_COL32(128, 0, 128, 255));
+        DrawRect(rotation_step, text, IM_COL32(128, 0, 128, 255), 2.0F);
     else if (rotation_step.skill_data.is_auto_attack) // orange
-        DrawRect(rotation_step, text, IM_COL32(255, 165, 0, 255));
+        DrawRect(rotation_step, text, IM_COL32(255, 165, 0, 255), 2.0F);
 
     if (texture && pd3dDevice)
-        render_skill_texture(rotation_step, texture, auto_attack_index);
+        render_skill_texture(rotation_step, texture, auto_attack_index, Globals::SkillIconSize);
     else if (rotation_step.skill_data.icon_id == DODGE_ICON_ID)
         render_dodge_placeholder();
     else if (rotation_step.skill_data.icon_id == UNK_SKILL_ICON_ID)

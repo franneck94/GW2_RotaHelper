@@ -81,7 +81,8 @@ public:
                                const int auto_attack_index = 0);
     void render_skill_texture(const RotationStep &rotation_step,
                               const ID3D11ShaderResourceView *texture,
-                              const int auto_attack_index);
+                              const int auto_attack_index,
+                              const float icon_size);
     void render_dodge_placeholder();
     void render_unknown_placeholder();
     void render_empty_placeholder();
