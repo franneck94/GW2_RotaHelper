@@ -11,9 +11,7 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
 
 1. **Install Nexus**: Install Nexus Addon Manager
 2. **Install ArcDPS**: Install arcdps via the Nexus Addon Library
-3. **Install this Addon**: Obtain the DLL either by
-   1. Ingame in the Nexus Addon Library
-   2. The GitHub release [page](https://github.com/franneck94/GW2_RotaHelper/releases), there you need to place the dll in the GW2/addons dir
+3. **Install this Addon**: Via the ingame Nexus Addon Library
 
 ## 🎯 User Guide
 
