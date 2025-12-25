@@ -547,13 +547,14 @@ void RenderType::get_rotation_icons()
 
 void RenderType::get_rotation_text()
 {
-    std::stringstream ss;
+    std::string line;
     rotation_text.clear();
 
     bool first_in_line = true;
 
     const auto &rotation = Globals::RotationRun.all_rotation_steps_w_swap;
 
+    auto prev_was_aa = false;
     for (const auto &rotation_step : rotation)
     {
         const auto skill_data =
@@ -563,28 +564,66 @@ void RenderType::get_rotation_text()
 
         if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_match_weapon_swap_like))
         {
-            ss << "\n";
-            rotation_text.push_back(ss.str());
-            ss = {};
+            line += "\n";
+            rotation_text.push_back(line);
+            line.clear();
             first_in_line = true;
         }
         else
         {
+
             if (!first_in_line)
             {
-                ss << " - ";
+                line += " - ";
             }
 
-            if (keybind_str != "")
-                ss << keybind_str;
+            auto curr_is_aa = skill_data.skill_type == SkillSlot::WEAPON_1;
 
+            if (keybind_str != "")
+            {
+                if (prev_was_aa && curr_is_aa)
+                {
+                    const auto search_str = std::string{"xAA"};
+                    const auto slcie_size = search_str.size() + 4;
+                    auto keep_slice = line.size() >= slcie_size ? line.substr(0, line.size() - slcie_size) : line;
+                    auto prev_counter =
+                        line.size() >= slcie_size ? line.substr(line.size() - slcie_size, slcie_size) : line;
+
+                    if (prev_counter.find(search_str) != std::string::npos)
+                    {
+                        auto found_idx = prev_counter.find("x");
+                        auto count_str = prev_counter.substr(0, found_idx);
+                        int count = 0;
+                        try
+                        {
+                            count = std::stoi(count_str);
+                        }
+                        catch (...)
+                        {
+                            count = 1;
+                        }
+                        count++;
+                        line = keep_slice + std::to_string(count) + "xAA";
+                    }
+                }
+                else if (curr_is_aa)
+                {
+                    line += "1xAA";
+                }
+                else
+                {
+                    line += keybind_str;
+                }
+            }
+
+            prev_was_aa = curr_is_aa;
             first_in_line = false;
         }
     }
 
-    if (ss.str() != "")
+    if (line != "")
     {
-        rotation_text.push_back(ss.str());
+        rotation_text.push_back(line);
     }
 }
 
@@ -747,6 +786,9 @@ void RenderType::render_xml_selection()
         keybinds_loaded = false;
         keybinds.clear();
     }
+
+    if (Globals::RotationRun.all_rotation_steps.empty())
+        return;
 
     if (ImGui::Button("Rotation Overview (Keys)", ImVec2(button_width, 0)))
     {
