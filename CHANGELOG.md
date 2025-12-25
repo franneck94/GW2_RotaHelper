@@ -6,6 +6,13 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.24.0 - 2025-12-25
+
+### Improvements
+
+- Rotation overview now shows where the player is currently in the rota
+- Condensed rotation text shows number of aa's in the chain
+
 ## 0.23.0 - 2025-12-24
 
 ### Improvements
