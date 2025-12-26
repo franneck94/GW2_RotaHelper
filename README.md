@@ -9,6 +9,7 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
 
 ## ✨ Installation Guide
 
+0. **Install Latest VC Redist**: Install from [here](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-supported-redistributable-version)
 1. **Install Nexus**: Install Nexus Addon Manager
 2. **Install ArcDPS**: Install arcdps via the Nexus Addon Library
 3. **Install this Addon**: Via the ingame Nexus Addon Library
