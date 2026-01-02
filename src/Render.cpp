@@ -1465,6 +1465,12 @@ void RenderType::render_selection()
                     }
                     else if (is_untested)
                     {
+#ifdef _DEBUG
+                        const char *buffer =
+                            std::string("Rendering untested build: " + file_info->display_name).c_str();
+                        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", buffer);
+#endif
+
                         render_untested_and_text(is_selected, original_index, file_info, base_formatted_name);
                     }
                     else
