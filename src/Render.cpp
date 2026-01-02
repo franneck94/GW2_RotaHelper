@@ -690,7 +690,7 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
                     else
                     {
                         icons_in_line = 0;
-                        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 2);
+                        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + 8);
                     }
                 }
                 else
@@ -786,42 +786,6 @@ void RenderType::render_xml_selection()
         keybinds_loaded = false;
         keybinds.clear();
     }
-
-    if (Globals::RotationRun.all_rotation_steps.empty())
-        return;
-
-    if (ImGui::Button("Rotation Overview (Keys)", ImVec2(button_width, 0)))
-    {
-        Settings::Save(Globals::SettingsPath);
-
-        get_rotation_text();
-        show_rotation_keybinds = !show_rotation_keybinds;
-    }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("Newline indicates a weapon swap like action.");
-        ImGui::EndTooltip();
-    }
-
-    ImGui::SameLine();
-
-    if (ImGui::Button("Rotation Overview (Icons)", ImVec2(button_width, 0)))
-    {
-        Settings::Save(Globals::SettingsPath);
-
-        get_rotation_icons();
-        show_rotation_icons_overview = !show_rotation_icons_overview;
-    }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("Newline indicates a weapon swap like action.");
-        ImGui::EndTooltip();
-    }
-
-    render_rotation_keybinds(show_rotation_keybinds);
-    render_rotation_icons_overview(show_rotation_icons_overview);
 }
 
 void RenderType::render_options_checkboxes()
@@ -941,6 +905,56 @@ void RenderType::render_options_checkboxes()
     }
 
     render_xml_selection();
+
+    if (Globals::RotationRun.all_rotation_steps.empty())
+        return;
+
+    if (ImGui::Checkbox("Rotation Overview (Keys)", &show_rotation_keybinds))
+    {
+        Settings::Save(Globals::SettingsPath);
+
+        get_rotation_text();
+    }
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        ImGui::Text("Newline indicates a weapon swap like action.");
+        ImGui::EndTooltip();
+    }
+
+    ImGui::SameLine();
+
+    if (ImGui::Checkbox("Rotation Overview (Icons)", &show_rotation_icons_overview))
+    {
+        Settings::Save(Globals::SettingsPath);
+
+        get_rotation_icons();
+    }
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        ImGui::Text("Newline indicates a weapon swap like action.");
+        ImGui::EndTooltip();
+    }
+
+    const auto centered_pos = calculate_centered_position({"Rotation Window"});
+    ImGui::SetCursorPosX(centered_pos);
+
+    if (ImGui::Checkbox("Rotation Window", &show_rotation_window))
+    {
+        Settings::Save(Globals::SettingsPath);
+
+        get_rotation_text();
+    }
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        ImGui::Text("Shows the rotation window of 10 skills.");
+        ImGui::EndTooltip();
+    }
+
+    render_rotation_keybinds(show_rotation_keybinds);
+    render_rotation_icons_overview(show_rotation_icons_overview);
 
 #ifdef _DEBUG
     const auto debug_button_width = ImGui::GetWindowSize().x * 0.3f;
@@ -1189,6 +1203,8 @@ void RenderType::render_symbol_and_text(bool &is_selected,
         Globals::RotationRun.load_data(selected_file_path, img_path);
 
         ImGui::CloseCurrentPopup();
+
+        restart_rotation(true);
     }
 
     auto item_rect = ImGui::GetItemRectMin();
@@ -1516,6 +1532,7 @@ void RenderType::restart_rotation(const bool not_ooc_triggered)
     {
         show_rotation_keybinds = false;
         show_rotation_icons_overview = false;
+        show_rotation_window = true;
     }
 }
 
@@ -1825,5 +1842,6 @@ void RenderType::render(ID3D11Device *pd3dDevice)
         return;
 #endif
 
-    render_rotation_window();
+    if (show_rotation_window)
+        render_rotation_window();
 }

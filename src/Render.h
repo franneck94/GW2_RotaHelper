@@ -124,6 +124,7 @@ public:
     std::map<std::string, KeybindInfo> keybinds{};
     bool keybinds_loaded = false;
     bool show_rotation_keybinds = false;
+    bool show_rotation_window = true;
     bool show_rotation_icons_overview = false;
     bool is_not_ui_adjust_active = false;
 

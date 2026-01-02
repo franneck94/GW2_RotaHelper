@@ -573,6 +573,8 @@ const std::map<SkillID, float> skill_cast_time_map = {
     {SkillID::CONDUIT_SURGE, 0.5f},     // engi spear 2
     {SkillID::LIGHTNING_ROD, 0.5f},     // engi spear 3
     {SkillID::ORB_OF_WRATH, 0.5f},      // gaurd scepter 1
+    {SkillID::POLARIC_SLASH, 0.5f},      //
+    {SkillID::FIRE_SWIPE, 0.5f},      //
 };
 
 const std::map<SkillID, float> grey_skill_cast_time_map = {
