@@ -21,6 +21,16 @@
 class RenderType
 {
 public:
+    enum class BuildCategory
+    {
+        RED_CROSSED,
+        ORANGE_CROSSED,
+        GREEN_TICKED,
+        YELLOW_TICKED,
+        UNTESTED
+    };
+
+public:
     RenderType();
     RenderType(bool &show_window) : show_window(show_window) {};
     ~RenderType();
@@ -97,6 +107,9 @@ public:
     void CycleSkillsLogic(const EvCombatDataPersistent &skill_ev);
     void set_data_path(const std::filesystem::path &path);
 
+    void initialize_build_categories();
+    BuildCategory get_build_category(const std::string &display_name) const;
+
     bool show_window;
 
     bool skill_event_in_this_frame;
@@ -137,4 +150,8 @@ public:
                                   ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
                                   ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoScrollbar |
                                   ImGuiWindowFlags_NoResize;
+
+    // Build categorization cache
+    std::map<std::string, BuildCategory> build_category_cache;
+    bool build_categories_initialized = false;
 };

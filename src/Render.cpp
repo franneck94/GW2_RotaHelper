@@ -286,6 +286,7 @@ std::string get_skill_text(const RotationStep &rotation_step)
 
 RenderType::RenderType()
 {
+    initialize_build_categories();
 }
 
 RenderType::~RenderType()
@@ -293,11 +294,56 @@ RenderType::~RenderType()
     ReleaseTextureMap(Globals::TextureMap);
 }
 
+void RenderType::initialize_build_categories()
+{
+    if (build_categories_initialized)
+        return;
+
+    build_category_cache.clear();
+
+    for (const auto &build : red_crossed_builds)
+        build_category_cache[std::string(build)] = BuildCategory::RED_CROSSED;
+
+    for (const auto &build : orange_crossed_builds)
+        build_category_cache[std::string(build)] = BuildCategory::ORANGE_CROSSED;
+
+    for (const auto &build : green_tick_builds)
+        build_category_cache[std::string(build)] = BuildCategory::GREEN_TICKED;
+
+    for (const auto &build : yellow_tick_builds)
+        build_category_cache[std::string(build)] = BuildCategory::YELLOW_TICKED;
+
+    build_category_cache["antiquary"] = BuildCategory::RED_CROSSED;
+    build_category_cache["daredevil"] = BuildCategory::ORANGE_CROSSED;
+    build_category_cache["deadeye"] = BuildCategory::ORANGE_CROSSED;
+
+    build_categories_initialized = true;
+}
+
+RenderType::BuildCategory RenderType::get_build_category(const std::string &display_name) const
+{
+    auto build_name = display_name.length() > 4 ? display_name.substr(4) : display_name;
+
+    auto it = build_category_cache.find(build_name);
+    if (it != build_category_cache.end())
+        return it->second;
+
+    if (display_name.find("antiquary") != std::string::npos)
+        return BuildCategory::RED_CROSSED;
+
+    if (display_name.find("daredevil") != std::string::npos || display_name.find("deadeye") != std::string::npos)
+        return BuildCategory::ORANGE_CROSSED;
+
+    return BuildCategory::UNTESTED;
+}
+
 void RenderType::set_data_path(const std::filesystem::path &path)
 {
     data_path = path;
     img_path = data_path / "img";
     bench_path = data_path / "bench";
+
+    initialize_build_categories();
 
     benches_files = get_bench_files(bench_path);
 }
@@ -1420,19 +1466,12 @@ void RenderType::render_selection()
 
                         base_formatted_name = format_build_name(file_info->display_name);
 
-                        is_red_crossed = (IsInBuildCategory(file_info->display_name, red_crossed_builds) ||
-                                          file_info->display_name.find("antiquary") != std::string::npos);
-                        is_orange_crossed =
-                            !is_red_crossed && (IsInBuildCategory(file_info->display_name, orange_crossed_builds) ||
-                                                file_info->display_name.find("daredevil") != std::string::npos ||
-                                                file_info->display_name.find("deadeye") != std::string::npos);
-                        is_green_ticked =
-                            !is_orange_crossed && IsInBuildCategory(file_info->display_name, green_tick_builds);
-                        is_yellow_ticked =
-                            !is_green_ticked && IsInBuildCategory(file_info->display_name, yellow_tick_builds);
-
-                        is_untested = !is_green_ticked && !is_green_ticked && !is_red_crossed && !is_orange_crossed &&
-                                      !is_yellow_ticked;
+                        auto category = get_build_category(file_info->display_name);
+                        is_red_crossed = (category == BuildCategory::RED_CROSSED);
+                        is_orange_crossed = (category == BuildCategory::ORANGE_CROSSED);
+                        is_green_ticked = (category == BuildCategory::GREEN_TICKED);
+                        is_yellow_ticked = (category == BuildCategory::YELLOW_TICKED);
+                        is_untested = (category == BuildCategory::UNTESTED);
 
                         formatted_name_item = base_formatted_name + "##" + build_type_postdic;
                     }
@@ -1465,12 +1504,6 @@ void RenderType::render_selection()
                     }
                     else if (is_untested)
                     {
-#ifdef _DEBUG
-                        const char *buffer =
-                            std::string("Rendering untested build: " + file_info->display_name).c_str();
-                        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", buffer);
-#endif
-
                         render_untested_and_text(is_selected, original_index, file_info, base_formatted_name);
                     }
                     else
