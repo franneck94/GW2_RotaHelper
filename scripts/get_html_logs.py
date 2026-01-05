@@ -11,6 +11,7 @@ import json
 import logging
 import re
 import time
+from datetime import datetime
 from pathlib import Path
 
 import requests
@@ -184,28 +185,35 @@ class SnowCrowsScraper:
                 response = self.session.get(url, timeout=30)
                 response.raise_for_status()
 
-                build_url_pattern = re.compile(
-                    r'<a\s+href="(/builds/raids/[^"]+)"[^>]*class="[^"]*flex\s+items-center[^"]*"',
-                    re.IGNORECASE,
-                )
-
-                build_urls: list[str] = build_url_pattern.findall(response.text)
+                # New approach: Extract build cards with name and weapon information
+                builds_data = self._extract_builds_from_page(response.text)
                 self.logger.info(
-                    f"Found {len(build_urls)} {benchmark_type.upper()} build URLs",
+                    f"Found {len(builds_data)} {benchmark_type.upper()} builds",
                 )
 
-                for build_url in build_urls:
+                for build_data in builds_data:
+                    build_url = build_data["url"]
+                    build_name = build_data["name"]
+                    weapons = build_data["weapons"]
+
                     url_parts = build_url.strip("/").split("/")
                     if len(url_parts) >= 4:
-                        build_name = url_parts[-1]  # Last part is the build name
+                        url_name = url_parts[-1]  # Last part is the build name
 
-                        readable_name = self._url_to_readable_name(build_name)
+                        # Combine build name with weapons for readable name
+                        if weapons:
+                            readable_name = f"{build_name} {weapons}"
+                        else:
+                            readable_name = build_name
+
                         full_url = f"https://snowcrows.com{build_url}"
 
                         # Extract class/specialization info from build page
                         class_info = self._extract_class_info(full_url)
 
-                        if readable_name not in {b["name"] for b in builds_info}:
+                        # Create a unique key to avoid duplicates
+                        build_key = f"{readable_name}_{benchmark_type}"
+                        if build_key not in {f"{b['name']}_{b['benchmark_type']}" for b in builds_info}:
                             build_info = {
                                 "name": readable_name,
                                 "url": full_url,
@@ -213,12 +221,13 @@ class SnowCrowsScraper:
                                 "profession": class_info.get("profession", "Unknown"),
                                 "elite_spec": class_info.get("elite_spec", ""),
                                 "build_type": class_info.get("build_type", "power"),
-                                "url_name": build_name,
+                                "url_name": url_name,
+                                "weapons": weapons,  # Store weapons separately
                                 "overall_dps": None,  # Will be populated during download
                             }
                             builds_info.append(build_info)
             except Exception as e:
-                self.logger.exception(f"Error loading build metadata from {metadata_file}: {e}")
+                self.logger.exception(f"Error processing {benchmark_type} builds: {e}")
                 return []
         return builds_info
 
@@ -282,6 +291,7 @@ class SnowCrowsScraper:
                     "elite_spec": elite_spec,
                     "build_type": build_type,
                     "url_name": build_name.lower().replace(" ", "_"),
+                    "weapons": "",  # No weapon info available for manual entries
                     "dps_report_url": dps_report_url,
                     "sc_link_url": sc_link_url,  # Store SC link separately for metadata
                     "overall_dps": None,  # Will be populated during download
@@ -306,6 +316,83 @@ class SnowCrowsScraper:
         readable = readable.replace("Gs", "GS")  # Greatsword
         readable = readable.replace("Lb", "LB")  # Longbow
         return readable.replace("Sb", "SB")  # Shortbow
+
+    def _extract_builds_from_page(self, html_content: str) -> list[dict]:
+        """Extract build information from SnowCrows page with new layout"""
+        builds = []
+
+        try:
+            # Pattern to match the build card structure with both name and weapons
+            # This pattern captures build cards that contain both a link and weapon information
+            build_card_pattern = re.compile(
+                r'<div class="md:flex-grow">\s*'
+                r'<div class="uppercase text-xs font-bold[^"]*">[^<]*</div>\s*'
+                r'<a href="(/builds/raids/[^"]+)"[^>]*>([^<]+)</a>\s*'
+                r"(?:[^<]*<[^>]*>[^<]*)*?"  # Skip any intermediate elements
+                r'<div class="text-xs">([^<]+)</div>',
+                re.IGNORECASE | re.DOTALL,
+            )
+
+            matches = build_card_pattern.findall(html_content)
+
+            for match in matches:
+                build_url, build_name, weapons = match
+
+                # Clean up the extracted data
+                build_name = build_name.strip()
+                weapons = weapons.strip()
+
+                # Clean up HTML entities in weapons
+                weapons = weapons.replace("&amp;", "&")
+
+                builds.append({"url": build_url, "name": build_name, "weapons": weapons})
+
+            self.logger.info(f"Extracted {len(builds)} builds using new layout pattern")
+
+            # Fallback: if the new pattern doesn't work, try the old approach
+            if not builds:
+                self.logger.warning("New pattern failed, trying fallback approach")
+                builds = self._extract_builds_fallback(html_content)
+
+        except Exception as e:
+            self.logger.exception(f"Error extracting builds from page: {e}")
+            # Try fallback approach
+            builds = self._extract_builds_fallback(html_content)
+
+        return builds
+
+    def _extract_builds_fallback(self, html_content: str) -> list[dict]:
+        """Fallback method for extracting builds using the old approach"""
+        builds = []
+
+        try:
+            # Old pattern for build URLs
+            build_url_pattern = re.compile(
+                r'<a\s+href="(/builds/raids/[^"]+)"',
+                re.IGNORECASE,
+            )
+
+            build_urls = build_url_pattern.findall(html_content)
+            self.logger.info(f"Fallback: Found {len(build_urls)} build URLs")
+
+            for build_url in build_urls:
+                url_parts = build_url.strip("/").split("/")
+                if len(url_parts) >= 4:
+                    url_name = url_parts[-1]
+                    readable_name = self._url_to_readable_name(url_name)
+
+                    builds.append(
+                        {
+                            "url": build_url,
+                            "name": readable_name,
+                            "weapons": "",  # No weapon info available in fallback
+                        }
+                    )
+
+        except Exception as e:
+            self.logger.exception(f"Error in fallback extraction: {e}")
+
+        return builds
 
     def _deduce_profession_from_build_name(
         self,
@@ -926,6 +1013,30 @@ class SnowCrowsScraper:
             self._cleanup_webdriver()
 
 
+def update_build_date_in_header() -> None:
+    version_file_path = Path("../src/Version.h")
+
+    # Get current date in YYYY-MM-DD format
+    current_date = datetime.now().strftime("%Y-%m-%d")
+
+    try:
+        # Read the current version file
+        with version_file_path.open("r", encoding="utf-8") as f:
+            content = f.read()
+
+        # Replace the BUILD_DATE line
+        updated_content = re.sub(r'#define BUILD_DATE "[\d-]+"', f'#define BUILD_DATE "{current_date}"', content)
+
+        # Write the updated content back
+        with version_file_path.open("w", encoding="utf-8") as f:
+            f.write(updated_content)
+
+        print(f"✅ Updated BUILD_DATE to {current_date} in {version_file_path}")
+
+    except Exception as e:
+        print(f"❌ Error updating build date in {version_file_path}: {e}")
+
+
 def main() -> None:
     """Main function with CLI interface"""
     parser = argparse.ArgumentParser(
@@ -995,13 +1106,16 @@ def main() -> None:
             for i, build_info in enumerate(builds_and_links, 1):
                 filename = scraper._sanitize_build_name(build_info["url_name"])
                 dps_info = f" (DPS: {build_info['overall_dps']})" if build_info.get("overall_dps") else ""
+                weapons_info = f" - {build_info['weapons']}" if build_info.get("weapons") else ""
                 print(
-                    f"{i:2d}. {build_info['name']} ({build_info['benchmark_type'].upper()}){dps_info} -> {filename}",
+                    f"{i:2d}. {build_info['name']}{weapons_info} ({build_info['benchmark_type'].upper()}){dps_info} -> {filename}",
                 )
                 print(
                     f"     Profession: {build_info['profession']} ({build_info['elite_spec']})",
                 )
                 print(f"     Type: {build_info['build_type']}")
+                if build_info.get("weapons"):
+                    print(f"     Weapons: {build_info['weapons']}")
                 if args.manual:
                     print(f"     DPS Report: {build_info['dps_report_url']}")
                     if build_info.get("sc_link_url"):
@@ -1019,6 +1133,8 @@ def main() -> None:
         scraper.run(args.manual)
         print("✅ Scraping completed!")
         print(f"📄 Build metadata saved to: {scraper.output_dir}/build_metadata.json")
+
+    update_build_date_in_header()
 
 
 if __name__ == "__main__":

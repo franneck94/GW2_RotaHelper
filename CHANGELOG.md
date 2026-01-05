@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Optimization for Power Luminary
 - Added weapon_type_to_string at the start of each line of the rotation overview text
 - Fixed incorrect AA's in the rotation overview text
+- Added date on when the builds were fetched from SC website
 
 ## 0.25.0 - 2026-01-02
 
