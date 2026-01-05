@@ -603,20 +603,33 @@ void RenderType::get_rotation_text()
     auto prev_was_aa = false;
     for (const auto &rotation_step : rotation)
     {
-        const auto skill_data =
-            SkillRuleData::GetDataByID(rotation_step.skill_data.skill_id, Globals::RotationRun.skill_data_map);
-
+        const auto skill_data = rotation_step.skill_data;
+        const auto weapon_type = skill_data.weapon_type;
+        const auto weapon_type_str = weapon_type_to_string(weapon_type);
         const auto keybind_str = get_keybind_str(rotation_step);
 
         if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_match_weapon_swap_like))
         {
+            if (line == "")
+                continue;
+
+            if (line.find(": ") == std::string::npos)
+            {
+                line = "Kit: " + line;
+            }
+
             line += "\n";
             rotation_text.push_back(line);
             line.clear();
             first_in_line = true;
+            prev_was_aa = false;
         }
         else
         {
+            if (line == "" && weapon_type_str != "None")
+            {
+                line = weapon_type_str + ": ";
+            }
 
             if (!first_in_line)
             {

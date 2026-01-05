@@ -184,6 +184,11 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::SOLAR_STORM,
     SkillID::PROCESSION_OF_BLADES,
     SkillID::DRAGON_S_MAW,
+    SkillID::RADIANT_JUSTICE,
+    SkillID::RADIANT_RESOLVE,
+    SkillID::RADIANT_RESOLVE_1,
+    SkillID::RADIANT_COURAGE,
+    SkillID::RADIANT_COURAGE_1,
     // WARRIOR
     SkillID::DRAGON_TRIGGER,
     SkillID::FLOW_STABILIZER,
@@ -393,6 +398,15 @@ const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_g
             SkillID::RIDE_THE_LIGHTNING,
             SkillID::PRIMORDIAL_STANCE,
             SkillID::ARCANE_BLAST,
+        },
+    },
+    {
+        "power_luminary_v4",
+        {
+            SkillID::PIERCING_STANCE,
+            SkillID::EFFULGENT_STANCE,
+            SkillID::DARING_ADVANCE,
+            SkillID::DARING_ADVANCE_1,
         },
     },
 };
