@@ -32,4 +32,6 @@ bool DownloadFile(const std::string &url, const std::filesystem::path &outputPat
 
 bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem::path &extractPath);
 
+void DropOldBuilds(const std::filesystem::path &addonPath);
+
 void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath);

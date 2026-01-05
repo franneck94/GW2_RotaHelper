@@ -565,6 +565,51 @@ bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem:
     }
 }
 
+void DropFiles(const std::filesystem::path &path)
+{
+    try
+    {
+        if (std::filesystem::exists(path) && std::filesystem::is_directory(path))
+        {
+            for (const auto &entry : std::filesystem::directory_iterator(path))
+            {
+                if (entry.is_regular_file())
+                {
+                    std::filesystem::remove(entry.path());
+                }
+            }
+
+            (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", ("Removed old build files from " + path.string() + " directory").c_str());
+        }
+    }
+    catch (const std::filesystem::filesystem_error &e)
+    {
+        auto errorMsg = "Error removing old builds from " + path.string() + " directory: " + std::string(e.what());
+        (void)Globals::APIDefs->Log(LOGL_WARNING, "GW2RotaHelper", errorMsg.c_str());
+    }
+    catch (...)
+    {
+        (void)Globals::APIDefs->Log(LOGL_WARNING, "GW2RotaHelper", ("Unknown error while removing old builds from " + path.string() + " directory").c_str());
+    }
+}
+
+void DropOldBuilds(const std::filesystem::path &addonPath)
+{
+    auto power_alac = addonPath / "bench" / "alac" / "power";
+    DropFiles(power_alac);
+    auto power_dps = addonPath / "bench" / "dps" / "power";
+    DropFiles(power_dps);
+    auto power_quick = addonPath / "bench" / "quick" / "power";
+    DropFiles(power_quick);
+
+    auto condition_alac = addonPath / "bench" / "alac" / "condition";
+    DropFiles(condition_alac);
+    auto condition_dps = addonPath / "bench" / "dps" / "condition";
+    DropFiles(condition_dps);
+    auto condition_quick = addonPath / "bench" / "quick" / "condition";
+    DropFiles(condition_quick);
+}
+
 void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath)
 {
     std::thread([addonPath]() {
