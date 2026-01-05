@@ -1797,13 +1797,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "condition_reaper_greatsword_spear",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Condition Reaper Greatsword Spear",
+    "profession": "Necromancer",
+    "elite_spec": "Reaper",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/necromancer/condition-reaper-greatsword-spear",
+    "dps_report_url": "https://dps.report/HZw6-20240829-121726_golem",
+    "overall_dps": 44209.0
   }
 }

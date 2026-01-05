@@ -56,14 +56,8 @@ static const inline std::set<std::string_view> red_crossed_builds = {
     "condition_amalgam_one_kit_spear",
     "condition_alacrity_amalgam_steamshrieker_spear",
     "condition_alacrity_amalgam_two_kits_spear",
-    "condition_firebrand",
-    "condition_quickness_firebrand",
-    "condition_mirage_dagger",
-    "condition_mirage_dune_cloak",
-    "condition_mirage_ih_ether",
-    "condition_mirage_ih_oasis",
-    "condition_alacrity_mirage_staff",
-    "condition_alacrity_mirage_axe_torch_staff",
+    "condition_firebrand_axe_torch_pistol_pistol",
+    "condition_quickness_firebrand_pistol_torch_pistol",
 };
 
 static const inline std::set<std::string_view> orange_crossed_builds = {
@@ -75,20 +69,20 @@ static const inline std::set<std::string_view> orange_crossed_builds = {
     "condition__pistol_dagger",
     "condition_quickness_catalyst_pistol_dagger",
     // POWER BUILDS
-    "condition_boon_chronomancer",
-    "condition_chronomancer",
+    "condition_boon_chronomancer_staff_scepter_torch",
+    "condition_chronomancer_staff_scepter_torch",
     "power_vindicator_greatsword_sword_sword",
-    "power_quickness_untamed",
-    "power_quickness_untamed_maces",
-    "power_quickness_untamed_offhand_mace",
+    "power_quickness_untamed_hammer_sword_axe",
+    "power_quickness_untamed_hammer_mace_mace",
+    "power_quickness_untamed_hammer_sword_mace",
     "power_quickness_catalyst_sword_dagger",
     "power_catalyst_sword_dagger",
-    "power_luminary",
-    "power_alacrity_luminary",
+    "power_luminary_spear_greatsword",
+    "power_alacrity_luminary_longbow_greatsword",
     "power_quickness_evoker_scepter_dagger",
     // CONDI BUILDS
-    "condition_virtuoso",
-    "condition_quickness_untamed",
+    "condition_virtuoso_dagger_sword_focus",
+    "condition_quickness_untamed_axe_dagger_dagger_torch",
     "condition_quickness_catalyst_pistol_warhorn",
 };
 
@@ -103,9 +97,9 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "power_catalyst_scepter_dagger",
     "power_catalyst_scepter_dagger_pf",
     "power_virtuoso_spear_greatsword",
-    "power_virtuoso_dagger_sword_greatsword",
-    "power_virtuoso",
-    "power_troubadour",
+    "power_virtuoso_greatsword_dagger_sword",
+    "power_virtuoso_spear_dagger_sword",
+    "power_troubadour_spear_dagger_sword",
     "inferno_tempest_scepter_dagger",
     "power_conduit_staff_sword_sword",               // maybe green
     "power_conduit_greatsword_sword_sword",          // maybe green
@@ -114,9 +108,9 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "power_quickness_herald_staff_sword_sword",      // maybe green
     "power_scrapper_hammer",                         // optimize again to go green
     "power_willbender",
-    "power_dragonhunter",
-    "power_dragonhunter_virtues_spear",
-    "power_dragonhunter_radiance_longbow",
+    "power_dragonhunter_virtues_spear_greatsword",
+    "power_dragonhunter_radiance_spear_greatsword",
+    "power_dragonhunter_radiance_longbow_greatsword",
     // CHECKED POWER BOON BUILDS
     "power_quickness_ritualist_greatsowrd_spear",
     "power_quickness_catalyst_scepter_dagger",
@@ -148,25 +142,25 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "condition_renegade_spear_mace_axe",
     "condition_mechanist_no_kit_spear",
     // UNCHECKED POWER BUILDS
-    "power_untamed",
-    "power_untamed_sword_axe",
-    "power_chronomancer",
+    "power_untamed_hammer_spear",
+    "power_untamed_hammer_sword_axe",
+    "power_chronomancer_spear_dagger_sword",
     "power_evoker_scepter_dagger",
     "power_alacrity_evoker_scepter_dagger",
     // UNCHECKED POWER BOON BUILDS
     "power_alacrity_tempest_inferno_scepter_focus",
-    "power_boon_chronomancer",
+    "power_boon_chronomancer_spear_dagger_sword",
     "power_alacrity_tempest_hammer",
     "power_alacrity_renegade_staff_sword_sword",
     "condition_paragon_longbow_sword_sword",
     // UNCHECKED CONDITION BUILDS
     "condition_harbinger_pistol_torch_scepter_dagger",
-    "condition_druid",
+    "condition_druid_dagger_torch_axe_dagger",
     "condition_thief",
     "condition_thief_spear",
-    "condition_soulbeast",
-    "condition_soulbeast_shortbow",
-    "condition_soulbeast_quickdraw",
+    "condition_soulbeast_axe_dagger_dagger_torch",
+    "condition_soulbeast_shortbow_dagger_dagger",
+    "condition_soulbeast_axe_torch_dagger_axe",
     // UNCHECKED CONDI BOON BUILDS
     "condition_quickness_harbinger_pistol_dagger_scepter_torch",
     "condition_alacrity_tempest_scepter",
@@ -193,8 +187,8 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_reaper_greatsword_spear",
     "power_paragon_sword_axe_dagger_mace",
     "power_warrior_sword_axe_dagger_mace",
-    "power_galeshot",
-    "power_soulbeast_hammer",
+    "power_galeshot_longbow_axe_axe",
+    "power_soulbeast_hammer_axe_axe",
     "power_spellbreaker_sword_mace_dagger_axe",
     "power_spellbreaker_hammer_dagger_mace",
     // POWER BOON BUILDS
@@ -204,13 +198,13 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_quickness_berserker_spear_axe_axe",
     "power_quickness_berserker_greatsword_axe_axe",
     "power_quickness_harbinger",
-    "power_quickness_galeshot",
+    "power_quickness_galeshot_longbow_axe_axe",
     // CONDITION BUILDS
     "condition_harbinger",
     "condition_mechanist_one_kit_spear",
     "condition_mechanist_two_kits_spear",
-    "condition_willbender_scepter",
-    "condition_willbender",
+    "condition_willbender_scepter_pistol_pistol_torch",
+    "condition_willbender_pistol_torch_pistol",
     "condition_conduit_mace_axe",
     "condition_conduit_spear_mace_axe",
     // CONDI BOON BUILDS
@@ -330,6 +324,8 @@ RenderType::BuildCategory RenderType::get_build_category(const std::string &disp
     if (build_name.contains("deadeye"))
         return BuildCategory::ORANGE_CROSSED;
     if (build_name.contains("bladesworn"))
+        return BuildCategory::RED_CROSSED;
+    if (build_name.contains("mirage"))
         return BuildCategory::RED_CROSSED;
 
     for (const auto &[name, category] : build_category_cache)
@@ -1107,7 +1103,7 @@ void RenderType::render_options_window()
                     {
                         const auto AddonPath = Globals::APIDefs->Paths_GetAddonDirectory("GW2RotaHelper");
 
-                        if (VERSION_STRING == "0.26.0.0")
+                        if (MINOR == 26 && MAJOR == 0 && BUILD == 0)
                             DropOldBuilds(AddonPath);
 
                         char buffer[128] = {'\0'};

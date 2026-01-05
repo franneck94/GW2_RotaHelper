@@ -2753,13 +2753,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_quickness_herald_staff_sword_sword",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Quickness Herald Staff Sword Sword",
+    "profession": "Revenant",
+    "elite_spec": "Herald",
     "build_type": "power",
     "benchmark_type": "quick",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/revenant/power-quickness-herald-staff-sword-sword",
+    "dps_report_url": "https://dps.report/RBcU-20250211-234906_golem",
+    "overall_dps": 30089.0
   }
 }

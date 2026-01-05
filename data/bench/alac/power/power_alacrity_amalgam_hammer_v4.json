@@ -2039,13 +2039,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_alacrity_amalgam_hammer",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Alacrity Amalgam Hammer",
+    "profession": "Engineer",
+    "elite_spec": "Amalgam",
     "build_type": "power",
     "benchmark_type": "alac",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/engineer/power-alacrity-amalgam-hammer",
+    "dps_report_url": "https://dps.report/BMF2-20251209-140418_golem",
+    "overall_dps": 38827.0
   }
 }

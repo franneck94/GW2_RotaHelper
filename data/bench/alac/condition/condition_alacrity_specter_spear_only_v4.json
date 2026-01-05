@@ -2212,13 +2212,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "condition_alacrity_specter_spear_only",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Condition Alacrity Specter Spear Only",
+    "profession": "Thief",
+    "elite_spec": "Specter",
     "build_type": "condition",
     "benchmark_type": "alac",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/thief/condition-alacrity-specter-spear-only",
+    "dps_report_url": "https://dps.report/YTx6-20250925-231711_golem",
+    "overall_dps": 35153.0
   }
 }

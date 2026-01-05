@@ -1594,13 +1594,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_quickness_galeshot_longbow_axe_axe",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Quickness Galeshot Longbow Axe Axe",
+    "profession": "Ranger",
+    "elite_spec": "Galeshot",
     "build_type": "power",
     "benchmark_type": "quick",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/ranger/power-quickness-galeshot-longbow-axe-axe",
+    "dps_report_url": "https://dps.report/n051-20251220-164809_golem",
+    "overall_dps": 39088.0
   }
 }

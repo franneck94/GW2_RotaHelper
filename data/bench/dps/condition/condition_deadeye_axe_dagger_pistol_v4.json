@@ -1653,13 +1653,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "condition_deadeye_axe_dagger_pistol",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Condition Deadeye Axe Dagger Pistol",
+    "profession": "Thief",
+    "elite_spec": "Deadeye",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/thief/condition-deadeye-axe-dagger-pistol",
+    "dps_report_url": "https://dps.report/4GTi-20240530-005615_golem",
+    "overall_dps": 40856.0
   }
 }

@@ -1669,13 +1669,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_troubadour_spear_dagger_sword",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Troubadour Spear Dagger Sword",
+    "profession": "Mesmer",
+    "elite_spec": "Troubadour",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/mesmer/power-troubadour-spear-dagger-sword",
+    "dps_report_url": "https://dps.report/9Pfz-20251117-165436_golem",
+    "overall_dps": 43148.0
   }
 }

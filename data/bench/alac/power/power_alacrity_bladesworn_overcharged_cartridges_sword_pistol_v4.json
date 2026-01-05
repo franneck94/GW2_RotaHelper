@@ -1651,13 +1651,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_alacrity_bladesworn_overcharged_cartridges_sword_pistol",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Alacrity Bladesworn Overcharged Cartridges Sword Pistol",
+    "profession": "Warrior",
+    "elite_spec": "Bladesworn",
     "build_type": "power",
     "benchmark_type": "alac",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/warrior/power-alacrity-bladesworn-overcharged-cartridges-sword-pistol",
+    "dps_report_url": "https://b.dps.report/JvTL-20250827-204709_golem",
+    "overall_dps": 39662.0
   }
 }

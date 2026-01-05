@@ -1803,13 +1803,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_catalyst_sword_dagger",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Catalyst Sword Dagger",
+    "profession": "Elementalist",
+    "elite_spec": "Catalyst",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/elementalist/power-catalyst-sword-dagger",
+    "dps_report_url": "https://dps.report/VW8L-20250814-083156_golem",
+    "overall_dps": 44500.0
   }
 }

@@ -1918,13 +1918,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_quickness_untamed_hammer_sword_mace",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Quickness Untamed Hammer Sword Mace",
+    "profession": "Ranger",
+    "elite_spec": "Untamed",
     "build_type": "power",
     "benchmark_type": "quick",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/ranger/power-quickness-untamed-hammer-sword-mace",
+    "dps_report_url": "https://dps.report/RpVr-20250519-121123_golem",
+    "overall_dps": 35154.0
   }
 }

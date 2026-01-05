@@ -1712,13 +1712,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "condition_weaver_scepter_warhorn",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Condition Weaver Scepter Warhorn",
+    "profession": "Elementalist",
+    "elite_spec": "Weaver",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/elementalist/condition-weaver-scepter-warhorn",
+    "dps_report_url": "https://dps.report/0ix2-20250630-030645_golem",
+    "overall_dps": 45217.0
   }
 }

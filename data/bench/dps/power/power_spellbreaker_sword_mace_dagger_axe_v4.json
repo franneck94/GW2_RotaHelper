@@ -2147,13 +2147,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_spellbreaker_sword_mace_dagger_axe",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Spellbreaker Sword Mace Dagger Axe",
+    "profession": "Warrior",
+    "elite_spec": "Spellbreaker",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/warrior/power-spellbreaker-sword-mace-dagger-axe",
+    "dps_report_url": "https://dps.report/QYqB-20250217-174213_golem",
+    "overall_dps": 44863.0
   }
 }

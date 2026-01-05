@@ -170,8 +170,7 @@ class SnowCrowsScraper:
 
         metadata_file = self.output_dir / "build_metadata.json"
         if not metadata_file.exists():
-            self.logger.error(f"Build metadata file not found: {metadata_file}")
-            self.logger.error("Please run get_sc_metadata.py first to generate the metadata file")
+            self.logger.warning(f"Build metadata file not found: {metadata_file}")
             builds_info = []
         else:
             with metadata_file.open(encoding="utf-8") as f:

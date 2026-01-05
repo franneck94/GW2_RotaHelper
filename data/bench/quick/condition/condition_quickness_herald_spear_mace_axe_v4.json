@@ -2698,13 +2698,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "condition_quickness_herald_spear_mace_axe",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Condition Quickness Herald Spear Mace Axe",
+    "profession": "Revenant",
+    "elite_spec": "Herald",
     "build_type": "condition",
     "benchmark_type": "quick",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/revenant/condition-quickness-herald-spear-mace-axe",
+    "dps_report_url": "https://dps.report/ErCv-20250216-134453_golem",
+    "overall_dps": 33948.0
   }
 }

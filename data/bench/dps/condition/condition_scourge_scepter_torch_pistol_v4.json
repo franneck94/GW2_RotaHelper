@@ -1696,13 +1696,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "condition_scourge_scepter_torch_pistol",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Condition Scourge Scepter Torch Pistol",
+    "profession": "Necromancer",
+    "elite_spec": "Scourge",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/necromancer/condition-scourge-scepter-torch-pistol",
+    "dps_report_url": "https://dps.report/LzVj-20231003-151324_golem",
+    "overall_dps": 39802.0
   }
 }

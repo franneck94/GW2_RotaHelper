@@ -18,6 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Notes
 
 - Builds fetched on 5th Jan 2026
+- Updated categories for:
+  - Warrior
+  - Engineer (except Tempest)
+  - Elementalist
+  - Necromancer
+  - Revenant
+  - Guardian
+  - Mesmer (except Chronomancer)
+  - Ranger
 
 ## 0.25.0 - 2026-01-02
 

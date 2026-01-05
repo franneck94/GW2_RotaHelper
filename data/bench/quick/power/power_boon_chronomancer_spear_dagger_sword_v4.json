@@ -2046,13 +2046,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_boon_chronomancer_spear_dagger_sword",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Boon Chronomancer Spear Dagger Sword",
+    "profession": "Mesmer",
+    "elite_spec": "Chronomancer",
     "build_type": "power",
     "benchmark_type": "quick",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/mesmer/power-boon-chronomancer-spear-dagger-sword",
+    "dps_report_url": "https://dps.report/Vc4z-20251031-212055_golem",
+    "overall_dps": 36025.0
   }
 }

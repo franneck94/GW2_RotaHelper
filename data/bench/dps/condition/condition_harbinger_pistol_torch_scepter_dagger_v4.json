@@ -1432,13 +1432,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "condition_harbinger_pistol_torch_scepter_dagger",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Condition Harbinger Pistol Torch Scepter Dagger",
+    "profession": "Necromancer",
+    "elite_spec": "Harbinger",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/necromancer/condition-harbinger-pistol-torch-scepter-dagger",
+    "dps_report_url": "https://dps.report/z87P-20250309-090545_golem",
+    "overall_dps": 43979.0
   }
 }

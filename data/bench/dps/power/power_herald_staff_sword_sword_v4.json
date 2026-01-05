@@ -2298,13 +2298,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_herald_staff_sword_sword",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Herald Staff Sword Sword",
+    "profession": "Revenant",
+    "elite_spec": "Herald",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/revenant/power-herald-staff-sword-sword",
+    "dps_report_url": "https://dps.report/cEAa-20250211-232646_golem",
+    "overall_dps": 36837.0
   }
 }

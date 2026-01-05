@@ -2006,13 +2006,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_mechanist_rifle",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Mechanist Rifle",
+    "profession": "Engineer",
+    "elite_spec": "Mechanist",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/engineer/power-mechanist-rifle",
+    "dps_report_url": "https://dps.report/rDWx-20250422-165726_golem",
+    "overall_dps": 40668.0
   }
 }

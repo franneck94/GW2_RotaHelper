@@ -1589,13 +1589,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_reaper_greatsword_dagger_sword",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Reaper Greatsword Dagger Sword",
+    "profession": "Necromancer",
+    "elite_spec": "Reaper",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/necromancer/power-reaper-greatsword-dagger-sword",
+    "dps_report_url": "https://dps.report/oU7B-20240321-155135_golem",
+    "overall_dps": 42141.0
   }
 }

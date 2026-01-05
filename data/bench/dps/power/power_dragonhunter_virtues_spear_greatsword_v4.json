@@ -1296,13 +1296,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_dragonhunter_virtues_spear_greatsword",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Dragonhunter Virtues Spear Greatsword",
+    "profession": "Guardian",
+    "elite_spec": "Dragonhunter",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/guardian/power-dragonhunter-virtues-spear-greatsword",
+    "dps_report_url": "https://dps.report/geOw-20250626-225051_golem",
+    "overall_dps": 45520.0
   }
 }

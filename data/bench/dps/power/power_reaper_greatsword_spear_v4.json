@@ -1488,13 +1488,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_reaper_greatsword_spear",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Reaper Greatsword Spear",
+    "profession": "Necromancer",
+    "elite_spec": "Reaper",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/necromancer/power-reaper-greatsword-spear",
+    "dps_report_url": "https://dps.report/zu2s-20240827-214523_golem",
+    "overall_dps": 43150.0
   }
 }

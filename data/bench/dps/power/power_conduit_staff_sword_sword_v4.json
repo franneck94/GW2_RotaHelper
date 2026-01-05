@@ -1893,13 +1893,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_conduit_staff_sword_sword",
+    "name": "Power Conduit Staff Sword Sword",
     "profession": "Unknown",
     "elite_spec": "",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/revenant/power-conduit-staff-sword-sword",
+    "dps_report_url": "https://dps.report/BWYo-20251211-175030_golem",
+    "overall_dps": 42420.0
   }
 }

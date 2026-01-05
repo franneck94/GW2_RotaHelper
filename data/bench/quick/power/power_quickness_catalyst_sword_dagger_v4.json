@@ -2266,13 +2266,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_quickness_catalyst_sword_dagger",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Quickness Catalyst Sword Dagger",
+    "profession": "Elementalist",
+    "elite_spec": "Catalyst",
     "build_type": "power",
     "benchmark_type": "quick",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/elementalist/power-quickness-catalyst-sword-dagger",
+    "dps_report_url": "https://dps.report/zfva-20250427-211749_golem",
+    "overall_dps": 39100.0
   }
 }

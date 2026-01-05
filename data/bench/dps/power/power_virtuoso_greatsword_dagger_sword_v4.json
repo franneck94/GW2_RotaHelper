@@ -1449,13 +1449,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_virtuoso_greatsword_dagger_sword",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Virtuoso Greatsword Dagger Sword",
+    "profession": "Mesmer",
+    "elite_spec": "Virtuoso",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/mesmer/power-virtuoso-greatsword-dagger-sword",
+    "dps_report_url": "https://dps.report/B3J7-20250903-042627_golem",
+    "overall_dps": 44070.0
   }
 }

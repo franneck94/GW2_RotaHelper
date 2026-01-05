@@ -1659,13 +1659,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "condition_druid_dagger_torch_axe_dagger",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Condition Druid Dagger Torch Axe Dagger",
+    "profession": "Ranger",
+    "elite_spec": "Druid",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/ranger/condition-druid-dagger-torch-axe-dagger",
+    "dps_report_url": "https://dps.report/704v-20250625-144721_golem",
+    "overall_dps": 48550.0
   }
 }

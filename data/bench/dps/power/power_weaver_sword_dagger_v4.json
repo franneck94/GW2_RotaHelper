@@ -1748,13 +1748,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_weaver_sword_dagger",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Weaver Sword Dagger",
+    "profession": "Elementalist",
+    "elite_spec": "Weaver",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/elementalist/power-weaver-sword-dagger",
+    "dps_report_url": "https://dps.report/njox-20250420-101229_golem",
+    "overall_dps": 44854.0
   }
 }

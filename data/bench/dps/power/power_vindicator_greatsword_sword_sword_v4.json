@@ -1762,13 +1762,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "power_vindicator_greatsword_sword_sword",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Power Vindicator Greatsword Sword Sword",
+    "profession": "Revenant",
+    "elite_spec": "Vindicator",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/revenant/power-vindicator-greatsword-sword-sword",
+    "dps_report_url": "https://dps.report/V0Qd-20250425-161817_golem",
+    "overall_dps": 43910.0
   }
 }

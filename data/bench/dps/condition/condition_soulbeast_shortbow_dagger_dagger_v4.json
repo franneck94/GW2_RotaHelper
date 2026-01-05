@@ -1842,13 +1842,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "condition_soulbeast_shortbow_dagger_dagger",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Condition Soulbeast Shortbow Dagger Dagger",
+    "profession": "Ranger",
+    "elite_spec": "Soulbeast",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/ranger/condition-soulbeast-shortbow-dagger-dagger",
+    "dps_report_url": "https://dps.report/B97C-20250625-230018_golem",
+    "overall_dps": 39258.0
   }
 }
