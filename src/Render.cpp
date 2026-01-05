@@ -40,6 +40,7 @@
 #include "Textures.h"
 #include "Types.h"
 #include "TypesUtils.h"
+#include "Version.h"
 
 namespace
 {
@@ -1037,7 +1038,8 @@ void RenderType::render_options_window()
     const auto version_string = std::string("v") + Globals::VersionString;
 #endif
 
-    const auto window_title = std::string("Rota Helper ") + version_string + "###GW2RotaHelper_Options";
+    const auto window_title =
+        std::string("Rota Helper ") + version_string + " (Builds from " + BUILD_STR + ")###GW2RotaHelper_Options";
 
     if (ImGui::Begin(window_title.c_str(), &Settings::ShowWindow))
     {

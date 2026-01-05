@@ -15,5 +15,6 @@
 #define UPPER_VERSION_RANGE "0.26.0.0"
 
 #define BUILD_DATE "2024-06-10"
+#define BUILD_STR std::string{BUILD_DATE}
 
 #endif // VERSION_H
