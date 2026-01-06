@@ -411,19 +411,19 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
 
 float RenderType::calculate_centered_position(const std::vector<std::string> &items) const
 {
-    auto total_width = 0.0f;
+    auto total_width = 0.0F;
 
     for (size_t i = 0; i < items.size(); ++i)
     {
         total_width += ImGui::CalcTextSize(items[i].c_str()).x;
-        total_width += ImGui::GetFrameHeight(); // Checkbox size
+        total_width += ImGui::GetFrameHeight(); // XXX: ui element size?
 
         if (i < items.size() - 1)
             total_width += ImGui::GetStyle().ItemSpacing.x;
     }
 
     const auto window_width = ImGui::GetWindowSize().x;
-    return (window_width - total_width) * 0.5f;
+    return ((window_width - total_width) * 0.5F) - (total_width * 0.5F); // TODO: Check this formula
 }
 
 void RenderType::render_debug_data()
