@@ -746,7 +746,7 @@ bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &ou
 
     if (success)
     {
-        std::cout << "Successfully downloaded: " << url << " -> " << out_path << std::endl;
+        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Successfully downloaded file");
     }
     else
     {
@@ -777,7 +777,7 @@ std::list<std::future<void>> StartDownloadAllSkillIcons(const LogSkillInfoMap &l
         if (std::filesystem::exists(out_path))
             continue;
 
-        std::cout << "Downloading " << info.icon_url << " to " << out_path << std::endl;
+        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Downloading file");
         futures.emplace_back(
             std::async(std::launch::async, [url = info.icon_url, out_path]() { DownloadFileFromURL(url, out_path); }));
     }
