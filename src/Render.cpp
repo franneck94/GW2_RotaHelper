@@ -46,6 +46,7 @@ namespace
 {
 auto DODGE_ICON_ID = 2;
 auto UNK_SKILL_ICON_ID = 0;
+static auto last_time_aa_did_skip = std::chrono::steady_clock::time_point{};
 
 bool IsVersionIsRange(const std::string version,
                       const std::string &lower_version_bound,
@@ -53,13 +54,6 @@ bool IsVersionIsRange(const std::string version,
 {
     return version >= lower_version_bound && version <= upper_version_bound;
 }
-
-bool IsInBuildCategory(std::string_view display_name, const std::set<std::string_view> &category_builds)
-{
-    return (category_builds.find(display_name.substr(4)) != category_builds.end());
-}
-
-static auto last_time_aa_did_skip = std::chrono::steady_clock::time_point{};
 
 void DrawRect(const RotationStep &rotation_step,
               const std::string &text,
@@ -124,7 +118,6 @@ RenderType::~RenderType()
 {
     ReleaseTextureMap(Globals::TextureMap);
 }
-
 
 void RenderType::set_data_path(const std::filesystem::path &path)
 {
@@ -353,6 +346,8 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
 
                 if (skill_state.is_current && !skill_state.is_last)
                     DrawRect(rotation_step, "", IM_COL32(255, 255, 255, 255), 2.0F, icon_size);
+                else if (rotation_step.skill_data.is_auto_attack) // orange
+                    DrawRect(rotation_step, "", IM_COL32(255, 165, 0, 255), 2.0F);
                 render_skill_texture(rotation_step, texture, 0, icon_size, false);
 
                 if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
@@ -369,10 +364,8 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
     ImGui::End();
 }
 
-void RenderType::render_debug_window()
+void RenderType::render_debug_window(bool &show_debug_window)
 {
-    static bool show_debug_window = true;
-
     if (ImGui::Begin("Debug Data###GW2RotaHelper_Debug", &show_debug_window))
         render_debug_data();
 
@@ -392,7 +385,6 @@ void RenderType::render_xml_selection()
     }
 
     const auto button_width = ImGui::GetWindowSize().x * 0.5f - ImGui::GetStyle().ItemSpacing.x * 0.5f;
-
     if (ImGui::Button("Select Keybinds", ImVec2(button_width, 0)))
     {
         OPENFILENAME ofn;
@@ -609,7 +601,7 @@ void RenderType::render_options_checkboxes()
         show_debug_window = !show_debug_window;
 
     if (show_debug_window)
-        render_debug_window();
+        render_debug_window(show_debug_window);
 #endif
 }
 
@@ -888,12 +880,9 @@ void RenderType::render_symbol_and_text(bool &is_selected,
     draw_list->AddText(text_pos, ImGui::GetColorU32(ImGuiCol_Text), base_formatted_name.substr(4).c_str());
 }
 
-void RenderType::render_red_cross_and_text(bool &is_selected,
-                                           const int original_index,
-                                           const BenchFileInfo *const &file_info,
-                                           const std::string base_formatted_name)
+auto draw_cross_factory(ImU32 color)
 {
-    auto draw_cross = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
+    return [color](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
         float line_thickness = 2.0f;
 
         auto cross_top_left = ImVec2(center.x - radius * 0.7f, center.y - radius * 0.7f);
@@ -901,11 +890,18 @@ void RenderType::render_red_cross_and_text(bool &is_selected,
         auto cross_top_right = ImVec2(center.x + radius * 0.7f, center.y - radius * 0.7f);
         auto cross_bottom_left = ImVec2(center.x - radius * 0.7f, center.y + radius * 0.7f);
 
-        draw_list->AddLine(cross_top_left, cross_bottom_right, IM_COL32(220, 20, 60, 255), line_thickness);
-        draw_list->AddLine(cross_top_right, cross_bottom_left, IM_COL32(220, 20, 60, 255), line_thickness);
+        draw_list->AddLine(cross_top_left, cross_bottom_right, color, line_thickness);
+        draw_list->AddLine(cross_top_right, cross_bottom_left, color, line_thickness);
     };
+}
 
-    render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, "##red_crossed_", draw_cross);
+void RenderType::render_red_cross_and_text(bool &is_selected,
+                                           const int original_index,
+                                           const BenchFileInfo *const &file_info,
+                                           const std::string base_formatted_name)
+{
+    auto draw_cross = draw_cross_factory(IM_COL32(220, 20, 60, 255));
+    render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, "##red_cross_", draw_cross);
 }
 
 void RenderType::render_orange_cross_and_text(bool &is_selected,
@@ -913,24 +909,8 @@ void RenderType::render_orange_cross_and_text(bool &is_selected,
                                               const BenchFileInfo *const &file_info,
                                               const std::string base_formatted_name)
 {
-    auto draw_cross = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
-        float line_thickness = 2.0f;
-
-        auto cross_top_left = ImVec2(center.x - radius * 0.7f, center.y - radius * 0.7f);
-        auto cross_bottom_right = ImVec2(center.x + radius * 0.7f, center.y + radius * 0.7f);
-        auto cross_top_right = ImVec2(center.x + radius * 0.7f, center.y - radius * 0.7f);
-        auto cross_bottom_left = ImVec2(center.x - radius * 0.7f, center.y + radius * 0.7f);
-
-        draw_list->AddLine(cross_top_left, cross_bottom_right, IM_COL32(255, 140, 0, 255), line_thickness);
-        draw_list->AddLine(cross_top_right, cross_bottom_left, IM_COL32(255, 140, 0, 255), line_thickness);
-    };
-
-    render_symbol_and_text(is_selected,
-                           original_index,
-                           file_info,
-                           base_formatted_name,
-                           "##orange_crossed_",
-                           draw_cross);
+    auto draw_cross = draw_cross_factory(IM_COL32(255, 140, 0, 255));
+    render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, "##ora_cross_", draw_cross);
 }
 
 void RenderType::render_untested_and_text(bool &is_selected,
