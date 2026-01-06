@@ -107,6 +107,27 @@ std::string get_skill_text(const RotationStep &rotation_step)
 
     return text;
 }
+
+void SetTooltip(const std::string &text)
+{
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        ImGui::Text(text.c_str());
+        ImGui::EndTooltip();
+    }
+}
+
+void SetTooltip(const std::vector<std::string> &texts)
+{
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        for (const auto &text : texts)
+            ImGui::Text(text.c_str());
+        ImGui::EndTooltip();
+    }
+}
 } // namespace
 
 RenderType::RenderType()
@@ -336,15 +357,12 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
 
                 auto texture = line_data.first;
                 auto rotation_step = RotationStep{};
-                rotation_step.skill_data.name = line_data.second;
-                const auto skill_state = SkillState{
-                    .is_current = num_icons == curr_rota_index,
-                    .is_last = false,
-                    .is_auto_attack = false,
-                };
-                const int aa_index = 0;
+                rotation_step.skill_data.name =
+                    line_data.second; // TODO: We need either skill id or aa info from line_data
+                rotation_step.skill_data.is_auto_attack = false;
+                const auto is_current = num_icons == curr_rota_index;
 
-                if (skill_state.is_current && !skill_state.is_last)
+                if (is_current)
                     DrawRect(rotation_step, "", IM_COL32(255, 255, 255, 255), 2.0F, icon_size);
                 else if (rotation_step.skill_data.is_auto_attack) // orange
                     DrawRect(rotation_step, "", IM_COL32(255, 165, 0, 255), 2.0F);
@@ -432,16 +450,10 @@ void RenderType::render_options_checkboxes()
         };
         const auto centered_pos = calculate_centered_position(items);
         ImGui::SetCursorPosX(centered_pos);
+
         if (ImGui::Checkbox("Skip Update", &Settings::SkipBenchFileUpdate))
-        {
             Settings::Save(Globals::SettingsPath);
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::BeginTooltip();
-            ImGui::Text("When enabled, the addon will skip checking for benchmark file updates on startup.");
-            ImGui::EndTooltip();
-        }
+        SetTooltip("When enabled, the addon will skip checking for benchmark file updates on startup.");
     }
 
     const auto second_row_items = std::vector<std::string>{
@@ -454,12 +466,7 @@ void RenderType::render_options_checkboxes()
     if (ImGui::Checkbox("Move UI", &is_not_ui_adjust_active))
     {
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("When enabled, you can move the skill rotation UI by dragging it.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip("When enabled, you can move the rotation UI elements by dragging it.");
 
     ImGui::SameLine();
 
@@ -473,28 +480,18 @@ void RenderType::render_options_checkboxes()
             Globals::RotationRun.load_data(selected_file_path, img_path);
         }
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("All weapon swap like skills will be shown in the rotation UI.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip("All weapon swap like skills will be shown in the rotation UI.");
 
     const auto third_row_items = std::vector<std::string>{"Show Keybind", "Strict Rotation", "Easy Skill Mode"};
     const auto centered_pos_row_3 = calculate_centered_position(third_row_items);
     ImGui::SetCursorPosX(centered_pos_row_3);
 
     if (ImGui::Checkbox("Show Keybind", &Settings::ShowKeybind))
-    {
         Settings::Save(Globals::SettingsPath);
-    }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("You can load keybinds from your GW2 XML settings file.");
-        ImGui::Text("If not selected, default keybinds will be used.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip(std::vector{
+        std::string{"You can load keybinds from your GW2 XML settings file."},
+        std::string{"If not selected, default keybinds will be used."},
+    });
 
     ImGui::SameLine();
 
@@ -508,16 +505,11 @@ void RenderType::render_options_checkboxes()
             Globals::RotationRun.load_data(selected_file_path, img_path);
         }
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("When enabled, rotation progression requires exact skill "
-                    "matching (for not grayed out skills).");
-        ImGui::Text("This will turn off the weapon swap icons.");
-        ImGui::Text("When disabled, allows more flexible skill detection with "
-                    "fallbacks.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip(std::vector{
+        std::string{"When enabled, rotation progression requires exact skill matching (for not grayed out skills)."},
+        std::string{"This will turn off the weapon swap icons."},
+        std::string{"When disabled, allows more flexible skill detection with fallbacks."},
+    });
 
     ImGui::SameLine();
 
@@ -531,13 +523,11 @@ void RenderType::render_options_checkboxes()
             Globals::RotationRun.load_data(selected_file_path, img_path);
         }
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("When enabled, some rotation skills are not shown.");
-        ImGui::Text("For example on Mechanist the F skills are not shown to have a better overview as a beginner.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip(std::vector{
+        std::string{"When enabled, some rotation skills are not shown or not mandatory to cast."},
+        std::string{"For example on Mechanist the F skills are not shown to have a better overview as a beginner."},
+        std::string{"For more info refer to the README.md."},
+    });
 
     render_xml_selection();
 
@@ -550,12 +540,10 @@ void RenderType::render_options_checkboxes()
 
         Globals::RotationRun.get_rotation_text(keybinds);
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("Newline indicates a weapon swap like action.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip(std::vector{
+        std::string{"Shows the full rotation in a text form of the actual keybinds."},
+        std::string{"Newline indicates a weapon swap like action."},
+    });
 
     ImGui::SameLine();
 
@@ -565,12 +553,10 @@ void RenderType::render_options_checkboxes()
 
         Globals::RotationRun.get_rotation_icons();
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("Newline indicates a weapon swap like action.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip(std::vector{
+        std::string{"Shows the full rotation with skill icons, like in the simple rotation tab in dps.reports."},
+        std::string{"Newline indicates a weapon swap like action."},
+    });
 
     const auto centered_pos = calculate_centered_position({"Rotation Window"});
     ImGui::SetCursorPosX(centered_pos);
@@ -578,15 +564,9 @@ void RenderType::render_options_checkboxes()
     if (ImGui::Checkbox("Rotation Window", &show_rotation_window))
     {
         Settings::Save(Globals::SettingsPath);
-
         Globals::RotationRun.get_rotation_text(keybinds);
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("Shows the rotation window of 10 skills.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip("Shows the rotation window of the last 2, the current and the next 7 skills.");
 
     render_rotation_keybinds(show_rotation_keybinds);
     render_rotation_icons_overview(show_rotation_icons_overview);
@@ -1317,15 +1297,8 @@ void RenderType::render_skill_texture(const RotationStep &rotation_step,
         draw_list->AddText(ImVec2(index_pos.x + 2, index_pos.y + 1), IM_COL32(255, 255, 255, 255), index_str.c_str());
     }
 
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-
-        auto tooltip_text = get_skill_text(rotation_step);
-        ImGui::Text("%s", tooltip_text.c_str());
-
-        ImGui::EndTooltip();
-    }
+    auto tooltip_text = get_skill_text(rotation_step);
+    SetTooltip(tooltip_text);
 }
 
 void RenderType::render_dodge_placeholder()
