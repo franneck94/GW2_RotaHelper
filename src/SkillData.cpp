@@ -373,19 +373,13 @@ const std::set<SkillID> special_match_to_gray_out = {
 
 const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_gray_out = {
     {
-        "power_tempest_v4",
+        "power_tempest_sword_dagger_v4",
         {
             SkillID::RIDE_THE_LIGHTNING,
         },
     },
     {
-        "power_tempest_sword_v4",
-        {
-            SkillID::RIDE_THE_LIGHTNING,
-        },
-    },
-    {
-        "condition_weaver_scepter_v4",
+        "condition_weaver_scepter_warhorn_v4",
         {
             SkillID::SIGNET_OF_EARTH,
             SkillID::SIGNET_OF_FIRE,
@@ -393,7 +387,7 @@ const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_g
         },
     },
     {
-        "power_weaver_v4",
+        "power_weaver_sword_dagger_v4",
         {
             SkillID::RIDE_THE_LIGHTNING,
             SkillID::PRIMORDIAL_STANCE,
@@ -401,7 +395,7 @@ const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_g
         },
     },
     {
-        "power_luminary_v4",
+        "power_luminary_spear_greatsword_v4",
         {
             SkillID::PIERCING_STANCE,
             SkillID::EFFULGENT_STANCE,
@@ -413,7 +407,7 @@ const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_g
 
 const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_drop_match = {
     {
-        "condition_weaver_scepter_v4",
+        "condition_weaver_scepter_warhorn_v4",
         {
             SkillID::FLAMESTRIKE,
         },
