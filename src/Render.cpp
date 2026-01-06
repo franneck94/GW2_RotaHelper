@@ -406,15 +406,31 @@ void RenderType::get_rotation_text()
                 // XXX: Hacky Solution
                 auto kit_name = std::string{"Utility"};
                 if (Globals::Identity.Profession == Mumble::EProfession::Engineer)
-                    kit_name = "Kit";
+                {
+                    if (skill_data.name.contains("Kit") || skill_data.name.contains("Gun") ||
+                        skill_data.name.contains("Flamethrower"))
+                        kit_name = "Kit";
+                    else
+                        kit_name = "Forge";
+                }
                 else if (Globals::Identity.Profession == Mumble::EProfession::Necromancer)
                     kit_name = "Shroud";
+                else if (Globals::Identity.Profession == Mumble::EProfession::Revenant)
+                    kit_name = "Stance";
+                else if (Globals::Identity.Profession == Mumble::EProfession::Elementalist)
+                    kit_name = "Attunement";
                 else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Druid)
                     kit_name = "Avatar";
+                else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Galeshot)
+                    kit_name = "Cyclone";
+                else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Untamed)
+                    kit_name = "Unleash";
                 else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Luminary)
-                    kit_name = "Forge";
+                    kit_name = "Forge"; // TODO: Add in skills_match_weapon_swap_like
                 else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Firebrand)
-                    kit_name = "Tome";
+                    kit_name = "Tome"; // TODO: Add in skills_match_weapon_swap_like
+                else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Bladesworn)
+                    kit_name = "Gunsaber";
 
                 line = kit_name + ": " + line;
             }
