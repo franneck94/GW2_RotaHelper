@@ -178,7 +178,7 @@ static const inline std::set<std::string_view> green_tick_builds = {
 
 void BuildsType::initialize_build_categories()
 {
-    if (build_categories_initialized)
+   if (build_categories_initialized)
         return;
 
     build_category_cache.clear();
@@ -195,10 +195,6 @@ void BuildsType::initialize_build_categories()
     for (const auto &build : yellow_tick_builds)
         build_category_cache[std::string(build)] = BuildCategory::YELLOW_TICKED;
 
-    build_category_cache["antiquary"] = BuildCategory::RED_CROSSED;
-    build_category_cache["daredevil"] = BuildCategory::ORANGE_CROSSED;
-    build_category_cache["deadeye"] = BuildCategory::ORANGE_CROSSED;
-
     build_categories_initialized = true;
 }
 
@@ -206,15 +202,22 @@ BuildCategory BuildsType::get_build_category(const std::string &display_name) co
 {
     auto build_name = display_name.length() > 4 ? display_name.substr(4) : display_name;
 
-    auto it = build_category_cache.find(build_name);
-    if (it != build_category_cache.end())
-        return it->second;
-
-    if (display_name.find("antiquary") != std::string::npos)
+    if (build_name.contains("antiquary"))
+        return BuildCategory::RED_CROSSED;
+    if (build_name.contains("daredevil"))
+        return BuildCategory::ORANGE_CROSSED;
+    if (build_name.contains("deadeye"))
+        return BuildCategory::ORANGE_CROSSED;
+    if (build_name.contains("bladesworn"))
+        return BuildCategory::RED_CROSSED;
+    if (build_name.contains("mirage"))
         return BuildCategory::RED_CROSSED;
 
-    if (display_name.find("daredevil") != std::string::npos || display_name.find("deadeye") != std::string::npos)
-        return BuildCategory::ORANGE_CROSSED;
+    for (const auto &[name, category] : build_category_cache)
+    {
+        if (name.starts_with(build_name))
+            return category;
+    }
 
     return BuildCategory::UNTESTED;
 }
