@@ -691,14 +691,14 @@ bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &ou
     const auto hInternet = InternetOpenA("GW2RotaHelper", INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
     if (!hInternet)
     {
-        std::cerr << "Failed to open internet connection" << std::endl;
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "Failed to open internet connection");
         return false;
     }
 
     const auto hFile = InternetOpenUrlA(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
     if (!hFile)
     {
-        std::cerr << "Failed to open URL: " << url << std::endl;
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "Failed to open URL");
         InternetCloseHandle(hInternet);
         return false;
     }
@@ -706,7 +706,7 @@ bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &ou
     auto outFile = std::ofstream{out_path, std::ios::binary};
     if (!outFile.is_open())
     {
-        std::cerr << "Failed to create output file: " << out_path << std::endl;
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "Failed to create output file");
         InternetCloseHandle(hFile);
         InternetCloseHandle(hInternet);
         return false;
@@ -725,7 +725,7 @@ bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &ou
                 outFile.write(buffer.data(), bytesRead);
                 if (outFile.fail())
                 {
-                    std::cerr << "Failed to write to file: " << out_path << std::endl;
+                    (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "Failed to write to file");
                     success = false;
                     break;
                 }
@@ -733,7 +733,7 @@ bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &ou
         }
         else
         {
-            std::cerr << "Failed to read from URL: " << url << std::endl;
+            (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "Failed to read from URL");
             success = false;
             break;
         }
