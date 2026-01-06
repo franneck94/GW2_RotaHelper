@@ -161,6 +161,15 @@ You can convert your own HTML logs from dps.report or other sources using the pr
    - Add your dps.report http link to: `./internal_data/manual_log_list.json`
      - Optional: Add some SnowCrows guide that uses the same equipment/traits
 
+Example:
+
+```json
+"Power_Ritualist": {
+    "Dps.Report":  "https://dps.report/G60X-20251110-213730_golem",
+    "ScLink": "https://snowcrows.com/builds/raids/necromancer/power-ritualist"
+}
+```
+
 3. **Download HTML Logs**:
    - Run in CMD: `python scripts/get_html_logs.py --manual`
    - This will download HTML logs and save them in the `./internal_data/html/` directory.
@@ -171,7 +180,10 @@ You can convert your own HTML logs from dps.report or other sources using the pr
    - Generated JSON files are saved locally in the `./data/bench/` directory.
 
 5. **Install Your Custom Rotations**:
-   - Copy the generated JSON files to your addon's bench folder `GW2/addons/GW2RotaHelper/bench/...`.
+   - Copy the generated JSON files to your addon's bench folder
+     - Power DPS: `GW2/addons/GW2RotaHelper/bench/dps/power`
+     - Condition DPS: `GW2/addons/GW2RotaHelper/bench/dps/condition`
+     - etc.
 
 ## ⚠️ Known Limitations
 
