@@ -403,7 +403,20 @@ void RenderType::get_rotation_text()
 
             if (line.find(": ") == std::string::npos)
             {
-                line = "Kit: " + line;
+                // XXX: Hacky Solution
+                auto kit_name = std::string{"Utility"};
+                if (Globals::Identity.Profession == Mumble::EProfession::Engineer)
+                    kit_name = "Kit";
+                else if (Globals::Identity.Profession == Mumble::EProfession::Necromancer)
+                    kit_name = "Shroud";
+                else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Druid)
+                    kit_name = "Avatar";
+                else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Luminary)
+                    kit_name = "Forge";
+                else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Firebrand)
+                    kit_name = "Tome";
+
+                line = kit_name + ": " + line;
             }
 
             line += "\n";
