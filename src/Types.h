@@ -388,3 +388,12 @@ struct SkillDetectionTimers
     bool is_first_check_for_next_next = true;
     bool is_first_check_for_next_next_next = true;
 };
+
+enum class BuildCategory
+{
+    RED_CROSSED,
+    ORANGE_CROSSED,
+    GREEN_TICKED,
+    YELLOW_TICKED,
+    UNTESTED
+};
