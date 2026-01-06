@@ -12,7 +12,7 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
 0. **Install Latest VC Redist**: Install from [here](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170#latest-supported-redistributable-version)
 1. **Install Nexus**: Install Nexus Addon Manager
 2. **Install ArcDPS**: Install arcdps via the Nexus Addon Library
-3. **Install this Addon**: Via the ingame Nexus Addon Library
+3. **Install this Addon**: Via the Nexus Addon Library
 
 ## 🎯 User Guide
 
@@ -151,15 +151,24 @@ You can convert your own HTML logs from dps.report or other sources using the pr
 
 0. **Setup Python Environment** (if not already installed):
    - Install Python 3.10+ from [python.org](https://python.org)
-   - Install required dependencies in the CMD: `pip install -r requirements.txt`
 
 1. **Clone/Download this Repository**
    1. Run in CMD: `git clone https://github.com/franneck94/GW2_RotaHelper`
    2. Change into this directory for the next steps: `cd GW2_RotaHelper`
+   3. Install required python dependencies in the CMD: `pip install -r requirements.txt`
 
 2. **Add manual Log List**
    - Add your dps.report http link to: `./internal_data/manual_log_list.json`
      - Optional: Add some SnowCrows guide that uses the same equipment/traits
+
+Example:
+
+```json
+"Power_Ritualist": {
+    "Dps.Report":  "https://dps.report/G60X-20251110-213730_golem",
+    "ScLink": "https://snowcrows.com/builds/raids/necromancer/power-ritualist"
+}
+```
 
 3. **Download HTML Logs**:
    - Run in CMD: `python scripts/get_html_logs.py --manual`
@@ -171,7 +180,10 @@ You can convert your own HTML logs from dps.report or other sources using the pr
    - Generated JSON files are saved locally in the `./data/bench/` directory.
 
 5. **Install Your Custom Rotations**:
-   - Copy the generated JSON files to your addon's bench folder `GW2/addons/GW2RotaHelper/bench/...`.
+   - Copy the generated JSON files to your addon's bench folder
+     - Power DPS: `GW2/addons/GW2RotaHelper/bench/dps/power`
+     - Condition DPS: `GW2/addons/GW2RotaHelper/bench/dps/condition`
+     - etc.
 
 ## ⚠️ Known Limitations
 

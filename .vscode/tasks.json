@@ -2,25 +2,71 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "html_log_to_json",
+            "label": "fetch_gw2_skills",
             "type": "shell",
             "command": "python",
-            "args": ["scripts/html_log_to_json.py"],
-            "problemMatcher": ["gcc"]
+            "args": [
+                "scripts/fetch_gw2_skills.py"
+            ],
+            "problemMatcher": [
+                "gcc"
+            ]
+        },
+        {
+            "label": "get_skill_enum",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "scripts/get_skill_enum.py"
+            ],
+            "problemMatcher": [
+                "gcc"
+            ]
+        },
+        {
+            "label": "get_skill_mapping",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "scripts/get_skill_mapping.py"
+            ],
+            "problemMatcher": [
+                "gcc"
+            ]
         },
         {
             "label": "get_html_logs",
             "type": "shell",
             "command": "python",
-            "args": ["scripts/get_html_logs.py"],
-            "problemMatcher": ["gcc"]
+            "args": [
+                "scripts/get_html_logs.py"
+            ],
+            "problemMatcher": [
+                "gcc"
+            ]
         },
         {
-            "label": "fetch_gw2_skills",
+            "label": "get_html_logs (manual)",
             "type": "shell",
             "command": "python",
-            "args": ["scripts/fetch_gw2_skills.py"],
-            "problemMatcher": ["$python"]
-        }
+            "args": [
+                "scripts/get_html_logs.py",
+                "--manual"
+            ],
+            "problemMatcher": [
+                "gcc"
+            ]
+        },
+        {
+            "label": "html_log_to_json",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "scripts/html_log_to_json.py"
+            ],
+            "problemMatcher": [
+                "gcc"
+            ]
+        },
     ]
 }

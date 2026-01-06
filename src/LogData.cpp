@@ -691,14 +691,14 @@ bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &ou
     const auto hInternet = InternetOpenA("GW2RotaHelper", INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0);
     if (!hInternet)
     {
-        std::cerr << "Failed to open internet connection" << std::endl;
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "Failed to open internet connection");
         return false;
     }
 
     const auto hFile = InternetOpenUrlA(hInternet, url.c_str(), NULL, 0, INTERNET_FLAG_RELOAD, 0);
     if (!hFile)
     {
-        std::cerr << "Failed to open URL: " << url << std::endl;
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "Failed to open URL");
         InternetCloseHandle(hInternet);
         return false;
     }
@@ -706,7 +706,7 @@ bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &ou
     auto outFile = std::ofstream{out_path, std::ios::binary};
     if (!outFile.is_open())
     {
-        std::cerr << "Failed to create output file: " << out_path << std::endl;
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "Failed to create output file");
         InternetCloseHandle(hFile);
         InternetCloseHandle(hInternet);
         return false;
@@ -725,7 +725,7 @@ bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &ou
                 outFile.write(buffer.data(), bytesRead);
                 if (outFile.fail())
                 {
-                    std::cerr << "Failed to write to file: " << out_path << std::endl;
+                    (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "Failed to write to file");
                     success = false;
                     break;
                 }
@@ -733,7 +733,7 @@ bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &ou
         }
         else
         {
-            std::cerr << "Failed to read from URL: " << url << std::endl;
+            (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "Failed to read from URL");
             success = false;
             break;
         }
@@ -746,7 +746,7 @@ bool DownloadFileFromURL(const std::string &url, const std::filesystem::path &ou
 
     if (success)
     {
-        std::cout << "Successfully downloaded: " << url << " -> " << out_path << std::endl;
+        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Successfully downloaded file");
     }
     else
     {
@@ -777,7 +777,7 @@ std::list<std::future<void>> StartDownloadAllSkillIcons(const LogSkillInfoMap &l
         if (std::filesystem::exists(out_path))
             continue;
 
-        std::cout << "Downloading " << info.icon_url << " to " << out_path << std::endl;
+        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Downloading file");
         futures.emplace_back(
             std::async(std::launch::async, [url = info.icon_url, out_path]() { DownloadFileFromURL(url, out_path); }));
     }
@@ -969,4 +969,231 @@ void RotationLogType::reset_rotation()
     meta_data = MetaData{};
     auto_attack_indices.clear();
     (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Resetted Rotation");
+}
+
+std::string RotationLogType::get_keybind_str(const RotationStep &rotation_step,
+                                             const std::map<std::string, KeybindInfo> &keybinds)
+{
+    const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
+    const auto &log_skill_info_map = Globals::RotationRun.log_skill_info_map;
+    const auto skill_data = rotation_step.skill_data;
+
+    std::string keybind_str;
+
+    const auto skill_name_for_slot7 =
+        skill_key_mapping.skill_7 != -1 &&
+                log_skill_info_map.find(skill_key_mapping.skill_7) != log_skill_info_map.end()
+            ? log_skill_info_map.find(skill_key_mapping.skill_7)->second.name
+            : "";
+    const auto skill_name_for_slot8 =
+        skill_key_mapping.skill_8 != -1 &&
+                log_skill_info_map.find(skill_key_mapping.skill_8) != log_skill_info_map.end()
+            ? log_skill_info_map.find(skill_key_mapping.skill_8)->second.name
+            : "";
+    const auto skill_name_for_slot9 =
+        skill_key_mapping.skill_9 != -1 &&
+                log_skill_info_map.find(skill_key_mapping.skill_9) != log_skill_info_map.end()
+            ? log_skill_info_map.find(skill_key_mapping.skill_9)->second.name
+            : "";
+
+    if (rotation_step.skill_data.name == skill_name_for_slot7)
+    {
+        keybind_str = "7";
+    }
+    else if (rotation_step.skill_data.name == skill_name_for_slot8)
+    {
+        keybind_str = "8";
+    }
+    else if (rotation_step.skill_data.name == skill_name_for_slot9)
+    {
+        keybind_str = "9";
+    }
+    else
+    {
+        if (Settings::XmlSettingsPath.empty())
+        {
+            keybind_str = default_skillslot_to_string(skill_data.skill_type);
+        }
+        else
+        {
+            const auto [keybind, modifier] = get_keybind_for_skill_type(skill_data.skill_type, keybinds);
+            if (keybind == Keys::NONE)
+            {
+                keybind_str = default_skillslot_to_string(skill_data.skill_type);
+            }
+            else
+            {
+                keybind_str = custom_keys_to_string(keybind);
+                if (modifier != Modifiers::NONE)
+                {
+                    keybind_str = "(" + modifiers_to_string(modifier) + " + " + keybind_str + ")";
+                }
+            }
+        }
+    }
+
+    return keybind_str;
+}
+
+void RotationLogType::get_rotation_icons()
+{
+    rotation_icon_lines.clear();
+    auto rotation_line = std::vector<std::pair<ID3D11ShaderResourceView *, std::string>>{};
+
+    const auto &rotation = Globals::RotationRun.all_rotation_steps_w_swap;
+
+    for (const auto &rotation_step : rotation)
+    {
+        const auto skill_data =
+            SkillRuleData::GetDataByID(rotation_step.skill_data.skill_id, Globals::RotationRun.skill_data_map);
+
+        const auto icon_it = Globals::TextureMap.find(skill_data.icon_id);
+
+        if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_match_weapon_swap_like))
+        {
+            rotation_icon_lines.push_back(rotation_line);
+            rotation_line = {};
+            continue;
+        }
+
+        if (icon_it != Globals::TextureMap.end())
+        {
+            if (!icon_it->second)
+                continue;
+            rotation_line.push_back(std::make_pair(icon_it->second, skill_data.name));
+        }
+        else
+        {
+            continue;
+        }
+    }
+
+    if (!rotation_line.empty())
+    {
+        rotation_icon_lines.push_back(rotation_line);
+    }
+}
+
+void RotationLogType::get_rotation_text(const std::map<std::string, KeybindInfo> &keybinds)
+{
+    std::string line;
+    rotation_text.clear();
+
+    bool first_in_line = true;
+
+    const auto &rotation = Globals::RotationRun.all_rotation_steps_w_swap;
+
+    auto prev_was_aa = false;
+    for (const auto &rotation_step : rotation)
+    {
+        const auto skill_data = rotation_step.skill_data;
+        const auto weapon_type = skill_data.weapon_type;
+        const auto weapon_type_str = weapon_type_to_string(weapon_type);
+        const auto keybind_str = get_keybind_str(rotation_step, keybinds);
+
+        if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_match_weapon_swap_like))
+        {
+            if (line == "")
+                continue;
+
+            if (line.find(": ") == std::string::npos)
+            {
+                // XXX: Hacky Solution
+                auto kit_name = std::string{"Utility"};
+                if (Globals::Identity.Profession == Mumble::EProfession::Engineer)
+                {
+                    if (skill_data.name.contains("Kit") || skill_data.name.contains("Gun") ||
+                        skill_data.name.contains("Flamethrower"))
+                        kit_name = "Kit";
+                    else
+                        kit_name = "Forge";
+                }
+                else if (Globals::Identity.Profession == Mumble::EProfession::Necromancer)
+                    kit_name = "Shroud";
+                else if (Globals::Identity.Profession == Mumble::EProfession::Revenant)
+                    kit_name = "Stance";
+                else if (Globals::Identity.Profession == Mumble::EProfession::Elementalist)
+                    kit_name = "Attunement";
+                else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Druid)
+                    kit_name = "Avatar";
+                else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Galeshot)
+                    kit_name = "Cyclone";
+                else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Untamed)
+                    kit_name = "Unleash";
+                else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Luminary)
+                    kit_name = "Forge"; // TODO: Add in skills_match_weapon_swap_like
+                else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Firebrand)
+                    kit_name = "Tome"; // TODO: Add in skills_match_weapon_swap_like
+                else if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Bladesworn)
+                    kit_name = "Gunsaber";
+
+                line = kit_name + ": " + line;
+            }
+
+            line += "\n";
+            rotation_text.push_back(line);
+            line.clear();
+            first_in_line = true;
+            prev_was_aa = false;
+        }
+        else
+        {
+            if (line == "" && weapon_type_str != "None")
+            {
+                line = weapon_type_str + ": ";
+            }
+
+            if (!first_in_line)
+            {
+                line += " - ";
+            }
+
+            auto curr_is_aa = skill_data.skill_type == SkillSlot::WEAPON_1;
+
+            if (keybind_str != "")
+            {
+                if (prev_was_aa && curr_is_aa)
+                {
+                    const auto search_str = std::string{"xAA"};
+                    const auto slcie_size = search_str.size() + 4;
+                    auto keep_slice = line.size() >= slcie_size ? line.substr(0, line.size() - slcie_size) : line;
+                    auto prev_counter =
+                        line.size() >= slcie_size ? line.substr(line.size() - slcie_size, slcie_size) : line;
+
+                    if (prev_counter.find(search_str) != std::string::npos)
+                    {
+                        auto found_idx = prev_counter.find("x");
+                        auto count_str = prev_counter.substr(0, found_idx);
+                        int count = 0;
+                        try
+                        {
+                            count = std::stoi(count_str);
+                        }
+                        catch (...)
+                        {
+                            count = 1;
+                        }
+                        count++;
+                        line = keep_slice + std::to_string(count) + "xAA";
+                    }
+                }
+                else if (curr_is_aa)
+                {
+                    line += "1xAA";
+                }
+                else
+                {
+                    line += keybind_str;
+                }
+            }
+
+            prev_was_aa = curr_is_aa;
+            first_in_line = false;
+        }
+    }
+
+    if (line != "")
+    {
+        rotation_text.push_back(line);
+    }
 }

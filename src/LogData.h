@@ -31,7 +31,9 @@ SkillState get_skill_state(const RotationLogType &rotation_run,
 
 bool is_skill_in_set(const std::string &skill_name, const std::set<std::string> &set, const bool exact_match = false);
 
-bool is_skill_in_set(std::string_view skill_name, const std::set<std::string_view> &set, const bool exact_match = false);
+bool is_skill_in_set(std::string_view skill_name,
+                     const std::set<std::string_view> &set,
+                     const bool exact_match = false);
 
 bool is_skill_in_set(SkillID skill_id, const std::set<SkillID> &set);
 
@@ -48,6 +50,10 @@ public:
     void reset_rotation();
     bool is_current_run_done() const;
 
+    std::string get_keybind_str(const RotationStep &rotation_step, const std::map<std::string, KeybindInfo> &keybinds);
+    void get_rotation_icons();
+    void get_rotation_text(const std::map<std::string, KeybindInfo> &keybinds);
+
     std::list<std::future<void>> futures;
     LogSkillInfoMap log_skill_info_map;
     RotationSteps all_rotation_steps;
@@ -57,4 +63,7 @@ public:
     MetaData meta_data;
     SkillKeyMapping skill_key_mapping;
     std::vector<int> auto_attack_indices;
+
+    std::vector<std::string> rotation_text;
+    std::vector<std::vector<std::pair<ID3D11ShaderResourceView *, std::string>>> rotation_icon_lines;
 };

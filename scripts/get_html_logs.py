@@ -25,6 +25,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 SLEEP_DELAY = 1.5
+SCRIPT_DIR = Path(__file__).resolve().parent
 
 
 class SnowCrowsScraper:
@@ -1013,20 +1014,15 @@ class SnowCrowsScraper:
 
 
 def update_build_date_in_header() -> None:
-    version_file_path = Path("../src/Version.h")
-
-    # Get current date in YYYY-MM-DD format
+    version_file_path = SCRIPT_DIR / ".." / "src" / "Version.h"
     current_date = datetime.now().strftime("%Y-%m-%d")
 
     try:
-        # Read the current version file
         with version_file_path.open("r", encoding="utf-8") as f:
             content = f.read()
 
-        # Replace the BUILD_DATE line
         updated_content = re.sub(r'#define BUILD_DATE "[\d-]+"', f'#define BUILD_DATE "{current_date}"', content)
 
-        # Write the updated content back
         with version_file_path.open("w", encoding="utf-8") as f:
             f.write(updated_content)
 

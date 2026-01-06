@@ -46,172 +46,7 @@ namespace
 {
 auto DODGE_ICON_ID = 2;
 auto UNK_SKILL_ICON_ID = 0;
-
-static const inline std::set<std::string_view> red_crossed_builds = {
-    // CHECKED POWER BUILDS
-    "power_amalgam_hammer",
-    "power_alacrity_amalgam_hammer",
-    "power_holosmith_sword_pistol",
-    // CHECKED CONDITION BUILDS
-    "condition_amalgam_one_kit_spear",
-    "condition_alacrity_amalgam_steamshrieker_spear",
-    "condition_alacrity_amalgam_two_kits_spear",
-    "condition_firebrand_axe_torch_pistol_pistol",
-    "condition_quickness_firebrand_pistol_torch_pistol",
-};
-
-static const inline std::set<std::string_view> orange_crossed_builds = {
-    // CHECKED POWER BUILDS
-    "power_tempest_hammer",
-    "inferno_quickness_evoker_specialized_elements",
-    "inferno_evoker_specialized_elements",
-    // CHECKED CONDITION BUILDS
-    "condition__pistol_dagger",
-    "condition_quickness_catalyst_pistol_dagger",
-    // POWER BUILDS
-    "condition_boon_chronomancer_staff_scepter_torch",
-    "condition_chronomancer_staff_scepter_torch",
-    "power_vindicator_greatsword_sword_sword",
-    "power_quickness_untamed_hammer_sword_axe",
-    "power_quickness_untamed_hammer_mace_mace",
-    "power_quickness_untamed_hammer_sword_mace",
-    "power_quickness_catalyst_sword_dagger",
-    "power_catalyst_sword_dagger",
-    "power_luminary_spear_greatsword",
-    "power_alacrity_luminary_longbow_greatsword",
-    "power_quickness_evoker_scepter_dagger",
-    // CONDI BUILDS
-    "condition_virtuoso_dagger_sword_focus",
-    "condition_quickness_untamed_axe_dagger_dagger_torch",
-    "condition_quickness_catalyst_pistol_warhorn",
-};
-
-static const inline std::set<std::string_view> yellow_tick_builds = {
-    // CHECKED POWER BUILDS
-    "power_ritualist_greatsword_spear",
-    "power_tempest_sword_dagger",
-    "power_tempest_scepter_dagger",
-    "power_tempest_inferno_scepter_dagger",
-    "inferno_catalyst_scepter_dagger",
-    "power_catalyst_scepter_dagger_inferno",
-    "power_catalyst_scepter_dagger",
-    "power_catalyst_scepter_dagger_pf",
-    "power_virtuoso_spear_greatsword",
-    "power_virtuoso_greatsword_dagger_sword",
-    "power_virtuoso_spear_dagger_sword",
-    "power_troubadour_spear_dagger_sword",
-    "inferno_tempest_scepter_dagger",
-    "power_conduit_staff_sword_sword",               // maybe green
-    "power_conduit_greatsword_sword_sword",          // maybe green
-    "power_herald_staff_sword_sword",                // maybe green
-    "power_quickness_herald_greatsword_sword_sword", // maybe green
-    "power_quickness_herald_staff_sword_sword",      // maybe green
-    "power_scrapper_hammer",                         // optimize again to go green
-    "power_willbender",
-    "power_dragonhunter_virtues_spear_greatsword",
-    "power_dragonhunter_radiance_spear_greatsword",
-    "power_dragonhunter_radiance_longbow_greatsword",
-    // CHECKED POWER BOON BUILDS
-    "power_quickness_ritualist_greatsowrd_spear",
-    "power_quickness_catalyst_scepter_dagger",
-    "power_quickness_catalyst_scepter_dagger_inferno",
-    "inferno_quickness_catalyst_scepter_dagger",
-    "power_quickness_catalyst_scepter_dagger",
-    "power_quickness_catalyst_scepter_dagger_pf",
-    "power_inferno_quickness_catalyst_scepter_dagger_pf",
-    "power_alacrity_tempest",
-    "power_alacrity_tempest_inferno_scepter_focus",
-    "power_quickness_scrapper_hammer",
-    "power_weaver_sword_dagger",
-    "power_reaper_dagger_sword",
-    "power_reaper_sword_sword",
-    // CHECKED CONDITION BOON BUILDS
-    "celestial_alacrity_scourge_dagger_torch_pistol_warhorn",
-    "condition_alacrity_scourge_scepter_torch_pistol",
-    "condition_alacrity_renegade_spear_mace_axe",
-    "condition_quickness_scrapper_spear",
-    // CHECKED CONDITION BUILDS
-    "condition_berserker_longbow_sword_torch",
-    "condition_reaper_greatsword_spear",
-    "condition_scourge_scepter_torch_pistol",
-    "condition_weaver_scepter_warhorn",
-    "condition_weaver_pistol_warhorn",
-    "condition_tempest_scepter_warhorn",
-    "condition_tempest_pistol_warhorn",
-    "condition_holosmith_spear",
-    "condition_renegade_spear_mace_axe",
-    "condition_mechanist_no_kit_spear",
-    // UNCHECKED POWER BUILDS
-    "power_untamed_hammer_spear",
-    "power_untamed_hammer_sword_axe",
-    "power_chronomancer_spear_dagger_sword",
-    "power_evoker_scepter_dagger",
-    "power_alacrity_evoker_scepter_dagger",
-    // UNCHECKED POWER BOON BUILDS
-    "power_alacrity_tempest_inferno_scepter_focus",
-    "power_boon_chronomancer_spear_dagger_sword",
-    "power_alacrity_tempest_hammer",
-    "power_alacrity_renegade_staff_sword_sword",
-    "condition_paragon_longbow_sword_sword",
-    // UNCHECKED CONDITION BUILDS
-    "condition_harbinger_pistol_torch_scepter_dagger",
-    "condition_druid_dagger_torch_axe_dagger",
-    "condition_thief",
-    "condition_thief_spear",
-    "condition_soulbeast_axe_dagger_dagger_torch",
-    "condition_soulbeast_shortbow_dagger_dagger",
-    "condition_soulbeast_axe_torch_dagger_axe",
-    // UNCHECKED CONDI BOON BUILDS
-    "condition_quickness_harbinger_pistol_dagger_scepter_torch",
-    "condition_alacrity_tempest_scepter",
-    "condition_alacrity_tempest",
-    "condition_quickness_herald_shortbow_mace_axe",
-    "condition_quickness_herald_spear_mace_axe",
-    "condition_quickness_herald_spear_only",
-};
-
-static const inline std::set<std::string_view> green_tick_builds = {
-    // POWER BUILDS
-    "power_berserker_axe_axe_mace",
-    "power_berserker_spear_axe_axe",
-    "power_berserker_axe_axe_axe_mace",
-    "power_berserker_greatsword_axe_axe",
-    "power_berserker_hammer_axe_mace",
-    "power_reaper_greatsword_dagger_sword",
-    "power_reaper_greatsword_sword_sword",
-    "power_harbinger_greatsword_dagger_sword",
-    "power_harbinger_greatsword_sword_sword",
-    "power_harbinger_greatsword_spear",
-    "power_mechanist_rifle",
-    "power_mechanist_sword_pistol",
-    "power_reaper_greatsword_spear",
-    "power_paragon_sword_axe_dagger_mace",
-    "power_warrior_sword_axe_dagger_mace",
-    "power_galeshot_longbow_axe_axe",
-    "power_soulbeast_hammer_axe_axe",
-    "power_spellbreaker_sword_mace_dagger_axe",
-    "power_spellbreaker_hammer_dagger_mace",
-    // POWER BOON BUILDS
-    "power_quickness_harbinger_greatsword_spear",
-    "power_alacrity_mechanist_sword_pistol",
-    "power_alacrity_mechanist_rifle",
-    "power_quickness_berserker_spear_axe_axe",
-    "power_quickness_berserker_greatsword_axe_axe",
-    "power_quickness_harbinger",
-    "power_quickness_galeshot_longbow_axe_axe",
-    // CONDITION BUILDS
-    "condition_harbinger",
-    "condition_mechanist_one_kit_spear",
-    "condition_mechanist_two_kits_spear",
-    "condition_willbender_scepter_pistol_pistol_torch",
-    "condition_willbender_pistol_torch_pistol",
-    "condition_conduit_mace_axe",
-    "condition_conduit_spear_mace_axe",
-    // CONDI BOON BUILDS
-    "condition_quickness_harbinger",
-    "condition_alacrity_mechanist_one_kit_spear",
-    "condition_alacrity_mechanist_two_kits_spear",
-};
+static auto last_time_aa_did_skip = std::chrono::steady_clock::time_point{};
 
 bool IsVersionIsRange(const std::string version,
                       const std::string &lower_version_bound,
@@ -219,13 +54,6 @@ bool IsVersionIsRange(const std::string version,
 {
     return version >= lower_version_bound && version <= upper_version_bound;
 }
-
-bool IsInBuildCategory(std::string_view display_name, const std::set<std::string_view> &category_builds)
-{
-    return (category_builds.find(display_name.substr(4)) != category_builds.end());
-}
-
-static auto last_time_aa_did_skip = std::chrono::steady_clock::time_point{};
 
 void DrawRect(const RotationStep &rotation_step,
               const std::string &text,
@@ -279,62 +107,37 @@ std::string get_skill_text(const RotationStep &rotation_step)
 
     return text;
 }
+
+void SetTooltip(const std::string &text)
+{
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        ImGui::Text(text.c_str());
+        ImGui::EndTooltip();
+    }
+}
+
+void SetTooltip(const std::vector<std::string> &texts)
+{
+    if (ImGui::IsItemHovered())
+    {
+        ImGui::BeginTooltip();
+        for (const auto &text : texts)
+            ImGui::Text(text.c_str());
+        ImGui::EndTooltip();
+    }
+}
 } // namespace
 
 RenderType::RenderType()
 {
-    initialize_build_categories();
+    builds.initialize_build_categories();
 }
 
 RenderType::~RenderType()
 {
     ReleaseTextureMap(Globals::TextureMap);
-}
-
-void RenderType::initialize_build_categories()
-{
-    if (build_categories_initialized)
-        return;
-
-    build_category_cache.clear();
-
-    for (const auto &build : red_crossed_builds)
-        build_category_cache[std::string(build)] = BuildCategory::RED_CROSSED;
-
-    for (const auto &build : orange_crossed_builds)
-        build_category_cache[std::string(build)] = BuildCategory::ORANGE_CROSSED;
-
-    for (const auto &build : green_tick_builds)
-        build_category_cache[std::string(build)] = BuildCategory::GREEN_TICKED;
-
-    for (const auto &build : yellow_tick_builds)
-        build_category_cache[std::string(build)] = BuildCategory::YELLOW_TICKED;
-
-    build_categories_initialized = true;
-}
-
-RenderType::BuildCategory RenderType::get_build_category(const std::string &display_name) const
-{
-    auto build_name = display_name.length() > 4 ? display_name.substr(4) : display_name;
-
-    if (build_name.contains("antiquary"))
-        return BuildCategory::RED_CROSSED;
-    if (build_name.contains("daredevil"))
-        return BuildCategory::ORANGE_CROSSED;
-    if (build_name.contains("deadeye"))
-        return BuildCategory::ORANGE_CROSSED;
-    if (build_name.contains("bladesworn"))
-        return BuildCategory::RED_CROSSED;
-    if (build_name.contains("mirage"))
-        return BuildCategory::RED_CROSSED;
-
-    for (const auto &[name, category] : build_category_cache)
-    {
-        if (name.starts_with(build_name))
-            return category;
-    }
-
-    return BuildCategory::UNTESTED;
 }
 
 void RenderType::set_data_path(const std::filesystem::path &path)
@@ -343,8 +146,7 @@ void RenderType::set_data_path(const std::filesystem::path &path)
     img_path = data_path / "img";
     bench_path = data_path / "bench";
 
-    initialize_build_categories();
-
+    builds.initialize_build_categories();
     benches_files = get_bench_files(bench_path);
 }
 
@@ -410,19 +212,19 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
 
 float RenderType::calculate_centered_position(const std::vector<std::string> &items) const
 {
-    auto total_width = 0.0f;
+    auto total_width = 0.0F;
 
     for (size_t i = 0; i < items.size(); ++i)
     {
         total_width += ImGui::CalcTextSize(items[i].c_str()).x;
-        total_width += ImGui::GetFrameHeight(); // Checkbox size
+        total_width += ImGui::GetFrameHeight(); // XXX: ui element size?
 
         if (i < items.size() - 1)
             total_width += ImGui::GetStyle().ItemSpacing.x;
     }
 
     const auto window_width = ImGui::GetWindowSize().x;
-    return (window_width - total_width) * 0.5f;
+    return ((window_width - total_width) * 0.5F) - (total_width * 0.5F); // TODO: Check this formula
 }
 
 void RenderType::render_debug_data()
@@ -488,204 +290,6 @@ void RenderType::render_debug_data()
     }
 }
 
-std::string RenderType::get_keybind_str(const RotationStep &rotation_step)
-{
-    const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
-    const auto &log_skill_info_map = Globals::RotationRun.log_skill_info_map;
-    const auto skill_data =
-        SkillRuleData::GetDataByID(rotation_step.skill_data.skill_id, Globals::RotationRun.skill_data_map);
-
-    std::string keybind_str;
-
-    const auto skill_name_for_slot7 =
-        skill_key_mapping.skill_7 != -1 &&
-                log_skill_info_map.find(skill_key_mapping.skill_7) != log_skill_info_map.end()
-            ? log_skill_info_map.find(skill_key_mapping.skill_7)->second.name
-            : "";
-    const auto skill_name_for_slot8 =
-        skill_key_mapping.skill_8 != -1 &&
-                log_skill_info_map.find(skill_key_mapping.skill_8) != log_skill_info_map.end()
-            ? log_skill_info_map.find(skill_key_mapping.skill_8)->second.name
-            : "";
-    const auto skill_name_for_slot9 =
-        skill_key_mapping.skill_9 != -1 &&
-                log_skill_info_map.find(skill_key_mapping.skill_9) != log_skill_info_map.end()
-            ? log_skill_info_map.find(skill_key_mapping.skill_9)->second.name
-            : "";
-
-    if (rotation_step.skill_data.name == skill_name_for_slot7)
-    {
-        keybind_str = "7";
-    }
-    else if (rotation_step.skill_data.name == skill_name_for_slot8)
-    {
-        keybind_str = "8";
-    }
-    else if (rotation_step.skill_data.name == skill_name_for_slot9)
-    {
-        keybind_str = "9";
-    }
-    else
-    {
-        if (Settings::XmlSettingsPath.empty())
-        {
-            keybind_str = default_skillslot_to_string(skill_data.skill_type);
-        }
-        else
-        {
-            const auto [keybind, modifier] = get_keybind_for_skill_type(skill_data.skill_type, keybinds);
-            if (keybind == Keys::NONE)
-            {
-                keybind_str = default_skillslot_to_string(skill_data.skill_type);
-            }
-            else
-            {
-                keybind_str = custom_keys_to_string(keybind);
-                if (modifier != Modifiers::NONE)
-                {
-                    keybind_str = "(" + modifiers_to_string(modifier) + " + " + keybind_str + ")";
-                }
-            }
-        }
-    }
-
-    return keybind_str;
-}
-
-void RenderType::get_rotation_icons()
-{
-    rotation_icon_lines.clear();
-    auto rotation_line = std::vector<std::pair<ID3D11ShaderResourceView *, std::string>>{};
-
-    const auto &rotation = Globals::RotationRun.all_rotation_steps_w_swap;
-
-    for (const auto &rotation_step : rotation)
-    {
-        const auto skill_data =
-            SkillRuleData::GetDataByID(rotation_step.skill_data.skill_id, Globals::RotationRun.skill_data_map);
-
-        const auto icon_it = Globals::TextureMap.find(skill_data.icon_id);
-
-        if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_match_weapon_swap_like))
-        {
-            rotation_icon_lines.push_back(rotation_line);
-            rotation_line = {};
-            continue;
-        }
-
-        if (icon_it != Globals::TextureMap.end())
-        {
-            if (!icon_it->second)
-                continue;
-            rotation_line.push_back(std::make_pair(icon_it->second, skill_data.name));
-        }
-        else
-        {
-            continue;
-        }
-    }
-
-    if (!rotation_line.empty())
-    {
-        rotation_icon_lines.push_back(rotation_line);
-    }
-}
-
-void RenderType::get_rotation_text()
-{
-    std::string line;
-    rotation_text.clear();
-
-    bool first_in_line = true;
-
-    const auto &rotation = Globals::RotationRun.all_rotation_steps_w_swap;
-
-    auto prev_was_aa = false;
-    for (const auto &rotation_step : rotation)
-    {
-        const auto skill_data = rotation_step.skill_data;
-        const auto weapon_type = skill_data.weapon_type;
-        const auto weapon_type_str = weapon_type_to_string(weapon_type);
-        const auto keybind_str = get_keybind_str(rotation_step);
-
-        if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_match_weapon_swap_like))
-        {
-            if (line == "")
-                continue;
-
-            if (line.find(": ") == std::string::npos)
-            {
-                line = "Kit: " + line;
-            }
-
-            line += "\n";
-            rotation_text.push_back(line);
-            line.clear();
-            first_in_line = true;
-            prev_was_aa = false;
-        }
-        else
-        {
-            if (line == "" && weapon_type_str != "None")
-            {
-                line = weapon_type_str + ": ";
-            }
-
-            if (!first_in_line)
-            {
-                line += " - ";
-            }
-
-            auto curr_is_aa = skill_data.skill_type == SkillSlot::WEAPON_1;
-
-            if (keybind_str != "")
-            {
-                if (prev_was_aa && curr_is_aa)
-                {
-                    const auto search_str = std::string{"xAA"};
-                    const auto slcie_size = search_str.size() + 4;
-                    auto keep_slice = line.size() >= slcie_size ? line.substr(0, line.size() - slcie_size) : line;
-                    auto prev_counter =
-                        line.size() >= slcie_size ? line.substr(line.size() - slcie_size, slcie_size) : line;
-
-                    if (prev_counter.find(search_str) != std::string::npos)
-                    {
-                        auto found_idx = prev_counter.find("x");
-                        auto count_str = prev_counter.substr(0, found_idx);
-                        int count = 0;
-                        try
-                        {
-                            count = std::stoi(count_str);
-                        }
-                        catch (...)
-                        {
-                            count = 1;
-                        }
-                        count++;
-                        line = keep_slice + std::to_string(count) + "xAA";
-                    }
-                }
-                else if (curr_is_aa)
-                {
-                    line += "1xAA";
-                }
-                else
-                {
-                    line += keybind_str;
-                }
-            }
-
-            prev_was_aa = curr_is_aa;
-            first_in_line = false;
-        }
-    }
-
-    if (line != "")
-    {
-        rotation_text.push_back(line);
-    }
-}
-
 void RenderType::render_rotation_keybinds(bool &show_rotation_keybinds)
 {
     if (!show_rotation_keybinds)
@@ -694,13 +298,7 @@ void RenderType::render_rotation_keybinds(bool &show_rotation_keybinds)
     ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Once);
     if (ImGui::Begin("Rotation Keybinds", &show_rotation_keybinds))
     {
-        if (Globals::Identity.Profession == Mumble::EProfession::Revenant)
-        {
-            ImGui::Text("On Revenant the Utility Function mapping does not work!");
-            ImGui::Text("");
-        }
-
-        for (const auto &text : rotation_text)
+        for (const auto &text : Globals::RotationRun.rotation_text)
             ImGui::TextWrapped("%s", text.c_str());
     }
 
@@ -732,7 +330,7 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
         auto should_break = false;
         auto icons_in_line = 0;
 
-        for (const auto &icon_lines : rotation_icon_lines)
+        for (const auto &icon_lines : Globals::RotationRun.rotation_icon_lines)
         {
             bool first_in_line = true;
             for (const auto &line_data : icon_lines)
@@ -759,16 +357,15 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
 
                 auto texture = line_data.first;
                 auto rotation_step = RotationStep{};
-                rotation_step.skill_data.name = line_data.second;
-                const auto skill_state = SkillState{
-                    .is_current = num_icons == curr_rota_index,
-                    .is_last = false,
-                    .is_auto_attack = false,
-                };
-                const int aa_index = 0;
+                rotation_step.skill_data.name =
+                    line_data.second; // TODO: We need either skill id or aa info from line_data
+                rotation_step.skill_data.is_auto_attack = false;
+                const auto is_current = num_icons == curr_rota_index;
 
-                if (skill_state.is_current && !skill_state.is_last)
+                if (is_current)
                     DrawRect(rotation_step, "", IM_COL32(255, 255, 255, 255), 2.0F, icon_size);
+                else if (rotation_step.skill_data.is_auto_attack) // orange
+                    DrawRect(rotation_step, "", IM_COL32(255, 165, 0, 255), 2.0F);
                 render_skill_texture(rotation_step, texture, 0, icon_size, false);
 
                 if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
@@ -785,10 +382,8 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
     ImGui::End();
 }
 
-void RenderType::render_debug_window()
+void RenderType::render_debug_window(bool &show_debug_window)
 {
-    static bool show_debug_window = true;
-
     if (ImGui::Begin("Debug Data###GW2RotaHelper_Debug", &show_debug_window))
         render_debug_data();
 
@@ -808,7 +403,6 @@ void RenderType::render_xml_selection()
     }
 
     const auto button_width = ImGui::GetWindowSize().x * 0.5f - ImGui::GetStyle().ItemSpacing.x * 0.5f;
-
     if (ImGui::Button("Select Keybinds", ImVec2(button_width, 0)))
     {
         OPENFILENAME ofn;
@@ -856,16 +450,10 @@ void RenderType::render_options_checkboxes()
         };
         const auto centered_pos = calculate_centered_position(items);
         ImGui::SetCursorPosX(centered_pos);
+
         if (ImGui::Checkbox("Skip Update", &Settings::SkipBenchFileUpdate))
-        {
             Settings::Save(Globals::SettingsPath);
-        }
-        if (ImGui::IsItemHovered())
-        {
-            ImGui::BeginTooltip();
-            ImGui::Text("When enabled, the addon will skip checking for benchmark file updates on startup.");
-            ImGui::EndTooltip();
-        }
+        SetTooltip("When enabled, the addon will skip checking for benchmark file updates on startup.");
     }
 
     const auto second_row_items = std::vector<std::string>{
@@ -878,12 +466,7 @@ void RenderType::render_options_checkboxes()
     if (ImGui::Checkbox("Move UI", &is_not_ui_adjust_active))
     {
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("When enabled, you can move the skill rotation UI by dragging it.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip("When enabled, you can move the rotation UI elements by dragging it.");
 
     ImGui::SameLine();
 
@@ -897,28 +480,18 @@ void RenderType::render_options_checkboxes()
             Globals::RotationRun.load_data(selected_file_path, img_path);
         }
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("All weapon swap like skills will be shown in the rotation UI.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip("All weapon swap like skills will be shown in the rotation UI.");
 
     const auto third_row_items = std::vector<std::string>{"Show Keybind", "Strict Rotation", "Easy Skill Mode"};
     const auto centered_pos_row_3 = calculate_centered_position(third_row_items);
     ImGui::SetCursorPosX(centered_pos_row_3);
 
     if (ImGui::Checkbox("Show Keybind", &Settings::ShowKeybind))
-    {
         Settings::Save(Globals::SettingsPath);
-    }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("You can load keybinds from your GW2 XML settings file.");
-        ImGui::Text("If not selected, default keybinds will be used.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip(std::vector{
+        std::string{"You can load keybinds from your GW2 XML settings file."},
+        std::string{"If not selected, default keybinds will be used."},
+    });
 
     ImGui::SameLine();
 
@@ -932,16 +505,11 @@ void RenderType::render_options_checkboxes()
             Globals::RotationRun.load_data(selected_file_path, img_path);
         }
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("When enabled, rotation progression requires exact skill "
-                    "matching (for not grayed out skills).");
-        ImGui::Text("This will turn off the weapon swap icons.");
-        ImGui::Text("When disabled, allows more flexible skill detection with "
-                    "fallbacks.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip(std::vector{
+        std::string{"When enabled, rotation progression requires exact skill matching (for not grayed out skills)."},
+        std::string{"This will turn off the weapon swap icons."},
+        std::string{"When disabled, allows more flexible skill detection with fallbacks."},
+    });
 
     ImGui::SameLine();
 
@@ -955,13 +523,11 @@ void RenderType::render_options_checkboxes()
             Globals::RotationRun.load_data(selected_file_path, img_path);
         }
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("When enabled, some rotation skills are not shown.");
-        ImGui::Text("For example on Mechanist the F skills are not shown to have a better overview as a beginner.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip(std::vector{
+        std::string{"When enabled, some rotation skills are not shown or not mandatory to cast."},
+        std::string{"For example on Mechanist the F skills are not shown to have a better overview as a beginner."},
+        std::string{"For more info refer to the README.md."},
+    });
 
     render_xml_selection();
 
@@ -972,14 +538,12 @@ void RenderType::render_options_checkboxes()
     {
         Settings::Save(Globals::SettingsPath);
 
-        get_rotation_text();
+        Globals::RotationRun.get_rotation_text(keybinds);
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("Newline indicates a weapon swap like action.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip(std::vector{
+        std::string{"Shows the full rotation in a text form of the actual keybinds."},
+        std::string{"Newline indicates a weapon swap like action."},
+    });
 
     ImGui::SameLine();
 
@@ -987,14 +551,12 @@ void RenderType::render_options_checkboxes()
     {
         Settings::Save(Globals::SettingsPath);
 
-        get_rotation_icons();
+        Globals::RotationRun.get_rotation_icons();
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("Newline indicates a weapon swap like action.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip(std::vector{
+        std::string{"Shows the full rotation with skill icons, like in the simple rotation tab in dps.reports."},
+        std::string{"Newline indicates a weapon swap like action."},
+    });
 
     const auto centered_pos = calculate_centered_position({"Rotation Window"});
     ImGui::SetCursorPosX(centered_pos);
@@ -1002,15 +564,9 @@ void RenderType::render_options_checkboxes()
     if (ImGui::Checkbox("Rotation Window", &show_rotation_window))
     {
         Settings::Save(Globals::SettingsPath);
-
-        get_rotation_text();
+        Globals::RotationRun.get_rotation_text(keybinds);
     }
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-        ImGui::Text("Shows the rotation window of 10 skills.");
-        ImGui::EndTooltip();
-    }
+    SetTooltip("Shows the rotation window of the last 2, the current and the next 7 skills.");
 
     render_rotation_keybinds(show_rotation_keybinds);
     render_rotation_icons_overview(show_rotation_icons_overview);
@@ -1025,7 +581,7 @@ void RenderType::render_options_checkboxes()
         show_debug_window = !show_debug_window;
 
     if (show_debug_window)
-        render_debug_window();
+        render_debug_window(show_debug_window);
 #endif
 }
 
@@ -1309,12 +865,9 @@ void RenderType::render_symbol_and_text(bool &is_selected,
     draw_list->AddText(text_pos, ImGui::GetColorU32(ImGuiCol_Text), base_formatted_name.substr(4).c_str());
 }
 
-void RenderType::render_red_cross_and_text(bool &is_selected,
-                                           const int original_index,
-                                           const BenchFileInfo *const &file_info,
-                                           const std::string base_formatted_name)
+auto draw_cross_factory(ImU32 color)
 {
-    auto draw_cross = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
+    return [color](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
         float line_thickness = 2.0f;
 
         auto cross_top_left = ImVec2(center.x - radius * 0.7f, center.y - radius * 0.7f);
@@ -1322,11 +875,18 @@ void RenderType::render_red_cross_and_text(bool &is_selected,
         auto cross_top_right = ImVec2(center.x + radius * 0.7f, center.y - radius * 0.7f);
         auto cross_bottom_left = ImVec2(center.x - radius * 0.7f, center.y + radius * 0.7f);
 
-        draw_list->AddLine(cross_top_left, cross_bottom_right, IM_COL32(220, 20, 60, 255), line_thickness);
-        draw_list->AddLine(cross_top_right, cross_bottom_left, IM_COL32(220, 20, 60, 255), line_thickness);
+        draw_list->AddLine(cross_top_left, cross_bottom_right, color, line_thickness);
+        draw_list->AddLine(cross_top_right, cross_bottom_left, color, line_thickness);
     };
+}
 
-    render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, "##red_crossed_", draw_cross);
+void RenderType::render_red_cross_and_text(bool &is_selected,
+                                           const int original_index,
+                                           const BenchFileInfo *const &file_info,
+                                           const std::string base_formatted_name)
+{
+    auto draw_cross = draw_cross_factory(IM_COL32(220, 20, 60, 255));
+    render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, "##red_cross_", draw_cross);
 }
 
 void RenderType::render_orange_cross_and_text(bool &is_selected,
@@ -1334,24 +894,8 @@ void RenderType::render_orange_cross_and_text(bool &is_selected,
                                               const BenchFileInfo *const &file_info,
                                               const std::string base_formatted_name)
 {
-    auto draw_cross = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
-        float line_thickness = 2.0f;
-
-        auto cross_top_left = ImVec2(center.x - radius * 0.7f, center.y - radius * 0.7f);
-        auto cross_bottom_right = ImVec2(center.x + radius * 0.7f, center.y + radius * 0.7f);
-        auto cross_top_right = ImVec2(center.x + radius * 0.7f, center.y - radius * 0.7f);
-        auto cross_bottom_left = ImVec2(center.x - radius * 0.7f, center.y + radius * 0.7f);
-
-        draw_list->AddLine(cross_top_left, cross_bottom_right, IM_COL32(255, 140, 0, 255), line_thickness);
-        draw_list->AddLine(cross_top_right, cross_bottom_left, IM_COL32(255, 140, 0, 255), line_thickness);
-    };
-
-    render_symbol_and_text(is_selected,
-                           original_index,
-                           file_info,
-                           base_formatted_name,
-                           "##orange_crossed_",
-                           draw_cross);
+    auto draw_cross = draw_cross_factory(IM_COL32(255, 140, 0, 255));
+    render_symbol_and_text(is_selected, original_index, file_info, base_formatted_name, "##ora_cross_", draw_cross);
 }
 
 void RenderType::render_untested_and_text(bool &is_selected,
@@ -1485,7 +1029,7 @@ void RenderType::render_selection()
 
                         base_formatted_name = format_build_name(file_info->display_name);
 
-                        auto category = get_build_category(file_info->display_name);
+                        auto category = builds.get_build_category(file_info->display_name);
                         is_red_crossed = (category == BuildCategory::RED_CROSSED);
                         is_orange_crossed = (category == BuildCategory::ORANGE_CROSSED);
                         is_green_ticked = (category == BuildCategory::GREEN_TICKED);
@@ -1501,12 +1045,13 @@ void RenderType::render_selection()
                     }
                     else if (is_green_ticked)
                     {
+                        const auto green = IM_COL32(34, 139, 34, 255);
                         render_tick_and_text(is_selected,
                                              original_index,
                                              file_info,
                                              base_formatted_name,
-                                             IM_COL32(34, 139, 34, 255),
-                                             "##green_ticked_");
+                                             green,
+                                             "##green");
                     }
                     else if (is_yellow_ticked)
                     {
@@ -1515,7 +1060,7 @@ void RenderType::render_selection()
                                              file_info,
                                              base_formatted_name,
                                              IM_COL32(218, 165, 32, 255),
-                                             "##yellow_ticked_");
+                                             "##yellow");
                     }
                     else if (is_orange_crossed)
                     {
@@ -1757,15 +1302,8 @@ void RenderType::render_skill_texture(const RotationStep &rotation_step,
         draw_list->AddText(ImVec2(index_pos.x + 2, index_pos.y + 1), IM_COL32(255, 255, 255, 255), index_str.c_str());
     }
 
-    if (ImGui::IsItemHovered())
-    {
-        ImGui::BeginTooltip();
-
-        auto tooltip_text = get_skill_text(rotation_step);
-        ImGui::Text("%s", tooltip_text.c_str());
-
-        ImGui::EndTooltip();
-    }
+    auto tooltip_text = get_skill_text(rotation_step);
+    SetTooltip(tooltip_text);
 }
 
 void RenderType::render_dodge_placeholder()

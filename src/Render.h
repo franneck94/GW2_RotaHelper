@@ -13,6 +13,7 @@
 
 #include "imgui.h"
 
+#include "Builds.h"
 #include "FileUtils.h"
 #include "LogData.h"
 #include "Textures.h"
@@ -20,16 +21,6 @@
 
 class RenderType
 {
-public:
-    enum class BuildCategory
-    {
-        RED_CROSSED,
-        ORANGE_CROSSED,
-        GREEN_TICKED,
-        YELLOW_TICKED,
-        UNTESTED
-    };
-
 public:
     RenderType();
     RenderType(bool &show_window) : show_window(show_window) {};
@@ -39,7 +30,7 @@ public:
 
     /* RENDER OPTIONS WINDOW */
     void render_debug_data();
-    void render_debug_window();
+    void render_debug_window(bool &show_debug_window);
     void render_options_checkboxes();
     void render_options_window();
     void render_snowcrows_build_link();
@@ -75,9 +66,6 @@ public:
     void restart_rotation(const bool not_ooc_triggered);
     void render_load_buttons();
 
-    std::string get_keybind_str(const RotationStep &rotation_step);
-    void get_rotation_icons();
-    void get_rotation_text();
     void render_rotation_keybinds(bool &show_rotation_keybinds);
     void render_rotation_icons_overview(bool &show_rotation_icons_overview);
 
@@ -107,9 +95,7 @@ public:
     void CycleSkillsLogic(const EvCombatDataPersistent &skill_ev);
     void set_data_path(const std::filesystem::path &path);
 
-    void initialize_build_categories();
-    BuildCategory get_build_category(const std::string &display_name) const;
-
+public:
     bool show_window;
 
     bool skill_event_in_this_frame;
@@ -143,15 +129,10 @@ public:
 
     ID3D11Device *pd3dDevice = nullptr;
 
-    std::vector<std::string> rotation_text;
-    std::vector<std::vector<std::pair<ID3D11ShaderResourceView *, std::string>>> rotation_icon_lines;
-
     ImGuiWindowFlags flags_rota = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
                                   ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
                                   ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoScrollbar |
                                   ImGuiWindowFlags_NoResize;
 
-    // Build categorization cache
-    std::map<std::string, BuildCategory> build_category_cache;
-    bool build_categories_initialized = false;
+    BuildsType builds;
 };
