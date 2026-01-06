@@ -21,16 +21,6 @@
 class RenderType
 {
 public:
-    enum class BuildCategory
-    {
-        RED_CROSSED,
-        ORANGE_CROSSED,
-        GREEN_TICKED,
-        YELLOW_TICKED,
-        UNTESTED
-    };
-
-public:
     RenderType();
     RenderType(bool &show_window) : show_window(show_window) {};
     ~RenderType();
