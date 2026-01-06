@@ -30,7 +30,7 @@ public:
 
     /* RENDER OPTIONS WINDOW */
     void render_debug_data();
-    void render_debug_window();
+    void render_debug_window(bool &show_debug_window);
     void render_options_checkboxes();
     void render_options_window();
     void render_snowcrows_build_link();
