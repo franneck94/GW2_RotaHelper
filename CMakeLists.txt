@@ -71,6 +71,7 @@ add_library(first_party_libs STATIC
     "src/TypesUtils.cpp"
     "src/MumbleUtils.cpp"
     "src/SkillData.cpp"
+    "src/Builds.cpp"
 )
 target_include_directories(first_party_libs PUBLIC
     "src"
