@@ -13,6 +13,8 @@ namespace SkillRuleData
 
 const std::set<std::string_view> skills_match_weapon_swap_like = {
     "Weapon Swap",
+    // GUARDIAN
+    "Radiant Forge",
     // ENGINEER
     "Photon Forge",
     "Holoforge",
@@ -403,6 +405,14 @@ const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_g
             SkillID::DARING_ADVANCE_1,
         },
     },
+    {
+        "power_scrapper_hammer_v4",
+        {
+            SkillID::POSITIVE_STRIKE,
+            SkillID::NEGATIVE_BASH,
+            SkillID::EQUALIZING_BLOW,
+        },
+    },
 };
 
 const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_drop_match = {
@@ -410,6 +420,15 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_drop_mat
         "condition_weaver_scepter_warhorn_v4",
         {
             SkillID::FLAMESTRIKE,
+        },
+    },
+    {
+        "condition_mechanist_one_kit_spear_v4",
+        {
+            SkillID::ROLLING_SMASH,
+            SkillID::DISCHARGE_ARRAY,
+            SkillID::SKY_CIRCUS,
+            SkillID::JADE_MORTAR,
         },
     },
 };

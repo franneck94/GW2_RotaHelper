@@ -132,7 +132,6 @@ void SetTooltip(const std::vector<std::string> &texts)
 
 RenderType::RenderType()
 {
-    builds.initialize_build_categories();
 }
 
 RenderType::~RenderType()
@@ -224,7 +223,7 @@ float RenderType::calculate_centered_position(const std::vector<std::string> &it
     }
 
     const auto window_width = ImGui::GetWindowSize().x;
-    return ((window_width - total_width) * 0.5F) - (total_width * 0.5F); // TODO: Check this formula
+    return ((window_width - total_width) * 0.5F);
 }
 
 void RenderType::render_debug_data()

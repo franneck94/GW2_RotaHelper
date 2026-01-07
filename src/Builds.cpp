@@ -9,7 +9,7 @@
 namespace
 {
 
-static const inline std::set<std::string_view> red_crossed_builds = {
+static const std::set<std::string_view> red_crossed_builds = {
     // CHECKED POWER BUILDS
     "power_amalgam_hammer",
     "power_alacrity_amalgam_hammer",
@@ -22,7 +22,7 @@ static const inline std::set<std::string_view> red_crossed_builds = {
     "condition_quickness_firebrand_pistol_torch_pistol",
 };
 
-static const inline std::set<std::string_view> orange_crossed_builds = {
+static const std::set<std::string_view> orange_crossed_builds = {
     // CHECKED POWER BUILDS
     "power_tempest_hammer",
     "inferno_quickness_evoker_specialized_elements",
@@ -39,8 +39,6 @@ static const inline std::set<std::string_view> orange_crossed_builds = {
     "power_quickness_untamed_hammer_sword_mace",
     "power_quickness_catalyst_sword_dagger",
     "power_catalyst_sword_dagger",
-    "power_luminary_spear_greatsword",
-    "power_alacrity_luminary_longbow_greatsword",
     "power_quickness_evoker_scepter_dagger",
     // CONDI BUILDS
     "condition_virtuoso_dagger_sword_focus",
@@ -48,7 +46,7 @@ static const inline std::set<std::string_view> orange_crossed_builds = {
     "condition_quickness_catalyst_pistol_warhorn",
 };
 
-static const inline std::set<std::string_view> yellow_tick_builds = {
+static const std::set<std::string_view> yellow_tick_builds = {
     // CHECKED POWER BUILDS
     "power_ritualist_greatsword_spear",
     "power_tempest_sword_dagger",
@@ -132,7 +130,7 @@ static const inline std::set<std::string_view> yellow_tick_builds = {
     "condition_quickness_herald_spear_only",
 };
 
-static const inline std::set<std::string_view> green_tick_builds = {
+static const std::set<std::string_view> green_tick_builds = {
     // POWER BUILDS
     "power_berserker_axe_axe_mace",
     "power_berserker_spear_axe_axe",
@@ -153,7 +151,9 @@ static const inline std::set<std::string_view> green_tick_builds = {
     "power_soulbeast_hammer_axe_axe",
     "power_spellbreaker_sword_mace_dagger_axe",
     "power_spellbreaker_hammer_dagger_mace",
+    "power_luminary_spear_greatsword",
     // POWER BOON BUILDS
+    "power_alacrity_luminary_longbow_greatsword",
     "power_quickness_harbinger_greatsword_spear",
     "power_alacrity_mechanist_sword_pistol",
     "power_alacrity_mechanist_rifle",
@@ -178,7 +178,7 @@ static const inline std::set<std::string_view> green_tick_builds = {
 
 void BuildsType::initialize_build_categories()
 {
-   if (build_categories_initialized)
+    if (build_categories_initialized)
         return;
 
     build_category_cache.clear();

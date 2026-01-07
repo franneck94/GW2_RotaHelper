@@ -1102,11 +1102,10 @@ void RotationLogType::get_rotation_text(const std::map<std::string, KeybindInfo>
                 auto kit_name = std::string{"Utility"};
                 if (Globals::Identity.Profession == Mumble::EProfession::Engineer)
                 {
-                    if (skill_data.name.contains("Kit") || skill_data.name.contains("Gun") ||
-                        skill_data.name.contains("Flamethrower"))
-                        kit_name = "Kit";
-                    else
+                    if (static_cast<EliteSpecID>(Globals::Identity.Specialization) == EliteSpecID::Holosmith)
                         kit_name = "Forge";
+                    else
+                        kit_name = "Kit";
                 }
                 else if (Globals::Identity.Profession == Mumble::EProfession::Necromancer)
                     kit_name = "Shroud";

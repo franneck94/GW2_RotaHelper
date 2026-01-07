@@ -115,9 +115,7 @@ You can copy the following with your default browser:
 - Strict Rotation: Every skill has to match, so there is no room for skill swapping like 2->3 instead of 3->2.
   - The logic for greyed out skills still applies here
   - Not recommended for most builds.
-- Easy Skill Mode: On certain classes, some skills are not shown. Examples:
-  - F-Skills on Mechanist
-  - Sword Auto Attack on Condi Renegade/Conduit
+- Easy Skill Mode: On certain classes, some skills are not shown
 
 Regular Mode:
 
@@ -130,6 +128,15 @@ Easy Mode:
 <div align="left" style="margin-left:50px;">
    <img src="./media/mech_without_f.png" alt="Example Screenshot" />
 </div>
+
+List of Builds for Easy Mode:
+
+- Power Tempest Sword Dagger
+- Condition Weaver Scepter Warhorn
+- Power Weaver Sword Dagger
+- Power Luminary Spear Greatsword
+- Power Scrapper Hammer
+- Condition Mechanist One Kit Spear
 
 #### Tested Builds
 
