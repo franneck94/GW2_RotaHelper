@@ -1038,15 +1038,14 @@ std::string RotationLogType::get_keybind_str(const RotationStep &rotation_step,
 void RotationLogType::get_rotation_icons()
 {
     rotation_icon_lines.clear();
-    auto rotation_line = std::vector<std::pair<ID3D11ShaderResourceView *, std::string>>{};
+    auto rotation_line = std::vector<std::tuple<ID3D11ShaderResourceView *, std::string, SkillID>>{};
 
     const auto &rotation = Globals::RotationRun.all_rotation_steps_w_swap;
 
     for (const auto &rotation_step : rotation)
     {
-        const auto skill_data =
-            SkillRuleData::GetDataByID(rotation_step.skill_data.skill_id, Globals::RotationRun.skill_data_map);
-
+        const auto skill_data = rotation_step.skill_data;
+        const auto weapon_type = skill_data.weapon_type;
         const auto icon_it = Globals::TextureMap.find(skill_data.icon_id);
 
         if (is_skill_in_set(skill_data.name, SkillRuleData::skill_rules.skills_match_weapon_swap_like))
@@ -1060,7 +1059,7 @@ void RotationLogType::get_rotation_icons()
         {
             if (!icon_it->second)
                 continue;
-            rotation_line.push_back(std::make_pair(icon_it->second, skill_data.name));
+            rotation_line.push_back(std::make_tuple(icon_it->second, skill_data.name, skill_data.skill_id));
         }
         else
         {

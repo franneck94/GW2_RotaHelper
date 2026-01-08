@@ -334,7 +334,7 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
             bool first_in_line = true;
             for (const auto &line_data : icon_lines)
             {
-                if (!line_data.first || !pd3dDevice)
+                if (!std::get<0>(line_data) || !pd3dDevice)
                     continue;
 
                 if (!first_in_line)
@@ -354,10 +354,10 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
 
                 first_in_line = false;
 
-                auto texture = line_data.first;
+                auto texture = std::get<0>(line_data);
                 auto rotation_step = RotationStep{};
                 rotation_step.skill_data.name =
-                    line_data.second; // TODO: We need either skill id or aa info from line_data
+                    std::get<1>(line_data); // TODO: We need either skill id or aa info from line_data
                 rotation_step.skill_data.is_auto_attack = false;
                 const auto is_current = num_icons == curr_rota_index;
 
