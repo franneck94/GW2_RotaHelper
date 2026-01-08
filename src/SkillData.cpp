@@ -15,9 +15,13 @@ const std::set<std::string_view> skills_match_weapon_swap_like = {
     "Weapon Swap",
     // GUARDIAN
     "Radiant Forge",
+    "Enter Radiant Forge",
+    "Exit Radiant Forge",
     // ENGINEER
     "Photon Forge",
+    "Exit Photon Forge",
     "Holoforge",
+    "Exit Holoforge",
     "Flamethrower",
     "Elixir Gun",
     "Bomb Kit",
@@ -35,8 +39,11 @@ const std::set<std::string_view> skills_match_weapon_swap_like = {
     "Water Attunement",
     // NECROMANCER
     "Harbinger Shroud",
+    "Exit Harbinger Shroud",
     "Reaper's Shroud",
+    "Exit Reaper's Shroud",
     "Ritualist's Shroud",
+    "Exit Ritualist's Shroud",
     // REVENANT
     "Legendary Entity Stance",
     "Legendary Alliance Stance",
@@ -403,6 +410,7 @@ const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_g
             SkillID::EFFULGENT_STANCE,
             SkillID::DARING_ADVANCE,
             SkillID::DARING_ADVANCE_1,
+            SkillID::DAYBREAKING_SLASH,
         },
     },
     {
@@ -411,6 +419,18 @@ const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_g
             SkillID::POSITIVE_STRIKE,
             SkillID::NEGATIVE_BASH,
             SkillID::EQUALIZING_BLOW,
+        },
+    },
+    {
+        "power_virtuoso_spear_greatsword_v4",
+        {
+            SkillID::SPATIAL_SURGE
+        },
+    },
+    {
+        "power_virtuoso_greatsword_dagger_sword_v4",
+        {
+            SkillID::SPATIAL_SURGE
         },
     },
 };
