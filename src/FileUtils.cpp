@@ -229,15 +229,12 @@ std::pair<std::vector<std::pair<int, const BenchFileInfo *>>, std::set<std::stri
     auto directories_with_matches = std::set<std::string>{};
 
     if (filter_string[0] == '\0' || filter_string == nullptr)
-    {
         filter_by_profession(benches_files, filtered_files, directories_with_matches);
-        return std::make_pair(filtered_files, directories_with_matches);
-    }
+    else
+        filter_by_text(benches_files, filter_string, filtered_files, directories_with_matches);
 
-    filter_by_text(benches_files, filter_string, filtered_files, directories_with_matches);
     return std::make_pair(filtered_files, directories_with_matches);
 }
-
 
 bool load_rotaion_json(const std::filesystem::path &json_path, nlohmann::json &j)
 {
@@ -590,7 +587,9 @@ void DropFiles(const std::filesystem::path &path)
                 }
             }
 
-            (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", ("Removed old build files from " + path.string() + " directory").c_str());
+            (void)Globals::APIDefs->Log(LOGL_INFO,
+                                        "GW2RotaHelper",
+                                        ("Removed old build files from " + path.string() + " directory").c_str());
         }
     }
     catch (const std::filesystem::filesystem_error &e)
@@ -600,7 +599,10 @@ void DropFiles(const std::filesystem::path &path)
     }
     catch (...)
     {
-        (void)Globals::APIDefs->Log(LOGL_WARNING, "GW2RotaHelper", ("Unknown error while removing old builds from " + path.string() + " directory").c_str());
+        (void)Globals::APIDefs->Log(
+            LOGL_WARNING,
+            "GW2RotaHelper",
+            ("Unknown error while removing old builds from " + path.string() + " directory").c_str());
     }
 }
 
