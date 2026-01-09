@@ -845,18 +845,20 @@ void RenderType::render_symbol_and_text(bool &is_selected,
     if (mouse_pos.x >= symbol_rect_min.x && mouse_pos.x <= symbol_rect_max.x && mouse_pos.y >= symbol_rect_min.y &&
         mouse_pos.y <= symbol_rect_max.y)
     {
+        ImGui::BeginTooltip();
         if (selectable_id.find("starred") != std::string::npos)
-            ImGui::SetTooltip("Excellent working build");
+            ImGui::Text("Excellent working build");
         else if (selectable_id.find("red_crossed") != std::string::npos)
-            ImGui::SetTooltip("Very bad working build");
+            ImGui::Text("Very bad working build");
         else if (selectable_id.find("orange_crossed") != std::string::npos)
-            ImGui::SetTooltip("Poorly working build");
+            ImGui::Text("Poorly working build");
         else if (selectable_id.find("yellow_ticked") != std::string::npos)
-            ImGui::SetTooltip("Okay-ish Working build");
+            ImGui::Text("Okay-ish Working build");
         else if (selectable_id.find("green_ticked") != std::string::npos)
-            ImGui::SetTooltip("Working build");
+            ImGui::Text("Working build");
         else if (selectable_id.find("untested") != std::string::npos)
-            ImGui::SetTooltip("Untested build");
+            ImGui::Text("Untested build");
+        ImGui::EndTooltip();
     }
 
     auto text_pos =
@@ -975,8 +977,7 @@ void RenderType::render_selection()
     {
         if (filtered_files.empty())
         {
-            ImGui::TextDisabled(
-                "No builds found. Please make sure to also download the ZIP file from Github w.r.t. the README.");
+            ImGui::TextDisabled("No builds found w.r.t. filter text.");
         }
         else
         {
@@ -1040,7 +1041,8 @@ void RenderType::render_selection()
 
                     if (is_red_crossed)
                     {
-                        render_red_cross_and_text(is_selected, original_index, file_info, base_formatted_name);
+                        continue;
+                        // render_red_cross_and_text(is_selected, original_index, file_info, base_formatted_name);
                     }
                     else if (is_green_ticked)
                     {
