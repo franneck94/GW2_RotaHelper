@@ -65,5 +65,5 @@ public:
     std::vector<int> auto_attack_indices;
 
     std::vector<std::string> rotation_text;
-    std::vector<std::vector<std::tuple<ID3D11ShaderResourceView *, std::string, SkillID>>> rotation_icon_lines;
+    std::vector<std::vector<std::tuple<ID3D11ShaderResourceView *, std::string, SkillID, bool>>> rotation_icon_lines;
 };

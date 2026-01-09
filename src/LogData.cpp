@@ -380,7 +380,8 @@ void get_rotation_info(const IntNode &node,
 
             if (!drop_skill)
             {
-                const auto is_special_skill = get_is_special_skill(skill_data, SkillRuleData::skill_rules, is_easy_skill_mode);
+                const auto is_special_skill =
+                    get_is_special_skill(skill_data, SkillRuleData::skill_rules, is_easy_skill_mode);
 
                 const auto cast_time_it = SkillRuleData::skill_cast_time_map.find(skill_data.skill_id);
                 if (cast_time_it != SkillRuleData::skill_cast_time_map.end())
@@ -1050,7 +1051,7 @@ std::string RotationLogType::get_keybind_str(const RotationStep &rotation_step,
 void RotationLogType::get_rotation_icons()
 {
     rotation_icon_lines.clear();
-    auto rotation_line = std::vector<std::tuple<ID3D11ShaderResourceView *, std::string, SkillID>>{};
+    auto rotation_line = std::vector<std::tuple<ID3D11ShaderResourceView *, std::string, SkillID, bool>>{};
 
     const auto &rotation = Globals::RotationRun.all_rotation_steps_w_swap;
 
@@ -1071,7 +1072,7 @@ void RotationLogType::get_rotation_icons()
         {
             if (!icon_it->second)
                 continue;
-            rotation_line.push_back(std::make_tuple(icon_it->second, skill_data.name, skill_data.skill_id));
+            rotation_line.push_back(std::make_tuple(icon_it->second, skill_data.name, skill_data.skill_id, false));
         }
         else
         {
