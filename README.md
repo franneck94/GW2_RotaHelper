@@ -142,11 +142,14 @@ List of Builds for Easy Mode:
 
 In general, you can see in-game the state of a build.
 
-- Working builds are marked with a <span style="color: #009220ff">green</span> ✔️
-- Okayish working builds are marked with a <span style="color: #DAA520">yellow</span> ✔️
-- Poorly working builds are marked with an <span style="color: #ffa200ff">orange</span> 🗙
-- Very bad working builds are marked with a <span style="color: #e82204ff">red</span> 🗙
-- Not yet tested builds are marked with a <span style="color: #43403fff">gray</span>  ❔
+- Working builds are marked <span style="color: #009220ff">green</span>
+- Okayish working builds are marked <span style="color: #DAA520">yellow</span>
+- Poorly working builds are marked <span style="color: #ffa200ff">orange</span>
+- Not yet tested builds are marked with a ❔
+- Very bad working builds are not shown these are:
+  - Mirage
+  - Bladesworn
+  - Antiquary
 
 <div align="left" style="margin-left:50px;">
    <img src="./media/build_categories.png" alt="Example Screenshot" />
