@@ -81,7 +81,8 @@ public:
                               const ID3D11ShaderResourceView *texture,
                               const int auto_attack_index,
                               const float icon_size,
-                              const bool show_keybind);
+                              const bool show_keybind,
+                              const float alpha_offset = 0);
     void render_dodge_placeholder();
     void render_unknown_placeholder();
     void render_empty_placeholder();
@@ -126,6 +127,8 @@ public:
     bool show_rotation_window = true;
     bool show_rotation_icons_overview = false;
     bool is_not_ui_adjust_active = false;
+    bool do_highlight_skill = false;
+    SkillID highlight_skill_id = SkillID::NONE;
 
     ID3D11Device *pd3dDevice = nullptr;
 

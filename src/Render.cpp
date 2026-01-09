@@ -334,7 +334,12 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
             bool first_in_line = true;
             for (const auto &line_data : icon_lines)
             {
-                if (!std::get<0>(line_data) || !pd3dDevice)
+                auto *texture = std::get<0>(line_data);
+                auto name = std::get<1>(line_data);
+                auto skill_id = std::get<2>(line_data);
+                auto is_auto_attack = std::get<3>(line_data);
+
+                if (!texture || !pd3dDevice)
                     continue;
 
                 if (!first_in_line)
@@ -354,21 +359,37 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
 
                 first_in_line = false;
 
-                auto texture = std::get<0>(line_data);
                 auto rotation_step = RotationStep{};
-                rotation_step.skill_data.name =
-                    std::get<1>(line_data); // TODO: We need either skill id or aa info from line_data
-                rotation_step.skill_data.is_auto_attack = false;
+                rotation_step.skill_data.name = name;
+                rotation_step.skill_data.skill_id = skill_id;
+                rotation_step.skill_data.is_auto_attack = is_auto_attack;
                 const auto is_current = num_icons == curr_rota_index;
 
-                if (is_current)
+                auto alpha_offset = 0.0f;
+                if (do_highlight_skill)
+                {
+                    if (rotation_step.skill_data.skill_id == highlight_skill_id)
+                        alpha_offset = 0.5f;
+                    else
+                        alpha_offset = -0.65f;
+                }
+
+                if (!do_highlight_skill && is_current)
                     DrawRect(rotation_step, "", IM_COL32(255, 255, 255, 255), 2.0F, icon_size);
                 else if (rotation_step.skill_data.is_auto_attack) // orange
                     DrawRect(rotation_step, "", IM_COL32(255, 165, 0, 255), 2.0F);
-                render_skill_texture(rotation_step, texture, 0, icon_size, false);
+                render_skill_texture(rotation_step, texture, 0, icon_size, false, alpha_offset);
 
-                if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+                if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) && ImGui::GetIO().KeyCtrl)
                     is_not_ui_adjust_active = !is_not_ui_adjust_active;
+                if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
+                {
+                    do_highlight_skill = !do_highlight_skill;
+                    if (do_highlight_skill)
+                        highlight_skill_id = rotation_step.skill_data.skill_id;
+                    else
+                        highlight_skill_id = SkillID::NONE;
+                }
 
                 ++num_icons;
             }
@@ -1137,6 +1158,8 @@ void RenderType::restart_rotation(const bool not_ooc_triggered)
         show_rotation_keybinds = false;
         show_rotation_icons_overview = false;
         show_rotation_window = true;
+        do_highlight_skill = false;
+        highlight_skill_id = SkillID::NONE;
     }
 }
 
@@ -1274,10 +1297,15 @@ void RenderType::render_skill_texture(const RotationStep &rotation_step,
                                       const ID3D11ShaderResourceView *texture,
                                       const int auto_attack_index,
                                       const float icon_size,
-                                      const bool show_keybind)
+                                      const bool show_keybind,
+                                      const float alpha_offset)
 {
     const auto is_special_skill = rotation_step.is_special_skill;
-    auto tint_color = is_special_skill ? ImVec4(0.5f, 0.5f, 0.5f, 1.0f) : ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+    auto tint_color = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+    if (is_special_skill)
+        tint_color = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+    if (alpha_offset != 0.0f)
+        tint_color.w = max(0.1f, min(1.0f, tint_color.w + alpha_offset));
 
     ImGui::Image((ImTextureID)texture, ImVec2(icon_size, icon_size), ImVec2(0, 0), ImVec2(1, 1), tint_color);
 
