@@ -25,14 +25,6 @@ static const std::set<std::string_view> red_crossed_builds = {
 static const std::set<std::string_view> orange_crossed_builds = {
     // CHECKED POWER BUILDS
     "power_tempest_hammer",
-    "inferno_quickness_evoker_specialized_elements",
-    "inferno_evoker_specialized_elements",
-    // CHECKED CONDITION BUILDS
-    "condition__pistol_dagger",
-    "condition_quickness_catalyst_pistol_dagger",
-    // POWER BUILDS
-    "condition_boon_chronomancer_staff_scepter_torch",
-    "condition_chronomancer_staff_scepter_torch",
     "power_vindicator_greatsword_sword_sword",
     "power_quickness_untamed_hammer_sword_axe",
     "power_quickness_untamed_hammer_mace_mace",
@@ -41,18 +33,25 @@ static const std::set<std::string_view> orange_crossed_builds = {
     "power_catalyst_sword_dagger",
     "power_quickness_evoker_scepter_dagger",
     // CONDI BUILDS
+    "inferno_quickness_evoker_specialized_elements",
+    "inferno_evoker_specialized_elements",
+    "condition_boon_chronomancer_staff_scepter_torch",
+    "condition_chronomancer_staff_scepter_torch",
     "condition_virtuoso_dagger_sword_focus",
     "condition_quickness_untamed_axe_dagger_dagger_torch",
     "condition_quickness_catalyst_pistol_warhorn",
+    "condition__pistol_dagger",
+    "condition_quickness_catalyst_pistol_dagger",
 };
 
 static const std::set<std::string_view> yellow_tick_builds = {
     // CHECKED POWER BUILDS
+    "inferno_catalyst_scepter_dagger",
+    "inferno_tempest_scepter_dagger",
     "power_ritualist_greatsword_spear",
     "power_tempest_sword_dagger",
     "power_tempest_scepter_dagger",
     "power_tempest_inferno_scepter_dagger",
-    "inferno_catalyst_scepter_dagger",
     "power_catalyst_scepter_dagger_inferno",
     "power_catalyst_scepter_dagger",
     "power_catalyst_scepter_dagger_pf",
@@ -60,7 +59,6 @@ static const std::set<std::string_view> yellow_tick_builds = {
     "power_virtuoso_greatsword_dagger_sword",
     "power_virtuoso_spear_dagger_sword",
     "power_troubadour_spear_dagger_sword",
-    "inferno_tempest_scepter_dagger",
     "power_conduit_staff_sword_sword",               // maybe green
     "power_conduit_greatsword_sword_sword",          // maybe green
     "power_herald_staff_sword_sword",                // maybe green
@@ -71,26 +69,43 @@ static const std::set<std::string_view> yellow_tick_builds = {
     "power_dragonhunter_virtues_spear_greatsword",
     "power_dragonhunter_radiance_spear_greatsword",
     "power_dragonhunter_radiance_longbow_greatsword",
-    // CHECKED POWER BOON BUILDS
-    "power_quickness_ritualist_greatsowrd_spear",
-    "power_quickness_catalyst_scepter_dagger",
-    "power_quickness_catalyst_scepter_dagger_inferno",
-    "inferno_quickness_catalyst_scepter_dagger",
-    "power_quickness_catalyst_scepter_dagger",
-    "power_quickness_catalyst_scepter_dagger_pf",
-    "power_inferno_quickness_catalyst_scepter_dagger_pf",
-    "power_alacrity_tempest",
-    "power_alacrity_tempest_inferno_scepter_focus",
-    "power_quickness_scrapper_hammer",
+    "power_untamed_hammer_spear",
+    "power_untamed_hammer_sword_axe",
+    "power_chronomancer_spear_dagger_sword",
+    "power_evoker_scepter_dagger",
+    "power_alacrity_evoker_scepter_dagger",
     "power_weaver_sword_dagger",
     "power_reaper_dagger_sword",
     "power_reaper_sword_sword",
-    // CHECKED CONDITION BOON BUILDS
+    //  POWER BOON BUILDS
+    "power_boon_chronomancer_spear_dagger_sword",
+    "inferno_quickness_catalyst_scepter_dagger",
+    "power_inferno_quickness_catalyst_scepter_dagger_pf",
+    "power_quickness_ritualist_greatsword_spear",
+    "power_quickness_catalyst_scepter_dagger",
+    "power_quickness_catalyst_scepter_dagger_inferno",
+    "power_quickness_catalyst_scepter_dagger",
+    "power_quickness_catalyst_scepter_dagger_pf",
+    "power_quickness_scrapper_hammer",
+    "power_alacrity_tempest",
+    "power_alacrity_tempest_inferno_scepter_focus",
+    "power_alacrity_tempest_inferno_scepter_focus",
+    "power_alacrity_tempest_hammer",
+    "power_alacrity_renegade_staff_sword_sword",
+    // CONDITION BOON BUILDS
     "celestial_alacrity_scourge_dagger_torch_pistol_warhorn",
     "condition_alacrity_scourge_scepter_torch_pistol",
     "condition_alacrity_renegade_spear_mace_axe",
     "condition_quickness_scrapper_spear",
-    // CHECKED CONDITION BUILDS
+    "condition_harbinger_pistol_torch_scepter_dagger",
+    "condition_druid_dagger_torch_axe_dagger",
+    "condition_thief",
+    "condition_thief_spear",
+    "condition_soulbeast_axe_dagger_dagger_torch",
+    "condition_soulbeast_shortbow_dagger_dagger",
+    "condition_soulbeast_axe_torch_dagger_axe",
+    "condition_willbender_scepter_pistol_pistol_torch",
+    "condition_willbender_pistol_torch_pistol",
     "condition_berserker_longbow_sword_torch",
     "condition_reaper_greatsword_spear",
     "condition_scourge_scepter_torch_pistol",
@@ -101,27 +116,8 @@ static const std::set<std::string_view> yellow_tick_builds = {
     "condition_holosmith_spear",
     "condition_renegade_spear_mace_axe",
     "condition_mechanist_no_kit_spear",
-    // UNCHECKED POWER BUILDS
-    "power_untamed_hammer_spear",
-    "power_untamed_hammer_sword_axe",
-    "power_chronomancer_spear_dagger_sword",
-    "power_evoker_scepter_dagger",
-    "power_alacrity_evoker_scepter_dagger",
-    // UNCHECKED POWER BOON BUILDS
-    "power_alacrity_tempest_inferno_scepter_focus",
-    "power_boon_chronomancer_spear_dagger_sword",
-    "power_alacrity_tempest_hammer",
-    "power_alacrity_renegade_staff_sword_sword",
     "condition_paragon_longbow_sword_sword",
-    // UNCHECKED CONDITION BUILDS
-    "condition_harbinger_pistol_torch_scepter_dagger",
-    "condition_druid_dagger_torch_axe_dagger",
-    "condition_thief",
-    "condition_thief_spear",
-    "condition_soulbeast_axe_dagger_dagger_torch",
-    "condition_soulbeast_shortbow_dagger_dagger",
-    "condition_soulbeast_axe_torch_dagger_axe",
-    // UNCHECKED CONDI BOON BUILDS
+    // BOON CONDITION BUILDS
     "condition_quickness_harbinger_pistol_dagger_scepter_torch",
     "condition_alacrity_tempest_scepter",
     "condition_alacrity_tempest",
@@ -165,8 +161,6 @@ static const std::set<std::string_view> green_tick_builds = {
     "condition_harbinger",
     "condition_mechanist_one_kit_spear",
     "condition_mechanist_two_kits_spear",
-    "condition_willbender_scepter_pistol_pistol_torch",
-    "condition_willbender_pistol_torch_pistol",
     "condition_conduit_mace_axe",
     "condition_conduit_spear_mace_axe",
     // CONDI BOON BUILDS
