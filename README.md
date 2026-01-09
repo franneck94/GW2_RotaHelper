@@ -29,7 +29,7 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
    <img src="./media/selection.png" alt="Example Screenshot" />
 </div>
 
-- Skill names and cast times from the bench log can be turned on.
+- Skill names and cast times are shown on hover
 
 <div align="left" style="margin-left:50px;">
    <img src="./media/NameAndTime.png" alt="Example Screenshot" />
@@ -64,7 +64,7 @@ Note: Most features and settings have a detailed tooltip if you hover over it in
 #### Move UI
 
 When enabled you can move and resize the ui elements of the rotation icons.  
-Or you can double click these elements to turn this on.
+Or you can Ctrl + double click these elements to turn this on.
 
 ##### Keybinds
 
@@ -86,6 +86,8 @@ When the Keybind option is activated also the number of an auto attack in aa-cha
 <div align="left" style="margin-left:50px;">
    <img src="./media/aa_chain.png" alt="Example Screenshot" />
 </div>
+
+NOTE: The keybinds are just a visual and are not connected to the skill detection logic.
 
 ##### Rotation Skill Mappings List
 
@@ -113,9 +115,9 @@ You can copy the following with your default browser:
 ##### Rotation Settings
 
 - Strict Rotation: Every skill has to match, so there is no room for skill swapping like 2->3 instead of 3->2.
-  - The logic for greyed out skills still applies here
   - Not recommended for most builds.
 - Easy Skill Mode: On certain classes, some skills are not shown
+  - Recommanded if you are very new to a build
 
 Regular Mode:
 
@@ -142,11 +144,11 @@ List of Builds for Easy Mode:
 
 In general, you can see in-game the state of a build.
 
-- Working builds are marked <span style="color: #009220ff">green</span>
-- Okayish working builds are marked <span style="color: #DAA520">yellow</span>
+- Good Working builds are marked <span style="color: #009220ff">green</span>
+- Okay working builds are marked <span style="color: #DAA520">yellow</span>
 - Poorly working builds are marked <span style="color: #ffa200ff">orange</span>
 - Not yet tested builds are marked with a ❔
-- Very bad working builds are not shown these are:
+- Very bad working builds are not shown, these are any builds of:
   - Mirage
   - Bladesworn
   - Antiquary

@@ -6,6 +6,17 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 0.27.0 - 2026-01-09
+
+## Features
+
+- Rotation Icon Overview has now the option to highlight a skill (like in online dps.reports)
+
+### Improvements
+
+- Optimization for Power Luminary
+- Very bad working builds are not shown anymore
+
 ## 0.26.0 - 2026-01-05
 
 ### Improvements
