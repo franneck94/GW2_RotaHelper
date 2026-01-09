@@ -399,6 +399,40 @@ const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_g
         "power_weaver_sword_dagger_v4",
         {
             SkillID::RIDE_THE_LIGHTNING,
+        },
+    },
+    {
+        "power_luminary_spear_greatsword_v4",
+        {
+            SkillID::EFFULGENT_STANCE,
+        },
+    },
+    {
+        "power_virtuoso_spear_greatsword_v4",
+        {
+            SkillID::SPATIAL_SURGE
+        },
+    },
+    {
+        "power_virtuoso_greatsword_dagger_sword_v4",
+        {
+            SkillID::SPATIAL_SURGE
+        },
+    },
+};
+
+const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_match_to_gray_out = {
+    {
+        "condition_weaver_scepter_warhorn_v4",
+        {
+            SkillID::SIGNET_OF_EARTH,
+            SkillID::SIGNET_OF_FIRE,
+            SkillID::PRIMORDIAL_STANCE,
+        },
+    },
+    {
+        "power_weaver_sword_dagger_v4",
+        {
             SkillID::PRIMORDIAL_STANCE,
             SkillID::ARCANE_BLAST,
         },
@@ -411,6 +445,7 @@ const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_g
             SkillID::DARING_ADVANCE,
             SkillID::DARING_ADVANCE_1,
             SkillID::DAYBREAKING_SLASH,
+            SkillID::SHINING_SPIN,
         },
     },
     {
@@ -515,19 +550,20 @@ const std::set<SkillID> easy_mode_drop_match = {
 };
 
 const SkillRules skill_rules = SkillRules{
-    skills_substr_weapon_swap_like,
-    skills_match_weapon_swap_like,
-    skills_substr_to_drop,
-    skills_match_to_drop,
-    special_substr_to_gray_out,
-    special_match_to_gray_out_names,
-    special_match_to_gray_out,
-    special_substr_to_remove_duplicates_names,
-    special_substr_to_remove_duplicates,
-    easy_mode_drop_match_name,
-    easy_mode_drop_match,
-    class_map_special_match_to_gray_out,
-    class_map_easy_mode_drop_match,
+    .skills_substr_weapon_swap_like = skills_substr_weapon_swap_like,
+    .skills_match_weapon_swap_like = skills_match_weapon_swap_like,
+    .skills_substr_to_drop = skills_substr_to_drop,
+    .skills_match_to_drop = skills_match_to_drop,
+    .special_substr_to_gray_out = special_substr_to_gray_out,
+    .special_match_to_gray_out_names = special_match_to_gray_out_names,
+    .special_match_to_gray_out = special_match_to_gray_out,
+    .special_substr_to_remove_duplicates_names = special_substr_to_remove_duplicates_names,
+    .special_substr_to_remove_duplicates = special_substr_to_remove_duplicates,
+    .easy_mode_drop_match_name = easy_mode_drop_match_name,
+    .easy_mode_drop_match = easy_mode_drop_match,
+    .class_map_easy_mode_match_to_gray_out = class_map_easy_mode_match_to_gray_out,
+    .class_map_special_match_to_gray_out = class_map_special_match_to_gray_out,
+    .class_map_easy_mode_drop_match = class_map_easy_mode_drop_match,
 };
 
 const std::set<SkillID> skills_to_not_track = {

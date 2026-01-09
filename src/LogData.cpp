@@ -214,7 +214,7 @@ bool get_is_skill_dropped(const SkillData &skill_data,
     return drop_skill;
 }
 
-bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_rules)
+bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_rules, const bool is_easy_skill_mode)
 {
     if (skill_data.is_heal_skill)
         return true;
@@ -235,6 +235,18 @@ bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_r
             const auto is_class_special_gray_out = is_skill_in_set(skill_data.skill_id, class_special_set);
             if (is_class_special_gray_out)
                 return true;
+        }
+
+        if (is_easy_skill_mode)
+        {
+            const auto class_easy_it = skill_rules.class_map_easy_mode_match_to_gray_out.find(class_name);
+            if (class_easy_it != skill_rules.class_map_easy_mode_match_to_gray_out.end())
+            {
+                const auto &class_easy_set = class_easy_it->second;
+                const auto is_class_easy_gray_out = is_skill_in_set(skill_data.skill_id, class_easy_set);
+                if (is_class_easy_gray_out)
+                    return true;
+            }
         }
     }
 
@@ -368,7 +380,7 @@ void get_rotation_info(const IntNode &node,
 
             if (!drop_skill)
             {
-                const auto is_special_skill = get_is_special_skill(skill_data, SkillRuleData::skill_rules);
+                const auto is_special_skill = get_is_special_skill(skill_data, SkillRuleData::skill_rules, is_easy_skill_mode);
 
                 const auto cast_time_it = SkillRuleData::skill_cast_time_map.find(skill_data.skill_id);
                 if (cast_time_it != SkillRuleData::skill_cast_time_map.end())
