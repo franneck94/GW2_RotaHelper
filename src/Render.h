@@ -32,6 +32,7 @@ public:
     void render_debug_data();
     void render_debug_window(bool &show_debug_window);
     void render_options_checkboxes();
+    void render_horizontal_settings();
     void render_options_window();
     void render_snowcrows_build_link();
     void render_text_filter();
@@ -88,7 +89,7 @@ public:
     void render_empty_placeholder();
 
     /* HELPER */
-    float calculate_centered_position(const std::vector<std::string> &items) const;
+    float calculate_centered_position(const std::vector<std::string> &items, const float add_width = 0.0) const;
     void append_to_played_rotation(const EvCombatDataPersistent &combat_data);
     void skill_activation_callback(EvCombatDataPersistent combat_data);
     void set_show_window(const bool flag);
@@ -132,10 +133,11 @@ public:
 
     ID3D11Device *pd3dDevice = nullptr;
 
-    ImGuiWindowFlags flags_rota = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground |
-                                  ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
-                                  ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoScrollbar |
-                                  ImGuiWindowFlags_NoResize;
+    ImGuiWindowFlags flags_rota_overview = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoMove |
+                                           ImGuiWindowFlags_NoNavInputs | ImGuiWindowFlags_NoNavFocus |
+                                           ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoScrollbar |
+                                           ImGuiWindowFlags_NoResize;
+    ImGuiWindowFlags flags_rota = flags_rota_overview | ImGuiWindowFlags_NoBackground;
 
     BuildsType builds;
 };

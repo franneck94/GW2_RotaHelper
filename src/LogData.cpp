@@ -935,18 +935,18 @@ void RotationLogType::pop_bench_rotation_queue()
 
 std::tuple<std::int32_t, std::int32_t, size_t> RotationLogType::get_current_rotation_indices() const
 {
-    constexpr static auto window_size = 10;
-    constexpr static auto window_size_left = 2;
-    constexpr static auto window_size_right = window_size - window_size_left - 1;
+    const auto num_skills_todo = static_cast<int64_t>(missing_rotation_steps.size());
+    const auto num_total_skills = static_cast<int64_t>(all_rotation_steps.size());
+    const auto current_idx = static_cast<size_t>(num_total_skills - num_skills_todo);
+
+    const auto window_size_left = current_idx == 0 ? 2 : Settings::WindowSizeLeft;
+    const auto window_size_right = Settings::WindowSizeRight;
+    const auto window_size = window_size_right + window_size_left + 1;
 
     if (missing_rotation_steps.empty())
         return {-1, -1, static_cast<size_t>(-1)};
 
-    const auto num_skills_left = static_cast<int64_t>(missing_rotation_steps.size());
-    const auto num_total_skills = static_cast<int64_t>(all_rotation_steps.size());
-
-    auto current_idx = static_cast<size_t>(num_total_skills - num_skills_left);
-    const auto start = current_idx - 2 >= 0 ? static_cast<int32_t>(current_idx - window_size_left) : 0;
+    const auto start = current_idx - window_size_left >= 0 ? static_cast<int32_t>(current_idx - window_size_left) : 0;
     const auto end =
         current_idx + window_size < num_total_skills
             ? start > 0 ? static_cast<int32_t>(current_idx + window_size_right) : static_cast<int32_t>(window_size - 1)

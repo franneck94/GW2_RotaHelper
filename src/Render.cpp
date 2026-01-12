@@ -209,7 +209,7 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
     SkillDetectionLogic(num_skills_wo_match, time_since_last_match, Globals::RotationRun, skill_ev);
 }
 
-float RenderType::calculate_centered_position(const std::vector<std::string> &items) const
+float RenderType::calculate_centered_position(const std::vector<std::string> &items, const float add_width) const
 {
     auto total_width = 0.0F;
 
@@ -221,6 +221,8 @@ float RenderType::calculate_centered_position(const std::vector<std::string> &it
         if (i < items.size() - 1)
             total_width += ImGui::GetStyle().ItemSpacing.x;
     }
+
+    total_width -= add_width;
 
     const auto window_width = ImGui::GetWindowSize().x;
     return ((window_width - total_width) * 0.5F);
@@ -315,10 +317,9 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
     auto curr_rota_index =
         Globals::RotationRun.all_rotation_steps.size() - Globals::RotationRun.missing_rotation_steps.size();
 
-    auto curr_flags_rota = flags_rota;
+    auto curr_flags_rota = flags_rota_overview;
     if (is_not_ui_adjust_active)
     {
-        curr_flags_rota &= ~ImGuiWindowFlags_NoBackground;
         curr_flags_rota &= ~ImGuiWindowFlags_NoMove;
         curr_flags_rota &= ~ImGuiWindowFlags_NoResize;
     }
@@ -380,7 +381,8 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
                     DrawRect(rotation_step, "", IM_COL32(255, 165, 0, 255), 2.0F);
                 render_skill_texture(rotation_step, texture, 0, icon_size, false, alpha_offset);
 
-                if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) && ImGui::GetIO().KeyCtrl)
+                if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left) &&
+                    ImGui::GetIO().KeyCtrl)
                     is_not_ui_adjust_active = !is_not_ui_adjust_active;
                 if (ImGui::IsItemHovered() && ImGui::IsMouseClicked(ImGuiMouseButton_Left))
                 {
@@ -458,6 +460,79 @@ void RenderType::render_xml_selection()
 
         keybinds_loaded = false;
         keybinds.clear();
+    }
+}
+
+void RenderType::render_horizontal_settings()
+{
+    auto window_size_left = Settings::WindowSizeLeft;
+    auto window_size_right = Settings::WindowSizeRight;
+    auto window_size = window_size_right + window_size_left + 1;
+
+    const auto items = std::vector<std::string>{
+        "Window Size Left:",
+        "-",
+        std::to_string(Settings::WindowSizeLeft),
+        "+",
+        "Window Size Right:",
+        "-",
+        std::to_string(Settings::WindowSizeRight),
+        "+",
+    };
+    const auto checkbox_size = ImGui::GetFrameHeight();
+    const auto centered_pos = calculate_centered_position(items);
+    ImGui::SetCursorPosX(centered_pos + 50.0F);
+
+    ImGui::Text("Window Size Left:");
+    ImGui::SameLine();
+
+    if (ImGui::Button("-##left"))
+    {
+        if (Settings::WindowSizeLeft > 2)
+        {
+            Settings::WindowSizeLeft--;
+            Settings::Save(Globals::SettingsPath);
+        }
+    }
+    ImGui::SameLine();
+
+    ImGui::Text("%d", Settings::WindowSizeLeft);
+    ImGui::SameLine();
+
+    if (ImGui::Button("+##left"))
+    {
+        if (Settings::WindowSizeLeft < 5)
+        {
+            Settings::WindowSizeLeft++;
+            Settings::Save(Globals::SettingsPath);
+        }
+    }
+
+    ImGui::SameLine();
+
+    ImGui::Text("Window Size Right:");
+    ImGui::SameLine();
+
+    if (ImGui::Button("-##right"))
+    {
+        if (Settings::WindowSizeRight > 2)
+        {
+            Settings::WindowSizeRight--;
+            Settings::Save(Globals::SettingsPath);
+        }
+    }
+    ImGui::SameLine();
+
+    ImGui::Text("%d", Settings::WindowSizeRight);
+    ImGui::SameLine();
+
+    if (ImGui::Button("+##right"))
+    {
+        if (Settings::WindowSizeRight < 10)
+        {
+            Settings::WindowSizeRight++;
+            Settings::Save(Globals::SettingsPath);
+        }
     }
 }
 
@@ -554,7 +629,9 @@ void RenderType::render_options_checkboxes()
     if (Globals::RotationRun.all_rotation_steps.empty())
         return;
 
-    if (ImGui::Checkbox("Rotation Overview (Keys)", &show_rotation_keybinds))
+    ImGui::Separator();
+
+    if (ImGui::Checkbox("Overview (Keys)", &show_rotation_keybinds))
     {
         Settings::Save(Globals::SettingsPath);
 
@@ -567,7 +644,7 @@ void RenderType::render_options_checkboxes()
 
     ImGui::SameLine();
 
-    if (ImGui::Checkbox("Rotation Overview (Icons)", &show_rotation_icons_overview))
+    if (ImGui::Checkbox("Overview (Icons)", &show_rotation_icons_overview))
     {
         Settings::Save(Globals::SettingsPath);
 
@@ -578,8 +655,7 @@ void RenderType::render_options_checkboxes()
         std::string{"Newline indicates a weapon swap like action."},
     });
 
-    const auto centered_pos = calculate_centered_position({"Rotation Window"});
-    ImGui::SetCursorPosX(centered_pos);
+    ImGui::SameLine();
 
     if (ImGui::Checkbox("Rotation Window", &show_rotation_window))
     {
@@ -645,6 +721,10 @@ void RenderType::render_options_window()
 
         render_select_bench();
         render_snowcrows_build_link();
+
+        // SETTINGS
+        ImGui::Separator();
+        render_horizontal_settings();
         render_options_checkboxes();
 
         if (benches_files.empty())
