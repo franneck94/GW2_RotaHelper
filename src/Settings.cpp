@@ -15,6 +15,9 @@ const char *EASY_SKILL_MODE = "EasySkillMode";
 const char *VERSION_OF_LAST_BENCH_FILES_UPDATE = "VersionOfLastBenchFilesUpdate";
 const char *SKIP_BENCH_FILE_UPDATE = "SkipBenchFileUpdate";
 const char *BENCH_UPDATE_FAILED_BEFORE = "BenchUpdateFailedBefore";
+const char *WINDOW_SIZE_LEFT = "WindowSizeLeft";
+const char *WINDOW_SIZE_RIGHT = "WindowSizeRight";
+
 
 namespace Settings
 {
@@ -70,6 +73,11 @@ void Load(std::filesystem::path aPath)
         Settings[SKIP_BENCH_FILE_UPDATE].get_to<bool>(SkipBenchFileUpdate);
     if (!Settings[BENCH_UPDATE_FAILED_BEFORE].is_null())
         Settings[BENCH_UPDATE_FAILED_BEFORE].get_to<bool>(BenchUpdateFailedBefore);
+
+    if (!Settings[WINDOW_SIZE_LEFT].is_null())
+        Settings[WINDOW_SIZE_LEFT].get_to<uint32_t>(WindowSizeLeft);
+    if (!Settings[WINDOW_SIZE_RIGHT].is_null())
+        Settings[WINDOW_SIZE_RIGHT].get_to<uint32_t>(WindowSizeRight);
 }
 
 void Save(std::filesystem::path aPath)
@@ -86,6 +94,8 @@ void Save(std::filesystem::path aPath)
         Settings[VERSION_OF_LAST_BENCH_FILES_UPDATE] = VersionOfLastBenchFilesUpdate;
         Settings[SKIP_BENCH_FILE_UPDATE] = SkipBenchFileUpdate;
         Settings[BENCH_UPDATE_FAILED_BEFORE] = BenchUpdateFailedBefore;
+        Settings[WINDOW_SIZE_LEFT] = WindowSizeLeft;
+        Settings[WINDOW_SIZE_RIGHT] = WindowSizeRight;
 
         std::ofstream file(aPath);
         file << Settings.dump(1, '\t') << std::endl;
@@ -111,4 +121,6 @@ std::filesystem::path XmlSettingsPath;
 std::string VersionOfLastBenchFilesUpdate = "0.1.0.0";
 bool SkipBenchFileUpdate = false;
 bool BenchUpdateFailedBefore = false;
+uint32_t WindowSizeLeft = 2;
+uint32_t WindowSizeRight = 7;
 } // namespace Settings

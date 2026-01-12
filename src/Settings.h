@@ -22,6 +22,8 @@ extern const char *EASY_SKILL_MODE;
 extern const char *VERSION_OF_LAST_BENCH_FILES_UPDATE;
 extern const char *SKIP_BENCH_FILE_UPDATE;
 extern const char *BENCH_UPDATE_FAILED_BEFORE;
+extern const char *WINDOW_SIZE_LEFT;
+extern const char *WINDOW_SIZE_RIGHT;
 
 namespace Settings
 {
@@ -42,6 +44,8 @@ extern std::filesystem::path XmlSettingsPath;
 extern std::string VersionOfLastBenchFilesUpdate;
 extern bool SkipBenchFileUpdate;
 extern bool BenchUpdateFailedBefore;
+extern uint32_t WindowSizeLeft;
+extern uint32_t WindowSizeRight;
 } // namespace Settings
 
 #endif
