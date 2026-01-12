@@ -77,7 +77,9 @@ static const std::set<std::string_view> yellow_tick_builds = {
     "power_weaver_sword_dagger",
     "power_reaper_dagger_sword",
     "power_reaper_sword_sword",
+    "power_luminary_spear_greatsword",
     //  POWER BOON BUILDS
+    "power_alacrity_luminary_longbow_greatsword",
     "power_boon_chronomancer_spear_dagger_sword",
     "inferno_quickness_catalyst_scepter_dagger",
     "power_inferno_quickness_catalyst_scepter_dagger_pf",
@@ -147,9 +149,7 @@ static const std::set<std::string_view> green_tick_builds = {
     "power_soulbeast_hammer_axe_axe",
     "power_spellbreaker_sword_mace_dagger_axe",
     "power_spellbreaker_hammer_dagger_mace",
-    "power_luminary_spear_greatsword",
     // POWER BOON BUILDS
-    "power_alacrity_luminary_longbow_greatsword",
     "power_quickness_harbinger_greatsword_spear",
     "power_alacrity_mechanist_sword_pistol",
     "power_alacrity_mechanist_rifle",
