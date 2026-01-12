@@ -198,6 +198,7 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::RADIANT_RESOLVE_1,
     SkillID::RADIANT_COURAGE,
     SkillID::RADIANT_COURAGE_1,
+    SkillID::BINDING_BLADE,
     // WARRIOR
     SkillID::DRAGON_TRIGGER,
     SkillID::FLOW_STABILIZER,
@@ -405,19 +406,17 @@ const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_g
         "power_luminary_spear_greatsword_v4",
         {
             SkillID::EFFULGENT_STANCE,
+            SkillID::DARING_ADVANCE,
+            SkillID::DARING_ADVANCE_1,
         },
     },
     {
         "power_virtuoso_spear_greatsword_v4",
-        {
-            SkillID::SPATIAL_SURGE
-        },
+        {SkillID::SPATIAL_SURGE},
     },
     {
         "power_virtuoso_greatsword_dagger_sword_v4",
-        {
-            SkillID::SPATIAL_SURGE
-        },
+        {SkillID::SPATIAL_SURGE},
     },
 };
 
@@ -441,9 +440,6 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_match_to
         "power_luminary_spear_greatsword_v4",
         {
             SkillID::PIERCING_STANCE,
-            SkillID::EFFULGENT_STANCE,
-            SkillID::DARING_ADVANCE,
-            SkillID::DARING_ADVANCE_1,
             SkillID::DAYBREAKING_SLASH,
             SkillID::SHINING_SPIN,
         },
@@ -458,15 +454,11 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_match_to
     },
     {
         "power_virtuoso_spear_greatsword_v4",
-        {
-            SkillID::SPATIAL_SURGE
-        },
+        {SkillID::SPATIAL_SURGE},
     },
     {
         "power_virtuoso_greatsword_dagger_sword_v4",
-        {
-            SkillID::SPATIAL_SURGE
-        },
+        {SkillID::SPATIAL_SURGE},
     },
 };
 
@@ -656,8 +648,8 @@ const std::map<SkillID, float> skill_cast_time_map = {
     {SkillID::CONDUIT_SURGE, 0.5f},     // engi spear 2
     {SkillID::LIGHTNING_ROD, 0.5f},     // engi spear 3
     {SkillID::ORB_OF_WRATH, 0.5f},      // gaurd scepter 1
-    {SkillID::POLARIC_SLASH, 0.5f},      //
-    {SkillID::FIRE_SWIPE, 0.5f},      //
+    {SkillID::POLARIC_SLASH, 0.5f},     //
+    {SkillID::FIRE_SWIPE, 0.5f},        //
 };
 
 const std::map<SkillID, float> grey_skill_cast_time_map = {
