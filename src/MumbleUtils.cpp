@@ -16,10 +16,18 @@ unsigned int GetCurrentMapID()
     return 0;
 }
 
+Mumble::EMapType GetCurrentMapType()
+{
+    return Globals::MumbleData->Context.MapType;
+}
+
 bool IsValidMap()
 {
-    const auto id = GetCurrentMapID();
-    return id == 1154 | id == 1155;
+    // const auto id = GetCurrentMapID();
+    // return id == 1154 | id == 1155;
+
+    const auto map_type = GetCurrentMapType();
+    return map_type == Mumble::EMapType::Public || map_type == Mumble::EMapType::Instance;
 }
 
 bool IsInfight()
