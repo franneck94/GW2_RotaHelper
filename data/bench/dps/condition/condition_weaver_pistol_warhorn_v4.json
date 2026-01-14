@@ -220,13 +220,6 @@
       ],
       [
         12.037,
-        3256323,
-        78.0,
-        1,
-        1.0
-      ],
-      [
-        12.037,
         1012316,
         0.0,
         1,
@@ -257,13 +250,6 @@
         13.716,
         103035,
         0.0,
-        1,
-        1.0
-      ],
-      [
-        13.716,
-        3256325,
-        198.0,
         1,
         1.0
       ],
@@ -383,13 +369,6 @@
         20.157,
         3256343,
         480.0,
-        1,
-        1.0
-      ],
-      [
-        20.637,
-        3256326,
-        239.0,
         1,
         1.0
       ],
@@ -544,13 +523,6 @@
         30.476,
         3256324,
         521.0,
-        1,
-        1.0
-      ],
-      [
-        30.997,
-        3256324,
-        79.0,
         1,
         1.0
       ],
@@ -1045,13 +1017,6 @@
         1.0
       ],
       [
-        61.753,
-        3256324,
-        163.0,
-        1,
-        1.0
-      ],
-      [
         61.916,
         103340,
         517.0,
@@ -1101,13 +1066,6 @@
         1.0
       ],
       [
-        64.996,
-        3256324,
-        38.0,
-        1,
-        1.0
-      ],
-      [
         65.034,
         1029999,
         639.0,
@@ -1132,13 +1090,6 @@
         65.716,
         3256334,
         441.0,
-        1,
-        1.0
-      ],
-      [
-        66.157,
-        3256324,
-        158.0,
         1,
         1.0
       ],
@@ -1416,13 +1367,6 @@
         1.0
       ],
       [
-        82.518,
-        3256325,
-        117.0,
-        1,
-        1.0
-      ],
-      [
         82.635,
         3256335,
         681.0,
@@ -1475,13 +1419,6 @@
         85.957,
         3256328,
         520.0,
-        1,
-        1.0
-      ],
-      [
-        86.477,
-        3256324,
-        199.0,
         1,
         1.0
       ]
@@ -1590,12 +1527,6 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s3256323": {
-      "name": "Electric Exposure",
-      "icon": "https://render.guildwars2.com/file/575D6048F7B2660A3BC0D3A93CECFD49EEB1C0D1/3256323.png",
-      "traitProc": false,
-      "gearProc": false
-    },
     "s3256339": {
       "name": "Purblinding Plasma",
       "icon": "https://render.guildwars2.com/file/22F037530AE534D9010D0AECA94701F915CEEC11/3256339.png",
@@ -1626,15 +1557,15 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s3256326": {
-      "name": "Soothing Splash",
-      "icon": "https://render.guildwars2.com/file/D2092BE1DA1F2D1D93F67E07EE010BB113794C44/3256326.png",
-      "traitProc": false,
-      "gearProc": false
-    },
     "s3256341": {
       "name": "Frostfire Flurry",
       "icon": "https://render.guildwars2.com/file/94A852009195CE9727D9BC463622A0C3566E0AF6/3256341.png",
+      "traitProc": false,
+      "gearProc": false
+    },
+    "s3256326": {
+      "name": "Soothing Splash",
+      "icon": "https://render.guildwars2.com/file/D2092BE1DA1F2D1D93F67E07EE010BB113794C44/3256326.png",
       "traitProc": false,
       "gearProc": false
     },

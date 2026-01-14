@@ -23,8 +23,9 @@ Mumble::EMapType GetCurrentMapType()
 
 bool IsValidMap()
 {
-    // const auto id = GetCurrentMapID();
-    // return id == 1154 | id == 1155;
+    const auto id = GetCurrentMapID();
+    if (id == 1154 || id == 1155)
+        return true;
 
     const auto map_type = GetCurrentMapType();
     return map_type == Mumble::EMapType::Public || map_type == Mumble::EMapType::Instance;

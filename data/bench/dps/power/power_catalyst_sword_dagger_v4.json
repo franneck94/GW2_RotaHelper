@@ -128,13 +128,6 @@
         1.0
       ],
       [
-        4.59,
-        1770361,
-        43.0,
-        1,
-        1.0
-      ],
-      [
         4.633,
         103183,
         475.0,
@@ -180,13 +173,6 @@
         6.95,
         1770375,
         443.0,
-        1,
-        1.0
-      ],
-      [
-        7.393,
-        1770361,
-        37.0,
         1,
         1.0
       ],
@@ -611,13 +597,6 @@
         1.0
       ],
       [
-        32.071,
-        1770361,
-        80.0,
-        1,
-        1.0
-      ],
-      [
         32.15,
         2491598,
         0.0,
@@ -880,13 +859,6 @@
         47.79,
         1770375,
         441.0,
-        1,
-        1.0
-      ],
-      [
-        48.231,
-        1770361,
-        38.0,
         1,
         1.0
       ],
@@ -1255,13 +1227,6 @@
         1.0
       ],
       [
-        69.788,
-        1770362,
-        79.0,
-        1,
-        1.0
-      ],
-      [
         69.867,
         1770369,
         722.0,
@@ -1395,13 +1360,6 @@
         1.0
       ],
       [
-        77.747,
-        1770358,
-        84.0,
-        1,
-        1.0
-      ],
-      [
         77.831,
         102975,
         678.0,
@@ -1521,13 +1479,6 @@
         1.0
       ],
       [
-        85.029,
-        1770361,
-        38.0,
-        1,
-        1.0
-      ],
-      [
         85.067,
         1770369,
         722.0,
@@ -1542,23 +1493,9 @@
         1.0
       ],
       [
-        85.789,
-        1770355,
-        159.0,
-        1,
-        1.0
-      ],
-      [
         85.948,
         103332,
         122.0,
-        1,
-        1.0
-      ],
-      [
-        86.07,
-        1770355,
-        37.0,
         1,
         1.0
       ],
@@ -1716,12 +1653,6 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s1770361": {
-      "name": "Fire Strike",
-      "icon": "https://render.guildwars2.com/file/01BBF5AFE8D46FAE7F3ABE04A7EA2065E203A010/1770361.png",
-      "traitProc": false,
-      "gearProc": false
-    },
     "s103183": {
       "name": "Ring of Fire",
       "icon": "https://render.guildwars2.com/file/CD08FDC23B56EBB19C90B909C65D9EE4D9FFF8C8/103183.png",
@@ -1737,6 +1668,12 @@
     "s2491568": {
       "name": "Elemental Celerity",
       "icon": "https://render.guildwars2.com/file/39F9519CA1BA45F570BA157B7AD4449AF94BBF01/2491568.png",
+      "traitProc": false,
+      "gearProc": false
+    },
+    "s1770361": {
+      "name": "Fire Strike",
+      "icon": "https://render.guildwars2.com/file/01BBF5AFE8D46FAE7F3ABE04A7EA2065E203A010/1770361.png",
       "traitProc": false,
       "gearProc": false
     },
@@ -1785,12 +1722,6 @@
     "s1424240": {
       "name": "Firestorm",
       "icon": "https://render.guildwars2.com/file/72030C6DDD3A36ACEC0A39FF03299271CB2FE433/1424240.png",
-      "traitProc": false,
-      "gearProc": false
-    },
-    "s1770358": {
-      "name": "Crystal Slash",
-      "icon": "https://render.guildwars2.com/file/083CE8B4C86A115123440703072E0E453D1A0A27/1770358.png",
       "traitProc": false,
       "gearProc": false
     }

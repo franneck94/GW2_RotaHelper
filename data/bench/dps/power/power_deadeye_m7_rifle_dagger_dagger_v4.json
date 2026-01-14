@@ -541,13 +541,6 @@
         1.0
       ],
       [
-        50.597,
-        104065,
-        40.0,
-        1,
-        1.0
-      ],
-      [
         50.637,
         103169,
         602.0,
@@ -674,13 +667,6 @@
         1.0
       ],
       [
-        58.715,
-        104065,
-        42.0,
-        1,
-        1.0
-      ],
-      [
         58.757,
         103169,
         600.0,
@@ -744,13 +730,6 @@
         1.0
       ],
       [
-        63.035,
-        104065,
-        42.0,
-        1,
-        1.0
-      ],
-      [
         63.077,
         103617,
         600.0,
@@ -789,13 +768,6 @@
         65.918,
         103169,
         600.0,
-        1,
-        1.0
-      ],
-      [
-        66.518,
-        104065,
-        39.0,
         1,
         1.0
       ],
@@ -1024,13 +996,6 @@
         1.0
       ],
       [
-        81.797,
-        104065,
-        37.0,
-        1,
-        1.0
-      ],
-      [
         81.834,
         103169,
         600.0,
@@ -1209,15 +1174,15 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s104065": {
-      "name": "Double Strike",
-      "icon": "https://render.guildwars2.com/file/3BC8295208902CAB3046C27A6C46A4E1CC6EFAFA/104065.png",
-      "traitProc": false,
-      "gearProc": false
-    },
     "s103169": {
       "name": "Heartseeker",
       "icon": "https://render.guildwars2.com/file/7F30CC1709A64346280859937A281DF863E7CD0E/103169.png",
+      "traitProc": false,
+      "gearProc": false
+    },
+    "s104065": {
+      "name": "Double Strike",
+      "icon": "https://render.guildwars2.com/file/3BC8295208902CAB3046C27A6C46A4E1CC6EFAFA/104065.png",
       "traitProc": false,
       "gearProc": false
     },

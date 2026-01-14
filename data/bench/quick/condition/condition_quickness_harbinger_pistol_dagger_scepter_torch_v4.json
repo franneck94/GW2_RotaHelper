@@ -30,13 +30,6 @@
         1.0
       ],
       [
-        1.196,
-        2479402,
-        238.0,
-        1,
-        1.0
-      ],
-      [
         1.434,
         2479395,
         680.0,
@@ -303,13 +296,6 @@
         1.0
       ],
       [
-        21.874,
-        2479402,
-        164.0,
-        1,
-        1.0
-      ],
-      [
         22.038,
         2479407,
         836.0,
@@ -369,13 +355,6 @@
         27.914,
         2479407,
         844.0,
-        1,
-        1.0
-      ],
-      [
-        28.758,
-        2479403,
-        35.0,
         1,
         1.0
       ],
@@ -555,13 +534,6 @@
         1.0
       ],
       [
-        41.155,
-        2479402,
-        39.0,
-        1,
-        1.0
-      ],
-      [
         41.194,
         2479406,
         838.0,
@@ -593,13 +565,6 @@
         42.994,
         103094,
         436.0,
-        1,
-        1.0
-      ],
-      [
-        43.43,
-        1228811,
-        165.0,
         1,
         1.0
       ],
@@ -870,13 +835,6 @@
         1.0
       ],
       [
-        63.749,
-        2479402,
-        158.0,
-        1,
-        1.0
-      ],
-      [
         63.907,
         2479407,
         842.0,
@@ -936,13 +894,6 @@
         69.79,
         2479407,
         843.0,
-        1,
-        1.0
-      ],
-      [
-        70.633,
-        2479403,
-        75.0,
         1,
         1.0
       ],
@@ -1122,13 +1073,6 @@
         1.0
       ],
       [
-        83.068,
-        2479402,
-        43.0,
-        1,
-        1.0
-      ],
-      [
         83.111,
         2479406,
         836.0,
@@ -1153,13 +1097,6 @@
         84.833,
         2479401,
         0.0,
-        1,
-        1.0
-      ],
-      [
-        84.87,
-        103094,
-        121.0,
         1,
         1.0
       ],
@@ -1402,13 +1339,6 @@
         1.0
       ],
       [
-        103.506,
-        2479402,
-        40.0,
-        1,
-        1.0
-      ],
-      [
         103.546,
         2479406,
         846.0,
@@ -1433,13 +1363,6 @@
         105.313,
         2479401,
         0.0,
-        1,
-        1.0
-      ],
-      [
-        105.352,
-        2479403,
-        158.0,
         1,
         1.0
       ],
@@ -1554,12 +1477,6 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s2479402": {
-      "name": "Tainted Bolts",
-      "icon": "https://render.guildwars2.com/file/03AB6A0BA611767DA8A30A0D0E68CE580760EA34/2479402.png",
-      "traitProc": false,
-      "gearProc": false
-    },
     "s2479395": {
       "name": "Elixir of Anguish",
       "icon": "https://render.guildwars2.com/file/DF014624472FAC17D6201AAF0591E0FB45B5DDE0/2479395.png",
@@ -1650,6 +1567,12 @@
       "traitProc": false,
       "gearProc": false
     },
+    "s2479402": {
+      "name": "Tainted Bolts",
+      "icon": "https://render.guildwars2.com/file/03AB6A0BA611767DA8A30A0D0E68CE580760EA34/2479402.png",
+      "traitProc": false,
+      "gearProc": false
+    },
     "s58459": {
       "name": "Signet of Spite",
       "icon": "https://render.guildwars2.com/file/596707B904509879083B6F6697012448A7420A63/58459.png",
@@ -1662,21 +1585,9 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s2479403": {
-      "name": "Vicious Shot",
-      "icon": "https://render.guildwars2.com/file/1DDAE693CAB780E7000BAED0973E0E485CCE9709/2479403.png",
-      "traitProc": false,
-      "gearProc": false
-    },
     "s103094": {
       "name": "Blood Curse",
       "icon": "https://render.guildwars2.com/file/94DEDA71DAE6C060D1FEF97E5BA7A99BBB574F18/103094.png",
-      "traitProc": false,
-      "gearProc": false
-    },
-    "s1228811": {
-      "name": "Rending Curse",
-      "icon": "https://render.guildwars2.com/file/78E39426079A026BC3459512BB589538A511BAB4/1228811.png",
       "traitProc": false,
       "gearProc": false
     }

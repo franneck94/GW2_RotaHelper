@@ -759,7 +759,7 @@ void RenderType::render_options_window()
                     {
                         const auto AddonPath = Globals::APIDefs->Paths_GetAddonDirectory("GW2RotaHelper");
 
-                        if (MINOR == 26 && MAJOR == 0 && BUILD == 0)
+                        if (MAJOR == 0 && MINOR == 28 && BUILD == 0)
                             DropOldBuilds(AddonPath);
 
                         char buffer[128] = {'\0'};

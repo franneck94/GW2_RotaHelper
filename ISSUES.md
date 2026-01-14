@@ -8,6 +8,8 @@
 
 - Borders for rotaion overview
 - Single click highluights same skill
+- FileOpen Window freezes game when nothign is selected
+- Handle Mouse Bindings
 
 ## Postponed
 

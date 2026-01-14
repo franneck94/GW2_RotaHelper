@@ -193,8 +193,8 @@ Example:
 
 5. **Install Your Custom Rotations**:
    - Copy the generated JSON files to your addon's bench folder
-     - Power DPS: `GW2/addons/GW2RotaHelper/bench/dps/power`
-     - Condition DPS: `GW2/addons/GW2RotaHelper/bench/dps/condition`
+     - Power DPS: `GW2/addons/GW2RotaHelper/bench/custom/power`
+     - Condition DPS: `GW2/addons/GW2RotaHelper/bench/custom/condition`
      - etc.
 
 ## ⚠️ Known Limitations

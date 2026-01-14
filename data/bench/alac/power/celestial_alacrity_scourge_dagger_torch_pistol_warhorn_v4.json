@@ -51,13 +51,6 @@
         1.0
       ],
       [
-        2.607,
-        103095,
-        39.0,
-        1,
-        1.0
-      ],
-      [
         2.646,
         9999,
         0.0,
@@ -149,13 +142,6 @@
         1.0
       ],
       [
-        9.521,
-        2479403,
-        124.0,
-        1,
-        1.0
-      ],
-      [
         9.645,
         2,
         794.0,
@@ -166,13 +152,6 @@
         10.439,
         103277,
         760.0,
-        1,
-        1.0
-      ],
-      [
-        11.199,
-        2479403,
-        80.0,
         1,
         1.0
       ],
@@ -236,13 +215,6 @@
         14.717,
         2479407,
         841.0,
-        1,
-        1.0
-      ],
-      [
-        15.558,
-        2479403,
-        130.0,
         1,
         1.0
       ],
@@ -506,13 +478,6 @@
         1.0
       ],
       [
-        29.85,
-        2479403,
-        31.0,
-        1,
-        1.0
-      ],
-      [
         29.881,
         2,
         799.0,
@@ -558,13 +523,6 @@
         33.077,
         2110169,
         0.0,
-        1,
-        1.0
-      ],
-      [
-        33.123,
-        2479403,
-        115.0,
         1,
         1.0
       ],
@@ -621,13 +579,6 @@
         37.281,
         1770536,
         0.0,
-        1,
-        1.0
-      ],
-      [
-        37.558,
-        2479403,
-        40.0,
         1,
         1.0
       ],
@@ -774,12 +725,6 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s103095": {
-      "name": "Necrotic Slash",
-      "icon": "https://render.guildwars2.com/file/05EE0A5CE7B645C83F3008FCD8C9AD2002C744D1/103095.png",
-      "traitProc": false,
-      "gearProc": false
-    },
     "s9999": {
       "name": "Weapon Swap",
       "icon": "https://render.guildwars2.com/file/c_ce_Weapon_Swap/Button.png",
@@ -843,6 +788,12 @@
     "s2110169": {
       "name": "Sandstorm Shroud",
       "icon": "https://render.guildwars2.com/file/67EF1250A2BE9C00B9B3F462C00696BFC1E0BFAD/2110169.png",
+      "traitProc": false,
+      "gearProc": false
+    },
+    "s103095": {
+      "name": "Necrotic Slash",
+      "icon": "https://render.guildwars2.com/file/05EE0A5CE7B645C83F3008FCD8C9AD2002C744D1/103095.png",
       "traitProc": false,
       "gearProc": false
     },
