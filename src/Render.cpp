@@ -429,10 +429,9 @@ bool RenderType::FileSelection()
                 return true;
             }
         }
-        return false; // Dialog still in progress or was cancelled
+        return false;
     }
 
-    // Start the file dialog in a separate thread
     file_dialog_future = std::async(std::launch::async, []() -> std::string {
         OPENFILENAME ofn;
         CHAR szFile[260] = {0};
