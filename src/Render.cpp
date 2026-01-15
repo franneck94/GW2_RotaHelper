@@ -412,21 +412,28 @@ void RenderType::render_debug_window(bool &show_debug_window)
     ImGui::End();
 }
 
-void RenderType::render_xml_selection()
+bool RenderType::FileSelection()
 {
-    if (!Settings::XmlSettingsPath.empty())
+    if (file_dialog_future.valid())
     {
-        if (!keybinds_loaded && std::filesystem::exists(Settings::XmlSettingsPath))
+        if (file_dialog_future.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
         {
-            keybinds = parse_xml_keybinds(Settings::XmlSettingsPath);
+            auto result = file_dialog_future.get();
+            if (!result.empty())
+            {
+                Settings::XmlSettingsPath = std::filesystem::path(result);
+                Settings::Save(Globals::SettingsPath);
 
-            keybinds_loaded = true;
+                keybinds_loaded = false;
+                (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Loaded XML InputBinds File.");
+                return true;
+            }
         }
+        return false; // Dialog still in progress or was cancelled
     }
 
-    const auto button_width = ImGui::GetWindowSize().x * 0.5f - ImGui::GetStyle().ItemSpacing.x * 0.5f;
-    if (ImGui::Button("Select Keybinds", ImVec2(button_width, 0)))
-    {
+    // Start the file dialog in a separate thread
+    file_dialog_future = std::async(std::launch::async, []() -> std::string {
         OPENFILENAME ofn;
         CHAR szFile[260] = {0};
 
@@ -443,12 +450,39 @@ void RenderType::render_xml_selection()
 
         if (GetOpenFileName(&ofn) == TRUE)
         {
-            Settings::XmlSettingsPath = std::filesystem::path(szFile);
-            Settings::Save(Globals::SettingsPath);
-
-            keybinds_loaded = false;
-            (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Loaded XML InputBinds File.");
+            return std::string(szFile);
         }
+
+        return std::string();
+    });
+
+    return false;
+}
+
+void RenderType::render_xml_selection()
+{
+    if (!Settings::XmlSettingsPath.empty())
+    {
+        if (!keybinds_loaded && std::filesystem::exists(Settings::XmlSettingsPath))
+        {
+            keybinds = parse_xml_keybinds(Settings::XmlSettingsPath);
+
+            keybinds_loaded = true;
+        }
+    }
+
+    const auto button_width = ImGui::GetWindowSize().x * 0.5f - ImGui::GetStyle().ItemSpacing.x * 0.5f;
+
+    // Check if file dialog is in progress
+    bool dialog_in_progress = file_dialog_future.valid() &&
+                             file_dialog_future.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready;
+
+    // Show appropriate button text based on dialog state
+    const char* button_text = dialog_in_progress ? "Selecting..." : "Select Keybinds";
+
+    if (ImGui::Button(button_text, ImVec2(button_width, 0)) && !dialog_in_progress)
+    {
+        FileSelection();
     }
 
     ImGui::SameLine();
@@ -789,7 +823,7 @@ void RenderType::render_options_window()
 #ifndef _DEBUG
     if (!IsValidMap())
     {
-        const auto warning_text = "NOTE: Rotation only shown in Aerodome and Training Area!";
+        const auto warning_text = "NOTE: Rotation tool is in PvP/WvW deactivated!";
         const auto centered_pos = calculate_centered_position({warning_text});
         ImGui::SetCursorPosX(centered_pos);
 
