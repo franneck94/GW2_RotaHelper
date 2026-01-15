@@ -379,6 +379,13 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::EMBRACE_THE_DARKNESS_1,
     SkillID::RESIST_THE_DARKNESS,
     SkillID::SANDSTORM_SHROUD,
+    SkillID::BEGUILING_HAZE,
+    SkillID::BEGUILING_HAZE_1,
+    SkillID::BEGUILING_HAZE_2,
+    SkillID::BEGUILING_HAZE_3,
+    SkillID::IMPOSSIBLE_ODDS,
+    SkillID::PHANTOM_S_ONSLAUGHT,
+    SkillID::RELEASE_POTENTIAL_ASSASSIN,
 };
 
 const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_gray_out = {
