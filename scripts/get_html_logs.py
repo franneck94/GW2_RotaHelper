@@ -160,7 +160,7 @@ class SnowCrowsScraper:
 
         return filename
 
-    def get_snowcrows_builds_and_links(self) -> list[dict]:
+    def get_snowcrows_builds_and_links(self, recent_only: bool = False) -> list[dict]:
         """Extract build info including class/profession from SnowCrows build pages"""
 
         benchmark_urls = [
@@ -186,9 +186,10 @@ class SnowCrowsScraper:
                 response.raise_for_status()
 
                 # New approach: Extract build cards with name and weapon information
-                builds_data = self._extract_builds_from_page(response.text)
+                builds_data = self._extract_builds_from_page(response.text, recent_only=recent_only)
                 self.logger.info(
-                    f"Found {len(builds_data)} {benchmark_type.upper()} builds",
+                    f"Found {len(builds_data)} {benchmark_type.upper()} builds"
+                    + (" (recent updates only)" if recent_only else ""),
                 )
 
                 for build_data in builds_data:
@@ -317,7 +318,7 @@ class SnowCrowsScraper:
         readable = readable.replace("Lb", "LB")  # Longbow
         return readable.replace("Sb", "SB")  # Shortbow
 
-    def _extract_builds_from_page(self, html_content: str) -> list[dict]:
+    def _extract_builds_from_page(self, html_content: str, recent_only: bool = False) -> list[dict]:
         """Extract build information from SnowCrows page with new layout"""
         builds = []
 
@@ -352,7 +353,7 @@ class SnowCrowsScraper:
             # Fallback: if the new pattern doesn't work, try the old approach
             if not builds:
                 self.logger.warning("New pattern failed, trying fallback approach")
-                builds = self._extract_builds_fallback(html_content)
+                builds = self._extract_builds_fallback(html_content, recent_only)
 
         except Exception as e:
             self.logger.exception(f"Error extracting builds from page: {e}")
@@ -361,7 +362,7 @@ class SnowCrowsScraper:
 
         return builds
 
-    def _extract_builds_fallback(self, html_content: str) -> list[dict]:
+    def _extract_builds_fallback(self, html_content: str, recent_only: bool = False) -> list[dict]:
         """Fallback method for extracting builds using the old approach"""
         builds = []
 
@@ -381,13 +382,28 @@ class SnowCrowsScraper:
                     url_name = url_parts[-1]
                     readable_name = self._url_to_readable_name(url_name)
 
-                    builds.append(
-                        {
-                            "url": build_url,
-                            "name": readable_name,
-                            "weapons": "",  # No weapon info available in fallback
-                        }
+                    # Check for recent update in fallback mode (limited detection)
+                    build_card_context = self._extract_build_card_context(html_content, build_url)
+                    recently_updated = (
+                        '<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-500 opacity-75"></span>'
+                    ) in build_card_context and (
+                        '<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-purple-400"></span>'
+                        in build_card_context
                     )
+
+                    # If recent_only is True, skip builds that aren't recently updated
+                    if recent_only and not recently_updated:
+                        continue
+
+                    if build_url not in {b["url"] for b in builds}:
+                        builds.append(
+                            {
+                                "url": build_url,
+                                "name": readable_name,
+                                "weapons": "",  # No weapon info available in fallback
+                                "recently_updated": recently_updated,
+                            },
+                        )
 
         except Exception as e:
             self.logger.exception(f"Error in fallback extraction: {e}")
@@ -994,14 +1010,14 @@ class SnowCrowsScraper:
         )
         self.logger.info(f"Download complete: {success_count}/{total_count} successful")
 
-    def run(self, manual_file_path: Path | None = None) -> None:
+    def run(self, manual_file_path: Path | None = None, recent_only: bool = False) -> None:
         """Main execution method"""
         try:
             if manual_file_path:
                 self.logger.info(f"Using manual log list from: {manual_file_path}")
                 builds_and_links = self.get_manual_builds_and_links(manual_file_path)
             else:
-                builds_and_links = self.get_snowcrows_builds_and_links()
+                builds_and_links = self.get_snowcrows_builds_and_links(recent_only=recent_only)
 
             if not builds_and_links:
                 self.logger.warning("No builds with DPS report links found")
@@ -1070,6 +1086,12 @@ def main() -> None:
         const=Path("internal_data/manual_log_list.json"),
         help="Use manual log list JSON file instead of scraping SnowCrows (default: internal_data/manual_log_list.json)",
     )
+    parser.add_argument(
+        "--recent_only",
+        "-r",
+        action="store_true",
+        help="Only fetch builds that have been recently updated (indicated by purple dot)",
+    )
 
     args = parser.parse_args()
 
@@ -1091,8 +1113,9 @@ def main() -> None:
             print(f"🔍 Loading builds from manual log list: {args.manual}...")
             builds_and_links = scraper.get_manual_builds_and_links(args.manual)
         else:
-            print("🔍 Finding builds with benchmark report links (DPS, Quick, Alac)...")
-            builds_and_links = scraper.get_snowcrows_builds_and_links()
+            recent_text = " (recent updates only)" if args.recent_only else ""
+            print(f"🔍 Finding builds with benchmark report links (DPS, Quick, Alac){recent_text}...")
+            builds_and_links = scraper.get_snowcrows_builds_and_links(recent_only=args.recent_only)
 
         if builds_and_links:
             print(
@@ -1102,8 +1125,9 @@ def main() -> None:
                 filename = scraper._sanitize_build_name(build_info["url_name"])
                 dps_info = f" (DPS: {build_info['overall_dps']})" if build_info.get("overall_dps") else ""
                 weapons_info = f" - {build_info['weapons']}" if build_info.get("weapons") else ""
+                recent_indicator = " 🆕" if build_info.get("recently_updated") else ""
                 print(
-                    f"{i:2d}. {build_info['name']}{weapons_info} ({build_info['benchmark_type'].upper()}){dps_info} -> {filename}",
+                    f"{i:2d}. {build_info['name']}{weapons_info} ({build_info['benchmark_type'].upper()}){dps_info}{recent_indicator} -> {filename}",
                 )
                 print(
                     f"     Profession: {build_info['profession']} ({build_info['elite_spec']})",
@@ -1124,8 +1148,9 @@ def main() -> None:
         if args.manual:
             print(f"🌐 Starting manual log list processing from: {args.manual}...")
         else:
-            print("🌐 Starting SnowCrows benchmark scraper (DPS, Quick, Alac)...")
-        scraper.run(args.manual)
+            recent_text = " (recent updates only)" if args.recent_only else ""
+            print(f"🌐 Starting SnowCrows benchmark scraper (DPS, Quick, Alac){recent_text}...")
+        scraper.run(args.manual, recent_only=args.recent_only if not args.manual else False)
         print("✅ Scraping completed!")
         print(f"📄 Build metadata saved to: {scraper.output_dir}/build_metadata.json")
 
