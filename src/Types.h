@@ -328,9 +328,12 @@ enum class Keys
 enum class Modifiers
 {
     NONE = 0,
-    SHIFT = 2,
-    ALT = 4,
-    CTRL = 6,
+    LSHIFT = 1,
+    RSHIFT = 2,
+    LALT = 3,
+    RALT = 4,
+    LCTRL = 5,
+    RCTRL = 6,
 };
 
 struct KeybindInfo

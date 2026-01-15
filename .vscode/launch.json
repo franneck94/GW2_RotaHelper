@@ -44,13 +44,21 @@
             "justMyCode": false
         },
         {
+            "name": "Debug: get_html_logs (Recent)",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/get_html_logs.py",
+            "args": ["--recent_only"],
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "justMyCode": false
+        },
+        {
             "name": "Debug: get_html_logs (skip)",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/scripts/get_html_logs.py",
-            "args": [
-                "--skip_metadata"
-            ],
+            "args": ["--skip_metadata"],
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "justMyCode": false
@@ -71,9 +79,7 @@
             "program": "${workspaceFolder}/scripts/get_html_logs.py",
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
-            "args": [
-                "--manual"
-            ],
+            "args": ["--manual"],
             "justMyCode": false
         },
         {

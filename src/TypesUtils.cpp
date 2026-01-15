@@ -528,11 +528,14 @@ std::string modifiers_to_string(Modifiers modifier)
     {
     case Modifiers::NONE:
         return "None";
-    case Modifiers::SHIFT:
+    case Modifiers::LSHIFT: /* fall-through */
+    case Modifiers::RSHIFT:
         return "Shift";
-    case Modifiers::ALT:
+    case Modifiers::LALT: /* fall-through */
+    case Modifiers::RALT:
         return "Alt";
-    case Modifiers::CTRL:
+    case Modifiers::LCTRL: /* fall-through */
+    case Modifiers::RCTRL:
         return "Ctrl";
     default:
         return "Unknown";

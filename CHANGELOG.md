@@ -6,12 +6,17 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 0.29.0 - 2026-01-15
+## 1.0.0 - 2026-01-15
 
 ## Improvements
 
 - Optimization for Power Revenant (Vindi, Conduit)
 - Fixed crash on input bind file selection
+- Fixed issues with keybind modifiers
+
+### Notes
+
+- Builds fetched from Balance Update
 
 ## 0.28.0 - 2026-01-14
 
