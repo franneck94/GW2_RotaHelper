@@ -2,7 +2,7 @@
 # GW2 Rotation Helper - Master Your Rotation at the Training Golem
 
 This tool shows in-game the rotation from the Snow Crows benchmark DPS reports.  
-It will always show the last 2 skills, the current skill, and the next 7 skills.  
+It will show the last skills, the current skill, and the next skills.  
 Depending on which skill the user activates, the GUI will proceed onwards in the rotation.
 
 <img src="./media/example.png" alt="Example Screenshot" width="550" height="600" />
@@ -68,6 +68,7 @@ Or you can Ctrl + double click these elements to turn this on.
 
 ##### Keybinds
 
+- The first step is to export your keybinds to a file. For that go into gthe GW2 keybind settings and click export at the bottom right.
 - You can turn on the option to show the default keybinds for the skills.
 
 <div align="left" style="margin-left:50px;">
@@ -139,6 +140,12 @@ List of Builds for Easy Mode:
 - Power Luminary Spear Greatsword
 - Power Scrapper Hammer
 - Condition Mechanist One Kit Spear
+
+### Versioning
+
+An increase in the first number indicates an uodate of the rotation logs/builds.  
+An increase of the second number indicates changes in the code logic.  
+An increase in the third number indicates bugfixes only.
 
 #### Tested Builds
 

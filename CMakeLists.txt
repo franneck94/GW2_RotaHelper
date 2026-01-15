@@ -93,7 +93,7 @@ set_target_properties(GW2RotaHelper PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY_RELEASE "${CMAKE_SOURCE_DIR}/bin/release"
 )
 
-set(LOWER_VERSION "0.26.0.0")
+set(LOWER_VERSION "1.0.0.0")
 
 add_custom_command(TARGET GW2RotaHelper POST_BUILD
     COMMAND python "${CMAKE_SOURCE_DIR}/scripts/create_version_file.py" "--lower_version=${LOWER_VERSION}" "--header_path=${CMAKE_SOURCE_DIR}/src/Version.h"
