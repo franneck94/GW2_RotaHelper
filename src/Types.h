@@ -263,6 +263,7 @@ enum class Keys
     NONE,
     LEFT_CTRL = 1,
     LEFT_SHIFT = 2,
+    MOUSE4 = 3,
     CAPS = 5,
     ZIRUMFLEX = 17,
     TAB = 22,
@@ -322,6 +323,7 @@ enum class Keys
     NUM_8 = 103,
     NUM_9 = 104,
     NUM_RET = 105,
+    SMALLER = 111,
     LEFT_ALT = 202,
 };
 
