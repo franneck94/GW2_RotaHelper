@@ -12,24 +12,28 @@ KeyboardCapture::~KeyboardCapture()
     Shutdown();
 }
 
-bool KeyboardCapture::Initialize(HWND hwnd)
+bool KeyboardCapture::InitializeNexus(void (*wndprocAddRem)(UINT (*)(HWND, UINT, WPARAM, LPARAM)))
 {
     if (m_IsInitialized)
     {
         return true;
     }
 
-    assert(hwnd != nullptr && "Window handle cannot be null");
+    assert(wndprocAddRem != nullptr && "WNDPROC_ADDREM callback cannot be null");
 
-    m_TargetWindow = hwnd;
+    m_NexusWndProcAddRem = wndprocAddRem;
 
-    if (!RegisterRawInputDevice(hwnd))
-    {
-        return false;
-    }
+    // Register our window procedure callback with Nexus
+    m_NexusWndProcAddRem(NexusWndProcCallback);
 
     m_IsInitialized = true;
     return true;
+}
+
+UINT KeyboardCapture::NexusWndProcCallback(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+    KeyboardCapture::GetInstance().ProcessMessage(uMsg, wParam, lParam);
+    return 0;  // Let Nexus/game handle the message
 }
 
 void KeyboardCapture::Shutdown()
@@ -39,16 +43,10 @@ void KeyboardCapture::Shutdown()
         return;
     }
 
-    // Unregister raw input device
-    RAWINPUTDEVICE rid = {};
-    rid.usUsagePage = 0x01;  // Generic desktop
-    rid.usUsage = 0x06;      // Keyboard
-    rid.dwFlags = RIDEV_REMOVE;
-    rid.hwndTarget = nullptr;
-
-    if (!RegisterRawInputDevice(&rid, 1, sizeof(rid)))
+    // Deregister window procedure callback (pass nullptr to remove)
+    if (m_NexusWndProcAddRem)
     {
-        // Log warning but continue cleanup
+        m_NexusWndProcAddRem(nullptr);
     }
 
     {
@@ -71,24 +69,10 @@ void KeyboardCapture::Shutdown()
     }
 
     m_IsInitialized = false;
-    m_TargetWindow = nullptr;
+    m_NexusWndProcAddRem = nullptr;
 }
 
-bool KeyboardCapture::RegisterRawInputDevice(HWND hwnd)
-{
-    RAWINPUTDEVICE rid = {};
-    rid.usUsagePage = 0x01;  // Generic desktop control
-    rid.usUsage = 0x06;      // Keyboard
-    rid.dwFlags = RIDEV_INPUTSINK;  // Receive input even when not in focus
-    rid.hwndTarget = hwnd;
 
-    if (!::RegisterRawInputDevice(&rid, 1, sizeof(rid)))
-    {
-        return false;
-    }
-
-    return true;
-}
 
 void KeyboardCapture::RegisterCallback(KeyboardCallback callback)
 {
