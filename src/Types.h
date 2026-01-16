@@ -357,6 +357,7 @@ struct KeybindInfo
 {
     std::string action_name;
     Keys button = Keys::NONE;
+    Device device = Device::KEYBOARD;
     Modifiers modifier = Modifiers::NONE;
 };
 
