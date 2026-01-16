@@ -52,11 +52,12 @@ public:
     static KeyboardCapture& GetInstance();
 
     /**
-     * @brief Initialize keyboard capture on target window
-     * @param hwnd Window handle to capture input from
+     * @brief Initialize keyboard capture via Nexus WNDPROC hook
+     * This method should be called from AddonLoad
+     * @param wndprocAddRem Nexus WNDPROC_ADDREM function pointer
      * @return true if initialization succeeded
      */
-    bool Initialize(HWND hwnd);
+    bool InitializeNexus(void (*wndprocAddRem)(UINT (*)(HWND, UINT, WPARAM, LPARAM)));
 
     /**
      * @brief Shutdown and cleanup keyboard capture
@@ -107,12 +108,13 @@ private:
     KeyboardCapture() = default;
     ~KeyboardCapture();
 
-    bool RegisterRawInputDevice(HWND hwnd);
+    static UINT NexusWndProcCallback(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
     void ProcessRawInputMessage(LPARAM lParam);
     void DispatchCallbacks(const KeyPressInfo& info);
 
-    HWND m_TargetWindow = nullptr;
     bool m_IsInitialized = false;
+    void (*m_NexusWndProcAddRem)(UINT (*)(HWND, UINT, WPARAM, LPARAM)) = nullptr;
 
     // Key state tracking
     mutable std::mutex m_KeyStateMutex;
