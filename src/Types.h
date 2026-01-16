@@ -258,12 +258,23 @@ struct SkillKeyMapping
     int skill_9;
 };
 
+enum class Device
+{
+    KEYBOARD,
+    MOUSE,
+};
+
+enum class MouseKeys
+{
+    MOUSE4 = 3,
+};
+
 enum class Keys
 {
     NONE,
     LEFT_CTRL = 1,
     LEFT_SHIFT = 2,
-    MOUSE4 = 3,
+    AE = 3,
     CAPS = 5,
     ZIRUMFLEX = 17,
     TAB = 22,
