@@ -6,6 +6,12 @@ All notable changes to GW2 RotaHelper will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Versioning
+
+An increase in the first number indicates an update of the rotation logs/builds.  
+An increase of the second number indicates changes in only the code logic.  
+An increase in the third number indicates bugfixes only.
+
 ## 1.0.0 - 2026-01-15
 
 ## Improvements
