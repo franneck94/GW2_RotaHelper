@@ -26,6 +26,7 @@
 #include "TEX_GW2RotaHelperHOVER_data.h"
 #include "TEX_GW2RotaHelperNORMAL_data.h"
 #include "Version.h"
+#include "KeyboardCapture.h"
 
 namespace dx = DirectX;
 
@@ -129,6 +130,9 @@ void AddonLoad(AddonAPI_t *aApi)
     if (!aApi)
         return;
 
+    auto &keyboardCapture = KeyboardCapture::GetInstance();
+    keyboardCapture.InitializeNexus(aApi->WndProc_Register);
+
     Globals::APIDefs = aApi;
     ImGui::SetCurrentContext((ImGuiContext *)Globals::APIDefs->ImguiContext);
     ImGui::SetAllocatorFunctions((void *(*)(size_t, void *))Globals::APIDefs->ImguiMalloc,
@@ -206,6 +210,8 @@ void AddonUnload()
 {
     if (pd3dDevice)
         pd3dDevice->Release();
+
+    KeyboardCapture::GetInstance().Shutdown();
 
     Globals::APIDefs->GUI_Deregister(AddonRender);
     Globals::APIDefs->GUI_Deregister(AddonOptions);
