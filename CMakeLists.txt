@@ -72,6 +72,7 @@ add_library(first_party_libs STATIC
     "src/MumbleUtils.cpp"
     "src/SkillData.cpp"
     "src/Builds.cpp"
+    "src/KeyboardCapture.cpp"
 )
 target_include_directories(first_party_libs PUBLIC
     "src"
