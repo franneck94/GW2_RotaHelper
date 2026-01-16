@@ -397,8 +397,8 @@ std::string custom_keys_to_string(Keys key)
         return "LCtrl";
     case Keys::LEFT_SHIFT:
         return "LShift";
-    case Keys::MOUSE4:
-        return "Mouse4";
+    case Keys::AE:
+        return "Ae";
     case Keys::CAPS:
         return "Caps";
     case Keys::ZIRUMFLEX:
