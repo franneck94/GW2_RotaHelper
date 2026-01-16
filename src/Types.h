@@ -266,7 +266,11 @@ enum class Device
 
 enum class MouseKeys
 {
+    MOUSE1 = 0, // Check
+    MOUSE2 = 1, // Check
+    MOUSE3 = 2, // Check
     MOUSE4 = 3,
+    MOUSE5 = 4,
 };
 
 enum class Keys
