@@ -360,6 +360,143 @@ std::vector<BenchFileInfo> get_bench_files(const std::filesystem::path &bench_pa
     return files;
 }
 
+std::string get_keybind_action_name_from_xml_line(const std::string &line)
+{
+    auto name_start = line.find("name=\"");
+    if (name_start != std::string::npos)
+    {
+        name_start += std::string{"name=\""}.size();
+        const auto name_end = line.find("\"", name_start);
+
+        if (name_end != std::string::npos)
+            return line.substr(name_start, name_end - name_start);
+    }
+
+    return std::string{};
+}
+
+void get_keybind_secondary_info(size_t button2_start, const std::string &line, KeybindInfo &keybind)
+{
+    auto device2_start = line.find("device2=\"");
+    device2_start += std::string{"device2=\""}.size();
+    auto device2_end = line.find("\"", device2_start);
+    if (device2_end != std::string::npos)
+    {
+        auto device2_str = line.substr(device2_start, device2_end - device2_start);
+        try
+        {
+            if (device2_str == "Keyboard")
+                device2_str = "0";
+            else if (device2_str == "Mouse")
+                device2_str = "1";
+            keybind.device = static_cast<Device>(std::stoi(device2_str));
+        }
+        catch (...)
+        {
+            keybind.device = Device::KEYBOARD;
+        }
+    }
+
+    button2_start += std::string{"button2=\""}.size();
+    auto button2_end = line.find("\"", button2_start);
+    if (button2_end != std::string::npos)
+    {
+        auto button2_str = line.substr(button2_start, button2_end - button2_start);
+        try
+        {
+            const auto button_val = std::stoi(button2_str);
+            keybind.button = static_cast<Keys>(button_val);
+        }
+        catch (...)
+        {
+            keybind.button = Keys::NONE;
+        }
+    }
+
+    auto mod2_start = line.find("mod2=\"");
+    if (mod2_start != std::string::npos)
+    {
+        mod2_start += std::string{"mod2=\""}.size();
+        auto mod2_end = line.find("\"", mod2_start);
+        if (mod2_end != std::string::npos)
+        {
+            auto mod2_str = line.substr(mod2_start, mod2_end - mod2_start);
+            try
+            {
+                const auto mod_val = std::stoi(mod2_str);
+                keybind.modifier = static_cast<Modifiers>(mod_val);
+            }
+            catch (...)
+            {
+                keybind.modifier = static_cast<Modifiers>(0);
+            }
+        }
+    }
+}
+
+void get_keybind_primary_info(const std::string &line, KeybindInfo &keybind)
+{
+    auto device_start = line.find("device=\"");
+    device_start += std::string{"device=\""}.size();
+    auto device_end = line.find("\"", device_start);
+    if (device_end != std::string::npos)
+    {
+        auto device_str = line.substr(device_start, device_end - device_start);
+        try
+        {
+            if (device_str == "Keyboard")
+                device_str = "0";
+            else if (device_str == "Mouse")
+                device_str = "1";
+            keybind.device = static_cast<Device>(std::stoi(device_str));
+        }
+        catch (...)
+        {
+            keybind.device = Device::KEYBOARD;
+        }
+    }
+
+    auto button_start = line.find("button=\"");
+    if (button_start != std::string::npos)
+    {
+        button_start += std::string{"button=\""}.size();
+        const auto button_end = line.find("\"", button_start);
+        if (button_end != std::string::npos)
+        {
+            std::string button_str = line.substr(button_start, button_end - button_start);
+            try
+            {
+                int button_val = std::stoi(button_str);
+                keybind.button = static_cast<Keys>(button_val);
+            }
+            catch (...)
+            {
+                keybind.button = Keys::NONE;
+            }
+        }
+    }
+
+    auto mod_start = line.find("mod=\"");
+    if (mod_start != std::string::npos)
+    {
+        mod_start += std::string{"mod=\""}.size();
+        const auto mod_end = line.find("\"", mod_start);
+        if (mod_end != std::string::npos)
+        {
+            std::string mod_str = line.substr(mod_start, mod_end - mod_start);
+            try
+            {
+                int mod_val = std::stoi(mod_str);
+                keybind.modifier = static_cast<Modifiers>(mod_val);
+            }
+            catch (...)
+            {
+                keybind.modifier = static_cast<Modifiers>(0);
+            }
+        }
+    }
+}
+
 std::map<std::string, KeybindInfo> parse_xml_keybinds(const std::filesystem::path &xml_path)
 {
     auto keybinds = std::map<std::string, KeybindInfo>{};
@@ -378,108 +515,20 @@ std::map<std::string, KeybindInfo> parse_xml_keybinds(const std::filesystem::pat
             {
                 auto keybind = KeybindInfo{};
 
-                auto name_start = line.find("name=\"");
-                if (name_start != std::string::npos)
-                {
-                    name_start += 6; // Skip 'name="'
-                    auto name_end = line.find("\"", name_start);
-                    if (name_end != std::string::npos)
-                    {
-                        keybind.action_name = line.substr(name_start, name_end - name_start);
-                    }
-                }
+                keybind.action_name = get_keybind_action_name_from_xml_line(line);
 
                 // Check for button2/mod2 first (prioritized)
                 auto button2_start = line.find("button2=\"");
-                auto mod2_start = line.find("mod2=\"");
                 bool has_button2 = button2_start != std::string::npos;
 
                 if (has_button2)
-                {
-                    // Use button2/mod2 pair
-                    button2_start += 9; // Skip 'button2="'
-                    auto button2_end = line.find("\"", button2_start);
-                    if (button2_end != std::string::npos)
-                    {
-                        auto button2_str = line.substr(button2_start, button2_end - button2_start);
-                        try
-                        {
-                            auto button_val = std::stoi(button2_str);
-                            keybind.button = static_cast<Keys>(button_val);
-                        }
-                        catch (...)
-                        {
-                            keybind.button = Keys::NONE;
-                        }
-                    }
-
-                    if (mod2_start != std::string::npos)
-                    {
-                        mod2_start += 6; // Skip 'mod2="'
-                        auto mod2_end = line.find("\"", mod2_start);
-                        if (mod2_end != std::string::npos)
-                        {
-                            auto mod2_str = line.substr(mod2_start, mod2_end - mod2_start);
-                            try
-                            {
-                                auto mod_val = std::stoi(mod2_str);
-                                keybind.modifier = static_cast<Modifiers>(mod_val);
-                            }
-                            catch (...)
-                            {
-                                keybind.modifier = static_cast<Modifiers>(0);
-                            }
-                        }
-                    }
-                }
+                    get_keybind_secondary_info(button2_start, line, keybind);
                 else
-                {
-                    // Use button/mod pair as fallback
-                    auto button_start = line.find("button=\"");
-                    if (button_start != std::string::npos)
-                    {
-                        button_start += 8; // Skip 'button="'
-                        auto button_end = line.find("\"", button_start);
-                        if (button_end != std::string::npos)
-                        {
-                            std::string button_str = line.substr(button_start, button_end - button_start);
-                            try
-                            {
-                                int button_val = std::stoi(button_str);
-                                keybind.button = static_cast<Keys>(button_val);
-                            }
-                            catch (...)
-                            {
-                                keybind.button = Keys::NONE;
-                            }
-                        }
-                    }
+                    get_keybind_primary_info(line, keybind);
 
-                    auto mod_start = line.find("mod=\"");
-                    if (mod_start != std::string::npos)
-                    {
-                        mod_start += 5; // Skip 'mod="'
-                        auto mod_end = line.find("\"", mod_start);
-                        if (mod_end != std::string::npos)
-                        {
-                            std::string mod_str = line.substr(mod_start, mod_end - mod_start);
-                            try
-                            {
-                                int mod_val = std::stoi(mod_str);
-                                keybind.modifier = static_cast<Modifiers>(mod_val);
-                            }
-                            catch (...)
-                            {
-                                keybind.modifier = static_cast<Modifiers>(0);
-                            }
-                        }
-                    }
-                }
-
-                // Only store specific skill-related keybinds
+                // TODO: Why do we have this?
                 if (!keybind.action_name.empty() && keybind.button != Keys::NONE)
                 {
-                    // Check if this is one of the allowed action names
                     if (keybind.action_name == "Profession Skill 1" || keybind.action_name == "Profession Skill 2" ||
                         keybind.action_name == "Profession Skill 3" || keybind.action_name == "Profession Skill 4" ||
                         keybind.action_name == "Profession Skill 5" || keybind.action_name == "Profession Skill 7" ||
