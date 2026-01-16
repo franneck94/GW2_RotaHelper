@@ -24,6 +24,131 @@
 #include "Types.h"
 #include "TypesUtils.h"
 
+namespace
+{
+void get_keybind_secondary_info(size_t button2_start, const std::string &line, KeybindInfo &keybind)
+{
+    auto device2_start = line.find("device2=\"");
+    device2_start += std::string{"device2=\""}.size();
+    auto device2_end = line.find("\"", device2_start);
+    if (device2_end != std::string::npos)
+    {
+        auto device2_str = line.substr(device2_start, device2_end - device2_start);
+        try
+        {
+            if (device2_str == "Keyboard")
+                device2_str = "0";
+            else if (device2_str == "Mouse")
+                device2_str = "1";
+            keybind.device = static_cast<Device>(std::stoi(device2_str));
+        }
+        catch (...)
+        {
+            keybind.device = Device::KEYBOARD;
+        }
+    }
+
+    button2_start += std::string{"button2=\""}.size();
+    auto button2_end = line.find("\"", button2_start);
+    if (button2_end != std::string::npos)
+    {
+        auto button2_str = line.substr(button2_start, button2_end - button2_start);
+        try
+        {
+            const auto button_val = std::stoi(button2_str);
+            keybind.button = static_cast<Keys>(button_val);
+        }
+        catch (...)
+        {
+            keybind.button = Keys::NONE;
+        }
+    }
+
+    auto mod2_start = line.find("mod2=\"");
+    if (mod2_start != std::string::npos)
+    {
+        mod2_start += std::string{"mod2=\""}.size();
+        auto mod2_end = line.find("\"", mod2_start);
+        if (mod2_end != std::string::npos)
+        {
+            auto mod2_str = line.substr(mod2_start, mod2_end - mod2_start);
+            try
+            {
+                const auto mod_val = std::stoi(mod2_str);
+                keybind.modifier = static_cast<Modifiers>(mod_val);
+            }
+            catch (...)
+            {
+                keybind.modifier = static_cast<Modifiers>(0);
+            }
+        }
+    }
+}
+
+void get_keybind_primary_info(const std::string &line, KeybindInfo &keybind)
+{
+    auto device_start = line.find("device=\"");
+    device_start += std::string{"device=\""}.size();
+    auto device_end = line.find("\"", device_start);
+    if (device_end != std::string::npos)
+    {
+        auto device_str = line.substr(device_start, device_end - device_start);
+        try
+        {
+            if (device_str == "Keyboard")
+                device_str = "0";
+            else if (device_str == "Mouse")
+                device_str = "1";
+            keybind.device = static_cast<Device>(std::stoi(device_str));
+        }
+        catch (...)
+        {
+            keybind.device = Device::KEYBOARD;
+        }
+    }
+
+    auto button_start = line.find("button=\"");
+    if (button_start != std::string::npos)
+    {
+        button_start += std::string{"button=\""}.size();
+        const auto button_end = line.find("\"", button_start);
+        if (button_end != std::string::npos)
+        {
+            std::string button_str = line.substr(button_start, button_end - button_start);
+            try
+            {
+                int button_val = std::stoi(button_str);
+                keybind.button = static_cast<Keys>(button_val);
+            }
+            catch (...)
+            {
+                keybind.button = Keys::NONE;
+            }
+        }
+    }
+
+    auto mod_start = line.find("mod=\"");
+    if (mod_start != std::string::npos)
+    {
+        mod_start += std::string{"mod=\""}.size();
+        const auto mod_end = line.find("\"", mod_start);
+        if (mod_end != std::string::npos)
+        {
+            std::string mod_str = line.substr(mod_start, mod_end - mod_start);
+            try
+            {
+                int mod_val = std::stoi(mod_str);
+                keybind.modifier = static_cast<Modifiers>(mod_val);
+            }
+            catch (...)
+            {
+                keybind.modifier = static_cast<Modifiers>(0);
+            }
+        }
+    }
+}
+}; // namespace
+
 BenchFileInfo::BenchFileInfo(const std::filesystem::path &full, const std::filesystem::path &relative, bool is_header)
     : full_path(full), relative_path(relative), is_directory_header(is_header)
 {
@@ -373,128 +498,6 @@ std::string get_keybind_action_name_from_xml_line(const std::string &line)
     }
 
     return std::string{};
-}
-
-void get_keybind_secondary_info(size_t button2_start, const std::string &line, KeybindInfo &keybind)
-{
-    auto device2_start = line.find("device2=\"");
-    device2_start += std::string{"device2=\""}.size();
-    auto device2_end = line.find("\"", device2_start);
-    if (device2_end != std::string::npos)
-    {
-        auto device2_str = line.substr(device2_start, device2_end - device2_start);
-        try
-        {
-            if (device2_str == "Keyboard")
-                device2_str = "0";
-            else if (device2_str == "Mouse")
-                device2_str = "1";
-            keybind.device = static_cast<Device>(std::stoi(device2_str));
-        }
-        catch (...)
-        {
-            keybind.device = Device::KEYBOARD;
-        }
-    }
-
-    button2_start += std::string{"button2=\""}.size();
-    auto button2_end = line.find("\"", button2_start);
-    if (button2_end != std::string::npos)
-    {
-        auto button2_str = line.substr(button2_start, button2_end - button2_start);
-        try
-        {
-            const auto button_val = std::stoi(button2_str);
-            keybind.button = static_cast<Keys>(button_val);
-        }
-        catch (...)
-        {
-            keybind.button = Keys::NONE;
-        }
-    }
-
-    auto mod2_start = line.find("mod2=\"");
-    if (mod2_start != std::string::npos)
-    {
-        mod2_start += std::string{"mod2=\""}.size();
-        auto mod2_end = line.find("\"", mod2_start);
-        if (mod2_end != std::string::npos)
-        {
-            auto mod2_str = line.substr(mod2_start, mod2_end - mod2_start);
-            try
-            {
-                const auto mod_val = std::stoi(mod2_str);
-                keybind.modifier = static_cast<Modifiers>(mod_val);
-            }
-            catch (...)
-            {
-                keybind.modifier = static_cast<Modifiers>(0);
-            }
-        }
-    }
-}
-
-void get_keybind_primary_info(const std::string &line, KeybindInfo &keybind)
-{
-    auto device_start = line.find("device=\"");
-    device_start += std::string{"device=\""}.size();
-    auto device_end = line.find("\"", device_start);
-    if (device_end != std::string::npos)
-    {
-        auto device_str = line.substr(device_start, device_end - device_start);
-        try
-        {
-            if (device_str == "Keyboard")
-                device_str = "0";
-            else if (device_str == "Mouse")
-                device_str = "1";
-            keybind.device = static_cast<Device>(std::stoi(device_str));
-        }
-        catch (...)
-        {
-            keybind.device = Device::KEYBOARD;
-        }
-    }
-
-    auto button_start = line.find("button=\"");
-    if (button_start != std::string::npos)
-    {
-        button_start += std::string{"button=\""}.size();
-        const auto button_end = line.find("\"", button_start);
-        if (button_end != std::string::npos)
-        {
-            std::string button_str = line.substr(button_start, button_end - button_start);
-            try
-            {
-                int button_val = std::stoi(button_str);
-                keybind.button = static_cast<Keys>(button_val);
-            }
-            catch (...)
-            {
-                keybind.button = Keys::NONE;
-            }
-        }
-    }
-
-    auto mod_start = line.find("mod=\"");
-    if (mod_start != std::string::npos)
-    {
-        mod_start += std::string{"mod=\""}.size();
-        const auto mod_end = line.find("\"", mod_start);
-        if (mod_end != std::string::npos)
-        {
-            std::string mod_str = line.substr(mod_start, mod_end - mod_start);
-            try
-            {
-                int mod_val = std::stoi(mod_str);
-                keybind.modifier = static_cast<Modifiers>(mod_val);
-            }
-            catch (...)
-            {
-                keybind.modifier = static_cast<Modifiers>(0);
-            }
-        }
-    }
 }
 
 std::map<std::string, KeybindInfo> parse_xml_keybinds(const std::filesystem::path &xml_path)
