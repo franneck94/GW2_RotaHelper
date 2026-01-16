@@ -141,12 +141,6 @@ List of Builds for Easy Mode:
 - Power Scrapper Hammer
 - Condition Mechanist One Kit Spear
 
-### Versioning
-
-An increase in the first number indicates an uodate of the rotation logs/builds.  
-An increase of the second number indicates changes in the code logic.  
-An increase in the third number indicates bugfixes only.
-
 #### Tested Builds
 
 In general, you can see in-game the state of a build.
