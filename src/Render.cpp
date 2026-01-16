@@ -768,7 +768,6 @@ void RenderType::render_options_window()
             ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), missing_content_text);
         }
 
-        //#ifndef _DEBUG
         if (!Settings::SkipBenchFileUpdate && Globals::BenchFilesLowerVersionString != "" &&
             Globals::BenchFilesUpperVersionString != "" && Settings::VersionOfLastBenchFilesUpdate != "")
         {
@@ -816,10 +815,8 @@ void RenderType::render_options_window()
                 }
             }
         }
-        //#endif
     }
 
-#ifndef _DEBUG
     if (!IsValidMap())
     {
         const auto warning_text = "NOTE: Rotation tool is in PvP/WvW deactivated!";
@@ -829,7 +826,6 @@ void RenderType::render_options_window()
         ImGui::SetCursorPosX(centered_pos);
         ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), warning_text);
     }
-#endif
 
     ImGui::End();
 }
@@ -1575,10 +1571,8 @@ void RenderType::render(ID3D11Device *pd3dDevice)
         Globals::TextureMap = LoadAllSkillTextures(pd3dDevice, Globals::RotationRun.log_skill_info_map, img_path);
     }
 
-#ifndef _DEBUG
     if (!IsValidMap())
         return;
-#endif
 
     if (show_rotation_window)
         render_rotation_window();

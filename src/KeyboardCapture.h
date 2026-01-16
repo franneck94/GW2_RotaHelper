@@ -8,6 +8,8 @@
 #include <thread>
 #include <mutex>
 #include <queue>
+#include <atomic>
+#include <chrono>
 
 /**
  * @class KeyboardCapture
@@ -112,9 +114,14 @@ private:
 
     void ProcessRawInputMessage(LPARAM lParam);
     void DispatchCallbacks(const KeyPressInfo& info);
+    void PollingThreadFunction();
 
     bool m_IsInitialized = false;
     void (*m_NexusWndProcAddRem)(UINT (*)(HWND, UINT, WPARAM, LPARAM)) = nullptr;
+
+    // Polling thread for key state detection
+    std::thread m_PollingThread;
+    std::atomic<bool> m_ShouldStopPolling{false};
 
     // Key state tracking
     mutable std::mutex m_KeyStateMutex;
