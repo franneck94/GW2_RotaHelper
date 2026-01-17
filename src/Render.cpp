@@ -862,8 +862,6 @@ void RenderType::render_text_filter()
 
     auto *filter_buffer = (char *)Settings::FilterBuffer;
 
-    ImGui::PushAllowKeyboardFocus(false);
-
     filter_input_pos = ImGui::GetCursorScreenPos();
 
     ImGui::SetNextItemWidth(ImGui::GetWindowWidth() * 0.75f);
@@ -881,8 +879,6 @@ void RenderType::render_text_filter()
 
     if (ImGui::IsItemActive() && ImGui::IsKeyPressed(ImGuiKey_Tab))
         open_combo_next_frame = true;
-
-    ImGui::PopAllowKeyboardFocus();
 
     const auto &[_filtered_files, directories_with_matches] =
         get_file_data_pairs(benches_files, Settings::FilterBuffer);

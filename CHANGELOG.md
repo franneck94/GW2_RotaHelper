@@ -16,9 +16,10 @@ An increase in the third number indicates bugfixes only.
 
 ## Improvements
 
-- Added the Device Field User Keybind read in
-  - Mouse keybins are now properly parsed
-- Fix for loading keybind file not loaded
+- Added the Device Field in Keybinds
+  - Mouse keybins are now parsed
+- Fixed for loading keybind file not loaded
+- Optimized build name input field
 
 ## 1.0.0 - 2026-01-15
 
