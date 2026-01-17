@@ -126,7 +126,6 @@ public:
 
     std::map<std::string, KeybindInfo> keybinds{};
     bool keybinds_loaded = false;
-    std::future<std::string> file_dialog_future;
     bool show_rotation_keybinds = false;
     bool show_rotation_window = true;
     bool show_rotation_icons_overview = false;

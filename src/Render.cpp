@@ -414,53 +414,36 @@ void RenderType::render_debug_window(bool &show_debug_window)
 
 bool RenderType::FileSelection()
 {
-    if (file_dialog_future.valid())
+    OPENFILENAME ofn;
+    CHAR szFile[260] = {0};
+
+    ZeroMemory(&ofn, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.lpstrFile = szFile;
+    ofn.nMaxFile = sizeof(szFile);
+    ofn.lpstrFilter = "XML Files\0*.xml\0All Files\0*.*\0";
+    ofn.nFilterIndex = 1;
+    ofn.lpstrFileTitle = NULL;
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrInitialDir = "C:/";
+    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+    if (GetOpenFileName(&ofn) == TRUE)
     {
-        if (file_dialog_future.wait_for(std::chrono::milliseconds(0)) == std::future_status::ready)
-        {
-            auto result = file_dialog_future.get();
-            if (!result.empty())
-            {
-                Settings::XmlSettingsPath = std::filesystem::path(result);
-                Settings::Save(Globals::SettingsPath);
-                (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Loaded XML InputBinds File.");
-                
-                // Immediately load keybinds when file is selected
-                if (std::filesystem::exists(Settings::XmlSettingsPath))
-                {
-                    keybinds = parse_xml_keybinds(Settings::XmlSettingsPath);
-                    keybinds_loaded = true;
-                    (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "parsed XML InputBinds File.");
-                }
+        Settings::XmlSettingsPath = std::filesystem::path(szFile);
+        Settings::Save(Globals::SettingsPath);
+        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Loaded XML InputBinds File.");
 
-                return true;
-            }
+        // Immediately load keybinds when file is selected
+        if (std::filesystem::exists(Settings::XmlSettingsPath))
+        {
+            keybinds = parse_xml_keybinds(Settings::XmlSettingsPath);
+            keybinds_loaded = true;
+            (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "parsed XML InputBinds File.");
         }
-        return false;
+
+        return true;
     }
-
-    file_dialog_future = std::async(std::launch::async, []() -> std::string {
-        OPENFILENAME ofn;
-        CHAR szFile[260] = {0};
-
-        ZeroMemory(&ofn, sizeof(ofn));
-        ofn.lStructSize = sizeof(ofn);
-        ofn.lpstrFile = szFile;
-        ofn.nMaxFile = sizeof(szFile);
-        ofn.lpstrFilter = "XML Files\0*.xml\0All Files\0*.*\0";
-        ofn.nFilterIndex = 1;
-        ofn.lpstrFileTitle = NULL;
-        ofn.nMaxFileTitle = 0;
-        ofn.lpstrInitialDir = "C:/";
-        ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-        if (GetOpenFileName(&ofn) == TRUE)
-        {
-            return std::string(szFile);
-        }
-
-        return std::string();
-    });
 
     return false;
 }
@@ -479,11 +462,7 @@ void RenderType::render_xml_selection()
 
     const auto button_width = ImGui::GetWindowSize().x * 0.5f - ImGui::GetStyle().ItemSpacing.x * 0.5f;
 
-    bool dialog_in_progress = file_dialog_future.valid() &&
-                              file_dialog_future.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready;
-
-    const char *button_text = dialog_in_progress ? "Selecting..." : "Select Keybinds";
-    if (ImGui::Button(button_text, ImVec2(button_width, 0)) && !dialog_in_progress)
+    if (ImGui::Button("Select Keybinds", ImVec2(button_width, 0)))
         FileSelection();
 
     ImGui::SameLine();
