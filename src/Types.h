@@ -280,6 +280,8 @@ enum class Keys
     LEFT_SHIFT = 2,
     AE = 3,
     CAPS = 5,
+    MINUS = 7,
+    EQUAL = 8,
     ZIRUMFLEX = 17,
     TAB = 22,
     LEFT_ARROW = 29,

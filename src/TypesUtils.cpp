@@ -401,6 +401,10 @@ std::string custom_keys_to_string(Keys key)
         return "Ae";
     case Keys::CAPS:
         return "Caps";
+    case Keys::MINUS:
+        return "-";
+    case Keys::EQUAL:
+        return "=";
     case Keys::ZIRUMFLEX:
         return "^";
     case Keys::TAB:
