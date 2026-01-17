@@ -423,9 +423,16 @@ bool RenderType::FileSelection()
             {
                 Settings::XmlSettingsPath = std::filesystem::path(result);
                 Settings::Save(Globals::SettingsPath);
-
-                keybinds_loaded = false;
                 (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Loaded XML InputBinds File.");
+                
+                // Immediately load keybinds when file is selected
+                if (std::filesystem::exists(Settings::XmlSettingsPath))
+                {
+                    keybinds = parse_xml_keybinds(Settings::XmlSettingsPath);
+                    keybinds_loaded = true;
+                    (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "parsed XML InputBinds File.");
+                }
+
                 return true;
             }
         }
@@ -472,17 +479,12 @@ void RenderType::render_xml_selection()
 
     const auto button_width = ImGui::GetWindowSize().x * 0.5f - ImGui::GetStyle().ItemSpacing.x * 0.5f;
 
-    // Check if file dialog is in progress
     bool dialog_in_progress = file_dialog_future.valid() &&
-                             file_dialog_future.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready;
+                              file_dialog_future.wait_for(std::chrono::milliseconds(0)) != std::future_status::ready;
 
-    // Show appropriate button text based on dialog state
-    const char* button_text = dialog_in_progress ? "Selecting..." : "Select Keybinds";
-
+    const char *button_text = dialog_in_progress ? "Selecting..." : "Select Keybinds";
     if (ImGui::Button(button_text, ImVec2(button_width, 0)) && !dialog_in_progress)
-    {
         FileSelection();
-    }
 
     ImGui::SameLine();
 

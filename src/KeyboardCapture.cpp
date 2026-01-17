@@ -251,10 +251,8 @@ void KeyboardCapture::PollingThreadFunction()
 
     while (!m_ShouldStopPolling)
     {
-        // Check key states for common virtual keys
         for (USHORT vKey = 1; vKey < 256; ++vKey)
         {
-            // Skip mouse buttons to avoid interference
             if (vKey >= VK_LBUTTON && vKey <= VK_XBUTTON2)
                 continue;
 
@@ -264,10 +262,8 @@ void KeyboardCapture::PollingThreadFunction()
             auto prevIt = previousKeyStates.find(vKey);
             bool wasPreviouslyPressed = (prevIt != previousKeyStates.end()) ? prevIt->second : false;
 
-            // Detect state changes
             if (isCurrentlyPressed != wasPreviouslyPressed)
             {
-                // Update our internal state
                 {
                     std::lock_guard<std::mutex> lock(m_KeyStateMutex);
                     m_KeyStates[vKey] = isCurrentlyPressed;
@@ -283,7 +279,6 @@ void KeyboardCapture::PollingThreadFunction()
                 info.Timestamp = ::GetTickCount();
                 info.IsInjected = false; // Can't detect injection with GetAsyncKeyState
 
-                // Check if anyone is listening before dispatching
                 bool hasListeners = false;
                 {
                     std::lock_guard<std::mutex> lock(m_CallbackMutex);
@@ -292,16 +287,12 @@ void KeyboardCapture::PollingThreadFunction()
                 }
 
                 if (hasListeners)
-                {
                     DispatchCallbacks(info);
-                }
 
-                // Update previous state
                 previousKeyStates[vKey] = isCurrentlyPressed;
             }
         }
 
-        // Sleep briefly to avoid excessive CPU usage
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }

@@ -218,14 +218,12 @@ void filter_by_profession(std::vector<BenchFileInfo> &benches_files,
 
                 bool matches = false;
 
-                // Check if file matches current profession
                 if ((display_lower.find(current_profession) != std::string::npos) ||
                     (path_lower.find(current_profession) != std::string::npos))
                 {
                     matches = true;
                 }
 
-                // Check if file matches any elite spec for this profession
                 if (!matches)
                 {
                     for (const auto &elite_spec : elite_specs)
@@ -269,14 +267,12 @@ void filter_by_profession(std::vector<BenchFileInfo> &benches_files,
 
                 bool matches = false;
 
-                // Check if file matches current profession
                 if (display_lower.find(current_profession) != std::string::npos ||
                     path_lower.find(current_profession) != std::string::npos)
                 {
                     matches = true;
                 }
 
-                // Check if file matches any elite spec for this profession
                 if (!matches)
                 {
                     for (const auto &elite_spec : elite_specs)
@@ -520,7 +516,6 @@ std::map<std::string, KeybindInfo> parse_xml_keybinds(const std::filesystem::pat
 
                 keybind.action_name = get_keybind_action_name_from_xml_line(line);
 
-                // Check for button2/mod2 first (prioritized)
                 auto button2_start = line.find("button2=\"");
                 bool has_button2 = button2_start != std::string::npos;
 
@@ -529,19 +524,8 @@ std::map<std::string, KeybindInfo> parse_xml_keybinds(const std::filesystem::pat
                 else
                     get_keybind_primary_info(line, keybind);
 
-                // TODO: Why do we have this?
                 if (!keybind.action_name.empty() && keybind.button != Keys::NONE)
-                {
-                    if (keybind.action_name == "Profession Skill 1" || keybind.action_name == "Profession Skill 2" ||
-                        keybind.action_name == "Profession Skill 3" || keybind.action_name == "Profession Skill 4" ||
-                        keybind.action_name == "Profession Skill 5" || keybind.action_name == "Profession Skill 7" ||
-                        keybind.action_name == "Healing Skill" || keybind.action_name == "Utility Skill 1" ||
-                        keybind.action_name == "Utility Skill 2" || keybind.action_name == "Utility Skill 3" ||
-                        keybind.action_name == "Elite Skill")
-                    {
-                        keybinds[keybind.action_name] = keybind;
-                    }
-                }
+                    keybinds[keybind.action_name] = keybind;
             }
         }
 
