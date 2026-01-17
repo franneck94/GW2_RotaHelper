@@ -18,6 +18,7 @@ An increase in the third number indicates bugfixes only.
 
 - Added the Device Field User Keybind read in
   - Mouse keybins are now properly parsed
+- Fix for loading keybind file not loaded
 
 ## 1.0.0 - 2026-01-15
 
