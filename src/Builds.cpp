@@ -78,8 +78,12 @@ static const std::set<std::string_view> yellow_tick_builds = {
     "power_reaper_dagger_sword",
     "power_reaper_sword_sword",
     "power_luminary_spear_greatsword",
+    "power_renegade_greatsword_sword_sword",
     //  POWER BOON BUILDS
+    "power_alacrity_willbender_greatsword_sword_focus",
+    "power_alacrity_willbender_spear_greatsword",
     "power_alacrity_luminary_longbow_greatsword",
+    "power_alacrity_luminary_spear_greatsword",
     "power_boon_chronomancer_spear_dagger_sword",
     "inferno_quickness_catalyst_scepter_dagger",
     "power_inferno_quickness_catalyst_scepter_dagger_pf",
@@ -117,6 +121,7 @@ static const std::set<std::string_view> yellow_tick_builds = {
     "condition_tempest_pistol_warhorn",
     "condition_holosmith_spear",
     "condition_renegade_spear_mace_axe",
+    "condition_renegade_spear_shortbow",
     "condition_mechanist_no_kit_spear",
     "condition_paragon_longbow_sword_sword",
     // BOON CONDITION BUILDS
