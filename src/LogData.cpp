@@ -927,6 +927,22 @@ void RotationLogType::load_data(const std::filesystem::path &json_path, const st
     (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Loaded Rotation");
 }
 
+void RotationLogType::get_rotation_skills()
+{
+    for (const auto &step : all_rotation_steps)
+    {
+        if (rotation_skills.find(step.skill_data.skill_id) == rotation_skills.end())
+        {
+            const auto icon_it = Globals::TextureMap.find(step.skill_data.icon_id);
+            if (icon_it == Globals::TextureMap.end())
+                continue;
+
+            const auto skill = RotationSkill{step.skill_data.skill_id, step.skill_data.name, icon_it->second};
+            rotation_skills.insert({step.skill_data.skill_id, skill});
+        }
+    }
+}
+
 void RotationLogType::pop_bench_rotation_queue()
 {
     if (!missing_rotation_steps.empty())
