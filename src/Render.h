@@ -31,6 +31,7 @@ public:
 
     /* RENDER OPTIONS WINDOW */
     void render_debug_data();
+    void render_precast_window(bool &show_precast_window);
     void render_debug_window(bool &show_debug_window);
     void render_options_checkboxes();
     void render_horizontal_settings();
@@ -132,6 +133,12 @@ public:
     bool is_not_ui_adjust_active = false;
     bool do_highlight_skill = false;
     SkillID highlight_skill_id = SkillID::NONE;
+
+    // Precast window members
+    std::string current_build_key;
+    std::vector<uint32_t> precast_skills_order;
+    int precast_drag_source = -1;
+    int precast_drag_dest = -1;
 
     ID3D11Device *pd3dDevice = nullptr;
 
