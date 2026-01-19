@@ -48,6 +48,7 @@ public:
     void calculate_auto_attack_indices();
     void restart_rotation();
     void reset_rotation();
+    void get_rotation_skills();
     bool is_current_run_done() const;
 
     std::string get_keybind_str(const RotationStep &rotation_step, const std::map<std::string, KeybindInfo> &keybinds);
@@ -66,4 +67,5 @@ public:
 
     std::vector<std::string> rotation_text;
     std::vector<std::vector<std::tuple<ID3D11ShaderResourceView *, std::string, SkillID, bool>>> rotation_icon_lines;
+    std::map<SkillID, RotationSkill> rotation_skills;
 };
