@@ -1,6 +1,8 @@
 #include <filesystem>
 #include <fstream>
+#include <map>
 #include <string>
+#include <vector>
 
 #include "Settings.h"
 #include "Shared.h"
@@ -17,6 +19,7 @@ const char *SKIP_BENCH_FILE_UPDATE = "SkipBenchFileUpdate";
 const char *BENCH_UPDATE_FAILED_BEFORE = "BenchUpdateFailedBefore";
 const char *WINDOW_SIZE_LEFT = "WindowSizeLeft";
 const char *WINDOW_SIZE_RIGHT = "WindowSizeRight";
+const char *PRECAST_SKILLS = "PrecastSkills";
 
 
 namespace Settings
@@ -78,6 +81,8 @@ void Load(std::filesystem::path aPath)
         Settings[WINDOW_SIZE_LEFT].get_to<uint32_t>(WindowSizeLeft);
     if (!Settings[WINDOW_SIZE_RIGHT].is_null())
         Settings[WINDOW_SIZE_RIGHT].get_to<uint32_t>(WindowSizeRight);
+    if (!Settings[PRECAST_SKILLS].is_null() && Settings[PRECAST_SKILLS].is_object())
+        PrecastSkills = Settings[PRECAST_SKILLS].get<std::map<std::string, std::vector<uint32_t>>>();
 }
 
 void Save(std::filesystem::path aPath)
@@ -96,6 +101,7 @@ void Save(std::filesystem::path aPath)
         Settings[BENCH_UPDATE_FAILED_BEFORE] = BenchUpdateFailedBefore;
         Settings[WINDOW_SIZE_LEFT] = WindowSizeLeft;
         Settings[WINDOW_SIZE_RIGHT] = WindowSizeRight;
+        Settings[PRECAST_SKILLS] = PrecastSkills;
 
         std::ofstream file(aPath);
         file << Settings.dump(1, '\t') << std::endl;
@@ -123,4 +129,5 @@ bool SkipBenchFileUpdate = false;
 bool BenchUpdateFailedBefore = false;
 uint32_t WindowSizeLeft = 2;
 uint32_t WindowSizeRight = 7;
+std::map<std::string, std::vector<uint32_t>> PrecastSkills;
 } // namespace Settings
