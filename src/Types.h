@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cstdint>
+#include <d3d11.h>
 #include <filesystem>
 #include <list>
 #include <map>
@@ -155,6 +156,13 @@ struct RotationStep
     float duration_ms;
     SkillData skill_data;
     bool is_special_skill;
+};
+
+struct RotationSkill
+{
+    SkillID skill_id;
+    std::string name;
+    ID3D11ShaderResourceView *texture;
 };
 
 using RotationSteps = std::vector<RotationStep>;
