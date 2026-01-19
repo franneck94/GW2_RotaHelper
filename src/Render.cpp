@@ -404,6 +404,169 @@ void RenderType::render_rotation_icons_overview(bool &show_rotation_icons_overvi
     ImGui::End();
 }
 
+void RenderType::render_precast_window(bool &show_precast_window)
+{
+    if (!show_precast_window)
+        return;
+
+    // Initialize current build key from metadata when loading a build
+    if (Globals::RotationRun.all_rotation_steps.size() > 0 && current_build_key.empty())
+    {
+        current_build_key = Globals::RotationRun.meta_data.name;
+    }
+
+    // Load precast skills for current build from settings if not already loaded
+    if (precast_skills_order.empty() && !current_build_key.empty() &&
+        Globals::RotationRun.all_rotation_steps.size() > 0)
+    {
+        if (Settings::PrecastSkills.find(current_build_key) != Settings::PrecastSkills.end())
+        {
+            precast_skills_order = Settings::PrecastSkills[current_build_key];
+        }
+    }
+
+    ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_Once);
+    if (ImGui::Begin("Precast Skills Configuration", &show_precast_window))
+    {
+        ImGui::TextWrapped("Drag and drop skills to arrange your precast order for this build.");
+        ImGui::Separator();
+
+        if (Globals::RotationRun.all_rotation_steps.empty())
+        {
+            ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "No rotation loaded. Load a build first.");
+            ImGui::End();
+            return;
+        }
+
+        ImGui::Text("Build: %s", current_build_key.c_str());
+
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Precast Skills Order:");
+        ImGui::Separator();
+
+        if (precast_skills_order.empty())
+        {
+            ImGui::TextDisabled("No precast skills configured yet.");
+        }
+        else
+        {
+            ImGui::BeginChild("precast_list", ImVec2(0, 150), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+
+            for (size_t i = 0; i < precast_skills_order.size(); ++i)
+            {
+                auto skill_id = precast_skills_order[i];
+                const auto skill_it = Globals::RotationRun.rotation_skills.find(static_cast<SkillID>(skill_id));
+
+                if (skill_it != Globals::RotationRun.rotation_skills.end())
+                {
+                    const auto &skill = skill_it->second;
+                    auto label = std::to_string(i + 1) + ". " + skill.name + "###precast_" + std::to_string(i);
+
+                    if (ImGui::Selectable(label.c_str(), false))
+                        precast_drag_source = i;
+
+                    if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left, 5.0f))
+                        precast_drag_source = i;
+
+                    if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left) && precast_drag_source >= 0 &&
+                        precast_drag_source != static_cast<int>(i))
+                    {
+                        // Swap items
+                        std::swap(precast_skills_order[precast_drag_source], precast_skills_order[i]);
+                        precast_drag_source = -1;
+                    }
+                }
+            }
+
+            ImGui::EndChild();
+        }
+
+        ImGui::Separator();
+
+        // Available skills section
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Available Skills:");
+        ImGui::Separator();
+
+        ImGui::BeginChild("available_skills", ImVec2(0, 150), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+
+        for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
+        {
+            // Check if skill is already in precast list
+            auto is_in_precast = std::find(precast_skills_order.begin(), precast_skills_order.end(),
+                                          static_cast<uint32_t>(skill_id)) != precast_skills_order.end();
+
+            auto label = rotation_skill.name + "###available_" + std::to_string(static_cast<uint32_t>(skill_id));
+
+            ImGui::PushID(static_cast<int>(skill_id));
+
+            if (is_in_precast)
+            {
+                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f, 0.5f, 0.5f, 1.0f)); // Gray out
+                ImGui::TextDisabled("%s", rotation_skill.name.c_str());
+                ImGui::PopStyleColor();
+            }
+            else
+            {
+                if (ImGui::Selectable(label.c_str(), false))
+                {
+                    // Add skill to precast list
+                    precast_skills_order.push_back(static_cast<uint32_t>(skill_id));
+                }
+            }
+
+            ImGui::PopID();
+        }
+
+        ImGui::EndChild();
+
+        ImGui::Separator();
+
+        // Buttons
+        const auto button_width = ImGui::GetWindowSize().x * 0.33f - ImGui::GetStyle().ItemSpacing.x;
+
+        if (ImGui::Button("Save", ImVec2(button_width, 0)))
+        {
+            if (!current_build_key.empty())
+            {
+                Settings::PrecastSkills[current_build_key] = precast_skills_order;
+                Settings::Save(Globals::SettingsPath);
+
+                char log_msg[256];
+                snprintf(log_msg, sizeof(log_msg), "Precast skills configuration saved for build: %s", current_build_key.c_str());
+                (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
+            }
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Reset", ImVec2(button_width, 0)))
+        {
+            precast_skills_order.clear();
+            if (!current_build_key.empty())
+            {
+                Settings::PrecastSkills.erase(current_build_key);
+                Settings::Save(Globals::SettingsPath);
+
+                char log_msg[256];
+                snprintf(log_msg, sizeof(log_msg), "Precast skills configuration reset for build: %s", current_build_key.c_str());
+                (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
+            }
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Remove Selected", ImVec2(button_width, 0)))
+        {
+            if (precast_drag_source >= 0 && precast_drag_source < static_cast<int>(precast_skills_order.size()))
+            {
+                precast_skills_order.erase(precast_skills_order.begin() + precast_drag_source);
+                precast_drag_source = -1;
+            }
+        }
+    }
+
+    ImGui::End();
+}
+
 void RenderType::render_debug_window(bool &show_debug_window)
 {
     if (ImGui::Begin("Debug Data###GW2RotaHelper_Debug", &show_debug_window))
@@ -693,6 +856,10 @@ void RenderType::render_options_checkboxes()
     if (show_debug_window)
         render_debug_window(show_debug_window);
 #endif
+
+    static bool show_precast_window = false;
+    if (show_precast_window)
+        render_precast_window(show_precast_window);
 }
 
 void RenderType::render_options_window()
