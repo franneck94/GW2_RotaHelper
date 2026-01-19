@@ -24,6 +24,7 @@ extern const char *SKIP_BENCH_FILE_UPDATE;
 extern const char *BENCH_UPDATE_FAILED_BEFORE;
 extern const char *WINDOW_SIZE_LEFT;
 extern const char *WINDOW_SIZE_RIGHT;
+extern const char *PRECAST_SKILLS;
 
 namespace Settings
 {
@@ -46,6 +47,7 @@ extern bool SkipBenchFileUpdate;
 extern bool BenchUpdateFailedBefore;
 extern uint32_t WindowSizeLeft;
 extern uint32_t WindowSizeRight;
+extern std::map<std::string, std::vector<uint32_t>> PrecastSkills;
 } // namespace Settings
 
 #endif
