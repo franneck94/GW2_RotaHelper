@@ -409,20 +409,14 @@ void RenderType::render_precast_window(bool &show_precast_window)
     if (!show_precast_window)
         return;
 
-    // Initialize current build key from metadata when loading a build
     if (Globals::RotationRun.all_rotation_steps.size() > 0 && current_build_key.empty())
-    {
         current_build_key = Globals::RotationRun.meta_data.name;
-    }
 
-    // Load precast skills for current build from settings if not already loaded
     if (precast_skills_order.empty() && !current_build_key.empty() &&
         Globals::RotationRun.all_rotation_steps.size() > 0)
     {
         if (Settings::PrecastSkills.find(current_build_key) != Settings::PrecastSkills.end())
-        {
             precast_skills_order = Settings::PrecastSkills[current_build_key];
-        }
     }
 
     ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_Once);
@@ -467,8 +461,8 @@ void RenderType::render_precast_window(bool &show_precast_window)
                     if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left, 5.0f))
                         precast_drag_source = i;
 
-                    if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left) && precast_drag_source >= 0 &&
-                        precast_drag_source != static_cast<int>(i))
+                    if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left) &&
+                        precast_drag_source >= 0 && precast_drag_source != static_cast<int>(i))
                     {
                         // Swap items
                         std::swap(precast_skills_order[precast_drag_source], precast_skills_order[i]);
@@ -487,12 +481,15 @@ void RenderType::render_precast_window(bool &show_precast_window)
         ImGui::Separator();
 
         ImGui::BeginChild("available_skills", ImVec2(0, 150), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+        if (Globals::RotationRun.rotation_skills.empty())
+            Globals::RotationRun.get_rotation_skills();
 
         for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
         {
             // Check if skill is already in precast list
-            auto is_in_precast = std::find(precast_skills_order.begin(), precast_skills_order.end(),
-                                          static_cast<uint32_t>(skill_id)) != precast_skills_order.end();
+            auto is_in_precast =
+                std::find(precast_skills_order.begin(), precast_skills_order.end(), static_cast<uint32_t>(skill_id)) !=
+                precast_skills_order.end();
 
             auto label = rotation_skill.name + "###available_" + std::to_string(static_cast<uint32_t>(skill_id));
 
@@ -531,7 +528,10 @@ void RenderType::render_precast_window(bool &show_precast_window)
                 Settings::Save(Globals::SettingsPath);
 
                 char log_msg[256];
-                snprintf(log_msg, sizeof(log_msg), "Precast skills configuration saved for build: %s", current_build_key.c_str());
+                snprintf(log_msg,
+                         sizeof(log_msg),
+                         "Precast skills configuration saved for build: %s",
+                         current_build_key.c_str());
                 (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
             }
         }
@@ -547,7 +547,10 @@ void RenderType::render_precast_window(bool &show_precast_window)
                 Settings::Save(Globals::SettingsPath);
 
                 char log_msg[256];
-                snprintf(log_msg, sizeof(log_msg), "Precast skills configuration reset for build: %s", current_build_key.c_str());
+                snprintf(log_msg,
+                         sizeof(log_msg),
+                         "Precast skills configuration reset for build: %s",
+                         current_build_key.c_str());
                 (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
             }
         }
@@ -858,6 +861,10 @@ void RenderType::render_options_checkboxes()
 #endif
 
     static bool show_precast_window = false;
+
+    if (ImGui::Button("Precast Window", ImVec2(debug_button_width, 0)))
+        show_precast_window = !show_precast_window;
+
     if (show_precast_window)
         render_precast_window(show_precast_window);
 }

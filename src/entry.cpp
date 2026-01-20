@@ -131,7 +131,7 @@ void AddonLoad(AddonAPI_t *aApi)
         return;
 
     auto &keyboardCapture = KeyboardCapture::GetInstance();
-    keyboardCapture.Initialize(aApi->WndProc_Register, aApi->WndProc_Deregister);
+    // keyboardCapture.Initialize(aApi->WndProc_Register, aApi->WndProc_Deregister);
 
     Globals::APIDefs = aApi;
     ImGui::SetCurrentContext((ImGuiContext *)Globals::APIDefs->ImguiContext);

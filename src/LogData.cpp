@@ -997,6 +997,7 @@ void RotationLogType::reset_rotation()
     skill_data_map.clear();
     meta_data = MetaData{};
     auto_attack_indices.clear();
+    rotation_skills.clear();
     (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Resetted Rotation");
 }
 
