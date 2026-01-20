@@ -37,3 +37,5 @@ std::string weapon_type_to_string(WeaponType weapon_type);
 SkillID SafeConvertToSkillID(uint64_t skill_id_raw);
 
 std::string windows_key_to_string(WindowsKeys key);
+
+Keys windows_key_to_keys_enum(WindowsKeys key);

@@ -538,11 +538,11 @@ std::string modifiers_to_string(Modifiers modifier)
         return "None";
     case Modifiers::SHIFT: /*1 */
         return "Shift";
-    case Modifiers::ALT:/* 4 */
+    case Modifiers::ALT:  /* 4 */
     case Modifiers::RALT: /* 3 */
         return "Alt";
-    case Modifiers::CTRL: /* 2 */
-    case Modifiers::RCTRL:/* 6 */
+    case Modifiers::CTRL:  /* 2 */
+    case Modifiers::RCTRL: /* 6 */
         return "Ctrl";
     default:
         return "Unknown";
@@ -932,5 +932,117 @@ std::string windows_key_to_string(WindowsKeys key)
         return ".";
     default:
         return "Unknown";
+    }
+}
+Keys windows_key_to_keys_enum(WindowsKeys key)
+{
+    switch (key)
+    {
+    case WindowsKeys::A:
+        return Keys::A;
+    case WindowsKeys::B:
+        return Keys::B;
+    case WindowsKeys::C:
+        return Keys::C;
+    case WindowsKeys::D:
+        return Keys::D;
+    case WindowsKeys::E:
+        return Keys::E;
+    case WindowsKeys::F:
+        return Keys::F;
+    case WindowsKeys::G:
+        return Keys::G;
+    case WindowsKeys::H:
+        return Keys::H;
+    case WindowsKeys::I:
+        return Keys::I;
+    case WindowsKeys::J:
+        return Keys::J;
+    case WindowsKeys::K:
+        return Keys::K;
+    case WindowsKeys::L:
+        return Keys::L;
+    case WindowsKeys::M:
+        return Keys::M;
+    case WindowsKeys::N:
+        return Keys::N;
+    case WindowsKeys::O:
+        return Keys::O;
+    case WindowsKeys::P:
+        return Keys::P;
+    case WindowsKeys::Q:
+        return Keys::Q;
+    case WindowsKeys::R:
+        return Keys::R;
+    case WindowsKeys::S:
+        return Keys::S;
+    case WindowsKeys::T:
+        return Keys::T;
+    case WindowsKeys::U:
+        return Keys::U;
+    case WindowsKeys::V:
+        return Keys::V;
+    case WindowsKeys::W:
+        return Keys::W;
+    case WindowsKeys::X:
+        return Keys::X;
+    case WindowsKeys::Y:
+        return Keys::Y;
+    case WindowsKeys::Z:
+        return Keys::Z;
+    case WindowsKeys::Num0:
+        return Keys::ZERO;
+    case WindowsKeys::Num1:
+        return Keys::ONE;
+    case WindowsKeys::Num2:
+        return Keys::TWO;
+    case WindowsKeys::Num3:
+        return Keys::THREE;
+    case WindowsKeys::Num4:
+        return Keys::FOUR;
+    case WindowsKeys::Num5:
+        return Keys::FIVE;
+    case WindowsKeys::Num6:
+        return Keys::SIX;
+    case WindowsKeys::Num7:
+        return Keys::SEVEN;
+    case WindowsKeys::Num8:
+        return Keys::EIGHT;
+    case WindowsKeys::Num9:
+        return Keys::NINE;
+    case WindowsKeys::F1:
+        return Keys::F1;
+    case WindowsKeys::F2:
+        return Keys::F2;
+    case WindowsKeys::F3:
+        return Keys::F3;
+    case WindowsKeys::F4:
+        return Keys::F4;
+    case WindowsKeys::F5:
+        return Keys::F5;
+    case WindowsKeys::F6:
+        return Keys::F6;
+    case WindowsKeys::F7:
+        return Keys::F7;
+    case WindowsKeys::Tab:
+        return Keys::TAB;
+    case WindowsKeys::LeftArrow:
+        return Keys::LEFT_ARROW;
+    case WindowsKeys::RightArrow:
+        return Keys::RIGHT_ARROW;
+    case WindowsKeys::LeftCtrl:
+        return Keys::LEFT_CTRL;
+    case WindowsKeys::LeftShift:
+        return Keys::LEFT_SHIFT;
+    case WindowsKeys::LeftMenu:
+        return Keys::LEFT_ALT;
+    case WindowsKeys::CapsLock:
+        return Keys::CAPS;
+    case WindowsKeys::Minus:
+        return Keys::MINUS;
+    case WindowsKeys::Add:
+        return Keys::NUM_ADD;
+    default:
+        return Keys::NONE;
     }
 }
