@@ -479,12 +479,11 @@ enum class WindowsKeys
 enum class Modifiers
 {
     NONE = 0,
-    LSHIFT = 1,
-    RSHIFT = 2,
-    LALT = 3,
-    RALT = 4,
-    LCTRL = 5,
-    RCTRL = 6,
+    SHIFT = 1,
+    CTRL = 2, // Checked
+    RALT = 3,// Checked
+    ALT = 4, // Checked
+    RCTRL = 6,// Checked
 };
 
 struct KeybindInfo
