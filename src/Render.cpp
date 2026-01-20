@@ -265,11 +265,10 @@ void RenderType::render_debug_data()
 
         ImGui::Text("Parsed Keybinds (sample):");
 
-        int count = 0;
         for (const auto &[action_name, keybind_info] : keybinds)
         {
-            if (count >= 5)
-                break;
+            if (action_name.find("Skill") == std::string::npos)
+                continue;
 
             auto display_text = action_name + ": ";
             if (keybind_info.button != Keys::NONE)
@@ -286,16 +285,13 @@ void RenderType::render_debug_data()
             }
 
             ImGui::Text("%s", display_text.c_str());
-            count++;
         }
     }
 
+    ImGui::Separator();
+    ImGui::Text("Currently Pressed Keys:");
     if (!Globals::CurrentlyPressedKeys.empty())
     {
-        ImGui::Separator();
-
-        ImGui::Text("Currently Pressed Keys:");
-
         for (const auto &key_code : Globals::CurrentlyPressedKeys)
             ImGui::Text("%s", windows_key_to_string(static_cast<WindowsKeys>(key_code)).c_str());
     }
