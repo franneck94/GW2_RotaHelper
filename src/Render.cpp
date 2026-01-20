@@ -289,6 +289,16 @@ void RenderType::render_debug_data()
             count++;
         }
     }
+
+    if (!Globals::CurrentlyPressedKeys.empty())
+    {
+        ImGui::Separator();
+
+        ImGui::Text("Currently Pressed Keys:");
+
+        for (const auto &key_code : Globals::CurrentlyPressedKeys)
+            ImGui::Text("%s", windows_key_to_string(static_cast<WindowsKeys>(key_code)).c_str());
+    }
 }
 
 void RenderType::render_rotation_keybinds(bool &show_rotation_keybinds)
@@ -718,6 +728,8 @@ void RenderType::render_horizontal_settings()
 
 void RenderType::render_options_checkboxes()
 {
+    const auto sub_window_width = ImGui::GetWindowSize().x * 0.3f;
+
     if (Settings::BenchUpdateFailedBefore)
     {
         const auto items = std::vector<std::string>{
@@ -806,67 +818,68 @@ void RenderType::render_options_checkboxes()
 
     render_xml_selection();
 
-    if (Globals::RotationRun.all_rotation_steps.empty())
-        return;
-
-    ImGui::Separator();
-
-    if (ImGui::Checkbox("Overview (Keys)", &show_rotation_keybinds))
+    if (!Globals::RotationRun.all_rotation_steps.empty())
     {
-        Settings::Save(Globals::SettingsPath);
+        ImGui::Separator();
 
-        Globals::RotationRun.get_rotation_text(keybinds);
+        if (ImGui::Checkbox("Overview (Keys)", &show_rotation_keybinds))
+        {
+            Settings::Save(Globals::SettingsPath);
+
+            Globals::RotationRun.get_rotation_text(keybinds);
+        }
+        SetTooltip(std::vector{
+            std::string{"Shows the full rotation in a text form of the actual keybinds."},
+            std::string{"Newline indicates a weapon swap like action."},
+        });
+
+        ImGui::SameLine();
+
+        if (ImGui::Checkbox("Overview (Icons)", &show_rotation_icons_overview))
+        {
+            Settings::Save(Globals::SettingsPath);
+
+            Globals::RotationRun.get_rotation_icons();
+        }
+        SetTooltip(std::vector{
+            std::string{"Shows the full rotation with skill icons, like in the simple rotation tab in dps.reports."},
+            std::string{"Newline indicates a weapon swap like action."},
+        });
+
+        ImGui::SameLine();
+
+        if (ImGui::Checkbox("Rotation Window", &show_rotation_window))
+        {
+            Settings::Save(Globals::SettingsPath);
+            Globals::RotationRun.get_rotation_text(keybinds);
+        }
+        SetTooltip("Shows the rotation window of the last 2, the current and the next 7 skills.");
+
+        render_rotation_keybinds(show_rotation_keybinds);
+        render_rotation_icons_overview(show_rotation_icons_overview);
+
+        static bool show_precast_window = false;
+        const auto centered_pos_debug = calculate_centered_position({"Precast Window"});
+        ImGui::SetCursorPosX(centered_pos_debug);
+
+        if (ImGui::Button("Precast Window", ImVec2(sub_window_width, 0)))
+            show_precast_window = !show_precast_window;
+
+        if (show_precast_window)
+            render_precast_window(show_precast_window);
     }
-    SetTooltip(std::vector{
-        std::string{"Shows the full rotation in a text form of the actual keybinds."},
-        std::string{"Newline indicates a weapon swap like action."},
-    });
-
-    ImGui::SameLine();
-
-    if (ImGui::Checkbox("Overview (Icons)", &show_rotation_icons_overview))
-    {
-        Settings::Save(Globals::SettingsPath);
-
-        Globals::RotationRun.get_rotation_icons();
-    }
-    SetTooltip(std::vector{
-        std::string{"Shows the full rotation with skill icons, like in the simple rotation tab in dps.reports."},
-        std::string{"Newline indicates a weapon swap like action."},
-    });
-
-    ImGui::SameLine();
-
-    if (ImGui::Checkbox("Rotation Window", &show_rotation_window))
-    {
-        Settings::Save(Globals::SettingsPath);
-        Globals::RotationRun.get_rotation_text(keybinds);
-    }
-    SetTooltip("Shows the rotation window of the last 2, the current and the next 7 skills.");
-
-    render_rotation_keybinds(show_rotation_keybinds);
-    render_rotation_icons_overview(show_rotation_icons_overview);
 
 #ifdef _DEBUG
-    const auto debug_button_width = ImGui::GetWindowSize().x * 0.3f;
     const auto centered_pos_debug = calculate_centered_position({"Debug Window"});
     ImGui::SetCursorPosX(centered_pos_debug);
 
     static bool show_debug_window = false;
-    if (ImGui::Button("Debug Window", ImVec2(debug_button_width, 0)))
+    if (ImGui::Button("Debug Window", ImVec2(sub_window_width, 0)))
         show_debug_window = !show_debug_window;
 
     if (show_debug_window)
         render_debug_window(show_debug_window);
 #endif
-
-    static bool show_precast_window = false;
-
-    if (ImGui::Button("Precast Window", ImVec2(debug_button_width, 0)))
-        show_precast_window = !show_precast_window;
-
-    if (show_precast_window)
-        render_precast_window(show_precast_window);
 }
 
 void RenderType::render_options_window()
@@ -1659,9 +1672,7 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
         render_empty_placeholder();
 
     if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
-    {
         is_not_ui_adjust_active = !is_not_ui_adjust_active;
-    }
 }
 
 void RenderType::render(ID3D11Device *pd3dDevice)

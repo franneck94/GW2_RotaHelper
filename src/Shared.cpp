@@ -39,4 +39,6 @@ Mumble::Identity Identity = {};
 bool IsSameCast = false;
 std::map<SkillID, std::chrono::steady_clock::time_point> SkillLastTimeCast = {};
 std::string LastArcEventSkillName = "";
+
+std::vector<uint32_t> CurrentlyPressedKeys = {};
 }; // namespace Globals

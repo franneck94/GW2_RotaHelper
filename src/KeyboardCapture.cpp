@@ -1,4 +1,7 @@
+#include <algorithm>
+
 #include "KeyboardCapture.h"
+#include "Shared.h"
 
 
 bool KeyboardCapture::Initialize(void (*wndprocRegister)(UINT (*)(HWND, UINT, WPARAM, LPARAM)),
@@ -36,6 +39,7 @@ void KeyboardCapture::Shutdown()
         std::lock_guard<std::mutex> lock(m_KeyStateMutex);
         m_KeyDown.clear();
         m_KeyPressed.clear();
+        Globals::CurrentlyPressedKeys.clear();
     }
 
     m_WndProcDeregister = nullptr;
@@ -82,8 +86,7 @@ UINT KeyboardCapture::NexusWndProcCallback(HWND hwnd, UINT uMsg, WPARAM wParam, 
         break;
     }
 
-    // Return 0 to let other handlers process the message
-    return 0;
+    return 1;
 }
 
 void KeyboardCapture::ProcessKeyMessage(int vKey, bool isPressed)
@@ -93,9 +96,14 @@ void KeyboardCapture::ProcessKeyMessage(int vKey, bool isPressed)
     bool wasPressed = m_KeyDown[vKey];
     m_KeyDown[vKey] = isPressed;
 
-    // Set WasKeyPressed flag on key down transition
     if (isPressed && !wasPressed)
-    {
         m_KeyPressed[vKey] = true;
-    }
+
+    auto& currentKeys = Globals::CurrentlyPressedKeys;
+    auto it = std::find(currentKeys.begin(), currentKeys.end(), static_cast<uint32_t>(vKey));
+
+    if (isPressed && it == currentKeys.end())
+        currentKeys.push_back(static_cast<uint32_t>(vKey));
+    else if (!isPressed && it != currentKeys.end())
+        currentKeys.erase(it);
 }

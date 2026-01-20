@@ -603,6 +603,22 @@ std::pair<Keys, Modifiers> get_keybind_for_skill_type(SkillSlot skill_type,
     return std::make_pair(Keys::NONE, Modifiers::NONE);
 }
 
+SkillID SafeConvertToSkillID(uint64_t skill_id_raw)
+{
+    auto skill_id = static_cast<SkillID>(skill_id_raw);
+
+    const auto &skill_data_map = Globals::RotationRun.skill_data_map;
+    if (skill_data_map.find(skill_id) == skill_data_map.end())
+    {
+        if (SkillRuleData::unk_skill_id_fix.find(skill_id_raw) != SkillRuleData::unk_skill_id_fix.end())
+            return static_cast<SkillID>(SkillRuleData::unk_skill_id_fix.at(skill_id_raw));
+
+        return SkillID::UNKNOWN_SKILL;
+    }
+
+    return skill_id;
+}
+
 std::string download_state_to_string(DownloadState state)
 {
     switch (state)
@@ -671,18 +687,251 @@ std::string weapon_type_to_string(WeaponType weapon_type)
     }
 }
 
-SkillID SafeConvertToSkillID(uint64_t skill_id_raw)
+std::string windows_key_to_string(WindowsKeys key)
 {
-    auto skill_id = static_cast<SkillID>(skill_id_raw);
-
-    const auto &skill_data_map = Globals::RotationRun.skill_data_map;
-    if (skill_data_map.find(skill_id) == skill_data_map.end())
+    switch (key)
     {
-        if (SkillRuleData::unk_skill_id_fix.find(skill_id_raw) != SkillRuleData::unk_skill_id_fix.end())
-            return static_cast<SkillID>(SkillRuleData::unk_skill_id_fix.at(skill_id_raw));
-
-        return SkillID::UNKNOWN_SKILL;
+    case WindowsKeys::LeftMouseBtn:
+        return "Left Mouse";
+    case WindowsKeys::RightMouseBtn:
+        return "Right Mouse";
+    case WindowsKeys::CtrlBrkPrcs:
+        return "Ctrl+Break";
+    case WindowsKeys::MidMouseBtn:
+        return "Middle Mouse";
+    case WindowsKeys::BackSpace:
+        return "Backspace";
+    case WindowsKeys::Tab:
+        return "Tab";
+    case WindowsKeys::Clear:
+        return "Clear";
+    case WindowsKeys::Enter:
+        return "Enter";
+    case WindowsKeys::Shift:
+        return "Shift";
+    case WindowsKeys::Control:
+        return "Ctrl";
+    case WindowsKeys::Alt:
+        return "Alt";
+    case WindowsKeys::Pause:
+        return "Pause";
+    case WindowsKeys::CapsLock:
+        return "Caps Lock";
+    case WindowsKeys::Escape:
+        return "Esc";
+    case WindowsKeys::Space:
+        return "Space";
+    case WindowsKeys::PageUp:
+        return "Page Up";
+    case WindowsKeys::PageDown:
+        return "Page Down";
+    case WindowsKeys::End:
+        return "End";
+    case WindowsKeys::Home:
+        return "Home";
+    case WindowsKeys::LeftArrow:
+        return "Left Arrow";
+    case WindowsKeys::UpArrow:
+        return "Up Arrow";
+    case WindowsKeys::RightArrow:
+        return "Right Arrow";
+    case WindowsKeys::DownArrow:
+        return "Down Arrow";
+    case WindowsKeys::Select:
+        return "Select";
+    case WindowsKeys::Print:
+        return "Print";
+    case WindowsKeys::Execute:
+        return "Execute";
+    case WindowsKeys::PrintScreen:
+        return "Print Screen";
+    case WindowsKeys::Inser:
+        return "Insert";
+    case WindowsKeys::Delete:
+        return "Delete";
+    case WindowsKeys::Help:
+        return "Help";
+    case WindowsKeys::Num0:
+        return "0";
+    case WindowsKeys::Num1:
+        return "1";
+    case WindowsKeys::Num2:
+        return "2";
+    case WindowsKeys::Num3:
+        return "3";
+    case WindowsKeys::Num4:
+        return "4";
+    case WindowsKeys::Num5:
+        return "5";
+    case WindowsKeys::Num6:
+        return "6";
+    case WindowsKeys::Num7:
+        return "7";
+    case WindowsKeys::Num8:
+        return "8";
+    case WindowsKeys::Num9:
+        return "9";
+    case WindowsKeys::A:
+        return "A";
+    case WindowsKeys::B:
+        return "B";
+    case WindowsKeys::C:
+        return "C";
+    case WindowsKeys::D:
+        return "D";
+    case WindowsKeys::E:
+        return "E";
+    case WindowsKeys::F:
+        return "F";
+    case WindowsKeys::G:
+        return "G";
+    case WindowsKeys::H:
+        return "H";
+    case WindowsKeys::I:
+        return "I";
+    case WindowsKeys::J:
+        return "J";
+    case WindowsKeys::K:
+        return "K";
+    case WindowsKeys::L:
+        return "L";
+    case WindowsKeys::M:
+        return "M";
+    case WindowsKeys::N:
+        return "N";
+    case WindowsKeys::O:
+        return "O";
+    case WindowsKeys::P:
+        return "P";
+    case WindowsKeys::Q:
+        return "Q";
+    case WindowsKeys::R:
+        return "R";
+    case WindowsKeys::S:
+        return "S";
+    case WindowsKeys::T:
+        return "T";
+    case WindowsKeys::U:
+        return "U";
+    case WindowsKeys::V:
+        return "V";
+    case WindowsKeys::W:
+        return "W";
+    case WindowsKeys::X:
+        return "X";
+    case WindowsKeys::Y:
+        return "Y";
+    case WindowsKeys::Z:
+        return "Z";
+    case WindowsKeys::LeftWin:
+        return "Left Win";
+    case WindowsKeys::RightWin:
+        return "Right Win";
+    case WindowsKeys::Apps:
+        return "Apps";
+    case WindowsKeys::Sleep:
+        return "Sleep";
+    case WindowsKeys::Numpad0:
+        return "Numpad 0";
+    case WindowsKeys::Numpad1:
+        return "Numpad 1";
+    case WindowsKeys::Numpad2:
+        return "Numpad 2";
+    case WindowsKeys::Numpad3:
+        return "Numpad 3";
+    case WindowsKeys::Numpad4:
+        return "Numpad 4";
+    case WindowsKeys::Numpad5:
+        return "Numpad 5";
+    case WindowsKeys::Numpad6:
+        return "Numpad 6";
+    case WindowsKeys::Numpad7:
+        return "Numpad 7";
+    case WindowsKeys::Numpad8:
+        return "Numpad 8";
+    case WindowsKeys::Numpad9:
+        return "Numpad 9";
+    case WindowsKeys::Multiply:
+        return "Numpad *";
+    case WindowsKeys::Add:
+        return "Numpad +";
+    case WindowsKeys::Separator:
+        return "Separator";
+    case WindowsKeys::Subtract:
+        return "Numpad -";
+    case WindowsKeys::Decimal:
+        return "Numpad .";
+    case WindowsKeys::Divide:
+        return "Numpad /";
+    case WindowsKeys::F1:
+        return "F1";
+    case WindowsKeys::F2:
+        return "F2";
+    case WindowsKeys::F3:
+        return "F3";
+    case WindowsKeys::F4:
+        return "F4";
+    case WindowsKeys::F5:
+        return "F5";
+    case WindowsKeys::F6:
+        return "F6";
+    case WindowsKeys::F7:
+        return "F7";
+    case WindowsKeys::F8:
+        return "F8";
+    case WindowsKeys::F9:
+        return "F9";
+    case WindowsKeys::F10:
+        return "F10";
+    case WindowsKeys::F11:
+        return "F11";
+    case WindowsKeys::F12:
+        return "F12";
+    case WindowsKeys::F13:
+        return "F13";
+    case WindowsKeys::F14:
+        return "F14";
+    case WindowsKeys::F15:
+        return "F15";
+    case WindowsKeys::F16:
+        return "F16";
+    case WindowsKeys::F17:
+        return "F17";
+    case WindowsKeys::F18:
+        return "F18";
+    case WindowsKeys::F19:
+        return "F19";
+    case WindowsKeys::F20:
+        return "F20";
+    case WindowsKeys::F21:
+        return "F21";
+    case WindowsKeys::F22:
+        return "F22";
+    case WindowsKeys::F23:
+        return "F23";
+    case WindowsKeys::F24:
+        return "F24";
+    case WindowsKeys::LeftShift:
+        return "Left Shift";
+    case WindowsKeys::RightShift:
+        return "Right Shift";
+    case WindowsKeys::LeftCtrl:
+        return "Left Ctrl";
+    case WindowsKeys::RightCtrl:
+        return "Right Ctrl";
+    case WindowsKeys::LeftMenu:
+        return "Left Alt";
+    case WindowsKeys::RightMenu:
+        return "Right Alt";
+    case WindowsKeys::Plus:
+        return "+";
+    case WindowsKeys::Comma:
+        return ",";
+    case WindowsKeys::Minus:
+        return "-";
+    case WindowsKeys::Period:
+        return ".";
+    default:
+        return "Unknown";
     }
-
-    return skill_id;
 }
