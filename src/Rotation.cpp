@@ -239,17 +239,17 @@ void KeypressSkillDetectionLogic(RotationLogType &rotation_run)
     const auto rota_window = GetRotaSkillWindow(rotation_run, timers);
     const auto curr_rota_skill = rota_window.curr_rota_skill;
     const auto curr_skill_id = curr_rota_skill.skill_data.skill_id;
-    
+
     // Look up the keybind for the current skill
     const auto keybind_str = rotation_run.get_keybind_str(curr_rota_skill, Globals::Render.keybinds);
-    
+
     // Log the current skill and its keybind for debugging
     if (!keybind_str.empty()) {
-        const auto msg = "Current skill: " + curr_rota_skill.skill_data.name + " (ID: " + 
+        const auto msg = "Current skill: " + curr_rota_skill.skill_data.name + " (ID: " +
                         std::to_string((uint32_t)curr_skill_id) + ") - Keybind: " + keybind_str;
         (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", msg.c_str());
     }
-    
+
     int i = 2;
 }
 
