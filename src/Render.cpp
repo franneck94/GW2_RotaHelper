@@ -817,7 +817,11 @@ void RenderType::render_options_checkboxes()
     }
     SetTooltip("All weapon swap like skills will be shown in the rotation UI.");
 
-    const auto third_row_items = std::vector<std::string>{"Show Keybind", "Easy Skill Mode"};
+    const auto third_row_items = std::vector<std::string>{
+        "Show Keybind",
+        "Easy Skill Mode",
+        "Enable Keypress Logic",
+    };
     const auto centered_pos_row_3 = calculate_centered_position(third_row_items);
     ImGui::SetCursorPosX(centered_pos_row_3);
 
@@ -844,6 +848,18 @@ void RenderType::render_options_checkboxes()
         std::string{"When enabled, some rotation skills are not shown or not mandatory to cast."},
         std::string{"For example on Mechanist the F skills are not shown to have a better overview as a beginner."},
         std::string{"For more info refer to the README.md."},
+    });
+
+    ImGui::SameLine();
+
+    if (ImGui::Checkbox("Enable Keypress Logic", &Settings::UseSkillEvents))
+    {
+        Settings::Save(Globals::SettingsPath);
+    }
+    SetTooltip(std::vector{
+        std::string{"EXPERIMENTAL: In addition to the arcdps events, the addon will try to detect skill activations by "
+                    "keypresses."},
+        std::string{"IMPORTANT: You have to load in a keybinds xml file."},
     });
 
     render_xml_selection();
@@ -1787,6 +1803,8 @@ void RenderType::render(ID3D11Device *pd3dDevice)
 
     if (!Settings::ShowWindow)
         return;
+
+    KeypressSkillDetectionLogic(Globals::RotationRun);
 
     if (skill_event_in_this_frame)
     {

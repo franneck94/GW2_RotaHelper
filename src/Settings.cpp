@@ -128,6 +128,7 @@ std::filesystem::path XmlSettingsPath;
 std::string VersionOfLastBenchFilesUpdate = "0.1.0.0";
 bool SkipBenchFileUpdate = false;
 bool BenchUpdateFailedBefore = false;
+bool UseSkillEvents = false;
 uint32_t WindowSizeLeft = 2;
 uint32_t WindowSizeRight = 7;
 std::map<std::string, std::vector<uint32_t>> PrecastSkills;
