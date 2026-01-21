@@ -164,9 +164,9 @@ class SnowCrowsScraper:
         """Extract build info including class/profession from SnowCrows build pages"""
 
         benchmark_urls = [
-            ("https://snowcrows.com/benchmarks/?filter=dps", "dps"),
-            ("https://snowcrows.com/benchmarks/?filter=quickness", "quick"),
-            ("https://snowcrows.com/benchmarks/?filter=alacrity", "alac"),
+            ("https://snowcrows.com/benchmarks?b=none", "dps"),
+            ("https://snowcrows.com/benchmarks?b=quickness", "quick"),
+            ("https://snowcrows.com/benchmarks?b=alacrity", "alac"),
         ]
 
         metadata_file = self.output_dir / "build_metadata.json"
