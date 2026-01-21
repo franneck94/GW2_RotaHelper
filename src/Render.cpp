@@ -803,6 +803,7 @@ void RenderType::render_options_checkboxes()
     const auto second_row_items = std::vector<std::string>{
         "Move UI",
         "Show Weapon Swaps",
+        "Show PreCasts"
     };
     const auto centered_pos_row_2 = calculate_centered_position(second_row_items);
     ImGui::SetCursorPosX(centered_pos_row_2);
@@ -815,6 +816,20 @@ void RenderType::render_options_checkboxes()
     ImGui::SameLine();
 
     if (ImGui::Checkbox("Show Weapon Swaps", &Settings::ShowWeaponSwap))
+    {
+        Settings::Save(Globals::SettingsPath);
+
+        if (selected_file_path != "")
+        {
+            Globals::RotationRun.reset_rotation();
+            Globals::RotationRun.load_data(selected_file_path, img_path);
+        }
+    }
+    SetTooltip("All weapon swap like skills will be shown in the rotation UI.");
+
+    ImGui::SameLine();
+
+    if (ImGui::Checkbox("Show PreCasts", &Settings::ShowPreCasts))
     {
         Settings::Save(Globals::SettingsPath);
 
@@ -1541,7 +1556,7 @@ void RenderType::render_rotation_horizontal()
 
     const auto [start, end, current_idx] = Globals::RotationRun.get_current_rotation_indices();
 
-    if (start < 1)
+    if (start < 1 && Settings::ShowPreCasts)
     {
         if (Globals::RotationRun.all_rotation_steps.size() > 0 && current_build_key.empty())
             current_build_key = Globals::RotationRun.meta_data.name;
@@ -1767,7 +1782,22 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
     if (is_precast)
     {
         DrawRect(rotation_step, text, IM_COL32(0, 0, 0, 255), 2.0F);
-        render_skill_texture(rotation_step, texture, auto_attack_index, Globals::SkillIconSize, Settings::ShowKeybind);
+        render_skill_texture(rotation_step, texture, auto_attack_index, Globals::SkillIconSize, false);
+
+        auto *draw_list = ImGui::GetWindowDrawList();
+        auto icon_pos = ImGui::GetItemRectMin();
+        auto icon_size = ImGui::GetItemRectSize();
+
+        auto text_size = ImGui::CalcTextSize(text.c_str());
+        auto text_pos =
+            ImVec2(icon_pos.x + (icon_size.x - text_size.x) * 0.5f, icon_pos.y + icon_size.y - text_size.y - 2.0f);
+
+        draw_list->AddRectFilled(ImVec2(text_pos.x - 2, text_pos.y - 1),
+                                 ImVec2(text_pos.x + text_size.x + 2, text_pos.y + text_size.y + 1),
+                                 IM_COL32(0, 0, 0, 180),
+                                 3.0f);
+        draw_list->AddText(text_pos, IM_COL32(255, 255, 255, 255), text.c_str());
+
         return;
     }
 

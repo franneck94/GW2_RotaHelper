@@ -120,6 +120,7 @@ void ToggleShowWindow(std::filesystem::path SettingsPath)
 bool ShowWindow = true;
 char FilterBuffer[50] = "";
 bool ShowWeaponSwap = false;
+bool ShowPreCasts = true;
 bool ShowKeybind = false;
 bool StrictModeForSkillDetection = false;
 bool EasySkillMode = false;

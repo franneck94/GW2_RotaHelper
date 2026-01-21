@@ -45,6 +45,7 @@ extern std::filesystem::path XmlSettingsPath;
 extern std::string VersionOfLastBenchFilesUpdate;
 extern bool SkipBenchFileUpdate;
 extern bool BenchUpdateFailedBefore;
+extern bool ShowPreCasts;
 extern uint32_t WindowSizeLeft;
 extern uint32_t WindowSizeRight;
 extern std::map<std::string, std::vector<uint32_t>> PrecastSkills;
