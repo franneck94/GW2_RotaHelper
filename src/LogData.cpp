@@ -937,7 +937,7 @@ void RotationLogType::get_rotation_skills()
             if (icon_it == Globals::TextureMap.end())
                 continue;
 
-            const auto skill = RotationSkill{step.skill_data.skill_id, step.skill_data.name, icon_it->second};
+            const auto skill = RotationSkill{step.skill_data.skill_id, step.skill_data.name, icon_it->second, step.skill_data.skill_type};
             rotation_skills.insert({step.skill_data.skill_id, skill});
         }
     }

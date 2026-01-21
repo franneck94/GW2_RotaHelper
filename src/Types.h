@@ -163,6 +163,7 @@ struct RotationSkill
     SkillID skill_id;
     std::string name;
     ID3D11ShaderResourceView *texture;
+    SkillSlot skill_type;
 };
 
 using RotationSteps = std::vector<RotationStep>;
