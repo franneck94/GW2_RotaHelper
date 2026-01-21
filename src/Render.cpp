@@ -425,7 +425,7 @@ void RenderType::render_precast_window(bool &show_precast_window)
             precast_skills_order = Settings::PrecastSkills[current_build_key];
     }
 
-    ImGui::SetNextWindowSize(ImVec2(600, 400), ImGuiCond_Once);
+    ImGui::SetNextWindowSize(ImVec2(800, 500), ImGuiCond_Once);
     if (ImGui::Begin("Precast Skills Configuration", &show_precast_window))
     {
         ImGui::TextWrapped("Drag and drop skills to arrange your precast order for this build.");
@@ -449,7 +449,11 @@ void RenderType::render_precast_window(bool &show_precast_window)
         }
         else
         {
-            ImGui::BeginChild("precast_list", ImVec2(0, 150), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+            ImGui::BeginChild("precast_list", ImVec2(0, 100), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+
+            const float icon_size = 48.0f;
+            const float spacing = ImGui::GetStyle().ItemSpacing.x;
+            float current_x = 0.0f;
 
             for (size_t i = 0; i < precast_skills_order.size(); ++i)
             {
@@ -459,20 +463,50 @@ void RenderType::render_precast_window(bool &show_precast_window)
                 if (skill_it != Globals::RotationRun.rotation_skills.end())
                 {
                     const auto &skill = skill_it->second;
-                    auto label = std::to_string(i + 1) + ". " + skill.name + "###precast_" + std::to_string(i);
 
-                    if (ImGui::Selectable(label.c_str(), false))
-                        precast_drag_source = i;
-
-                    if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left, 5.0f))
-                        precast_drag_source = i;
-
-                    if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left) &&
-                        precast_drag_source >= 0 && precast_drag_source != static_cast<int>(i))
+                    if (skill.texture)
                     {
-                        // Swap items
-                        std::swap(precast_skills_order[precast_drag_source], precast_skills_order[i]);
-                        precast_drag_source = -1;
+                        if (current_x + icon_size > ImGui::GetWindowWidth() - 20.0f && i > 0)
+                        {
+                            current_x = 0.0f;
+                            ImGui::Dummy(ImVec2(0, spacing));
+                        }
+                        else if (i > 0)
+                        {
+                            ImGui::SameLine();
+                        }
+
+                        ImGui::PushID(static_cast<int>(i));
+
+                        ImGui::Image((ImTextureID)skill.texture, ImVec2(icon_size, icon_size));
+
+                        if (ImGui::IsItemHovered())
+                        {
+                            ImGui::BeginTooltip();
+                            ImGui::Text("%zu. %s", i + 1, skill.name.c_str());
+                            ImGui::EndTooltip();
+                        }
+
+                        if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left, 5.0f))
+                            precast_drag_source = i;
+
+                        if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left) &&
+                            precast_drag_source >= 0 && precast_drag_source != static_cast<int>(i))
+                        {
+                            // Swap items
+                            std::swap(precast_skills_order[precast_drag_source], precast_skills_order[i]);
+                            precast_drag_source = -1;
+                        }
+
+                        if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+                        {
+                            precast_skills_order.erase(precast_skills_order.begin() + i);
+                            ImGui::PopID();
+                            break;
+                        }
+
+                        ImGui::PopID();
+                        current_x += icon_size + spacing;
                     }
                 }
             }
@@ -482,48 +516,73 @@ void RenderType::render_precast_window(bool &show_precast_window)
 
         ImGui::Separator();
 
-        // Available skills section
         ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Available Skills:");
         ImGui::Separator();
 
         ImGui::BeginChild("available_skills", ImVec2(0, 150), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
-        if (Globals::RotationRun.rotation_skills.empty())
-            Globals::RotationRun.get_rotation_skills();
+
+        const float icon_size = 48.0f;
+        const float spacing = ImGui::GetStyle().ItemSpacing.x;
+        float current_x = 0.0f;
+        int icon_count = 0;
 
         for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
         {
-            // Check if skill is already in precast list
             auto is_in_precast =
                 std::find(precast_skills_order.begin(), precast_skills_order.end(), static_cast<uint32_t>(skill_id)) !=
                 precast_skills_order.end();
 
-            auto label = rotation_skill.name + "###available_" + std::to_string(static_cast<uint32_t>(skill_id));
-
-            ImGui::PushID(static_cast<int>(skill_id));
-
-            if (is_in_precast)
+            if (rotation_skill.texture)
             {
-                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.5f, 0.5f, 0.5f, 1.0f)); // Gray out
-                ImGui::TextDisabled("%s", rotation_skill.name.c_str());
-                ImGui::PopStyleColor();
-            }
-            else
-            {
-                if (ImGui::Selectable(label.c_str(), false))
+                if (current_x + icon_size > ImGui::GetWindowWidth() - 20.0f && icon_count > 0)
                 {
-                    // Add skill to precast list
-                    precast_skills_order.push_back(static_cast<uint32_t>(skill_id));
+                    current_x = 0.0f;
+                    ImGui::Dummy(ImVec2(0, spacing));
                 }
-            }
+                else if (icon_count > 0)
+                {
+                    ImGui::SameLine();
+                }
 
-            ImGui::PopID();
+                ImGui::PushID(static_cast<int>(skill_id));
+
+                if (is_in_precast)
+                {
+                    ImGui::Image((ImTextureID)rotation_skill.texture,
+                                 ImVec2(icon_size, icon_size),
+                                 ImVec2(0, 0),
+                                 ImVec2(1, 1),
+                                 ImVec4(0.5f, 0.5f, 0.5f, 1.0f));
+                }
+                else
+                {
+                    ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
+
+                    if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+                        precast_skills_order.push_back(static_cast<uint32_t>(skill_id));
+                }
+
+                if (ImGui::IsItemHovered())
+                {
+                    ImGui::BeginTooltip();
+                    ImGui::Text("%s", rotation_skill.name.c_str());
+                    if (is_in_precast)
+                        ImGui::TextDisabled("(Already in precast list)");
+                    else
+                        ImGui::Text("Click to add to precast list");
+                    ImGui::EndTooltip();
+                }
+
+                ImGui::PopID();
+                current_x += icon_size + spacing;
+                icon_count++;
+            }
         }
 
         ImGui::EndChild();
 
         ImGui::Separator();
 
-        // Buttons
         const auto button_width = ImGui::GetWindowSize().x * 0.33f - ImGui::GetStyle().ItemSpacing.x;
 
         if (ImGui::Button("Save", ImVec2(button_width, 0)))
@@ -565,11 +624,13 @@ void RenderType::render_precast_window(bool &show_precast_window)
 
         if (ImGui::Button("Remove Selected", ImVec2(button_width, 0)))
         {
-            if (precast_drag_source >= 0 && precast_drag_source < static_cast<int>(precast_skills_order.size()))
-            {
-                precast_skills_order.erase(precast_skills_order.begin() + precast_drag_source);
-                precast_drag_source = -1;
-            }
+            ImGui::OpenPopup("remove_help_popup");
+        }
+
+        if (ImGui::BeginPopup("remove_help_popup"))
+        {
+            ImGui::Text("Right-click on any skill icon above to remove it");
+            ImGui::EndPopup();
         }
     }
 
@@ -861,17 +922,27 @@ void RenderType::render_options_checkboxes()
         if (ImGui::Button("Precast Window", ImVec2(sub_window_width, 0)))
             show_precast_window = !show_precast_window;
 
+        if (Globals::RotationRun.rotation_skills.empty())
+            Globals::RotationRun.get_rotation_skills();
+
         if (show_precast_window)
             render_precast_window(show_precast_window);
     }
 
 #ifdef _DEBUG
-    const auto centered_pos_debug = calculate_centered_position({"Debug Window"});
-    ImGui::SetCursorPosX(centered_pos_debug);
+    const auto debug_button_width = ImGui::GetWindowSize().x * 0.5f - ImGui::GetStyle().ItemSpacing.x * 0.5f;
 
     static bool show_debug_window = false;
-    if (ImGui::Button("Debug Window", ImVec2(sub_window_width, 0)))
+    if (ImGui::Button("Debug Window", ImVec2(debug_button_width, 0)))
         show_debug_window = !show_debug_window;
+
+    ImGui::SameLine();
+
+    if (ImGui::Button("Open settings.json", ImVec2(debug_button_width, 0)))
+    {
+        const auto settings_path = Globals::SettingsPath.string();
+        ShellExecuteA(nullptr, "open", settings_path.c_str(), nullptr, nullptr, SW_SHOWNORMAL);
+    }
 
     if (show_debug_window)
         render_debug_window(show_debug_window);
@@ -1470,6 +1541,47 @@ void RenderType::render_rotation_horizontal()
 
     const auto [start, end, current_idx] = Globals::RotationRun.get_current_rotation_indices();
 
+    if (start < 1)
+    {
+        if (Globals::RotationRun.all_rotation_steps.size() > 0 && current_build_key.empty())
+            current_build_key = Globals::RotationRun.meta_data.name;
+
+        if (precast_skills_order.empty() && !current_build_key.empty() &&
+            Globals::RotationRun.all_rotation_steps.size() > 0)
+        {
+            if (Settings::PrecastSkills.find(current_build_key) != Settings::PrecastSkills.end())
+                precast_skills_order = Settings::PrecastSkills[current_build_key];
+        }
+
+        for (const auto &skill_id : precast_skills_order)
+        {
+            const auto skill_it = Globals::RotationRun.rotation_skills.find(static_cast<SkillID>(skill_id));
+            if (skill_it != Globals::RotationRun.rotation_skills.end())
+            {
+                if (skill_it->second.texture)
+                {
+                    RotationStep precast_step;
+                    precast_step.skill_data.name = skill_it->second.name;
+                    precast_step.skill_data.skill_id = static_cast<SkillID>(skill_id);
+                    precast_step.duration_ms = -1;
+                    precast_step.time_of_cast = -1;
+
+                    SkillState precast_skill_state;
+                    precast_skill_state.is_current = false;
+                    precast_skill_state.is_last = false;
+
+                    render_rotation_icons(precast_skill_state,
+                                          precast_step,
+                                          skill_it->second.texture,
+                                          "PreCast",
+                                          0,
+                                          true);
+                    ImGui::SameLine();
+                }
+            }
+        }
+    }
+
     for (int32_t window_idx = start; window_idx <= end; ++window_idx)
     {
         if (window_idx < 0 || static_cast<size_t>(window_idx) >= Globals::RotationRun.all_rotation_steps.size())
@@ -1647,9 +1759,17 @@ void RenderType::render_rotation_icons(const SkillState &skill_state,
                                        const RotationStep &rotation_step,
                                        const ID3D11ShaderResourceView *texture,
                                        const std::string &text,
-                                       const int auto_attack_index)
+                                       const int auto_attack_index,
+                                       const bool is_precast)
 {
     const auto is_special_skill = rotation_step.is_special_skill;
+
+    if (is_precast)
+    {
+        DrawRect(rotation_step, text, IM_COL32(0, 0, 0, 255), 2.0F);
+        render_skill_texture(rotation_step, texture, auto_attack_index, Globals::SkillIconSize, Settings::ShowKeybind);
+        return;
+    }
 
     if (skill_state.is_current && !skill_state.is_last) // white
         DrawRect(rotation_step, text, IM_COL32(255, 255, 255, 255), 7.0F);

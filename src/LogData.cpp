@@ -962,9 +962,9 @@ std::tuple<std::int32_t, std::int32_t, size_t> RotationLogType::get_current_rota
     if (missing_rotation_steps.empty())
         return {-1, -1, static_cast<size_t>(-1)};
 
-    const auto start = current_idx - window_size_left >= 0 ? static_cast<int32_t>(current_idx - window_size_left) : 0;
+    const auto start = (current_idx - window_size_left) >= 0 ? static_cast<int32_t>(current_idx - window_size_left) : 0;
     const auto end =
-        current_idx + window_size < num_total_skills
+        (current_idx + window_size) < num_total_skills
             ? start > 0 ? static_cast<int32_t>(current_idx + window_size_right) : static_cast<int32_t>(window_size - 1)
             : static_cast<std::int32_t>(num_total_skills - 1);
 

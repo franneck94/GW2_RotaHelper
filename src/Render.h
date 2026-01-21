@@ -79,7 +79,8 @@ public:
                                const RotationStep &rotation_step,
                                const ID3D11ShaderResourceView *texture,
                                const std::string &text,
-                               const int auto_attack_index = 0);
+                               const int auto_attack_index = 0,
+                               const bool is_precast = false);
     void render_skill_texture(const RotationStep &rotation_step,
                               const ID3D11ShaderResourceView *texture,
                               const int auto_attack_index,
