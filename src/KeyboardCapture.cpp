@@ -102,8 +102,20 @@ void KeyboardCapture::ProcessKeyMessage(int vKey, bool isPressed)
     auto& currentKeys = Globals::CurrentlyPressedKeys;
     auto it = std::find(currentKeys.begin(), currentKeys.end(), static_cast<uint32_t>(vKey));
 
-    if (isPressed && it == currentKeys.end())
-        currentKeys.push_back(static_cast<uint32_t>(vKey));
-    else if (!isPressed && it != currentKeys.end())
-        currentKeys.erase(it);
+    if (isPressed)
+    {
+        // Key is pressed - add it if it's not already in the list
+        if (it == currentKeys.end())
+            currentKeys.push_back(static_cast<uint32_t>(vKey));
+    }
+    else
+    {
+        // Key is released - remove it if it's in the list
+        if (it != currentKeys.end())
+            currentKeys.erase(it);
+
+        // Also ensure the key state is properly reset
+        m_KeyDown[vKey] = false;
+        m_KeyPressed[vKey] = false;
+    }
 }

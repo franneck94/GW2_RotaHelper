@@ -239,8 +239,7 @@ void KeypressSkillDetectionLogic(RotationLogType &rotation_run)
     const auto windows_key = static_cast<WindowsKeys>(currentKeys[0]);
     const auto gw2_key = windows_key_to_keys_enum(windows_key);
 
-    // Find which skill slot this key is bound to in the XML keybinds
-    SkillSlot detected_skill_slot = SkillSlot::NONE;
+    auto detected_skill_slot = SkillSlot::NONE;
     std::string detected_action_name = "";
 
     switch (gw2_key)
