@@ -266,9 +266,9 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
         return;
     }
 
-    const auto still_look_into_in_strict_mode =
-        ((Settings::StrictModeForSkillDetection && rota_window.curr_rota_skill.is_special_skill) ||
-         !Settings::StrictModeForSkillDetection);
+    const auto still_look_into_in_strict_mode = false;
+        // ((Settings::StrictModeForSkillDetection && rota_window.curr_rota_skill.is_special_skill) ||
+        //  !Settings::StrictModeForSkillDetection);
 
     if (still_look_into_in_strict_mode && !curr_casted_is_auto_attack)
     {

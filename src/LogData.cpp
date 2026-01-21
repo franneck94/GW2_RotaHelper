@@ -681,7 +681,7 @@ std::tuple<LogSkillInfoMap, RotationSteps, RotationSteps, MetaData, SkillKeyMapp
                       log_skill_info_map,
                       rotation_steps,
                       skill_data_map,
-                      Settings::StrictModeForSkillDetection,
+                      false, // Settings::StrictModeForSkillDetection,
                       Settings::ShowWeaponSwap,
                       Settings::EasySkillMode);
     auto rotation_steps_w_swap = RotationSteps{};
@@ -689,7 +689,7 @@ std::tuple<LogSkillInfoMap, RotationSteps, RotationSteps, MetaData, SkillKeyMapp
                       log_skill_info_map,
                       rotation_steps_w_swap,
                       skill_data_map,
-                      Settings::StrictModeForSkillDetection,
+                      false, //  Settings::StrictModeForSkillDetection,
                       true,
                       Settings::EasySkillMode);
 

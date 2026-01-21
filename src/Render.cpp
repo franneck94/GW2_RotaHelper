@@ -528,10 +528,6 @@ void RenderType::render_precast_window(bool &show_precast_window)
 
         for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
         {
-            auto is_in_precast =
-                std::find(precast_skills_order.begin(), precast_skills_order.end(), static_cast<uint32_t>(skill_id)) !=
-                precast_skills_order.end();
-
             if (rotation_skill.texture)
             {
                 if (current_x + icon_size > ImGui::GetWindowWidth() - 20.0f && icon_count > 0)
@@ -546,30 +542,16 @@ void RenderType::render_precast_window(bool &show_precast_window)
 
                 ImGui::PushID(static_cast<int>(skill_id));
 
-                if (is_in_precast)
-                {
-                    ImGui::Image((ImTextureID)rotation_skill.texture,
-                                 ImVec2(icon_size, icon_size),
-                                 ImVec2(0, 0),
-                                 ImVec2(1, 1),
-                                 ImVec4(0.5f, 0.5f, 0.5f, 1.0f));
-                }
-                else
-                {
-                    ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
+                ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
 
-                    if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
-                        precast_skills_order.push_back(static_cast<uint32_t>(skill_id));
-                }
+                if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+                    precast_skills_order.push_back(static_cast<uint32_t>(skill_id));
 
                 if (ImGui::IsItemHovered())
                 {
                     ImGui::BeginTooltip();
                     ImGui::Text("%s", rotation_skill.name.c_str());
-                    if (is_in_precast)
-                        ImGui::TextDisabled("(Already in precast list)");
-                    else
-                        ImGui::Text("Click to add to precast list");
+                    ImGui::Text("Click to add to precast list");
                     ImGui::EndTooltip();
                 }
 
@@ -800,11 +782,7 @@ void RenderType::render_options_checkboxes()
         SetTooltip("When enabled, the addon will skip checking for benchmark file updates on startup.");
     }
 
-    const auto second_row_items = std::vector<std::string>{
-        "Move UI",
-        "Show Weapon Swaps",
-        "Show PreCasts"
-    };
+    const auto second_row_items = std::vector<std::string>{"Move UI", "Show Weapon Swaps", "Show PreCasts"};
     const auto centered_pos_row_2 = calculate_centered_position(second_row_items);
     ImGui::SetCursorPosX(centered_pos_row_2);
 
@@ -841,7 +819,7 @@ void RenderType::render_options_checkboxes()
     }
     SetTooltip("All weapon swap like skills will be shown in the rotation UI.");
 
-    const auto third_row_items = std::vector<std::string>{"Show Keybind", "Strict Rotation", "Easy Skill Mode"};
+    const auto third_row_items = std::vector<std::string>{"Show Keybind", "Easy Skill Mode"};
     const auto centered_pos_row_3 = calculate_centered_position(third_row_items);
     ImGui::SetCursorPosX(centered_pos_row_3);
 
@@ -850,24 +828,6 @@ void RenderType::render_options_checkboxes()
     SetTooltip(std::vector{
         std::string{"You can load keybinds from your GW2 XML settings file."},
         std::string{"If not selected, default keybinds will be used."},
-    });
-
-    ImGui::SameLine();
-
-    if (ImGui::Checkbox("Strict Rotation", &Settings::StrictModeForSkillDetection))
-    {
-        Settings::Save(Globals::SettingsPath);
-
-        if (selected_file_path != "")
-        {
-            Globals::RotationRun.reset_rotation();
-            Globals::RotationRun.load_data(selected_file_path, img_path);
-        }
-    }
-    SetTooltip(std::vector{
-        std::string{"When enabled, rotation progression requires exact skill matching (for not grayed out skills)."},
-        std::string{"This will turn off the weapon swap icons."},
-        std::string{"When disabled, allows more flexible skill detection with fallbacks."},
     });
 
     ImGui::SameLine();
