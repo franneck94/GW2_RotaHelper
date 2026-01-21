@@ -604,15 +604,13 @@ void RenderType::render_precast_window(bool &show_precast_window)
 
         ImGui::SameLine();
 
-        if (ImGui::Button("Remove Selected", ImVec2(button_width, 0)))
+        if (ImGui::Button("Remove Last", ImVec2(button_width, 0)))
         {
-            ImGui::OpenPopup("remove_help_popup");
-        }
+            if (!precast_skills_order.empty())
+                precast_skills_order.pop_back();
 
-        if (ImGui::BeginPopup("remove_help_popup"))
-        {
-            ImGui::Text("Right-click on any skill icon above to remove it");
-            ImGui::EndPopup();
+            if (precast_skills_order.empty())
+                Settings::Save(Globals::SettingsPath);
         }
     }
 

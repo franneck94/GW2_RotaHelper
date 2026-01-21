@@ -23,6 +23,10 @@ An increase in the third number indicates bugfixes only.
   - This is just a visual feature to better memorize what precast need to be done
   - This will be stored for each selected build individually
 
+### Notes
+
+- Removed strict rotation mode until skill detection is working flawless
+
 ## 1.1.0 - 2026-01-16
 
 ## Improvements
