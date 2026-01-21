@@ -386,6 +386,7 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::IMPOSSIBLE_ODDS,
     SkillID::PHANTOM_S_ONSLAUGHT,
     SkillID::RELEASE_POTENTIAL_ASSASSIN,
+    SkillID::RELEASE_POTENTIAL_MESMER,
 };
 
 const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_gray_out = {
