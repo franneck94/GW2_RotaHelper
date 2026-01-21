@@ -225,6 +225,34 @@ RotaSkillWindow GetRotaSkillWindow(RotationLogType &rotation_run, SkillDetection
 }
 } // namespace
 
+void KeypressSkillDetectionLogic(RotationLogType &rotation_run)
+{
+    static auto timers = SkillDetectionTimers{};
+
+    if (!Settings::UseSkillEvents)
+        return;
+
+    auto &currentKeys = Globals::CurrentlyPressedKeys;
+    if (currentKeys.empty())
+        return;
+
+    const auto rota_window = GetRotaSkillWindow(rotation_run, timers);
+    const auto curr_rota_skill = rota_window.curr_rota_skill;
+    const auto curr_skill_id = curr_rota_skill.skill_data.skill_id;
+    
+    // Look up the keybind for the current skill
+    const auto keybind_str = rotation_run.get_keybind_str(curr_rota_skill, Globals::Render.keybinds);
+    
+    // Log the current skill and its keybind for debugging
+    if (!keybind_str.empty()) {
+        const auto msg = "Current skill: " + curr_rota_skill.skill_data.name + " (ID: " + 
+                        std::to_string((uint32_t)curr_skill_id) + ") - Keybind: " + keybind_str;
+        (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", msg.c_str());
+    }
+    
+    int i = 2;
+}
+
 /**
  * @brief This is the main logic for skill detection against the rotation steps.
  *
@@ -266,9 +294,9 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
         return;
     }
 
-    const auto still_look_into_in_strict_mode = false;
-        // ((Settings::StrictModeForSkillDetection && rota_window.curr_rota_skill.is_special_skill) ||
-        //  !Settings::StrictModeForSkillDetection);
+    const auto still_look_into_in_strict_mode = true;
+    // ((Settings::StrictModeForSkillDetection && rota_window.curr_rota_skill.is_special_skill) ||
+    //  !Settings::StrictModeForSkillDetection);
 
     if (still_look_into_in_strict_mode && !curr_casted_is_auto_attack)
     {
