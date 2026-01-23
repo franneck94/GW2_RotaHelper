@@ -196,7 +196,7 @@ bool get_is_skill_dropped(const SkillData &skill_data,
             is_skill_in_set(skill_data.name, skill_rules.easy_mode_drop_match_name, true) ||
             is_skill_in_set(skill_data.skill_id, skill_rules.easy_mode_drop_match);
 
-        const auto stem = Globals::Render.selected_file_path.stem().string();
+        const auto stem = Globals::RenderData.selected_file_path.stem().string();
         if (stem != "")
         {
             const auto class_name = stem;
@@ -224,7 +224,7 @@ bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_r
         is_skill_in_set(skill_data.name, skill_rules.special_match_to_gray_out_names, true) ||
         is_skill_in_set(skill_data.skill_id, skill_rules.special_match_to_gray_out);
 
-    const auto stem = Globals::Render.selected_file_path.stem().string();
+    const auto stem = Globals::RenderData.selected_file_path.stem().string();
     if (stem != "")
     {
         const auto class_name = stem;
