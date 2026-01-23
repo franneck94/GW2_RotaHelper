@@ -1,6 +1,7 @@
 #include <filesystem>
 #include <fstream>
 #include <map>
+#include <mutex>
 #include <string>
 #include <vector>
 
@@ -20,7 +21,6 @@ const char *BENCH_UPDATE_FAILED_BEFORE = "BenchUpdateFailedBefore";
 const char *WINDOW_SIZE_LEFT = "WindowSizeLeft";
 const char *WINDOW_SIZE_RIGHT = "WindowSizeRight";
 const char *PRECAST_SKILLS = "PrecastSkills";
-
 
 namespace Settings
 {
