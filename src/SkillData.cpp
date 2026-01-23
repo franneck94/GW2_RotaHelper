@@ -5,8 +5,8 @@
 
 #include "MumbleUtils.h"
 #include "SkillData.h"
-
 #include "Types.h"
+#include "FileUtils.h"
 
 namespace SkillRuleData
 {
