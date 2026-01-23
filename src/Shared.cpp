@@ -24,12 +24,16 @@ ArcDPS::Exports ArcExports = {};
 std::filesystem::path Logpath;
 RotationLogType RotationRun{};
 TextureMapType Globals::TextureMap{};
-RenderType Globals::Render{};
 std::filesystem::path Globals::SettingsPath;
 float SkillIconSize = 28.0F;
 std::string VersionString = std::string{VERSION_STRING};
 std::string BenchFilesLowerVersionString = std::string{LOWER_VERSION_RANGE};
 std::string BenchFilesUpperVersionString = std::string{UPPER_VERSION_RANGE};
+
+RenderDataType RenderData{};
+RenderType Render{};
+OptionsRenderType OptionsRender{};
+RotationRenderType RotationRender{};
 
 DownloadState BenchDataDownloadState = DownloadState::NOT_STARTED;
 bool ExtractedBenchData = false;
