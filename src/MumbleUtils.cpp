@@ -1,17 +1,16 @@
-#include "Shared.h"
-
 #include <codecvt>
 #include <conio.h>
 #include <locale>
 
+#include "mumble/Mumble.h"
+
+#include "Shared.h"
 #include "TypesUtils.h"
 
 unsigned int GetCurrentMapID()
 {
     if (Globals::MumbleData && Globals::MumbleData->Context.MapID != 0)
-    {
         return Globals::MumbleData->Context.MapID;
-    }
 
     return 0;
 }
