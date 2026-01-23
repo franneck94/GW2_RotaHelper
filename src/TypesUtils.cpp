@@ -11,6 +11,81 @@
 #include "SkillData.h"
 #include "Types.h"
 
+void default_gw2key_to_skillslot_mapping(const Keys gw2_key, SkillSlot &detected_skill_slot, std::string &detected_action_name)
+{
+    switch (gw2_key)
+    {
+    case Keys::ONE:
+        detected_skill_slot = SkillSlot::WEAPON_1;
+        detected_action_name = "Weapon Skill 1";
+        break;
+    case Keys::TWO:
+        detected_skill_slot = SkillSlot::WEAPON_2;
+        detected_action_name = "Weapon Skill 2";
+        break;
+    case Keys::THREE:
+        detected_skill_slot = SkillSlot::WEAPON_3;
+        detected_action_name = "Weapon Skill 3";
+        break;
+    case Keys::FOUR:
+        detected_skill_slot = SkillSlot::WEAPON_4;
+        detected_action_name = "Weapon Skill 4";
+        break;
+    case Keys::FIVE:
+        detected_skill_slot = SkillSlot::WEAPON_5;
+        detected_action_name = "Weapon Skill 5";
+        break;
+    case Keys::SIX:
+        detected_skill_slot = SkillSlot::HEAL;
+        detected_action_name = "Heal Skill";
+        break;
+    case Keys::SEVEN:
+        detected_skill_slot = SkillSlot::UTILITY_1;
+        detected_action_name = "Utility Skill 1";
+        break;
+    case Keys::EIGHT:
+        detected_skill_slot = SkillSlot::UTILITY_2;
+        detected_action_name = "Utility Skill 2";
+        break;
+    case Keys::NINE:
+        detected_skill_slot = SkillSlot::UTILITY_3;
+        detected_action_name = "Utility Skill 3";
+        break;
+    case Keys::F1:
+        detected_skill_slot = SkillSlot::PROFESSION_1;
+        detected_action_name = "Profession Skill 1";
+        break;
+    case Keys::F2:
+        detected_skill_slot = SkillSlot::PROFESSION_2;
+        detected_action_name = "Profession Skill 2";
+        break;
+    case Keys::F3:
+        detected_skill_slot = SkillSlot::PROFESSION_3;
+        detected_action_name = "Profession Skill 3";
+        break;
+    case Keys::F4:
+        detected_skill_slot = SkillSlot::PROFESSION_4;
+        detected_action_name = "Profession Skill 4";
+        break;
+    case Keys::F5:
+        detected_skill_slot = SkillSlot::PROFESSION_5;
+        detected_action_name = "Profession Skill 5";
+        break;
+    case Keys::F6:
+        detected_skill_slot = SkillSlot::PROFESSION_6;
+        detected_action_name = "Profession Skill 6";
+        break;
+    case Keys::F7:
+        detected_skill_slot = SkillSlot::PROFESSION_7;
+        detected_action_name = "Profession Skill 7";
+        break;
+    case Keys::ZERO:
+        detected_skill_slot = SkillSlot::ELITE;
+        detected_action_name = "Elite Skill";
+        break;
+    }
+}
+
 ProfessionID string_to_profession(const std::string &profession_name)
 {
     auto lower_name = profession_name;
