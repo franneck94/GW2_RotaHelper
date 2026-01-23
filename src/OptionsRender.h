@@ -10,6 +10,10 @@ public:
     OptionsRenderType(){};
     ~OptionsRenderType() = default;
 
+    void render();
+
+    void render_status();
+    void render_precast_window(bool &show_precast_window);
     void render_horizontal_settings();
     void render_options_checkboxes();
     void render_debug_window(bool &show_debug_window);
@@ -43,10 +47,7 @@ public:
     void render_load_buttons();
     void render_snowcrows_build_link();
     void render_select_bench();
-    void render_options_window();
     void render_xml_selection();
-    bool FileSelection();
-    void render(bool &show_precast_window);
 
     int selected_bench_index = -1;
     ImVec2 filter_input_pos = ImVec2(0, 0);
