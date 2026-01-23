@@ -186,7 +186,7 @@ void RenderType::render(ID3D11Device *pd3dDevice)
     if (Globals::RenderData.benches_files.size() == 0)
         Globals::RenderData.benches_files = get_bench_files(Globals::RenderData.bench_path);
 
-    Globals::OptionsRender.render_options_window();
+    Globals::OptionsRender.render();
 
     if (Globals::RotationRun.futures.size() != 0)
     {
