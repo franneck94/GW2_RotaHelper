@@ -1,3 +1,7 @@
+#include <string>
+
+#include "mumble/Mumble.h"
+
 #include "Shared.h"
 
 unsigned int GetCurrentMapID();
