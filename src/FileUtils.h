@@ -35,3 +35,5 @@ bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem:
 void DropOldBuilds(const std::filesystem::path &addonPath);
 
 void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath);
+
+bool FileSelection();
