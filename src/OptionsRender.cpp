@@ -530,7 +530,7 @@ void OptionsRenderType::render_options_checkboxes()
     SetTooltip(std::vector{
         std::string{"EXPERIMENTAL: In addition to the arcdps events, the addon will try to detect skill activations by "
                     "keypresses."},
-        std::string{"IMPORTANT: You have to load in a keybinds xml file."},
+        std::string{"IMPORTANT: In this beta state only the default skill keybinds are used."},
     });
 
     render_xml_selection();
