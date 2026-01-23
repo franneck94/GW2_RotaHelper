@@ -73,6 +73,9 @@ add_library(first_party_libs STATIC
     "src/SkillData.cpp"
     "src/Builds.cpp"
     "src/KeyboardCapture.cpp"
+    "src/RenderUtils.cpp"
+    "src/OptionsRender.cpp"
+    "src/RotationRender.cpp"
 )
 target_include_directories(first_party_libs PUBLIC
     "src"
