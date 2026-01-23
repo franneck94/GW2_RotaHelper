@@ -286,9 +286,27 @@ void KeypressSkillDetectionLogic(RotationLogType &rotation_run)
 
     if (casted_keybind_str == rota_keybind_str && detected_skill_id == curr_skill_id)
     {
+        // Check if this is the same skill as last pressed
+        if (detected_skill_id == Globals::LastKeyPressSkillID)
+        {
+            // Same skill - check if enough time has passed based on recharge time
+            const auto now = std::chrono::steady_clock::now();
+            const auto time_since_last_press_ms =
+                std::chrono::duration_cast<std::chrono::milliseconds>(now - Globals::LastKeyPressSkillTime).count();
+
+            const auto recharge_time_ms = curr_rota_skill.skill_data.recharge_time * 1000.0f;
+
+            if (time_since_last_press_ms < static_cast<int64_t>(recharge_time_ms))
+                return;
+        }
+
         const auto success_msg = "Matched skill: " + curr_rota_skill.skill_data.name +
                                  " (ID: " + std::to_string((uint32_t)curr_skill_id) + ")";
         (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", success_msg.c_str());
+
+        // Update tracking for this skill
+        Globals::LastKeyPressSkillID = detected_skill_id;
+        Globals::LastKeyPressSkillTime = std::chrono::steady_clock::now();
 
         currentKeys.clear();
     }
