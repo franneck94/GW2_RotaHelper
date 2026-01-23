@@ -18,6 +18,7 @@
 #include "FileUtils.h"
 #include "LogData.h"
 #include "MumbleUtils.h"
+#include "OptionsRender.h"
 #include "Render.h"
 #include "RenderUtils.h"
 #include "Rotation.h"
@@ -29,7 +30,336 @@
 #include "TypesUtils.h"
 #include "Version.h"
 
-#include "OptionsRender.h"
+void OptionsRenderType::render()
+{
+#ifdef _DEBUG
+    const auto version_string = std::string("BETA v") + Globals::VersionString;
+#else
+    const auto version_string = std::string("v") + Globals::VersionString;
+#endif
+
+    const auto window_title =
+        std::string("Rota Helper ") + version_string + " (Builds from " + BUILD_STR + ")###GW2RotaHelper_Options";
+
+    if (ImGui::Begin(window_title.c_str(), &Settings::ShowWindow))
+    {
+        if (Globals::ExtractedBenchData)
+        {
+            Settings::VersionOfLastBenchFilesUpdate = Globals::VersionString;
+            Settings::BenchUpdateFailedBefore = false;
+            Settings::Save(Globals::SettingsPath);
+
+            ImGui::Text("Successfully Downloaded and Extracted Bench Data.");
+            ImGui::Text("Please disable and re-enable the addon within Nexus.");
+            ImGui::End();
+            return;
+        }
+
+        if (Globals::BenchDataDownloadState == DownloadState::FAILED)
+        {
+            Settings::BenchUpdateFailedBefore = true;
+            Settings::Save(Globals::SettingsPath);
+
+            ImGui::Text("Failed Downloading/Extracting Bench Data.");
+            ImGui::Text("Please send me a screenshot of the log messages.");
+            ImGui::Text("For now, you can download it manually from GitHub see: ");
+            ImGui::Text("https://github.com/franneck94/GW2_RotaHelper");
+            ImGui::End();
+            return;
+        }
+
+        render_select_bench();
+        render_snowcrows_build_link();
+
+        ImGui::Separator();
+        render_horizontal_settings();
+        render_options_checkboxes();
+
+        render_status();
+    }
+
+    if (!IsValidMap())
+    {
+        const auto warning_text = "NOTE: Rotation tool is in PvP/WvW deactivated!";
+        const auto centered_pos = calculate_centered_position({warning_text});
+        ImGui::SetCursorPosX(centered_pos);
+
+        ImGui::SetCursorPosX(centered_pos);
+        ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), warning_text);
+    }
+
+    ImGui::End();
+}
+
+void OptionsRenderType::render_status()
+{
+    if (Globals::RenderData.benches_files.empty())
+    {
+        const auto missing_content_text = "IMPORTANT: Missing build files!";
+        const auto centered_pos_missing = calculate_centered_position({missing_content_text});
+        ImGui::SetCursorPosX(centered_pos_missing);
+        ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), missing_content_text);
+    }
+
+    if (!Settings::SkipBenchFileUpdate && Globals::BenchFilesLowerVersionString != "" &&
+        Globals::BenchFilesUpperVersionString != "" && Settings::VersionOfLastBenchFilesUpdate != "")
+    {
+        if (!IsVersionIsRange(Settings::VersionOfLastBenchFilesUpdate,
+                              Globals::BenchFilesLowerVersionString,
+                              Globals::BenchFilesUpperVersionString))
+        {
+            const auto missing_content_text3 = "NOTE: There is a newer version for the builds.";
+            const auto centered_pos_missing3 = calculate_centered_position({missing_content_text3});
+            ImGui::SetCursorPosX(centered_pos_missing3);
+            ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), missing_content_text3);
+
+            static bool started_download = false;
+            const auto btn_text = !started_download ? "Start Downloading" : "Downloading...";
+            const auto centered_pos = calculate_centered_position({btn_text});
+            ImGui::SetCursorPosX(centered_pos);
+
+            if (!started_download)
+            {
+                if (ImGui::Button(btn_text))
+                {
+                    const auto AddonPath = Globals::APIDefs->Paths_GetAddonDirectory("GW2RotaHelper");
+
+                    if (MAJOR == 0 && MINOR == 28 && BUILD == 0)
+                        DropOldBuilds(AddonPath);
+
+                    char buffer[128] = {'\0'};
+                    sprintf(buffer,
+                            "Started download since: %s (%s) is not in range [%s, %s]",
+                            Globals::VersionString.c_str(),
+                            Settings::VersionOfLastBenchFilesUpdate.c_str(),
+                            Globals::BenchFilesLowerVersionString.c_str(),
+                            Globals::BenchFilesUpperVersionString.c_str());
+                    (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", buffer);
+
+                    started_download = true;
+
+                    Globals::BenchDataDownloadState = DownloadState::STARTED;
+                    DownloadAndExtractDataAsync(AddonPath);
+                }
+            }
+            else
+            {
+                ImGui::Text(btn_text);
+            }
+        }
+    }
+}
+
+void OptionsRenderType::render_precast_window(bool &show_precast_window)
+{
+    if (!show_precast_window)
+        return;
+
+    if (Globals::RotationRun.all_rotation_steps.size() > 0 && Globals::RenderData.current_build_key.empty())
+        Globals::RenderData.current_build_key = Globals::RotationRun.meta_data.name;
+
+    if (Globals::RenderData.precast_skills_order.empty() && !Globals::RenderData.current_build_key.empty() &&
+        Globals::RotationRun.all_rotation_steps.size() > 0)
+    {
+        if (Settings::PrecastSkills.find(Globals::RenderData.current_build_key) != Settings::PrecastSkills.end())
+            Globals::RenderData.precast_skills_order = Settings::PrecastSkills[Globals::RenderData.current_build_key];
+    }
+
+    ImGui::SetNextWindowSize(ImVec2(800, 500), ImGuiCond_Once);
+    if (ImGui::Begin("Precast Skills Configuration", &show_precast_window))
+    {
+        ImGui::TextWrapped("Drag and drop skills to arrange your precast order for this build.");
+        ImGui::Separator();
+
+        if (Globals::RotationRun.all_rotation_steps.empty())
+        {
+            ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "No rotation loaded. Load a build first.");
+            ImGui::End();
+            return;
+        }
+
+        ImGui::Text("Build: %s", Globals::RenderData.current_build_key.c_str());
+
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Precast Skills Order:");
+        ImGui::Separator();
+
+        if (Globals::RenderData.precast_skills_order.empty())
+        {
+            ImGui::TextDisabled("No precast skills configured yet.");
+        }
+        else
+        {
+            ImGui::BeginChild("precast_list", ImVec2(0, 100), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+
+            const float icon_size = 48.0f;
+            const float spacing = ImGui::GetStyle().ItemSpacing.x;
+            float current_x = 0.0f;
+
+            for (size_t i = 0; i < Globals::RenderData.precast_skills_order.size(); ++i)
+            {
+                auto skill_id = Globals::RenderData.precast_skills_order[i];
+                const auto skill_it = Globals::RotationRun.rotation_skills.find(static_cast<SkillID>(skill_id));
+
+                if (skill_it != Globals::RotationRun.rotation_skills.end())
+                {
+                    const auto &skill = skill_it->second;
+
+                    if (skill.texture)
+                    {
+                        if (current_x + icon_size > ImGui::GetWindowWidth() - 20.0f && i > 0)
+                        {
+                            current_x = 0.0f;
+                            ImGui::Dummy(ImVec2(0, spacing));
+                        }
+                        else if (i > 0)
+                        {
+                            ImGui::SameLine();
+                        }
+
+                        ImGui::PushID(static_cast<int>(i));
+
+                        ImGui::Image((ImTextureID)skill.texture, ImVec2(icon_size, icon_size));
+
+                        if (ImGui::IsItemHovered())
+                        {
+                            ImGui::BeginTooltip();
+                            ImGui::Text("%zu. %s", i + 1, skill.name.c_str());
+                            ImGui::EndTooltip();
+                        }
+
+                        if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left, 5.0f))
+                            Globals::RenderData.precast_drag_source = i;
+
+                        if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left) &&
+                            Globals::RenderData.precast_drag_source >= 0 &&
+                            Globals::RenderData.precast_drag_source != static_cast<int>(i))
+                        {
+                            // Swap items
+                            std::swap(Globals::RenderData.precast_skills_order[Globals::RenderData.precast_drag_source],
+                                      Globals::RenderData.precast_skills_order[i]);
+                            Globals::RenderData.precast_drag_source = -1;
+                        }
+
+                        if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+                        {
+                            Globals::RenderData.precast_skills_order.erase(
+                                Globals::RenderData.precast_skills_order.begin() + i);
+                            ImGui::PopID();
+                            break;
+                        }
+
+                        ImGui::PopID();
+                        current_x += icon_size + spacing;
+                    }
+                }
+            }
+
+            ImGui::EndChild();
+        }
+
+        ImGui::Separator();
+
+        ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Available Skills:");
+        ImGui::Separator();
+
+        ImGui::BeginChild("available_skills", ImVec2(0, 150), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+
+        const float icon_size = 48.0f;
+        const float spacing = ImGui::GetStyle().ItemSpacing.x;
+        float current_x = 0.0f;
+        int icon_count = 0;
+
+        for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
+        {
+            if (rotation_skill.texture)
+            {
+                if (current_x + icon_size > ImGui::GetWindowWidth() - 20.0f && icon_count > 0)
+                {
+                    current_x = 0.0f;
+                    ImGui::Dummy(ImVec2(0, spacing));
+                }
+                else if (icon_count > 0)
+                {
+                    ImGui::SameLine();
+                }
+
+                ImGui::PushID(static_cast<int>(skill_id));
+
+                ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
+
+                if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
+                    Globals::RenderData.precast_skills_order.push_back(static_cast<uint32_t>(skill_id));
+
+                if (ImGui::IsItemHovered())
+                {
+                    ImGui::BeginTooltip();
+                    ImGui::Text("%s", rotation_skill.name.c_str());
+                    ImGui::Text("Click to add to precast list");
+                    ImGui::EndTooltip();
+                }
+
+                ImGui::PopID();
+                current_x += icon_size + spacing;
+                icon_count++;
+            }
+        }
+
+        ImGui::EndChild();
+
+        ImGui::Separator();
+
+        const auto button_width = ImGui::GetWindowSize().x * 0.33f - ImGui::GetStyle().ItemSpacing.x;
+
+        if (ImGui::Button("Save", ImVec2(button_width, 0)))
+        {
+            if (!Globals::RenderData.current_build_key.empty())
+            {
+                Settings::PrecastSkills[Globals::RenderData.current_build_key] =
+                    Globals::RenderData.precast_skills_order;
+                Settings::Save(Globals::SettingsPath);
+
+                char log_msg[256];
+                snprintf(log_msg,
+                         sizeof(log_msg),
+                         "Precast skills configuration saved for build: %s",
+                         Globals::RenderData.current_build_key.c_str());
+                (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
+            }
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Reset", ImVec2(button_width, 0)))
+        {
+            Globals::RenderData.precast_skills_order.clear();
+            if (!Globals::RenderData.current_build_key.empty())
+            {
+                Settings::PrecastSkills.erase(Globals::RenderData.current_build_key);
+                Settings::Save(Globals::SettingsPath);
+
+                char log_msg[256];
+                snprintf(log_msg,
+                         sizeof(log_msg),
+                         "Precast skills configuration reset for build: %s",
+                         Globals::RenderData.current_build_key.c_str());
+                (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
+            }
+        }
+
+        ImGui::SameLine();
+
+        if (ImGui::Button("Remove Last", ImVec2(button_width, 0)))
+        {
+            if (!Globals::RenderData.precast_skills_order.empty())
+                Globals::RenderData.precast_skills_order.pop_back();
+
+            if (Globals::RenderData.precast_skills_order.empty())
+                Settings::Save(Globals::SettingsPath);
+        }
+    }
+
+    ImGui::End();
+}
 
 void OptionsRenderType::render_horizontal_settings()
 {
@@ -253,7 +583,7 @@ void OptionsRenderType::render_options_checkboxes()
             Globals::RotationRun.get_rotation_skills();
 
         if (show_precast_window)
-            render(show_precast_window);
+            render_precast_window(show_precast_window);
     }
 
 #ifdef _DEBUG
@@ -302,13 +632,16 @@ void OptionsRenderType::render_debug_data()
 
     ImGui::Text("Last Casted Skill ID: %u", Globals::RenderData.curr_combat_data.SkillID);
     ImGui::Text("Last Casted Skill Name: %s",
-                Globals::RenderData.curr_combat_data.SkillName != "" ? Globals::RenderData.curr_combat_data.SkillName.c_str() : "None");
+                Globals::RenderData.curr_combat_data.SkillName != ""
+                    ? Globals::RenderData.curr_combat_data.SkillName.c_str()
+                    : "None");
     ImGui::Text("Last Arc Event Skill Name: %s",
                 Globals::LastArcEventSkillName != "" ? Globals::LastArcEventSkillName.c_str() : "None");
     ImGui::Text("Last Event ID: %u", Globals::RenderData.curr_combat_data.EventID);
     ImGui::Text("Repeated skill: %s", Globals::RenderData.curr_combat_data.RepeatedSkill == true ? "true" : "false");
     ImGui::Text("Is Same Cast: %s", Globals::IsSameCast == true ? "true" : "false");
-    const auto skill_data = SkillRuleData::GetDataByID(Globals::RenderData.curr_combat_data.SkillID, Globals::RotationRun.skill_data_map);
+    const auto skill_data =
+        SkillRuleData::GetDataByID(Globals::RenderData.curr_combat_data.SkillID, Globals::RotationRun.skill_data_map);
     ImGui::Text("Weapon Type of Skill: %s", weapon_type_to_string(skill_data.weapon_type).c_str());
 
     ImGui::Separator();
@@ -670,7 +1003,8 @@ void OptionsRenderType::render_selection()
                             Globals::RenderData.selected_file_path = file_info->full_path;
 
                             ReleaseTextureMap(Globals::TextureMap);
-                            Globals::RotationRun.load_data(Globals::RenderData.selected_file_path, Globals::RenderData.img_path);
+                            Globals::RotationRun.load_data(Globals::RenderData.selected_file_path,
+                                                           Globals::RenderData.img_path);
 
                             ImGui::CloseCurrentPopup();
                         }
@@ -746,157 +1080,6 @@ void OptionsRenderType::render_select_bench()
     render_load_buttons();
 }
 
-void OptionsRenderType::render_options_window()
-{
-#ifdef _DEBUG
-    const auto version_string = std::string("BETA v") + Globals::VersionString;
-#else
-    const auto version_string = std::string("v") + Globals::VersionString;
-#endif
-
-    const auto window_title =
-        std::string("Rota Helper ") + version_string + " (Builds from " + BUILD_STR + ")###GW2RotaHelper_Options";
-
-    if (ImGui::Begin(window_title.c_str(), &Settings::ShowWindow))
-    {
-        if (Globals::ExtractedBenchData)
-        {
-            Settings::VersionOfLastBenchFilesUpdate = Globals::VersionString;
-            Settings::BenchUpdateFailedBefore = false;
-            Settings::Save(Globals::SettingsPath);
-
-            ImGui::Text("Successfully Downloaded and Extracted Bench Data.");
-            ImGui::Text("Please disable and re-enable the addon within Nexus.");
-            ImGui::End();
-            return;
-        }
-
-        if (Globals::BenchDataDownloadState == DownloadState::FAILED)
-        {
-            Settings::BenchUpdateFailedBefore = true;
-            Settings::Save(Globals::SettingsPath);
-
-            ImGui::Text("Failed Downloading/Extracting Bench Data.");
-            ImGui::Text("Please send me a screenshot of the log messages.");
-            ImGui::Text("For now, you can download it manually from GitHub see: ");
-            ImGui::Text("https://github.com/franneck94/GW2_RotaHelper");
-            ImGui::End();
-            return;
-        }
-
-        render_select_bench();
-        render_snowcrows_build_link();
-
-        // SETTINGS
-        ImGui::Separator();
-        render_horizontal_settings();
-        render_options_checkboxes();
-
-        if (Globals::RenderData.benches_files.empty())
-        {
-            const auto missing_content_text = "IMPORTANT: Missing build files!";
-            const auto centered_pos_missing = calculate_centered_position({missing_content_text});
-            ImGui::SetCursorPosX(centered_pos_missing);
-            ImGui::TextColored(ImVec4(1.0f, 0.1f, 0.1f, 1.0f), missing_content_text);
-        }
-
-        if (!Settings::SkipBenchFileUpdate && Globals::BenchFilesLowerVersionString != "" &&
-            Globals::BenchFilesUpperVersionString != "" && Settings::VersionOfLastBenchFilesUpdate != "")
-        {
-            if (!IsVersionIsRange(Settings::VersionOfLastBenchFilesUpdate,
-                                  Globals::BenchFilesLowerVersionString,
-                                  Globals::BenchFilesUpperVersionString))
-            {
-                const auto missing_content_text3 = "NOTE: There is a newer version for the builds.";
-                const auto centered_pos_missing3 = calculate_centered_position({missing_content_text3});
-                ImGui::SetCursorPosX(centered_pos_missing3);
-                ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), missing_content_text3);
-
-                static bool started_download = false;
-                const auto btn_text = !started_download ? "Start Downloading" : "Downloading...";
-                const auto centered_pos = calculate_centered_position({btn_text});
-                ImGui::SetCursorPosX(centered_pos);
-
-                if (!started_download)
-                {
-                    if (ImGui::Button(btn_text))
-                    {
-                        const auto AddonPath = Globals::APIDefs->Paths_GetAddonDirectory("GW2RotaHelper");
-
-                        if (MAJOR == 0 && MINOR == 28 && BUILD == 0)
-                            DropOldBuilds(AddonPath);
-
-                        char buffer[128] = {'\0'};
-                        sprintf(buffer,
-                                "Started download since: %s (%s) is not in range [%s, %s]",
-                                Globals::VersionString.c_str(),
-                                Settings::VersionOfLastBenchFilesUpdate.c_str(),
-                                Globals::BenchFilesLowerVersionString.c_str(),
-                                Globals::BenchFilesUpperVersionString.c_str());
-                        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", buffer);
-
-                        started_download = true;
-
-                        Globals::BenchDataDownloadState = DownloadState::STARTED;
-                        DownloadAndExtractDataAsync(AddonPath);
-                    }
-                }
-                else
-                {
-                    ImGui::Text(btn_text);
-                }
-            }
-        }
-    }
-
-    if (!IsValidMap())
-    {
-        const auto warning_text = "NOTE: Rotation tool is in PvP/WvW deactivated!";
-        const auto centered_pos = calculate_centered_position({warning_text});
-        ImGui::SetCursorPosX(centered_pos);
-
-        ImGui::SetCursorPosX(centered_pos);
-        ImGui::TextColored(ImVec4(1.0f, 0.5f, 0.0f, 1.0f), warning_text);
-    }
-
-    ImGui::End();
-}
-
-bool OptionsRenderType::FileSelection()
-{
-    OPENFILENAME ofn;
-    CHAR szFile[260] = {0};
-
-    ZeroMemory(&ofn, sizeof(ofn));
-    ofn.lStructSize = sizeof(ofn);
-    ofn.lpstrFile = szFile;
-    ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = "XML Files\0*.xml\0All Files\0*.*\0";
-    ofn.nFilterIndex = 1;
-    ofn.lpstrFileTitle = NULL;
-    ofn.nMaxFileTitle = 0;
-    ofn.lpstrInitialDir = "C:/";
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-    if (GetOpenFileName(&ofn) == TRUE)
-    {
-        Settings::XmlSettingsPath = std::filesystem::path(szFile);
-        Settings::Save(Globals::SettingsPath);
-        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Loaded XML InputBinds File.");
-
-        if (std::filesystem::exists(Settings::XmlSettingsPath))
-        {
-            Globals::RenderData.keybinds = parse_xml_keybinds(Settings::XmlSettingsPath);
-            Globals::RenderData.keybinds_loaded = true;
-            (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "parsed XML InputBinds File.");
-        }
-
-        return true;
-    }
-
-    return false;
-}
-
 void OptionsRenderType::render_xml_selection()
 {
     if (!Settings::XmlSettingsPath.empty())
@@ -924,211 +1107,4 @@ void OptionsRenderType::render_xml_selection()
         Globals::RenderData.keybinds_loaded = false;
         Globals::RenderData.keybinds.clear();
     }
-}
-
-void OptionsRenderType::render(bool &show_precast_window)
-{
-    if (!show_precast_window)
-        return;
-
-    if (Globals::RotationRun.all_rotation_steps.size() > 0 && Globals::RenderData.current_build_key.empty())
-        Globals::RenderData.current_build_key = Globals::RotationRun.meta_data.name;
-
-    if (Globals::RenderData.precast_skills_order.empty() && !Globals::RenderData.current_build_key.empty() &&
-        Globals::RotationRun.all_rotation_steps.size() > 0)
-    {
-        if (Settings::PrecastSkills.find(Globals::RenderData.current_build_key) != Settings::PrecastSkills.end())
-            Globals::RenderData.precast_skills_order = Settings::PrecastSkills[Globals::RenderData.current_build_key];
-    }
-
-    ImGui::SetNextWindowSize(ImVec2(800, 500), ImGuiCond_Once);
-    if (ImGui::Begin("Precast Skills Configuration", &show_precast_window))
-    {
-        ImGui::TextWrapped("Drag and drop skills to arrange your precast order for this build.");
-        ImGui::Separator();
-
-        if (Globals::RotationRun.all_rotation_steps.empty())
-        {
-            ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "No rotation loaded. Load a build first.");
-            ImGui::End();
-            return;
-        }
-
-        ImGui::Text("Build: %s", Globals::RenderData.current_build_key.c_str());
-
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Precast Skills Order:");
-        ImGui::Separator();
-
-        if (Globals::RenderData.precast_skills_order.empty())
-        {
-            ImGui::TextDisabled("No precast skills configured yet.");
-        }
-        else
-        {
-            ImGui::BeginChild("precast_list", ImVec2(0, 100), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
-
-            const float icon_size = 48.0f;
-            const float spacing = ImGui::GetStyle().ItemSpacing.x;
-            float current_x = 0.0f;
-
-            for (size_t i = 0; i < Globals::RenderData.precast_skills_order.size(); ++i)
-            {
-                auto skill_id = Globals::RenderData.precast_skills_order[i];
-                const auto skill_it = Globals::RotationRun.rotation_skills.find(static_cast<SkillID>(skill_id));
-
-                if (skill_it != Globals::RotationRun.rotation_skills.end())
-                {
-                    const auto &skill = skill_it->second;
-
-                    if (skill.texture)
-                    {
-                        if (current_x + icon_size > ImGui::GetWindowWidth() - 20.0f && i > 0)
-                        {
-                            current_x = 0.0f;
-                            ImGui::Dummy(ImVec2(0, spacing));
-                        }
-                        else if (i > 0)
-                        {
-                            ImGui::SameLine();
-                        }
-
-                        ImGui::PushID(static_cast<int>(i));
-
-                        ImGui::Image((ImTextureID)skill.texture, ImVec2(icon_size, icon_size));
-
-                        if (ImGui::IsItemHovered())
-                        {
-                            ImGui::BeginTooltip();
-                            ImGui::Text("%zu. %s", i + 1, skill.name.c_str());
-                            ImGui::EndTooltip();
-                        }
-
-                        if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Left, 5.0f))
-                            Globals::RenderData.precast_drag_source = i;
-
-                        if (ImGui::IsItemHovered() && ImGui::IsMouseReleased(ImGuiMouseButton_Left) &&
-                            Globals::RenderData.precast_drag_source >= 0 && Globals::RenderData.precast_drag_source != static_cast<int>(i))
-                        {
-                            // Swap items
-                            std::swap(Globals::RenderData.precast_skills_order[Globals::RenderData.precast_drag_source], Globals::RenderData.precast_skills_order[i]);
-                            Globals::RenderData.precast_drag_source = -1;
-                        }
-
-                        if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
-                        {
-                            Globals::RenderData.precast_skills_order.erase(Globals::RenderData.precast_skills_order.begin() + i);
-                            ImGui::PopID();
-                            break;
-                        }
-
-                        ImGui::PopID();
-                        current_x += icon_size + spacing;
-                    }
-                }
-            }
-
-            ImGui::EndChild();
-        }
-
-        ImGui::Separator();
-
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Available Skills:");
-        ImGui::Separator();
-
-        ImGui::BeginChild("available_skills", ImVec2(0, 150), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
-
-        const float icon_size = 48.0f;
-        const float spacing = ImGui::GetStyle().ItemSpacing.x;
-        float current_x = 0.0f;
-        int icon_count = 0;
-
-        for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
-        {
-            if (rotation_skill.texture)
-            {
-                if (current_x + icon_size > ImGui::GetWindowWidth() - 20.0f && icon_count > 0)
-                {
-                    current_x = 0.0f;
-                    ImGui::Dummy(ImVec2(0, spacing));
-                }
-                else if (icon_count > 0)
-                {
-                    ImGui::SameLine();
-                }
-
-                ImGui::PushID(static_cast<int>(skill_id));
-
-                ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
-
-                if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
-                    Globals::RenderData.precast_skills_order.push_back(static_cast<uint32_t>(skill_id));
-
-                if (ImGui::IsItemHovered())
-                {
-                    ImGui::BeginTooltip();
-                    ImGui::Text("%s", rotation_skill.name.c_str());
-                    ImGui::Text("Click to add to precast list");
-                    ImGui::EndTooltip();
-                }
-
-                ImGui::PopID();
-                current_x += icon_size + spacing;
-                icon_count++;
-            }
-        }
-
-        ImGui::EndChild();
-
-        ImGui::Separator();
-
-        const auto button_width = ImGui::GetWindowSize().x * 0.33f - ImGui::GetStyle().ItemSpacing.x;
-
-        if (ImGui::Button("Save", ImVec2(button_width, 0)))
-        {
-            if (!Globals::RenderData.current_build_key.empty())
-            {
-                Settings::PrecastSkills[Globals::RenderData.current_build_key] = Globals::RenderData.precast_skills_order;
-                Settings::Save(Globals::SettingsPath);
-
-                char log_msg[256];
-                snprintf(log_msg,
-                         sizeof(log_msg),
-                         "Precast skills configuration saved for build: %s",
-                         Globals::RenderData.current_build_key.c_str());
-                (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
-            }
-        }
-
-        ImGui::SameLine();
-
-        if (ImGui::Button("Reset", ImVec2(button_width, 0)))
-        {
-            Globals::RenderData.precast_skills_order.clear();
-            if (!Globals::RenderData.current_build_key.empty())
-            {
-                Settings::PrecastSkills.erase(Globals::RenderData.current_build_key);
-                Settings::Save(Globals::SettingsPath);
-
-                char log_msg[256];
-                snprintf(log_msg,
-                         sizeof(log_msg),
-                         "Precast skills configuration reset for build: %s",
-                         Globals::RenderData.current_build_key.c_str());
-                (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
-            }
-        }
-
-        ImGui::SameLine();
-
-        if (ImGui::Button("Remove Last", ImVec2(button_width, 0)))
-        {
-            if (!Globals::RenderData.precast_skills_order.empty())
-                Globals::RenderData.precast_skills_order.pop_back();
-
-            if (Globals::RenderData.precast_skills_order.empty())
-                Settings::Save(Globals::SettingsPath);
-        }
-    }
-
-    ImGui::End();
 }
