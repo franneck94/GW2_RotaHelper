@@ -242,49 +242,7 @@ void KeypressSkillDetectionLogic(RotationLogType &rotation_run)
     auto detected_skill_slot = SkillSlot::NONE;
     std::string detected_action_name = "";
 
-    switch (gw2_key)
-    {
-    case Keys::ONE:
-        detected_skill_slot = SkillSlot::WEAPON_1;
-        detected_action_name = "Weapon Skill 1";
-        break;
-    case Keys::TWO:
-        detected_skill_slot = SkillSlot::WEAPON_2;
-        detected_action_name = "Weapon Skill 2";
-        break;
-    case Keys::THREE:
-        detected_skill_slot = SkillSlot::WEAPON_3;
-        detected_action_name = "Weapon Skill 3";
-        break;
-    case Keys::FOUR:
-        detected_skill_slot = SkillSlot::WEAPON_4;
-        detected_action_name = "Weapon Skill 4";
-        break;
-    case Keys::FIVE:
-        detected_skill_slot = SkillSlot::WEAPON_5;
-        detected_action_name = "Weapon Skill 5";
-        break;
-    case Keys::SIX:
-        detected_skill_slot = SkillSlot::HEAL;
-        detected_action_name = "Heal Skill";
-        break;
-    case Keys::SEVEN:
-        detected_skill_slot = SkillSlot::UTILITY_1;
-        detected_action_name = "Utility Skill 1";
-        break;
-    case Keys::EIGHT:
-        detected_skill_slot = SkillSlot::UTILITY_2;
-        detected_action_name = "Utility Skill 2";
-        break;
-    case Keys::NINE:
-        detected_skill_slot = SkillSlot::UTILITY_3;
-        detected_action_name = "Utility Skill 3";
-        break;
-    case Keys::ZERO:
-        detected_skill_slot = SkillSlot::ELITE;
-        detected_action_name = "Elite Skill";
-        break;
-    }
+    default_gw2key_to_skillslot_mapping(gw2_key, detected_skill_slot, detected_action_name);
 
     for (const auto &[action_name, keybind_info] : Globals::RenderData.keybinds)
     {
@@ -326,23 +284,14 @@ void KeypressSkillDetectionLogic(RotationLogType &rotation_run)
     const auto rota_keybind_str = rotation_run.get_keybind_str(curr_rota_skill, Globals::RenderData.keybinds);
     const auto casted_keybind_str = rotation_run.get_keybind_str(casted_skill, Globals::RenderData.keybinds);
 
-    // Debug logging for key detection
-    if (detected_skill_slot != SkillSlot::NONE)
+    if (casted_keybind_str == rota_keybind_str && detected_skill_id == curr_skill_id)
     {
-        const auto debug_msg = "Key pressed: " + std::to_string(currentKeys[0]) +
-                               " -> Action: " + detected_action_name +
-                               " -> Skill ID: " + std::to_string(static_cast<uint32_t>(detected_skill_id));
-        (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", debug_msg.c_str());
-    }
+        const auto success_msg = "Matched skill: " + curr_rota_skill.skill_data.name +
+                                 " (ID: " + std::to_string((uint32_t)curr_skill_id) + ")";
+        (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", success_msg.c_str());
 
-    if (!rota_keybind_str.empty())
-    {
-        const auto msg = "Current skill: " + curr_rota_skill.skill_data.name +
-                         " (ID: " + std::to_string((uint32_t)curr_skill_id) + ") - Keybind: " + rota_keybind_str;
-        (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", msg.c_str());
+        currentKeys.clear();
     }
-
-    int i = 2;
 }
 
 /**
