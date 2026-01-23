@@ -45,4 +45,7 @@ std::map<SkillID, std::chrono::steady_clock::time_point> SkillLastTimeCast = {};
 std::string LastArcEventSkillName = "";
 
 std::vector<uint32_t> CurrentlyPressedKeys = {};
+
+SkillID LastKeyPressSkillID = SkillID{0};
+std::chrono::steady_clock::time_point LastKeyPressSkillTime = std::chrono::steady_clock::now();
 }; // namespace Globals
