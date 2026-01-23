@@ -286,7 +286,7 @@ void KeypressSkillDetectionLogic(RotationLogType &rotation_run)
         break;
     }
 
-    for (const auto &[action_name, keybind_info] : Globals::Render.keybinds)
+    for (const auto &[action_name, keybind_info] : Globals::RenderData.keybinds)
     {
         if (keybind_info.button == gw2_key && keybind_info.device == Device::KEYBOARD &&
             keybind_info.modifier == Modifiers::NONE)
@@ -323,8 +323,8 @@ void KeypressSkillDetectionLogic(RotationLogType &rotation_run)
     const auto rota_window = GetRotaSkillWindow(rotation_run, timers);
     const auto curr_rota_skill = rota_window.curr_rota_skill;
     const auto curr_skill_id = curr_rota_skill.skill_data.skill_id;
-    const auto rota_keybind_str = rotation_run.get_keybind_str(curr_rota_skill, Globals::Render.keybinds);
-    const auto casted_keybind_str = rotation_run.get_keybind_str(casted_skill, Globals::Render.keybinds);
+    const auto rota_keybind_str = rotation_run.get_keybind_str(curr_rota_skill, Globals::RenderData.keybinds);
+    const auto casted_keybind_str = rotation_run.get_keybind_str(casted_skill, Globals::RenderData.keybinds);
 
     // Debug logging for key detection
     if (detected_skill_slot != SkillSlot::NONE)
