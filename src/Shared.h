@@ -11,6 +11,8 @@
 #include "rtapi/RTAPI.hpp"
 
 #include "Render.h"
+#include "OptionsRender.h"
+#include "RotationRender.h"
 #include "Types.h"
 
 namespace Globals
@@ -23,7 +25,6 @@ extern Mumble::Data *MumbleData;
 extern ArcDPS::Exports ArcExports;
 
 extern std::filesystem::path Logpath;
-extern RenderType Render;
 extern RotationLogType RotationRun;
 extern TextureMapType TextureMap;
 extern std::filesystem::path SettingsPath;
@@ -31,6 +32,11 @@ extern float SkillIconSize;
 extern std::string VersionString;
 extern std::string BenchFilesLowerVersionString;
 extern std::string BenchFilesUpperVersionString;
+
+extern RenderDataType RenderData;
+extern RenderType Render;
+extern OptionsRenderType OptionsRender;
+extern RotationRenderType RotationRender;
 
 extern DownloadState BenchDataDownloadState;
 extern bool ExtractedBenchData;
