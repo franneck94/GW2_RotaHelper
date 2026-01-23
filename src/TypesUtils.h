@@ -9,6 +9,8 @@
 #include "FileUtils.h"
 #include "Types.h"
 
+void default_gw2key_to_skillslot_mapping(const Keys gw2_key, SkillSlot &detected_skill_slot, std::string &detected_action_name);
+
 ProfessionID string_to_profession(const std::string &profession_name);
 
 EliteSpecID string_to_elite_spec(const std::string &spec_name);
