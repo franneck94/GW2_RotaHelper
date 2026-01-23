@@ -8,6 +8,7 @@
 #include <thread>
 #include <vector>
 
+#include <windows.h>
 #include <shlwapi.h>
 #include <urlmon.h>
 #include <wininet.h>
@@ -698,4 +699,39 @@ void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath)
             (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "DownloadAndExtractDataAsync failed.");
         }
     }).detach();
+}
+
+bool FileSelection()
+{
+    OPENFILENAME ofn;
+    CHAR szFile[260] = {0};
+
+    ZeroMemory(&ofn, sizeof(ofn));
+    ofn.lStructSize = sizeof(ofn);
+    ofn.lpstrFile = szFile;
+    ofn.nMaxFile = sizeof(szFile);
+    ofn.lpstrFilter = "XML Files\0*.xml\0All Files\0*.*\0";
+    ofn.nFilterIndex = 1;
+    ofn.lpstrFileTitle = NULL;
+    ofn.nMaxFileTitle = 0;
+    ofn.lpstrInitialDir = "C:/";
+    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
+
+    if (GetOpenFileName(&ofn) == TRUE)
+    {
+        Settings::XmlSettingsPath = std::filesystem::path(szFile);
+        Settings::Save(Globals::SettingsPath);
+        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Loaded XML InputBinds File.");
+
+        if (std::filesystem::exists(Settings::XmlSettingsPath))
+        {
+            Globals::RenderData.keybinds = parse_xml_keybinds(Settings::XmlSettingsPath);
+            Globals::RenderData.keybinds_loaded = true;
+            (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "parsed XML InputBinds File.");
+        }
+
+        return true;
+    }
+
+    return false;
 }
