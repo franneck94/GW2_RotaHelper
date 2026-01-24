@@ -62,7 +62,7 @@ void OptionsRenderType::render()
 
             ImGui::Text("Failed Downloading/Extracting Bench Data.");
             ImGui::Text("Please send me a screenshot of the log messages.");
-            ImGui::Text("For now, you can download it manually from GitHub see: ");
+            ImGui::Text("For now, you can download manually from GitHub see: ");
             ImGui::Text("https://github.com/franneck94/GW2_RotaHelper");
             ImGui::End();
             return;

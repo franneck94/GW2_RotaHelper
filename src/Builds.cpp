@@ -154,6 +154,7 @@ static const std::set<std::string_view> green_tick_builds = {
     "power_soulbeast_hammer_axe_axe",
     "power_spellbreaker_sword_mace_dagger_axe",
     "power_spellbreaker_hammer_dagger_mace",
+    "power_berserker_tactics_spear_greatsword",
     // POWER BOON BUILDS
     "power_quickness_harbinger_greatsword_spear",
     "power_alacrity_mechanist_sword_pistol",
@@ -161,6 +162,7 @@ static const std::set<std::string_view> green_tick_builds = {
     "power_quickness_berserker_spear_axe_axe",
     "power_quickness_berserker_greatsword_axe_axe",
     "power_quickness_harbinger",
+    "power_quickness_berserker_tactics_spear_greatsword",
     "power_quickness_galeshot_longbow_axe_axe",
     // CONDITION BUILDS
     "condition_harbinger",

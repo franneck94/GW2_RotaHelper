@@ -12,7 +12,7 @@ An increase in the first number indicates an update of the rotation logs/builds.
 An increase of the second number indicates changes in only the code logic.  
 An increase in the third number indicates bugfixes only.
 
-## 1.2.0 - 2026-01-20
+## 2.0.0 - 2026-01-20
 
 ## Features
 
@@ -22,6 +22,10 @@ An increase in the third number indicates bugfixes only.
 - The user can define a list of pre-cast skills before the dmg log starts
   - This is just a visual feature to better memorize what precast need to be done
   - This will be stored for each selected build individually
+
+## Improvements
+
+- Improved for GS/Spear Berserker
 
 ### Notes
 

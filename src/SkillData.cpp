@@ -213,6 +213,9 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::ARCING_SLICE,
     SkillID::CHANT_OF_ACTION,
     SkillID::FLAMES_OF_WAR,
+    SkillID::BLADETRAIL,
+    SkillID::SPEARMARSHAL_S_SUPPORT,
+    SkillID::RUSH,
     // ENGINEER
     SkillID::DEVASTATOR,
     SkillID::FLAME_BLAST,
@@ -519,6 +522,7 @@ const std::set<SkillID> special_substr_to_remove_duplicates = {
     SkillID::WOLF_S_ONSLAUGHT,
     // WARRIOR
     SkillID::SIGNET_OF_FURY,
+    SkillID::RUSH,
     // NA
     SkillID::DEATHSTRIKE,
     SkillID::UNLEASHED_OVERBEARING_SMASH,

@@ -323,18 +323,43 @@ class SnowCrowsScraper:
         builds = []
 
         try:
-            # Pattern to match the build card structure with both name and weapons
-            # This pattern captures build cards that contain both a link and weapon information
-            build_card_pattern = re.compile(
-                r'<div class="md:flex-grow">\s*'
-                r'<div class="uppercase text-xs font-bold[^"]*">[^<]*</div>\s*'
-                r'<a href="(/builds/raids/[^"]+)"[^>]*>([^<]+)</a>\s*'
-                r"(?:[^<]*<[^>]*>[^<]*)*?"  # Skip any intermediate elements
-                r'<div class="text-xs">([^<]+)</div>',
-                re.IGNORECASE | re.DOTALL,
+            # Optimized pattern to avoid catastrophic backtracking
+            # Look for build URLs and names more directly, handling whitespace properly
+            build_url_pattern = re.compile(
+                r'<a\s+href="(/builds/raids/[^"]+)"[^>]*>\s*([^<]+?)\s*(?:<!--.*?-->)?\s*</a>',
+                re.IGNORECASE | re.DOTALL
             )
 
-            matches = build_card_pattern.findall(html_content)
+            # Find weapons pattern separately to avoid complex nesting
+            weapons_pattern = re.compile(
+                r'<div\s+class="text-xs">([^<]+?)</div>',
+                re.IGNORECASE
+            )
+
+            # Get all build URLs and names
+            url_matches = build_url_pattern.findall(html_content)
+
+            # For each URL match, find the corresponding weapons info nearby
+            matches = []
+            for build_url, build_name in url_matches:
+                # Clean up the build name (remove extra whitespace and HTML comments)
+                build_name = re.sub(r'\s+', ' ', build_name.strip())
+
+                # Find the position of this match in the HTML
+                match_text = f'href="{build_url}"'
+                match_pos = html_content.find(match_text)
+                if match_pos != -1:
+                    # Look for weapons info in a reasonable range after the link
+                    search_start = match_pos
+                    search_end = min(match_pos + 1000, len(html_content))  # Reduced search range
+                    search_section = html_content[search_start:search_end]
+
+                    weapons_match = weapons_pattern.search(search_section)
+                    weapons = weapons_match.group(1).strip() if weapons_match else ""
+                    # Clean up HTML entities in weapons
+                    weapons = weapons.replace("&amp;", "&")
+
+                    matches.append((build_url, build_name, weapons))
 
             for match in matches:
                 build_url, build_name, weapons = match
@@ -343,70 +368,17 @@ class SnowCrowsScraper:
                 build_name = build_name.strip()
                 weapons = weapons.strip()
 
-                # Clean up HTML entities in weapons
-                weapons = weapons.replace("&amp;", "&")
+                if "?" not in build_url and build_url.count("/") > 3:
+                    builds.append({"url": build_url, "name": build_name, "weapons": weapons})
 
-                builds.append({"url": build_url, "name": build_name, "weapons": weapons})
-
-            self.logger.info(f"Extracted {len(builds)} builds using new layout pattern")
+            self.logger.info(f"Extracted {len(builds)} builds using optimized pattern")
 
             # Fallback: if the new pattern doesn't work, try the old approach
             if not builds:
-                self.logger.warning("New pattern failed, trying fallback approach")
-                builds = self._extract_builds_fallback(html_content, recent_only)
+                self.logger.warning("Optimized pattern failed, no builds found")
 
         except Exception as e:
             self.logger.exception(f"Error extracting builds from page: {e}")
-            # Try fallback approach
-            builds = self._extract_builds_fallback(html_content)
-
-        return builds
-
-    def _extract_builds_fallback(self, html_content: str, recent_only: bool = False) -> list[dict]:
-        """Fallback method for extracting builds using the old approach"""
-        builds = []
-
-        try:
-            # Old pattern for build URLs
-            build_url_pattern = re.compile(
-                r'<a\s+href="(/builds/raids/[^"]+)"',
-                re.IGNORECASE,
-            )
-
-            build_urls = build_url_pattern.findall(html_content)
-            self.logger.info(f"Fallback: Found {len(build_urls)} build URLs")
-
-            for build_url in build_urls:
-                url_parts = build_url.strip("/").split("/")
-                if len(url_parts) >= 4:
-                    url_name = url_parts[-1]
-                    readable_name = self._url_to_readable_name(url_name)
-
-                    # Check for recent update in fallback mode (limited detection)
-                    build_card_context = self._extract_build_card_context(html_content, build_url)
-                    recently_updated = (
-                        '<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-500 opacity-75"></span>'
-                    ) in build_card_context and (
-                        '<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-purple-400"></span>'
-                        in build_card_context
-                    )
-
-                    # If recent_only is True, skip builds that aren't recently updated
-                    if recent_only and not recently_updated:
-                        continue
-
-                    if build_url not in {b["url"] for b in builds}:
-                        builds.append(
-                            {
-                                "url": build_url,
-                                "name": readable_name,
-                                "weapons": "",  # No weapon info available in fallback
-                                "recently_updated": recently_updated,
-                            },
-                        )
-
-        except Exception as e:
-            self.logger.exception(f"Error in fallback extraction: {e}")
 
         return builds
 
