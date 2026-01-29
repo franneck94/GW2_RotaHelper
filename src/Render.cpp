@@ -67,7 +67,8 @@ void RenderType::append_to_played_rotation(const EvCombatDataPersistent &combat_
 {
     if (Globals::RenderData.played_rotation.size() > 300)
     {
-        auto last_100 = std::vector<EvCombatDataPersistent>(Globals::RenderData.played_rotation.end() - 100, Globals::RenderData.played_rotation.end());
+        auto last_100 = std::vector<EvCombatDataPersistent>(Globals::RenderData.played_rotation.end() - 100,
+                                                            Globals::RenderData.played_rotation.end());
         Globals::RenderData.played_rotation = std::move(last_100);
     }
 
@@ -156,6 +157,9 @@ void RenderType::render(ID3D11Device *pd3dDevice)
     if (!Settings::ShowWindow)
         return;
 
+    if (Globals::RotationRun.all_rotation_steps.size() > 0 && Globals::RenderData.current_build_key.empty())
+        Globals::RenderData.current_build_key = Globals::RotationRun.meta_data.name;
+
     KeypressSkillDetectionLogic(Globals::RotationRun);
 
     if (Globals::RenderData.skill_event_in_this_frame)
@@ -203,7 +207,8 @@ void RenderType::render(ID3D11Device *pd3dDevice)
         return;
 
     if (Globals::TextureMap.size() == 0)
-        Globals::TextureMap = LoadAllSkillTextures(pd3dDevice, Globals::RotationRun.log_skill_info_map, Globals::RenderData.img_path);
+        Globals::TextureMap =
+            LoadAllSkillTextures(pd3dDevice, Globals::RotationRun.log_skill_info_map, Globals::RenderData.img_path);
 
     if (!IsValidMap())
         return;

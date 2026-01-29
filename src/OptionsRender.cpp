@@ -164,6 +164,7 @@ void OptionsRenderType::render_precast_window()
         if (Settings::PrecastSkills.find(Globals::RenderData.current_build_key) != Settings::PrecastSkills.end())
             Globals::RenderData.precast_skills_order = Settings::PrecastSkills[Globals::RenderData.current_build_key];
     }
+    auto curr_build_key = Globals::RenderData.current_build_key;
 
     ImGui::SetNextWindowSize(ImVec2(800, 500), ImGuiCond_Once);
     if (ImGui::Begin("Precast Skills Configuration", &show_precast_window))
@@ -178,7 +179,7 @@ void OptionsRenderType::render_precast_window()
             return;
         }
 
-        ImGui::Text("Build: %s", Globals::RenderData.current_build_key.c_str());
+        ImGui::Text("Build: %s", curr_build_key.c_str());
 
         ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Precast Skills Order:");
         ImGui::Separator();
@@ -312,9 +313,9 @@ void OptionsRenderType::render_precast_window()
 
         if (ImGui::Button("Save", ImVec2(button_width, 0)))
         {
-            if (!Globals::RenderData.current_build_key.empty())
+            if (!curr_build_key.empty())
             {
-                Settings::PrecastSkills[Globals::RenderData.current_build_key] =
+                Settings::PrecastSkills[curr_build_key] =
                     Globals::RenderData.precast_skills_order;
                 Settings::Save(Globals::SettingsPath);
 
@@ -322,7 +323,7 @@ void OptionsRenderType::render_precast_window()
                 snprintf(log_msg,
                          sizeof(log_msg),
                          "Precast skills configuration saved for build: %s",
-                         Globals::RenderData.current_build_key.c_str());
+                         curr_build_key.c_str());
                 (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
             }
         }
@@ -332,16 +333,16 @@ void OptionsRenderType::render_precast_window()
         if (ImGui::Button("Reset", ImVec2(button_width, 0)))
         {
             Globals::RenderData.precast_skills_order.clear();
-            if (!Globals::RenderData.current_build_key.empty())
+            if (!curr_build_key.empty())
             {
-                Settings::PrecastSkills.erase(Globals::RenderData.current_build_key);
+                Settings::PrecastSkills.erase(curr_build_key);
                 Settings::Save(Globals::SettingsPath);
 
                 char log_msg[256];
                 snprintf(log_msg,
                          sizeof(log_msg),
                          "Precast skills configuration reset for build: %s",
-                         Globals::RenderData.current_build_key.c_str());
+                         curr_build_key.c_str());
                 (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
             }
         }
@@ -425,11 +426,21 @@ void OptionsRenderType::render_skill_slots_window()
     if (!show_skill_slots_window)
         return;
 
+    static std::string last_build_key = "";
     if (Globals::RotationRun.all_rotation_steps.size() > 0 && Globals::RenderData.current_build_key.empty())
         Globals::RenderData.current_build_key = Globals::RotationRun.meta_data.name;
 
+    if (!Globals::RenderData.current_build_key.empty() && last_build_key != Globals::RenderData.current_build_key)
+        last_build_key = Globals::RenderData.current_build_key;
+    auto curr_build_key = Globals::RenderData.current_build_key;
+
     SetCurrentSkillMappings();
-    auto &current_mappings = Settings::UtilitySkillSlots[Globals::RenderData.current_build_key];
+    if (Settings::UtilitySkillSlots.find(curr_build_key) == Settings::UtilitySkillSlots.end())
+        return;
+
+    auto &current_mappings = Settings::UtilitySkillSlots[curr_build_key];
+    if (current_mappings.empty())
+        return;
 
     ImGui::SetNextWindowSize(ImVec2(700, 400), ImGuiCond_Once);
     if (ImGui::Begin("Skill Slot Mapping Configuration", &show_skill_slots_window))
@@ -444,7 +455,7 @@ void OptionsRenderType::render_skill_slots_window()
             return;
         }
 
-        ImGui::Text("Build: %s", Globals::RenderData.current_build_key.c_str());
+        ImGui::Text("Build: %s", curr_build_key.c_str());
         ImGui::Separator();
 
         ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Utility Skill Slots:");
@@ -478,7 +489,8 @@ void OptionsRenderType::render_skill_slots_window()
                 if (skill_it != Globals::RotationRun.rotation_skills.end())
                 {
                     const auto &skill = skill_it->second;
-                    if (skill.texture)
+                    // Validate texture pointer before using it
+                    if (skill.texture && skill.texture != nullptr)
                     {
                         ImGui::Image((ImTextureID)skill.texture, ImVec2(32.0f, 32.0f));
                         ImGui::SameLine();
@@ -486,7 +498,7 @@ void OptionsRenderType::render_skill_slots_window()
                     }
                     else
                     {
-                        ImGui::Text("%s", skill.name.c_str());
+                        ImGui::TextDisabled("Invalid skill data");
                     }
 
                     ImGui::SameLine();
@@ -500,7 +512,9 @@ void OptionsRenderType::render_skill_slots_window()
                 }
                 else
                 {
-                    ImGui::TextDisabled("Unknown skill (ID: %u)", mapped_skill_id->second);
+                    ImGui::TextDisabled("Unknown skill (ID: %u) - clearing invalid mapping", mapped_skill_id->second);
+                    // Remove invalid mapping to prevent future issues
+                    current_mappings.erase(mapped_skill_id);
                 }
             }
             else
@@ -515,7 +529,12 @@ void OptionsRenderType::render_skill_slots_window()
                 if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("SKILL_ICON"))
                 {
                     auto skill_id = *static_cast<const uint32_t *>(payload->Data);
-                    current_mappings[slot_key] = skill_id;
+                    // Validate that the skill ID exists in the current rotation before mapping
+                    const auto skill_it = Globals::RotationRun.rotation_skills.find(static_cast<SkillID>(skill_id));
+                    if (skill_it != Globals::RotationRun.rotation_skills.end())
+                    {
+                        current_mappings[slot_key] = skill_id;
+                    }
                 }
                 ImGui::EndDragDropTarget();
             }
@@ -544,7 +563,8 @@ void OptionsRenderType::render_skill_slots_window()
                 continue;
             }
 
-            if (rotation_skill.texture)
+            // Validate texture pointer before using it
+            if (rotation_skill.texture && rotation_skill.texture != nullptr)
             {
                 if (current_x + icon_size > ImGui::GetWindowWidth() - 20.0f && icon_count > 0)
                 {
@@ -566,9 +586,12 @@ void OptionsRenderType::render_skill_slots_window()
                     auto skill_id_copy = static_cast<uint32_t>(skill_id);
                     ImGui::SetDragDropPayload("SKILL_ICON", &skill_id_copy, sizeof(uint32_t));
 
-                    // Show preview during drag
-                    ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(32.0f, 32.0f));
-                    ImGui::SameLine();
+                    // Show preview during drag - validate texture again
+                    if (rotation_skill.texture && rotation_skill.texture != nullptr)
+                    {
+                        ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(32.0f, 32.0f));
+                        ImGui::SameLine();
+                    }
                     ImGui::Text("%s", rotation_skill.name.c_str());
 
                     ImGui::EndDragDropSource();
@@ -596,7 +619,7 @@ void OptionsRenderType::render_skill_slots_window()
 
         if (ImGui::Button("Save", ImVec2(button_width, 0)))
         {
-            if (!Globals::RenderData.current_build_key.empty())
+            if (!curr_build_key.empty())
             {
                 Settings::Save(Globals::SettingsPath);
 
@@ -604,7 +627,7 @@ void OptionsRenderType::render_skill_slots_window()
                 snprintf(log_msg,
                          sizeof(log_msg),
                          "Skill slot mapping saved for build: %s",
-                         Globals::RenderData.current_build_key.c_str());
+                         curr_build_key.c_str());
                 (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
             }
         }
@@ -613,16 +636,16 @@ void OptionsRenderType::render_skill_slots_window()
 
         if (ImGui::Button("Reset", ImVec2(button_width, 0)))
         {
-            if (!Globals::RenderData.current_build_key.empty())
+            if (!curr_build_key.empty())
             {
-                Settings::UtilitySkillSlots.erase(Globals::RenderData.current_build_key);
+                Settings::UtilitySkillSlots.erase(curr_build_key);
                 Settings::Save(Globals::SettingsPath);
 
                 char log_msg[256];
                 snprintf(log_msg,
                          sizeof(log_msg),
                          "Skill slot mapping reset for build: %s",
-                         Globals::RenderData.current_build_key.c_str());
+                         curr_build_key.c_str());
                 (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
             }
         }

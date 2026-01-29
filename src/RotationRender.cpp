@@ -205,9 +205,6 @@ void RotationRenderType::render_rotation_horizontal()
 
     if (start < 1 && Settings::ShowPreCasts)
     {
-        if (Globals::RotationRun.all_rotation_steps.size() > 0 && Globals::RenderData.current_build_key.empty())
-            Globals::RenderData.current_build_key = Globals::RotationRun.meta_data.name;
-
         if (Globals::RenderData.precast_skills_order.empty() && !Globals::RenderData.current_build_key.empty() &&
             Globals::RotationRun.all_rotation_steps.size() > 0)
         {
