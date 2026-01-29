@@ -47,6 +47,136 @@ namespace
 {
 auto DODGE_ICON_ID = 2;
 auto UNK_SKILL_ICON_ID = 0;
+
+
+SkillSlot GetSkillSlotFromSettings(const SkillID skill_id)
+{
+    auto curr_build_key = Globals::RenderData.current_build_key;
+    auto &current_mappings = Settings::UtilitySkillSlots[curr_build_key];
+
+    if (current_mappings.find("UTILITY_1") != current_mappings.end())
+    {
+        const auto skill_id_slot_7 = static_cast<SkillID>(current_mappings["UTILITY_1"]);
+        if (skill_id == skill_id_slot_7)
+            return SkillSlot::UTILITY_1;
+    }
+    if (current_mappings.find("UTILITY_2") != current_mappings.end())
+    {
+        const auto skill_id_slot_8 = static_cast<SkillID>(current_mappings["UTILITY_2"]);
+        if (skill_id == skill_id_slot_8)
+            return SkillSlot::UTILITY_2;
+    }
+    if (current_mappings.find("UTILITY_3") != current_mappings.end())
+    {
+        const auto skill_id_slot_9 = static_cast<SkillID>(current_mappings["UTILITY_3"]);
+        if (skill_id == skill_id_slot_9)
+            return SkillSlot::UTILITY_3;
+    }
+
+    return SkillSlot::NONE;
+}
+
+std::string DefaultKeybinds(const int icon_id, const SkillSlot skill_slot)
+{
+    const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
+
+    if (skill_key_mapping.skill_7 == icon_id)
+        return "7";
+    else if (skill_key_mapping.skill_8 == icon_id)
+        return "8";
+    else if (skill_key_mapping.skill_9 == icon_id)
+        return "9";
+    else
+        return default_skillslot_to_string(skill_slot);
+}
+
+std::string KeybindWithoutXML(const SkillID skill_id, const int icon_id, SkillSlot skill_slot)
+{
+    const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
+    const auto is_util_skill =
+        skill_slot == SkillSlot::UTILITY_1 || skill_slot == SkillSlot::UTILITY_2 || skill_slot == SkillSlot::UTILITY_3;
+
+    if (is_util_skill)
+        skill_slot = GetSkillSlotFromSettings(skill_id);
+
+    return DefaultKeybinds(icon_id, skill_slot);
+}
+
+std::string KeybindFromMappingAndXML(const SkillID skill_id, const int icon_id, SkillSlot skill_slot)
+{
+    const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
+    const auto is_util_skill =
+        skill_slot == SkillSlot::UTILITY_1 || skill_slot == SkillSlot::UTILITY_2 || skill_slot == SkillSlot::UTILITY_3;
+    const auto &[keybind, modifier] = get_keybind_for_skill_type(skill_slot, Globals::RenderData.keybinds);
+
+    if (is_util_skill)
+    {
+        auto _skill_slot = GetSkillSlotFromSettings(skill_id);
+        if (_skill_slot != SkillSlot::NONE)
+            skill_slot = _skill_slot;
+    }
+
+    if (keybind == Keys::NONE)
+        return DefaultKeybinds(icon_id, skill_slot);
+
+    auto keybind_str = custom_keys_to_string(keybind);
+    auto mod_str = modifiers_to_string(modifier);
+
+    if (!mod_str.empty())
+        return mod_str + " + " + keybind_str;
+
+    return keybind_str;
+}
+
+std::string KeybindWithXML(const SkillID skill_id, const int icon_id, SkillSlot skill_slot)
+{
+    const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
+    const auto is_util_skill =
+        skill_slot == SkillSlot::UTILITY_1 || skill_slot == SkillSlot::UTILITY_2 || skill_slot == SkillSlot::UTILITY_3;
+    auto keybind_str = std::string{};
+
+    const auto &[keybind, modifier] = get_keybind_for_skill_type(skill_slot, Globals::RenderData.keybinds);
+
+    if (is_util_skill || keybind == Keys::NONE)
+    {
+        keybind_str = KeybindFromMappingAndXML(skill_id, icon_id, skill_slot);
+    }
+    else
+    {
+        keybind_str = custom_keys_to_string(keybind);
+        keybind_str = modifiers_to_string(modifier) + " + " + keybind_str;
+    }
+
+    return keybind_str;
+}
+
+void DrawKeybind(const std::string &keybind_str)
+{
+    auto *draw_list = ImGui::GetWindowDrawList();
+    const auto icon_pos = ImGui::GetItemRectMin();
+    const auto icon_size = ImGui::GetItemRectSize();
+
+    auto text_size = ImGui::CalcTextSize(keybind_str.c_str());
+    auto padding = 2.0f;
+    auto text_pos = ImVec2{};
+
+    if (keybind_str.length() <= 4)
+    {
+        text_pos =
+            ImVec2(icon_pos.x + icon_size.x - text_size.x - padding, icon_pos.y + icon_size.y - text_size.y - padding);
+    }
+    else
+    {
+        text_pos =
+            ImVec2(icon_pos.x + (icon_size.x - text_size.x) * 0.5f, icon_pos.y + icon_size.y - text_size.y - padding);
+    }
+
+    draw_list->AddRectFilled(ImVec2(text_pos.x - 2, text_pos.y - 1),
+                             ImVec2(text_pos.x + text_size.x + 2, text_pos.y + text_size.y + 1),
+                             IM_COL32(0, 0, 0, 180),
+                             3.0f);
+    draw_list->AddText(text_pos, IM_COL32(255, 255, 255, 255), keybind_str.c_str());
+}
 } // namespace
 
 void RotationRenderType::render()
@@ -365,69 +495,19 @@ void RotationRenderType::render_skill_texture(const RotationStep &rotation_step,
 
 void RotationRenderType::render_keybind(const RotationStep &rotation_step)
 {
-    auto *draw_list = ImGui::GetWindowDrawList();
-    const auto icon_pos = ImGui::GetItemRectMin();
-    const auto icon_size = ImGui::GetItemRectSize();
-
     const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
-    const auto skill_type = rotation_step.skill_data.skill_type;
+    const auto skill_slot = rotation_step.skill_data.skill_slot;
     const auto icon_id = rotation_step.skill_data.icon_id;
+    const auto skill_id = rotation_step.skill_data.skill_id;
 
     auto keybind_str = std::string{};
     if (Settings::XmlSettingsPath.empty())
-    {
-        if (skill_key_mapping.skill_7 == icon_id)
-            keybind_str = "7";
-        else if (skill_key_mapping.skill_8 == icon_id)
-            keybind_str = "8";
-        else if (skill_key_mapping.skill_9 == icon_id)
-            keybind_str = "9";
-        else
-            keybind_str = default_skillslot_to_string(skill_type);
-    }
+        keybind_str = KeybindWithoutXML(skill_id, icon_id, skill_slot);
     else
-    {
-        const auto &[keybind, modifier] = get_keybind_for_skill_type(skill_type, Globals::RenderData.keybinds);
-        if (keybind == Keys::NONE)
-        {
-            if (skill_key_mapping.skill_7 == icon_id)
-                keybind_str = "7";
-            else if (skill_key_mapping.skill_8 == icon_id)
-                keybind_str = "8";
-            else if (skill_key_mapping.skill_9 == icon_id)
-                keybind_str = "9";
-            else
-                keybind_str = default_skillslot_to_string(skill_type);
-        }
-        else
-            keybind_str = custom_keys_to_string(keybind);
+        keybind_str = KeybindWithXML(skill_id, icon_id, skill_slot);
 
-        if (modifier != Modifiers::NONE)
-            keybind_str = modifiers_to_string(modifier) + " + " + keybind_str;
-    }
     if (keybind_str != "")
-    {
-        auto text_size = ImGui::CalcTextSize(keybind_str.c_str());
-        auto padding = 2.0f;
-        auto text_pos = ImVec2{};
-
-        if (keybind_str.length() <= 4)
-        {
-            text_pos = ImVec2(icon_pos.x + icon_size.x - text_size.x - padding,
-                              icon_pos.y + icon_size.y - text_size.y - padding);
-        }
-        else
-        {
-            text_pos = ImVec2(icon_pos.x + (icon_size.x - text_size.x) * 0.5f,
-                              icon_pos.y + icon_size.y - text_size.y - padding);
-        }
-
-        draw_list->AddRectFilled(ImVec2(text_pos.x - 2, text_pos.y - 1),
-                                 ImVec2(text_pos.x + text_size.x + 2, text_pos.y + text_size.y + 1),
-                                 IM_COL32(0, 0, 0, 180),
-                                 3.0f);
-        draw_list->AddText(text_pos, IM_COL32(255, 255, 255, 255), keybind_str.c_str());
-    }
+        DrawKeybind(keybind_str);
 }
 
 void RotationRenderType::render_dodge_placeholder()

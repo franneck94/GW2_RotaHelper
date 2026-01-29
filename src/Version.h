@@ -14,7 +14,7 @@
 #define LOWER_VERSION_RANGE "2.0.0.0"
 #define UPPER_VERSION_RANGE "2.0.0.0"
 
-#define BUILD_DATE "2026-01-24"
+#define BUILD_DATE "2026-01-29"
 #define BUILD_STR std::string{BUILD_DATE}
 
 #endif // VERSION_H

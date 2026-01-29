@@ -380,9 +380,9 @@ std::vector<std::string> get_elite_specs_for_profession(ProfessionID profession)
     return elite_specs;
 }
 
-std::string default_skillslot_to_string(SkillSlot skill_type)
+std::string default_skillslot_to_string(SkillSlot skill_slot)
 {
-    switch (skill_type)
+    switch (skill_slot)
     {
     case SkillSlot::WEAPON_1:
         return "1";
@@ -397,11 +397,11 @@ std::string default_skillslot_to_string(SkillSlot skill_type)
     case SkillSlot::HEAL:
         return "6";
     case SkillSlot::UTILITY_1:
-        return "Util";
+        return "7";
     case SkillSlot::UTILITY_2:
-        return "Util";
+        return "8";
     case SkillSlot::UTILITY_3:
-        return "Util";
+        return "9";
     case SkillSlot::ELITE:
         return "0";
     case SkillSlot::PROFESSION_1:
@@ -610,7 +610,7 @@ std::string modifiers_to_string(Modifiers modifier)
     switch (modifier)
     {
     case Modifiers::NONE: /* 0 */
-        return "None";
+        return "";
     case Modifiers::SHIFT: /*1 */
         return "Shift";
     case Modifiers::ALT:  /* 4 */
@@ -624,12 +624,12 @@ std::string modifiers_to_string(Modifiers modifier)
     }
 }
 
-std::pair<Keys, Modifiers> get_keybind_for_skill_type(SkillSlot skill_type,
+std::pair<Keys, Modifiers> get_keybind_for_skill_type(SkillSlot skill_slot,
                                                       const std::map<std::string, KeybindInfo> &keybinds)
 {
     std::string action_name;
 
-    switch (skill_type)
+    switch (skill_slot)
     {
     case SkillSlot::PROFESSION_1:
         action_name = "Profession Skill 1";

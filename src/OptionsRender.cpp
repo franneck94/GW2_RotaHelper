@@ -387,35 +387,19 @@ void SetCurrentSkillMappings()
 {
     auto &current_mappings = Settings::UtilitySkillSlots[Globals::RenderData.current_build_key];
 
-    if (current_mappings.empty() && Globals::RotationRun.skill_key_mapping.skill_7 != -1)
+    if (current_mappings.empty())
     {
         const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
         const auto &log_skill_info_map = Globals::RotationRun.log_skill_info_map;
 
         if (skill_key_mapping.skill_7 != -1)
         {
-            auto heal_skill_it = log_skill_info_map.find(skill_key_mapping.skill_7);
-            if (heal_skill_it != log_skill_info_map.end())
+            auto skill_it = log_skill_info_map.find(skill_key_mapping.skill_7);
+            if (skill_it != log_skill_info_map.end())
             {
                 for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
                 {
-                    if (rotation_skill.name == heal_skill_it->second.name)
-                    {
-                        current_mappings["HEAL"] = static_cast<uint32_t>(skill_id);
-                        break;
-                    }
-                }
-            }
-        }
-
-        if (skill_key_mapping.skill_8 != -1)
-        {
-            auto util1_skill_it = log_skill_info_map.find(skill_key_mapping.skill_8);
-            if (util1_skill_it != log_skill_info_map.end())
-            {
-                for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
-                {
-                    if (rotation_skill.name == util1_skill_it->second.name)
+                    if (rotation_skill.name == skill_it->second.name)
                     {
                         current_mappings["UTILITY_1"] = static_cast<uint32_t>(skill_id);
                         break;
@@ -424,16 +408,32 @@ void SetCurrentSkillMappings()
             }
         }
 
-        if (skill_key_mapping.skill_9 != -1)
+        if (skill_key_mapping.skill_8 != -1)
         {
-            auto util2_skill_it = log_skill_info_map.find(skill_key_mapping.skill_9);
-            if (util2_skill_it != log_skill_info_map.end())
+            auto skill_it = log_skill_info_map.find(skill_key_mapping.skill_8);
+            if (skill_it != log_skill_info_map.end())
             {
                 for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
                 {
-                    if (rotation_skill.name == util2_skill_it->second.name)
+                    if (rotation_skill.name == skill_it->second.name)
                     {
                         current_mappings["UTILITY_2"] = static_cast<uint32_t>(skill_id);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (skill_key_mapping.skill_9 != -1)
+        {
+            auto skill_it = log_skill_info_map.find(skill_key_mapping.skill_9);
+            if (skill_it != log_skill_info_map.end())
+            {
+                for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
+                {
+                    if (rotation_skill.name == skill_it->second.name)
+                    {
+                        current_mappings["UTILITY_3"] = static_cast<uint32_t>(skill_id);
                         break;
                     }
                 }
@@ -444,6 +444,8 @@ void SetCurrentSkillMappings()
 
 void OptionsRenderType::render_skill_slots_window()
 {
+    static auto user_has_resetted = false;
+
     if (!show_skill_slots_window)
         return;
 
@@ -457,36 +459,33 @@ void OptionsRenderType::render_skill_slots_window()
     if (curr_build_key.empty() || Globals::RotationRun.all_rotation_steps.empty())
         return;
 
-    SetCurrentSkillMappings();
+    if (!user_has_resetted)
+        SetCurrentSkillMappings();
 
     if (Settings::UtilitySkillSlots.find(curr_build_key) == Settings::UtilitySkillSlots.end())
         Settings::UtilitySkillSlots[curr_build_key] = std::map<std::string, uint32_t>{};
 
-    static auto utility_slots = std::vector<std::pair<std::string, std::string>>{{"HEAL", "Heal"},
-                                                                                 {"UTILITY_1", "Utility 1"},
+    static auto utility_slots = std::vector<std::pair<std::string, std::string>>{{"UTILITY_1", "Utility 1"},
                                                                                  {"UTILITY_2", "Utility 2"},
-                                                                                 {"UTILITY_3", "Utility 3"},
-                                                                                 {"ELITE", "Elite"}};
+                                                                                 {"UTILITY_3", "Utility 3"}};
 
 
     auto used_skill_types = std::set<SkillSlot>{};
 
     for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
-        used_skill_types.insert(rotation_skill.skill_type);
+        used_skill_types.insert(rotation_skill.skill_slot);
     auto &current_mappings = Settings::UtilitySkillSlots[curr_build_key];
     static uint32_t selected_skill_for_assignment = 0;
 
-    // Store operations to apply at the end to avoid modifying map during iteration
-    std::vector<std::string> keys_to_remove;
-    std::vector<std::pair<std::string, uint32_t>> keys_to_add;
+    auto keys_to_remove = std::vector<std::string>{};
+    auto keys_to_add = std::vector<std::pair<std::string, uint32_t>>{};
     bool should_save_settings = false;
 
     std::map<SkillID, RotationSkill> rotation_util_skills;
     for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
     {
-        if (rotation_skill.skill_type == SkillSlot::HEAL || rotation_skill.skill_type == SkillSlot::UTILITY_1 ||
-            rotation_skill.skill_type == SkillSlot::UTILITY_2 || rotation_skill.skill_type == SkillSlot::UTILITY_3 ||
-            rotation_skill.skill_type == SkillSlot::ELITE)
+        if (rotation_skill.skill_slot == SkillSlot::UTILITY_1 || rotation_skill.skill_slot == SkillSlot::UTILITY_2 ||
+            rotation_skill.skill_slot == SkillSlot::UTILITY_3)
         {
             rotation_util_skills[skill_id] = rotation_skill;
         }
@@ -567,39 +566,24 @@ void OptionsRenderType::render_skill_slots_window()
         ImGui::TextDisabled("Click a skill to select it, then click the slot above to assign it.");
         ImGui::Separator();
 
-        ImGui::BeginChild("skill_selection", ImVec2(0, 150), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+        ImGui::BeginChild("skill_selection", ImVec2(0, 100), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
 
         for (const auto &[skill_id, rotation_skill] : rotation_util_skills)
         {
-            if (rotation_skill.skill_type != SkillSlot::HEAL && rotation_skill.skill_type != SkillSlot::UTILITY_1 &&
-                rotation_skill.skill_type != SkillSlot::UTILITY_2 &&
-                rotation_skill.skill_type != SkillSlot::UTILITY_3 && rotation_skill.skill_type != SkillSlot::ELITE)
-            {
-                continue;
-            }
-
-            bool is_selected = (selected_skill_for_assignment == static_cast<uint32_t>(skill_id));
+            auto is_selected = (selected_skill_for_assignment == static_cast<uint32_t>(skill_id));
             if (is_selected)
-            {
                 ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 0.0f, 1.0f)); // Green text for selected
-            }
 
             if (ImGui::Selectable(rotation_skill.name.c_str(), is_selected))
             {
                 if (is_selected)
-                {
                     selected_skill_for_assignment = 0;
-                }
                 else
-                {
                     selected_skill_for_assignment = static_cast<uint32_t>(skill_id);
-                }
             }
 
             if (is_selected)
-            {
                 ImGui::PopStyleColor();
-            }
 
             if (ImGui::IsItemHovered())
             {
@@ -613,7 +597,7 @@ void OptionsRenderType::render_skill_slots_window()
 
         ImGui::Separator();
 
-        const auto button_width = ImGui::GetWindowSize().x * 0.33f - ImGui::GetStyle().ItemSpacing.x;
+        const auto button_width = ImGui::GetWindowSize().x * 0.5f - ImGui::GetStyle().ItemSpacing.x;
 
         if (ImGui::Button("Save", ImVec2(button_width, 0)))
         {
@@ -624,6 +608,7 @@ void OptionsRenderType::render_skill_slots_window()
                 char log_msg[256];
                 snprintf(log_msg, sizeof(log_msg), "Skill slot mapping saved for build: %s", curr_build_key.c_str());
                 (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
+                user_has_resetted = false;
             }
         }
 
@@ -631,41 +616,21 @@ void OptionsRenderType::render_skill_slots_window()
 
         if (ImGui::Button("Reset", ImVec2(button_width, 0)))
         {
-            if (!curr_build_key.empty())
-            {
-                Settings::UtilitySkillSlots.erase(curr_build_key);
-                Settings::Save(Globals::SettingsPath);
-
-                char log_msg[256];
-                snprintf(log_msg, sizeof(log_msg), "Skill slot mapping reset for build: %s", curr_build_key.c_str());
-                (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
-            }
-        }
-
-        ImGui::SameLine();
-
-        if (ImGui::Button("Clear All", ImVec2(button_width, 0)))
-        {
-            current_mappings.clear();
-            Settings::Save(Globals::SettingsPath);
+            for (const auto &[key, value] : current_mappings)
+                keys_to_remove.push_back(key);
+            should_save_settings = true;
+            user_has_resetted = true;
         }
     }
 
-    // Apply all collected operations at the end to avoid modifying map during iteration
-    for (const auto& key : keys_to_remove)
-    {
+    for (const auto &key : keys_to_remove)
         current_mappings.erase(key);
-    }
 
-    for (const auto& [key, value] : keys_to_add)
-    {
+    for (const auto &[key, value] : keys_to_add)
         current_mappings[key] = value;
-    }
 
     if (should_save_settings)
-    {
         Settings::Save(Globals::SettingsPath);
-    }
 
     ImGui::End();
 }

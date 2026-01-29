@@ -261,7 +261,7 @@ void KeypressSkillDetectionLogic(RotationLogType &rotation_run)
     auto detected_skill_id = SkillID{0};
     for (const auto skill : Globals::RotationRun.rotation_skills)
     {
-        if (skill.second.skill_type == detected_skill_slot)
+        if (skill.second.skill_slot == detected_skill_slot)
         {
             detected_skill_id = skill.first;
             break;

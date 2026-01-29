@@ -147,7 +147,7 @@ struct SkillData
     bool is_elite_skill;
     bool is_heal_skill;
     bool is_profession_skill;
-    SkillSlot skill_type;
+    SkillSlot skill_slot;
     WeaponType weapon_type;
 };
 
@@ -164,7 +164,7 @@ struct RotationSkill
     SkillID skill_id;
     std::string name;
     ID3D11ShaderResourceView *texture;
-    SkillSlot skill_type;
+    SkillSlot skill_slot;
 };
 
 using RotationSteps = std::vector<RotationStep>;

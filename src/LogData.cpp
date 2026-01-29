@@ -513,10 +513,10 @@ SkillDataMap get_skill_data_map(const nlohmann::json &j)
         if (skill_obj.contains("skill_type") && skill_obj["skill_type"].is_string())
         {
             const auto _type_str = skill_obj["skill_type"].get<std::string>();
-            skill_data.skill_type = static_cast<SkillSlot>(std::stoi(_type_str));
+            skill_data.skill_slot = static_cast<SkillSlot>(std::stoi(_type_str));
         }
         else
-            skill_data.skill_type = SkillSlot::NONE;
+            skill_data.skill_slot = SkillSlot::NONE;
         if (skill_obj.contains("weapon_type") && skill_obj["weapon_type"].is_number_integer())
         {
             const auto val = skill_obj["weapon_type"].get<int>();
@@ -937,7 +937,7 @@ void RotationLogType::get_rotation_skills()
             if (icon_it == Globals::TextureMap.end())
                 continue;
 
-            const auto skill = RotationSkill{step.skill_data.skill_id, step.skill_data.name, icon_it->second, step.skill_data.skill_type};
+            const auto skill = RotationSkill{step.skill_data.skill_id, step.skill_data.name, icon_it->second, step.skill_data.skill_slot};
             rotation_skills.insert({step.skill_data.skill_id, skill});
         }
     }
@@ -1042,14 +1042,14 @@ std::string RotationLogType::get_keybind_str(const RotationStep &rotation_step,
     {
         if (Settings::XmlSettingsPath.empty())
         {
-            keybind_str = default_skillslot_to_string(skill_data.skill_type);
+            keybind_str = default_skillslot_to_string(skill_data.skill_slot);
         }
         else
         {
-            const auto [keybind, modifier] = get_keybind_for_skill_type(skill_data.skill_type, keybinds);
+            const auto [keybind, modifier] = get_keybind_for_skill_type(skill_data.skill_slot, keybinds);
             if (keybind == Keys::NONE)
             {
-                keybind_str = default_skillslot_to_string(skill_data.skill_type);
+                keybind_str = default_skillslot_to_string(skill_data.skill_slot);
             }
             else
             {
@@ -1176,7 +1176,7 @@ void RotationLogType::get_rotation_text(const std::map<std::string, KeybindInfo>
                 line += " - ";
             }
 
-            auto curr_is_aa = skill_data.skill_type == SkillSlot::WEAPON_1;
+            auto curr_is_aa = skill_data.skill_slot == SkillSlot::WEAPON_1;
 
             if (keybind_str != "")
             {

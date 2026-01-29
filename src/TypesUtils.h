@@ -21,7 +21,7 @@ std::string elite_spec_to_string(EliteSpecID elite_spec_id);
 
 std::vector<std::string> get_elite_specs_for_profession(ProfessionID profession);
 
-std::string default_skillslot_to_string(SkillSlot skill_type);
+std::string default_skillslot_to_string(SkillSlot skill_slot);
 
 SkillSlot str_to_default_skillslot(const std::string keybind_str);
 
@@ -29,7 +29,7 @@ std::string custom_keys_to_string(Keys key);
 
 std::string modifiers_to_string(Modifiers modifier);
 
-std::pair<Keys, Modifiers> get_keybind_for_skill_type(SkillSlot skill_type,
+std::pair<Keys, Modifiers> get_keybind_for_skill_type(SkillSlot skill_slot,
                                                       const std::map<std::string, KeybindInfo> &keybinds);
 
 std::string download_state_to_string(DownloadState state);
