@@ -107,7 +107,6 @@ std::string KeybindFromMappingAndXML(const SkillID skill_id, const int icon_id, 
     const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
     const auto is_util_skill =
         skill_slot == SkillSlot::UTILITY_1 || skill_slot == SkillSlot::UTILITY_2 || skill_slot == SkillSlot::UTILITY_3;
-    const auto &[keybind, modifier] = get_keybind_for_skill_type(skill_slot, Globals::RenderData.keybinds);
 
     if (is_util_skill)
     {
@@ -116,6 +115,7 @@ std::string KeybindFromMappingAndXML(const SkillID skill_id, const int icon_id, 
             skill_slot = _skill_slot;
     }
 
+    const auto &[keybind, modifier] = get_keybind_for_skill_type(skill_slot, Globals::RenderData.keybinds);
     if (keybind == Keys::NONE)
         return DefaultKeybinds(icon_id, skill_slot);
 
@@ -144,7 +144,10 @@ std::string KeybindWithXML(const SkillID skill_id, const int icon_id, SkillSlot 
     else
     {
         keybind_str = custom_keys_to_string(keybind);
-        keybind_str = modifiers_to_string(modifier) + " + " + keybind_str;
+        const auto mod_str = modifiers_to_string(modifier);
+
+        if (!mod_str.empty())
+            return mod_str + " + " + keybind_str;
     }
 
     return keybind_str;
