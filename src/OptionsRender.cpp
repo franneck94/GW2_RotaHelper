@@ -155,7 +155,6 @@ void OptionsRenderType::render_precast_window()
     if (!show_precast_window)
         return;
 
-    // Early exit if rotation data is being updated/cleared
     if (Globals::RotationRun.rotation_skills.empty())
     {
         show_precast_window = false;
@@ -224,10 +223,10 @@ void OptionsRenderType::render_precast_window()
                             ImGui::SameLine();
                         }
 
-                        // ImGui::PushID(counter1 + 1'000'000); // Use safe incremental ID based on count
-                        // ++counter1;
+                        ImGui::PushID(counter1 + 1'000'000); // Use safe incremental ID based on count
+                        ++counter1;
 
-                        // ImGui::Image((ImTextureID)skill.texture, ImVec2(icon_size, icon_size));
+                        ImGui::Image((ImTextureID)skill.texture, ImVec2(icon_size, icon_size));
 
                         if (ImGui::IsItemHovered())
                         {
@@ -243,7 +242,6 @@ void OptionsRenderType::render_precast_window()
                             Globals::RenderData.precast_drag_source >= 0 &&
                             Globals::RenderData.precast_drag_source != static_cast<int>(i))
                         {
-                            // Swap items
                             std::swap(Globals::RenderData.precast_skills_order[Globals::RenderData.precast_drag_source],
                                       Globals::RenderData.precast_skills_order[i]);
                             Globals::RenderData.precast_drag_source = -1;
@@ -253,11 +251,11 @@ void OptionsRenderType::render_precast_window()
                         {
                             Globals::RenderData.precast_skills_order.erase(
                                 Globals::RenderData.precast_skills_order.begin() + i);
-                            // ImGui::PopID();
+                            ImGui::PopID();
                             break;
                         }
 
-                        // ImGui::PopID();
+                        ImGui::PopID();
                         current_x += icon_size + spacing;
                     }
                 }
@@ -281,15 +279,13 @@ void OptionsRenderType::render_precast_window()
 
         for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
         {
-            // Comprehensive texture validation to prevent graphics driver crashes
             if (rotation_skill.texture && rotation_skill.texture != nullptr)
             {
-                // Additional safety: verify texture is still valid by checking if the skill still exists
                 auto current_skill_check = Globals::RotationRun.rotation_skills.find(skill_id);
                 if (current_skill_check == Globals::RotationRun.rotation_skills.end() ||
                     current_skill_check->second.texture != rotation_skill.texture)
                 {
-                    continue; // Skip if texture has been invalidated
+                    continue;
                 }
 
                 if (current_x + icon_size > ImGui::GetWindowWidth() - 20.0f && icon_count > 0)
@@ -302,16 +298,15 @@ void OptionsRenderType::render_precast_window()
                     ImGui::SameLine();
                 }
 
-                // ImGui::PushID(counter2 + 100'000); // Use safe incremental ID based on count
-                // ++counter2;
+                ImGui::PushID(counter2 + 100'000); // Use safe incremental ID based on count
+                ++counter2;
 
                 if (rotation_skill.texture != nullptr && (uintptr_t)rotation_skill.texture > 0x1000)
                 {
-                    // ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
+                    ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
                 }
                 else
                 {
-                    // Render placeholder if texture is invalid
                     ImGui::Dummy(ImVec2(icon_size, icon_size));
                 }
 
@@ -326,7 +321,7 @@ void OptionsRenderType::render_precast_window()
                     ImGui::EndTooltip();
                 }
 
-                // ImGui::PopID();
+                ImGui::PopID();
                 current_x += icon_size + spacing;
                 icon_count++;
             }
@@ -452,7 +447,6 @@ void OptionsRenderType::render_skill_slots_window()
     if (!show_skill_slots_window)
         return;
 
-    // Early exit if rotation data is being updated/cleared
     if (Globals::RotationRun.rotation_skills.empty())
     {
         show_skill_slots_window = false;
@@ -464,11 +458,39 @@ void OptionsRenderType::render_skill_slots_window()
         return;
 
     SetCurrentSkillMappings();
-    if (Settings::UtilitySkillSlots.find(curr_build_key) == Settings::UtilitySkillSlots.end())
-        return;
 
+    if (Settings::UtilitySkillSlots.find(curr_build_key) == Settings::UtilitySkillSlots.end())
+        Settings::UtilitySkillSlots[curr_build_key] = std::map<std::string, uint32_t>{};
+
+    static auto utility_slots = std::vector<std::pair<std::string, std::string>>{{"HEAL", "Heal"},
+                                                                                 {"UTILITY_1", "Utility 1"},
+                                                                                 {"UTILITY_2", "Utility 2"},
+                                                                                 {"UTILITY_3", "Utility 3"},
+                                                                                 {"ELITE", "Elite"}};
+
+
+    auto used_skill_types = std::set<SkillSlot>{};
+
+    for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
+        used_skill_types.insert(rotation_skill.skill_type);
     auto &current_mappings = Settings::UtilitySkillSlots[curr_build_key];
     static uint32_t selected_skill_for_assignment = 0;
+
+    // Store operations to apply at the end to avoid modifying map during iteration
+    std::vector<std::string> keys_to_remove;
+    std::vector<std::pair<std::string, uint32_t>> keys_to_add;
+    bool should_save_settings = false;
+
+    std::map<SkillID, RotationSkill> rotation_util_skills;
+    for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
+    {
+        if (rotation_skill.skill_type == SkillSlot::HEAL || rotation_skill.skill_type == SkillSlot::UTILITY_1 ||
+            rotation_skill.skill_type == SkillSlot::UTILITY_2 || rotation_skill.skill_type == SkillSlot::UTILITY_3 ||
+            rotation_skill.skill_type == SkillSlot::ELITE)
+        {
+            rotation_util_skills[skill_id] = rotation_skill;
+        }
+    }
 
     ImGui::SetNextWindowSize(ImVec2(700, 400), ImGuiCond_Once);
     if (ImGui::Begin("Skill Slot Mapping Configuration", &show_skill_slots_window))
@@ -489,18 +511,6 @@ void OptionsRenderType::render_skill_slots_window()
         ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Utility Skill Slots:");
         ImGui::Separator();
 
-        auto utility_slots = std::vector<std::pair<std::string, std::string>>{};
-        auto used_skill_types = std::set<SkillSlot>{};
-
-        for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
-            used_skill_types.insert(rotation_skill.skill_type);
-
-        utility_slots.push_back({"HEAL", "Heal"});
-        utility_slots.push_back({"UTILITY_1", "Utility 1"});
-        utility_slots.push_back({"UTILITY_2", "Utility 2"});
-        utility_slots.push_back({"UTILITY_3", "Utility 3"});
-        utility_slots.push_back({"ELITE", "Elite"});
-
         for (const auto &[slot_key, slot_display] : utility_slots)
         {
             ImGui::Text("%s:", slot_display.c_str());
@@ -512,9 +522,8 @@ void OptionsRenderType::render_skill_slots_window()
             auto mapped_skill_id = current_mappings.find(slot_key);
             if (mapped_skill_id != current_mappings.end())
             {
-                const auto skill_it =
-                    Globals::RotationRun.rotation_skills.find(static_cast<SkillID>(mapped_skill_id->second));
-                if (skill_it != Globals::RotationRun.rotation_skills.end())
+                const auto skill_it = rotation_util_skills.find(static_cast<SkillID>(mapped_skill_id->second));
+                if (skill_it != rotation_util_skills.end())
                 {
                     const auto &skill = skill_it->second;
                     ImGui::Text("%s", skill.name.c_str());
@@ -522,15 +531,15 @@ void OptionsRenderType::render_skill_slots_window()
                     ImGui::SameLine();
                     if (ImGui::Button("Clear"))
                     {
-                        auto key_to_erase = slot_key; // Make a copy to avoid reference issues
-                        current_mappings.erase(key_to_erase);
+                        keys_to_remove.push_back(slot_key);
+                        should_save_settings = true;
                     }
                 }
                 else
                 {
                     ImGui::TextDisabled("Unknown skill (ID: %u) - clearing invalid mapping", mapped_skill_id->second);
-                    // Remove invalid mapping to prevent future issues
-                    current_mappings.erase(mapped_skill_id);
+                    keys_to_remove.push_back(slot_key);
+                    should_save_settings = true;
                 }
             }
             else
@@ -540,16 +549,14 @@ void OptionsRenderType::render_skill_slots_window()
 
             ImGui::EndGroup();
 
-            // Click-based assignment - check if this slot was clicked and we have a selected skill
             if (ImGui::IsItemClicked() && selected_skill_for_assignment != 0)
             {
-                // Validate that the skill ID exists in the current rotation before mapping
-                const auto skill_it =
-                    Globals::RotationRun.rotation_skills.find(static_cast<SkillID>(selected_skill_for_assignment));
-                if (skill_it != Globals::RotationRun.rotation_skills.end())
+                const auto skill_it = rotation_util_skills.find(static_cast<SkillID>(selected_skill_for_assignment));
+                if (skill_it != rotation_util_skills.end())
                 {
-                    current_mappings[slot_key] = selected_skill_for_assignment;
-                    selected_skill_for_assignment = 0; // Clear selection after assignment
+                    keys_to_add.push_back({slot_key, selected_skill_for_assignment});
+                    selected_skill_for_assignment = 0;
+                    should_save_settings = true;
                 }
             }
         }
@@ -562,7 +569,7 @@ void OptionsRenderType::render_skill_slots_window()
 
         ImGui::BeginChild("skill_selection", ImVec2(0, 150), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
 
-        for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
+        for (const auto &[skill_id, rotation_skill] : rotation_util_skills)
         {
             if (rotation_skill.skill_type != SkillSlot::HEAL && rotation_skill.skill_type != SkillSlot::UTILITY_1 &&
                 rotation_skill.skill_type != SkillSlot::UTILITY_2 &&
@@ -571,9 +578,7 @@ void OptionsRenderType::render_skill_slots_window()
                 continue;
             }
 
-            // Use text-based selection instead of icons
             bool is_selected = (selected_skill_for_assignment == static_cast<uint32_t>(skill_id));
-
             if (is_selected)
             {
                 ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 0.0f, 1.0f)); // Green text for selected
@@ -583,7 +588,7 @@ void OptionsRenderType::render_skill_slots_window()
             {
                 if (is_selected)
                 {
-                    selected_skill_for_assignment = 0; // Deselect if already selected
+                    selected_skill_for_assignment = 0;
                 }
                 else
                 {
@@ -640,7 +645,26 @@ void OptionsRenderType::render_skill_slots_window()
         ImGui::SameLine();
 
         if (ImGui::Button("Clear All", ImVec2(button_width, 0)))
+        {
             current_mappings.clear();
+            Settings::Save(Globals::SettingsPath);
+        }
+    }
+
+    // Apply all collected operations at the end to avoid modifying map during iteration
+    for (const auto& key : keys_to_remove)
+    {
+        current_mappings.erase(key);
+    }
+
+    for (const auto& [key, value] : keys_to_add)
+    {
+        current_mappings[key] = value;
+    }
+
+    if (should_save_settings)
+    {
+        Settings::Save(Globals::SettingsPath);
     }
 
     ImGui::End();
@@ -1036,9 +1060,10 @@ void OptionsRenderType::set_data_on_build_load(const BenchFileInfo *const &file_
     Globals::RenderData.show_rotation_icons_overview = false;
     show_precast_window = false;
     show_skill_slots_window = false;
-    // ReleaseTextureMap(Globals::TextureMap);
+    ReleaseTextureMap(Globals::TextureMap);
     Globals::RotationRun.load_data(Globals::RenderData.selected_file_path, Globals::RenderData.img_path);
     Globals::RenderData.current_build_key = Globals::RotationRun.meta_data.name;
+    Globals::RotationRun.rotation_skills.clear();
     Globals::TextureMap = LoadAllSkillTextures(Globals::RenderData.pd3dDevice,
                                                Globals::RotationRun.log_skill_info_map,
                                                Globals::RenderData.img_path);
@@ -1073,10 +1098,8 @@ void OptionsRenderType::render_symbol_and_text(bool &is_selected,
     float symbol_center_y = item_rect.y + item_height * 0.5f;
     float symbol_radius = symbol_size * 0.4f;
 
-    // Call the custom drawing function
     draw_symbol_func(draw_list, ImVec2(symbol_center_x, symbol_center_y), symbol_radius, symbol_size);
 
-    // Check if mouse is hovering over the symbol area only
     auto mouse_pos = ImGui::GetMousePos();
     auto symbol_rect_min = ImVec2(item_rect.x, item_rect.y);
     auto symbol_rect_max = ImVec2(item_rect.x + symbol_size + 8, item_rect.y + item_height);
@@ -1132,22 +1155,18 @@ void OptionsRenderType::render_untested_and_text(bool &is_selected,
     auto draw_question_mark = [](ImDrawList *draw_list, ImVec2 center, float radius, float size) {
         float line_thickness = 2.5f;
 
-        // Question mark curve (top part)
         auto curve_center = ImVec2(center.x, center.y - radius * 0.3f);
         auto curve_radius = radius * 0.4f;
         draw_list->AddCircle(curve_center, curve_radius, IM_COL32(128, 128, 128, 255), 16, line_thickness);
 
-        // Remove bottom part of circle to make it look like a question mark
         auto mask_rect_min = ImVec2(center.x - curve_radius * 1.2f, center.y - radius * 0.1f);
         auto mask_rect_max = ImVec2(center.x + curve_radius * 1.2f, center.y + radius * 0.8f);
         draw_list->AddRectFilled(mask_rect_min, mask_rect_max, IM_COL32(0, 0, 0, 0));
 
-        // Vertical line (middle part)
         auto line_start = ImVec2(center.x, center.y + radius * 0.1f);
         auto line_end = ImVec2(center.x, center.y + radius * 0.4f);
         draw_list->AddLine(line_start, line_end, IM_COL32(128, 128, 128, 255), line_thickness);
 
-        // Dot (bottom part)
         auto dot_center = ImVec2(center.x, center.y + radius * 0.6f);
         draw_list->AddCircleFilled(dot_center, line_thickness * 0.6f, IM_COL32(128, 128, 128, 255));
     };
@@ -1312,7 +1331,7 @@ void OptionsRenderType::render_selection()
                 }
             }
 
-            ImGui::EndChild(); // End scrollable child window
+            ImGui::EndChild();
         }
         ImGui::EndPopup();
     }

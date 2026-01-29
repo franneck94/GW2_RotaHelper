@@ -112,6 +112,8 @@ void Save(std::filesystem::path aPath)
         file.close();
     }
     Settings::Mutex.unlock();
+
+    Load(aPath);
 }
 
 void ToggleShowWindow(std::filesystem::path SettingsPath)
