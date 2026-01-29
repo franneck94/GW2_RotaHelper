@@ -20,6 +20,7 @@ public:
     void render_debug_window(bool &show_debug_window);
     void render_debug_data();
     void render_text_filter();
+    void set_data_on_build_load(const BenchFileInfo *const &file_info);
     void render_symbol_and_text(bool &is_selected,
                                 const int original_index,
                                 const BenchFileInfo *const &file_info,

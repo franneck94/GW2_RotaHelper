@@ -155,16 +155,22 @@ void OptionsRenderType::render_precast_window()
     if (!show_precast_window)
         return;
 
-    if (Globals::RotationRun.all_rotation_steps.size() > 0 && Globals::RenderData.current_build_key.empty())
-        Globals::RenderData.current_build_key = Globals::RotationRun.meta_data.name;
-
-    if (Globals::RenderData.precast_skills_order.empty() && !Globals::RenderData.current_build_key.empty() &&
-        Globals::RotationRun.all_rotation_steps.size() > 0)
+    // Early exit if rotation data is being updated/cleared
+    if (Globals::RotationRun.rotation_skills.empty())
     {
-        if (Settings::PrecastSkills.find(Globals::RenderData.current_build_key) != Settings::PrecastSkills.end())
-            Globals::RenderData.precast_skills_order = Settings::PrecastSkills[Globals::RenderData.current_build_key];
+        show_precast_window = false;
+        return;
     }
+
     auto curr_build_key = Globals::RenderData.current_build_key;
+    if (curr_build_key.empty() || Globals::RotationRun.all_rotation_steps.empty())
+        return;
+
+    if (Globals::RenderData.precast_skills_order.empty())
+    {
+        if (Settings::PrecastSkills.find(curr_build_key) != Settings::PrecastSkills.end())
+            Globals::RenderData.precast_skills_order = Settings::PrecastSkills[curr_build_key];
+    }
 
     ImGui::SetNextWindowSize(ImVec2(800, 500), ImGuiCond_Once);
     if (ImGui::Begin("Precast Skills Configuration", &show_precast_window))
@@ -217,7 +223,7 @@ void OptionsRenderType::render_precast_window()
                             ImGui::SameLine();
                         }
 
-                        ImGui::PushID(static_cast<int>(i));
+                        ImGui::PushID(static_cast<int>(i)); // Use safe incremental ID
 
                         ImGui::Image((ImTextureID)skill.texture, ImVec2(icon_size, icon_size));
 
@@ -268,12 +274,21 @@ void OptionsRenderType::render_precast_window()
         const float icon_size = 48.0f;
         const float spacing = ImGui::GetStyle().ItemSpacing.x;
         float current_x = 0.0f;
-        int icon_count = 0;
+        static int icon_count = 0;
 
         for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
         {
-            if (rotation_skill.texture)
+            // Comprehensive texture validation to prevent graphics driver crashes
+            if (rotation_skill.texture && rotation_skill.texture != nullptr)
             {
+                // Additional safety: verify texture is still valid by checking if the skill still exists
+                auto current_skill_check = Globals::RotationRun.rotation_skills.find(skill_id);
+                if (current_skill_check == Globals::RotationRun.rotation_skills.end() ||
+                    current_skill_check->second.texture != rotation_skill.texture)
+                {
+                    continue; // Skip if texture has been invalidated
+                }
+
                 if (current_x + icon_size > ImGui::GetWindowWidth() - 20.0f && icon_count > 0)
                 {
                     current_x = 0.0f;
@@ -284,9 +299,18 @@ void OptionsRenderType::render_precast_window()
                     ImGui::SameLine();
                 }
 
-                ImGui::PushID(static_cast<int>(skill_id));
+                ImGui::PushID(icon_count + 100'000); // Use safe incremental ID based on count
 
-                ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
+                // Final texture validation before rendering
+                if (rotation_skill.texture != nullptr && (uintptr_t)rotation_skill.texture > 0x1000)
+                {
+                    ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
+                }
+                else
+                {
+                    // Render placeholder if texture is invalid
+                    ImGui::Dummy(ImVec2(icon_size, icon_size));
+                }
 
                 if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
                     Globals::RenderData.precast_skills_order.push_back(static_cast<uint32_t>(skill_id));
@@ -315,8 +339,7 @@ void OptionsRenderType::render_precast_window()
         {
             if (!curr_build_key.empty())
             {
-                Settings::PrecastSkills[curr_build_key] =
-                    Globals::RenderData.precast_skills_order;
+                Settings::PrecastSkills[curr_build_key] = Globals::RenderData.precast_skills_order;
                 Settings::Save(Globals::SettingsPath);
 
                 char log_msg[256];
@@ -426,21 +449,22 @@ void OptionsRenderType::render_skill_slots_window()
     if (!show_skill_slots_window)
         return;
 
-    static std::string last_build_key = "";
-    if (Globals::RotationRun.all_rotation_steps.size() > 0 && Globals::RenderData.current_build_key.empty())
-        Globals::RenderData.current_build_key = Globals::RotationRun.meta_data.name;
+    // Early exit if rotation data is being updated/cleared
+    if (Globals::RotationRun.rotation_skills.empty())
+    {
+        show_skill_slots_window = false;
+        return;
+    }
 
-    if (!Globals::RenderData.current_build_key.empty() && last_build_key != Globals::RenderData.current_build_key)
-        last_build_key = Globals::RenderData.current_build_key;
     auto curr_build_key = Globals::RenderData.current_build_key;
+    if (curr_build_key.empty() || Globals::RotationRun.all_rotation_steps.empty())
+        return;
 
     SetCurrentSkillMappings();
     if (Settings::UtilitySkillSlots.find(curr_build_key) == Settings::UtilitySkillSlots.end())
         return;
 
     auto &current_mappings = Settings::UtilitySkillSlots[curr_build_key];
-    if (current_mappings.empty())
-        return;
 
     ImGui::SetNextWindowSize(ImVec2(700, 400), ImGuiCond_Once);
     if (ImGui::Begin("Skill Slot Mapping Configuration", &show_skill_slots_window))
@@ -489,7 +513,6 @@ void OptionsRenderType::render_skill_slots_window()
                 if (skill_it != Globals::RotationRun.rotation_skills.end())
                 {
                     const auto &skill = skill_it->second;
-                    // Validate texture pointer before using it
                     if (skill.texture && skill.texture != nullptr)
                     {
                         ImGui::Image((ImTextureID)skill.texture, ImVec2(32.0f, 32.0f));
@@ -505,7 +528,7 @@ void OptionsRenderType::render_skill_slots_window()
                     ImGui::PushID(slot_key.c_str());
                     if (ImGui::Button("Clear"))
                     {
-                        auto key_to_erase = slot_key;  // Make a copy to avoid reference issues
+                        auto key_to_erase = slot_key; // Make a copy to avoid reference issues
                         current_mappings.erase(key_to_erase);
                     }
                     ImGui::PopID();
@@ -552,7 +575,7 @@ void OptionsRenderType::render_skill_slots_window()
         const auto icon_size = 48.0f;
         const auto spacing = ImGui::GetStyle().ItemSpacing.x;
         auto current_x = 0.0f;
-        auto icon_count = 0;
+        static auto icon_count = 0;
 
         for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
         {
@@ -566,6 +589,7 @@ void OptionsRenderType::render_skill_slots_window()
             // Validate texture pointer before using it
             if (rotation_skill.texture && rotation_skill.texture != nullptr)
             {
+
                 if (current_x + icon_size > ImGui::GetWindowWidth() - 20.0f && icon_count > 0)
                 {
                     current_x = 0.0f;
@@ -576,11 +600,10 @@ void OptionsRenderType::render_skill_slots_window()
                     ImGui::SameLine();
                 }
 
-                ImGui::PushID(static_cast<int>(skill_id));
+                ImGui::PushID(icon_count - 100'000); // Use safe incremental ID based on count
 
                 ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
 
-                // Add drag and drop source
                 if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
                 {
                     auto skill_id_copy = static_cast<uint32_t>(skill_id);
@@ -624,10 +647,7 @@ void OptionsRenderType::render_skill_slots_window()
                 Settings::Save(Globals::SettingsPath);
 
                 char log_msg[256];
-                snprintf(log_msg,
-                         sizeof(log_msg),
-                         "Skill slot mapping saved for build: %s",
-                         curr_build_key.c_str());
+                snprintf(log_msg, sizeof(log_msg), "Skill slot mapping saved for build: %s", curr_build_key.c_str());
                 (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
             }
         }
@@ -642,10 +662,7 @@ void OptionsRenderType::render_skill_slots_window()
                 Settings::Save(Globals::SettingsPath);
 
                 char log_msg[256];
-                snprintf(log_msg,
-                         sizeof(log_msg),
-                         "Skill slot mapping reset for build: %s",
-                         curr_build_key.c_str());
+                snprintf(log_msg, sizeof(log_msg), "Skill slot mapping reset for build: %s", curr_build_key.c_str());
                 (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", log_msg);
             }
         }
@@ -1042,6 +1059,18 @@ void OptionsRenderType::render_text_filter()
     }
 }
 
+void OptionsRenderType::set_data_on_build_load(const BenchFileInfo *const &file_info)
+{
+    Globals::RenderData.selected_file_path = file_info->full_path;
+    Globals::RenderData.show_rotation_keybinds = false;
+    Globals::RenderData.show_rotation_icons_overview = false;
+    show_precast_window = false;
+    show_skill_slots_window = false;
+    ReleaseTextureMap(Globals::TextureMap);
+    Globals::RotationRun.load_data(Globals::RenderData.selected_file_path, Globals::RenderData.img_path);
+    Globals::RenderData.current_build_key = Globals::RotationRun.meta_data.name;
+}
+
 void OptionsRenderType::render_symbol_and_text(bool &is_selected,
                                                const int original_index,
                                                const BenchFileInfo *const &file_info,
@@ -1058,16 +1087,7 @@ void OptionsRenderType::render_symbol_and_text(bool &is_selected,
                           ImVec2(0, item_height)))
     {
         selected_bench_index = original_index;
-        Globals::RenderData.selected_file_path = file_info->full_path;
-
-        Globals::RenderData.show_rotation_keybinds = false;
-        Globals::RenderData.show_rotation_icons_overview = false;
-
-        show_precast_window = false;
-        show_skill_slots_window = false;
-
-        ReleaseTextureMap(Globals::TextureMap);
-        Globals::RotationRun.load_data(Globals::RenderData.selected_file_path, Globals::RenderData.img_path);
+        set_data_on_build_load(file_info);
         ImGui::CloseCurrentPopup();
 
         Globals::Render.restart_rotation(true);
@@ -1308,11 +1328,7 @@ void OptionsRenderType::render_selection()
                         if (ImGui::Selectable(formatted_name_item.c_str(), is_selected))
                         {
                             selected_bench_index = original_index;
-                            Globals::RenderData.selected_file_path = file_info->full_path;
-
-                            ReleaseTextureMap(Globals::TextureMap);
-                            Globals::RotationRun.load_data(Globals::RenderData.selected_file_path,
-                                                           Globals::RenderData.img_path);
+                            set_data_on_build_load(file_info);
 
                             ImGui::CloseCurrentPopup();
                         }

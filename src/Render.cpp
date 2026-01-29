@@ -157,9 +157,6 @@ void RenderType::render(ID3D11Device *pd3dDevice)
     if (!Settings::ShowWindow)
         return;
 
-    if (Globals::RotationRun.all_rotation_steps.size() > 0 && Globals::RenderData.current_build_key.empty())
-        Globals::RenderData.current_build_key = Globals::RotationRun.meta_data.name;
-
     KeypressSkillDetectionLogic(Globals::RotationRun);
 
     if (Globals::RenderData.skill_event_in_this_frame)
