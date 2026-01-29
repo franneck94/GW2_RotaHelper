@@ -209,7 +209,8 @@ void RotationRenderType::render_rotation_horizontal()
             Globals::RotationRun.all_rotation_steps.size() > 0)
         {
             if (Settings::PrecastSkills.find(Globals::RenderData.current_build_key) != Settings::PrecastSkills.end())
-                Globals::RenderData.precast_skills_order = Settings::PrecastSkills[Globals::RenderData.current_build_key];
+                Globals::RenderData.precast_skills_order =
+                    Settings::PrecastSkills[Globals::RenderData.current_build_key];
         }
 
         for (const auto &skill_id : Globals::RenderData.precast_skills_order)
@@ -330,6 +331,9 @@ void RotationRenderType::render_skill_texture(const RotationStep &rotation_step,
         tint_color = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
     if (alpha_offset != 0.0f)
         tint_color.w = max(0.1f, min(1.0f, tint_color.w + alpha_offset));
+
+    if (!texture)
+        return;
 
     ImGui::Image((ImTextureID)texture, ImVec2(icon_size, icon_size), ImVec2(0, 0), ImVec2(1, 1), tint_color);
 

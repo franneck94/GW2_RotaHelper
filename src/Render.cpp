@@ -204,8 +204,11 @@ void RenderType::render(ID3D11Device *pd3dDevice)
         return;
 
     if (Globals::TextureMap.size() == 0)
-        Globals::TextureMap =
-            LoadAllSkillTextures(pd3dDevice, Globals::RotationRun.log_skill_info_map, Globals::RenderData.img_path);
+    {
+        Globals::TextureMap = LoadAllSkillTextures(Globals::RenderData.pd3dDevice,
+                                                   Globals::RotationRun.log_skill_info_map,
+                                                   Globals::RenderData.img_path);
+    }
 
     if (!IsValidMap())
         return;

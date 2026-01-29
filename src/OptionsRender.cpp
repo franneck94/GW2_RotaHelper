@@ -227,7 +227,7 @@ void OptionsRenderType::render_precast_window()
                         // ImGui::PushID(counter1 + 1'000'000); // Use safe incremental ID based on count
                         // ++counter1;
 
-                        ImGui::Image((ImTextureID)skill.texture, ImVec2(icon_size, icon_size));
+                        // ImGui::Image((ImTextureID)skill.texture, ImVec2(icon_size, icon_size));
 
                         if (ImGui::IsItemHovered())
                         {
@@ -305,10 +305,9 @@ void OptionsRenderType::render_precast_window()
                 // ImGui::PushID(counter2 + 100'000); // Use safe incremental ID based on count
                 // ++counter2;
 
-                // Final texture validation before rendering
                 if (rotation_skill.texture != nullptr && (uintptr_t)rotation_skill.texture > 0x1000)
                 {
-                    ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
+                    // ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
                 }
                 else
                 {
@@ -518,16 +517,7 @@ void OptionsRenderType::render_skill_slots_window()
                 if (skill_it != Globals::RotationRun.rotation_skills.end())
                 {
                     const auto &skill = skill_it->second;
-                    if (skill.texture && skill.texture != nullptr)
-                    {
-                        ImGui::Image((ImTextureID)skill.texture, ImVec2(32.0f, 32.0f));
-                        ImGui::SameLine();
-                        ImGui::Text("%s", skill.name.c_str());
-                    }
-                    else
-                    {
-                        ImGui::TextDisabled("Invalid skill data");
-                    }
+                    ImGui::Text("%s", skill.name.c_str());
 
                     ImGui::SameLine();
                     if (ImGui::Button("Clear"))
@@ -570,13 +560,7 @@ void OptionsRenderType::render_skill_slots_window()
         ImGui::TextDisabled("Click a skill to select it, then click the slot above to assign it.");
         ImGui::Separator();
 
-        ImGui::BeginChild("skill_selection", ImVec2(0, 50), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
-
-        const auto icon_size = 48.0f;
-        const auto spacing = ImGui::GetStyle().ItemSpacing.x;
-        auto current_x = 0.0f;
-        int icon_count = 0;
-        int counter3 = 0;
+        ImGui::BeginChild("skill_selection", ImVec2(0, 150), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
 
         for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
         {
@@ -587,61 +571,36 @@ void OptionsRenderType::render_skill_slots_window()
                 continue;
             }
 
-            // Validate texture pointer before using it
-            if (rotation_skill.texture && rotation_skill.texture != nullptr)
+            // Use text-based selection instead of icons
+            bool is_selected = (selected_skill_for_assignment == static_cast<uint32_t>(skill_id));
+
+            if (is_selected)
             {
+                ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 1.0f, 0.0f, 1.0f)); // Green text for selected
+            }
 
-                if (current_x + icon_size > ImGui::GetWindowWidth() - 20.0f && icon_count > 0)
-                {
-                    current_x = 0.0f;
-                    ImGui::Dummy(ImVec2(0, spacing));
-                }
-                else if (icon_count > 0)
-                {
-                    ImGui::SameLine();
-                }
-
-                // ImGui::PushID(counter3 + 500'000); // Use safe incremental ID based on count
-                // ++counter3;
-
-                ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
-
-                // Click-based selection
-                bool is_selected = (selected_skill_for_assignment == static_cast<uint32_t>(skill_id));
+            if (ImGui::Selectable(rotation_skill.name.c_str(), is_selected))
+            {
                 if (is_selected)
                 {
-                    // Highlight selected skill with a colored border
-                    ImGui::GetWindowDrawList()->AddRect(ImGui::GetItemRectMin(),
-                                                        ImGui::GetItemRectMax(),
-                                                        IM_COL32(0, 255, 0, 255),
-                                                        0.0f,
-                                                        ImDrawCornerFlags_None,
-                                                        3.0f);
+                    selected_skill_for_assignment = 0; // Deselect if already selected
                 }
-
-                if (ImGui::IsItemClicked())
+                else
                 {
-                    if (is_selected)
-                    {
-                        selected_skill_for_assignment = 0; // Deselect if already selected
-                    }
-                    else
-                    {
-                        selected_skill_for_assignment = static_cast<uint32_t>(skill_id);
-                    }
+                    selected_skill_for_assignment = static_cast<uint32_t>(skill_id);
                 }
+            }
 
-                if (ImGui::IsItemHovered())
-                {
-                    ImGui::BeginTooltip();
-                    ImGui::Text("%s", rotation_skill.name.c_str());
-                    ImGui::Text("Click to select/deselect, then click a slot to assign");
-                    ImGui::EndTooltip();
-                }
+            if (is_selected)
+            {
+                ImGui::PopStyleColor();
+            }
 
-                // ImGui::PopID();
-                current_x += icon_size + spacing;
-                icon_count++;
+            if (ImGui::IsItemHovered())
+            {
+                ImGui::BeginTooltip();
+                ImGui::Text("Click to select/deselect, then click a slot above to assign");
+                ImGui::EndTooltip();
             }
         }
 
@@ -1077,9 +1036,12 @@ void OptionsRenderType::set_data_on_build_load(const BenchFileInfo *const &file_
     Globals::RenderData.show_rotation_icons_overview = false;
     show_precast_window = false;
     show_skill_slots_window = false;
-    ReleaseTextureMap(Globals::TextureMap);
+    // ReleaseTextureMap(Globals::TextureMap);
     Globals::RotationRun.load_data(Globals::RenderData.selected_file_path, Globals::RenderData.img_path);
     Globals::RenderData.current_build_key = Globals::RotationRun.meta_data.name;
+    Globals::TextureMap = LoadAllSkillTextures(Globals::RenderData.pd3dDevice,
+                                               Globals::RotationRun.log_skill_info_map,
+                                               Globals::RenderData.img_path);
 }
 
 void OptionsRenderType::render_symbol_and_text(bool &is_selected,
