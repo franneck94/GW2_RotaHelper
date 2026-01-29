@@ -1844,10 +1844,10 @@
   },
   "SkillKeyMapping": {
     "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1,
-    "slot_0": -1
+    "slot_7": 103396,
+    "slot_8": 103399,
+    "slot_9": 103177,
+    "slot_0": 3680125
   },
   "buildMetadata": {
     "name": "Power Amalgam",

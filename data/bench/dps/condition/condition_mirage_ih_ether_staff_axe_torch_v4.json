@@ -1628,11 +1628,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_6": -1,
+    "slot_6": 699528,
     "slot_7": -1,
     "slot_8": -1,
-    "slot_9": -1,
-    "slot_0": -1
+    "slot_9": 1770514,
+    "slot_0": 1770505
   },
   "buildMetadata": {
     "name": "Condition Mirage IH Ether Staff Axe Torch",

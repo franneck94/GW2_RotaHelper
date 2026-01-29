@@ -1836,9 +1836,9 @@
   },
   "SkillKeyMapping": {
     "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1,
+    "slot_7": 2503755,
+    "slot_8": 103073,
+    "slot_9": 2175070,
     "slot_0": -1
   },
   "buildMetadata": {

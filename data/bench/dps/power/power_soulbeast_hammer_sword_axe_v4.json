@@ -1427,10 +1427,10 @@
   },
   "SkillKeyMapping": {
     "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
+    "slot_7": 104025,
+    "slot_8": 103074,
     "slot_9": -1,
-    "slot_0": -1
+    "slot_0": 1770558
   },
   "buildMetadata": {
     "name": "Power Soulbeast",

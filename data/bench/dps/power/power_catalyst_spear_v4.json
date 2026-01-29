@@ -1810,10 +1810,10 @@
   },
   "SkillKeyMapping": {
     "slot_6": -1,
-    "slot_7": -1,
+    "slot_7": 2491601,
     "slot_8": -1,
-    "slot_9": -1,
-    "slot_0": -1
+    "slot_9": 2491603,
+    "slot_0": 2491568
   },
   "buildMetadata": {
     "name": "Power Catalyst Spear",

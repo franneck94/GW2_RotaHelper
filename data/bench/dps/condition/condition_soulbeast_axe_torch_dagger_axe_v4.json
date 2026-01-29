@@ -1701,10 +1701,10 @@
   },
   "SkillKeyMapping": {
     "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1,
-    "slot_0": -1
+    "slot_7": 104004,
+    "slot_8": 104025,
+    "slot_9": 1770571,
+    "slot_0": 1770558
   },
   "buildMetadata": {
     "name": "Condition Soulbeast Axe Torch Dagger Axe",

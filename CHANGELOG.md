@@ -18,11 +18,17 @@ An increase in the third number indicates bugfixes only.
 
 - Added feature to define the order of utility skills since they might differ from the snow crows website template
 
+## Improvements
+
+- Improved skill bind logic
+
 ## 2.0.0 - 2026-01-20
 
 ## Features
 
-- Option to capture keypress events for the skill activation logic
+- Option to capture keypress events for the skill ## Improvements
+
+- Improved for GS/Spear Berserkeractivation logic
   - This can be used as an alternative to arcdps events
   - If this works out good it may replace arcdps events
 - The user can define a list of pre-cast skills before the dmg log starts

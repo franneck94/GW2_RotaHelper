@@ -297,7 +297,7 @@
       ],
       [
         20.591,
-        762897,
+        855805,
         721.0,
         1,
         1.0
@@ -654,7 +654,7 @@
       ],
       [
         46.153,
-        762897,
+        855805,
         718.0,
         1,
         1.0
@@ -1018,7 +1018,7 @@
       ],
       [
         72.071,
-        762897,
+        855805,
         719.0,
         1,
         1.0
@@ -1284,7 +1284,7 @@
       ],
       [
         91.55,
-        762897,
+        855805,
         1165.0,
         1,
         1.0
@@ -1406,7 +1406,7 @@
       "traitProc": false,
       "gearProc": false
     },
-    "s762897": {
+    "s855805": {
       "name": "Unleashed Overbearing Smash (Leap)",
       "icon": "https://render.guildwars2.com/file/c_cd_Unleashed_Overbearing/Smash.png",
       "traitProc": false,
@@ -1427,10 +1427,10 @@
   },
   "SkillKeyMapping": {
     "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
+    "slot_7": 104025,
+    "slot_8": 103074,
     "slot_9": -1,
-    "slot_0": -1
+    "slot_0": 1770558
   },
   "buildMetadata": {
     "name": "Power Soulbeast Hammer Axe Axe",

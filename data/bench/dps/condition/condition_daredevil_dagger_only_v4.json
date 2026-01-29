@@ -1504,11 +1504,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1,
-    "slot_0": -1
+    "slot_6": 1058620,
+    "slot_7": 103073,
+    "slot_8": 103513,
+    "slot_9": 2175070,
+    "slot_0": 104093
   },
   "buildMetadata": {
     "name": "Condition Daredevil Dagger Only",

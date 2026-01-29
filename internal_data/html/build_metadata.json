@@ -3365,5 +3365,83 @@
     "overall_dps": 22286.0,
     "dps_report_url": "https://dps.report/xICN-20250628-071219_golem",
     "html_file_path": "alac\\power\\celestial_alacrity_scourge_dagger_torch_pistol_warhorn.html"
+  },
+  {
+    "name": "Power Antiquary",
+    "url": "https://snowcrows.com/builds/raids/thief/power-antiquary-spear-axe-pistol",
+    "benchmark_type": "dps",
+    "profession": "Thief",
+    "elite_spec": "Antiquary",
+    "build_type": "power",
+    "url_name": "power-antiquary-spear-axe-pistol",
+    "weapons": "",
+    "overall_dps": 47365.0,
+    "dps_report_url": "https://dps.report/532o-20260120-142755_golem",
+    "html_file_path": "dps\\power\\power_antiquary_spear_axe_pistol.html"
+  },
+  {
+    "name": "Condition Chronomancer",
+    "url": "https://snowcrows.com/builds/raids/mesmer/condition-chronomancer-staff-scepter-torch",
+    "benchmark_type": "dps",
+    "profession": "Mesmer",
+    "elite_spec": "Chronomancer",
+    "build_type": "condition",
+    "url_name": "condition-chronomancer-staff-scepter-torch",
+    "weapons": "",
+    "overall_dps": 43059.0,
+    "dps_report_url": "https://dps.report/sWjp-20250506-041500_golem",
+    "html_file_path": "dps\\condition\\condition_chronomancer_staff_scepter_torch.html"
+  },
+  {
+    "name": "Power Holosmith",
+    "url": "https://snowcrows.com/builds/raids/engineer/power-holosmith-sword-pistol",
+    "benchmark_type": "dps",
+    "profession": "Engineer",
+    "elite_spec": "Holosmith",
+    "build_type": "power",
+    "url_name": "power-holosmith-sword-pistol",
+    "weapons": "",
+    "overall_dps": 43266.0,
+    "dps_report_url": "https://dps.report/nrc1-20260118-001246_golem",
+    "html_file_path": "dps\\power\\power_holosmith_sword_pistol.html"
+  },
+  {
+    "name": "Condition Boon Chronomancer",
+    "url": "https://snowcrows.com/builds/raids/mesmer/condition-boon-chronomancer-staff-scepter-torch",
+    "benchmark_type": "quick",
+    "profession": "Mesmer",
+    "elite_spec": "Chronomancer",
+    "build_type": "condition",
+    "url_name": "condition-boon-chronomancer-staff-scepter-torch",
+    "weapons": "",
+    "overall_dps": 35080.0,
+    "dps_report_url": "https://dps.report/Qv1n-20250510-031308_golem",
+    "html_file_path": "quick\\condition\\condition_boon_chronomancer_staff_scepter_torch.html"
+  },
+  {
+    "name": "Power Quickness Troubadour",
+    "url": "https://snowcrows.com/builds/raids/mesmer/power-quickness-troubadour-spear-dagger-sword",
+    "benchmark_type": "quick",
+    "profession": "Mesmer",
+    "elite_spec": "Troubadour",
+    "build_type": "power",
+    "url_name": "power-quickness-troubadour-spear-dagger-sword",
+    "weapons": "",
+    "overall_dps": 35752.0,
+    "dps_report_url": "https://dps.report/Y74W-20260109-180523_golem",
+    "html_file_path": "quick\\power\\power_quickness_troubadour_spear_dagger_sword.html"
+  },
+  {
+    "name": "Condition Boon Chronomancer",
+    "url": "https://snowcrows.com/builds/raids/mesmer/condition-boon-chronomancer-staff-scepter-torch",
+    "benchmark_type": "alac",
+    "profession": "Mesmer",
+    "elite_spec": "Chronomancer",
+    "build_type": "condition",
+    "url_name": "condition-boon-chronomancer-staff-scepter-torch",
+    "weapons": "",
+    "overall_dps": 35080.0,
+    "dps_report_url": "https://dps.report/Qv1n-20250510-031308_golem",
+    "html_file_path": "alac\\condition\\condition_boon_chronomancer_staff_scepter_torch.html"
   }
 ]

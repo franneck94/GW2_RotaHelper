@@ -1866,11 +1866,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_6": -1,
+    "slot_6": 1770506,
     "slot_7": -1,
     "slot_8": -1,
-    "slot_9": -1,
-    "slot_0": -1
+    "slot_9": 1770514,
+    "slot_0": 1770505
   },
   "buildMetadata": {
     "name": "Condition Alacrity Mirage",

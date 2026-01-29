@@ -1275,10 +1275,10 @@
   },
   "SkillKeyMapping": {
     "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1,
-    "slot_0": -1
+    "slot_7": 2491654,
+    "slot_8": 2491651,
+    "slot_9": 2491652,
+    "slot_0": 2491632
   },
   "buildMetadata": {
     "name": "Power Bladesworn",

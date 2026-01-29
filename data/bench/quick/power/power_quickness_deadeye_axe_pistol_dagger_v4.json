@@ -1473,11 +1473,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1,
-    "slot_0": -1
+    "slot_6": 1770611,
+    "slot_7": 104076,
+    "slot_8": 1770635,
+    "slot_9": 1770636,
+    "slot_0": 1770610
   },
   "buildMetadata": {
     "name": "Power Quickness Deadeye",

@@ -1030,5 +1030,3250 @@
   "alac-power-alacrity-renegade": {
     "slot_6": "1770592",
     "slot_7": "1030005"
+  },
+  "dps-condition-mirage-ih-oasis-staff-axe-torch": {
+    "slot_6": "1770506",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "dps-condition-mirage-ih-ether-staff-axe-torch": {
+    "slot_6": "699528",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "dps-power-dragonhunter-virtues-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "1012878",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "1024103"
+  },
+  "dps-power-luminary-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "3680154",
+    "slot_8": "3680156",
+    "slot_9": "103638",
+    "slot_0": "3680140"
+  },
+  "dps-condition-mirage-ih-oasis-staff-dagger-torch": {
+    "slot_6": "1770506",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "dps-power-willbender-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "2479373",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "2479365"
+  },
+  "dps-power-antiquary-spear-axe-pistol": {
+    "slot_6": "104077",
+    "slot_7": "3680219",
+    "slot_8": "104076",
+    "slot_9": "3680220",
+    "slot_0": "3680206"
+  },
+  "dps-condition-druid-dagger-torch-axe-dagger": {
+    "slot_6": "103175",
+    "slot_7": "103197",
+    "slot_8": "103944",
+    "slot_9": "104004",
+    "slot_0": "103101"
+  },
+  "dps-condition-alacrity-amalgam-steamshrieker-spear": {
+    "slot_6": "103395",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103435",
+    "slot_0": "3680125"
+  },
+  "dps-power-berserker-tactics-spear-greatsword": {
+    "slot_6": "1058642",
+    "slot_7": "104140",
+    "slot_8": "103798",
+    "slot_9": "1058652",
+    "slot_0": "1058637"
+  },
+  "dps-power-chronomancer-spear-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "103742",
+    "slot_9": "103764",
+    "slot_0": "1012881"
+  },
+  "dps-condition-willbender-pistol-torch-pistol": {
+    "slot_6": "699527",
+    "slot_7": "103675",
+    "slot_8": "2479377",
+    "slot_9": "103643",
+    "slot_0": "2479365"
+  },
+  "dps-condition-mechanist-two-kits-spear": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "2503689",
+    "slot_9": "103435",
+    "slot_0": "2503668"
+  },
+  "dps-power-bladesworn-faf-sword-pistol": {
+    "slot_6": "103295",
+    "slot_7": "2491654",
+    "slot_8": "2491651",
+    "slot_9": "2491652",
+    "slot_0": "2491632"
+  },
+  "dps-condition-mirage-dune-cloak-staff-axe-torch": {
+    "slot_6": "699528",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "dps-power-ritualist-greatsword-spear": {
+    "slot_6": "3680169",
+    "slot_7": "58459",
+    "slot_8": "3680180",
+    "slot_9": "3680182",
+    "slot_0": "103840"
+  },
+  "dps-condition-willbender-scepter-pistol-pistol-torch": {
+    "slot_6": "699527",
+    "slot_7": "103675",
+    "slot_8": "2479377",
+    "slot_9": "103643",
+    "slot_0": "2479365"
+  },
+  "dps-power-dragonhunter-radiance-longbow-greatsword": {
+    "slot_6": "1012868",
+    "slot_7": "1012878",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "1024103"
+  },
+  "dps-condition-daredevil-spear-only": {
+    "slot_6": "1058620",
+    "slot_7": "103073",
+    "slot_8": "103513",
+    "slot_9": "2175070",
+    "slot_0": "104093"
+  },
+  "dps-power-dragonhunter-radiance-spear-greatsword": {
+    "slot_6": "1012868",
+    "slot_7": "1012878",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "1024103"
+  },
+  "dps-power-antiquary-staff-only": {
+    "slot_6": "104077",
+    "slot_7": "3680219",
+    "slot_8": "104076",
+    "slot_9": "3680220",
+    "slot_0": "3680206"
+  },
+  "dps-condition-specter-spear-only": {
+    "slot_6": "2503753",
+    "slot_7": "2503755",
+    "slot_8": "103513",
+    "slot_9": "2175070",
+    "slot_0": "104093"
+  },
+  "dps-condition-daredevil-dagger-only": {
+    "slot_6": "1058620",
+    "slot_7": "103073",
+    "slot_8": "103513",
+    "slot_9": "2175070",
+    "slot_0": "104093"
+  },
+  "dps-power-chronomancer-greatsword-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "103764",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "dps-condition-antiquary-spear-only": {
+    "slot_6": "104077",
+    "slot_7": "103513",
+    "slot_8": "2175070",
+    "slot_9": "3680219",
+    "slot_0": "3680206"
+  },
+  "dps-condition-weaver-pistol-warhorn": {
+    "slot_6": "103321",
+    "slot_7": "103352",
+    "slot_8": "103340",
+    "slot_9": "1770332",
+    "slot_0": "1770326"
+  },
+  "dps-power-untamed-hammer-spear": {
+    "slot_6": "103175",
+    "slot_7": "103074",
+    "slot_8": "103865",
+    "slot_9": "103542",
+    "slot_0": "2503712"
+  },
+  "dps-power-deadeye-m7-spear-dagger-dagger": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "dps-power-untamed-hammer-sword-axe": {
+    "slot_6": "103175",
+    "slot_7": "103074",
+    "slot_8": "103865",
+    "slot_9": "103542",
+    "slot_0": "2503712"
+  },
+  "dps-power-daredevil-spear": {
+    "slot_6": "104070",
+    "slot_7": "1058631",
+    "slot_8": "104076",
+    "slot_9": "1058635",
+    "slot_0": "104093"
+  },
+  "dps-power-antiquary-rifle-only": {
+    "slot_6": "104077",
+    "slot_7": "3680219",
+    "slot_8": "104076",
+    "slot_9": "3680220",
+    "slot_0": "3680206"
+  },
+  "dps-condition-weaver-scepter-warhorn": {
+    "slot_6": "103321",
+    "slot_7": "103340",
+    "slot_8": "103352",
+    "slot_9": "1770332",
+    "slot_0": "1770326"
+  },
+  "dps-power-harbinger-greatsword-spear": {
+    "slot_6": "2479398",
+    "slot_7": "103566",
+    "slot_8": "103570",
+    "slot_9": "58459",
+    "slot_0": "2479394"
+  },
+  "dps-condition-berserker-longbow-sword-torch": {
+    "slot_6": "1058642",
+    "slot_7": "1058650",
+    "slot_8": "1058652",
+    "slot_9": "1058651",
+    "slot_0": "1058637"
+  },
+  "dps-power-deadeye-m7-rifle-dagger-dagger": {
+    "slot_6": "104070",
+    "slot_7": "104076",
+    "slot_8": "1770637",
+    "slot_9": "1770635",
+    "slot_0": "1770610"
+  },
+  "dps-power-weaver-sword-dagger": {
+    "slot_6": "103321",
+    "slot_7": "103229",
+    "slot_8": "103393",
+    "slot_9": "1770332",
+    "slot_0": "1770326"
+  },
+  "dps-power-galeshot-longbow-axe-axe": {
+    "slot_6": "103175",
+    "slot_7": "3680194",
+    "slot_8": "103542",
+    "slot_9": "3680195",
+    "slot_0": "3680184"
+  },
+  "dps-power-spellbreaker-hammer-dagger-mace": {
+    "slot_6": "104117",
+    "slot_7": "104140",
+    "slot_8": "104119",
+    "slot_9": "103798",
+    "slot_0": "1770659"
+  },
+  "dps-power-spellbreaker-sword-mace-dagger-axe": {
+    "slot_6": "102866",
+    "slot_7": "103001",
+    "slot_8": "104119",
+    "slot_9": "103798",
+    "slot_0": "104113"
+  },
+  "dps-condition-chronomancer-staff-scepter-torch": {
+    "slot_6": "699528",
+    "slot_7": "103612",
+    "slot_8": "57900",
+    "slot_9": "103736",
+    "slot_0": "1012893"
+  },
+  "dps-condition-catalyst-pistol-dagger": {
+    "slot_6": "699524",
+    "slot_7": "103393",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "dps-power-antiquary-dagger-pistol-only": {
+    "slot_6": "104077",
+    "slot_7": "3680219",
+    "slot_8": "104076",
+    "slot_9": "3680220",
+    "slot_0": "3680206"
+  },
+  "dps-power-berserker-axe-axe-mace": {
+    "slot_6": "1058642",
+    "slot_7": "1058652",
+    "slot_8": "103798",
+    "slot_9": "104119",
+    "slot_0": "104113"
+  },
+  "dps-power-catalyst-sword-dagger": {
+    "slot_6": "103321",
+    "slot_7": "103393",
+    "slot_8": "2491601",
+    "slot_9": "103229",
+    "slot_0": "2491568"
+  },
+  "dps-power-deadeye-spear-bqobk-spear-dagger-pistol": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "104093"
+  },
+  "dps-power-amalgam-double-helix-hammer": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103177",
+    "slot_0": "3680125"
+  },
+  "dps-condition-alacrity-mirage-staff-axe-torch": {
+    "slot_6": "1770506",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "dps-condition-soulbeast-shortbow-dagger-dagger": {
+    "slot_6": "103175",
+    "slot_7": "104004",
+    "slot_8": "103197",
+    "slot_9": "1770571",
+    "slot_0": "1770558"
+  },
+  "dps-condition-alacrity-amalgam-two-kits-spear": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "3680138",
+    "slot_9": "103435",
+    "slot_0": "3680125"
+  },
+  "dps-power-tempest-sword-dagger": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "dps-condition-mechanist-one-kit-spear": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "2503691",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "dps-power-soulbeast-hammer-sword-axe": {
+    "slot_6": "103175",
+    "slot_7": "104025",
+    "slot_8": "103074",
+    "slot_9": "103542",
+    "slot_0": "1770558"
+  },
+  "dps-condition-specter-scepter-dagger-only": {
+    "slot_6": "2503753",
+    "slot_7": "103513",
+    "slot_8": "2503755",
+    "slot_9": "2175070",
+    "slot_0": "104093"
+  },
+  "dps-condition-tempest-pistol-warhorn": {
+    "slot_6": "1029989",
+    "slot_7": "103324",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "dps-condition-harbinger-pistol-torch-scepter-dagger": {
+    "slot_6": "2479398",
+    "slot_7": "103795",
+    "slot_8": "58459",
+    "slot_9": "103812",
+    "slot_0": "2479394"
+  },
+  "dps-condition-soulbeast-axe-dagger-dagger-torch": {
+    "slot_6": "103175",
+    "slot_7": "104004",
+    "slot_8": "103283",
+    "slot_9": "1770571",
+    "slot_0": "1770558"
+  },
+  "dps-power-soulbeast-hammer-axe-axe": {
+    "slot_6": "103175",
+    "slot_7": "104025",
+    "slot_8": "103074",
+    "slot_9": "103542",
+    "slot_0": "1770558"
+  },
+  "dps-condition-paragon-longbow-sword-sword": {
+    "slot_6": "102866",
+    "slot_7": "104128",
+    "slot_8": "104119",
+    "slot_9": "103798",
+    "slot_0": "104113"
+  },
+  "dps-power-virtuoso-spear-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "103764",
+    "slot_8": "2479387",
+    "slot_9": "103742",
+    "slot_0": "2479389"
+  },
+  "dps-power-daredevil-dagger-only": {
+    "slot_6": "104070",
+    "slot_7": "1058631",
+    "slot_8": "104076",
+    "slot_9": "103712",
+    "slot_0": "104093"
+  },
+  "dps-power-holosmith-sword-pistol": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "1770412",
+    "slot_9": "1770411",
+    "slot_0": "1770387"
+  },
+  "dps-power-scrapper-hammer": {
+    "slot_6": "1128587",
+    "slot_7": "103396",
+    "slot_8": "103177",
+    "slot_9": "103399",
+    "slot_0": "103443"
+  },
+  "dps-power-troubadour-spear-dagger-sword": {
+    "slot_6": "103744",
+    "slot_7": "3680167",
+    "slot_8": "103756",
+    "slot_9": "103742",
+    "slot_0": "1012893"
+  },
+  "dps-power-tempest-scepter-dagger": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "dps-power-deadeye-bqobk-staff-dagger-dagger": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "104093"
+  },
+  "dps-power-amalgam-hammer": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103177",
+    "slot_0": "3680125"
+  },
+  "dps-inferno-quickness-evoker-specialized-elements": {
+    "slot_6": "3680112",
+    "slot_7": "3680121",
+    "slot_8": "1424240",
+    "slot_9": "103340",
+    "slot_0": "867437"
+  },
+  "dps-power-reaper-greatsword-spear": {
+    "slot_6": "1012929",
+    "slot_7": "103566",
+    "slot_8": "103570",
+    "slot_9": "1012951",
+    "slot_0": "103840"
+  },
+  "dps-condition-thief-axe-dagger-only": {
+    "slot_6": "104070",
+    "slot_7": "2175070",
+    "slot_8": "103073",
+    "slot_9": "103513",
+    "slot_0": "104109"
+  },
+  "dps-power-daredevil-staff": {
+    "slot_6": "104070",
+    "slot_7": "1058631",
+    "slot_8": "104076",
+    "slot_9": "1058635",
+    "slot_0": "104093"
+  },
+  "dps-power-quickness-deadeye-axe-pistol-dagger": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "dps-power-quickness-evoker-scepter-dagger": {
+    "slot_6": "3680112",
+    "slot_7": "103340",
+    "slot_8": "103393",
+    "slot_9": "3680121",
+    "slot_0": "3680111"
+  },
+  "dps-power-tempest-spear": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "dps-power-virtuoso-greatsword-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "103764",
+    "slot_8": "2479387",
+    "slot_9": "103742",
+    "slot_0": "2479389"
+  },
+  "dps-power-catalyst-spear": {
+    "slot_6": "103321",
+    "slot_7": "2491601",
+    "slot_8": "103393",
+    "slot_9": "2491603",
+    "slot_0": "2491568"
+  },
+  "dps-power-reaper-greatsword-dagger-sword": {
+    "slot_6": "1012929",
+    "slot_7": "103566",
+    "slot_8": "103570",
+    "slot_9": "1012951",
+    "slot_0": "103840"
+  },
+  "dps-power-quickness-berserker-tactics-spear-greatsword": {
+    "slot_6": "1058642",
+    "slot_7": "104140",
+    "slot_8": "103798",
+    "slot_9": "1058652",
+    "slot_0": "1058637"
+  },
+  "dps-condition-tempest-scepter-warhorn": {
+    "slot_6": "1029989",
+    "slot_7": "103324",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "dps-power-alacrity-luminary-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "3680154",
+    "slot_8": "3680156",
+    "slot_9": "103638",
+    "slot_0": "3680140"
+  },
+  "dps-condition-soulbeast-axe-torch-dagger-axe": {
+    "slot_6": "103175",
+    "slot_7": "104004",
+    "slot_8": "104025",
+    "slot_9": "1770571",
+    "slot_0": "1770558"
+  },
+  "dps-power-paragon-sword-axe-dagger-mace": {
+    "slot_6": "102866",
+    "slot_7": "104140",
+    "slot_8": "104119",
+    "slot_9": "103798",
+    "slot_0": "104113"
+  },
+  "dps-power-quickness-ritualist-greatsword-spear": {
+    "slot_6": "3680169",
+    "slot_7": "58459",
+    "slot_8": "3680180",
+    "slot_9": "3680182",
+    "slot_0": "103840"
+  },
+  "dps-power-alacrity-luminary-longbow-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "3680154",
+    "slot_8": "3680156",
+    "slot_9": "103638",
+    "slot_0": "3680140"
+  },
+  "dps-inferno-quickness-catalyst-scepter-dagger": {
+    "slot_6": "699524",
+    "slot_7": "103340",
+    "slot_8": "103393",
+    "slot_9": "2491601",
+    "slot_0": "867437"
+  },
+  "dps-power-mechanist-sword-pistol": {
+    "slot_6": "2503669",
+    "slot_7": "103399",
+    "slot_8": "2503690",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "dps-power-quickness-deadeye-spear-dagger-pistol": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "dps-power-quickness-catalyst-scepter-dagger": {
+    "slot_6": "699524",
+    "slot_7": "2491601",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "867437"
+  },
+  "dps-condition-thief-spear-only": {
+    "slot_6": "104070",
+    "slot_7": "2175070",
+    "slot_8": "104097",
+    "slot_9": "103513",
+    "slot_0": "104093"
+  },
+  "dps-condition-mechanist-no-kit-spear": {
+    "slot_6": "2503669",
+    "slot_7": "2503690",
+    "slot_8": "2503691",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "dps-condition-virtuoso-dagger-sword-focus": {
+    "slot_6": "699528",
+    "slot_7": "103756",
+    "slot_8": "103612",
+    "slot_9": "57900",
+    "slot_0": "2479389"
+  },
+  "dps-condition-scourge-scepter-torch-pistol": {
+    "slot_6": "1770534",
+    "slot_7": "103795",
+    "slot_8": "102804",
+    "slot_9": "102804",
+    "slot_0": "103312"
+  },
+  "dps-power-mechanist-rifle": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "2503690",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "dps-condition-alacrity-mechanist-two-kits-spear": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "103435",
+    "slot_9": "2503691",
+    "slot_0": "2503668"
+  },
+  "dps-power-alacrity-bladesworn-overcharged-cartridges-sword-pistol": {
+    "slot_6": "104117",
+    "slot_7": "2491651",
+    "slot_8": "2491652",
+    "slot_9": "2491654",
+    "slot_0": "2491632"
+  },
+  "dps-condition-quickness-catalyst-pistol-dagger": {
+    "slot_6": "699524",
+    "slot_7": "103393",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "dps-condition-quickness-firebrand-pistol-torch-pistol": {
+    "slot_6": "1770463",
+    "slot_7": "103675",
+    "slot_8": "1770490",
+    "slot_9": "1770484",
+    "slot_0": "103702"
+  },
+  "dps-power-warrior-mace-axe-dagger-mace": {
+    "slot_6": "102866",
+    "slot_7": "104140",
+    "slot_8": "103798",
+    "slot_9": "104119",
+    "slot_0": "104113"
+  },
+  "dps-power-quickness-untamed-hammer-sword-axe": {
+    "slot_6": "103175",
+    "slot_7": "103993",
+    "slot_8": "104025",
+    "slot_9": "103542",
+    "slot_0": "103606"
+  },
+  "dps-power-quickness-catalyst-sword-dagger": {
+    "slot_6": "2491592",
+    "slot_7": "2491601",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "867437"
+  },
+  "dps-power-quickness-berserker-spear-axe-axe": {
+    "slot_6": "1058642",
+    "slot_7": "104119",
+    "slot_8": "103798",
+    "slot_9": "1058652",
+    "slot_0": "1058637"
+  },
+  "dps-power-quickness-galeshot-longbow-axe-axe": {
+    "slot_6": "103175",
+    "slot_7": "3680194",
+    "slot_8": "103542",
+    "slot_9": "3680195",
+    "slot_0": "3680184"
+  },
+  "dps-power-warrior-sword-axe-dagger-mace": {
+    "slot_6": "102866",
+    "slot_7": "104140",
+    "slot_8": "103798",
+    "slot_9": "104119",
+    "slot_0": "104113"
+  },
+  "dps-condition-alacrity-specter-spear-only": {
+    "slot_6": "2503753",
+    "slot_7": "103513",
+    "slot_8": "2503755",
+    "slot_9": "2175070",
+    "slot_0": "104109"
+  },
+  "dps-power-quickness-berserker-greatsword-axe-axe": {
+    "slot_6": "1058642",
+    "slot_7": "103798",
+    "slot_8": "1058652",
+    "slot_9": "104119",
+    "slot_0": "1058637"
+  },
+  "dps-power-boon-chronomancer-spear-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "1012902",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "dps-power-quickness-deadeye-dagger-only": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "dps-inferno-alacrity-tempest-scepter-focus": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "dps-power-alacrity-willbender-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "2479373",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "2479365"
+  },
+  "dps-condition-alacrity-specter-dagger-only": {
+    "slot_6": "2503753",
+    "slot_7": "2503755",
+    "slot_8": "103073",
+    "slot_9": "2175070",
+    "slot_0": "104109"
+  },
+  "dps-power-alacrity-amalgam-hammer": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103177",
+    "slot_0": "3680125"
+  },
+  "dps-power-alacrity-bladesworn-signets-sword-pistol": {
+    "slot_6": "103295",
+    "slot_7": "2491651",
+    "slot_8": "103798",
+    "slot_9": "104119",
+    "slot_0": "2491632"
+  },
+  "dps-power-alacrity-willbender-greatsword-sword-focus": {
+    "slot_6": "699527",
+    "slot_7": "2479373",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "2479365"
+  },
+  "dps-condition-boon-chronomancer-staff-scepter-torch": {
+    "slot_6": "699528",
+    "slot_7": "103612",
+    "slot_8": "57900",
+    "slot_9": "103736",
+    "slot_0": "1012893"
+  },
+  "dps-condition-quickness-deadeye-spear-only": {
+    "slot_6": "1770611",
+    "slot_7": "103513",
+    "slot_8": "2175070",
+    "slot_9": "1770635",
+    "slot_0": "1770610"
+  },
+  "dps-power-quickness-deadeye-rifle-only": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "dps-power-quickness-untamed-hammer-mace-mace": {
+    "slot_6": "103175",
+    "slot_7": "103993",
+    "slot_8": "104025",
+    "slot_9": "103542",
+    "slot_0": "103606"
+  },
+  "dps-condition-alacrity-specter-scepter-dagger-dagger": {
+    "slot_6": "2503753",
+    "slot_7": "103513",
+    "slot_8": "2503755",
+    "slot_9": "2175070",
+    "slot_0": "104109"
+  },
+  "dps-condition-quickness-untamed-axe-dagger-dagger-torch": {
+    "slot_6": "103175",
+    "slot_7": "104004",
+    "slot_8": "103944",
+    "slot_9": "103197",
+    "slot_0": "103101"
+  },
+  "dps-power-boon-chronomancer-greatsword-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "1012902",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "dps-power-boon-chronomancer-greatsword-spear": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "1012902",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "dps-power-alacrity-evoker-scepter-dagger": {
+    "slot_6": "3680112",
+    "slot_7": "3680121",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "3680111"
+  },
+  "dps-power-boon-chronomancer-spear-dagger-focus": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "1012902",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "dps-condition-quickness-catalyst-pistol-warhorn": {
+    "slot_6": "699524",
+    "slot_7": "103393",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "dps-power-quickness-untamed-hammer-sword-mace": {
+    "slot_6": "2503724",
+    "slot_7": "103993",
+    "slot_8": "104025",
+    "slot_9": "103542",
+    "slot_0": "2503712"
+  },
+  "dps-power-quickness-troubadour-spear-dagger-sword": {
+    "slot_6": "103744",
+    "slot_7": "3680167",
+    "slot_8": "103756",
+    "slot_9": "3680164",
+    "slot_0": "1012893"
+  },
+  "dps-condition-quickness-harbinger-pistol-dagger-scepter-torch": {
+    "slot_6": "2479398",
+    "slot_7": "103795",
+    "slot_8": "2479395",
+    "slot_9": "58459",
+    "slot_0": "2479394"
+  },
+  "dps-condition-alacrity-mirage-staff-only": {
+    "slot_6": "1770506",
+    "slot_7": "1770514",
+    "slot_8": "103612",
+    "slot_9": "57900",
+    "slot_0": "1770505"
+  },
+  "dps-condition-quickness-deadeye-scepter-dagger-only": {
+    "slot_6": "1770611",
+    "slot_7": "103513",
+    "slot_8": "2175070",
+    "slot_9": "1770635",
+    "slot_0": "1770610"
+  },
+  "dps-condition-alacrity-tempest-pistol-warhorn": {
+    "slot_6": "1029989",
+    "slot_7": "103324",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "dps-condition-alacrity-tempest-scepter-warhorn": {
+    "slot_6": "1029989",
+    "slot_7": "103324",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "dps-power-quickness-scrapper-hammer": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103177",
+    "slot_0": "103443"
+  },
+  "dps-power-alacrity-tempest-hammer": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103229",
+    "slot_0": "103380"
+  },
+  "dps-condition-alacrity-mechanist-one-kit-spear": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "2503689",
+    "slot_9": "2503691",
+    "slot_0": "2503668"
+  },
+  "dps-power-alacrity-tempest-sword-dagger": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "dps-power-alacrity-mechanist-rifle": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "2503690",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "dps-condition-alacrity-scourge-scepter-torch-pistol": {
+    "slot_6": "1770534",
+    "slot_7": "103795",
+    "slot_8": "102804",
+    "slot_9": "102804",
+    "slot_0": "103312"
+  },
+  "quick-condition-mirage-ih-oasis-staff-axe-torch": {
+    "slot_6": "1770506",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "quick-condition-mirage-ih-ether-staff-axe-torch": {
+    "slot_6": "699528",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "quick-power-dragonhunter-virtues-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "1012878",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "1024103"
+  },
+  "quick-power-luminary-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "3680154",
+    "slot_8": "3680156",
+    "slot_9": "103638",
+    "slot_0": "3680140"
+  },
+  "quick-condition-mirage-ih-oasis-staff-dagger-torch": {
+    "slot_6": "1770506",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "quick-power-willbender-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "2479373",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "2479365"
+  },
+  "quick-power-antiquary-spear-axe-pistol": {
+    "slot_6": "104077",
+    "slot_7": "3680219",
+    "slot_8": "104076",
+    "slot_9": "3680220",
+    "slot_0": "3680206"
+  },
+  "quick-condition-druid-dagger-torch-axe-dagger": {
+    "slot_6": "103175",
+    "slot_7": "103197",
+    "slot_8": "103944",
+    "slot_9": "104004",
+    "slot_0": "103101"
+  },
+  "quick-condition-alacrity-amalgam-steamshrieker-spear": {
+    "slot_6": "103395",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103435",
+    "slot_0": "3680125"
+  },
+  "quick-power-berserker-tactics-spear-greatsword": {
+    "slot_6": "1058642",
+    "slot_7": "104140",
+    "slot_8": "103798",
+    "slot_9": "1058652",
+    "slot_0": "1058637"
+  },
+  "quick-power-chronomancer-spear-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "103742",
+    "slot_9": "103764",
+    "slot_0": "1012881"
+  },
+  "quick-inferno-catalyst-scepter-dagger": {
+    "slot_6": "699524",
+    "slot_7": "103340",
+    "slot_8": "103393",
+    "slot_9": "2491601",
+    "slot_0": "867437"
+  },
+  "quick-condition-willbender-pistol-torch-pistol": {
+    "slot_6": "699527",
+    "slot_7": "103675",
+    "slot_8": "2479377",
+    "slot_9": "103643",
+    "slot_0": "2479365"
+  },
+  "quick-condition-mechanist-two-kits-spear": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "2503689",
+    "slot_9": "103435",
+    "slot_0": "2503668"
+  },
+  "quick-power-bladesworn-faf-sword-pistol": {
+    "slot_6": "103295",
+    "slot_7": "2491654",
+    "slot_8": "2491651",
+    "slot_9": "2491652",
+    "slot_0": "2491632"
+  },
+  "quick-inferno-tempest-scepter-dagger": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "quick-condition-mirage-dune-cloak-staff-axe-torch": {
+    "slot_6": "699528",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "quick-power-ritualist-greatsword-spear": {
+    "slot_6": "3680169",
+    "slot_7": "58459",
+    "slot_8": "3680180",
+    "slot_9": "3680182",
+    "slot_0": "103840"
+  },
+  "quick-condition-holosmith-spear": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103435",
+    "slot_0": "1770387"
+  },
+  "quick-condition-willbender-scepter-pistol-pistol-torch": {
+    "slot_6": "699527",
+    "slot_7": "103675",
+    "slot_8": "2479377",
+    "slot_9": "103643",
+    "slot_0": "2479365"
+  },
+  "quick-power-dragonhunter-radiance-longbow-greatsword": {
+    "slot_6": "1012868",
+    "slot_7": "1012878",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "1024103"
+  },
+  "quick-condition-daredevil-spear-only": {
+    "slot_6": "1058620",
+    "slot_7": "103073",
+    "slot_8": "103513",
+    "slot_9": "2175070",
+    "slot_0": "104093"
+  },
+  "quick-power-dragonhunter-radiance-spear-greatsword": {
+    "slot_6": "1012868",
+    "slot_7": "1012878",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "1024103"
+  },
+  "quick-power-antiquary-staff-only": {
+    "slot_6": "104077",
+    "slot_7": "3680219",
+    "slot_8": "104076",
+    "slot_9": "3680220",
+    "slot_0": "3680206"
+  },
+  "quick-condition-specter-spear-only": {
+    "slot_6": "2503753",
+    "slot_7": "2503755",
+    "slot_8": "103513",
+    "slot_9": "2175070",
+    "slot_0": "104093"
+  },
+  "quick-power-evoker-scepter-dagger": {
+    "slot_6": "3680112",
+    "slot_7": "103340",
+    "slot_8": "103393",
+    "slot_9": "3680121",
+    "slot_0": "3680111"
+  },
+  "quick-condition-daredevil-dagger-only": {
+    "slot_6": "1058620",
+    "slot_7": "103073",
+    "slot_8": "103513",
+    "slot_9": "2175070",
+    "slot_0": "104093"
+  },
+  "quick-power-chronomancer-greatsword-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "103764",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "quick-condition-antiquary-spear-only": {
+    "slot_6": "104077",
+    "slot_7": "103513",
+    "slot_8": "2175070",
+    "slot_9": "3680219",
+    "slot_0": "3680206"
+  },
+  "quick-power-catalyst-scepter-dagger": {
+    "slot_6": "699524",
+    "slot_7": "2491601",
+    "slot_8": "103393",
+    "slot_9": "103229",
+    "slot_0": "867437"
+  },
+  "quick-condition-weaver-pistol-warhorn": {
+    "slot_6": "103321",
+    "slot_7": "103352",
+    "slot_8": "103340",
+    "slot_9": "1770332",
+    "slot_0": "1770326"
+  },
+  "quick-power-berserker-hammer-axe-mace": {
+    "slot_6": "1058642",
+    "slot_7": "1058653",
+    "slot_8": "103798",
+    "slot_9": "1058652",
+    "slot_0": "1058637"
+  },
+  "quick-power-untamed-hammer-spear": {
+    "slot_6": "103175",
+    "slot_7": "103074",
+    "slot_8": "103865",
+    "slot_9": "103542",
+    "slot_0": "2503712"
+  },
+  "quick-power-deadeye-m7-spear-dagger-dagger": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "quick-power-untamed-hammer-sword-axe": {
+    "slot_6": "103175",
+    "slot_7": "103074",
+    "slot_8": "103865",
+    "slot_9": "103542",
+    "slot_0": "2503712"
+  },
+  "quick-power-daredevil-spear": {
+    "slot_6": "104070",
+    "slot_7": "1058631",
+    "slot_8": "104076",
+    "slot_9": "1058635",
+    "slot_0": "104093"
+  },
+  "quick-power-tempest-hammer": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103229",
+    "slot_0": "103380"
+  },
+  "quick-power-antiquary-rifle-only": {
+    "slot_6": "104077",
+    "slot_7": "3680219",
+    "slot_8": "104076",
+    "slot_9": "3680220",
+    "slot_0": "3680206"
+  },
+  "quick-condition-weaver-scepter-warhorn": {
+    "slot_6": "103321",
+    "slot_7": "103340",
+    "slot_8": "103352",
+    "slot_9": "1770332",
+    "slot_0": "1770326"
+  },
+  "quick-power-harbinger-greatsword-spear": {
+    "slot_6": "2479398",
+    "slot_7": "103566",
+    "slot_8": "103570",
+    "slot_9": "58459",
+    "slot_0": "2479394"
+  },
+  "quick-condition-berserker-longbow-sword-torch": {
+    "slot_6": "1058642",
+    "slot_7": "1058650",
+    "slot_8": "1058652",
+    "slot_9": "1058651",
+    "slot_0": "1058637"
+  },
+  "quick-power-deadeye-m7-rifle-dagger-dagger": {
+    "slot_6": "104070",
+    "slot_7": "104076",
+    "slot_8": "1770637",
+    "slot_9": "1770635",
+    "slot_0": "1770610"
+  },
+  "quick-power-weaver-sword-dagger": {
+    "slot_6": "103321",
+    "slot_7": "103229",
+    "slot_8": "103393",
+    "slot_9": "1770332",
+    "slot_0": "1770326"
+  },
+  "quick-power-galeshot-longbow-axe-axe": {
+    "slot_6": "103175",
+    "slot_7": "3680194",
+    "slot_8": "103542",
+    "slot_9": "3680195",
+    "slot_0": "3680184"
+  },
+  "quick-power-spellbreaker-hammer-dagger-mace": {
+    "slot_6": "104117",
+    "slot_7": "104140",
+    "slot_8": "104119",
+    "slot_9": "103798",
+    "slot_0": "1770659"
+  },
+  "quick-inferno-evoker-specialized-elements": {
+    "slot_6": "3680112",
+    "slot_7": "3680121",
+    "slot_8": "1424240",
+    "slot_9": "103340",
+    "slot_0": "867437"
+  },
+  "quick-power-spellbreaker-sword-mace-dagger-axe": {
+    "slot_6": "102866",
+    "slot_7": "103001",
+    "slot_8": "104119",
+    "slot_9": "103798",
+    "slot_0": "104113"
+  },
+  "quick-condition-chronomancer-staff-scepter-torch": {
+    "slot_6": "699528",
+    "slot_7": "103612",
+    "slot_8": "57900",
+    "slot_9": "103736",
+    "slot_0": "1012893"
+  },
+  "quick-condition-catalyst-pistol-dagger": {
+    "slot_6": "699524",
+    "slot_7": "103393",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "quick-power-antiquary-dagger-pistol-only": {
+    "slot_6": "104077",
+    "slot_7": "3680219",
+    "slot_8": "104076",
+    "slot_9": "3680220",
+    "slot_0": "3680206"
+  },
+  "quick-power-berserker-axe-axe-mace": {
+    "slot_6": "1058642",
+    "slot_7": "1058652",
+    "slot_8": "103798",
+    "slot_9": "104119",
+    "slot_0": "104113"
+  },
+  "quick-power-catalyst-sword-dagger": {
+    "slot_6": "103321",
+    "slot_7": "103393",
+    "slot_8": "2491601",
+    "slot_9": "103229",
+    "slot_0": "2491568"
+  },
+  "quick-power-virtuoso-spear-greatsword": {
+    "slot_6": "699528",
+    "slot_7": "103764",
+    "slot_8": "2479387",
+    "slot_9": "103742",
+    "slot_0": "2479389"
+  },
+  "quick-power-deadeye-spear-bqobk-spear-dagger-pistol": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "104093"
+  },
+  "quick-power-amalgam-double-helix-hammer": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103177",
+    "slot_0": "3680125"
+  },
+  "quick-condition-alacrity-mirage-staff-axe-torch": {
+    "slot_6": "1770506",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "quick-power-harbinger-greatsword-dagger-sword": {
+    "slot_6": "2479398",
+    "slot_7": "103566",
+    "slot_8": "103570",
+    "slot_9": "58459",
+    "slot_0": "2479394"
+  },
+  "quick-condition-soulbeast-shortbow-dagger-dagger": {
+    "slot_6": "103175",
+    "slot_7": "104004",
+    "slot_8": "103197",
+    "slot_9": "1770571",
+    "slot_0": "1770558"
+  },
+  "quick-condition-alacrity-amalgam-two-kits-spear": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "3680138",
+    "slot_9": "103435",
+    "slot_0": "3680125"
+  },
+  "quick-power-tempest-sword-dagger": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "quick-condition-mechanist-one-kit-spear": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "2503691",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "quick-power-soulbeast-hammer-sword-axe": {
+    "slot_6": "103175",
+    "slot_7": "104025",
+    "slot_8": "103074",
+    "slot_9": "103542",
+    "slot_0": "1770558"
+  },
+  "quick-condition-specter-scepter-dagger-only": {
+    "slot_6": "2503753",
+    "slot_7": "103513",
+    "slot_8": "2503755",
+    "slot_9": "2175070",
+    "slot_0": "104093"
+  },
+  "quick-condition-tempest-pistol-warhorn": {
+    "slot_6": "1029989",
+    "slot_7": "103324",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "quick-condition-harbinger-pistol-torch-scepter-dagger": {
+    "slot_6": "2479398",
+    "slot_7": "103795",
+    "slot_8": "58459",
+    "slot_9": "103812",
+    "slot_0": "2479394"
+  },
+  "quick-power-harbinger-greatsword-sword-sword": {
+    "slot_6": "2479398",
+    "slot_7": "103566",
+    "slot_8": "103570",
+    "slot_9": "58459",
+    "slot_0": "2479394"
+  },
+  "quick-condition-soulbeast-axe-dagger-dagger-torch": {
+    "slot_6": "103175",
+    "slot_7": "104004",
+    "slot_8": "103283",
+    "slot_9": "1770571",
+    "slot_0": "1770558"
+  },
+  "quick-power-soulbeast-hammer-axe-axe": {
+    "slot_6": "103175",
+    "slot_7": "104025",
+    "slot_8": "103074",
+    "slot_9": "103542",
+    "slot_0": "1770558"
+  },
+  "quick-condition-paragon-longbow-sword-sword": {
+    "slot_6": "102866",
+    "slot_7": "104128",
+    "slot_8": "104119",
+    "slot_9": "103798",
+    "slot_0": "104113"
+  },
+  "quick-power-virtuoso-spear-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "103764",
+    "slot_8": "2479387",
+    "slot_9": "103742",
+    "slot_0": "2479389"
+  },
+  "quick-power-daredevil-dagger-only": {
+    "slot_6": "104070",
+    "slot_7": "1058631",
+    "slot_8": "104076",
+    "slot_9": "103712",
+    "slot_0": "104093"
+  },
+  "quick-power-holosmith-sword-pistol": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "1770412",
+    "slot_9": "1770411",
+    "slot_0": "1770387"
+  },
+  "quick-power-scrapper-hammer": {
+    "slot_6": "1128587",
+    "slot_7": "103396",
+    "slot_8": "103177",
+    "slot_9": "103399",
+    "slot_0": "103443"
+  },
+  "quick-power-troubadour-spear-dagger-sword": {
+    "slot_6": "103744",
+    "slot_7": "3680167",
+    "slot_8": "103756",
+    "slot_9": "103742",
+    "slot_0": "1012893"
+  },
+  "quick-power-tempest-scepter-dagger": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "quick-power-deadeye-bqobk-staff-dagger-dagger": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "104093"
+  },
+  "quick-power-amalgam-hammer": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103177",
+    "slot_0": "3680125"
+  },
+  "quick-power-reaper-greatsword-spear": {
+    "slot_6": "1012929",
+    "slot_7": "103566",
+    "slot_8": "103570",
+    "slot_9": "1012951",
+    "slot_0": "103840"
+  },
+  "quick-condition-thief-axe-dagger-only": {
+    "slot_6": "104070",
+    "slot_7": "2175070",
+    "slot_8": "103073",
+    "slot_9": "103513",
+    "slot_0": "104109"
+  },
+  "quick-power-daredevil-staff": {
+    "slot_6": "104070",
+    "slot_7": "1058631",
+    "slot_8": "104076",
+    "slot_9": "1058635",
+    "slot_0": "104093"
+  },
+  "quick-power-quickness-deadeye-axe-pistol-dagger": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "quick-power-quickness-evoker-scepter-dagger": {
+    "slot_6": "3680112",
+    "slot_7": "103340",
+    "slot_8": "103393",
+    "slot_9": "3680121",
+    "slot_0": "3680111"
+  },
+  "quick-power-tempest-spear": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "quick-power-virtuoso-greatsword-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "103764",
+    "slot_8": "2479387",
+    "slot_9": "103742",
+    "slot_0": "2479389"
+  },
+  "quick-power-catalyst-spear": {
+    "slot_6": "103321",
+    "slot_7": "2491601",
+    "slot_8": "103393",
+    "slot_9": "2491603",
+    "slot_0": "2491568"
+  },
+  "quick-power-reaper-greatsword-dagger-sword": {
+    "slot_6": "1012929",
+    "slot_7": "103566",
+    "slot_8": "103570",
+    "slot_9": "1012951",
+    "slot_0": "103840"
+  },
+  "quick-power-quickness-berserker-tactics-spear-greatsword": {
+    "slot_6": "1058642",
+    "slot_7": "104140",
+    "slot_8": "103798",
+    "slot_9": "1058652",
+    "slot_0": "1058637"
+  },
+  "quick-condition-tempest-scepter-warhorn": {
+    "slot_6": "1029989",
+    "slot_7": "103324",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "quick-power-alacrity-luminary-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "3680154",
+    "slot_8": "3680156",
+    "slot_9": "103638",
+    "slot_0": "3680140"
+  },
+  "quick-condition-soulbeast-axe-torch-dagger-axe": {
+    "slot_6": "103175",
+    "slot_7": "104004",
+    "slot_8": "104025",
+    "slot_9": "1770571",
+    "slot_0": "1770558"
+  },
+  "quick-power-paragon-sword-axe-dagger-mace": {
+    "slot_6": "102866",
+    "slot_7": "104140",
+    "slot_8": "104119",
+    "slot_9": "103798",
+    "slot_0": "104113"
+  },
+  "quick-power-quickness-ritualist-greatsword-spear": {
+    "slot_6": "3680169",
+    "slot_7": "58459",
+    "slot_8": "3680180",
+    "slot_9": "3680182",
+    "slot_0": "103840"
+  },
+  "quick-power-alacrity-luminary-longbow-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "3680154",
+    "slot_8": "3680156",
+    "slot_9": "103638",
+    "slot_0": "3680140"
+  },
+  "quick-power-mechanist-sword-pistol": {
+    "slot_6": "2503669",
+    "slot_7": "103399",
+    "slot_8": "2503690",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "quick-power-quickness-deadeye-spear-dagger-pistol": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "quick-condition-thief-spear-only": {
+    "slot_6": "104070",
+    "slot_7": "2175070",
+    "slot_8": "104097",
+    "slot_9": "103513",
+    "slot_0": "104093"
+  },
+  "quick-condition-mechanist-no-kit-spear": {
+    "slot_6": "2503669",
+    "slot_7": "2503690",
+    "slot_8": "2503691",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "quick-condition-virtuoso-dagger-sword-focus": {
+    "slot_6": "699528",
+    "slot_7": "103756",
+    "slot_8": "103612",
+    "slot_9": "57900",
+    "slot_0": "2479389"
+  },
+  "quick-condition-scourge-scepter-torch-pistol": {
+    "slot_6": "1770534",
+    "slot_7": "103795",
+    "slot_8": "102804",
+    "slot_9": "102804",
+    "slot_0": "103312"
+  },
+  "quick-power-mechanist-rifle": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "2503690",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "quick-condition-alacrity-mechanist-two-kits-spear": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "103435",
+    "slot_9": "2503691",
+    "slot_0": "2503668"
+  },
+  "quick-power-alacrity-bladesworn-overcharged-cartridges-sword-pistol": {
+    "slot_6": "104117",
+    "slot_7": "2491651",
+    "slot_8": "2491652",
+    "slot_9": "2491654",
+    "slot_0": "2491632"
+  },
+  "quick-condition-quickness-catalyst-pistol-dagger": {
+    "slot_6": "699524",
+    "slot_7": "103393",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "quick-condition-quickness-firebrand-pistol-torch-pistol": {
+    "slot_6": "1770463",
+    "slot_7": "103675",
+    "slot_8": "1770490",
+    "slot_9": "1770484",
+    "slot_0": "103702"
+  },
+  "quick-power-warrior-mace-axe-dagger-mace": {
+    "slot_6": "102866",
+    "slot_7": "104140",
+    "slot_8": "103798",
+    "slot_9": "104119",
+    "slot_0": "104113"
+  },
+  "quick-power-quickness-untamed-hammer-sword-axe": {
+    "slot_6": "103175",
+    "slot_7": "103993",
+    "slot_8": "104025",
+    "slot_9": "103542",
+    "slot_0": "103606"
+  },
+  "quick-power-quickness-catalyst-sword-dagger": {
+    "slot_6": "2491592",
+    "slot_7": "2491601",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "867437"
+  },
+  "quick-power-quickness-berserker-spear-axe-axe": {
+    "slot_6": "1058642",
+    "slot_7": "104119",
+    "slot_8": "103798",
+    "slot_9": "1058652",
+    "slot_0": "1058637"
+  },
+  "quick-power-quickness-galeshot-longbow-axe-axe": {
+    "slot_6": "103175",
+    "slot_7": "3680194",
+    "slot_8": "103542",
+    "slot_9": "3680195",
+    "slot_0": "3680184"
+  },
+  "quick-power-warrior-sword-axe-dagger-mace": {
+    "slot_6": "102866",
+    "slot_7": "104140",
+    "slot_8": "103798",
+    "slot_9": "104119",
+    "slot_0": "104113"
+  },
+  "quick-condition-alacrity-specter-spear-only": {
+    "slot_6": "2503753",
+    "slot_7": "103513",
+    "slot_8": "2503755",
+    "slot_9": "2175070",
+    "slot_0": "104109"
+  },
+  "quick-power-quickness-berserker-greatsword-axe-axe": {
+    "slot_6": "1058642",
+    "slot_7": "103798",
+    "slot_8": "1058652",
+    "slot_9": "104119",
+    "slot_0": "1058637"
+  },
+  "quick-power-boon-chronomancer-spear-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "1012902",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "quick-power-quickness-deadeye-dagger-only": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "quick-inferno-alacrity-tempest-scepter-focus": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "quick-power-alacrity-willbender-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "2479373",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "2479365"
+  },
+  "quick-condition-alacrity-specter-dagger-only": {
+    "slot_6": "2503753",
+    "slot_7": "2503755",
+    "slot_8": "103073",
+    "slot_9": "2175070",
+    "slot_0": "104109"
+  },
+  "quick-power-alacrity-amalgam-hammer": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103177",
+    "slot_0": "3680125"
+  },
+  "quick-power-alacrity-bladesworn-signets-sword-pistol": {
+    "slot_6": "103295",
+    "slot_7": "2491651",
+    "slot_8": "103798",
+    "slot_9": "104119",
+    "slot_0": "2491632"
+  },
+  "quick-power-alacrity-willbender-greatsword-sword-focus": {
+    "slot_6": "699527",
+    "slot_7": "2479373",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "2479365"
+  },
+  "quick-condition-boon-chronomancer-staff-scepter-torch": {
+    "slot_6": "699528",
+    "slot_7": "103612",
+    "slot_8": "57900",
+    "slot_9": "103736",
+    "slot_0": "1012893"
+  },
+  "quick-condition-quickness-deadeye-spear-only": {
+    "slot_6": "1770611",
+    "slot_7": "103513",
+    "slot_8": "2175070",
+    "slot_9": "1770635",
+    "slot_0": "1770610"
+  },
+  "quick-power-quickness-deadeye-rifle-only": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "quick-power-quickness-untamed-hammer-mace-mace": {
+    "slot_6": "103175",
+    "slot_7": "103993",
+    "slot_8": "104025",
+    "slot_9": "103542",
+    "slot_0": "103606"
+  },
+  "quick-condition-alacrity-specter-scepter-dagger-dagger": {
+    "slot_6": "2503753",
+    "slot_7": "103513",
+    "slot_8": "2503755",
+    "slot_9": "2175070",
+    "slot_0": "104109"
+  },
+  "quick-condition-quickness-untamed-axe-dagger-dagger-torch": {
+    "slot_6": "103175",
+    "slot_7": "104004",
+    "slot_8": "103944",
+    "slot_9": "103197",
+    "slot_0": "103101"
+  },
+  "quick-power-boon-chronomancer-greatsword-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "1012902",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "quick-power-boon-chronomancer-greatsword-spear": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "1012902",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "quick-power-alacrity-evoker-scepter-dagger": {
+    "slot_6": "3680112",
+    "slot_7": "3680121",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "3680111"
+  },
+  "quick-power-boon-chronomancer-spear-dagger-focus": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "1012902",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "quick-power-quickness-untamed-hammer-sword-mace": {
+    "slot_6": "2503724",
+    "slot_7": "103993",
+    "slot_8": "104025",
+    "slot_9": "103542",
+    "slot_0": "2503712"
+  },
+  "quick-power-quickness-troubadour-spear-dagger-sword": {
+    "slot_6": "103744",
+    "slot_7": "3680167",
+    "slot_8": "103756",
+    "slot_9": "3680164",
+    "slot_0": "1012893"
+  },
+  "quick-condition-quickness-harbinger-pistol-dagger-scepter-torch": {
+    "slot_6": "2479398",
+    "slot_7": "103795",
+    "slot_8": "2479395",
+    "slot_9": "58459",
+    "slot_0": "2479394"
+  },
+  "quick-condition-alacrity-mirage-staff-only": {
+    "slot_6": "1770506",
+    "slot_7": "1770514",
+    "slot_8": "103612",
+    "slot_9": "57900",
+    "slot_0": "1770505"
+  },
+  "quick-condition-quickness-deadeye-scepter-dagger-only": {
+    "slot_6": "1770611",
+    "slot_7": "103513",
+    "slot_8": "2175070",
+    "slot_9": "1770635",
+    "slot_0": "1770610"
+  },
+  "quick-condition-alacrity-tempest-pistol-warhorn": {
+    "slot_6": "1029989",
+    "slot_7": "103324",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "quick-condition-alacrity-tempest-scepter-warhorn": {
+    "slot_6": "1029989",
+    "slot_7": "103324",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "quick-power-quickness-scrapper-hammer": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103177",
+    "slot_0": "103443"
+  },
+  "quick-power-alacrity-tempest-hammer": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103229",
+    "slot_0": "103380"
+  },
+  "quick-condition-alacrity-mechanist-one-kit-spear": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "2503689",
+    "slot_9": "2503691",
+    "slot_0": "2503668"
+  },
+  "quick-power-alacrity-tempest-sword-dagger": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "quick-power-alacrity-mechanist-rifle": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "2503690",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "quick-condition-alacrity-scourge-scepter-torch-pistol": {
+    "slot_6": "1770534",
+    "slot_7": "103795",
+    "slot_8": "102804",
+    "slot_9": "102804",
+    "slot_0": "103312"
+  },
+  "alac-condition-mirage-ih-oasis-staff-axe-torch": {
+    "slot_6": "1770506",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "alac-condition-mirage-ih-ether-staff-axe-torch": {
+    "slot_6": "699528",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "alac-power-dragonhunter-virtues-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "1012878",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "1024103"
+  },
+  "alac-power-luminary-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "3680154",
+    "slot_8": "3680156",
+    "slot_9": "103638",
+    "slot_0": "3680140"
+  },
+  "alac-condition-mirage-ih-oasis-staff-dagger-torch": {
+    "slot_6": "1770506",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "alac-power-willbender-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "2479373",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "2479365"
+  },
+  "alac-power-antiquary-spear-axe-pistol": {
+    "slot_6": "104077",
+    "slot_7": "3680219",
+    "slot_8": "104076",
+    "slot_9": "3680220",
+    "slot_0": "3680206"
+  },
+  "alac-condition-druid-dagger-torch-axe-dagger": {
+    "slot_6": "103175",
+    "slot_7": "103197",
+    "slot_8": "103944",
+    "slot_9": "104004",
+    "slot_0": "103101"
+  },
+  "alac-condition-alacrity-amalgam-steamshrieker-spear": {
+    "slot_6": "103395",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103435",
+    "slot_0": "3680125"
+  },
+  "alac-power-berserker-tactics-spear-greatsword": {
+    "slot_6": "1058642",
+    "slot_7": "104140",
+    "slot_8": "103798",
+    "slot_9": "1058652",
+    "slot_0": "1058637"
+  },
+  "alac-power-chronomancer-spear-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "103742",
+    "slot_9": "103764",
+    "slot_0": "1012881"
+  },
+  "alac-inferno-catalyst-scepter-dagger": {
+    "slot_6": "699524",
+    "slot_7": "103340",
+    "slot_8": "103393",
+    "slot_9": "2491601",
+    "slot_0": "867437"
+  },
+  "alac-condition-willbender-pistol-torch-pistol": {
+    "slot_6": "699527",
+    "slot_7": "103675",
+    "slot_8": "2479377",
+    "slot_9": "103643",
+    "slot_0": "2479365"
+  },
+  "alac-condition-mechanist-two-kits-spear": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "2503689",
+    "slot_9": "103435",
+    "slot_0": "2503668"
+  },
+  "alac-power-bladesworn-faf-sword-pistol": {
+    "slot_6": "103295",
+    "slot_7": "2491654",
+    "slot_8": "2491651",
+    "slot_9": "2491652",
+    "slot_0": "2491632"
+  },
+  "alac-inferno-tempest-scepter-dagger": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "alac-condition-mirage-dune-cloak-staff-axe-torch": {
+    "slot_6": "699528",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "alac-power-ritualist-greatsword-spear": {
+    "slot_6": "3680169",
+    "slot_7": "58459",
+    "slot_8": "3680180",
+    "slot_9": "3680182",
+    "slot_0": "103840"
+  },
+  "alac-condition-holosmith-spear": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103435",
+    "slot_0": "1770387"
+  },
+  "alac-condition-willbender-scepter-pistol-pistol-torch": {
+    "slot_6": "699527",
+    "slot_7": "103675",
+    "slot_8": "2479377",
+    "slot_9": "103643",
+    "slot_0": "2479365"
+  },
+  "alac-power-dragonhunter-radiance-longbow-greatsword": {
+    "slot_6": "1012868",
+    "slot_7": "1012878",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "1024103"
+  },
+  "alac-condition-daredevil-spear-only": {
+    "slot_6": "1058620",
+    "slot_7": "103073",
+    "slot_8": "103513",
+    "slot_9": "2175070",
+    "slot_0": "104093"
+  },
+  "alac-power-dragonhunter-radiance-spear-greatsword": {
+    "slot_6": "1012868",
+    "slot_7": "1012878",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "1024103"
+  },
+  "alac-power-antiquary-staff-only": {
+    "slot_6": "104077",
+    "slot_7": "3680219",
+    "slot_8": "104076",
+    "slot_9": "3680220",
+    "slot_0": "3680206"
+  },
+  "alac-condition-specter-spear-only": {
+    "slot_6": "2503753",
+    "slot_7": "2503755",
+    "slot_8": "103513",
+    "slot_9": "2175070",
+    "slot_0": "104093"
+  },
+  "alac-power-evoker-scepter-dagger": {
+    "slot_6": "3680112",
+    "slot_7": "103340",
+    "slot_8": "103393",
+    "slot_9": "3680121",
+    "slot_0": "3680111"
+  },
+  "alac-condition-daredevil-dagger-only": {
+    "slot_6": "1058620",
+    "slot_7": "103073",
+    "slot_8": "103513",
+    "slot_9": "2175070",
+    "slot_0": "104093"
+  },
+  "alac-power-chronomancer-greatsword-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "103764",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "alac-condition-antiquary-spear-only": {
+    "slot_6": "104077",
+    "slot_7": "103513",
+    "slot_8": "2175070",
+    "slot_9": "3680219",
+    "slot_0": "3680206"
+  },
+  "alac-power-catalyst-scepter-dagger": {
+    "slot_6": "699524",
+    "slot_7": "2491601",
+    "slot_8": "103393",
+    "slot_9": "103229",
+    "slot_0": "867437"
+  },
+  "alac-condition-weaver-pistol-warhorn": {
+    "slot_6": "103321",
+    "slot_7": "103352",
+    "slot_8": "103340",
+    "slot_9": "1770332",
+    "slot_0": "1770326"
+  },
+  "alac-power-berserker-hammer-axe-mace": {
+    "slot_6": "1058642",
+    "slot_7": "1058653",
+    "slot_8": "103798",
+    "slot_9": "1058652",
+    "slot_0": "1058637"
+  },
+  "alac-power-untamed-hammer-spear": {
+    "slot_6": "103175",
+    "slot_7": "103074",
+    "slot_8": "103865",
+    "slot_9": "103542",
+    "slot_0": "2503712"
+  },
+  "alac-power-deadeye-m7-spear-dagger-dagger": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "alac-power-untamed-hammer-sword-axe": {
+    "slot_6": "103175",
+    "slot_7": "103074",
+    "slot_8": "103865",
+    "slot_9": "103542",
+    "slot_0": "2503712"
+  },
+  "alac-power-daredevil-spear": {
+    "slot_6": "104070",
+    "slot_7": "1058631",
+    "slot_8": "104076",
+    "slot_9": "1058635",
+    "slot_0": "104093"
+  },
+  "alac-power-tempest-hammer": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103229",
+    "slot_0": "103380"
+  },
+  "alac-power-antiquary-rifle-only": {
+    "slot_6": "104077",
+    "slot_7": "3680219",
+    "slot_8": "104076",
+    "slot_9": "3680220",
+    "slot_0": "3680206"
+  },
+  "alac-condition-weaver-scepter-warhorn": {
+    "slot_6": "103321",
+    "slot_7": "103340",
+    "slot_8": "103352",
+    "slot_9": "1770332",
+    "slot_0": "1770326"
+  },
+  "alac-power-harbinger-greatsword-spear": {
+    "slot_6": "2479398",
+    "slot_7": "103566",
+    "slot_8": "103570",
+    "slot_9": "58459",
+    "slot_0": "2479394"
+  },
+  "alac-condition-berserker-longbow-sword-torch": {
+    "slot_6": "1058642",
+    "slot_7": "1058650",
+    "slot_8": "1058652",
+    "slot_9": "1058651",
+    "slot_0": "1058637"
+  },
+  "alac-power-deadeye-m7-rifle-dagger-dagger": {
+    "slot_6": "104070",
+    "slot_7": "104076",
+    "slot_8": "1770637",
+    "slot_9": "1770635",
+    "slot_0": "1770610"
+  },
+  "alac-power-weaver-sword-dagger": {
+    "slot_6": "103321",
+    "slot_7": "103229",
+    "slot_8": "103393",
+    "slot_9": "1770332",
+    "slot_0": "1770326"
+  },
+  "alac-power-galeshot-longbow-axe-axe": {
+    "slot_6": "103175",
+    "slot_7": "3680194",
+    "slot_8": "103542",
+    "slot_9": "3680195",
+    "slot_0": "3680184"
+  },
+  "alac-power-spellbreaker-hammer-dagger-mace": {
+    "slot_6": "104117",
+    "slot_7": "104140",
+    "slot_8": "104119",
+    "slot_9": "103798",
+    "slot_0": "1770659"
+  },
+  "alac-inferno-evoker-specialized-elements": {
+    "slot_6": "3680112",
+    "slot_7": "3680121",
+    "slot_8": "1424240",
+    "slot_9": "103340",
+    "slot_0": "867437"
+  },
+  "alac-power-spellbreaker-sword-mace-dagger-axe": {
+    "slot_6": "102866",
+    "slot_7": "103001",
+    "slot_8": "104119",
+    "slot_9": "103798",
+    "slot_0": "104113"
+  },
+  "alac-condition-chronomancer-staff-scepter-torch": {
+    "slot_6": "699528",
+    "slot_7": "103612",
+    "slot_8": "57900",
+    "slot_9": "103736",
+    "slot_0": "1012893"
+  },
+  "alac-condition-catalyst-pistol-dagger": {
+    "slot_6": "699524",
+    "slot_7": "103393",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "alac-power-antiquary-dagger-pistol-only": {
+    "slot_6": "104077",
+    "slot_7": "3680219",
+    "slot_8": "104076",
+    "slot_9": "3680220",
+    "slot_0": "3680206"
+  },
+  "alac-power-berserker-axe-axe-mace": {
+    "slot_6": "1058642",
+    "slot_7": "1058652",
+    "slot_8": "103798",
+    "slot_9": "104119",
+    "slot_0": "104113"
+  },
+  "alac-power-catalyst-sword-dagger": {
+    "slot_6": "103321",
+    "slot_7": "103393",
+    "slot_8": "2491601",
+    "slot_9": "103229",
+    "slot_0": "2491568"
+  },
+  "alac-power-virtuoso-spear-greatsword": {
+    "slot_6": "699528",
+    "slot_7": "103764",
+    "slot_8": "2479387",
+    "slot_9": "103742",
+    "slot_0": "2479389"
+  },
+  "alac-power-deadeye-spear-bqobk-spear-dagger-pistol": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "104093"
+  },
+  "alac-power-amalgam-double-helix-hammer": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103177",
+    "slot_0": "3680125"
+  },
+  "alac-condition-alacrity-mirage-staff-axe-torch": {
+    "slot_6": "1770506",
+    "slot_7": "57900",
+    "slot_8": "103612",
+    "slot_9": "1770514",
+    "slot_0": "1770505"
+  },
+  "alac-power-harbinger-greatsword-dagger-sword": {
+    "slot_6": "2479398",
+    "slot_7": "103566",
+    "slot_8": "103570",
+    "slot_9": "58459",
+    "slot_0": "2479394"
+  },
+  "alac-condition-soulbeast-shortbow-dagger-dagger": {
+    "slot_6": "103175",
+    "slot_7": "104004",
+    "slot_8": "103197",
+    "slot_9": "1770571",
+    "slot_0": "1770558"
+  },
+  "alac-condition-alacrity-amalgam-two-kits-spear": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "3680138",
+    "slot_9": "103435",
+    "slot_0": "3680125"
+  },
+  "alac-power-tempest-sword-dagger": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "alac-condition-mechanist-one-kit-spear": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "2503691",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "alac-power-soulbeast-hammer-sword-axe": {
+    "slot_6": "103175",
+    "slot_7": "104025",
+    "slot_8": "103074",
+    "slot_9": "103542",
+    "slot_0": "1770558"
+  },
+  "alac-condition-specter-scepter-dagger-only": {
+    "slot_6": "2503753",
+    "slot_7": "103513",
+    "slot_8": "2503755",
+    "slot_9": "2175070",
+    "slot_0": "104093"
+  },
+  "alac-condition-tempest-pistol-warhorn": {
+    "slot_6": "1029989",
+    "slot_7": "103324",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "alac-condition-harbinger-pistol-torch-scepter-dagger": {
+    "slot_6": "2479398",
+    "slot_7": "103795",
+    "slot_8": "58459",
+    "slot_9": "103812",
+    "slot_0": "2479394"
+  },
+  "alac-power-harbinger-greatsword-sword-sword": {
+    "slot_6": "2479398",
+    "slot_7": "103566",
+    "slot_8": "103570",
+    "slot_9": "58459",
+    "slot_0": "2479394"
+  },
+  "alac-condition-soulbeast-axe-dagger-dagger-torch": {
+    "slot_6": "103175",
+    "slot_7": "104004",
+    "slot_8": "103283",
+    "slot_9": "1770571",
+    "slot_0": "1770558"
+  },
+  "alac-power-soulbeast-hammer-axe-axe": {
+    "slot_6": "103175",
+    "slot_7": "104025",
+    "slot_8": "103074",
+    "slot_9": "103542",
+    "slot_0": "1770558"
+  },
+  "alac-condition-paragon-longbow-sword-sword": {
+    "slot_6": "102866",
+    "slot_7": "104128",
+    "slot_8": "104119",
+    "slot_9": "103798",
+    "slot_0": "104113"
+  },
+  "alac-power-virtuoso-spear-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "103764",
+    "slot_8": "2479387",
+    "slot_9": "103742",
+    "slot_0": "2479389"
+  },
+  "alac-power-daredevil-dagger-only": {
+    "slot_6": "104070",
+    "slot_7": "1058631",
+    "slot_8": "104076",
+    "slot_9": "103712",
+    "slot_0": "104093"
+  },
+  "alac-power-holosmith-sword-pistol": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "1770412",
+    "slot_9": "1770411",
+    "slot_0": "1770387"
+  },
+  "alac-power-scrapper-hammer": {
+    "slot_6": "1128587",
+    "slot_7": "103396",
+    "slot_8": "103177",
+    "slot_9": "103399",
+    "slot_0": "103443"
+  },
+  "alac-power-troubadour-spear-dagger-sword": {
+    "slot_6": "103744",
+    "slot_7": "3680167",
+    "slot_8": "103756",
+    "slot_9": "103742",
+    "slot_0": "1012893"
+  },
+  "alac-power-tempest-scepter-dagger": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "alac-power-deadeye-bqobk-staff-dagger-dagger": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "104093"
+  },
+  "alac-power-amalgam-hammer": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103177",
+    "slot_0": "3680125"
+  },
+  "alac-inferno-quickness-evoker-specialized-elements": {
+    "slot_6": "3680112",
+    "slot_7": "3680121",
+    "slot_8": "1424240",
+    "slot_9": "103340",
+    "slot_0": "867437"
+  },
+  "alac-power-reaper-greatsword-spear": {
+    "slot_6": "1012929",
+    "slot_7": "103566",
+    "slot_8": "103570",
+    "slot_9": "1012951",
+    "slot_0": "103840"
+  },
+  "alac-condition-thief-axe-dagger-only": {
+    "slot_6": "104070",
+    "slot_7": "2175070",
+    "slot_8": "103073",
+    "slot_9": "103513",
+    "slot_0": "104109"
+  },
+  "alac-power-daredevil-staff": {
+    "slot_6": "104070",
+    "slot_7": "1058631",
+    "slot_8": "104076",
+    "slot_9": "1058635",
+    "slot_0": "104093"
+  },
+  "alac-power-quickness-deadeye-axe-pistol-dagger": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "alac-power-quickness-evoker-scepter-dagger": {
+    "slot_6": "3680112",
+    "slot_7": "103340",
+    "slot_8": "103393",
+    "slot_9": "3680121",
+    "slot_0": "3680111"
+  },
+  "alac-power-tempest-spear": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "alac-power-virtuoso-greatsword-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "103764",
+    "slot_8": "2479387",
+    "slot_9": "103742",
+    "slot_0": "2479389"
+  },
+  "alac-power-catalyst-spear": {
+    "slot_6": "103321",
+    "slot_7": "2491601",
+    "slot_8": "103393",
+    "slot_9": "2491603",
+    "slot_0": "2491568"
+  },
+  "alac-power-reaper-greatsword-dagger-sword": {
+    "slot_6": "1012929",
+    "slot_7": "103566",
+    "slot_8": "103570",
+    "slot_9": "1012951",
+    "slot_0": "103840"
+  },
+  "alac-power-quickness-berserker-tactics-spear-greatsword": {
+    "slot_6": "1058642",
+    "slot_7": "104140",
+    "slot_8": "103798",
+    "slot_9": "1058652",
+    "slot_0": "1058637"
+  },
+  "alac-condition-tempest-scepter-warhorn": {
+    "slot_6": "1029989",
+    "slot_7": "103324",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "alac-power-alacrity-luminary-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "3680154",
+    "slot_8": "3680156",
+    "slot_9": "103638",
+    "slot_0": "3680140"
+  },
+  "alac-condition-soulbeast-axe-torch-dagger-axe": {
+    "slot_6": "103175",
+    "slot_7": "104004",
+    "slot_8": "104025",
+    "slot_9": "1770571",
+    "slot_0": "1770558"
+  },
+  "alac-power-paragon-sword-axe-dagger-mace": {
+    "slot_6": "102866",
+    "slot_7": "104140",
+    "slot_8": "104119",
+    "slot_9": "103798",
+    "slot_0": "104113"
+  },
+  "alac-power-quickness-ritualist-greatsword-spear": {
+    "slot_6": "3680169",
+    "slot_7": "58459",
+    "slot_8": "3680180",
+    "slot_9": "3680182",
+    "slot_0": "103840"
+  },
+  "alac-power-alacrity-luminary-longbow-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "3680154",
+    "slot_8": "3680156",
+    "slot_9": "103638",
+    "slot_0": "3680140"
+  },
+  "alac-inferno-quickness-catalyst-scepter-dagger": {
+    "slot_6": "699524",
+    "slot_7": "103340",
+    "slot_8": "103393",
+    "slot_9": "2491601",
+    "slot_0": "867437"
+  },
+  "alac-power-mechanist-sword-pistol": {
+    "slot_6": "2503669",
+    "slot_7": "103399",
+    "slot_8": "2503690",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "alac-power-quickness-deadeye-spear-dagger-pistol": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "alac-power-quickness-catalyst-scepter-dagger": {
+    "slot_6": "699524",
+    "slot_7": "2491601",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "867437"
+  },
+  "alac-condition-thief-spear-only": {
+    "slot_6": "104070",
+    "slot_7": "2175070",
+    "slot_8": "104097",
+    "slot_9": "103513",
+    "slot_0": "104093"
+  },
+  "alac-condition-mechanist-no-kit-spear": {
+    "slot_6": "2503669",
+    "slot_7": "2503690",
+    "slot_8": "2503691",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "alac-condition-virtuoso-dagger-sword-focus": {
+    "slot_6": "699528",
+    "slot_7": "103756",
+    "slot_8": "103612",
+    "slot_9": "57900",
+    "slot_0": "2479389"
+  },
+  "alac-condition-scourge-scepter-torch-pistol": {
+    "slot_6": "1770534",
+    "slot_7": "103795",
+    "slot_8": "102804",
+    "slot_9": "102804",
+    "slot_0": "103312"
+  },
+  "alac-power-mechanist-rifle": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "2503690",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "alac-condition-alacrity-mechanist-two-kits-spear": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "103435",
+    "slot_9": "2503691",
+    "slot_0": "2503668"
+  },
+  "alac-power-alacrity-bladesworn-overcharged-cartridges-sword-pistol": {
+    "slot_6": "104117",
+    "slot_7": "2491651",
+    "slot_8": "2491652",
+    "slot_9": "2491654",
+    "slot_0": "2491632"
+  },
+  "alac-condition-quickness-catalyst-pistol-dagger": {
+    "slot_6": "699524",
+    "slot_7": "103393",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "alac-condition-quickness-firebrand-pistol-torch-pistol": {
+    "slot_6": "1770463",
+    "slot_7": "103675",
+    "slot_8": "1770490",
+    "slot_9": "1770484",
+    "slot_0": "103702"
+  },
+  "alac-power-warrior-mace-axe-dagger-mace": {
+    "slot_6": "102866",
+    "slot_7": "104140",
+    "slot_8": "103798",
+    "slot_9": "104119",
+    "slot_0": "104113"
+  },
+  "alac-power-quickness-untamed-hammer-sword-axe": {
+    "slot_6": "103175",
+    "slot_7": "103993",
+    "slot_8": "104025",
+    "slot_9": "103542",
+    "slot_0": "103606"
+  },
+  "alac-power-quickness-catalyst-sword-dagger": {
+    "slot_6": "2491592",
+    "slot_7": "2491601",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "867437"
+  },
+  "alac-power-quickness-berserker-spear-axe-axe": {
+    "slot_6": "1058642",
+    "slot_7": "104119",
+    "slot_8": "103798",
+    "slot_9": "1058652",
+    "slot_0": "1058637"
+  },
+  "alac-power-quickness-galeshot-longbow-axe-axe": {
+    "slot_6": "103175",
+    "slot_7": "3680194",
+    "slot_8": "103542",
+    "slot_9": "3680195",
+    "slot_0": "3680184"
+  },
+  "alac-power-warrior-sword-axe-dagger-mace": {
+    "slot_6": "102866",
+    "slot_7": "104140",
+    "slot_8": "103798",
+    "slot_9": "104119",
+    "slot_0": "104113"
+  },
+  "alac-condition-alacrity-specter-spear-only": {
+    "slot_6": "2503753",
+    "slot_7": "103513",
+    "slot_8": "2503755",
+    "slot_9": "2175070",
+    "slot_0": "104109"
+  },
+  "alac-power-quickness-berserker-greatsword-axe-axe": {
+    "slot_6": "1058642",
+    "slot_7": "103798",
+    "slot_8": "1058652",
+    "slot_9": "104119",
+    "slot_0": "1058637"
+  },
+  "alac-power-boon-chronomancer-spear-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "1012902",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "alac-power-quickness-deadeye-dagger-only": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "alac-power-alacrity-willbender-spear-greatsword": {
+    "slot_6": "699527",
+    "slot_7": "2479373",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "2479365"
+  },
+  "alac-condition-alacrity-specter-dagger-only": {
+    "slot_6": "2503753",
+    "slot_7": "2503755",
+    "slot_8": "103073",
+    "slot_9": "2175070",
+    "slot_0": "104109"
+  },
+  "alac-power-alacrity-amalgam-hammer": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103177",
+    "slot_0": "3680125"
+  },
+  "alac-power-alacrity-bladesworn-signets-sword-pistol": {
+    "slot_6": "103295",
+    "slot_7": "2491651",
+    "slot_8": "103798",
+    "slot_9": "104119",
+    "slot_0": "2491632"
+  },
+  "alac-power-alacrity-willbender-greatsword-sword-focus": {
+    "slot_6": "699527",
+    "slot_7": "2479373",
+    "slot_8": "103669",
+    "slot_9": "103638",
+    "slot_0": "2479365"
+  },
+  "alac-condition-boon-chronomancer-staff-scepter-torch": {
+    "slot_6": "699528",
+    "slot_7": "103612",
+    "slot_8": "57900",
+    "slot_9": "103736",
+    "slot_0": "1012893"
+  },
+  "alac-condition-quickness-deadeye-spear-only": {
+    "slot_6": "1770611",
+    "slot_7": "103513",
+    "slot_8": "2175070",
+    "slot_9": "1770635",
+    "slot_0": "1770610"
+  },
+  "alac-power-quickness-deadeye-rifle-only": {
+    "slot_6": "1770611",
+    "slot_7": "104076",
+    "slot_8": "1770635",
+    "slot_9": "1770636",
+    "slot_0": "1770610"
+  },
+  "alac-power-quickness-untamed-hammer-mace-mace": {
+    "slot_6": "103175",
+    "slot_7": "103993",
+    "slot_8": "104025",
+    "slot_9": "103542",
+    "slot_0": "103606"
+  },
+  "alac-condition-alacrity-specter-scepter-dagger-dagger": {
+    "slot_6": "2503753",
+    "slot_7": "103513",
+    "slot_8": "2503755",
+    "slot_9": "2175070",
+    "slot_0": "104109"
+  },
+  "alac-condition-quickness-untamed-axe-dagger-dagger-torch": {
+    "slot_6": "103175",
+    "slot_7": "104004",
+    "slot_8": "103944",
+    "slot_9": "103197",
+    "slot_0": "103101"
+  },
+  "alac-power-boon-chronomancer-greatsword-dagger-sword": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "1012902",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "alac-power-boon-chronomancer-greatsword-spear": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "1012902",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "alac-power-boon-chronomancer-spear-dagger-focus": {
+    "slot_6": "699528",
+    "slot_7": "1012903",
+    "slot_8": "1012902",
+    "slot_9": "103742",
+    "slot_0": "1012881"
+  },
+  "alac-condition-quickness-catalyst-pistol-warhorn": {
+    "slot_6": "699524",
+    "slot_7": "103393",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "alac-power-quickness-untamed-hammer-sword-mace": {
+    "slot_6": "2503724",
+    "slot_7": "103993",
+    "slot_8": "104025",
+    "slot_9": "103542",
+    "slot_0": "2503712"
+  },
+  "alac-power-quickness-troubadour-spear-dagger-sword": {
+    "slot_6": "103744",
+    "slot_7": "3680167",
+    "slot_8": "103756",
+    "slot_9": "3680164",
+    "slot_0": "1012893"
+  },
+  "alac-condition-quickness-harbinger-pistol-dagger-scepter-torch": {
+    "slot_6": "2479398",
+    "slot_7": "103795",
+    "slot_8": "2479395",
+    "slot_9": "58459",
+    "slot_0": "2479394"
+  },
+  "alac-condition-alacrity-mirage-staff-only": {
+    "slot_6": "1770506",
+    "slot_7": "1770514",
+    "slot_8": "103612",
+    "slot_9": "57900",
+    "slot_0": "1770505"
+  },
+  "alac-condition-quickness-deadeye-scepter-dagger-only": {
+    "slot_6": "1770611",
+    "slot_7": "103513",
+    "slot_8": "2175070",
+    "slot_9": "1770635",
+    "slot_0": "1770610"
+  },
+  "alac-condition-alacrity-tempest-pistol-warhorn": {
+    "slot_6": "1029989",
+    "slot_7": "103324",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "alac-condition-alacrity-tempest-scepter-warhorn": {
+    "slot_6": "1029989",
+    "slot_7": "103324",
+    "slot_8": "103352",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "alac-power-quickness-scrapper-hammer": {
+    "slot_6": "699525",
+    "slot_7": "103396",
+    "slot_8": "103399",
+    "slot_9": "103177",
+    "slot_0": "103443"
+  },
+  "alac-condition-alacrity-mechanist-one-kit-spear": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "2503689",
+    "slot_9": "2503691",
+    "slot_0": "2503668"
+  },
+  "alac-power-alacrity-tempest-sword-dagger": {
+    "slot_6": "1029989",
+    "slot_7": "1029992",
+    "slot_8": "103393",
+    "slot_9": "103340",
+    "slot_0": "103380"
+  },
+  "alac-power-alacrity-mechanist-rifle": {
+    "slot_6": "2503669",
+    "slot_7": "103396",
+    "slot_8": "2503690",
+    "slot_9": "2503689",
+    "slot_0": "2503668"
+  },
+  "alac-condition-alacrity-scourge-scepter-torch-pistol": {
+    "slot_6": "1770534",
+    "slot_7": "103795",
+    "slot_8": "102804",
+    "slot_9": "102804",
+    "slot_0": "103312"
+  },
+  "dps-power-conduit-greatsword-scepter-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "dps-condition-conduit-spear-mace-axe": {
+    "slot_6": "3680200",
+    "slot_7": "961413"
+  },
+  "dps-power-conduit-staff-sword-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "dps-power-conduit-staff-scepter-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "dps-condition-conduit-mistfire-spear-mace-axe": {
+    "slot_6": "3680200",
+    "slot_7": "961413"
+  },
+  "dps-condition-renegade-spear-mace-axe": {
+    "slot_6": "1770592",
+    "slot_7": "961413"
+  },
+  "dps-condition-conduit-mace-axe": {
+    "slot_6": "3680200",
+    "slot_7": "961413"
+  },
+  "dps-condition-renegade-spear-shortbow": {
+    "slot_6": "1770592",
+    "slot_7": "961413"
+  },
+  "dps-power-vindicator-greatsword-sword-sword": {
+    "slot_6": "2491626",
+    "slot_7": "1030005"
+  },
+  "dps-power-renegade-greatsword-sword-sword": {
+    "slot_6": "1770592",
+    "slot_7": "1030005"
+  },
+  "dps-condition-quickness-conduit-spear-mace-axe": {
+    "slot_6": "3680200",
+    "slot_7": "961413"
+  },
+  "dps-power-quickness-conduit-staff-sword-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "dps-condition-alacrity-renegade-spear-mace-axe": {
+    "slot_6": "1770592",
+    "slot_7": "961413"
+  },
+  "dps-power-herald-staff-sword-sword": {
+    "slot_6": "1058605",
+    "slot_7": "1030005"
+  },
+  "dps-condition-alacrity-renegade-shortbow-mace-axe": {
+    "slot_6": "1770592",
+    "slot_7": "961413"
+  },
+  "dps-condition-quickness-herald-spear-mace-axe": {
+    "slot_6": "1058605",
+    "slot_7": "961413"
+  },
+  "dps-power-alacrity-renegade-greatsword-sword-sword": {
+    "slot_6": "1770592",
+    "slot_7": "1030005"
+  },
+  "dps-condition-quickness-herald-spear-shortbow": {
+    "slot_6": "1058605",
+    "slot_7": "961413"
+  },
+  "dps-condition-quickness-herald-shortbow-mace-axe": {
+    "slot_6": "1058605",
+    "slot_7": "961413"
+  },
+  "dps-condition-quickness-herald-spear-only": {
+    "slot_6": "1058605",
+    "slot_7": "961413"
+  },
+  "dps-power-alacrity-renegade-staff-sword-sword": {
+    "slot_6": "1770592",
+    "slot_7": "1030005"
+  },
+  "dps-power-quickness-herald-greatsword-sword-sword": {
+    "slot_6": "1058605",
+    "slot_7": "1030005"
+  },
+  "dps-power-quickness-herald-staff-sword-sword": {
+    "slot_6": "1058605",
+    "slot_7": "1030005"
+  },
+  "quick-power-conduit-greatsword-scepter-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "quick-condition-conduit-spear-mace-axe": {
+    "slot_6": "3680200",
+    "slot_7": "961413"
+  },
+  "quick-power-conduit-greatsword-sword-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "quick-power-conduit-staff-sword-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "quick-power-conduit-staff-scepter-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "quick-condition-conduit-mistfire-spear-mace-axe": {
+    "slot_6": "3680200",
+    "slot_7": "961413"
+  },
+  "quick-condition-renegade-spear-mace-axe": {
+    "slot_6": "1770592",
+    "slot_7": "961413"
+  },
+  "quick-condition-conduit-mace-axe": {
+    "slot_6": "3680200",
+    "slot_7": "961413"
+  },
+  "quick-condition-renegade-spear-shortbow": {
+    "slot_6": "1770592",
+    "slot_7": "961413"
+  },
+  "quick-power-vindicator-greatsword-sword-sword": {
+    "slot_6": "2491626",
+    "slot_7": "1030005"
+  },
+  "quick-power-renegade-greatsword-sword-sword": {
+    "slot_6": "1770592",
+    "slot_7": "1030005"
+  },
+  "quick-condition-quickness-conduit-spear-mace-axe": {
+    "slot_6": "3680200",
+    "slot_7": "961413"
+  },
+  "quick-power-quickness-conduit-staff-sword-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "quick-condition-alacrity-renegade-spear-mace-axe": {
+    "slot_6": "1770592",
+    "slot_7": "961413"
+  },
+  "quick-power-herald-staff-sword-sword": {
+    "slot_6": "1058605",
+    "slot_7": "1030005"
+  },
+  "quick-condition-alacrity-renegade-shortbow-mace-axe": {
+    "slot_6": "1770592",
+    "slot_7": "961413"
+  },
+  "quick-condition-quickness-herald-spear-mace-axe": {
+    "slot_6": "1058605",
+    "slot_7": "961413"
+  },
+  "quick-power-alacrity-renegade-greatsword-sword-sword": {
+    "slot_6": "1770592",
+    "slot_7": "1030005"
+  },
+  "quick-condition-quickness-herald-spear-shortbow": {
+    "slot_6": "1058605",
+    "slot_7": "961413"
+  },
+  "quick-condition-quickness-herald-shortbow-mace-axe": {
+    "slot_6": "1058605",
+    "slot_7": "961413"
+  },
+  "quick-condition-quickness-herald-spear-only": {
+    "slot_6": "1058605",
+    "slot_7": "961413"
+  },
+  "quick-power-alacrity-renegade-staff-sword-sword": {
+    "slot_6": "1770592",
+    "slot_7": "1030005"
+  },
+  "quick-power-quickness-herald-greatsword-sword-sword": {
+    "slot_6": "1058605",
+    "slot_7": "1030005"
+  },
+  "quick-power-quickness-herald-staff-sword-sword": {
+    "slot_6": "1058605",
+    "slot_7": "1030005"
+  },
+  "alac-power-conduit-greatsword-scepter-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "alac-condition-conduit-spear-mace-axe": {
+    "slot_6": "3680200",
+    "slot_7": "961413"
+  },
+  "alac-power-conduit-greatsword-sword-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "alac-power-conduit-staff-sword-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "alac-power-conduit-staff-scepter-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "alac-condition-conduit-mistfire-spear-mace-axe": {
+    "slot_6": "3680200",
+    "slot_7": "961413"
+  },
+  "alac-condition-renegade-spear-mace-axe": {
+    "slot_6": "1770592",
+    "slot_7": "961413"
+  },
+  "alac-condition-conduit-mace-axe": {
+    "slot_6": "3680200",
+    "slot_7": "961413"
+  },
+  "alac-condition-renegade-spear-shortbow": {
+    "slot_6": "1770592",
+    "slot_7": "961413"
+  },
+  "alac-power-vindicator-greatsword-sword-sword": {
+    "slot_6": "2491626",
+    "slot_7": "1030005"
+  },
+  "alac-power-renegade-greatsword-sword-sword": {
+    "slot_6": "1770592",
+    "slot_7": "1030005"
+  },
+  "alac-condition-quickness-conduit-spear-mace-axe": {
+    "slot_6": "3680200",
+    "slot_7": "961413"
+  },
+  "alac-power-quickness-conduit-staff-sword-sword": {
+    "slot_6": "3680200",
+    "slot_7": "1030005"
+  },
+  "alac-condition-alacrity-renegade-spear-mace-axe": {
+    "slot_6": "1770592",
+    "slot_7": "961413"
+  },
+  "alac-power-herald-staff-sword-sword": {
+    "slot_6": "1058605",
+    "slot_7": "1030005"
+  },
+  "alac-condition-alacrity-renegade-shortbow-mace-axe": {
+    "slot_6": "1770592",
+    "slot_7": "961413"
+  },
+  "alac-condition-quickness-herald-spear-mace-axe": {
+    "slot_6": "1058605",
+    "slot_7": "961413"
+  },
+  "alac-power-alacrity-renegade-greatsword-sword-sword": {
+    "slot_6": "1770592",
+    "slot_7": "1030005"
+  },
+  "alac-condition-quickness-herald-spear-shortbow": {
+    "slot_6": "1058605",
+    "slot_7": "961413"
+  },
+  "alac-condition-quickness-herald-shortbow-mace-axe": {
+    "slot_6": "1058605",
+    "slot_7": "961413"
+  },
+  "alac-condition-quickness-herald-spear-only": {
+    "slot_6": "1058605",
+    "slot_7": "961413"
+  },
+  "alac-power-alacrity-renegade-staff-sword-sword": {
+    "slot_6": "1770592",
+    "slot_7": "1030005"
+  },
+  "alac-power-quickness-herald-greatsword-sword-sword": {
+    "slot_6": "1058605",
+    "slot_7": "1030005"
+  },
+  "alac-power-quickness-herald-staff-sword-sword": {
+    "slot_6": "1058605",
+    "slot_7": "1030005"
   }
 }

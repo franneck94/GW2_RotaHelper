@@ -1241,11 +1241,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_6": -1,
-    "slot_7": -1,
+    "slot_6": 1058642,
+    "slot_7": 104140,
     "slot_8": -1,
-    "slot_9": -1,
-    "slot_0": -1
+    "slot_9": 1058652,
+    "slot_0": 1058637
   },
   "buildMetadata": {
     "name": "Power Berserker",

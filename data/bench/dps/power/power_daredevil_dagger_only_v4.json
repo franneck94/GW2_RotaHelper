@@ -1665,8 +1665,8 @@
   },
   "SkillKeyMapping": {
     "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
+    "slot_7": 1058631,
+    "slot_8": 104076,
     "slot_9": -1,
     "slot_0": -1
   },

@@ -1588,10 +1588,10 @@
   },
   "SkillKeyMapping": {
     "slot_6": -1,
-    "slot_7": -1,
+    "slot_7": 3680194,
     "slot_8": -1,
-    "slot_9": -1,
-    "slot_0": -1
+    "slot_9": 3680195,
+    "slot_0": 3680184
   },
   "buildMetadata": {
     "name": "Power Quickness Galeshot",
