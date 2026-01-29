@@ -150,7 +150,7 @@ void OptionsRenderType::render_status()
     }
 }
 
-void OptionsRenderType::render_precast_window(bool &show_precast_window)
+void OptionsRenderType::render_precast_window()
 {
     if (!show_precast_window)
         return;
@@ -361,13 +361,75 @@ void OptionsRenderType::render_precast_window(bool &show_precast_window)
     ImGui::End();
 }
 
-void OptionsRenderType::render_skill_slots_window(bool &show_skill_slots_window)
+void SetCurrentSkillMappings()
+{
+    auto &current_mappings = Settings::UtilitySkillSlots[Globals::RenderData.current_build_key];
+
+    if (current_mappings.empty() && Globals::RotationRun.skill_key_mapping.skill_7 != -1)
+    {
+        const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
+        const auto &log_skill_info_map = Globals::RotationRun.log_skill_info_map;
+
+        if (skill_key_mapping.skill_7 != -1)
+        {
+            auto heal_skill_it = log_skill_info_map.find(skill_key_mapping.skill_7);
+            if (heal_skill_it != log_skill_info_map.end())
+            {
+                for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
+                {
+                    if (rotation_skill.name == heal_skill_it->second.name)
+                    {
+                        current_mappings["HEAL"] = static_cast<uint32_t>(skill_id);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (skill_key_mapping.skill_8 != -1)
+        {
+            auto util1_skill_it = log_skill_info_map.find(skill_key_mapping.skill_8);
+            if (util1_skill_it != log_skill_info_map.end())
+            {
+                for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
+                {
+                    if (rotation_skill.name == util1_skill_it->second.name)
+                    {
+                        current_mappings["UTILITY_1"] = static_cast<uint32_t>(skill_id);
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (skill_key_mapping.skill_9 != -1)
+        {
+            auto util2_skill_it = log_skill_info_map.find(skill_key_mapping.skill_9);
+            if (util2_skill_it != log_skill_info_map.end())
+            {
+                for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
+                {
+                    if (rotation_skill.name == util2_skill_it->second.name)
+                    {
+                        current_mappings["UTILITY_2"] = static_cast<uint32_t>(skill_id);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void OptionsRenderType::render_skill_slots_window()
 {
     if (!show_skill_slots_window)
         return;
 
     if (Globals::RotationRun.all_rotation_steps.size() > 0 && Globals::RenderData.current_build_key.empty())
         Globals::RenderData.current_build_key = Globals::RotationRun.meta_data.name;
+
+    SetCurrentSkillMappings();
+    auto &current_mappings = Settings::UtilitySkillSlots[Globals::RenderData.current_build_key];
 
     ImGui::SetNextWindowSize(ImVec2(700, 400), ImGuiCond_Once);
     if (ImGui::Begin("Skill Slot Mapping Configuration", &show_skill_slots_window))
@@ -385,77 +447,20 @@ void OptionsRenderType::render_skill_slots_window(bool &show_skill_slots_window)
         ImGui::Text("Build: %s", Globals::RenderData.current_build_key.c_str());
         ImGui::Separator();
 
-        auto &current_mappings = Settings::UtilitySkillSlots[Globals::RenderData.current_build_key];
-
-        // Initialize from skill_key_mapping if current_mappings is empty
-        if (current_mappings.empty() && Globals::RotationRun.skill_key_mapping.skill_7 != -1)
-        {
-            const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
-            const auto &log_skill_info_map = Globals::RotationRun.log_skill_info_map;
-
-            // Map skill_7 (heal) to HEAL slot if it exists
-            if (skill_key_mapping.skill_7 != -1)
-            {
-                auto heal_skill_it = log_skill_info_map.find(skill_key_mapping.skill_7);
-                if (heal_skill_it != log_skill_info_map.end())
-                {
-                    // Find the skill ID from rotation_skills by matching name
-                    for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
-                    {
-                        if (rotation_skill.name == heal_skill_it->second.name)
-                        {
-                            current_mappings["HEAL"] = static_cast<uint32_t>(skill_id);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Map skill_8 (utility 1) to UTILITY_1 slot if it exists
-            if (skill_key_mapping.skill_8 != -1)
-            {
-                auto util1_skill_it = log_skill_info_map.find(skill_key_mapping.skill_8);
-                if (util1_skill_it != log_skill_info_map.end())
-                {
-                    for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
-                    {
-                        if (rotation_skill.name == util1_skill_it->second.name)
-                        {
-                            current_mappings["UTILITY_1"] = static_cast<uint32_t>(skill_id);
-                            break;
-                        }
-                    }
-                }
-            }
-
-            // Map skill_9 (utility 2) to UTILITY_2 slot if it exists
-            if (skill_key_mapping.skill_9 != -1)
-            {
-                auto util2_skill_it = log_skill_info_map.find(skill_key_mapping.skill_9);
-                if (util2_skill_it != log_skill_info_map.end())
-                {
-                    for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
-                    {
-                        if (rotation_skill.name == util2_skill_it->second.name)
-                        {
-                            current_mappings["UTILITY_2"] = static_cast<uint32_t>(skill_id);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
         ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "Utility Skill Slots:");
         ImGui::Separator();
 
-        const std::vector<std::pair<std::string, std::string>> utility_slots = {
-            {"HEAL", "Heal"},
-            {"UTILITY_1", "Utility 1"},
-            {"UTILITY_2", "Utility 2"},
-            {"UTILITY_3", "Utility 3"},
-            {"ELITE", "Elite"}
-        };
+        auto utility_slots = std::vector<std::pair<std::string, std::string>>{};
+        auto used_skill_types = std::set<SkillSlot>{};
+
+        for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
+            used_skill_types.insert(rotation_skill.skill_type);
+
+        utility_slots.push_back({"HEAL", "Heal"});
+        utility_slots.push_back({"UTILITY_1", "Utility 1"});
+        utility_slots.push_back({"UTILITY_2", "Utility 2"});
+        utility_slots.push_back({"UTILITY_3", "Utility 3"});
+        utility_slots.push_back({"ELITE", "Elite"});
 
         for (const auto &[slot_key, slot_display] : utility_slots)
         {
@@ -463,10 +468,13 @@ void OptionsRenderType::render_skill_slots_window(bool &show_skill_slots_window)
             ImGui::SameLine();
             ImGui::SetCursorPosX(120.0f);
 
+            ImGui::BeginGroup();
+
             auto mapped_skill_id = current_mappings.find(slot_key);
             if (mapped_skill_id != current_mappings.end())
             {
-                const auto skill_it = Globals::RotationRun.rotation_skills.find(static_cast<SkillID>(mapped_skill_id->second));
+                const auto skill_it =
+                    Globals::RotationRun.rotation_skills.find(static_cast<SkillID>(mapped_skill_id->second));
                 if (skill_it != Globals::RotationRun.rotation_skills.end())
                 {
                     const auto &skill = skill_it->second;
@@ -485,7 +493,8 @@ void OptionsRenderType::render_skill_slots_window(bool &show_skill_slots_window)
                     ImGui::PushID(slot_key.c_str());
                     if (ImGui::Button("Clear"))
                     {
-                        current_mappings.erase(slot_key);
+                        auto key_to_erase = slot_key;  // Make a copy to avoid reference issues
+                        current_mappings.erase(key_to_erase);
                     }
                     ImGui::PopID();
                 }
@@ -496,24 +505,45 @@ void OptionsRenderType::render_skill_slots_window(bool &show_skill_slots_window)
             }
             else
             {
-                ImGui::TextDisabled("No skill assigned");
+                ImGui::TextDisabled("No skill assigned - drag a skill here");
+            }
+
+            ImGui::EndGroup();
+
+            if (ImGui::BeginDragDropTarget())
+            {
+                if (const ImGuiPayload *payload = ImGui::AcceptDragDropPayload("SKILL_ICON"))
+                {
+                    auto skill_id = *static_cast<const uint32_t *>(payload->Data);
+                    current_mappings[slot_key] = skill_id;
+                }
+                ImGui::EndDragDropTarget();
             }
         }
 
         ImGui::Separator();
         ImGui::TextColored(ImVec4(0.0f, 1.0f, 1.0f, 1.0f), "Available Skills:");
-        ImGui::TextDisabled("Click a skill to assign it to the next empty slot, or right-click to choose specific slot");
+        ImGui::TextDisabled("Only skills used in this rotation are shown below.");
+        ImGui::TextDisabled(
+            "Drag skills to slots above, left click for auto-assign, or right-click to choose specific slot");
         ImGui::Separator();
 
-        ImGui::BeginChild("skill_selection", ImVec2(0, 150), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
+        ImGui::BeginChild("skill_selection", ImVec2(0, 50), true, ImGuiWindowFlags_AlwaysVerticalScrollbar);
 
-        const float icon_size = 48.0f;
-        const float spacing = ImGui::GetStyle().ItemSpacing.x;
-        float current_x = 0.0f;
-        int icon_count = 0;
+        const auto icon_size = 48.0f;
+        const auto spacing = ImGui::GetStyle().ItemSpacing.x;
+        auto current_x = 0.0f;
+        auto icon_count = 0;
 
         for (const auto &[skill_id, rotation_skill] : Globals::RotationRun.rotation_skills)
         {
+            if (rotation_skill.skill_type != SkillSlot::HEAL && rotation_skill.skill_type != SkillSlot::UTILITY_1 &&
+                rotation_skill.skill_type != SkillSlot::UTILITY_2 &&
+                rotation_skill.skill_type != SkillSlot::UTILITY_3 && rotation_skill.skill_type != SkillSlot::ELITE)
+            {
+                continue;
+            }
+
             if (rotation_skill.texture)
             {
                 if (current_x + icon_size > ImGui::GetWindowWidth() - 20.0f && icon_count > 0)
@@ -530,47 +560,26 @@ void OptionsRenderType::render_skill_slots_window(bool &show_skill_slots_window)
 
                 ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(icon_size, icon_size));
 
+                // Add drag and drop source
+                if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_SourceAllowNullID))
+                {
+                    auto skill_id_copy = static_cast<uint32_t>(skill_id);
+                    ImGui::SetDragDropPayload("SKILL_ICON", &skill_id_copy, sizeof(uint32_t));
+
+                    // Show preview during drag
+                    ImGui::Image((ImTextureID)rotation_skill.texture, ImVec2(32.0f, 32.0f));
+                    ImGui::SameLine();
+                    ImGui::Text("%s", rotation_skill.name.c_str());
+
+                    ImGui::EndDragDropSource();
+                }
+
                 if (ImGui::IsItemHovered())
                 {
                     ImGui::BeginTooltip();
                     ImGui::Text("%s", rotation_skill.name.c_str());
-                    ImGui::Text("Left click: Auto-assign to next empty slot");
-                    ImGui::Text("Right click: Choose specific slot");
+                    ImGui::Text("Drag to slot, left click: Auto-assign, right click: Choose slot");
                     ImGui::EndTooltip();
-                }
-
-                if (ImGui::IsItemClicked(ImGuiMouseButton_Left))
-                {
-                    bool assigned = false;
-                    for (const auto &[slot_key, slot_display] : utility_slots)
-                    {
-                        if (current_mappings.find(slot_key) == current_mappings.end())
-                        {
-                            current_mappings[slot_key] = static_cast<uint32_t>(skill_id);
-                            assigned = true;
-                            break;
-                        }
-                    }
-                }
-
-                if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
-                {
-                    ImGui::OpenPopup(("slot_selector_" + std::to_string(static_cast<int>(skill_id))).c_str());
-                }
-
-                if (ImGui::BeginPopup(("slot_selector_" + std::to_string(static_cast<int>(skill_id))).c_str()))
-                {
-                    ImGui::Text("Assign %s to:", rotation_skill.name.c_str());
-                    ImGui::Separator();
-
-                    for (const auto &[slot_key, slot_display] : utility_slots)
-                    {
-                        if (ImGui::MenuItem(slot_display.c_str()))
-                        {
-                            current_mappings[slot_key] = static_cast<uint32_t>(skill_id);
-                        }
-                    }
-                    ImGui::EndPopup();
                 }
 
                 ImGui::PopID();
@@ -621,9 +630,7 @@ void OptionsRenderType::render_skill_slots_window(bool &show_skill_slots_window)
         ImGui::SameLine();
 
         if (ImGui::Button("Clear All", ImVec2(button_width, 0)))
-        {
             current_mappings.clear();
-        }
     }
 
     ImGui::End();
@@ -840,26 +847,25 @@ void OptionsRenderType::render_options_checkboxes()
         }
         SetTooltip("Shows the rotation window of the last 2, the current and the next 7 skills.");
 
-        const auto centered_pos_debug = calculate_centered_position({"Precast Window"});
-        ImGui::SetCursorPosX(centered_pos_debug);
+        const auto button_width = ImGui::GetWindowSize().x * 0.5f;
 
-        if (ImGui::Button("Precast Window", ImVec2(sub_window_width, 0)))
+        if (ImGui::Button("Precast Window", ImVec2(button_width, 0)))
             show_precast_window = !show_precast_window;
+
+        ImGui::SameLine();
+        ImGui::SetCursorPosX(ImGui::GetWindowSize().x * 0.5f);
+
+        if (ImGui::Button("Skill Slot Mapping", ImVec2(button_width, 0)))
+            show_skill_slots_window = !show_skill_slots_window;
 
         if (Globals::RotationRun.rotation_skills.empty())
             Globals::RotationRun.get_rotation_skills();
 
         if (show_precast_window)
-            render_precast_window(show_precast_window);
-
-        const auto centered_pos_skill_slots = calculate_centered_position({"Skill Slot Mapping"});
-        ImGui::SetCursorPosX(centered_pos_skill_slots);
-
-        if (ImGui::Button("Skill Slot Mapping", ImVec2(sub_window_width, 0)))
-            show_skill_slots_window = !show_skill_slots_window;
+            render_precast_window();
 
         if (show_skill_slots_window)
-            render_skill_slots_window(show_skill_slots_window);
+            render_skill_slots_window();
     }
 
 #ifdef _DEBUG
@@ -1034,7 +1040,6 @@ void OptionsRenderType::render_symbol_and_text(bool &is_selected,
         Globals::RenderData.show_rotation_keybinds = false;
         Globals::RenderData.show_rotation_icons_overview = false;
 
-        // Close configuration windows on build change
         show_precast_window = false;
         show_skill_slots_window = false;
 

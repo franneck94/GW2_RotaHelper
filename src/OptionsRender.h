@@ -13,8 +13,8 @@ public:
     void render();
 
     void render_status();
-    void render_precast_window(bool &show_precast_window);
-    void render_skill_slots_window(bool &show_skill_slots_window);
+    void render_precast_window();
+    void render_skill_slots_window();
     void render_horizontal_settings();
     void render_options_checkboxes();
     void render_debug_window(bool &show_debug_window);
