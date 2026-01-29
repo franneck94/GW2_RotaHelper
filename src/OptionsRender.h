@@ -14,6 +14,7 @@ public:
 
     void render_status();
     void render_precast_window(bool &show_precast_window);
+    void render_skill_slots_window(bool &show_skill_slots_window);
     void render_horizontal_settings();
     void render_options_checkboxes();
     void render_debug_window(bool &show_debug_window);
@@ -55,4 +56,6 @@ public:
     std::string formatted_name = std::string{"Select..."};
     std::vector<std::pair<int, const BenchFileInfo *>> filtered_files{};
     bool open_combo_next_frame = false;
+    bool show_precast_window = false;
+    bool show_skill_slots_window = false;
 };
