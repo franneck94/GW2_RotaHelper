@@ -27,6 +27,7 @@ extern const char *BENCH_UPDATE_FAILED_BEFORE;
 extern const char *WINDOW_SIZE_LEFT;
 extern const char *WINDOW_SIZE_RIGHT;
 extern const char *PRECAST_SKILLS;
+extern const char *UTILITY_SKILL_SLOTS;
 
 namespace Settings
 {
@@ -52,6 +53,7 @@ extern bool UseSkillEvents;
 extern uint32_t WindowSizeLeft;
 extern uint32_t WindowSizeRight;
 extern std::map<std::string, std::vector<uint32_t>> PrecastSkills;
+extern std::map<std::string, std::map<std::string, uint32_t>> UtilitySkillSlots;
 } // namespace Settings
 
 #endif

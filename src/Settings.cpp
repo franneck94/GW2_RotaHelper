@@ -21,6 +21,7 @@ const char *BENCH_UPDATE_FAILED_BEFORE = "BenchUpdateFailedBefore";
 const char *WINDOW_SIZE_LEFT = "WindowSizeLeft";
 const char *WINDOW_SIZE_RIGHT = "WindowSizeRight";
 const char *PRECAST_SKILLS = "PrecastSkills";
+const char *UTILITY_SKILL_SLOTS = "UtilitySkillSlots";
 
 namespace Settings
 {
@@ -83,6 +84,8 @@ void Load(std::filesystem::path aPath)
         Settings[WINDOW_SIZE_RIGHT].get_to<uint32_t>(WindowSizeRight);
     if (!Settings[PRECAST_SKILLS].is_null() && Settings[PRECAST_SKILLS].is_object())
         PrecastSkills = Settings[PRECAST_SKILLS].get<std::map<std::string, std::vector<uint32_t>>>();
+    if (!Settings[UTILITY_SKILL_SLOTS].is_null() && Settings[UTILITY_SKILL_SLOTS].is_object())
+        UtilitySkillSlots = Settings[UTILITY_SKILL_SLOTS].get<std::map<std::string, std::map<std::string, uint32_t>>>();
 }
 
 void Save(std::filesystem::path aPath)
@@ -102,6 +105,7 @@ void Save(std::filesystem::path aPath)
         Settings[WINDOW_SIZE_LEFT] = WindowSizeLeft;
         Settings[WINDOW_SIZE_RIGHT] = WindowSizeRight;
         Settings[PRECAST_SKILLS] = PrecastSkills;
+        Settings[UTILITY_SKILL_SLOTS] = UtilitySkillSlots;
 
         std::ofstream file(aPath);
         file << Settings.dump(1, '\t') << std::endl;
@@ -132,4 +136,5 @@ bool UseSkillEvents = false;
 uint32_t WindowSizeLeft = 2;
 uint32_t WindowSizeRight = 7;
 std::map<std::string, std::vector<uint32_t>> PrecastSkills;
+std::map<std::string, std::map<std::string, uint32_t>> UtilitySkillSlots;
 } // namespace Settings
