@@ -12,6 +12,12 @@ An increase in the first number indicates an update of the rotation logs/builds.
 An increase of the second number indicates changes in only the code logic.  
 An increase in the third number indicates bugfixes only.
 
+## 3.0.0 - 2026-01-30
+
+## Features
+
+- Added feature to define the order of utility skills since they might differ from the snow crows website template
+
 ## 2.0.0 - 2026-01-20
 
 ## Features
