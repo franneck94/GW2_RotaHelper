@@ -37,9 +37,9 @@ Depending on which skill the user activates, the GUI will proceed onwards in the
 
 #### Important Notes
 
-- The addon is only active in the Aerodrome and in the training area.
 - This addon does not do any memory reading by itself it just uses the public ArcDPS API which has its limitations (see [here](#arcdps-public-api-limitations))
-- The rotation starts at the first time point where damage is dealt to the enemy; hence, pre-cast abilities are excluded.
+- The rotation starts at the first time point where damage is dealt to the enemy; However, the user can manually add pre-cast skills
+- The addon works best in english text language
 
 #### Visual Learning System
 
