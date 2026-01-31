@@ -943,10 +943,9 @@ void OptionsRenderType::render_debug_data()
             if (keybind_info.button != Keys::NONE)
             {
                 display_text += custom_keys_to_string(keybind_info.button);
+
                 if (keybind_info.modifier != Modifiers::NONE)
-                {
                     display_text += " + " + modifiers_to_string(keybind_info.modifier);
-                }
             }
             else
             {

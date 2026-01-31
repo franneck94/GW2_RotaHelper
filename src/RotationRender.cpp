@@ -138,17 +138,13 @@ std::string KeybindWithXML(const SkillID skill_id, const int icon_id, SkillSlot 
     const auto &[keybind, modifier] = get_keybind_for_skill_type(skill_slot, Globals::RenderData.keybinds);
 
     if (is_util_skill || keybind == Keys::NONE)
-    {
         keybind_str = KeybindFromMappingAndXML(skill_id, icon_id, skill_slot);
-    }
     else
-    {
         keybind_str = custom_keys_to_string(keybind);
-        const auto mod_str = modifiers_to_string(modifier);
 
-        if (!mod_str.empty())
-            return mod_str + " + " + keybind_str;
-    }
+    const auto mod_str = modifiers_to_string(modifier);
+    if (!mod_str.empty())
+        return mod_str + " + " + keybind_str;
 
     return keybind_str;
 }

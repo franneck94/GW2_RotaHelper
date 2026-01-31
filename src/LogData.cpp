@@ -1035,6 +1035,7 @@ std::string RotationLogType::get_keybind_str(const RotationStep &rotation_step,
                 log_skill_info_map.find(skill_key_mapping.skill_9) != log_skill_info_map.end()
             ? log_skill_info_map.find(skill_key_mapping.skill_9)->second.name
             : "";
+    const auto [keybind, modifier] = get_keybind_for_skill_type(skill_data.skill_slot, keybinds);
 
     if (rotation_step.skill_data.name == skill_name_for_slot7)
     {
@@ -1056,21 +1057,15 @@ std::string RotationLogType::get_keybind_str(const RotationStep &rotation_step,
         }
         else
         {
-            const auto [keybind, modifier] = get_keybind_for_skill_type(skill_data.skill_slot, keybinds);
             if (keybind == Keys::NONE)
-            {
                 keybind_str = default_skillslot_to_string(skill_data.skill_slot);
-            }
             else
-            {
                 keybind_str = custom_keys_to_string(keybind);
-                if (modifier != Modifiers::NONE)
-                {
-                    keybind_str = "(" + modifiers_to_string(modifier) + " + " + keybind_str + ")";
-                }
-            }
         }
     }
+
+    if (modifier != Modifiers::NONE)
+        keybind_str = "(" + modifiers_to_string(modifier) + " + " + keybind_str + ")";
 
     return keybind_str;
 }
