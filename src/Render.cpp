@@ -213,6 +213,7 @@ void RenderType::render(ID3D11Device *pd3dDevice)
     if (!IsValidMap())
         return;
 
-    if (Globals::RenderData.show_rotation_window)
+    if (Globals::RenderData.show_rotation_window || Globals::RenderData.show_rotation_icons_overview ||
+        Globals::RenderData.show_rotation_keybinds)
         Globals::RotationRender.render();
 }

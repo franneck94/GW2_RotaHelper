@@ -204,13 +204,16 @@ void RotationRenderType::render()
     render_rotation_keybinds(Globals::RenderData.show_rotation_keybinds);
     render_rotation_icons_overview(Globals::RenderData.show_rotation_icons_overview);
 
-    if (ImGui::Begin("##GW2RotaHelper_Rota_Horizontal", &Settings::ShowWindow, curr_flags_rota))
+    if (Globals::RenderData.show_rotation_window)
     {
-        const auto current_window_size = ImGui::GetWindowSize();
-        Globals::SkillIconSize = min(current_window_size.y * 0.7f, 120.0f);
-        Globals::SkillIconSize = max(Globals::SkillIconSize, 24.0f);
+        if (ImGui::Begin("##GW2RotaHelper_Rota_Horizontal", &Settings::ShowWindow, curr_flags_rota))
+        {
+            const auto current_window_size = ImGui::GetWindowSize();
+            Globals::SkillIconSize = min(current_window_size.y * 0.7f, 120.0f);
+            Globals::SkillIconSize = max(Globals::SkillIconSize, 24.0f);
 
-        render_rotation_horizontal();
+            render_rotation_horizontal();
+        }
     }
 
     ImGui::End();

@@ -846,13 +846,12 @@ void OptionsRenderType::render_options_checkboxes()
         }
         SetTooltip("Shows the rotation window of the last 2, the current and the next 7 skills.");
 
-        const auto button_width = ImGui::GetWindowSize().x * 0.5f;
+        const auto button_width = ImGui::GetWindowSize().x * 0.5f - ImGui::GetStyle().ItemSpacing.x * 0.5f;
 
         if (ImGui::Button("Precast Window", ImVec2(button_width, 0)))
             show_precast_window = !show_precast_window;
 
         ImGui::SameLine();
-        ImGui::SetCursorPosX(ImGui::GetWindowSize().x * 0.5f);
 
         if (ImGui::Button("Skill Slot Mapping", ImVec2(button_width, 0)))
             show_skill_slots_window = !show_skill_slots_window;
