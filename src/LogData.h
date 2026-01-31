@@ -37,6 +37,8 @@ bool is_skill_in_set(std::string_view skill_name,
 
 bool is_skill_in_set(SkillID skill_id, const std::set<SkillID> &set);
 
+bool is_skill_in_set(SkillID skill_id, const std::set<ManualSkillID> &set);
+
 class RotationLogType
 {
 public:

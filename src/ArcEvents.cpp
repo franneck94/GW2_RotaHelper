@@ -25,7 +25,7 @@ namespace
 {
 constexpr static auto MIN_TIME_DIFF = 10U;
 
-static auto is_first_cast_map = std::map<std::string, bool>{};
+static auto is_first_cast_map = std::map<SkillID, bool>{};
 
 bool IsValidSelfData(const EvCombatData &combat_data)
 {
@@ -138,9 +138,9 @@ bool IsSameCast(const EvCombatDataPersistent &combat_data)
 {
     const auto now = std::chrono::steady_clock::now();
 
-    if (is_first_cast_map.find(combat_data.SkillName) == is_first_cast_map.end())
+    if (is_first_cast_map.find(combat_data.SkillID) == is_first_cast_map.end())
     {
-        is_first_cast_map[combat_data.SkillName] = true;
+        is_first_cast_map[combat_data.SkillID] = true;
         return false;
     }
 

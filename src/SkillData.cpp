@@ -3,10 +3,10 @@
 #include <string>
 #include <string_view>
 
+#include "FileUtils.h"
 #include "MumbleUtils.h"
 #include "SkillData.h"
 #include "Types.h"
-#include "FileUtils.h"
 
 namespace SkillRuleData
 {
@@ -98,7 +98,7 @@ const std::set<std::string_view> skills_substr_to_drop = {
 };
 
 /* In Genreal Traits/Effects that are in the log */
-const std::set<std::string_view> skills_match_to_drop = {
+const std::set<std::string_view> skills_match_to_drop_names = {
     "Doom",
     // GUARDIAN
     // WARRIOR
@@ -136,6 +136,10 @@ const std::set<std::string_view> skills_match_to_drop = {
     "Mistfire",
 };
 
+const std::set<std::string_view> skills_match_to_drop = {
+
+};
+
 const std::set<std::string_view> special_substr_to_gray_out = {
     // GUARDIAN
     "Chapter ",
@@ -164,16 +168,16 @@ const std::set<std::string_view> special_substr_to_gray_out = {
 
 const std::set<std::string_view> special_match_to_gray_out_names = {
     "Dodge",
-    // Warrior
-    "Cyclone Trigger",
-    "Steel Divide",
-    // ELEMENTALIST
-    "Zap",
-    "Splash",
-    "Calcify",
-    // ENGINEER
-    "Mine Field",
-    "Reconstruction Field",
+};
+
+const std::set<ManualSkillID> special_match_to_gray_out_manual_ids = {
+    ManualSkillID::CYCLONE_TRIGGER,
+    ManualSkillID::STEEL_DIVIDE,
+    ManualSkillID::RECONSTRUCTION_FIELD,
+    ManualSkillID::MINE_FIELD,
+    ManualSkillID::CALCIFY,
+    ManualSkillID::SPLASH,
+    ManualSkillID::ZAP,
 };
 
 const std::set<SkillID> special_match_to_gray_out = {
@@ -493,8 +497,6 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_drop_mat
 
 const std::set<std::string_view> special_substr_to_remove_duplicates_names = {
     "Offensive Protocol: Demolish",
-    "Cyclone Trigger",
-    "Steel Divide",
 };
 
 const std::set<SkillID> special_substr_to_remove_duplicates = {
@@ -532,38 +534,38 @@ const std::set<SkillID> special_substr_to_remove_duplicates = {
     SkillID::BEGUILING_HAZE,
 };
 
-const std::set<std::string_view> easy_mode_drop_match_name = {
-    // ENGINEER
-    "Sky Circus",
-    "Spark Revolver",
-    "Core Reactor Shot",
-    "Jade Mortar",
-    "Rocket Punch",
-    "Rolling Smash",
-    "Barrier Burst",
-    "Crisis Zone",
-    "Discharge Array",
-};
-
 const std::set<SkillID> easy_mode_drop_match = {
     // REVENANT
     SkillID::ABYSSAL_STRIKE,
     SkillID::ABYSSAL_FIRE,
     // MESMER
     SkillID::POWER_SPIKE,
+    // ENGINEER
+    SkillID::SKY_CIRCUS,
+    SkillID::CORE_REACTOR_SHOT,
+    SkillID::CORE_REACTOR_SHOT_1,
+    SkillID::ROCKET_PUNCH,
+    SkillID::ROCKET_PUNCH_1,
+    SkillID::SPARK_REVOLVER,
+    SkillID::JADE_MORTAR,
+    SkillID::ROLLING_SMASH,
+    SkillID::CRISIS_ZONE,
+    SkillID::BARRIER_BURST,
+    SkillID::DISCHARGE_ARRAY,
 };
 
 const SkillRules skill_rules = SkillRules{
     .skills_substr_weapon_swap_like = skills_substr_weapon_swap_like,
     .skills_match_weapon_swap_like = skills_match_weapon_swap_like,
     .skills_substr_to_drop = skills_substr_to_drop,
+    .skills_match_to_drop_names = skills_match_to_drop_names,
     .skills_match_to_drop = skills_match_to_drop,
     .special_substr_to_gray_out = special_substr_to_gray_out,
     .special_match_to_gray_out_names = special_match_to_gray_out_names,
+    .special_match_to_gray_out_manual_ids = special_match_to_gray_out_manual_ids,
     .special_match_to_gray_out = special_match_to_gray_out,
     .special_substr_to_remove_duplicates_names = special_substr_to_remove_duplicates_names,
     .special_substr_to_remove_duplicates = special_substr_to_remove_duplicates,
-    .easy_mode_drop_match_name = easy_mode_drop_match_name,
     .easy_mode_drop_match = easy_mode_drop_match,
     .class_map_easy_mode_match_to_gray_out = class_map_easy_mode_match_to_gray_out,
     .class_map_special_match_to_gray_out = class_map_special_match_to_gray_out,

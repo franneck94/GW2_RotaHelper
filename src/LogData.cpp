@@ -164,7 +164,7 @@ bool get_is_skill_dropped(const SkillData &skill_data,
                           const bool is_easy_skill_mode)
 {
     const auto is_substr_drop_match = is_skill_in_set(skill_data.name, skill_rules.skills_substr_to_drop);
-    const auto is_exact_drop_match = is_skill_in_set(skill_data.name, skill_rules.skills_match_to_drop, true);
+    const auto is_exact_drop_match = is_skill_in_set(skill_data.name, skill_rules.skills_match_to_drop_names, true);
 
     auto drop_skill = is_substr_drop_match || is_exact_drop_match;
     if (!show_weapon_swap || is_strict_mode)
@@ -192,9 +192,7 @@ bool get_is_skill_dropped(const SkillData &skill_data,
 
     if (is_easy_skill_mode && !drop_skill)
     {
-        auto is_exact_easy_mode_drop_match =
-            is_skill_in_set(skill_data.name, skill_rules.easy_mode_drop_match_name, true) ||
-            is_skill_in_set(skill_data.skill_id, skill_rules.easy_mode_drop_match);
+        auto is_exact_easy_mode_drop_match = is_skill_in_set(skill_data.skill_id, skill_rules.easy_mode_drop_match);
 
         const auto stem = Globals::RenderData.selected_file_path.stem().string();
         if (stem != "")
@@ -222,7 +220,8 @@ bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_r
     const auto is_substr_gray_out = is_skill_in_set(skill_data.name, skill_rules.special_substr_to_gray_out);
     const auto is_match_gray_out =
         is_skill_in_set(skill_data.name, skill_rules.special_match_to_gray_out_names, true) ||
-        is_skill_in_set(skill_data.skill_id, skill_rules.special_match_to_gray_out);
+        is_skill_in_set(skill_data.skill_id, skill_rules.special_match_to_gray_out) ||
+        is_skill_in_set(skill_data.skill_id, skill_rules.special_match_to_gray_out_manual_ids);
 
     const auto stem = Globals::RenderData.selected_file_path.stem().string();
     if (stem != "")
@@ -845,6 +844,14 @@ bool is_skill_in_set(SkillID skill_id, const std::set<SkillID> &set)
     return false;
 }
 
+bool is_skill_in_set(SkillID skill_id, const std::set<ManualSkillID> &set)
+{
+    if (set.find(static_cast<ManualSkillID>(skill_id)) != set.end())
+        return true;
+
+    return false;
+}
+
 SkillState get_skill_state(const RotationLogType &rotation_run,
                            const std::vector<EvCombatDataPersistent> &played_rotation,
                            const size_t window_idx,
@@ -937,7 +944,10 @@ void RotationLogType::get_rotation_skills()
             if (icon_it == Globals::TextureMap.end())
                 continue;
 
-            const auto skill = RotationSkill{step.skill_data.skill_id, step.skill_data.name, icon_it->second, step.skill_data.skill_slot};
+            const auto skill = RotationSkill{step.skill_data.skill_id,
+                                             step.skill_data.name,
+                                             icon_it->second,
+                                             step.skill_data.skill_slot};
             rotation_skills.insert({step.skill_data.skill_id, skill});
         }
     }

@@ -501,13 +501,14 @@ struct SkillRules
     const std::set<std::string_view> &skills_substr_weapon_swap_like;
     const std::set<std::string_view> &skills_match_weapon_swap_like;
     const std::set<std::string_view> &skills_substr_to_drop;
+    const std::set<std::string_view> &skills_match_to_drop_names;
     const std::set<std::string_view> &skills_match_to_drop;
     const std::set<std::string_view> &special_substr_to_gray_out;
     const std::set<std::string_view> &special_match_to_gray_out_names;
+    const std::set<ManualSkillID> &special_match_to_gray_out_manual_ids;
     const std::set<SkillID> &special_match_to_gray_out;
     const std::set<std::string_view> &special_substr_to_remove_duplicates_names;
     const std::set<SkillID> &special_substr_to_remove_duplicates;
-    const std::set<std::string_view> &easy_mode_drop_match_name;
     const std::set<SkillID> &easy_mode_drop_match;
     const std::map<std::string_view, std::set<SkillID>> &class_map_easy_mode_match_to_gray_out;
     const std::map<std::string_view, std::set<SkillID>> &class_map_special_match_to_gray_out;

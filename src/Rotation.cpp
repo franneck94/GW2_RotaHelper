@@ -80,7 +80,7 @@ bool CheckTheNextNskills(const EvCombatDataPersistent &current_casted_skill,
     const auto is_special_mapping = IsSpecialMappingSkill(current_casted_skill, n_th_future_rota_skill);
 
     const auto is_match =
-        (((n_th_future_rota_skill.skill_data.name == current_casted_skill.SkillName) || is_special_mapping));
+        (((n_th_future_rota_skill.skill_data.skill_id == current_casted_skill.SkillID) || is_special_mapping));
 
     const auto is_any_other_auto_attack =
         !is_match && accept_other_aa &&
@@ -412,7 +412,7 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
                 return;
 
             const auto rota_skill = *it;
-            const auto is_exact_match = (rota_skill.skill_data.name == current_casted_skill.SkillName);
+            const auto is_exact_match = (rota_skill.skill_data.skill_id == current_casted_skill.SkillID);
             const auto is_auto_attack_match = !is_exact_match && (rota_skill.skill_data.is_auto_attack &&
                                                                   IsSkillAutoAttack(current_casted_skill.SkillID,
                                                                                     current_casted_skill.SkillName,
