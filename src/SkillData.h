@@ -28,6 +28,8 @@ extern const SkillRules skill_rules;
 
 extern const std::map<int, int> unk_skill_id_fix;
 
+extern const std::map<int, int> unk_skill_id_based_on_icon_id_fix;
+
 extern const std::map<int, int> fix_skill_img_ids;
 
 SkillData GetDataByID(const SkillID skill_id, const SkillDataMap &skill_data_map);

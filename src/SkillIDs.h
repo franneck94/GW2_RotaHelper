@@ -5,18 +5,6 @@
 
 #include <cstdint>
 
-enum class ManualSkillID : int32_t
-{
-    NONE = 0,
-    CYCLONE_TRIGGER = 62789,
-    STEEL_DIVIDE = 62772,
-    RECONSTRUCTION_FIELD = 29505,
-    MINE_FIELD = 6164,
-    CALCIFY = 77226,
-    SPLASH = 77225,
-    ZAP =77370,
-};
-
 enum class SkillID : int32_t
 {
     FALLBACK = -10000,

@@ -75,7 +75,7 @@ const std::set<std::string_view> skills_substr_weapon_swap_like = {
 };
 
 /* In Genreal Traits/Effects that are in the log */
-const std::set<std::string_view> skills_substr_to_drop = {
+const std::set<std::string_view> skills_substr_to_drop_names = {
     "Bloodstone Fervor",
     "Relic of",
     "Nourys's Hunger",
@@ -136,8 +136,19 @@ const std::set<std::string_view> skills_match_to_drop_names = {
     "Mistfire",
 };
 
-const std::set<std::string_view> skills_match_to_drop = {
-
+const std::set<ManualSkillID> skills_match_to_drop = {
+    // NECROMANCER
+    ManualSkillID::APPORACHING_DOOM,
+    ManualSkillID::CHILLING_NOVA,
+    ManualSkillID::CASCADING_CORRUPTION,
+    ManualSkillID::EXPLOSIVE_GROWTH,
+    // MESMER
+    ManualSkillID::MIARGE_CLOAK,
+    // REVENANT
+    ManualSkillID::INVOKE_TORMENT,
+    // ELEMENTALIST
+    ManualSkillID::SUNSPOT,
+    ManualSkillID::FLAME_EXPLOSION,
 };
 
 const std::set<std::string_view> special_substr_to_gray_out = {
@@ -171,10 +182,13 @@ const std::set<std::string_view> special_match_to_gray_out_names = {
 };
 
 const std::set<ManualSkillID> special_match_to_gray_out_manual_ids = {
+    // WARRIOR
     ManualSkillID::CYCLONE_TRIGGER,
     ManualSkillID::STEEL_DIVIDE,
     ManualSkillID::RECONSTRUCTION_FIELD,
+    // ENGINEER
     ManualSkillID::MINE_FIELD,
+    // ELEMENTALIST
     ManualSkillID::CALCIFY,
     ManualSkillID::SPLASH,
     ManualSkillID::ZAP,
@@ -557,7 +571,7 @@ const std::set<SkillID> easy_mode_drop_match = {
 const SkillRules skill_rules = SkillRules{
     .skills_substr_weapon_swap_like = skills_substr_weapon_swap_like,
     .skills_match_weapon_swap_like = skills_match_weapon_swap_like,
-    .skills_substr_to_drop = skills_substr_to_drop,
+    .skills_substr_to_drop_names = skills_substr_to_drop_names,
     .skills_match_to_drop_names = skills_match_to_drop_names,
     .skills_match_to_drop = skills_match_to_drop,
     .special_substr_to_gray_out = special_substr_to_gray_out,
@@ -690,9 +704,13 @@ const std::map<SkillID, float> grey_skill_cast_time_map = {
 };
 
 const std::map<int, int> unk_skill_id_fix = {
-    {1, 73055},     // daybreaking slash
-    {72923, 73055}, // daybreaking slash
-    {7, 62668},     // rushing justice
+    {1, 73055},       // daybreaking slash
+    {72923, 73055},   // daybreaking slash
+    {7, 62668},       // rushing justice
+};
+
+const std::map<int, int> unk_skill_id_based_on_icon_id_fix = {
+    {3680120, 77370}, // Zap
 };
 
 // TODO: Check if can be moved to skill_data_unk_map

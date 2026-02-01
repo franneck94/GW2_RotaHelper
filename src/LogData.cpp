@@ -163,8 +163,9 @@ bool get_is_skill_dropped(const SkillData &skill_data,
                           const bool show_weapon_swap,
                           const bool is_easy_skill_mode)
 {
-    const auto is_substr_drop_match = is_skill_in_set(skill_data.name, skill_rules.skills_substr_to_drop);
-    const auto is_exact_drop_match = is_skill_in_set(skill_data.name, skill_rules.skills_match_to_drop_names, true);
+    const auto is_substr_drop_match = is_skill_in_set(skill_data.name, skill_rules.skills_substr_to_drop_names);
+    const auto is_exact_drop_match = is_skill_in_set(skill_data.name, skill_rules.skills_match_to_drop_names, true) ||
+                                     is_skill_in_set(skill_data.skill_id, skill_rules.skills_match_to_drop);
 
     auto drop_skill = is_substr_drop_match || is_exact_drop_match;
     if (!show_weapon_swap || is_strict_mode)
@@ -337,6 +338,16 @@ void get_rotation_info(const IntNode &node,
                             skip_skill = true;
 
                         skill_data.skill_id = SafeConvertToSkillID(_icon_id); // TODO : check if we need this if at all
+
+                        if (skill_data.skill_id == SkillID::NONE || skill_data.skill_id == SkillID::UNKNOWN_SKILL)
+                        {
+                            if (const auto it2 = SkillRuleData::unk_skill_id_based_on_icon_id_fix.find(icon_id);
+                                it2 != SkillRuleData::unk_skill_id_based_on_icon_id_fix.end())
+                            {
+                                skill_data.skill_id = SafeConvertToSkillID(it2->second);
+                            }
+                        }
+
                         skill_data.name = _skill_data.name;
                         skill_data.icon_id = icon_id;
 
