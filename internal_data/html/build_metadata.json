@@ -3443,5 +3443,57 @@
     "overall_dps": 35080.0,
     "dps_report_url": "https://dps.report/Qv1n-20250510-031308_golem",
     "html_file_path": "alac\\condition\\condition_boon_chronomancer_staff_scepter_torch.html"
+  },
+  {
+    "name": "Condition Evoker",
+    "url": "https://snowcrows.com/builds/raids/elementalist/condition-evoker-pistol-dagger",
+    "benchmark_type": "dps",
+    "profession": "Elementalist",
+    "elite_spec": "Evoker",
+    "build_type": "condition",
+    "url_name": "condition-evoker-pistol-dagger",
+    "weapons": "",
+    "overall_dps": 44567.0,
+    "dps_report_url": "https://dps.report/0gs2-20260127-180633_golem",
+    "html_file_path": "dps\\condition\\condition_evoker_pistol_dagger.html"
+  },
+  {
+    "name": "Condition Firebrand",
+    "url": "https://snowcrows.com/builds/raids/guardian/condition-firebrand-axe-torch-pistol-pistol",
+    "benchmark_type": "dps",
+    "profession": "Guardian",
+    "elite_spec": "Firebrand",
+    "build_type": "condition",
+    "url_name": "condition-firebrand-axe-torch-pistol-pistol",
+    "weapons": "",
+    "overall_dps": 43340.0,
+    "dps_report_url": "https://dps.report/wW2e-20260122-182212_golem",
+    "html_file_path": "dps\\condition\\condition_firebrand_axe_torch_pistol_pistol.html"
+  },
+  {
+    "name": "Condition Reaper",
+    "url": "https://snowcrows.com/builds/raids/necromancer/condition-reaper-spear-dagger-sword",
+    "benchmark_type": "dps",
+    "profession": "Necromancer",
+    "elite_spec": "Reaper",
+    "build_type": "condition",
+    "url_name": "condition-reaper-spear-dagger-sword",
+    "weapons": "",
+    "overall_dps": 41927.0,
+    "dps_report_url": "https://dps.report/smdb-20260123-221507_golem",
+    "html_file_path": "dps\\condition\\condition_reaper_spear_dagger_sword.html"
+  },
+  {
+    "name": "Condition Alacrity Antiquary",
+    "url": "https://snowcrows.com/builds/raids/thief/condition-alacrity-antiquary-scepter-dagger",
+    "benchmark_type": "alac",
+    "profession": "Thief",
+    "elite_spec": "Antiquary",
+    "build_type": "condition",
+    "url_name": "condition-alacrity-antiquary-scepter-dagger",
+    "weapons": "",
+    "overall_dps": 38160.0,
+    "dps_report_url": "https://dps.report/6NqJ-20260131-091615_golem",
+    "html_file_path": "alac\\condition\\condition_alacrity_antiquary_scepter_dagger.html"
   }
 ]
