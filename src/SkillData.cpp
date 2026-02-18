@@ -217,6 +217,9 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::RADIANT_COURAGE,
     SkillID::RADIANT_COURAGE_1,
     SkillID::BINDING_BLADE,
+    SkillID::PIERCING_STANCE,
+    SkillID::DAYBREAKING_SLASH,
+    SkillID::SHINING_SPIN,
     // WARRIOR
     SkillID::DRAGON_TRIGGER,
     SkillID::FLOW_STABILIZER,
@@ -408,6 +411,8 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::PHANTOM_S_ONSLAUGHT,
     SkillID::RELEASE_POTENTIAL_ASSASSIN,
     SkillID::RELEASE_POTENTIAL_MESMER,
+    SkillID::TWIN_MOON_SWEEP,
+    SkillID::TWIN_MOON_SWEEP_1,
 };
 
 const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_gray_out = {
@@ -447,6 +452,13 @@ const std::map<std::string_view, std::set<SkillID>> class_map_special_match_to_g
         "power_virtuoso_greatsword_dagger_sword_v4",
         {SkillID::SPATIAL_SURGE},
     },
+    {
+        "power_conduit_greatsword_sword_sword",
+        {
+            SkillID::TWIN_MOON_SWEEP,
+            SkillID::TWIN_MOON_SWEEP_1,
+        },
+    },
 };
 
 const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_match_to_gray_out = {
@@ -463,14 +475,6 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_match_to
         {
             SkillID::PRIMORDIAL_STANCE,
             SkillID::ARCANE_BLAST,
-        },
-    },
-    {
-        "power_luminary_spear_greatsword_v4",
-        {
-            SkillID::PIERCING_STANCE,
-            SkillID::DAYBREAKING_SLASH,
-            SkillID::SHINING_SPIN,
         },
     },
     {
@@ -704,9 +708,9 @@ const std::map<SkillID, float> grey_skill_cast_time_map = {
 };
 
 const std::map<int, int> unk_skill_id_fix = {
-    {1, 73055},       // daybreaking slash
-    {72923, 73055},   // daybreaking slash
-    {7, 62668},       // rushing justice
+    {1, 73055},     // daybreaking slash
+    {72923, 73055}, // daybreaking slash
+    {7, 62668},     // rushing justice
 };
 
 const std::map<int, int> unk_skill_id_based_on_icon_id_fix = {
