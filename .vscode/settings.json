@@ -233,5 +233,6 @@
     "notebook.compactView": false,
     "notebook.diff.ignoreMetadata": true,
     "notebook.diff.ignoreOutputs": true,
-    "cmake.options.statusBarVisibility": "icon"
+    "cmake.options.statusBarVisibility": "icon",
+    "python-envs.defaultEnvManager": "ms-python.python:system"
 }
