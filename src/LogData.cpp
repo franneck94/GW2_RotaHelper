@@ -247,6 +247,9 @@ bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_r
                 if (is_class_easy_gray_out)
                     return true;
             }
+
+            if (skill_rules.easy_mode_match_to_gray_out.find(skill_data.skill_id) != skill_rules.easy_mode_match_to_gray_out.end())
+                return true;
         }
     }
 

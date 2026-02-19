@@ -538,6 +538,7 @@ struct SkillRules
     const std::set<std::string_view> &special_substr_to_remove_duplicates_names;
     const std::set<SkillID> &special_substr_to_remove_duplicates;
     const std::set<SkillID> &easy_mode_drop_match;
+    const std::set<SkillID> &easy_mode_match_to_gray_out;
     const std::map<std::string_view, std::set<SkillID>> &class_map_easy_mode_match_to_gray_out;
     const std::map<std::string_view, std::set<SkillID>> &class_map_special_match_to_gray_out;
     const std::map<std::string_view, std::set<SkillID>> &class_map_easy_mode_drop_match;

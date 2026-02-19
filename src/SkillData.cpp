@@ -220,6 +220,9 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::PIERCING_STANCE,
     SkillID::DAYBREAKING_SLASH,
     SkillID::SHINING_SPIN,
+    SkillID::SYMBOL_OF_BLADES,
+    SkillID::SHIELD_OF_COURAGE,
+    SkillID::SHIELD_OF_COURAGE_1,
     // WARRIOR
     SkillID::DRAGON_TRIGGER,
     SkillID::FLOW_STABILIZER,
@@ -467,13 +470,11 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_match_to
         {
             SkillID::SIGNET_OF_EARTH,
             SkillID::SIGNET_OF_FIRE,
-            SkillID::PRIMORDIAL_STANCE,
         },
     },
     {
         "power_weaver_sword_dagger_v4",
         {
-            SkillID::PRIMORDIAL_STANCE,
             SkillID::ARCANE_BLAST,
         },
     },
@@ -484,14 +485,6 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_match_to
             SkillID::NEGATIVE_BASH,
             SkillID::EQUALIZING_BLOW,
         },
-    },
-    {
-        "power_virtuoso_spear_greatsword_v4",
-        {SkillID::SPATIAL_SURGE},
-    },
-    {
-        "power_virtuoso_greatsword_dagger_sword_v4",
-        {SkillID::SPATIAL_SURGE},
     },
 };
 
@@ -512,6 +505,37 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_drop_mat
         },
     },
 };
+
+const std::set<SkillID> easy_mode_match_to_gray_out = {
+    // MESMER
+    SkillID::SPATIAL_SURGE,
+    // ELEMENTALIST
+    SkillID::PRIMORDIAL_STANCE,
+    // GUARDIAN
+    SkillID::PUNCTURE_SHOT,
+    SkillID::PUNCTURE_SHOT_1,
+};
+
+const std::set<SkillID> easy_mode_drop_match = {
+    // REVENANT1
+    SkillID::ABYSSAL_STRIKE,
+    SkillID::ABYSSAL_FIRE,
+    // MESMER
+    SkillID::POWER_SPIKE,
+    // ENGINEER
+    SkillID::SKY_CIRCUS,
+    SkillID::CORE_REACTOR_SHOT,
+    SkillID::CORE_REACTOR_SHOT_1,
+    SkillID::ROCKET_PUNCH,
+    SkillID::ROCKET_PUNCH_1,
+    SkillID::SPARK_REVOLVER,
+    SkillID::JADE_MORTAR,
+    SkillID::ROLLING_SMASH,
+    SkillID::CRISIS_ZONE,
+    SkillID::BARRIER_BURST,
+    SkillID::DISCHARGE_ARRAY,
+};
+
 
 const std::set<std::string_view> special_substr_to_remove_duplicates_names = {
     "Offensive Protocol: Demolish",
@@ -552,26 +576,6 @@ const std::set<SkillID> special_substr_to_remove_duplicates = {
     SkillID::BEGUILING_HAZE,
 };
 
-const std::set<SkillID> easy_mode_drop_match = {
-    // REVENANT
-    SkillID::ABYSSAL_STRIKE,
-    SkillID::ABYSSAL_FIRE,
-    // MESMER
-    SkillID::POWER_SPIKE,
-    // ENGINEER
-    SkillID::SKY_CIRCUS,
-    SkillID::CORE_REACTOR_SHOT,
-    SkillID::CORE_REACTOR_SHOT_1,
-    SkillID::ROCKET_PUNCH,
-    SkillID::ROCKET_PUNCH_1,
-    SkillID::SPARK_REVOLVER,
-    SkillID::JADE_MORTAR,
-    SkillID::ROLLING_SMASH,
-    SkillID::CRISIS_ZONE,
-    SkillID::BARRIER_BURST,
-    SkillID::DISCHARGE_ARRAY,
-};
-
 const SkillRules skill_rules = SkillRules{
     .skills_substr_weapon_swap_like = skills_substr_weapon_swap_like,
     .skills_match_weapon_swap_like = skills_match_weapon_swap_like,
@@ -585,6 +589,7 @@ const SkillRules skill_rules = SkillRules{
     .special_substr_to_remove_duplicates_names = special_substr_to_remove_duplicates_names,
     .special_substr_to_remove_duplicates = special_substr_to_remove_duplicates,
     .easy_mode_drop_match = easy_mode_drop_match,
+    .easy_mode_match_to_gray_out = easy_mode_match_to_gray_out,
     .class_map_easy_mode_match_to_gray_out = class_map_easy_mode_match_to_gray_out,
     .class_map_special_match_to_gray_out = class_map_special_match_to_gray_out,
     .class_map_easy_mode_drop_match = class_map_easy_mode_drop_match,

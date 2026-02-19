@@ -79,6 +79,7 @@ static const std::set<std::string_view> yellow_tick_builds = {
     "power_reaper_sword_sword",
     "power_luminary_spear_greatsword",
     "power_renegade_greatsword_sword_sword",
+    "power_dragonhunter_lb",
     //  POWER BOON BUILDS
     "power_alacrity_willbender_greatsword_sword_focus",
     "power_alacrity_willbender_spear_greatsword",

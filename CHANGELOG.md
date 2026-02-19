@@ -17,6 +17,7 @@ An increase in the third number indicates bugfixes only.
 ## Improvements
 
 - Improved for Power Conduit
+- Imporved for Power Dragonhunter
 
 ## 3.2.1 - 2026-01-31
 
