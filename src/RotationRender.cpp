@@ -210,9 +210,9 @@ void RotationRenderType::render()
 
             render_rotation_horizontal();
         }
-    }
 
-    ImGui::End();
+        ImGui::End();
+    }
 }
 
 void RotationRenderType::render_rotation_keybinds(bool &show_rotation_keybinds)
