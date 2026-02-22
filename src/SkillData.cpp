@@ -223,6 +223,11 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::SYMBOL_OF_BLADES,
     SkillID::SHIELD_OF_COURAGE,
     SkillID::SHIELD_OF_COURAGE_1,
+    SkillID::SPEAR_OF_JUSTICE,
+    SkillID::WINGS_OF_RESOLVE,
+    SkillID::WINGS_OF_RESOLVE_1,
+    SkillID::WINGS_OF_RESOLVE_2,
+    SkillID::WINGS_OF_RESOLVE_3,
     // WARRIOR
     SkillID::DRAGON_TRIGGER,
     SkillID::FLOW_STABILIZER,
@@ -357,6 +362,10 @@ const std::set<SkillID> special_match_to_gray_out = {
     SkillID::TIME_SINK,
     SkillID::TALE_OF_THE_AUGUST_QUEEN,
     // NECROMANCER
+    SkillID::ELIXIR_OF_AMBITION,
+    SkillID::ELIXIR_OF_AMBITION_1,
+    SkillID::ELIXIR_OF_PROMISE,
+    SkillID::ELIXIR_OF_PROMISE_1,
     SkillID::MANIFEST_SAND_SHADE,
     SkillID::DEATH_S_CHARGE,
     SkillID::YOU_ARE_ALL_WEAKLINGS,
@@ -514,6 +523,9 @@ const std::set<SkillID> easy_mode_match_to_gray_out = {
     // GUARDIAN
     SkillID::PUNCTURE_SHOT,
     SkillID::PUNCTURE_SHOT_1,
+    // NECROMANCER
+    SkillID::NIGHTFALL,
+    SkillID::VITAL_DRAW,
 };
 
 const std::set<SkillID> easy_mode_drop_match = {
