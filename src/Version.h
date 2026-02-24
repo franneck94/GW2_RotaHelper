@@ -2,7 +2,7 @@
 #define VERSION_H
 
 #define MAJOR 3
-#define MINOR 4
+#define MINOR 5
 #define BUILD 0
 #define REVISION 0
 
@@ -12,7 +12,7 @@
 #define VERSION_STRING TOSTRING(MAJOR) "." TOSTRING(MINOR) "." TOSTRING(BUILD) "." TOSTRING(REVISION)
 
 #define LOWER_VERSION_RANGE "3.0.0.0"
-#define UPPER_VERSION_RANGE "3.3.0.0"
+#define UPPER_VERSION_RANGE "3.5.0.0"
 
 #define BUILD_DATE "2026-02-19"
 #define BUILD_STR std::string{BUILD_DATE}

@@ -521,6 +521,7 @@ const std::set<SkillID> easy_mode_match_to_gray_out = {
     // ELEMENTALIST
     SkillID::PRIMORDIAL_STANCE,
     // GUARDIAN
+    SkillID::HUNTER_S_WARD,
     SkillID::PUNCTURE_SHOT,
     SkillID::PUNCTURE_SHOT_1,
     // NECROMANCER
@@ -742,6 +743,7 @@ const std::map<int, int> fix_skill_img_ids = {
     {3332087, 3379166}, // Extirpate
     {1, 3379124},       // daybreaking slash
     {7, 2479367},       // rushing justice
+    {103641, 1012878},  // procession of blades
 };
 
 SkillData GetDataByID(const SkillID skill_id, const SkillDataMap &skill_data_map)

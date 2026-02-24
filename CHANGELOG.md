@@ -8,15 +8,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Versioning
 
-An increase in the first number indicates an update of the rotation logs/builds.  
+An increase in the first number indicates an big update of the rotation logs/builds.  
 An increase of the second number indicates changes in only the code logic.  
 An increase in the third number indicates bugfixes only.
 
-## 3.4.0 - 2026-02-124
+## 3.4.0 - 2026-02-25
 
 ## Improvements
 
-- Improved for Power hHarbinger in Easy Mde
+- Fixed wrong skill icon for Procession of Blades on Dragonhunter
+
+## 3.4.0 - 2026-02-23
+
+## Improvements
+
+- Improved for Power Harbinger in Easy Mode
 - Imporved for Power Dragonhunter
 
 ## 3.3.0 - 2026-02-17
