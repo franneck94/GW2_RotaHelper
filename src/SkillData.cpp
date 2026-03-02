@@ -513,6 +513,13 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_drop_mat
             SkillID::JADE_MORTAR,
         },
     },
+    {
+        "power_ritualist_greatsword_spear_v4",
+        {
+            SkillID::WANDERLUST_1,
+            SkillID::SUMMON_SPIRITS_1,
+        },
+    }
 };
 
 const std::set<SkillID> easy_mode_match_to_gray_out = {
