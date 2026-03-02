@@ -1688,13 +1688,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "Condition Conduit",
+    "name": "condition_conduit_spear_mace_axe",
     "profession": "Unknown",
     "elite_spec": "",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/revenant/condition-conduit-spear-mace-axe",
-    "dps_report_url": "https://dps.report/pwAS-20260114-163343_golem",
-    "overall_dps": 55746.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

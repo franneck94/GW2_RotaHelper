@@ -1652,13 +1652,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "Power Spellbreaker",
-    "profession": "Warrior",
-    "elite_spec": "Spellbreaker",
+    "name": "power_spellbreaker_hammer_dagger_mace",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/warrior/power-spellbreaker-hammer-dagger-mace",
-    "dps_report_url": "https://dps.report/6dF5-20260123-212043_golem",
-    "overall_dps": 45016.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

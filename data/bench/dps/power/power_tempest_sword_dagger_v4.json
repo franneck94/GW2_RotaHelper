@@ -1212,13 +1212,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "Power Tempest Sword Dagger",
-    "profession": "Elementalist",
-    "elite_spec": "Tempest",
+    "name": "power_tempest_sword_dagger",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/elementalist/power-tempest-sword-dagger",
-    "dps_report_url": "https://dps.report/bB8v-20250211-193538_golem",
-    "overall_dps": 44016.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

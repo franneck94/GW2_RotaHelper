@@ -1191,13 +1191,13 @@
     "slot_0": 1058637
   },
   "buildMetadata": {
-    "name": "Power Berserker Hammer Axe Mace",
-    "profession": "Warrior",
-    "elite_spec": "Berserker",
+    "name": "power_berserker_hammer_axe_mace",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/warrior/power-berserker-hammer-axe-mace",
-    "dps_report_url": "https://gw2wingman.nevermindcreations.de/log/b9f53-20250901-211613_StdGolem_kill",
+    "url": "",
+    "dps_report_url": "",
     "overall_dps": null
   }
 }

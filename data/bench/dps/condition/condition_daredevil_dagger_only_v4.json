@@ -1511,13 +1511,13 @@
     "slot_0": 104093
   },
   "buildMetadata": {
-    "name": "Condition Daredevil Dagger Only",
-    "profession": "Thief",
-    "elite_spec": "Daredevil",
+    "name": "condition_daredevil_dagger_only",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/thief/condition-daredevil-dagger-only",
-    "dps_report_url": "https://dps.report/x9oZ-20250629-021609_golem",
-    "overall_dps": 41472.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

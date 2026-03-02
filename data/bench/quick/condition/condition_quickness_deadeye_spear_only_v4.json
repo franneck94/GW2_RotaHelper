@@ -1699,11 +1699,11 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1,
-    "slot_0": -1
+    "slot_6": 1770611,
+    "slot_7": 103513,
+    "slot_8": 2175070,
+    "slot_9": 1770635,
+    "slot_0": 1770610
   },
   "buildMetadata": {
     "name": "Condition Quickness Deadeye",
@@ -1711,7 +1711,7 @@
     "elite_spec": "Deadeye",
     "build_type": "condition",
     "benchmark_type": "quick",
-    "url": "https://snowcrows.com/builds/raids/thief/condition-quickness-deadeye-spear",
+    "url": "https://snowcrows.com/builds/raids/thief/condition-quickness-deadeye-spear-only",
     "dps_report_url": "https://dps.report/WwTh-20250712-001920_golem",
     "overall_dps": 34607.0
   }

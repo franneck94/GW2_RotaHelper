@@ -1498,13 +1498,13 @@
     "slot_0": 2503668
   },
   "buildMetadata": {
-    "name": "Condition Mechanist No Kit Spear",
-    "profession": "Engineer",
-    "elite_spec": "Mechanist",
+    "name": "condition_mechanist_no_kit_spear",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/engineer/condition-mechanist-no-kit-spear",
-    "dps_report_url": "https://dps.report/Ceo5-20250423-211218_golem",
-    "overall_dps": 39433.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

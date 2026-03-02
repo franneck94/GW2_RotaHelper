@@ -1258,13 +1258,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "Power Tempest Spear",
-    "profession": "Elementalist",
-    "elite_spec": "Tempest",
+    "name": "power_tempest_spear",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/elementalist/power-tempest-spear",
-    "dps_report_url": "https://dps.report/XILE-20251026-163316_golem",
-    "overall_dps": 42208.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

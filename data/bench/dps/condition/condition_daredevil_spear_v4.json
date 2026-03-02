@@ -1426,13 +1426,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "Condition Daredevil",
-    "profession": "Thief",
-    "elite_spec": "Daredevil",
+    "name": "condition_daredevil_spear",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/thief/condition-daredevil-spear",
-    "dps_report_url": "https://dps.report/iZUY-20250724-111709_golem",
-    "overall_dps": 42232.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

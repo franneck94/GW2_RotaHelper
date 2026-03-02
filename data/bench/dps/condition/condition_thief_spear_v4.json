@@ -1451,13 +1451,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "Condition Thief Spear",
-    "profession": "Thief",
-    "elite_spec": "Thief",
+    "name": "condition_thief_spear",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/thief/condition-thief-spear",
-    "dps_report_url": "https://dps.report/utfh-20250421-151309_golem",
-    "overall_dps": 34921.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

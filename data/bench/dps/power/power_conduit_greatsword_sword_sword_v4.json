@@ -1596,13 +1596,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "Power Conduit",
+    "name": "power_conduit_greatsword_sword_sword",
     "profession": "Unknown",
     "elite_spec": "",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/revenant/power-conduit-greatsword-sword-sword",
-    "dps_report_url": "https://dps.report/HWNu-20260122-121909_golem",
-    "overall_dps": 52002.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

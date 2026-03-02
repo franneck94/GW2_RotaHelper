@@ -1635,13 +1635,13 @@
     "slot_0": 1770505
   },
   "buildMetadata": {
-    "name": "Condition Mirage IH Ether Staff Axe Torch",
-    "profession": "Mesmer",
-    "elite_spec": "Mirage",
+    "name": "condition_mirage_ih_ether_staff_axe_torch",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/mesmer/condition-mirage-ih-ether-staff-axe-torch",
-    "dps_report_url": "https://dps.report/6iDz-20250825-051630_golem",
-    "overall_dps": 50041.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

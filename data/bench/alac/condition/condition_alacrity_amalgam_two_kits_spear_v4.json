@@ -2052,13 +2052,13 @@
     "slot_0": 3680125
   },
   "buildMetadata": {
-    "name": "Condition Alacrity Amalgam Two Kits Spear",
-    "profession": "Engineer",
-    "elite_spec": "Amalgam",
+    "name": "condition_alacrity_amalgam_two_kits_spear",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "condition",
     "benchmark_type": "alac",
-    "url": "https://snowcrows.com/builds/raids/engineer/condition-alacrity-amalgam-two-kits-spear",
-    "dps_report_url": "https://dps.report/aUmU-20251215-143447_golem",
-    "overall_dps": 43170.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

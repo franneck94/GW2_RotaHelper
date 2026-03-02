@@ -1220,13 +1220,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "Condition Tempest Scepter Warhorn",
-    "profession": "Elementalist",
-    "elite_spec": "Tempest",
+    "name": "condition_tempest_scepter_warhorn",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/elementalist/condition-tempest-scepter-warhorn",
-    "dps_report_url": "https://dps.report/CdTT-20250218-221925_golem",
-    "overall_dps": 41675.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

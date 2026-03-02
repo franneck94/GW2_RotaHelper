@@ -2348,13 +2348,13 @@
     "slot_0": 2503668
   },
   "buildMetadata": {
-    "name": "Condition Alacrity Mechanist One Kit Spear",
-    "profession": "Engineer",
-    "elite_spec": "Mechanist",
+    "name": "condition_alacrity_mechanist_one_kit_spear",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "condition",
     "benchmark_type": "alac",
-    "url": "https://snowcrows.com/builds/raids/engineer/condition-alacrity-mechanist-one-kit-spear",
-    "dps_report_url": "https://dps.report/n4qX-20250423-160558_golem",
-    "overall_dps": 34003.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

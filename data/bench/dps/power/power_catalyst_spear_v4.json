@@ -1816,13 +1816,13 @@
     "slot_0": 2491568
   },
   "buildMetadata": {
-    "name": "Power Catalyst Spear",
-    "profession": "Elementalist",
-    "elite_spec": "Catalyst",
+    "name": "power_catalyst_spear",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/elementalist/power-catalyst-spear",
-    "dps_report_url": "https://dps.report/0uv2-20251026-131304_golem",
-    "overall_dps": 42020.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

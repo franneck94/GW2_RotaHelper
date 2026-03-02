@@ -1375,20 +1375,20 @@
     }
   },
   "SkillKeyMapping": {
-    "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1,
+    "slot_6": 104070,
+    "slot_7": 2175070,
+    "slot_8": 103073,
+    "slot_9": 103513,
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "condition_thief_axe_dagger",
-    "profession": "Unknown",
-    "elite_spec": "",
+    "name": "Condition Thief",
+    "profession": "Thief",
+    "elite_spec": "Thief",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "",
-    "dps_report_url": "",
-    "overall_dps": null
+    "url": "https://snowcrows.com/builds/raids/thief/condition-thief-axe-dagger-only",
+    "dps_report_url": "https://dps.report/xHhO-20250422-062546_golem",
+    "overall_dps": 38690.0
   }
 }

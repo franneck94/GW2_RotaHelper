@@ -1456,13 +1456,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "Power Untamed Hammer Sword Axe",
-    "profession": "Ranger",
-    "elite_spec": "Untamed",
+    "name": "power_untamed_hammer_sword_axe",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/ranger/power-untamed-hammer-sword-axe",
-    "dps_report_url": "https://dps.report/YH9W-20250508-132956_golem",
-    "overall_dps": 45186.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

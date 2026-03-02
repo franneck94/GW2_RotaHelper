@@ -1780,13 +1780,13 @@
     "slot_0": 104113
   },
   "buildMetadata": {
-    "name": "Power Berserker Axe Axe Mace",
-    "profession": "Warrior",
-    "elite_spec": "Berserker",
+    "name": "power_berserker_axe_axe_mace",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/warrior/power-berserker-axe-axe-mace",
-    "dps_report_url": "https://dps.report/uFlG-20250429-111410_golem",
-    "overall_dps": 44564.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

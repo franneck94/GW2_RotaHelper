@@ -1919,13 +1919,13 @@
     "slot_0": -1
   },
   "buildMetadata": {
-    "name": "Condition Renegade Spear Shortbow",
-    "profession": "Revenant",
-    "elite_spec": "Renegade",
+    "name": "condition_renegade_spear_shortbow",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "condition",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/revenant/condition-renegade-spear-shortbow",
-    "dps_report_url": "https://dps.report/F42K-20250421-171220_golem",
-    "overall_dps": 42817.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }

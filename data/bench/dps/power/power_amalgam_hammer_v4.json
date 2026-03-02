@@ -1738,13 +1738,13 @@
     "slot_0": 3680125
   },
   "buildMetadata": {
-    "name": "Power Amalgam Hammer",
-    "profession": "Engineer",
-    "elite_spec": "Amalgam",
+    "name": "power_amalgam_hammer",
+    "profession": "Unknown",
+    "elite_spec": "",
     "build_type": "power",
     "benchmark_type": "dps",
-    "url": "https://snowcrows.com/builds/raids/engineer/power-amalgam-hammer",
-    "dps_report_url": "https://dps.report/3XaA-20251217-174612_golem",
-    "overall_dps": 43997.0
+    "url": "",
+    "dps_report_url": "",
+    "overall_dps": null
   }
 }
