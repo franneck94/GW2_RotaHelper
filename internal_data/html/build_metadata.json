@@ -1272,5 +1272,19 @@
     "overall_dps": 32382.0,
     "dps_report_url": "https://dps.report/2bvf-20231014-100953_golem",
     "html_file_path": "alac\\condition\\condition_alacrity_scourge_scepter_torch_pistol.html"
+  },
+  {
+    "name": "Power Luminary Lb Gs",
+    "url": "https://snowcrows.com/builds/raids/guardian/power-luminary-longbow-greatsword",
+    "benchmark_type": "dps",
+    "profession": "Guardian",
+    "elite_spec": "Luminary",
+    "build_type": "power",
+    "url_name": "power_luminary_lb_gs",
+    "weapons": "",
+    "dps_report_url": "https://dps.report/0l3u-20260224-201445_golem",
+    "sc_link_url": "https://snowcrows.com/builds/raids/guardian/power-luminary-longbow-greatsword",
+    "overall_dps": 46585.0,
+    "html_file_path": "dps\\power\\power_luminary_lb_gs.html"
   }
 ]

@@ -12,6 +12,10 @@ An increase in the first number indicates an big update of the rotation logs/bui
 An increase of the second number indicates changes in only the code logic.  
 An increase in the third number indicates bugfixes only.
 
+## 4.0.0 - 2026-03-02
+
+- Updated Builds
+
 ## 3.4.0 - 2026-02-25
 
 ## Improvements
