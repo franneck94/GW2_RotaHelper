@@ -1628,10 +1628,10 @@
   },
   "SkillKeyMapping": {
     "slot_6": -1,
-    "slot_7": -1,
-    "slot_8": -1,
-    "slot_9": -1,
-    "slot_0": -1
+    "slot_7": 103513,
+    "slot_8": 2175070,
+    "slot_9": 3680219,
+    "slot_0": 3680206
   },
   "buildMetadata": {
     "name": "Condition Alacrity Antiquary",

@@ -1286,5 +1286,19 @@
     "sc_link_url": "https://snowcrows.com/builds/raids/guardian/power-luminary-longbow-greatsword",
     "overall_dps": 46585.0,
     "html_file_path": "dps\\power\\power_luminary_lb_gs.html"
+  },
+  {
+    "name": "Power Dragonhunter Lb Gs",
+    "url": "https://snowcrows.com/builds/raids/guardian/power-dragonhunter-virtues-spear-greatsword",
+    "benchmark_type": "dps",
+    "profession": "Guardian",
+    "elite_spec": "Dragonhunter",
+    "build_type": "power",
+    "url_name": "power_dragonhunter_lb_gs",
+    "weapons": "",
+    "dps_report_url": "https://dps.report/hg9e-50259vlb_golem",
+    "sc_link_url": "https://snowcrows.com/builds/raids/guardian/power-dragonhunter-virtues-spear-greatsword",
+    "overall_dps": 50232.0,
+    "html_file_path": "dps\\power\\power_dragonhunter_lb_gs.html"
   }
 ]

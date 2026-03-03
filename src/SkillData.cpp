@@ -531,6 +531,10 @@ const std::set<SkillID> easy_mode_match_to_gray_out = {
     SkillID::HUNTER_S_WARD,
     SkillID::PUNCTURE_SHOT,
     SkillID::PUNCTURE_SHOT_1,
+    SkillID::CRASHING_COURAGE,
+    SkillID::CRASHING_COURAGE_1,
+    SkillID::CRASHING_COURAGE_2,
+    SkillID::CRASHING_COURAGE_3,
     // NECROMANCER
     SkillID::NIGHTFALL,
     SkillID::VITAL_DRAW,
