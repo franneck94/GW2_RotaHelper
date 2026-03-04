@@ -11,7 +11,9 @@
 #include "SkillData.h"
 #include "Types.h"
 
-void default_gw2key_to_skillslot_mapping(const Keys gw2_key, SkillSlot &detected_skill_slot, std::string &detected_action_name)
+void default_gw2key_to_skillslot_mapping(const Keys gw2_key,
+                                         SkillSlot &detected_skill_slot,
+                                         std::string &detected_action_name)
 {
     switch (gw2_key)
     {
@@ -86,11 +88,8 @@ void default_gw2key_to_skillslot_mapping(const Keys gw2_key, SkillSlot &detected
     }
 }
 
-ProfessionID string_to_profession(const std::string &profession_name)
+ProfessionID _string_to_profession(const std::string &lower_name)
 {
-    auto lower_name = profession_name;
-    std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(), ::tolower);
-
     if (lower_name == "guardian")
         return ProfessionID::GUARDIAN;
     if (lower_name == "warrior")
@@ -113,11 +112,20 @@ ProfessionID string_to_profession(const std::string &profession_name)
     return ProfessionID::UNKNOWN;
 }
 
-EliteSpecID string_to_elite_spec(const std::string &spec_name)
+ProfessionID string_to_profession(const std::string &profession_name, const std::string &filename)
 {
-    auto lower_name = spec_name;
+    auto lower_name = profession_name;
     std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(), ::tolower);
 
+    const auto profession_id = _string_to_profession(lower_name);
+    if (profession_id != ProfessionID::UNKNOWN)
+        return profession_id;
+
+    return _string_to_profession("");
+}
+
+EliteSpecID _string_to_elite_spec(const std::string &lower_name)
+{
     // Elementalist
     if (lower_name == "catalyst")
         return EliteSpecID::Catalyst;
@@ -209,6 +217,19 @@ EliteSpecID string_to_elite_spec(const std::string &spec_name)
         return EliteSpecID::Spellbreaker;
 
     return EliteSpecID::Unknown;
+}
+
+EliteSpecID string_to_elite_spec(const std::string &spec_name, const std::string &filename)
+{
+    auto lower_name = spec_name;
+    std::transform(lower_name.begin(), lower_name.end(), lower_name.begin(), ::tolower);
+
+    const auto elite_spec_id = _string_to_elite_spec(lower_name);
+    if (elite_spec_id != EliteSpecID::Unknown)
+        return elite_spec_id;
+
+    const auto class_idx = filename.find("class_");
+    return _string_to_elite_spec(lower_name);
 }
 
 std::string profession_to_string(ProfessionID profession_id)

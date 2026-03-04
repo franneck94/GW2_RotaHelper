@@ -157,7 +157,8 @@ bool remove_skill_if(const RotationStep &current, const RotationStep &previous)
             (current.time_of_cast - previous.time_of_cast) < 250);
 }
 
-bool get_is_skill_dropped(const SkillData &skill_data,
+bool get_is_skill_dropped(const EliteSpecID elite_spec_id,
+                          const SkillData &skill_data,
                           const SkillRules &skill_rules,
                           const bool is_strict_mode,
                           const bool show_weapon_swap,
@@ -210,6 +211,11 @@ bool get_is_skill_dropped(const SkillData &skill_data,
         drop_skill = is_exact_easy_mode_drop_match;
     }
 
+    if (skill_data.skill_id == SkillID::SYMBOL_OF_BLADES && elite_spec_id == EliteSpecID::Luminary)
+    {
+        drop_skill = true;
+    }
+
     return drop_skill;
 }
 
@@ -248,7 +254,8 @@ bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_r
                     return true;
             }
 
-            if (skill_rules.easy_mode_match_to_gray_out.find(skill_data.skill_id) != skill_rules.easy_mode_match_to_gray_out.end())
+            if (skill_rules.easy_mode_match_to_gray_out.find(skill_data.skill_id) !=
+                skill_rules.easy_mode_match_to_gray_out.end())
                 return true;
         }
     }
@@ -262,7 +269,8 @@ bool get_is_special_skill(const SkillData &skill_data, const SkillRules &skill_r
     return drop_substr_swap || drop_match_swap;
 }
 
-void get_rotation_info(const IntNode &node,
+void get_rotation_info(const EliteSpecID elite_spec_id,
+                       const IntNode &node,
                        const LogSkillInfoMap &log_skill_info_map,
                        RotationSteps &all_rotation_steps,
                        const SkillDataMap &skill_data_map,
@@ -385,7 +393,8 @@ void get_rotation_info(const IntNode &node,
                 skill_data.icon_id = -9999;
             }
 
-            const auto drop_skill = get_is_skill_dropped(skill_data,
+            const auto drop_skill = get_is_skill_dropped(elite_spec_id,
+                                                         skill_data,
                                                          SkillRuleData::skill_rules,
                                                          is_strict_mode,
                                                          show_weapon_swap,
@@ -625,7 +634,7 @@ SkillKeyMapping get_skill_key_mapping(const nlohmann::json &j)
     return skill_key_mapping;
 }
 
-MetaData get_metadata(const nlohmann::json &j)
+MetaData get_metadata(const std::filesystem::path &json_path, const nlohmann::json &j)
 {
     auto metadata = MetaData{};
 
@@ -664,13 +673,16 @@ MetaData get_metadata(const nlohmann::json &j)
     if (build_meta.contains("overall_dps") && build_meta["overall_dps"].is_number_float())
         metadata.overall_dps = build_meta["overall_dps"].get<double>();
 
-    metadata.elite_spec_id = string_to_elite_spec(metadata.elite_spec);
-    metadata.profession_id = string_to_profession(metadata.profession);
+    const auto filename = json_path.filename().string();
+
+    metadata.elite_spec_id = string_to_elite_spec(metadata.elite_spec, filename);
+    metadata.profession_id = string_to_profession(metadata.profession, filename);
 
     return metadata;
 }
 
 std::tuple<LogSkillInfoMap, RotationSteps, RotationSteps, MetaData, SkillKeyMapping> get_dpsreport_data(
+    const EliteSpecID elite_spec_id,
     const std::filesystem::path &json_path,
     const SkillDataMap &skill_data_map)
 {
@@ -690,7 +702,8 @@ std::tuple<LogSkillInfoMap, RotationSteps, RotationSteps, MetaData, SkillKeyMapp
     auto log_skill_info_map = LogSkillInfoMap{};
     get_skill_info(kv_skill, log_skill_info_map);
     auto rotation_steps = RotationSteps{};
-    get_rotation_info(kv_rotation,
+    get_rotation_info(elite_spec_id,
+                      kv_rotation,
                       log_skill_info_map,
                       rotation_steps,
                       skill_data_map,
@@ -698,7 +711,8 @@ std::tuple<LogSkillInfoMap, RotationSteps, RotationSteps, MetaData, SkillKeyMapp
                       Settings::ShowWeaponSwap,
                       Settings::EasySkillMode);
     auto rotation_steps_w_swap = RotationSteps{};
-    get_rotation_info(kv_rotation,
+    get_rotation_info(elite_spec_id,
+                      kv_rotation,
                       log_skill_info_map,
                       rotation_steps_w_swap,
                       skill_data_map,
@@ -706,7 +720,7 @@ std::tuple<LogSkillInfoMap, RotationSteps, RotationSteps, MetaData, SkillKeyMapp
                       true,
                       Settings::EasySkillMode);
 
-    auto metadata = get_metadata(json_rotation_log);
+    auto metadata = get_metadata(json_path, json_rotation_log);
     auto skill_key_mapping = get_skill_key_mapping(json_rotation_log);
 
     return std::make_tuple(log_skill_info_map, rotation_steps, rotation_steps_w_swap, metadata, skill_key_mapping);
@@ -927,11 +941,14 @@ void RotationLogType::load_data(const std::filesystem::path &json_path, const st
         return;
     skill_data_map = get_skill_data_map(jsons_skill_data);
 
+    profession_id = meta_data.profession_id;
+    elite_spec_id = meta_data.elite_spec_id;
+
     const auto [_skill_info_map,
                 _bench_all_rotation_steps,
                 _bench_all_rotation_steps_w_swap,
                 _meta_data,
-                _skill_key_mapping] = get_dpsreport_data(json_path, skill_data_map);
+                _skill_key_mapping] = get_dpsreport_data(elite_spec_id, json_path, skill_data_map);
 
     log_skill_info_map = _skill_info_map;
     all_rotation_steps = _bench_all_rotation_steps;

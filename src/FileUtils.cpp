@@ -204,7 +204,7 @@ void filter_by_profession(std::vector<BenchFileInfo> &benches_files,
     else
     {
         // Get elite specs for this profession
-        auto profession_id = string_to_profession(current_profession);
+        auto profession_id = string_to_profession(current_profession, "");
         auto elite_specs = get_elite_specs_for_profession(profession_id);
 
         // First pass: find files that match the profession or elite specs and collect their directories

@@ -70,4 +70,7 @@ public:
     std::vector<std::string> rotation_text;
     std::vector<std::vector<std::tuple<ID3D11ShaderResourceView *, std::string, SkillID, bool>>> rotation_icon_lines;
     std::map<SkillID, RotationSkill> rotation_skills;
+
+    ProfessionID profession_id;
+    EliteSpecID elite_spec_id;
 };
