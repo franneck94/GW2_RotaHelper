@@ -519,7 +519,7 @@ const std::map<std::string_view, std::set<SkillID>> class_map_easy_mode_drop_mat
             SkillID::WANDERLUST_1,
             SkillID::SUMMON_SPIRITS_1,
         },
-    }
+    },
 };
 
 const std::set<SkillID> easy_mode_match_to_gray_out = {
@@ -538,6 +538,19 @@ const std::set<SkillID> easy_mode_match_to_gray_out = {
     // NECROMANCER
     SkillID::NIGHTFALL,
     SkillID::VITAL_DRAW,
+    // MESMER
+    SkillID::WELL_OF_CALAMITY,
+    SkillID::GRAVITY_WELL,
+    SkillID::FLYING_CUTTER,
+    SkillID::PSYCUT,
+    // ENGI
+    SkillID::THROW_MINE,
+    SkillID::THROW_MINE_1,
+    SkillID::GALVANIC_BOMB,
+    SkillID::FIRE_BOMB,
+    SkillID::BIG_OL_BOMB,
+    SkillID::SMOKE_BOMB,
+    SkillID::MAGNETIC_BOMB,
 };
 
 const std::set<SkillID> easy_mode_drop_match = {
@@ -560,6 +573,10 @@ const std::set<SkillID> easy_mode_drop_match = {
     SkillID::DISCHARGE_ARRAY,
 };
 
+const std::set<std::string_view> easy_mode_names_drop_substr = {
+    "Offensive Protocol: ",
+    "Defensive Protocol: ",
+};
 
 const std::set<std::string_view> special_substr_to_remove_duplicates_names = {
     "Offensive Protocol: Demolish",
@@ -613,6 +630,7 @@ const SkillRules skill_rules = SkillRules{
     .special_substr_to_remove_duplicates_names = special_substr_to_remove_duplicates_names,
     .special_substr_to_remove_duplicates = special_substr_to_remove_duplicates,
     .easy_mode_drop_match = easy_mode_drop_match,
+    .easy_mode_names_drop_substr = easy_mode_names_drop_substr,
     .easy_mode_match_to_gray_out = easy_mode_match_to_gray_out,
     .class_map_easy_mode_match_to_gray_out = class_map_easy_mode_match_to_gray_out,
     .class_map_special_match_to_gray_out = class_map_special_match_to_gray_out,

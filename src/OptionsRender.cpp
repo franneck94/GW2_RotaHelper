@@ -108,6 +108,15 @@ void OptionsRenderType::render_status()
                               Globals::BenchFilesLowerVersionString,
                               Globals::BenchFilesUpperVersionString))
         {
+            char buffer[128] = {'\0'};
+            sprintf(buffer,
+                    "Version: %s (%s) is not in range [%s, %s]",
+                    Globals::VersionString.c_str(),
+                    Settings::VersionOfLastBenchFilesUpdate.c_str(),
+                    Globals::BenchFilesLowerVersionString.c_str(),
+                    Globals::BenchFilesUpperVersionString.c_str());
+            (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", buffer);
+
             const auto missing_content_text3 = "NOTE: There is a newer version for the builds.";
             const auto centered_pos_missing3 = calculate_centered_position({missing_content_text3});
             ImGui::SetCursorPosX(centered_pos_missing3);
@@ -125,17 +134,12 @@ void OptionsRenderType::render_status()
                     const auto AddonPath = Globals::APIDefs->Paths_GetAddonDirectory("GW2RotaHelper");
 
                     if (MAJOR == 0 && MINOR == 28 && BUILD == 0)
+                    {
+                        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Dropping old builds");
                         DropOldBuilds(AddonPath);
+                    }
 
-                    char buffer[128] = {'\0'};
-                    sprintf(buffer,
-                            "Started download since: %s (%s) is not in range [%s, %s]",
-                            Globals::VersionString.c_str(),
-                            Settings::VersionOfLastBenchFilesUpdate.c_str(),
-                            Globals::BenchFilesLowerVersionString.c_str(),
-                            Globals::BenchFilesUpperVersionString.c_str());
-                    (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", buffer);
-
+                    (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Started downloading bench data");
                     started_download = true;
 
                     Globals::BenchDataDownloadState = DownloadState::STARTED;

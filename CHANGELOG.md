@@ -12,6 +12,13 @@ An increase in the first number indicates an big update of the rotation logs/bui
 An increase of the second number indicates changes in only the code logic.  
 An increase in the third number indicates bugfixes only.
 
+## 4.1.0 - 2026-03-15
+
+## Improvements
+
+- Improved for easy mode on power amalgam to not show f-skills sicne they cannot be detected anyway
+- Optimized for power chrono in easy mode
+
 ## 4.0.0 - 2026-03-02
 
 - Updated Builds

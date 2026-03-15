@@ -208,6 +208,9 @@ bool get_is_skill_dropped(const EliteSpecID elite_spec_id,
             }
         }
 
+        if (!is_exact_easy_mode_drop_match)
+            is_exact_easy_mode_drop_match = is_skill_in_set(skill_data.name, skill_rules.easy_mode_names_drop_substr);
+
         drop_skill = is_exact_easy_mode_drop_match;
     }
 
