@@ -8,9 +8,9 @@
 #include <thread>
 #include <vector>
 
-#include <windows.h>
 #include <shlwapi.h>
 #include <urlmon.h>
+#include <windows.h>
 #include <wininet.h>
 
 #pragma comment(lib, "wininet.lib")
@@ -590,6 +590,7 @@ bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem:
 
             if (exitCode != 0)
             {
+                Globals::BenchDataDownloadState = DownloadState::FAILED;
                 auto errorMsg = "ZIP extraction failed with exit code: " + std::to_string(exitCode);
                 (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", errorMsg.c_str());
             }
@@ -619,9 +620,7 @@ void DropFiles(const std::filesystem::path &path)
             for (const auto &entry : std::filesystem::directory_iterator(path))
             {
                 if (entry.is_regular_file())
-                {
                     std::filesystem::remove(entry.path());
-                }
             }
 
             (void)Globals::APIDefs->Log(LOGL_INFO,
@@ -662,6 +661,9 @@ void DropOldBuilds(const std::filesystem::path &addonPath)
 
 void DownloadAndExtractDataAsync(const std::filesystem::path &addonPath)
 {
+    Globals::ExtractedBenchData = false;
+    Globals::BenchDataDownloadState = DownloadState::STARTED;
+
     std::thread([addonPath]() {
         try
         {

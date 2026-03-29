@@ -19,6 +19,7 @@
 #include "ArcEvents.h"
 #include "Constants.h"
 #include "FileUtils.h"
+#include "KeyboardCapture.h"
 #include "MumbleUtils.h"
 #include "Render.h"
 #include "Settings.h"
@@ -26,7 +27,6 @@
 #include "TEX_GW2RotaHelperHOVER_data.h"
 #include "TEX_GW2RotaHelperNORMAL_data.h"
 #include "Version.h"
-#include "KeyboardCapture.h"
 
 namespace dx = DirectX;
 
@@ -171,8 +171,16 @@ void AddonLoad(AddonAPI_t *aApi)
 
     if (!has_data_files)
     {
-        Globals::BenchDataDownloadState = DownloadState::STARTED;
-        DownloadAndExtractDataAsync(AddonPath);
+        if (Globals::BenchDataDownloadState == DownloadState::NOT_STARTED ||
+            Globals::BenchDataDownloadState == DownloadState::FAILED)
+        {
+            (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", "Bench data download started");
+            DownloadAndExtractDataAsync(AddonPath);
+        }
+        else
+        {
+            (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", "Bench data download already in progress or finished");
+        }
     }
 
     Globals::Render.set_data_path(data_path);

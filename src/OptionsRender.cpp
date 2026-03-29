@@ -108,14 +108,17 @@ void OptionsRenderType::render_status()
                               Globals::BenchFilesLowerVersionString,
                               Globals::BenchFilesUpperVersionString))
         {
-            char buffer[128] = {'\0'};
-            sprintf(buffer,
-                    "Version: %s (%s) is not in range [%s, %s]",
-                    Globals::VersionString.c_str(),
-                    Settings::VersionOfLastBenchFilesUpdate.c_str(),
-                    Globals::BenchFilesLowerVersionString.c_str(),
-                    Globals::BenchFilesUpperVersionString.c_str());
-            (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", buffer);
+            if (Globals::BenchDataDownloadState == DownloadState::NOT_STARTED)
+            {
+                char buffer[128] = {'\0'};
+                sprintf(buffer,
+                        "Version: %s (%s) is not in range [%s, %s]",
+                        Globals::VersionString.c_str(),
+                        Settings::VersionOfLastBenchFilesUpdate.c_str(),
+                        Globals::BenchFilesLowerVersionString.c_str(),
+                        Globals::BenchFilesUpperVersionString.c_str());
+                (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", buffer);
+            }
 
             const auto missing_content_text3 = "NOTE: There is a newer version for the builds.";
             const auto centered_pos_missing3 = calculate_centered_position({missing_content_text3});
@@ -142,7 +145,6 @@ void OptionsRenderType::render_status()
                     (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Started downloading bench data");
                     started_download = true;
 
-                    Globals::BenchDataDownloadState = DownloadState::STARTED;
                     DownloadAndExtractDataAsync(AddonPath);
                 }
             }
