@@ -217,7 +217,7 @@ class HTMLRotationExtractor:
                 cache_match = re.search(r"\/cache\/https_render\.guildwars2\.com_file_[^_]+_(\d+)\.png$", img_src)
                 if cache_match:
                     return int(cache_match.group(1))
-            
+
             # For weapon swap and utility skills, try to extract from the path
             if "render.guildwars2.com/file/" in img_src:
                 # Split by '/' and get the last part (filename)
