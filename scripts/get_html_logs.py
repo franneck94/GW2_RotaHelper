@@ -507,8 +507,6 @@ def main() -> int:
                 f"current builds, result: {len(builds_info)} total builds",
             )
 
-        scraper.download_html_files(builds_info, args.output_dir)
-
         metadata_file = args.output_dir / "build_metadata.json"
         with metadata_file.open("w", encoding="utf-8") as f:
             json.dump(builds_info, f, indent=2, ensure_ascii=False)
