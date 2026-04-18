@@ -177,10 +177,18 @@ You can convert your own HTML logs from dps.report or other sources using the pr
 Example:
 
 ```json
-"Power_Ritualist": {
-    "Dps.Report":  "https://dps.report/G60X-20251110-213730_golem",
-    "ScLink": "https://snowcrows.com/builds/raids/necromancer/power-ritualist"
-}
+  {
+    "name": "Power Daredevil Dagger Only",  # mandatory
+    "url": "https://snowcrows.com/builds/raids/thief/power-daredevil-dagger-only",  # mandatory
+    "benchmark_type": "dps",
+    "profession": "thief",
+    "elite_spec": "daredevil",
+    "build_type": "power",
+    "url_name": "power-daredevil-dagger-only",  # mandatory
+    "overall_dps": 44282,
+    "dps_report": "https://www.dps.report/IU15-20260415-060409_golem",  # mandatory
+    "html_file_path": "/builds/raids/thief/power-daredevil-dagger-only"  # mandatory
+  },
 ```
 
 3. **Download HTML Logs**:
