@@ -132,7 +132,7 @@ class SnowCrowsScraper:
             self.logger.info("WebDriver cleaned up")
 
     def _sanitize_build_name(self, build_name: str) -> str:
-        """Convert build name to safe filename"""
+        """Convert build_info name to safe filename"""
         filename = re.sub(r"[^\w\-_.]", "_", build_name.lower())
         filename = re.sub(r"_+", "_", filename)
         filename = filename.strip("_")
@@ -203,6 +203,10 @@ class SnowCrowsScraper:
                                 "html_file_path": html_file_path,
                             }
                             builds_info.append(build_info)
+                            build_info = self.get_dps_reports_for_builds(build_info)
+                            self.download_dps_report(build_info)
+
+
             except Exception as e:
                 self.logger.exception(f"Error processing {benchmark_type} builds: {e}")
                 return []
@@ -219,7 +223,7 @@ class SnowCrowsScraper:
                 class_="font-medium line-clamp-1",
             )
 
-            self.logger.info(f"Found {len(build_cards)} build cards in HTML")
+            self.logger.info(f"Found {len(build_cards)} build_info cards in HTML")
 
             for card in build_cards:
                 try:
@@ -229,10 +233,10 @@ class SnowCrowsScraper:
                     if build_name and build_url:
                         build_data = {"name": build_name, "url": build_url}
                         builds_data.append(build_data)
-                        self.logger.debug(f"Extracted build: {build_name} -> {build_url}")
+                        self.logger.debug(f"Extracted build_info: {build_name} -> {build_url}")
 
                 except Exception as e:
-                    self.logger.warning(f"Error extracting build from card: {e}")
+                    self.logger.warning(f"Error extracting build_info from card: {e}")
                     continue
 
             self.logger.info(f"Successfully extracted {len(builds_data)} builds")
@@ -260,112 +264,153 @@ class SnowCrowsScraper:
             else:
                 class_info["build_type"] = "power"
         except Exception as e:
-            self.logger.warning(f"Error extracting class info from build name '{buiild_name}': {e}")
+            self.logger.warning(f"Error extracting class info from build_info name '{buiild_name}': {e}")
 
         return class_info
 
-    def get_dps_reports_for_builds(self, builds_info: list[dict]) -> list[dict]:
+    def get_dps_reports_for_builds(self, build_info: dict) -> dict:
         try:
             self._setup_webdriver()
             if not self.driver:
                 self.logger.error("WebDriver not initialized, skipping DPS report extraction")
-                return builds_info
+                return build_info
 
-            for idx, build in enumerate(builds_info):
-                try:
-                    self.logger.info(f"Processing build {idx + 1}/{len(builds_info)}: {build['name']} ({build['url']})")
-                    self.driver.get(build["url"])
+            try:
+                self.logger.info(f"Processing build_info: {build_info['name']} ({build_info['url']})")
+                self.driver.get(build_info["url"])
 
-                    WebDriverWait(self.driver, 30).until(
-                        EC.presence_of_element_located((By.CLASS_NAME, "flex-col")),
-                    )
+                WebDriverWait(self.driver, 30).until(
+                    EC.presence_of_element_located((By.CLASS_NAME, "flex-col")),
+                )
 
-                    time.sleep(self.delay)
+                time.sleep(self.delay)
 
-                    page_source = self.driver.page_source
-                    soup = BeautifulSoup(page_source, "html.parser")
+                page_source = self.driver.page_source
+                soup = BeautifulSoup(page_source, "html.parser")
 
-                    dps_report_link = None
-                    icon_elements = soup.find_all("i", class_="fa-file-chart-column")
-                    for icon in icon_elements:
-                        parent_link = icon.find_parent("a")
-                        if parent_link:
-                            href = parent_link.get("href", "")  # type: ignore
-                            if href and "dps.report" in href:
-                                dps_report_link = href
-                                break
+                dps_report_link = None
+                icon_elements = soup.find_all("i", class_="fa-file-chart-column")
+                for icon in icon_elements:
+                    parent_link = icon.find_parent("a")
+                    if parent_link:
+                        href = parent_link.get("href", "")  # type: ignore
+                        if href and "dps.report" in href:
+                            dps_report_link = href
+                            break
 
-                    dps_value = None
-                    benchmark_divs = soup.find_all("div", string="Last Benchmark Max")  # type: ignore
-                    for div in benchmark_divs:
-                        parent_container = div.find_parent()
-                        if parent_container:
-                            dps_icon = parent_container.find("i", class_="fas fa-angle-double-up mr-1")  # type: ignore
-                            if dps_icon:
-                                dps_text = dps_icon.find_next_sibling(text=True)
-                                if not dps_text:
-                                    next_elem = dps_icon.find_next_sibling()
-                                    if next_elem:
-                                        dps_text = next_elem.get_text(strip=True)
-                                if dps_text:
-                                    dps_text = dps_text.strip()
-                                    dps_value = int(dps_text.replace(",", ""))
+                dps_value = None
+                benchmark_divs = soup.find_all("div", string="Last Benchmark Max")  # type: ignore
+                for div in benchmark_divs:
+                    parent_container = div.find_parent()
+                    if parent_container:
+                        dps_icon = parent_container.find("i", class_="fas fa-angle-double-up mr-1")  # type: ignore
+                        if dps_icon:
+                            dps_text = dps_icon.find_next_sibling(text=True)
+                            if not dps_text:
+                                next_elem = dps_icon.find_next_sibling()
+                                if next_elem:
+                                    dps_text = next_elem.get_text(strip=True)
+                            if dps_text:
+                                dps_text = dps_text.strip()
+                                dps_value = int(dps_text.replace(",", ""))
 
-                    if dps_report_link:
-                        build["dps_report"] = dps_report_link
-                        self.logger.info(f"Found DPS report link: {dps_report_link}")
-                    else:
-                        build["dps_report"] = None
-                        self.logger.warning("DPS report link not found")
+                if dps_report_link:
+                    build_info["dps_report"] = dps_report_link
+                    self.logger.info(f"Found DPS report link: {dps_report_link}")
+                else:
+                    build_info["dps_report"] = None
+                    self.logger.warning("DPS report link not found")
 
-                    if dps_value:
-                        build["overall_dps"] = dps_value
-                        self.logger.info(f"Found DPS value: {dps_value}")
-                    else:
-                        build["overall_dps"] = None
-                        self.logger.warning("DPS value not found")
+                if dps_value:
+                    build_info["overall_dps"] = dps_value
+                    self.logger.info(f"Found DPS value: {dps_value}")
+                else:
+                    build_info["overall_dps"] = None
+                    self.logger.warning("DPS value not found")
 
-                except TimeoutException:
-                    self.logger.warning(f"Timeout while loading page for build: {build['name']}")
-                    build["dps_report"] = None
-                    build["overall_dps"] = None
-                except Exception as e:
-                    self.logger.exception(f"Error processing build '{build['name']}': {e}")
-                    build["dps_report"] = None
-                    build["overall_dps"] = None
+            except TimeoutException:
+                self.logger.warning(f"Timeout while loading page for build_info: {build_info['name']}")
+                build_info["dps_report"] = None
+                build_info["overall_dps"] = None
+            except Exception as e:
+                self.logger.exception(f"Error processing build_info '{build_info['name']}': {e}")
+                build_info["dps_report"] = None
+                build_info["overall_dps"] = None
 
         finally:
             self._cleanup_webdriver()
 
-        return builds_info
+        return build_info
 
-    def download_html_files(self, builds_info: list[dict], output_dir: Path) -> None:
-        for idx, build in enumerate(builds_info):
+    def download_dps_report(self, build_info: dict) -> bool:
+        try:
+            build_name = build_info["name"]
+            benchmark_type = build_info["benchmark_type"]
+            dps_report = build_info.get("dps_report")
+
+            if not dps_report:
+                self.logger.warning(f"No DPS report URL for build_info: {build_name}")
+                return False
+
+            if self.driver is None:
+                self._setup_webdriver()
+
+            self.logger.info(f"Navigating to DPS report: {dps_report}")
+            self.driver.get(dps_report)
+
+            WebDriverWait(self.driver, 30).until(
+                lambda driver: driver.execute_script("return document.readyState") == "complete"
+            )
+            time.sleep(self.delay)
+
+            self.logger.info("Looking for Player Summary tab...")
             try:
-                if "html_file_path" not in build or not build["html_file_path"]:
-                    self.logger.warning(f"No HTML file path for build: {build['name']}, skipping download")
-                    continue
-
-                html_file_path: Path = output_dir / build["html_file_path"]
-                if html_file_path.exists():
-                    self.logger.info(f"HTML file already exists for build: {build['name']}, skipping download")
-                    continue
-
-                self.logger.info(
-                    f"Downloading HTML for build {idx + 1}/{len(builds_info)}: {build['name']} from {build['url']}"
+                player_summary_link = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'Player Summary')]"))
                 )
-                response = self.session.get(build["url"], timeout=30)
-                response.raise_for_status()
+                player_summary_link.click()
+                self.logger.info("Clicked on Player Summary")
+                time.sleep(self.delay)
+            except TimeoutException:
+                self.logger.warning("Player Summary tab not found")
+                return False
 
-                html_file_path.parent.mkdir(parents=True, exist_ok=True)
+            self.logger.info("Looking for Simple Rotation tab...")
+            try:
+                simple_rotation_link = WebDriverWait(self.driver, 10).until(
+                    EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'Simple')]"))
+                )
+                simple_rotation_link.click()
+                self.logger.info("Clicked on Simple Rotation")
+                time.sleep(self.delay)
+            except TimeoutException:
+                self.logger.warning("Simple Rotation tab not found")
+                return False
 
-                with html_file_path.open("w", encoding="utf-8") as f:
-                    f.write(response.text)
+            WebDriverWait(self.driver, 10).until(
+                lambda driver: driver.execute_script("return document.readyState") == "complete"
+            )
+            time.sleep(self.delay)
 
-                self.logger.info(f"Saved HTML file to: {html_file_path}")
+            html_content = self.driver.page_source
 
-            except Exception as e:
-                self.logger.exception(f"Error downloading HTML for build '{build['name']}': {e}")
+            build_subdir: Path = self.output_dir / benchmark_type / build_info["build_type"]
+            build_subdir.mkdir(parents=True, exist_ok=True)
+            url_name_with_underscores = build_info["url_name"].replace("-", "_")
+            filename = self._sanitize_build_name(url_name_with_underscores)
+            file_path: Path = build_subdir / filename
+
+            with file_path.open("w", encoding="utf-8") as f:
+                f.write(html_content)
+
+            self.logger.info(f"Successfully downloaded DPS report HTML to: {file_path}")
+            return True
+
+        except Exception as e:
+            self.logger.exception(
+                f"Error downloading {build_info['name']} from {build_info.get('dps_report', 'No URL')}: {e}",
+            )
+            return False
 
 
 def main() -> int:
@@ -419,7 +464,7 @@ def main() -> int:
                     builds_info = json.load(f)
                 scraper.logger.info(f"Loaded {len(builds_info)} builds from manual list")
             else:
-                scraper.logger.error(f"Manual build list not found: {manual_file}")
+                scraper.logger.error(f"Manual build_info list not found: {manual_file}")
                 return 1
         else:
             builds_info = scraper.get_snowcrows_builds_and_links(args.only_new)
@@ -435,11 +480,9 @@ def main() -> int:
         else:
             prev_builds_info = {}
 
-        builds_info = scraper.get_dps_reports_for_builds(builds_info)
-
         if prev_builds_info:
-            prev_builds_dict = {build["name"]: build for build in prev_builds_info}
-            current_builds_dict = {build["name"]: build for build in builds_info}
+            prev_builds_dict = {build_info["name"]: build_info for build_info in prev_builds_info}
+            current_builds_dict = {build_info["name"]: build_info for build_info in builds_info}
 
             merged_builds = {}
 
@@ -448,15 +491,15 @@ def main() -> int:
                     prev_build = prev_builds_dict[name]
                     merged_build = {**prev_build, **current_build}
                     merged_builds[name] = merged_build
-                    scraper.logger.debug(f"Merged existing build: {name}")
+                    scraper.logger.debug(f"Merged existing build_info: {name}")
                 else:
                     merged_builds[name] = current_build
-                    scraper.logger.debug(f"Added new build: {name}")
+                    scraper.logger.debug(f"Added new build_info: {name}")
 
             for name, prev_build in prev_builds_dict.items():
                 if name not in current_builds_dict:
                     merged_builds[name] = prev_build
-                    scraper.logger.debug(f"Kept previous build: {name}")
+                    scraper.logger.debug(f"Kept previous build_info: {name}")
 
             builds_info = list(merged_builds.values())
             scraper.logger.info(

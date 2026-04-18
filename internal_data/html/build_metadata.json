@@ -5,11 +5,11 @@
     "benchmark_type": "dps",
     "profession": "elementalist",
     "elite_spec": "evoker",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-evoker-specialized-elements",
     "overall_dps": 44367,
     "dps_report": "https://dps.report/A8km-20260416-161735_golem",
-    "html_file_path": "dps\\condi\\condition_evoker_specialized_elements.html"
+    "html_file_path": "dps\\condition\\condition_evoker_specialized_elements.html"
   },
   {
     "name": "Power Daredevil Dagger Only",
@@ -19,7 +19,7 @@
     "elite_spec": "daredevil",
     "build_type": "power",
     "url_name": "power-daredevil-dagger-only",
-    "overall_dps": 44282,
+    "overall_dps": null,
     "dps_report": "https://www.dps.report/IU15-20260415-060409_golem",
     "html_file_path": "dps\\power\\power_daredevil_dagger_only.html"
   },
@@ -31,7 +31,7 @@
     "elite_spec": "antiquary",
     "build_type": "power",
     "url_name": "power-antiquary-staff-dagger-pistol",
-    "overall_dps": 44271,
+    "overall_dps": null,
     "dps_report": "https://dps.report/MF6A-20260417-044525_golem",
     "html_file_path": "dps\\power\\power_antiquary_staff_dagger_pistol.html"
   },
@@ -43,7 +43,7 @@
     "elite_spec": "berserker",
     "build_type": "power",
     "url_name": "power-berserker-axe-axe-sword-mace",
-    "overall_dps": 44256,
+    "overall_dps": null,
     "dps_report": "https://dps.report/pYLI-20260415-225337_golem",
     "html_file_path": "dps\\power\\power_berserker_axe_axe_sword_mace.html"
   },
@@ -53,11 +53,11 @@
     "benchmark_type": "dps",
     "profession": "warrior",
     "elite_spec": "berserker",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-berserker-longbow-sword-torch",
-    "overall_dps": 44151,
+    "overall_dps": null,
     "dps_report": "https://dps.report/1ja4-20260414-231425_golem",
-    "html_file_path": "dps\\condi\\condition_berserker_longbow_sword_torch.html"
+    "html_file_path": "dps\\condition\\condition_berserker_longbow_sword_torch.html"
   },
   {
     "name": "Condition Reaper Spear Dagger Sword",
@@ -65,11 +65,11 @@
     "benchmark_type": "dps",
     "profession": "necromancer",
     "elite_spec": "reaper",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-reaper-spear-dagger-sword",
-    "overall_dps": 43537,
+    "overall_dps": null,
     "dps_report": "https://dps.report/2Xfa-20260415-221810_golem",
-    "html_file_path": "dps\\condi\\condition_reaper_spear_dagger_sword.html"
+    "html_file_path": "dps\\condition\\condition_reaper_spear_dagger_sword.html"
   },
   {
     "name": "Condition Quickness Evoker Specialized Elements",
@@ -77,11 +77,11 @@
     "benchmark_type": "dps",
     "profession": "elementalist",
     "elite_spec": "evoker",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-quickness-evoker-specialized-elements",
-    "overall_dps": 43158,
+    "overall_dps": null,
     "dps_report": "https://dps.report/wq08-20260416-153203_golem",
-    "html_file_path": "dps\\condi\\condition_quickness_evoker_specialized_elements.html"
+    "html_file_path": "dps\\condition\\condition_quickness_evoker_specialized_elements.html"
   },
   {
     "name": "Power Chronomancer Greatsword Dagger Sword",
@@ -91,7 +91,7 @@
     "elite_spec": "chronomancer",
     "build_type": "power",
     "url_name": "power-chronomancer-greatsword-dagger-sword",
-    "overall_dps": 43075,
+    "overall_dps": null,
     "dps_report": "https://dps.report/pzq0-20260414-212009_golem",
     "html_file_path": "dps\\power\\power_chronomancer_greatsword_dagger_sword.html"
   },
@@ -103,7 +103,7 @@
     "elite_spec": "",
     "build_type": "power",
     "url_name": "power-conduit-greatsword-scepter-sword",
-    "overall_dps": 42939,
+    "overall_dps": null,
     "dps_report": "https://dps.report/3Lng-20260415-003950_golem",
     "html_file_path": "dps\\power\\power_conduit_greatsword_scepter_sword.html"
   },
@@ -115,7 +115,7 @@
     "elite_spec": "ritualist",
     "build_type": "power",
     "url_name": "power-ritualist-greatsword-spear",
-    "overall_dps": 42712,
+    "overall_dps": null,
     "dps_report": "https://dps.report/gX2L-20260415-073613_golem",
     "html_file_path": "dps\\power\\power_ritualist_greatsword_spear.html"
   },
@@ -127,7 +127,7 @@
     "elite_spec": "spellbreaker",
     "build_type": "power",
     "url_name": "power-spellbreaker-dagger-mace-dagger-axe",
-    "overall_dps": 42633,
+    "overall_dps": null,
     "dps_report": "https://dps.report/cKQ4-20260415-131856_golem",
     "html_file_path": "dps\\power\\power_spellbreaker_dagger_mace_dagger_axe.html"
   },
@@ -137,11 +137,11 @@
     "benchmark_type": "dps",
     "profession": "elementalist",
     "elite_spec": "weaver",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-weaver-scepter-warhorn",
-    "overall_dps": 42573,
+    "overall_dps": null,
     "dps_report": "https://dps.report/PRmV-20260416-115959_golem",
-    "html_file_path": "dps\\condi\\condition_weaver_scepter_warhorn.html"
+    "html_file_path": "dps\\condition\\condition_weaver_scepter_warhorn.html"
   },
   {
     "name": "Condition Soulbeast Shortbow Dagger Dagger",
@@ -149,11 +149,11 @@
     "benchmark_type": "dps",
     "profession": "ranger",
     "elite_spec": "soulbeast",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-soulbeast-shortbow-dagger-dagger",
-    "overall_dps": 42481,
+    "overall_dps": null,
     "dps_report": "https://dps.report/pltF-20260414-175142_golem",
-    "html_file_path": "dps\\condi\\condition_soulbeast_shortbow_dagger_dagger.html"
+    "html_file_path": "dps\\condition\\condition_soulbeast_shortbow_dagger_dagger.html"
   },
   {
     "name": "Power Bladesworn Faf Sword Pistol",
@@ -163,7 +163,7 @@
     "elite_spec": "bladesworn",
     "build_type": "power",
     "url_name": "power-bladesworn-faf-sword-pistol",
-    "overall_dps": 42457,
+    "overall_dps": null,
     "dps_report": "https://b.dps.report/3SeQ-20260415-044627_golem",
     "html_file_path": "dps\\power\\power_bladesworn_faf_sword_pistol.html"
   },
@@ -175,7 +175,7 @@
     "elite_spec": "renegade",
     "build_type": "power",
     "url_name": "power-renegade-greatsword-sword-sword",
-    "overall_dps": 42297,
+    "overall_dps": null,
     "dps_report": "https://dps.report/5JKs-20251220-124852_golem",
     "html_file_path": "dps\\power\\power_renegade_greatsword_sword_sword.html"
   },
@@ -185,11 +185,11 @@
     "benchmark_type": "dps",
     "profession": "elementalist",
     "elite_spec": "evoker",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-evoker-pistol-dagger",
-    "overall_dps": 42289,
+    "overall_dps": null,
     "dps_report": "https://dps.report/0K7M-20260415-153432_golem",
-    "html_file_path": "dps\\condi\\condition_evoker_pistol_dagger.html"
+    "html_file_path": "dps\\condition\\condition_evoker_pistol_dagger.html"
   },
   {
     "name": "Condition Harbinger Pistol Torch Scepter Dagger",
@@ -197,11 +197,11 @@
     "benchmark_type": "dps",
     "profession": "necromancer",
     "elite_spec": "harbinger",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-harbinger-pistol-torch-scepter-dagger",
-    "overall_dps": 42276,
+    "overall_dps": null,
     "dps_report": "https://dps.report/bLLr-20260414-175836_golem",
-    "html_file_path": "dps\\condi\\condition_harbinger_pistol_torch_scepter_dagger.html"
+    "html_file_path": "dps\\condition\\condition_harbinger_pistol_torch_scepter_dagger.html"
   },
   {
     "name": "Condition Willbender Pistol Torch Pistol",
@@ -209,11 +209,11 @@
     "benchmark_type": "dps",
     "profession": "guardian",
     "elite_spec": "willbender",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-willbender-pistol-torch-pistol",
-    "overall_dps": 42265,
+    "overall_dps": null,
     "dps_report": "https://dps.report/txt6-20260416-200945_golem",
-    "html_file_path": "dps\\condi\\condition_willbender_pistol_torch_pistol.html"
+    "html_file_path": "dps\\condition\\condition_willbender_pistol_torch_pistol.html"
   },
   {
     "name": "Power Virtuoso Spear Greatsword",
@@ -223,7 +223,7 @@
     "elite_spec": "virtuoso",
     "build_type": "power",
     "url_name": "power-virtuoso-spear-greatsword",
-    "overall_dps": 42218,
+    "overall_dps": null,
     "dps_report": "https://dps.report/CgyE-20260415-175731_golem",
     "html_file_path": "dps\\power\\power_virtuoso_spear_greatsword.html"
   },
@@ -235,7 +235,7 @@
     "elite_spec": "paragon",
     "build_type": "power",
     "url_name": "power-paragon-sword-axe-dagger-mace",
-    "overall_dps": 42187,
+    "overall_dps": null,
     "dps_report": "https://dps.report/YIsK-20260415-103212_golem",
     "html_file_path": "dps\\power\\power_paragon_sword_axe_dagger_mace.html"
   },
@@ -245,11 +245,11 @@
     "benchmark_type": "dps",
     "profession": "thief",
     "elite_spec": "thief",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-thief-axe-dagger-only",
-    "overall_dps": 42108,
+    "overall_dps": null,
     "dps_report": "https://dps.report/dEeo-20260416-222119_golem",
-    "html_file_path": "dps\\condi\\condition_thief_axe_dagger_only.html"
+    "html_file_path": "dps\\condition\\condition_thief_axe_dagger_only.html"
   },
   {
     "name": "Power Catalyst Scepter Dagger",
@@ -259,7 +259,7 @@
     "elite_spec": "catalyst",
     "build_type": "power",
     "url_name": "power-catalyst-scepter-dagger",
-    "overall_dps": 42006,
+    "overall_dps": null,
     "dps_report": "https://dps.report/aAgi-20260414-165732_golem",
     "html_file_path": "dps\\power\\power_catalyst_scepter_dagger.html"
   },
@@ -269,11 +269,11 @@
     "benchmark_type": "dps",
     "profession": "elementalist",
     "elite_spec": "tempest",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-tempest-pistol-warhorn",
-    "overall_dps": 41703,
+    "overall_dps": null,
     "dps_report": "https://dps.report/B38a-20260414-224425_golem",
-    "html_file_path": "dps\\condi\\condition_tempest_pistol_warhorn.html"
+    "html_file_path": "dps\\condition\\condition_tempest_pistol_warhorn.html"
   },
   {
     "name": "Power Harbinger Greatsword Spear",
@@ -283,7 +283,7 @@
     "elite_spec": "harbinger",
     "build_type": "power",
     "url_name": "power-harbinger-greatsword-spear",
-    "overall_dps": 41692,
+    "overall_dps": null,
     "dps_report": "https://dps.report/Kcr1-20260414-115424_golem",
     "html_file_path": "dps\\power\\power_harbinger_greatsword_spear.html"
   },
@@ -293,11 +293,11 @@
     "benchmark_type": "dps",
     "profession": "thief",
     "elite_spec": "daredevil",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-daredevil-dagger-only",
-    "overall_dps": 41689,
+    "overall_dps": null,
     "dps_report": "https://dps.report/UFfN-20260417-001729_golem",
-    "html_file_path": "dps\\condi\\condition_daredevil_dagger_only.html"
+    "html_file_path": "dps\\condition\\condition_daredevil_dagger_only.html"
   },
   {
     "name": "Power Evoker Scepter Dagger",
@@ -307,7 +307,7 @@
     "elite_spec": "evoker",
     "build_type": "power",
     "url_name": "power-evoker-scepter-dagger",
-    "overall_dps": 41646,
+    "overall_dps": null,
     "dps_report": "https://dps.report/R5M5-20260414-134009_golem",
     "html_file_path": "dps\\power\\power_evoker_scepter_dagger.html"
   },
@@ -319,7 +319,7 @@
     "elite_spec": "reaper",
     "build_type": "power",
     "url_name": "power-reaper-greatsword-spear",
-    "overall_dps": 41533,
+    "overall_dps": null,
     "dps_report": "https://dps.report/3Grn-20260415-084749_golem",
     "html_file_path": "dps\\power\\power_reaper_greatsword_spear.html"
   },
@@ -331,7 +331,7 @@
     "elite_spec": "tempest",
     "build_type": "power",
     "url_name": "power-tempest-spear",
-    "overall_dps": 41514,
+    "overall_dps": null,
     "dps_report": "https://dps.report/Xrj5-20260415-121634_golem",
     "html_file_path": "dps\\power\\power_tempest_spear.html"
   },
@@ -343,7 +343,7 @@
     "elite_spec": "tempest",
     "build_type": "power",
     "url_name": "power-tempest-sword-dagger",
-    "overall_dps": 41502,
+    "overall_dps": null,
     "dps_report": "https://dps.report/y7fU-20260414-200827_golem",
     "html_file_path": "dps\\power\\power_tempest_sword_dagger.html"
   },
@@ -355,7 +355,7 @@
     "elite_spec": "catalyst",
     "build_type": "power",
     "url_name": "power-catalyst-spear",
-    "overall_dps": 41454,
+    "overall_dps": null,
     "dps_report": "https://dps.report/MZij-20260417-144821_golem",
     "html_file_path": "dps\\power\\power_catalyst_spear.html"
   },
@@ -367,7 +367,7 @@
     "elite_spec": "berserker",
     "build_type": "power",
     "url_name": "power-berserker-hammer-axe-mace",
-    "overall_dps": 41418,
+    "overall_dps": null,
     "dps_report": "https://dps.report/Jv2R-20260416-184650_golem",
     "html_file_path": "dps\\power\\power_berserker_hammer_axe_mace.html"
   },
@@ -379,7 +379,7 @@
     "elite_spec": "tempest",
     "build_type": "power",
     "url_name": "power-tempest-scepter-dagger",
-    "overall_dps": 41321,
+    "overall_dps": null,
     "dps_report": "https://dps.report/aDHa-20260417-044805_golem",
     "html_file_path": "dps\\power\\power_tempest_scepter_dagger.html"
   },
@@ -391,7 +391,7 @@
     "elite_spec": "daredevil",
     "build_type": "power",
     "url_name": "power-daredevil-sword-dagger-axe-pistol",
-    "overall_dps": 41321,
+    "overall_dps": null,
     "dps_report": "https://www.dps.report/IU15-20260415-060409_golem",
     "html_file_path": "dps\\power\\power_daredevil_sword_dagger_axe_pistol.html"
   },
@@ -401,11 +401,11 @@
     "benchmark_type": "dps",
     "profession": "thief",
     "elite_spec": "daredevil",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-daredevil-spear-only",
-    "overall_dps": 41302,
+    "overall_dps": null,
     "dps_report": "https://dps.report/6Ad0-20260416-094517_golem",
-    "html_file_path": "dps\\condi\\condition_daredevil_spear_only.html"
+    "html_file_path": "dps\\condition\\condition_daredevil_spear_only.html"
   },
   {
     "name": "Power Renegade Hammer Sword Sword",
@@ -415,7 +415,7 @@
     "elite_spec": "renegade",
     "build_type": "power",
     "url_name": "power-renegade-hammer-sword-sword",
-    "overall_dps": 41300,
+    "overall_dps": null,
     "dps_report": "https://dps.report/71tR-20260130-170316_golem",
     "html_file_path": "dps\\power\\power_renegade_hammer_sword_sword.html"
   },
@@ -427,7 +427,7 @@
     "elite_spec": "",
     "build_type": "power",
     "url_name": "power-conduit-staff-sword-sword",
-    "overall_dps": 41217,
+    "overall_dps": null,
     "dps_report": "https://dps.report/TR7V-20260415-105227_golem",
     "html_file_path": "dps\\power\\power_conduit_staff_sword_sword.html"
   },
@@ -439,7 +439,7 @@
     "elite_spec": "berserker",
     "build_type": "power",
     "url_name": "power-berserker-tactics-spear-greatsword",
-    "overall_dps": 41087,
+    "overall_dps": null,
     "dps_report": "https://dps.report/gMr4-20260416-230931_golem",
     "html_file_path": "dps\\power\\power_berserker_tactics_spear_greatsword.html"
   },
@@ -449,11 +449,11 @@
     "benchmark_type": "dps",
     "profession": "warrior",
     "elite_spec": "paragon",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-paragon-longbow-sword-sword",
-    "overall_dps": 41080,
+    "overall_dps": null,
     "dps_report": "https://dps.report/lFa4-20260416-044113_golem",
-    "html_file_path": "dps\\condi\\condition_paragon_longbow_sword_sword.html"
+    "html_file_path": "dps\\condition\\condition_paragon_longbow_sword_sword.html"
   },
   {
     "name": "Power Daredevil Staff",
@@ -463,7 +463,7 @@
     "elite_spec": "daredevil",
     "build_type": "power",
     "url_name": "power-daredevil-staff",
-    "overall_dps": 41055,
+    "overall_dps": null,
     "dps_report": "https://www.dps.report/7Qij-20250624-165156_golem",
     "html_file_path": "dps\\power\\power_daredevil_staff.html"
   },
@@ -475,7 +475,7 @@
     "elite_spec": "willbender",
     "build_type": "power",
     "url_name": "power-willbender-spear-greatsword",
-    "overall_dps": 41009,
+    "overall_dps": null,
     "dps_report": "https://dps.report/Ph2l-20260416-225356_golem",
     "html_file_path": "dps\\power\\power_willbender_spear_greatsword.html"
   },
@@ -487,7 +487,7 @@
     "elite_spec": "deadeye",
     "build_type": "power",
     "url_name": "power-deadeye-m7-rifle-dagger-dagger",
-    "overall_dps": 40923,
+    "overall_dps": null,
     "dps_report": "https://dps.report/Kekz-20260414-110448_golem",
     "html_file_path": "dps\\power\\power_deadeye_m7_rifle_dagger_dagger.html"
   },
@@ -499,7 +499,7 @@
     "elite_spec": "tempest",
     "build_type": "power",
     "url_name": "inferno-tempest-scepter-dagger",
-    "overall_dps": 40920,
+    "overall_dps": null,
     "dps_report": "https://dps.report/j7LY-20260414-172451_golem",
     "html_file_path": "dps\\power\\inferno_tempest_scepter_dagger.html"
   },
@@ -511,7 +511,7 @@
     "elite_spec": "tempest",
     "build_type": "power",
     "url_name": "power-tempest-hammer",
-    "overall_dps": 40791,
+    "overall_dps": null,
     "dps_report": "https://dps.report/HMiL-20260414-202734_golem",
     "html_file_path": "dps\\power\\power_tempest_hammer.html"
   },
@@ -523,7 +523,7 @@
     "elite_spec": "weaver",
     "build_type": "power",
     "url_name": "power-weaver-sword-dagger",
-    "overall_dps": 40782,
+    "overall_dps": null,
     "dps_report": "https://dps.report/TNDD-20260415-003554_golem",
     "html_file_path": "dps\\power\\power_weaver_sword_dagger.html"
   },
@@ -533,11 +533,11 @@
     "benchmark_type": "dps",
     "profession": "engineer",
     "elite_spec": "mechanist",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-mechanist-one-kit-spear",
-    "overall_dps": 40667,
+    "overall_dps": null,
     "dps_report": "https://dps.report/TC3k-20260414-194954_golem",
-    "html_file_path": "dps\\condi\\condition_mechanist_one_kit_spear.html"
+    "html_file_path": "dps\\condition\\condition_mechanist_one_kit_spear.html"
   },
   {
     "name": "Condition Specter Scepter Dagger Only",
@@ -545,11 +545,11 @@
     "benchmark_type": "dps",
     "profession": "thief",
     "elite_spec": "specter",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-specter-scepter-dagger-only",
-    "overall_dps": 40628,
+    "overall_dps": null,
     "dps_report": "https://dps.report/VpQG-20260414-153406_golem",
-    "html_file_path": "dps\\condi\\condition_specter_scepter_dagger_only.html"
+    "html_file_path": "dps\\condition\\condition_specter_scepter_dagger_only.html"
   },
   {
     "name": "Power Luminary Spear Greatsword",
@@ -559,7 +559,7 @@
     "elite_spec": "luminary",
     "build_type": "power",
     "url_name": "power-luminary-spear-greatsword",
-    "overall_dps": 40413,
+    "overall_dps": null,
     "dps_report": "https://dps.report/efhm-20260415-133428_golem",
     "html_file_path": "dps\\power\\power_luminary_spear_greatsword.html"
   },
@@ -569,11 +569,11 @@
     "benchmark_type": "dps",
     "profession": "necromancer",
     "elite_spec": "scourge",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-scourge-scepter-torch-pistol",
-    "overall_dps": 40060,
+    "overall_dps": null,
     "dps_report": "https://dps.report/LzVj-20231003-151324_golem",
-    "html_file_path": "dps\\condi\\condition_scourge_scepter_torch_pistol.html"
+    "html_file_path": "dps\\condition\\condition_scourge_scepter_torch_pistol.html"
   },
   {
     "name": "Condition Conduit Mistfire Spear Mace Axe",
@@ -581,11 +581,11 @@
     "benchmark_type": "dps",
     "profession": "Unknown",
     "elite_spec": "",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-conduit-mistfire-spear-mace-axe",
-    "overall_dps": 39982,
+    "overall_dps": null,
     "dps_report": "https://dps.report/CFsA-20260414-232817_golem",
-    "html_file_path": "dps\\condi\\condition_conduit_mistfire_spear_mace_axe.html"
+    "html_file_path": "dps\\condition\\condition_conduit_mistfire_spear_mace_axe.html"
   },
   {
     "name": "Power Soulbeast Hammer Axe Axe",
@@ -595,7 +595,7 @@
     "elite_spec": "soulbeast",
     "build_type": "power",
     "url_name": "power-soulbeast-hammer-axe-axe",
-    "overall_dps": 39871,
+    "overall_dps": null,
     "dps_report": "https://dps.report/LtVE-20260415-204147_golem",
     "html_file_path": "dps\\power\\power_soulbeast_hammer_axe_axe.html"
   },
@@ -607,7 +607,7 @@
     "elite_spec": "soulbeast",
     "build_type": "power",
     "url_name": "power-soulbeast-hammer-sword-axe",
-    "overall_dps": 39858,
+    "overall_dps": null,
     "dps_report": "https://dps.report/uIbg-20260415-225033_golem",
     "html_file_path": "dps\\power\\power_soulbeast_hammer_sword_axe.html"
   },
@@ -619,7 +619,7 @@
     "elite_spec": "spellbreaker",
     "build_type": "power",
     "url_name": "power-spellbreaker-hammer-dagger-mace",
-    "overall_dps": 39709,
+    "overall_dps": null,
     "dps_report": "https://dps.report/sBnb-20260416-113758_golem",
     "html_file_path": "dps\\power\\power_spellbreaker_hammer_dagger_mace.html"
   },
@@ -629,11 +629,11 @@
     "benchmark_type": "dps",
     "profession": "mesmer",
     "elite_spec": "virtuoso",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-virtuoso-dagger-sword-focus",
-    "overall_dps": 39115,
+    "overall_dps": null,
     "dps_report": "https://dps.report/akdn-20260414-192620_golem",
-    "html_file_path": "dps\\condi\\condition_virtuoso_dagger_sword_focus.html"
+    "html_file_path": "dps\\condition\\condition_virtuoso_dagger_sword_focus.html"
   },
   {
     "name": "Condition Catalyst Pistol Dagger",
@@ -641,11 +641,11 @@
     "benchmark_type": "dps",
     "profession": "elementalist",
     "elite_spec": "catalyst",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-catalyst-pistol-dagger",
-    "overall_dps": 38625,
+    "overall_dps": null,
     "dps_report": "https://dps.report/Q2mp-20260416-234551_golem",
-    "html_file_path": "dps\\condi\\condition_catalyst_pistol_dagger.html"
+    "html_file_path": "dps\\condition\\condition_catalyst_pistol_dagger.html"
   },
   {
     "name": "Power Herald Staff Sword Sword",
@@ -655,7 +655,7 @@
     "elite_spec": "herald",
     "build_type": "power",
     "url_name": "power-herald-staff-sword-sword",
-    "overall_dps": 36921,
+    "overall_dps": null,
     "dps_report": "https://dps.report/cEAa-20250211-232646_golem",
     "html_file_path": "dps\\power\\power_herald_staff_sword_sword.html"
   },
@@ -667,7 +667,7 @@
     "elite_spec": "evoker",
     "build_type": "power",
     "url_name": "power-quickness-evoker-scepter-dagger",
-    "overall_dps": 39651,
+    "overall_dps": null,
     "dps_report": "https://dps.report/0Ez4-20260414-142811_golem",
     "html_file_path": "quick\\power\\power_quickness_evoker_scepter_dagger.html"
   },
@@ -679,7 +679,7 @@
     "elite_spec": "deadeye",
     "build_type": "power",
     "url_name": "power-quickness-deadeye-axe-pistol-dagger",
-    "overall_dps": 38555,
+    "overall_dps": null,
     "dps_report": "https://dps.report/fgLo-20240814-230123_golem",
     "html_file_path": "quick\\power\\power_quickness_deadeye_axe_pistol_dagger.html"
   },
@@ -689,11 +689,11 @@
     "benchmark_type": "quick",
     "profession": "warrior",
     "elite_spec": "berserker",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-quickness-berserker-longbow-sword-torch",
-    "overall_dps": 38480,
+    "overall_dps": null,
     "dps_report": "https://dps.report/TbHW-20260415-144852_golem",
-    "html_file_path": "quick\\condi\\condition_quickness_berserker_longbow_sword_torch.html"
+    "html_file_path": "quick\\condition\\condition_quickness_berserker_longbow_sword_torch.html"
   },
   {
     "name": "Power Quickness Deadeye Dagger Only",
@@ -703,7 +703,7 @@
     "elite_spec": "deadeye",
     "build_type": "power",
     "url_name": "power-quickness-deadeye-dagger-only",
-    "overall_dps": 37347,
+    "overall_dps": null,
     "dps_report": "https://dps.report/0uWy-20260415-140940_golem",
     "html_file_path": "quick\\power\\power_quickness_deadeye_dagger_only.html"
   },
@@ -715,7 +715,7 @@
     "elite_spec": "ritualist",
     "build_type": "power",
     "url_name": "power-quickness-ritualist-greatsword-spear",
-    "overall_dps": 36217,
+    "overall_dps": null,
     "dps_report": "https://dps.report/PEBh-20260414-172707_golem",
     "html_file_path": "quick\\power\\power_quickness_ritualist_greatsword_spear.html"
   },
@@ -725,11 +725,11 @@
     "benchmark_type": "quick",
     "profession": "necromancer",
     "elite_spec": "harbinger",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-quickness-harbinger-pistol-dagger-scepter-torch",
-    "overall_dps": 35601,
+    "overall_dps": null,
     "dps_report": "https://dps.report/9GSF-20231002-152522_golem",
-    "html_file_path": "quick\\condi\\condition_quickness_harbinger_pistol_dagger_scepter_torch.html"
+    "html_file_path": "quick\\condition\\condition_quickness_harbinger_pistol_dagger_scepter_torch.html"
   },
   {
     "name": "Power Boon Chronomancer Spear Dagger Sword",
@@ -739,7 +739,7 @@
     "elite_spec": "chronomancer",
     "build_type": "power",
     "url_name": "power-boon-chronomancer-spear-dagger-sword",
-    "overall_dps": 35435,
+    "overall_dps": null,
     "dps_report": "https://dps.report/eRsi-20260415-130152_golem",
     "html_file_path": "alac\\power\\power_boon_chronomancer_spear_dagger_sword.html"
   },
@@ -751,7 +751,7 @@
     "elite_spec": "untamed",
     "build_type": "power",
     "url_name": "power-quickness-untamed-hammer-sword-axe",
-    "overall_dps": 35258,
+    "overall_dps": null,
     "dps_report": "https://dps.report/CeEs-20260414-230105_golem",
     "html_file_path": "quick\\power\\power_quickness_untamed_hammer_sword_axe.html"
   },
@@ -763,7 +763,7 @@
     "elite_spec": "berserker",
     "build_type": "power",
     "url_name": "power-quickness-berserker-greatsword-axe-axe",
-    "overall_dps": 35168,
+    "overall_dps": null,
     "dps_report": "https://dps.report/DQ3E-20260416-121312_golem",
     "html_file_path": "quick\\power\\power_quickness_berserker_greatsword_axe_axe.html"
   },
@@ -775,7 +775,7 @@
     "elite_spec": "berserker",
     "build_type": "power",
     "url_name": "power-quickness-berserker-spear-axe-axe",
-    "overall_dps": 35096,
+    "overall_dps": null,
     "dps_report": "https://b.dps.report/D5JR-20260417-092624_golem",
     "html_file_path": "quick\\power\\power_quickness_berserker_spear_axe_axe.html"
   },
@@ -787,7 +787,7 @@
     "elite_spec": "catalyst",
     "build_type": "power",
     "url_name": "power-quickness-catalyst-scepter-dagger",
-    "overall_dps": 35068,
+    "overall_dps": null,
     "dps_report": "https://dps.report/63Dx-20260416-134815_golem",
     "html_file_path": "quick\\power\\power_quickness_catalyst_scepter_dagger.html"
   },
@@ -797,11 +797,11 @@
     "benchmark_type": "quick",
     "profession": "ranger",
     "elite_spec": "untamed",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-quickness-untamed-axe-dagger-dagger-torch",
-    "overall_dps": 35006,
+    "overall_dps": null,
     "dps_report": "https://dps.report/19d1-20260414-205010_golem",
-    "html_file_path": "quick\\condi\\condition_quickness_untamed_axe_dagger_dagger_torch.html"
+    "html_file_path": "quick\\condition\\condition_quickness_untamed_axe_dagger_dagger_torch.html"
   },
   {
     "name": "Condition Quickness Deadeye Spear Only",
@@ -809,11 +809,11 @@
     "benchmark_type": "quick",
     "profession": "thief",
     "elite_spec": "deadeye",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-quickness-deadeye-spear-only",
-    "overall_dps": 34208,
+    "overall_dps": null,
     "dps_report": "https://dps.report/ZlCJ-20260414-142208_golem",
-    "html_file_path": "quick\\condi\\condition_quickness_deadeye_spear_only.html"
+    "html_file_path": "quick\\condition\\condition_quickness_deadeye_spear_only.html"
   },
   {
     "name": "Power Quickness Catalyst Sword Dagger",
@@ -823,7 +823,7 @@
     "elite_spec": "catalyst",
     "build_type": "power",
     "url_name": "power-quickness-catalyst-sword-dagger",
-    "overall_dps": 33825,
+    "overall_dps": null,
     "dps_report": "https://dps.report/iKCM-20260416-002204_golem",
     "html_file_path": "quick\\power\\power_quickness_catalyst_sword_dagger.html"
   },
@@ -833,11 +833,11 @@
     "benchmark_type": "quick",
     "profession": "elementalist",
     "elite_spec": "catalyst",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-quickness-catalyst-pistol-dagger",
-    "overall_dps": 33356,
+    "overall_dps": null,
     "dps_report": "https://dps.report/wJsO-20260416-231016_golem",
-    "html_file_path": "quick\\condi\\condition_quickness_catalyst_pistol_dagger.html"
+    "html_file_path": "quick\\condition\\condition_quickness_catalyst_pistol_dagger.html"
   },
   {
     "name": "Power Quickness Deadeye Spear Only",
@@ -847,7 +847,7 @@
     "elite_spec": "deadeye",
     "build_type": "power",
     "url_name": "power-quickness-deadeye-spear-only",
-    "overall_dps": 32221,
+    "overall_dps": null,
     "dps_report": "https://dps.report/boAQ-20260415-165217_golem",
     "html_file_path": "quick\\power\\power_quickness_deadeye_spear_only.html"
   },
@@ -859,7 +859,7 @@
     "elite_spec": "herald",
     "build_type": "power",
     "url_name": "power-quickness-herald-greatsword-sword-sword",
-    "overall_dps": 32154,
+    "overall_dps": null,
     "dps_report": "https://dps.report/b5fG-20250214-121250_golem",
     "html_file_path": "quick\\power\\power_quickness_herald_greatsword_sword_sword.html"
   },
@@ -871,7 +871,7 @@
     "elite_spec": "herald",
     "build_type": "power",
     "url_name": "power-quickness-herald-staff-sword-sword",
-    "overall_dps": 30311,
+    "overall_dps": null,
     "dps_report": "https://dps.report/RBcU-20250211-234906_golem",
     "html_file_path": "quick\\power\\power_quickness_herald_staff_sword_sword.html"
   },
@@ -881,11 +881,11 @@
     "benchmark_type": "quick",
     "profession": "revenant",
     "elite_spec": "herald",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-quickness-herald-spear-only",
-    "overall_dps": 29698,
+    "overall_dps": null,
     "dps_report": "https://dps.report/GGnC-20260415-120411_golem",
-    "html_file_path": "quick\\condi\\condition_quickness_herald_spear_only.html"
+    "html_file_path": "quick\\condition\\condition_quickness_herald_spear_only.html"
   },
   {
     "name": "Power Alacrity Antiquary Staff Dagger Pistol",
@@ -895,7 +895,7 @@
     "elite_spec": "antiquary",
     "build_type": "power",
     "url_name": "power-alacrity-antiquary-staff-dagger-pistol",
-    "overall_dps": 38512,
+    "overall_dps": null,
     "dps_report": "https://dps.report/n4No-20260415-013702_golem",
     "html_file_path": "alac\\power\\power_alacrity_antiquary_staff_dagger_pistol.html"
   },
@@ -907,7 +907,7 @@
     "elite_spec": "luminary",
     "build_type": "power",
     "url_name": "power-alacrity-luminary-longbow-greatsword",
-    "overall_dps": 36532,
+    "overall_dps": null,
     "dps_report": "https://dps.report/xt1z-20260417-213929_golem",
     "html_file_path": "alac\\power\\power_alacrity_luminary_longbow_greatsword.html"
   },
@@ -919,7 +919,7 @@
     "elite_spec": "luminary",
     "build_type": "power",
     "url_name": "power-alacrity-luminary-spear-greatsword",
-    "overall_dps": 36146,
+    "overall_dps": null,
     "dps_report": "https://dps.report/lLr2-20260415-141637_golem",
     "html_file_path": "alac\\power\\power_alacrity_luminary_spear_greatsword.html"
   },
@@ -931,7 +931,7 @@
     "elite_spec": "bladesworn",
     "build_type": "power",
     "url_name": "power-alacrity-bladesworn-overcharged-cartridges-sword-pistol",
-    "overall_dps": 35556,
+    "overall_dps": null,
     "dps_report": "https://b.dps.report/CsjG-20260417-040524_golem",
     "html_file_path": "alac\\power\\power_alacrity_bladesworn_overcharged_cartridges_sword_pistol.html"
   },
@@ -943,7 +943,7 @@
     "elite_spec": "amalgam",
     "build_type": "power",
     "url_name": "power-alacrity-amalgam-hammer",
-    "overall_dps": 35416,
+    "overall_dps": null,
     "dps_report": "https://dps.report/CLUN-20260416-002851_golem",
     "html_file_path": "alac\\power\\power_alacrity_amalgam_hammer.html"
   },
@@ -955,7 +955,7 @@
     "elite_spec": "bladesworn",
     "build_type": "power",
     "url_name": "power-alacrity-bladesworn-signets-sword-pistol",
-    "overall_dps": 34771,
+    "overall_dps": null,
     "dps_report": "https://b.dps.report/WiSb-20260416-141320_golem",
     "html_file_path": "alac\\power\\power_alacrity_bladesworn_signets_sword_pistol.html"
   },
@@ -967,7 +967,7 @@
     "elite_spec": "tempest",
     "build_type": "power",
     "url_name": "power-alacrity-tempest-hammer",
-    "overall_dps": 34518,
+    "overall_dps": null,
     "dps_report": "https://dps.report/L6zb-20250313-171138_golem",
     "html_file_path": "alac\\power\\power_alacrity_tempest_hammer.html"
   },
@@ -979,7 +979,7 @@
     "elite_spec": "evoker",
     "build_type": "power",
     "url_name": "power-alacrity-evoker-scepter-dagger",
-    "overall_dps": 34372,
+    "overall_dps": null,
     "dps_report": "https://dps.report/tFzd-20260415-200807_golem",
     "html_file_path": "alac\\power\\power_alacrity_evoker_scepter_dagger.html"
   },
@@ -989,11 +989,11 @@
     "benchmark_type": "alac",
     "profession": "thief",
     "elite_spec": "specter",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-alacrity-specter-scepter-dagger-dagger",
-    "overall_dps": 33853,
+    "overall_dps": null,
     "dps_report": "https://dps.report/U8uc-20260416-012930_golem",
-    "html_file_path": "alac\\condi\\condition_alacrity_specter_scepter_dagger_dagger.html"
+    "html_file_path": "alac\\condition\\condition_alacrity_specter_scepter_dagger_dagger.html"
   },
   {
     "name": "Power Alacrity Tempest Sword Dagger",
@@ -1003,7 +1003,7 @@
     "elite_spec": "tempest",
     "build_type": "power",
     "url_name": "power-alacrity-tempest-sword-dagger",
-    "overall_dps": 33818,
+    "overall_dps": null,
     "dps_report": "https://dps.report/G5ap-20250211-205455_golem",
     "html_file_path": "alac\\power\\power_alacrity_tempest_sword_dagger.html"
   },
@@ -1015,7 +1015,7 @@
     "elite_spec": "renegade",
     "build_type": "power",
     "url_name": "power-alacrity-renegade-greatsword-sword-sword",
-    "overall_dps": 33459,
+    "overall_dps": null,
     "dps_report": "https://dps.report/FA52-20260110-001840_golem",
     "html_file_path": "alac\\power\\power_alacrity_renegade_greatsword_sword_sword.html"
   },
@@ -1027,7 +1027,7 @@
     "elite_spec": "renegade",
     "build_type": "power",
     "url_name": "power-alacrity-renegade-staff-sword-sword",
-    "overall_dps": 32850,
+    "overall_dps": null,
     "dps_report": "https://dps.report/3hSA-20250215-132703_golem",
     "html_file_path": "alac\\power\\power_alacrity_renegade_staff_sword_sword.html"
   },
@@ -1037,10 +1037,10 @@
     "benchmark_type": "alac",
     "profession": "necromancer",
     "elite_spec": "scourge",
-    "build_type": "condi",
+    "build_type": "condition",
     "url_name": "condition-alacrity-scourge-scepter-torch-pistol",
-    "overall_dps": 32404,
+    "overall_dps": null,
     "dps_report": "https://dps.report/2bvf-20231014-100953_golem",
-    "html_file_path": "alac\\condi\\condition_alacrity_scourge_scepter_torch_pistol.html"
+    "html_file_path": "alac\\condition\\condition_alacrity_scourge_scepter_torch_pistol.html"
   }
 ]
