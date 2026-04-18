@@ -44,30 +44,11 @@
             "justMyCode": false
         },
         {
-            "name": "Debug: get_html_logs (Recent)",
+            "name": "Debug: get_html_logs (only_new)",
             "type": "debugpy",
             "request": "launch",
             "program": "${workspaceFolder}/scripts/get_html_logs.py",
-            "args": ["--recent_only"],
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "justMyCode": false
-        },
-        {
-            "name": "Debug: get_html_logs (skip)",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/scripts/get_html_logs.py",
-            "args": ["--skip_metadata"],
-            "console": "integratedTerminal",
-            "cwd": "${workspaceFolder}",
-            "justMyCode": false
-        },
-        {
-            "name": "Debug: html_log_to_json",
-            "type": "debugpy",
-            "request": "launch",
-            "program": "${workspaceFolder}/scripts/html_log_to_json.py",
+            "args": ["--only_new"],
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "justMyCode": false
@@ -80,6 +61,15 @@
             "console": "integratedTerminal",
             "cwd": "${workspaceFolder}",
             "args": ["--manual"],
+            "justMyCode": false
+        },
+        {
+            "name": "Debug: html_log_to_json",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/scripts/html_log_to_json.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
             "justMyCode": false
         },
         {
