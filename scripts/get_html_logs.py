@@ -206,7 +206,6 @@ class SnowCrowsScraper:
                             build_info = self.get_dps_reports_for_builds(build_info)
                             self.download_dps_report(build_info)
 
-
             except Exception as e:
                 self.logger.exception(f"Error processing {benchmark_type} builds: {e}")
                 return []
@@ -299,7 +298,7 @@ class SnowCrowsScraper:
                             break
 
                 dps_value = None
-                benchmark_divs = soup.find_all("div", string="Last Benchmark Max")  # type: ignore
+                benchmark_divs = soup.find_all("div", string="Last Benchmark Max")
                 for div in benchmark_divs:
                     parent_container = div.find_parent()
                     if parent_container:
@@ -354,19 +353,22 @@ class SnowCrowsScraper:
 
             if self.driver is None:
                 self._setup_webdriver()
+            if not self.driver:
+                self.logger.error("WebDriver not initialized, cannot download DPS report")
+                return False
 
             self.logger.info(f"Navigating to DPS report: {dps_report}")
             self.driver.get(dps_report)
 
             WebDriverWait(self.driver, 30).until(
-                lambda driver: driver.execute_script("return document.readyState") == "complete"
+                lambda driver: driver.execute_script("return document.readyState") == "complete",
             )
             time.sleep(self.delay)
 
             self.logger.info("Looking for Player Summary tab...")
             try:
                 player_summary_link = WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'Player Summary')]"))
+                    EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'Player Summary')]")),
                 )
                 player_summary_link.click()
                 self.logger.info("Clicked on Player Summary")
@@ -378,7 +380,7 @@ class SnowCrowsScraper:
             self.logger.info("Looking for Simple Rotation tab...")
             try:
                 simple_rotation_link = WebDriverWait(self.driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'Simple')]"))
+                    EC.element_to_be_clickable((By.XPATH, "//a[contains(text(), 'Simple')]")),
                 )
                 simple_rotation_link.click()
                 self.logger.info("Clicked on Simple Rotation")
@@ -388,7 +390,7 @@ class SnowCrowsScraper:
                 return False
 
             WebDriverWait(self.driver, 10).until(
-                lambda driver: driver.execute_script("return document.readyState") == "complete"
+                lambda driver: driver.execute_script("return document.readyState") == "complete",
             )
             time.sleep(self.delay)
 
