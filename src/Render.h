@@ -2,6 +2,7 @@
 
 #include <d3d11.h>
 
+#include <deque>
 #include <filesystem>
 #include <string>
 #include <vector>
@@ -36,8 +37,8 @@ struct RenderDataType
 
     bool is_not_ui_adjust_active = false;
 
-    bool skill_event_in_this_frame;
     EvCombatDataPersistent curr_combat_data{};
+    std::deque<EvCombatDataPersistent> pending_skill_events{};
     std::vector<EvCombatDataPersistent> played_rotation{};
 
     bool show_rotation_keybinds = false;
@@ -72,4 +73,5 @@ public:
 
     uint32_t num_skills_wo_match = 0U;
     std::chrono::steady_clock::time_point time_since_last_match;
+    SkillDetectionTimers skill_detection_timers{};
 };

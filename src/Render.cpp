@@ -80,29 +80,31 @@ void RenderType::skill_activation_callback(EvCombatDataPersistent combat_data)
     if (Globals::RenderData.curr_combat_data.SkillID == combat_data.SkillID)
         combat_data.RepeatedSkill = true;
 
-    Globals::RenderData.skill_event_in_this_frame = true;
     Globals::RenderData.curr_combat_data = combat_data;
 
     append_to_played_rotation(combat_data);
+    if (Globals::RenderData.pending_skill_events.size() >= 128)
+        Globals::RenderData.pending_skill_events.pop_front();
+    Globals::RenderData.pending_skill_events.push_back(std::move(combat_data));
 }
 
 EvCombatDataPersistent RenderType::get_current_skill()
 {
-    if (!Globals::RenderData.skill_event_in_this_frame)
+    if (Globals::RenderData.pending_skill_events.empty())
     {
         auto skill_ev = EvCombatDataPersistent{};
         skill_ev.SkillID = SkillID::FALLBACK;
         return skill_ev;
     }
 
-    if (Globals::RenderData.curr_combat_data.SkillID == SkillID::NONE)
+    auto skill_ev = std::move(Globals::RenderData.pending_skill_events.front());
+    Globals::RenderData.pending_skill_events.pop_front();
+    if (skill_ev.SkillID == SkillID::NONE)
     {
-        auto skill_ev = EvCombatDataPersistent{};
         skill_ev.SkillID = SkillID::FALLBACK;
-        return skill_ev;
     }
 
-    return Globals::RenderData.curr_combat_data;
+    return skill_ev;
 }
 
 void RenderType::set_show_window(const bool flag)
@@ -121,7 +123,8 @@ void RenderType::CycleSkillsLogic(const EvCombatDataPersistent &skill_ev)
     const auto debug_msg = std::string{"Player Casted Skill: "} + skill_ev.SkillName;
     (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", debug_msg.c_str());
 
-    SkillDetectionLogic(num_skills_wo_match, time_since_last_match, Globals::RotationRun, skill_ev);
+    SkillDetectionLogic(
+        num_skills_wo_match, time_since_last_match, skill_detection_timers, Globals::RotationRun, skill_ev);
 }
 
 void RenderType::restart_rotation(const bool not_ooc_triggered)
@@ -129,10 +132,12 @@ void RenderType::restart_rotation(const bool not_ooc_triggered)
     Globals::RotationRun.restart_rotation();
 
     Globals::RenderData.played_rotation.clear();
+    Globals::RenderData.pending_skill_events.clear();
     Globals::RenderData.curr_combat_data = EvCombatDataPersistent{};
 
     time_since_last_match = std::chrono::steady_clock::now();
     num_skills_wo_match = 0U;
+    skill_detection_timers = SkillDetectionTimers{};
 
     last_time_aa_did_skip = std::chrono::steady_clock::now();
     ArcEv::ResetSkillCastTracking();
@@ -157,12 +162,11 @@ void RenderType::render(ID3D11Device *pd3dDevice)
     if (!Settings::ShowWindow)
         return;
 
-    KeypressSkillDetectionLogic(Globals::RotationRun);
+    KeypressSkillDetectionLogic(Globals::RotationRun, skill_detection_timers);
 
-    if (Globals::RenderData.skill_event_in_this_frame)
+    while (!Globals::RenderData.pending_skill_events.empty())
     {
         const auto skill_ev = get_current_skill();
-        Globals::RenderData.skill_event_in_this_frame = false;
         CycleSkillsLogic(skill_ev);
     }
 

@@ -1,26 +1,24 @@
 #include <algorithm>
+#include <iterator>
 
 #include "KeyboardCapture.h"
-#include "Shared.h"
 
+namespace
+{
+constexpr size_t MAX_PRESS_QUEUE = 128;
+}
 
 bool KeyboardCapture::Initialize(void (*wndprocRegister)(UINT (*)(HWND, UINT, WPARAM, LPARAM)),
                                  void (*wndprocDeregister)(UINT (*)(HWND, UINT, WPARAM, LPARAM)))
 {
     if (m_IsInitialized)
         return true;
-
     if (!wndprocRegister || !wndprocDeregister)
         return false;
 
-    // Store deregister function for cleanup
     m_WndProcDeregister = wndprocDeregister;
-
     m_IsInitialized = true;
-
-    // Register our WndProc callback with Nexus
     wndprocRegister(NexusWndProcCallback);
-
     return true;
 }
 
@@ -29,93 +27,99 @@ void KeyboardCapture::Shutdown()
     if (!m_IsInitialized)
         return;
 
-    // Deregister from Nexus
     if (m_WndProcDeregister)
-    {
         m_WndProcDeregister(NexusWndProcCallback);
-    }
 
     {
         std::lock_guard<std::mutex> lock(m_KeyStateMutex);
         m_KeyDown.clear();
-        m_KeyPressed.clear();
-        Globals::CurrentlyPressedKeys.clear();
+        m_PressQueue.clear();
     }
 
     m_WndProcDeregister = nullptr;
     m_IsInitialized = false;
 }
 
-bool KeyboardCapture::IsKeyDown(int vKey) const
+std::vector<KeyPressEvent> KeyboardCapture::ConsumeKeyPresses()
 {
     std::lock_guard<std::mutex> lock(m_KeyStateMutex);
-    auto it = m_KeyDown.find(vKey);
-    return it != m_KeyDown.end() && it->second;
+    auto events = std::move(m_PressQueue);
+    m_PressQueue.clear();
+    return events;
 }
 
-bool KeyboardCapture::WasKeyPressed(int vKey) const
+void KeyboardCapture::RequeueKeyPresses(std::vector<KeyPressEvent> events)
+{
+    if (events.empty())
+        return;
+
+    std::lock_guard<std::mutex> lock(m_KeyStateMutex);
+    events.insert(events.end(),
+                  std::make_move_iterator(m_PressQueue.begin()),
+                  std::make_move_iterator(m_PressQueue.end()));
+    if (events.size() > MAX_PRESS_QUEUE)
+        events.erase(events.begin(), events.begin() + static_cast<std::ptrdiff_t>(events.size() - MAX_PRESS_QUEUE));
+    m_PressQueue = std::move(events);
+}
+
+std::vector<uint32_t> KeyboardCapture::GetDownKeysSnapshot() const
 {
     std::lock_guard<std::mutex> lock(m_KeyStateMutex);
-    auto it = m_KeyPressed.find(vKey);
-    if (it != m_KeyPressed.end() && it->second)
+    std::vector<uint32_t> keys;
+    keys.reserve(m_KeyDown.size());
+    for (const auto &[key, is_down] : m_KeyDown)
     {
-        // Clear the flag after reading
-        const_cast<KeyboardCapture *>(this)->m_KeyPressed[vKey] = false;
-        return true;
+        if (is_down)
+            keys.push_back(static_cast<uint32_t>(key));
     }
-    return false;
+    return keys;
 }
 
-UINT KeyboardCapture::NexusWndProcCallback(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+UINT KeyboardCapture::NexusWndProcCallback(HWND, UINT uMsg, WPARAM wParam, LPARAM)
 {
-    int vKey = static_cast<int>(wParam);
-
+    const auto virtual_key = static_cast<int>(wParam);
     switch (uMsg)
     {
     case WM_KEYDOWN:
     case WM_SYSKEYDOWN:
-        GetInstance().ProcessKeyMessage(vKey, true);
+        GetInstance().ProcessKeyMessage(virtual_key, true);
         break;
-
     case WM_KEYUP:
     case WM_SYSKEYUP:
-        GetInstance().ProcessKeyMessage(vKey, false);
+        GetInstance().ProcessKeyMessage(virtual_key, false);
         break;
-
     default:
         break;
     }
 
-    return 1;
+    // Nexus assigns the callback return value back to the real message ID.
+    return uMsg;
 }
 
-void KeyboardCapture::ProcessKeyMessage(int vKey, bool isPressed)
+void KeyboardCapture::ProcessKeyMessage(int virtual_key, bool is_pressed)
 {
     std::lock_guard<std::mutex> lock(m_KeyStateMutex);
+    const auto was_pressed = m_KeyDown[virtual_key];
 
-    bool wasPressed = m_KeyDown[vKey];
-    m_KeyDown[vKey] = isPressed;
-
-    if (isPressed && !wasPressed)
-        m_KeyPressed[vKey] = true;
-
-    auto& currentKeys = Globals::CurrentlyPressedKeys;
-    auto it = std::find(currentKeys.begin(), currentKeys.end(), static_cast<uint32_t>(vKey));
-
-    if (isPressed)
+    if (is_pressed && !was_pressed)
     {
-        // Key is pressed - add it if it's not already in the list
-        if (it == currentKeys.end())
-            currentKeys.push_back(static_cast<uint32_t>(vKey));
-    }
-    else
-    {
-        // Key is released - remove it if it's in the list
-        if (it != currentKeys.end())
-            currentKeys.erase(it);
+        const auto is_down = [this](int key) {
+            const auto it = m_KeyDown.find(key);
+            return it != m_KeyDown.end() && it->second;
+        };
 
-        // Also ensure the key state is properly reset
-        m_KeyDown[vKey] = false;
-        m_KeyPressed[vKey] = false;
+        if (m_PressQueue.size() >= MAX_PRESS_QUEUE)
+            m_PressQueue.erase(m_PressQueue.begin());
+        m_PressQueue.push_back({
+            .virtual_key = static_cast<uint32_t>(virtual_key),
+            .shift = is_down(VK_SHIFT) || is_down(VK_LSHIFT) || is_down(VK_RSHIFT) ||
+                     virtual_key == VK_SHIFT || virtual_key == VK_LSHIFT || virtual_key == VK_RSHIFT,
+            .control = is_down(VK_CONTROL) || is_down(VK_LCONTROL) || is_down(VK_RCONTROL) ||
+                       virtual_key == VK_CONTROL || virtual_key == VK_LCONTROL || virtual_key == VK_RCONTROL,
+            .alt = is_down(VK_MENU) || is_down(VK_LMENU) || is_down(VK_RMENU) ||
+                   virtual_key == VK_MENU || virtual_key == VK_LMENU || virtual_key == VK_RMENU,
+        });
     }
+
+    m_KeyDown[virtual_key] = is_pressed;
 }

@@ -16,6 +16,15 @@
 #include "Defines.h"
 #include "SkillIDs.h"
 
+enum class SkillEventKind : uint8_t
+{
+    UNKNOWN,
+    DAMAGE,
+    SKILL_CAST,
+    ANIMATION_COMPLETE,
+    KEYPRESS,
+};
+
 struct EvCombatDataPersistent
 {
     std::string SrcName;
@@ -26,6 +35,11 @@ struct EvCombatDataPersistent
     SkillID SkillID;
     uint64_t EventID;
     bool RepeatedSkill;
+    SkillEventKind EventKind = SkillEventKind::UNKNOWN;
+    uint8_t IsBuff = 0;
+    uint8_t StateChange = 0;
+    uint8_t Activation = 0;
+    uint8_t Result = 0;
 };
 
 struct EvCombatData

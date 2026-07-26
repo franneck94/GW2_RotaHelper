@@ -8,14 +8,25 @@
 #ifndef ARCEVENTS_H
 #define ARCEVENTS_H
 
+#include <chrono>
+
 #include "arcdps/ArcDPS.h"
+#include "SkillIDs.h"
+#include "Types.h"
 
 ///----------------------------------------------------------------------------------------------------
 /// ArcEv Namespace
 ///----------------------------------------------------------------------------------------------------
 namespace ArcEv
 {
+void StartCombatEventProcessing();
+void StopCombatEventProcessing();
+void ProcessPendingCombatEvents();
 void ResetSkillCastTracking();
+void ResetObservedSkillCapabilities();
+bool HasObservedSkill(SkillID skill_id);
+bool WasSkillObservedRecently(SkillID skill_id, std::chrono::milliseconds interval);
+const char *SkillEventKindName(SkillEventKind kind);
 
 void OnCombatLocal(void *data);
 

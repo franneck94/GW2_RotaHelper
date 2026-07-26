@@ -198,6 +198,7 @@ void AddonLoad(AddonAPI_t *aApi)
                                               nullptr);
     RegisterQuickAccessShortcut();
 
+    ArcEv::StartCombatEventProcessing();
     Globals::APIDefs->Events_Subscribe("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ArcEv::OnCombatLocal);
 
     if (Globals::APIDefs && Globals::APIDefs->DataLink_Get)
@@ -216,6 +217,9 @@ void AddonLoad(AddonAPI_t *aApi)
 
 void AddonUnload()
 {
+    Globals::APIDefs->Events_Unsubscribe("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ArcEv::OnCombatLocal);
+    ArcEv::StopCombatEventProcessing();
+
     if (pd3dDevice)
         pd3dDevice->Release();
 
@@ -231,7 +235,6 @@ void AddonUnload()
 
     DeregisterQuickAccessShortcut();
 
-    Globals::APIDefs->Events_Unsubscribe("EV_ARCDPS_COMBATEVENT_LOCAL_RAW", ArcEv::OnCombatLocal);
     (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Unloaded Addon");
 }
 
@@ -284,16 +287,21 @@ void AddonRender()
     static auto profession = ProfessionID::UNKNOWN;
 
     if ((!Globals::NexusLink) || (!Globals::NexusLink->IsGameplay) || (!Settings::ShowWindow))
+    {
+        KeyboardCapture::GetInstance().ConsumeKeyPresses();
         return;
+    }
 
     TriggerParseMumble();
     const auto curr_profession = static_cast<ProfessionID>(Globals::Identity.Profession);
     if (profession != curr_profession)
     {
+        ArcEv::ResetObservedSkillCapabilities();
         Globals::RotationRun.reset_rotation();
         profession = curr_profession;
     }
 
+    ArcEv::ProcessPendingCombatEvents();
     Globals::Render.set_show_window(Settings::ShowWindow);
     Globals::Render.render(pd3dDevice);
 }

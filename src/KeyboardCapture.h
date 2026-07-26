@@ -2,7 +2,16 @@
 
 #include <mutex>
 #include <unordered_map>
+#include <vector>
 #include <windows.h>
+
+struct KeyPressEvent
+{
+    uint32_t virtual_key = 0;
+    bool shift = false;
+    bool control = false;
+    bool alt = false;
+};
 
 class KeyboardCapture
 {
@@ -13,16 +22,18 @@ public:
         return instance;
     }
 
-    // Initialize with Nexus API callbacks
     bool Initialize(void (*wndprocRegister)(UINT (*)(HWND, UINT, WPARAM, LPARAM)),
                     void (*wndprocDeregister)(UINT (*)(HWND, UINT, WPARAM, LPARAM)));
     void Shutdown();
 
-    // Check key state
-    bool IsKeyDown(int vKey) const;
-    bool WasKeyPressed(int vKey) const; // True only once per key press
+    std::vector<KeyPressEvent> ConsumeKeyPresses();
+    void RequeueKeyPresses(std::vector<KeyPressEvent> events);
+    std::vector<uint32_t> GetDownKeysSnapshot() const;
+    bool IsInitialized() const noexcept
+    {
+        return m_IsInitialized;
+    }
 
-    // Static callback for Nexus WndProc
     static UINT NexusWndProcCallback(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
     KeyboardCapture() = default;
@@ -39,5 +50,5 @@ public:
     void (*m_WndProcDeregister)(UINT (*)(HWND, UINT, WPARAM, LPARAM)) = nullptr;
     mutable std::mutex m_KeyStateMutex;
     std::unordered_map<int, bool> m_KeyDown;
-    std::unordered_map<int, bool> m_KeyPressed;
+    std::vector<KeyPressEvent> m_PressQueue;
 };
