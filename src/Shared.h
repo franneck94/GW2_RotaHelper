@@ -47,8 +47,6 @@ extern bool IsSameCast;
 extern std::map<SkillID, std::chrono::steady_clock::time_point> SkillLastTimeCast;
 extern std::string LastArcEventSkillName;
 
-extern std::vector<uint32_t> CurrentlyPressedKeys;
-
 extern SkillID LastKeyPressSkillID;
 extern std::chrono::steady_clock::time_point LastKeyPressSkillTime;
 }; // namespace Globals

@@ -1,7 +1,12 @@
+#include <algorithm>
+#include <cstddef>
 #include <cstdint>
 #include <string>
+#include <utility>
 
+#include "ArcEvents.h"
 #include "LogData.h"
+#include "KeyboardCapture.h"
 #include "MumbleUtils.h"
 #include "Rotation.h"
 #include "Settings.h"
@@ -12,9 +17,9 @@
 
 namespace
 {
-bool IsSkillAutoAttack(const SkillID skill_id, const std::string &skill_name, const SkillDataMap &skill_data_map)
+bool IsSkillAutoAttack(const SkillID queried_skill_id, const std::string &skill_name, const SkillDataMap &skill_data_map)
 {
-    auto it = skill_data_map.find(skill_id);
+    auto it = skill_data_map.find(queried_skill_id);
 
     if (it != skill_data_map.end())
         return it->second.is_auto_attack;
@@ -53,20 +58,15 @@ bool IsOtherValidAutoAttack(const RotationStep &n_th_future_rota_skill,
 bool IsSpecialMappingSkill(const EvCombatDataPersistent &current_casted_skill,
                            const RotationStep &n_th_future_rota_skill)
 {
-    if (SkillRuleData ::special_mapping_skills.find(n_th_future_rota_skill.skill_data.skill_id) !=
-            SkillRuleData::special_mapping_skills.end() &&
-        SkillRuleData::special_mapping_skills.find(current_casted_skill.SkillID) !=
-            SkillRuleData::special_mapping_skills.end())
-    {
-        const auto maped_skill_id1 =
-            SkillRuleData::special_mapping_skills.at(n_th_future_rota_skill.skill_data.skill_id);
-        if (maped_skill_id1 == current_casted_skill.SkillID)
-            return true;
+    const auto expected_id = n_th_future_rota_skill.skill_data.skill_id;
+    const auto expected_mapping = SkillRuleData::special_mapping_skills.find(expected_id);
+    if (expected_mapping != SkillRuleData::special_mapping_skills.end() &&
+        expected_mapping->second == current_casted_skill.SkillID)
+        return true;
 
-        const auto maped_skill_id2 = SkillRuleData::special_mapping_skills.at(current_casted_skill.SkillID);
-        if (maped_skill_id2 == n_th_future_rota_skill.skill_data.skill_id)
-            return true;
-    }
+    const auto actual_mapping = SkillRuleData::special_mapping_skills.find(current_casted_skill.SkillID);
+    if (actual_mapping != SkillRuleData::special_mapping_skills.end() && actual_mapping->second == expected_id)
+        return true;
 
     return false;
 }
@@ -88,11 +88,12 @@ bool CheckTheNextNskills(const EvCombatDataPersistent &current_casted_skill,
 
     if (is_match || is_any_other_auto_attack)
     {
-        for (uint32_t i = 0; i < window_length; ++i)
+        const auto pop_count = std::min<size_t>(window_length, rotation_run.missing_rotation_steps.size());
+        for (size_t i = 0; i < pop_count; ++i)
             rotation_run.missing_rotation_steps.pop_front();
     }
 
-    return is_match;
+    return is_match || is_any_other_auto_attack;
 }
 
 void ResetSkillDetectionData(SkillDetectionTimers &timers, uint32_t &num_skills_wo_match)
@@ -112,53 +113,56 @@ float GetTimeSinceInSeconds(const std::chrono::steady_clock::time_point &t0)
     return static_cast<float>(time_ms) / 1000.0f;
 }
 
+bool TryAdvanceTimedGreySkill(RotationLogType &rotation_run, SkillDetectionTimers &timers)
+{
+    if (rotation_run.missing_rotation_steps.empty())
+        return false;
+
+    const auto &current_step = rotation_run.missing_rotation_steps.front();
+    auto cast_time_ms = 150.0F;
+    if (current_step.skill_data.cast_time_with_quickness > 0)
+        cast_time_ms = std::max(cast_time_ms, current_step.skill_data.cast_time_with_quickness * 1000.0f);
+
+    const auto now = std::chrono::steady_clock::now();
+    const auto time_since_last_pop_ms =
+        std::chrono::duration<float, std::milli>(now - timers.time_of_last_pop).count();
+    if (!IsRotationStepGreyedOut(current_step, rotation_run) || time_since_last_pop_ms <= cast_time_ms)
+        return false;
+
+    rotation_run.missing_rotation_steps.pop_front();
+    timers.time_of_last_pop = now;
+    return true;
+}
+
 RotaSkillWindow _GetRotaWindowFromRotationSteps(RotationLogType &rotation_run, SkillDetectionTimers &timers)
 {
     auto rota_window = RotaSkillWindow{};
 
-    const auto now = std::chrono::steady_clock::now();
-    const auto time_since_last_pop_ms =
-        std::chrono::duration_cast<std::chrono::milliseconds>(now - timers.time_of_last_pop).count();
+    if (rotation_run.missing_rotation_steps.empty())
+        return rota_window;
+
+    (void)TryAdvanceTimedGreySkill(rotation_run, timers);
+    if (rotation_run.missing_rotation_steps.empty())
+        return rota_window;
 
     auto it = rotation_run.missing_rotation_steps.begin();
-    if (rotation_run.missing_rotation_steps.size() > 1)
-    {
-        rota_window.curr_rota_skill = *it;
+    rota_window.curr_rota_skill = *it;
 
-        const auto skill_id = rota_window.curr_rota_skill.skill_data.skill_id;
-        auto cast_time_ms = 150.0F;
-        if (rota_window.curr_rota_skill.skill_data.cast_time_with_quickness > 0)
-        {
-            cast_time_ms = max(cast_time_ms, rota_window.curr_rota_skill.skill_data.cast_time_with_quickness * 1000.0f);
-        }
-
-        const auto can_pop = (time_since_last_pop_ms > cast_time_ms);
-        if (rota_window.curr_rota_skill.is_special_skill && can_pop)
-        {
-            rotation_run.missing_rotation_steps.pop_front();
-            it = rotation_run.missing_rotation_steps.begin();
-            rota_window.curr_rota_skill = *it;
-
-            timers.time_of_last_pop = std::chrono::steady_clock::now();
-        }
-
-        ++it;
-    }
-
-    if (rotation_run.missing_rotation_steps.size() > 2)
+    it = rotation_run.missing_rotation_steps.begin();
+    ++it;
+    if (it != rotation_run.missing_rotation_steps.end())
     {
         rota_window.next_rota_skill = *it;
         ++it;
     }
-    if (rotation_run.missing_rotation_steps.size() > 3)
+    if (it != rotation_run.missing_rotation_steps.end())
     {
         rota_window.next_next_rota_skill = *it;
         ++it;
     }
-    if (rotation_run.missing_rotation_steps.size() > 4)
+    if (it != rotation_run.missing_rotation_steps.end())
     {
         rota_window.next_next_next_rota_skill = *it;
-        ++it;
     }
 
     return rota_window;
@@ -198,7 +202,7 @@ bool DoCheckForNextNextNextSkill(const RotaSkillWindow &rota_window, const Skill
     const auto time_since_last_next_next_next_skill_check_s =
         GetTimeSinceInSeconds(timers.time_of_last_next_next_next_skill_check);
 
-    const auto is_valid_skill = (rota_window.next_next_rota_skill.is_special_skill ||
+    const auto is_valid_skill = (rota_window.next_next_next_rota_skill.is_special_skill ||
                                  !rota_window.next_next_next_rota_skill.skill_data.is_auto_attack);
     const auto is_timer_reached = (time_since_last_next_next_next_skill_check_s > min_time_for_next_next_next_s ||
                                    timers.is_first_check_for_next_next_next);
@@ -223,92 +227,131 @@ RotaSkillWindow GetRotaSkillWindow(RotationLogType &rotation_run, SkillDetection
 
     return rota_window;
 }
+
+bool ModifierMatches(const KeyPressEvent &event, Modifiers modifier)
+{
+    switch (modifier)
+    {
+    case Modifiers::NONE:
+        return !event.shift && !event.control && !event.alt;
+    case Modifiers::SHIFT:
+        return event.shift && !event.control && !event.alt;
+    case Modifiers::CTRL:
+    case Modifiers::RCTRL:
+        return event.control && !event.shift && !event.alt;
+    case Modifiers::ALT:
+    case Modifiers::RALT:
+        return event.alt && !event.shift && !event.control;
+    default:
+        return false;
+    }
+}
+
 } // namespace
 
-void KeypressSkillDetectionLogic(RotationLogType &rotation_run)
+SkillSlot GetExpectedInputSlot(const RotationStep &step, const RotationLogType &rotation_run)
 {
-    static auto timers = SkillDetectionTimers{};
-
-    if (!Settings::UseSkillEvents)
-        return;
-
-    auto &currentKeys = Globals::CurrentlyPressedKeys;
-    if (currentKeys.empty())
-        return;
-
-    const auto windows_key = static_cast<WindowsKeys>(currentKeys[0]);
-    const auto gw2_key = windows_key_to_keys_enum(windows_key);
-
-    auto detected_skill_slot = SkillSlot::NONE;
-    std::string detected_action_name = "";
-
-    default_gw2key_to_skillslot_mapping(gw2_key, detected_skill_slot, detected_action_name);
-
-    for (const auto &[action_name, keybind_info] : Globals::RenderData.keybinds)
-    {
-        if (keybind_info.button == gw2_key && keybind_info.device == Device::KEYBOARD &&
-            keybind_info.modifier == Modifiers::NONE)
-        {
-            detected_action_name = action_name;
-            detected_skill_slot = str_to_default_skillslot(action_name);
-            break;
-        }
-    }
-
-    if (detected_skill_slot == SkillSlot::NONE)
-        return;
-
-    auto detected_skill_id = SkillID{0};
-    for (const auto skill : Globals::RotationRun.rotation_skills)
-    {
-        if (skill.second.skill_slot == detected_skill_slot)
-        {
-            detected_skill_id = skill.first;
-            break;
-        }
-    }
-
-    if (detected_skill_id == SkillID{0})
-        return;
-
-    const auto casted_skill = RotationStep{
-        .time_of_cast = 0.0f,
-        .duration_ms = 0,
-        .skill_data = SkillData{.skill_id = detected_skill_id},
-        .is_special_skill = false,
+    const auto mapped_skill_name = [&rotation_run](const int icon_id) -> std::string {
+        const auto it = rotation_run.log_skill_info_map.find(icon_id);
+        return it != rotation_run.log_skill_info_map.end() ? it->second.name : std::string{};
     };
 
-    const auto rota_window = GetRotaSkillWindow(rotation_run, timers);
-    const auto curr_rota_skill = rota_window.curr_rota_skill;
-    const auto curr_skill_id = curr_rota_skill.skill_data.skill_id;
-    const auto rota_keybind_str = rotation_run.get_keybind_str(curr_rota_skill, Globals::RenderData.keybinds);
-    const auto casted_keybind_str = rotation_run.get_keybind_str(casted_skill, Globals::RenderData.keybinds);
+    if (step.skill_data.name == mapped_skill_name(rotation_run.skill_key_mapping.skill_7))
+        return SkillSlot::UTILITY_1;
+    if (step.skill_data.name == mapped_skill_name(rotation_run.skill_key_mapping.skill_8))
+        return SkillSlot::UTILITY_2;
+    if (step.skill_data.name == mapped_skill_name(rotation_run.skill_key_mapping.skill_9))
+        return SkillSlot::UTILITY_3;
+    return step.skill_data.skill_slot;
+}
 
-    if (casted_keybind_str == rota_keybind_str && detected_skill_id == curr_skill_id)
+bool IsRotationStepDetectable(const RotationStep &step, const RotationLogType &rotation_run)
+{
+    if (Settings::CustomGreySkills.contains(static_cast<uint32_t>(step.skill_data.skill_id)))
+        return false;
+
+    if (ArcEv::HasObservedSkill(step.skill_data.skill_id))
+        return true;
+
+    return Settings::UseSkillEvents && KeyboardCapture::GetInstance().IsInitialized() &&
+           GetExpectedInputSlot(step, rotation_run) != SkillSlot::NONE;
+}
+
+bool IsRotationStepGreyedOut(const RotationStep &step, const RotationLogType &rotation_run)
+{
+    const auto is_configured_grey =
+        Settings::CustomGreySkills.contains(static_cast<uint32_t>(step.skill_data.skill_id));
+    return (step.is_special_skill || is_configured_grey) && !IsRotationStepDetectable(step, rotation_run);
+}
+
+void KeypressSkillDetectionLogic(RotationLogType &rotation_run, SkillDetectionTimers &timers)
+{
+    const auto key_presses = KeyboardCapture::GetInstance().ConsumeKeyPresses();
+
+    if (!Settings::UseSkillEvents || key_presses.empty())
+        return;
+
+    if (Globals::MumbleData &&
+        (!Globals::MumbleData->Context.IsGameFocused || Globals::MumbleData->Context.IsTextboxFocused))
     {
-        // Check if this is the same skill as last pressed
-        if (detected_skill_id == Globals::LastKeyPressSkillID)
+        return;
+    }
+
+    (void)TryAdvanceTimedGreySkill(rotation_run, timers);
+
+    for (size_t key_index = 0; key_index < key_presses.size(); ++key_index)
+    {
+        const auto &key_press = key_presses[key_index];
+        const auto windows_key = static_cast<WindowsKeys>(key_press.virtual_key);
+        const auto gw2_key = windows_key_to_keys_enum(windows_key);
+        if (gw2_key == Keys::NONE)
+            continue;
+
+        auto detected_skill_slot = SkillSlot::NONE;
+        std::string detected_action_name;
+
+        if (!key_press.shift && !key_press.control && !key_press.alt)
+            default_gw2key_to_skillslot_mapping(gw2_key, detected_skill_slot, detected_action_name);
+
+        for (const auto &[action_name, keybind_info] : Globals::RenderData.keybinds)
         {
-            // Same skill - check if enough time has passed based on recharge time
-            const auto now = std::chrono::steady_clock::now();
-            const auto time_since_last_press_ms =
-                std::chrono::duration_cast<std::chrono::milliseconds>(now - Globals::LastKeyPressSkillTime).count();
-
-            const auto recharge_time_ms = curr_rota_skill.skill_data.recharge_time * 1000.0f;
-
-            if (time_since_last_press_ms < static_cast<int64_t>(recharge_time_ms))
-                return;
+            if (keybind_info.button == gw2_key && keybind_info.device == Device::KEYBOARD &&
+                ModifierMatches(key_press, keybind_info.modifier))
+            {
+                detected_action_name = action_name;
+                detected_skill_slot = str_to_default_skillslot(action_name);
+                break;
+            }
         }
 
-        const auto success_msg = "Matched skill: " + curr_rota_skill.skill_data.name +
-                                 " (ID: " + std::to_string((uint32_t)curr_skill_id) + ")";
-        (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", success_msg.c_str());
+        if (detected_skill_slot == SkillSlot::NONE || rotation_run.missing_rotation_steps.empty())
+            continue;
 
-        // Update tracking for this skill
-        Globals::LastKeyPressSkillID = detected_skill_id;
+        const auto &expected_step = rotation_run.missing_rotation_steps.front();
+        if (Settings::CustomGreySkills.contains(static_cast<uint32_t>(expected_step.skill_data.skill_id)))
+            continue;
+        if (GetExpectedInputSlot(expected_step, rotation_run) != detected_skill_slot)
+            continue;
+
+        if (ArcEv::WasSkillObservedRecently(expected_step.skill_data.skill_id, std::chrono::milliseconds(300)))
+        {
+            continue;
+        }
+
+        auto detected_event = EvCombatDataPersistent{};
+        detected_event.SkillName = expected_step.skill_data.name;
+        detected_event.SkillID = expected_step.skill_data.skill_id;
+        detected_event.EventKind = SkillEventKind::KEYPRESS;
+        Globals::LastKeyPressSkillID = detected_event.SkillID;
         Globals::LastKeyPressSkillTime = std::chrono::steady_clock::now();
-
-        currentKeys.clear();
+        if (key_index + 1 < key_presses.size())
+        {
+            KeyboardCapture::GetInstance().RequeueKeyPresses(
+                std::vector<KeyPressEvent>{key_presses.begin() + static_cast<std::ptrdiff_t>(key_index + 1),
+                                           key_presses.end()});
+        }
+        Globals::Render.skill_activation_callback(std::move(detected_event));
+        return;
     }
 }
 
@@ -325,11 +368,10 @@ void KeypressSkillDetectionLogic(RotationLogType &rotation_run)
  */
 void SkillDetectionLogic(uint32_t &num_skills_wo_match,
                          std::chrono::steady_clock::time_point &time_since_last_match,
+                         SkillDetectionTimers &timers,
                          RotationLogType &rotation_run,
                          const EvCombatDataPersistent &current_casted_skill)
 {
-    static auto timers = SkillDetectionTimers{};
-
     const auto duration_since_last_match = GetTimeSinceInSeconds(time_since_last_match);
     const auto curr_casted_is_auto_attack = IsSkillAutoAttack(current_casted_skill.SkillID,
                                                               current_casted_skill.SkillName,
@@ -343,8 +385,6 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
                                               (rota_window.next_rota_skill.is_special_skill ? 1 : 0) +
                                               (rota_window.next_next_rota_skill.is_special_skill ? 1 : 0) +
                                               (rota_window.next_next_next_rota_skill.is_special_skill ? 1 : 0);
-    const auto too_many_special_skills_in_window = num_special_skills_in_window > 2;
-
     if (CheckTheNextNskills(current_casted_skill, rota_window.curr_rota_skill, 1, true, rotation_run))
     {
         ResetSkillDetectionData(timers, num_skills_wo_match);
@@ -353,11 +393,7 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
         return;
     }
 
-    const auto still_look_into_in_strict_mode = true;
-    // ((Settings::StrictModeForSkillDetection && rota_window.curr_rota_skill.is_special_skill) ||
-    //  !Settings::StrictModeForSkillDetection);
-
-    if (still_look_into_in_strict_mode && !curr_casted_is_auto_attack)
+    if (!curr_casted_is_auto_attack)
     {
         const auto current_casted_is_profession_reset_like_skill =
             SkillRuleData::IsProfessionResetLikeSKill(current_casted_skill.SkillID);
@@ -412,11 +448,10 @@ void SkillDetectionLogic(uint32_t &num_skills_wo_match,
                 return;
 
             const auto rota_skill = *it;
-            const auto is_exact_match = (rota_skill.skill_data.skill_id == current_casted_skill.SkillID);
-            const auto is_auto_attack_match = !is_exact_match && (rota_skill.skill_data.is_auto_attack &&
-                                                                  IsSkillAutoAttack(current_casted_skill.SkillID,
-                                                                                    current_casted_skill.SkillName,
-                                                                                    rotation_run.skill_data_map));
+            const auto is_exact_match = rota_skill.skill_data.skill_id == current_casted_skill.SkillID ||
+                                        IsSpecialMappingSkill(current_casted_skill, rota_skill);
+            const auto is_auto_attack_match =
+                !is_exact_match && IsOtherValidAutoAttack(rota_skill, current_casted_skill, rotation_run);
 
             if (is_exact_match || is_auto_attack_match)
             {

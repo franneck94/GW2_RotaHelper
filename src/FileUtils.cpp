@@ -1,22 +1,24 @@
+#include <algorithm>
+#include <array>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <future>
 #include <map>
 #include <set>
 #include <sstream>
+#include <stdexcept>
 #include <string>
+#include <system_error>
 #include <thread>
 #include <vector>
 
-#include <shlwapi.h>
-#include <urlmon.h>
 #include <windows.h>
 #include <wininet.h>
 
 #pragma comment(lib, "wininet.lib")
-#pragma comment(lib, "urlmon.lib")
-#pragma comment(lib, "shlwapi.lib")
 
+#include "miniz.h"
 #include "nlohmann/json.hpp"
 
 #include "FileUtils.h"
@@ -27,33 +29,33 @@
 
 namespace
 {
-std::string ps_exit_code_to_string(DWORD code)
+constexpr uint64_t MAX_ZIP_SIZE = 1024ULL * 1024ULL * 1024ULL;
+
+bool IsSafeArchivePath(std::string archive_name)
 {
-    switch (code)
+    if (archive_name.find('\0') != std::string::npos || archive_name.find(':') != std::string::npos)
+        return false;
+
+    std::replace(archive_name.begin(), archive_name.end(), '\\', '/');
+    const auto path = std::filesystem::path{archive_name}.lexically_normal();
+    if (path.empty() || path.is_absolute() || path.has_root_name() || path.has_root_directory())
+        return false;
+
+    for (const auto &part : path)
     {
-    case 0:    return "Success";
-    case 1:    return "Generic error";
-    case 259:  return "Still active (STILL_ACTIVE) - process did not finish in time";
-    // PowerShell exit codes
-    case 2:    return "Misuse of shell command";
-    case 3:    return "Command invoked but could not complete";
-    case 5:    return "Access denied";
-    default:
-        {
-            // Try to get a system message for Win32 error codes
-            char buf[256] = {};
-            DWORD len = FormatMessageA(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-                                      nullptr, code, 0, buf, sizeof(buf), nullptr);
-            if (len > 0)
-            {
-                // Trim trailing newline/whitespace
-                while (len > 0 && (buf[len - 1] == '\n' || buf[len - 1] == '\r' || buf[len - 1] == ' '))
-                    buf[--len] = '\0';
-                return std::string(buf);
-            }
-            return "Unknown exit code";
-        }
+        if (part == "..")
+            return false;
     }
+
+    return true;
+}
+
+bool ReplaceFile(const std::filesystem::path &source, const std::filesystem::path &destination)
+{
+    return MoveFileExW(source.c_str(),
+                       destination.c_str(),
+                       MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH) ||
+           MoveFileExW(source.c_str(), destination.c_str(), MOVEFILE_REPLACE_EXISTING);
 }
 
 void get_keybind_secondary_info(size_t button2_start, const std::string &line, KeybindInfo &keybind)
@@ -571,74 +573,224 @@ std::map<std::string, KeybindInfo> parse_xml_keybinds(const std::filesystem::pat
 
 bool DownloadFile(const std::string &url, const std::filesystem::path &outputPath)
 {
+    (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Started ZIP download");
+
+    HINTERNET internet = InternetOpenA("GW2RotaHelper/1.0", INTERNET_OPEN_TYPE_PRECONFIG, nullptr, nullptr, 0);
+    if (!internet)
+    {
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "Could not initialize WinINet");
+        return false;
+    }
+
+    DWORD timeout_ms = 15'000;
+    InternetSetOptionA(internet, INTERNET_OPTION_CONNECT_TIMEOUT, &timeout_ms, sizeof(timeout_ms));
+    InternetSetOptionA(internet, INTERNET_OPTION_SEND_TIMEOUT, &timeout_ms, sizeof(timeout_ms));
+    InternetSetOptionA(internet, INTERNET_OPTION_RECEIVE_TIMEOUT, &timeout_ms, sizeof(timeout_ms));
+
+    HINTERNET request = InternetOpenUrlA(internet,
+                                        url.c_str(),
+                                        nullptr,
+                                        0,
+                                        INTERNET_FLAG_RELOAD | INTERNET_FLAG_NO_CACHE_WRITE | INTERNET_FLAG_NO_UI,
+                                        0);
+    if (!request)
+    {
+        InternetCloseHandle(internet);
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "Could not open benchmark data URL");
+        return false;
+    }
+
+    DWORD status_code = 0;
+    DWORD status_size = sizeof(status_code);
+    if (HttpQueryInfoA(request,
+                       HTTP_QUERY_STATUS_CODE | HTTP_QUERY_FLAG_NUMBER,
+                       &status_code,
+                       &status_size,
+                       nullptr) &&
+        (status_code < 200 || status_code >= 300))
+    {
+        InternetCloseHandle(request);
+        InternetCloseHandle(internet);
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL,
+                                    "GW2RotaHelper",
+                                    "Benchmark data server returned a non-success HTTP status");
+        return false;
+    }
+
+    auto partial_path = outputPath;
+    partial_path += L".part";
+    bool success = false;
+
     try
     {
-        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Started ZIP Downloading");
+        std::ofstream output(partial_path, std::ios::binary | std::ios::trunc);
+        if (!output)
+            throw std::runtime_error("Could not create ZIP output file");
 
-        const auto hr = URLDownloadToFileA(nullptr, url.c_str(), outputPath.string().c_str(), 0, nullptr);
-        return SUCCEEDED(hr);
+        std::array<char, 64 * 1024> buffer{};
+        DWORD bytes_read = 0;
+        uint64_t total_bytes = 0;
+        success = true;
+
+        do
+        {
+            if (!InternetReadFile(request, buffer.data(), static_cast<DWORD>(buffer.size()), &bytes_read))
+            {
+                success = false;
+                break;
+            }
+            if (bytes_read == 0)
+                break;
+            if (total_bytes > MAX_ZIP_SIZE - bytes_read)
+            {
+                success = false;
+                break;
+            }
+
+            total_bytes += bytes_read;
+            output.write(buffer.data(), bytes_read);
+            if (!output)
+            {
+                success = false;
+                break;
+            }
+        } while (bytes_read > 0);
+
+        success = success && total_bytes > 0;
     }
     catch (...)
     {
-        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "ZIP downloading failed.");
-        return false;
+        success = false;
     }
+
+    InternetCloseHandle(request);
+    InternetCloseHandle(internet);
+
+    if (success)
+        success = ReplaceFile(partial_path, outputPath);
+
+    if (!success)
+    {
+        std::error_code error;
+        std::filesystem::remove(partial_path, error);
+        std::filesystem::remove(outputPath, error);
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "ZIP download failed");
+    }
+
+    return success;
 }
 
 bool ExtractZipFile(const std::filesystem::path &zipPath, const std::filesystem::path &extractPath)
 {
+    (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Started in-process ZIP extraction");
+
+    std::ifstream zip_file(zipPath, std::ios::binary | std::ios::ate);
+    if (!zip_file)
+        return false;
+
+    const auto zip_size = zip_file.tellg();
+    if (zip_size <= 0 || static_cast<uint64_t>(zip_size) > MAX_ZIP_SIZE)
+        return false;
+
+    std::vector<unsigned char> zip_bytes(static_cast<size_t>(zip_size));
+    zip_file.seekg(0);
+    zip_file.read(reinterpret_cast<char *>(zip_bytes.data()), zip_size);
+    if (!zip_file)
+        return false;
+
+    mz_zip_archive archive{};
+    if (!mz_zip_reader_init_mem(&archive, zip_bytes.data(), zip_bytes.size(), 0))
+        return false;
+
+    bool success = true;
     try
     {
-        (void)Globals::APIDefs->Log(LOGL_DEBUG, "GW2RotaHelper", "Started ZIP Extracting");
+        const auto file_count = mz_zip_reader_get_num_files(&archive);
+        if (file_count > 100'000)
+            throw std::runtime_error("ZIP archive has too many entries");
 
-        const auto psCommand = "powershell.exe -Command \"Expand-Archive -Path '" + zipPath.string() +
-                               "' -DestinationPath '" + extractPath.string() + "' -Force\"";
-
-        STARTUPINFOA si = {sizeof(si)};
-        PROCESS_INFORMATION pi = {};
-        si.dwFlags = STARTF_USESHOWWINDOW;
-        si.wShowWindow = SW_HIDE;
-
-        if (CreateProcessA(nullptr,
-                           const_cast<char *>(psCommand.c_str()),
-                           nullptr,
-                           nullptr,
-                           FALSE,
-                           0,
-                           nullptr,
-                           nullptr,
-                           &si,
-                           &pi))
+        uint64_t total_uncompressed_size = 0;
+        for (mz_uint index = 0; index < file_count; ++index)
         {
-            (void)Globals::APIDefs->Log(LOGL_INFO, "GW2RotaHelper", "Started ZIP extraction process.");
-            WaitForSingleObject(pi.hProcess, 30000); // Wait max 30 seconds
-            DWORD exitCode;
-            GetExitCodeProcess(pi.hProcess, &exitCode);
-            CloseHandle(pi.hProcess);
-            CloseHandle(pi.hThread);
-
-            if (exitCode != 0)
+            mz_zip_archive_file_stat stat{};
+            if (!mz_zip_reader_file_stat(&archive, index, &stat) || stat.m_filename[0] == '\0')
             {
-                Globals::BenchDataDownloadState = DownloadState::FAILED;
-                auto errorMsg = "ZIP extraction failed with exit code: " + std::to_string(exitCode) +
-                                " (" + ps_exit_code_to_string(exitCode) + ")";
-                (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", errorMsg.c_str());
+                success = false;
+                break;
             }
 
-            return exitCode == 0;
-        }
+            auto archive_name = std::string{stat.m_filename};
+            if (!IsSafeArchivePath(archive_name))
+            {
+                success = false;
+                break;
+            }
 
-        DWORD createProcessError = GetLastError();
-        auto errorMsg = "Create Process Failed with error code: " + std::to_string(createProcessError);
-        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", errorMsg.c_str());
-        return false;
+            std::replace(archive_name.begin(), archive_name.end(), '\\', '/');
+            const auto destination = extractPath / std::filesystem::path{archive_name}.lexically_normal();
+            std::error_code error;
+
+            if (mz_zip_reader_is_file_a_directory(&archive, index))
+            {
+                std::filesystem::create_directories(destination, error);
+            }
+            else
+            {
+                constexpr uint64_t MAX_ENTRY_SIZE = 256ULL * 1024ULL * 1024ULL;
+                constexpr uint64_t MAX_TOTAL_SIZE = 4ULL * 1024ULL * 1024ULL * 1024ULL;
+                if (stat.m_uncomp_size > MAX_ENTRY_SIZE ||
+                    total_uncompressed_size > MAX_TOTAL_SIZE - stat.m_uncomp_size)
+                    throw std::runtime_error("ZIP archive is too large");
+                total_uncompressed_size += stat.m_uncomp_size;
+
+                std::filesystem::create_directories(destination.parent_path(), error);
+                size_t extracted_size = 0;
+                void *extracted_data = nullptr;
+                if (!error && stat.m_uncomp_size > 0)
+                    extracted_data = mz_zip_reader_extract_to_heap(&archive, index, &extracted_size, 0);
+
+                if (!error &&
+                    ((stat.m_uncomp_size > 0 && !extracted_data) || extracted_size != stat.m_uncomp_size))
+                    error = std::make_error_code(std::errc::io_error);
+
+                if (!error)
+                {
+                    auto partial_path = destination;
+                    partial_path += L".part";
+                    std::ofstream output(partial_path, std::ios::binary | std::ios::trunc);
+                    if (extracted_size > 0)
+                    {
+                        output.write(static_cast<const char *>(extracted_data),
+                                     static_cast<std::streamsize>(extracted_size));
+                    }
+                    output.close();
+                    if (!output || !ReplaceFile(partial_path, destination))
+                    {
+                        std::filesystem::remove(partial_path, error);
+                        error = std::make_error_code(std::errc::io_error);
+                    }
+                }
+
+                if (extracted_data)
+                    mz_free(extracted_data);
+            }
+
+            if (error)
+            {
+                success = false;
+                break;
+            }
+        }
     }
     catch (...)
     {
-        Globals::BenchDataDownloadState = DownloadState::FAILED;
-        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "ZIP extraction failed.");
-        return false;
+        success = false;
     }
+
+    mz_zip_reader_end(&archive);
+    if (!success)
+        (void)Globals::APIDefs->Log(LOGL_CRITICAL, "GW2RotaHelper", "ZIP extraction failed");
+    return success;
 }
 
 void DropFiles(const std::filesystem::path &path)

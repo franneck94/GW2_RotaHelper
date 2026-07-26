@@ -16,6 +16,7 @@
 #include "ArcEvents.h"
 #include "Defines.h"
 #include "FileUtils.h"
+#include "KeyboardCapture.h"
 #include "LogData.h"
 #include "MumbleUtils.h"
 #include "OptionsRender.h"
@@ -888,7 +889,7 @@ void OptionsRenderType::render_options_checkboxes()
     const auto third_row_items = std::vector<std::string>{
         "Show Keybind",
         "Easy Skill Mode",
-        "Enable Keypress Logic",
+        "Enable Keypress Fallback",
     };
     const auto centered_pos_row_3 = calculate_centered_position(third_row_items);
     ImGui::SetCursorPosX(centered_pos_row_3);
@@ -920,14 +921,14 @@ void OptionsRenderType::render_options_checkboxes()
 
     ImGui::SameLine();
 
-    if (ImGui::Checkbox("Enable Keypress Logic", &Settings::UseSkillEvents))
+    if (ImGui::Checkbox("Enable Keypress Fallback", &Settings::UseSkillEvents))
     {
         Settings::Save(Globals::SettingsPath);
     }
     SetTooltip(std::vector{
-        std::string{"EXPERIMENTAL: In addition to the arcdps events, the addon will try to detect skill activations by "
-                    "keypresses."},
-        std::string{"IMPORTANT: In this beta state only the default skill keybinds are used."},
+        std::string{"Supplements ArcDPS animation and combat events with keyboard input for instant skills."},
+        std::string{"Default bindings and keyboard bindings imported from the GW2 XML file are supported."},
+        std::string{"A keypress is an input attempt; the game may still reject the skill."},
     });
 
     render_xml_selection();
@@ -1089,9 +1090,10 @@ void OptionsRenderType::render_debug_data()
 
     ImGui::Separator();
     ImGui::Text("Currently Pressed Keys:");
-    if (!Globals::CurrentlyPressedKeys.empty())
+    const auto pressed_keys = KeyboardCapture::GetInstance().GetDownKeysSnapshot();
+    if (!pressed_keys.empty())
     {
-        for (const auto &key_code : Globals::CurrentlyPressedKeys)
+        for (const auto &key_code : pressed_keys)
             ImGui::Text("%s", windows_key_to_string(static_cast<WindowsKeys>(key_code)).c_str());
     }
 }
@@ -1154,6 +1156,7 @@ void OptionsRenderType::set_data_on_build_load(const BenchFileInfo *const &file_
     Globals::RenderData.show_rotation_icons_overview = false;
     show_precast_window = false;
     show_skill_slots_window = false;
+    ArcEv::ResetObservedSkillCapabilities();
     ReleaseTextureMap(Globals::TextureMap);
     Globals::RotationRun.load_data(Globals::RenderData.selected_file_path, Globals::RenderData.img_path);
     Globals::RenderData.current_build_key = Globals::RotationRun.meta_data.name;

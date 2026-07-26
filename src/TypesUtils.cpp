@@ -446,39 +446,39 @@ std::string default_skillslot_to_string(SkillSlot skill_slot)
 
 SkillSlot str_to_default_skillslot(const std::string keybind_str)
 {
-    if (keybind_str == "Weapon_1")
+    if (keybind_str == "Weapon_1" || keybind_str == "Weapon Skill 1")
         return SkillSlot::WEAPON_1;
-    if (keybind_str == "Weapon_2")
+    if (keybind_str == "Weapon_2" || keybind_str == "Weapon Skill 2")
         return SkillSlot::WEAPON_2;
-    if (keybind_str == "Weapon_3")
+    if (keybind_str == "Weapon_3" || keybind_str == "Weapon Skill 3")
         return SkillSlot::WEAPON_3;
-    if (keybind_str == "Weapon_4")
+    if (keybind_str == "Weapon_4" || keybind_str == "Weapon Skill 4")
         return SkillSlot::WEAPON_4;
-    if (keybind_str == "Weapon_5")
+    if (keybind_str == "Weapon_5" || keybind_str == "Weapon Skill 5")
         return SkillSlot::WEAPON_5;
-    if (keybind_str == "Heal")
+    if (keybind_str == "Heal" || keybind_str == "Healing Skill" || keybind_str == "Heal Skill")
         return SkillSlot::HEAL;
-    if (keybind_str == "Utility_1")
+    if (keybind_str == "Utility_1" || keybind_str == "Utility Skill 1")
         return SkillSlot::UTILITY_1;
-    if (keybind_str == "Utility_2")
+    if (keybind_str == "Utility_2" || keybind_str == "Utility Skill 2")
         return SkillSlot::UTILITY_2;
-    if (keybind_str == "Utility_3")
+    if (keybind_str == "Utility_3" || keybind_str == "Utility Skill 3")
         return SkillSlot::UTILITY_3;
-    if (keybind_str == "Elite")
+    if (keybind_str == "Elite" || keybind_str == "Elite Skill")
         return SkillSlot::ELITE;
-    if (keybind_str == "Profession_1")
+    if (keybind_str == "Profession_1" || keybind_str == "Profession Skill 1")
         return SkillSlot::PROFESSION_1;
-    if (keybind_str == "Profession_2")
+    if (keybind_str == "Profession_2" || keybind_str == "Profession Skill 2")
         return SkillSlot::PROFESSION_2;
-    if (keybind_str == "Profession_3")
+    if (keybind_str == "Profession_3" || keybind_str == "Profession Skill 3")
         return SkillSlot::PROFESSION_3;
-    if (keybind_str == "Profession_4")
+    if (keybind_str == "Profession_4" || keybind_str == "Profession Skill 4")
         return SkillSlot::PROFESSION_4;
-    if (keybind_str == "Profession_5")
+    if (keybind_str == "Profession_5" || keybind_str == "Profession Skill 5")
         return SkillSlot::PROFESSION_5;
-    if (keybind_str == "Profession_6")
+    if (keybind_str == "Profession_6" || keybind_str == "Profession Skill 6")
         return SkillSlot::PROFESSION_6;
-    if (keybind_str == "Profession_7")
+    if (keybind_str == "Profession_7" || keybind_str == "Profession Skill 7")
         return SkillSlot::PROFESSION_7;
     return SkillSlot::NONE;
 }
@@ -649,41 +649,77 @@ std::pair<Keys, Modifiers> get_keybind_for_skill_type(SkillSlot skill_slot,
                                                       const std::map<std::string, KeybindInfo> &keybinds)
 {
     std::string action_name;
+    std::string legacy_action_name;
 
     switch (skill_slot)
     {
+    case SkillSlot::WEAPON_1:
+        action_name = "Weapon_1";
+        legacy_action_name = "Weapon Skill 1";
+        break;
+    case SkillSlot::WEAPON_2:
+        action_name = "Weapon_2";
+        legacy_action_name = "Weapon Skill 2";
+        break;
+    case SkillSlot::WEAPON_3:
+        action_name = "Weapon_3";
+        legacy_action_name = "Weapon Skill 3";
+        break;
+    case SkillSlot::WEAPON_4:
+        action_name = "Weapon_4";
+        legacy_action_name = "Weapon Skill 4";
+        break;
+    case SkillSlot::WEAPON_5:
+        action_name = "Weapon_5";
+        legacy_action_name = "Weapon Skill 5";
+        break;
     case SkillSlot::PROFESSION_1:
-        action_name = "Profession Skill 1";
+        action_name = "Profession_1";
+        legacy_action_name = "Profession Skill 1";
         break;
     case SkillSlot::PROFESSION_2:
-        action_name = "Profession Skill 2";
+        action_name = "Profession_2";
+        legacy_action_name = "Profession Skill 2";
         break;
     case SkillSlot::PROFESSION_3:
-        action_name = "Profession Skill 3";
+        action_name = "Profession_3";
+        legacy_action_name = "Profession Skill 3";
         break;
     case SkillSlot::PROFESSION_4:
-        action_name = "Profession Skill 4";
+        action_name = "Profession_4";
+        legacy_action_name = "Profession Skill 4";
         break;
     case SkillSlot::PROFESSION_5:
-        action_name = "Profession Skill 5";
+        action_name = "Profession_5";
+        legacy_action_name = "Profession Skill 5";
+        break;
+    case SkillSlot::PROFESSION_6:
+        action_name = "Profession_6";
+        legacy_action_name = "Profession Skill 6";
         break;
     case SkillSlot::PROFESSION_7:
-        action_name = "Profession Skill 7";
+        action_name = "Profession_7";
+        legacy_action_name = "Profession Skill 7";
         break;
     case SkillSlot::HEAL:
-        action_name = "Healing Skill";
+        action_name = "Heal";
+        legacy_action_name = "Healing Skill";
         break;
     case SkillSlot::UTILITY_1:
-        action_name = "Utility Skill 1";
+        action_name = "Utility_1";
+        legacy_action_name = "Utility Skill 1";
         break;
     case SkillSlot::UTILITY_2:
-        action_name = "Utility Skill 2";
+        action_name = "Utility_2";
+        legacy_action_name = "Utility Skill 2";
         break;
     case SkillSlot::UTILITY_3:
-        action_name = "Utility Skill 3";
+        action_name = "Utility_3";
+        legacy_action_name = "Utility Skill 3";
         break;
     case SkillSlot::ELITE:
-        action_name = "Elite Skill";
+        action_name = "Elite";
+        legacy_action_name = "Elite Skill";
         break;
     default:
         return std::make_pair(Keys::NONE, Modifiers::NONE);
@@ -691,9 +727,11 @@ std::pair<Keys, Modifiers> get_keybind_for_skill_type(SkillSlot skill_slot,
 
     auto it = keybinds.find(action_name);
     if (it != keybinds.end())
-    {
         return std::make_pair(it->second.button, it->second.modifier);
-    }
+
+    it = keybinds.find(legacy_action_name);
+    if (it != keybinds.end())
+        return std::make_pair(it->second.button, it->second.modifier);
 
     return std::make_pair(Keys::NONE, Modifiers::NONE);
 }

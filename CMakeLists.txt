@@ -20,6 +20,29 @@ FetchContent_Declare(
     GIT_SHALLOW TRUE)
 FetchContent_MakeAvailable(nlohmann_json)
 
+FetchContent_Declare(
+    miniz_source
+    GIT_REPOSITORY https://github.com/richgel999/miniz.git
+    GIT_TAG 3.1.1
+    GIT_SHALLOW TRUE
+    SOURCE_SUBDIR cmake/unused
+)
+FetchContent_MakeAvailable(miniz_source)
+
+add_library(miniz STATIC
+    "${miniz_source_SOURCE_DIR}/miniz.c"
+    "${miniz_source_SOURCE_DIR}/miniz_zip.c"
+    "${miniz_source_SOURCE_DIR}/miniz_tinfl.c"
+    "${miniz_source_SOURCE_DIR}/miniz_tdef.c"
+)
+include(GenerateExportHeader)
+generate_export_header(miniz)
+target_include_directories(miniz PUBLIC
+    "${miniz_source_SOURCE_DIR}"
+    "${CMAKE_CURRENT_BINARY_DIR}"
+)
+target_compile_definitions(miniz PRIVATE MINIZ_NO_ARCHIVE_WRITING_APIS)
+
 add_library(third_party_libs STATIC)
 target_include_directories(third_party_libs PUBLIC
     ${imgui_SOURCE_DIR}
@@ -45,10 +68,14 @@ add_library(arcdps INTERFACE
     "arcdps/ArcDPS.h"
 )
 
+target_link_libraries(third_party_libs PUBLIC
+    miniz
+)
 target_link_libraries(third_party_libs PRIVATE
     d3d11
     d3dcompiler
     comdlg32
+    wininet
     nexus
     mumble
     rtapi
