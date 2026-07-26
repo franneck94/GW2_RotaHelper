@@ -12,12 +12,20 @@ An increase in the first number indicates an big update of the rotation logs/bui
 An increase of the second number indicates changes in only the code logic.  
 An increase in the third number indicates bugfixes only.
 
+## 4.7.1 - 2026-06-20
+
+## Notes
+
+- Fixed version tag
+- Updated bench logs
+
 ## 4.7.0 - 2026-06-20
 
 ## Notes
 
 - Fixed bug for open dps report in browser
 - Fixed bug for not shwoing weapon swaps
+- Updated bench logs
 
 ## 4.6.0 - 2026-06-18
 

@@ -2,8 +2,8 @@
 #define VERSION_H
 
 #define MAJOR 4
-#define MINOR 6
-#define BUILD 0
+#define MINOR 7
+#define BUILD 1
 #define REVISION 0
 
 #define STRINGIFY(x) #x
@@ -14,7 +14,7 @@
 #define LOWER_VERSION_RANGE "4.4.0.0"
 #define UPPER_VERSION_RANGE "4.6.0.0"
 
-#define BUILD_DATE "2026-06-20"
+#define BUILD_DATE "2026-07-26"
 #define BUILD_STR std::string{BUILD_DATE}
 
 #endif // VERSION_H

@@ -1346,14 +1346,14 @@
   {
     "name": "Power Boon Chronomancer Spear Dagger Sword",
     "url": "https://snowcrows.com/builds/raids/mesmer/power-boon-chronomancer-spear-dagger-sword",
-    "benchmark_type": "alac",
+    "benchmark_type": "quick",
     "profession": "mesmer",
     "elite_spec": "chronomancer",
     "build_type": "power",
     "url_name": "power-boon-chronomancer-spear-dagger-sword",
     "overall_dps": 35435,
     "dps_report": "https://dps.report/eRsi-20260415-130152_golem",
-    "html_file_path": "alac\\power\\power_boon_chronomancer_spear_dagger_sword.html"
+    "html_file_path": "quick\\power\\power_boon_chronomancer_spear_dagger_sword.html"
   },
   {
     "name": "Condition Quickness Firebrand Axe Torch Pistol Pistol",
@@ -1454,25 +1454,25 @@
   {
     "name": "Power Boon Chronomancer Greatsword Spear",
     "url": "https://snowcrows.com/builds/raids/mesmer/power-boon-chronomancer-greatsword-spear",
-    "benchmark_type": "alac",
+    "benchmark_type": "quick",
     "profession": "mesmer",
     "elite_spec": "chronomancer",
     "build_type": "power",
     "url_name": "power-boon-chronomancer-greatsword-spear",
     "overall_dps": 34826,
-    "html_file_path": "alac\\power\\power_boon_chronomancer_greatsword_spear.html",
+    "html_file_path": "quick\\power\\power_boon_chronomancer_greatsword_spear.html",
     "dps_report": "https://dps.report/cTKh-20260418-105807_golem"
   },
   {
     "name": "Power Boon Chronomancer Greatsword Dagger Sword",
     "url": "https://snowcrows.com/builds/raids/mesmer/power-boon-chronomancer-greatsword-dagger-sword",
-    "benchmark_type": "alac",
+    "benchmark_type": "quick",
     "profession": "mesmer",
     "elite_spec": "chronomancer",
     "build_type": "power",
     "url_name": "power-boon-chronomancer-greatsword-dagger-sword",
     "overall_dps": 34824,
-    "html_file_path": "alac\\power\\power_boon_chronomancer_greatsword_dagger_sword.html",
+    "html_file_path": "quick\\power\\power_boon_chronomancer_greatsword_dagger_sword.html",
     "dps_report": "https://dps.report/BaAg-20260419-144932_golem"
   },
   {
@@ -1658,13 +1658,13 @@
   {
     "name": "Power Boon Chronomancer Greatsword Dagger Focus",
     "url": "https://snowcrows.com/builds/raids/mesmer/power-boon-chronomancer-greatsword-dagger-focus",
-    "benchmark_type": "alac",
+    "benchmark_type": "quick",
     "profession": "mesmer",
     "elite_spec": "chronomancer",
     "build_type": "power",
     "url_name": "power-boon-chronomancer-greatsword-dagger-focus",
     "overall_dps": 31888,
-    "html_file_path": "alac\\power\\power_boon_chronomancer_greatsword_dagger_focus.html",
+    "html_file_path": "quick\\power\\power_boon_chronomancer_greatsword_dagger_focus.html",
     "dps_report": "https://dps.report/BaAg-20260419-144932_golem"
   },
   {
@@ -2206,5 +2206,137 @@
     "overall_dps": 34518,
     "dps_report": "https://dps.report/L6zb-20250313-171138_golem",
     "html_file_path": "alac\\power\\power_alacrity_tempest_hammer.html"
+  },
+  {
+    "name": "Condition Chronomancer Staff Scepter Pistol",
+    "url": "https://snowcrows.com/builds/raids/mesmer/condition-chronomancer-staff-scepter-pistol",
+    "benchmark_type": "dps",
+    "profession": "mesmer",
+    "elite_spec": "chronomancer",
+    "build_type": "condition",
+    "url_name": "condition-chronomancer-staff-scepter-pistol",
+    "overall_dps": 46309,
+    "html_file_path": "dps\\condition\\condition_chronomancer_staff_scepter_pistol.html",
+    "dps_report": "https://dps.report/uCIZ-20260716-144400_golem"
+  },
+  {
+    "name": "Power Antiquary Sword Pistol Only",
+    "url": "https://snowcrows.com/builds/raids/thief/power-antiquary-sword-pistol-only",
+    "benchmark_type": "dps",
+    "profession": "thief",
+    "elite_spec": "antiquary",
+    "build_type": "power",
+    "url_name": "power-antiquary-sword-pistol-only",
+    "overall_dps": 43590,
+    "html_file_path": "dps\\power\\power_antiquary_sword_pistol_only.html",
+    "dps_report": "https://dps.report/QRBS-20260721-104432_golem"
+  },
+  {
+    "name": "Power Tempest Dagger Dagger",
+    "url": "https://snowcrows.com/builds/raids/elementalist/power-tempest-dagger-dagger",
+    "benchmark_type": "dps",
+    "profession": "elementalist",
+    "elite_spec": "tempest",
+    "build_type": "power",
+    "url_name": "power-tempest-dagger-dagger",
+    "overall_dps": 43341,
+    "html_file_path": "dps\\power\\power_tempest_dagger_dagger.html",
+    "dps_report": "https://dps.report/qcVE-20260716-164252_golem"
+  },
+  {
+    "name": "Power Conduit Greatsword Sword Sword",
+    "url": "https://snowcrows.com/builds/raids/revenant/power-conduit-greatsword-sword-sword",
+    "benchmark_type": "dps",
+    "profession": "Unknown",
+    "elite_spec": "",
+    "build_type": "power",
+    "url_name": "power-conduit-greatsword-sword-sword",
+    "overall_dps": 43252,
+    "html_file_path": "dps\\power\\power_conduit_greatsword_sword_sword.html",
+    "dps_report": "https://dps.report/O4Jx-20260702-205355_golem"
+  },
+  {
+    "name": "Power Soulbeast Sword Mace Axe Axe",
+    "url": "https://snowcrows.com/builds/raids/ranger/power-soulbeast-sword-mace-axe-axe",
+    "benchmark_type": "dps",
+    "profession": "ranger",
+    "elite_spec": "soulbeast",
+    "build_type": "power",
+    "url_name": "power-soulbeast-sword-mace-axe-axe",
+    "overall_dps": 42156,
+    "html_file_path": "dps\\power\\power_soulbeast_sword_mace_axe_axe.html",
+    "dps_report": "https://dps.report/Ydw9-20260716-235031_golem"
+  },
+  {
+    "name": "Power Soulbeast Greatsword Axe Axe",
+    "url": "https://snowcrows.com/builds/raids/ranger/power-soulbeast-greatsword-axe-axe",
+    "benchmark_type": "dps",
+    "profession": "ranger",
+    "elite_spec": "soulbeast",
+    "build_type": "power",
+    "url_name": "power-soulbeast-greatsword-axe-axe",
+    "overall_dps": 41660,
+    "html_file_path": "dps\\power\\power_soulbeast_greatsword_axe_axe.html",
+    "dps_report": "https://dps.report/lLLk-20260717-000407_golem"
+  },
+  {
+    "name": "Condition Bladesworn Sword Pistol",
+    "url": "https://snowcrows.com/builds/raids/warrior/condition-bladesworn-sword-pistol",
+    "benchmark_type": "dps",
+    "profession": "warrior",
+    "elite_spec": "bladesworn",
+    "build_type": "condition",
+    "url_name": "condition-bladesworn-sword-pistol",
+    "overall_dps": 40336,
+    "html_file_path": "dps\\condition\\condition_bladesworn_sword_pistol.html",
+    "dps_report": null
+  },
+  {
+    "name": "Power Bladesworn Faf Axe Pistol",
+    "url": "https://snowcrows.com/builds/raids/warrior/power-bladesworn-faf-axe-pistol",
+    "benchmark_type": "dps",
+    "profession": "warrior",
+    "elite_spec": "bladesworn",
+    "build_type": "power",
+    "url_name": "power-bladesworn-faf-axe-pistol",
+    "overall_dps": 40231,
+    "html_file_path": "dps\\power\\power_bladesworn_faf_axe_pistol.html",
+    "dps_report": "https://b.dps.report/Wa2h-20260721-062047_golem"
+  },
+  {
+    "name": "Condition Mechanist One Kit Pistol Pistol",
+    "url": "https://snowcrows.com/builds/raids/engineer/condition-mechanist-one-kit-pistol-pistol",
+    "benchmark_type": "dps",
+    "profession": "engineer",
+    "elite_spec": "mechanist",
+    "build_type": "condition",
+    "url_name": "condition-mechanist-one-kit-pistol-pistol",
+    "overall_dps": 40037,
+    "html_file_path": "dps\\condition\\condition_mechanist_one_kit_pistol_pistol.html",
+    "dps_report": "https://dps.report/X8r7-20260417-003704_golem"
+  },
+  {
+    "name": "Condition Quickness Conduit Shortbow Mace Axe",
+    "url": "https://snowcrows.com/builds/raids/revenant/condition-quickness-conduit-shortbow-mace-axe",
+    "benchmark_type": "quick",
+    "profession": "Unknown",
+    "elite_spec": "",
+    "build_type": "condition",
+    "url_name": "condition-quickness-conduit-shortbow-mace-axe",
+    "overall_dps": 33615,
+    "html_file_path": "quick\\condition\\condition_quickness_conduit_shortbow_mace_axe.html",
+    "dps_report": "https://dps.report/pyCj-20260626-165110_golem"
+  },
+  {
+    "name": "Power Alacrity Antiquary Sword Pistol Only",
+    "url": "https://snowcrows.com/builds/raids/thief/power-alacrity-antiquary-sword-pistol-only",
+    "benchmark_type": "alac",
+    "profession": "thief",
+    "elite_spec": "antiquary",
+    "build_type": "power",
+    "url_name": "power-alacrity-antiquary-sword-pistol-only",
+    "overall_dps": 37713,
+    "html_file_path": "alac\\power\\power_alacrity_antiquary_sword_pistol_only.html",
+    "dps_report": "https://dps.report/xCBk-20260721-121345_golem"
   }
 ]
