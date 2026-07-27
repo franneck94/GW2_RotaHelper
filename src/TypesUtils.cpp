@@ -6,6 +6,8 @@
 #include <utility>
 #include <vector>
 
+#include <windows.h>
+
 #include "FileUtils.h"
 #include "Shared.h"
 #include "SkillData.h"
@@ -502,7 +504,9 @@ std::string custom_keys_to_string(Keys key)
     case Keys::EQUAL:
         return "=";
     case Keys::ZIRUMFLEX:
-        return "^";
+        if (PRIMARYLANGID(LOWORD(GetKeyboardLayout(0))) == LANG_GERMAN)
+            return "^";
+        return "`";
     case Keys::TAB:
         return "Tab";
     case Keys::F1:
@@ -652,6 +656,21 @@ std::pair<Keys, Modifiers> get_keybind_for_skill_type(SkillSlot skill_slot,
 
     switch (skill_slot)
     {
+    case SkillSlot::WEAPON_1:
+        action_name = "Weapon Skill 1";
+        break;
+    case SkillSlot::WEAPON_2:
+        action_name = "Weapon Skill 2";
+        break;
+    case SkillSlot::WEAPON_3:
+        action_name = "Weapon Skill 3";
+        break;
+    case SkillSlot::WEAPON_4:
+        action_name = "Weapon Skill 4";
+        break;
+    case SkillSlot::WEAPON_5:
+        action_name = "Weapon Skill 5";
+        break;
     case SkillSlot::PROFESSION_1:
         action_name = "Profession Skill 1";
         break;

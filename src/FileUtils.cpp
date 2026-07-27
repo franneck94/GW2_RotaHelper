@@ -546,13 +546,14 @@ std::map<std::string, KeybindInfo> parse_xml_keybinds(const std::filesystem::pat
 
                 keybind.action_name = get_keybind_action_name_from_xml_line(line);
 
-                auto button2_start = line.find("button2=\"");
-                bool has_button2 = button2_start != std::string::npos;
+                get_keybind_primary_info(line, keybind);
 
-                if (has_button2)
-                    get_keybind_secondary_info(button2_start, line, keybind);
-                else
-                    get_keybind_primary_info(line, keybind);
+                if (keybind.button == Keys::NONE)
+                {
+                    auto button2_start = line.find("button2=\"");
+                    if (button2_start != std::string::npos)
+                        get_keybind_secondary_info(button2_start, line, keybind);
+                }
 
                 if (!keybind.action_name.empty() && keybind.button != Keys::NONE)
                     keybinds[keybind.action_name] = keybind;

@@ -78,6 +78,38 @@ SkillSlot GetSkillSlotFromSettings(const SkillID skill_id)
     return SkillSlot::NONE;
 }
 
+SkillSlot GetUtilitySkillSlotFromKeyMapping(const int icon_id)
+{
+    const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
+
+    if (skill_key_mapping.skill_7 == icon_id)
+        return SkillSlot::UTILITY_1;
+    if (skill_key_mapping.skill_8 == icon_id)
+        return SkillSlot::UTILITY_2;
+    if (skill_key_mapping.skill_9 == icon_id)
+        return SkillSlot::UTILITY_3;
+
+    return SkillSlot::NONE;
+}
+
+SkillSlot ResolveUtilitySkillSlot(const SkillID skill_id, const int icon_id, SkillSlot skill_slot)
+{
+    const auto is_util_skill =
+        skill_slot == SkillSlot::UTILITY_1 || skill_slot == SkillSlot::UTILITY_2 || skill_slot == SkillSlot::UTILITY_3;
+    if (!is_util_skill)
+        return skill_slot;
+
+    const auto from_settings = GetSkillSlotFromSettings(skill_id);
+    if (from_settings != SkillSlot::NONE)
+        return from_settings;
+
+    const auto from_key_mapping = GetUtilitySkillSlotFromKeyMapping(icon_id);
+    if (from_key_mapping != SkillSlot::NONE)
+        return from_key_mapping;
+
+    return skill_slot;
+}
+
 std::string DefaultKeybinds(const int icon_id, const SkillSlot skill_slot)
 {
     const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
@@ -94,28 +126,13 @@ std::string DefaultKeybinds(const int icon_id, const SkillSlot skill_slot)
 
 std::string KeybindWithoutXML(const SkillID skill_id, const int icon_id, SkillSlot skill_slot)
 {
-    const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
-    const auto is_util_skill =
-        skill_slot == SkillSlot::UTILITY_1 || skill_slot == SkillSlot::UTILITY_2 || skill_slot == SkillSlot::UTILITY_3;
-
-    if (is_util_skill)
-        skill_slot = GetSkillSlotFromSettings(skill_id);
-
+    skill_slot = ResolveUtilitySkillSlot(skill_id, icon_id, skill_slot);
     return DefaultKeybinds(icon_id, skill_slot);
 }
 
 std::string KeybindFromMappingAndXML(const SkillID skill_id, const int icon_id, SkillSlot skill_slot)
 {
-    const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
-    const auto is_util_skill =
-        skill_slot == SkillSlot::UTILITY_1 || skill_slot == SkillSlot::UTILITY_2 || skill_slot == SkillSlot::UTILITY_3;
-
-    if (is_util_skill)
-    {
-        auto _skill_slot = GetSkillSlotFromSettings(skill_id);
-        if (_skill_slot != SkillSlot::NONE)
-            skill_slot = _skill_slot;
-    }
+    skill_slot = ResolveUtilitySkillSlot(skill_id, icon_id, skill_slot);
 
     const auto &[keybind, modifier] = get_keybind_for_skill_type(skill_slot, Globals::RenderData.keybinds);
     if (keybind == Keys::NONE)
@@ -132,11 +149,11 @@ std::string KeybindFromMappingAndXML(const SkillID skill_id, const int icon_id, 
 
 std::string KeybindWithXML(const SkillID skill_id, const int icon_id, SkillSlot skill_slot)
 {
-    const auto &skill_key_mapping = Globals::RotationRun.skill_key_mapping;
     const auto is_util_skill =
         skill_slot == SkillSlot::UTILITY_1 || skill_slot == SkillSlot::UTILITY_2 || skill_slot == SkillSlot::UTILITY_3;
     auto keybind_str = std::string{};
 
+    skill_slot = ResolveUtilitySkillSlot(skill_id, icon_id, skill_slot);
     const auto &[keybind, modifier] = get_keybind_for_skill_type(skill_slot, Globals::RenderData.keybinds);
 
     if (is_util_skill || keybind == Keys::NONE)

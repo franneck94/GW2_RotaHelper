@@ -1069,33 +1069,48 @@ std::string RotationLogType::get_keybind_str(const RotationStep &rotation_step,
                 log_skill_info_map.find(skill_key_mapping.skill_9) != log_skill_info_map.end()
             ? log_skill_info_map.find(skill_key_mapping.skill_9)->second.name
             : "";
-    const auto [keybind, modifier] = get_keybind_for_skill_type(skill_data.skill_slot, keybinds);
 
-    if (rotation_step.skill_data.name == skill_name_for_slot7)
+    auto skill_slot = skill_data.skill_slot;
+    const auto is_util_skill =
+        skill_slot == SkillSlot::UTILITY_1 || skill_slot == SkillSlot::UTILITY_2 || skill_slot == SkillSlot::UTILITY_3;
+    if (is_util_skill)
+    {
+        if (skill_key_mapping.skill_7 == skill_data.icon_id || skill_data.name == skill_name_for_slot7)
+            skill_slot = SkillSlot::UTILITY_1;
+        else if (skill_key_mapping.skill_8 == skill_data.icon_id || skill_data.name == skill_name_for_slot8)
+            skill_slot = SkillSlot::UTILITY_2;
+        else if (skill_key_mapping.skill_9 == skill_data.icon_id || skill_data.name == skill_name_for_slot9)
+            skill_slot = SkillSlot::UTILITY_3;
+    }
+
+    const auto [keybind, modifier] = get_keybind_for_skill_type(skill_slot, keybinds);
+
+    if (!Settings::XmlSettingsPath.empty() && keybind != Keys::NONE)
+    {
+        keybind_str = custom_keys_to_string(keybind);
+    }
+    else if (skill_slot == SkillSlot::UTILITY_1 &&
+             (skill_key_mapping.skill_7 == skill_data.icon_id || skill_data.name == skill_name_for_slot7))
     {
         keybind_str = "7";
     }
-    else if (rotation_step.skill_data.name == skill_name_for_slot8)
+    else if (skill_slot == SkillSlot::UTILITY_2 &&
+             (skill_key_mapping.skill_8 == skill_data.icon_id || skill_data.name == skill_name_for_slot8))
     {
         keybind_str = "8";
     }
-    else if (rotation_step.skill_data.name == skill_name_for_slot9)
+    else if (skill_slot == SkillSlot::UTILITY_3 &&
+             (skill_key_mapping.skill_9 == skill_data.icon_id || skill_data.name == skill_name_for_slot9))
     {
         keybind_str = "9";
     }
+    else if (keybind == Keys::NONE)
+    {
+        keybind_str = default_skillslot_to_string(skill_slot);
+    }
     else
     {
-        if (Settings::XmlSettingsPath.empty())
-        {
-            keybind_str = default_skillslot_to_string(skill_data.skill_slot);
-        }
-        else
-        {
-            if (keybind == Keys::NONE)
-                keybind_str = default_skillslot_to_string(skill_data.skill_slot);
-            else
-                keybind_str = custom_keys_to_string(keybind);
-        }
+        keybind_str = custom_keys_to_string(keybind);
     }
 
     if (modifier != Modifiers::NONE)
